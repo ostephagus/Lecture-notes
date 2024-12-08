@@ -253,4 +253,21 @@ We now know how to solve $\congruence{x^2}{1}{p}$. But what about the similar co
 \end{remark}
 \nonexaminablesection{\texorpdfstring{$\Z_p$}{Zp} as a group under multiplication}
 \section{Asymmetric Encryption}
+An important application of modulo arithmetic is in cryptography. In the 1970s at the dawn of the internet it became increasingly important that communications could be sent securely and, if intercepted, could not be read. Therefore mathematicians wondered how to create a cryptographical system in which it is impossible to decrypt a message without the \textit{key}, but without requiring this key to be transmitted between the two parties.
+The first example of an asymmetrical encryption scheme (in which a different key is used for encryption as decryption) was RSA, named after its creators Rivest, Shamir and Alderman.
+\begin{enumerate}
+    \item Begin by choosing two very large prime numbers $p$ and $q$
+    \item Compute their product $n$, and choose a number $e$ which is coprime to $\varphi(n)$ - this is the \textit{encoding exponent}
+    \item Publish the pair $(n, e)$ - this is the \textit{public key}
+    \item To send an encrypted message, split it into packets, $M$ where $M < n$
+    \item Send $M^e$ mod $n$, using squaring to achieve more efficient exponentiation
+    \item The receiver then calculates the \textit{decoding exponent} to be the smallest integer $d$ such that $\congruence{de}{1}{\phi(n)}$
+    \item The receiver computes $\left(M^e\right)^d$, which is congruent to $M$ mod $n$ by theorem~\ref{thmEulerFermat}.
+\end{enumerate}
+Anyone wishing to read the message therefore must know:
+\begin{itemize}
+    \item $n$, which is published
+    \item $e$, which is published
+    \item $\varphi(n)$, which, for sufficiently large choices of $p$ and $q$, is unfeasible since it requries factoring $n$.
+\end{itemize}
 \end{document}
