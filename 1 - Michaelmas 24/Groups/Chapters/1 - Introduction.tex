@@ -1,0 +1,243 @@
+\documentclass[../Main.tex]{subfiles}
+\begin{document}
+\section{Introduction to groups}
+There exist 2 ways to think about groups:
+\begin{itemize}
+    \item \textbf{Symmetry:} a method to study symmetries systematically.
+    \item \textbf{Algebra:} a systematic way to think about familar algebra.
+\end{itemize}
+\subsection{Symmetry (informally)}
+Consider an equilateral triangle (Figure~\ref{figEquilateralTriangle}).
+This has the following symmetries:
+\begin{itemize}
+    \item Rotational symmetry of order 3 (2 symmetries that do something to the triangle)
+    \item Reflective symmetry (about 3 different axes)
+    \item The ``do-nothing'' symmetry
+\end{itemize}
+Which gives a total of 6 symmetries.
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=5]
+        \draw (0, 0) -- (1, 0) -- (0.5, 0.866) -- cycle;
+    \end{tikzpicture}
+    \caption{An equilateral triangle}
+    \label{figEquilateralTriangle}
+\end{figure}
+A symmetry is an action that retains the original shape (informally). The \underline{identity} is the do-nothing symmetry common to all objects.\par
+Symmetries can be composed (one after another). Every symmetry has an \underline{inverse}. Composition of a symmetry with its inverse results in the identity.\par
+Symmetries are associative: for symmetries $a$, $b$ and $c$, $(ab)c = a(bc)$. Order of composition is important, however, as symmetries are not necessarily commutative: $ab = ba$ is not true in general.
+\subsection{Algebraic Understanding}
+\begin{definition}{Binary operation} 
+    A \underline{binary operation} on a set $X$ is a function that takes a pair of elements from $X$ and returns an element in $X$.
+    \label{defBinaryOperation}
+\end{definition}
+\begin{definition}{Group}
+    A \underline{group} is a triple $(G, \cdot, e)$ where:
+    \begin{itemize}
+        \item $G$ is a set;
+        \item $\cdot$ is a \hyperref[defBinaryOperation]{binary operation} on $G$;
+        \item $e \in G$
+    \end{itemize}
+    That satisfies 4 axioms:
+    \begin{enumerate}
+        \item \textbf{Closure}: $\forall a, b \in G$, $a \cdot b \in G$; \label{grpAxiomClosure}
+        \item \textbf{Associativity}: $\forall a, b, c \in G$, $(a \cdot b)\cdot c \equiv a \cdot (b \cdot c)$; \label{grpAxiomAssoc}
+        \item \textbf{Identity}: $\forall a \in G$, $a \cdot e = a$; \label{grpAxiomIdentity}
+        \item \textbf{Inverse}: $\forall a \in G$, there exists $b \in G$ such that $a \cdot b = e$. \label{grpAxiomInverse}
+    \end{enumerate}
+\end{definition}
+Groups can represent algebra with one operation, for example the group $(\mathbb{Z},+, 0)$ is the group of integers under addition.
+\begin{propositions}{
+        \label{propFundamentals}
+        Let $(G, \cdot, e)$ be a group, and let $a, b, b', e' \in G$.
+    }
+    \item If $a \cdot b = e$, $b \cdot a = e$ (right inverses are left inverses);
+    \item $e \cdot a = a$ (right identity is left identity);
+    \item if $a \cdot b = e = a \cdot b'$, then $b = b'$ (inverses are unique);
+    \item if $a \cdot e' = a$, then $e' = e$ (identities are unique).
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Right inverses are left inverses:
+        \begin{align*}
+            b &= b \cdot e \text{ by identity}\\
+            &= b \cdot (b \cdot a) \text{ by assumption}\\
+            &= (b \cdot a) \cdot b \text{ by associativity}\\
+            \text{By inverse, }\exists c &\in G \text{ such that } b \cdot c = e \\
+            \text{Multiply both} & \text{ sides by c:} \\
+            b \cdot c &= ((b \cdot a) \cdot b) \cdot c \\
+            e &= (b \cdot a) \cdot (b \cdot c) \text{ by associativity} \\
+            &= (b \cdot a) \cdot e \text{ by definition} \\
+            e &= (b \cdot a) \text{ by identity.}
+        \end{align*}       
+        \item Right identity is left identity:
+        \begin{align*}
+            \text{By inverse} & \text{ and above,} \\
+            \exists b \in G & \text{ such that } a \cdot b = e = b \cdot a \\
+            \text{Now } e \cdot a &= (a \cdot b) \cdot a \text{ by above} \\
+            &= a \cdot (b \cdot a) \text{ by associativity} \\
+            &= a \cdot e \text{ by above} \\
+            &= e \text{ by identity.}
+        \end{align*}
+        \item Inverses are unique:
+        \begin{align*}
+            \text{Consider } b' &= e \cdot b' \text{ by 2} \\
+            &= (b \cdot a) \cdot b' \text{ by 1} \\
+            &= b \cdot (a \cdot b') \text{ by associativity} \\
+            &= b \cdot e \text{ by assumption} \\
+            &= b \text{ by identity}
+        \end{align*}
+        \item Identity is unique:
+        \begin{align*}
+            \text{By }&\text{inverse and 1, } \exists b \in G \text{ s.t. } b \cdot a = e \\
+            a &= a \cdot e' \text{ by assumption} \\
+            b \cdot a &= b \cdot (a \cdot e') \\
+            &= (b \cdot a) \cdot e' \text{ by associativity} \\
+            &= e \cdot e' \text{by assumption} \\
+            e &= e' \text{ by 2}
+        \end{align*}
+    \end{enumerate}
+\end{proof}
+We can now introduce some notation.\par
+Let the unique inverse of an element $a$ be $a^{-1}$. $a \cdot a^{-1} = e$. Note from proposition~\ref{propFundamentals}, we can say that $(a^{-1})^{-1} = e$.\par
+We can continue this multiplicative notation:
+\begin{itemize}
+    \item $a^0 = e$
+    \item $a^n$ defined recursively: $a^n = a^{n-1} \cdot a \forall n \in \N$
+    \item $a^-n = (a^n)^{-1} \forall n \in \N$
+    \item $a^{m+n} = a^m \cdot a^n$
+    \item $(a^m)^n = a^{mn}$
+\end{itemize}
+However, it is important to not that groups are \textbf{not necessarily commutative}. That is, $a \cdot b = b \cdot a$ is not necessarily true.\par
+However, we do know that $(a \cdot b)^{-1} = b^{-1} \cdot a^{-1}$:
+\begin{align*}
+    (a \cdot b) \cdot (b^{-1} \cdot a^{-1}) &= a \cdot b \cdot b^{-1} \cdot a \\
+    &= a \cdot e \cdot a^{-1} \\
+    &= a \cdot a^{-1} \\
+    &= e
+\end{align*}
+As a short-hand, where the identity element and group operation are obvious we write $G$ instead of $(G, \cdot, e)$. If the group operation needs to be specified, it is often written in superscript. If two groups are being discussed, the identity or binary operation may have the group name in subscript.
+\begin{example}
+    $\Ccross$ is the group of complex numbers under multiplication.
+\end{example}
+\begin{definition}{Abelian group}
+    An \underline{abelian group} is a group in which commutivity holds.
+\end{definition}
+The most obvious group is the trivial group consisting of only the identity.
+\subsection{Groups and Arithmetic}
+We have some examples and non-examples of groups.\par
+$(\Z, +, 0)$ is a group. Inverses in this group are $a^{-1} = - a$ (which can be confusing since it muddles additive and multiplicative notation). The sets $\Q, \R$ and $\C$ are all groups under the same definition.\par
+$(\N, +, 0)$ is not a group since there are no inverses.\par
+$(\Q, \times, 1)$ is not a group since zero has no inverse. We can get a group if we exclude $0$ from the set: $(Q \backslash \{0\}, \times, 1)$ is a group. The same follows for the sets $\R$ and $\C$ when zero is excluded.
+\begin{definition}{Group order}
+    The \underline{order} of a group $(G, \cdot, e)$ is the size of $G$, $|G|$.
+\end{definition}
+\begin{definition}{Finite and infininte groups}
+    If $(G, \cdot, e)$ has $|G|$ finite, $(G, \cdot, e)$ is a \underline{finite group}. If not, it is an \underline{infinite group}.
+\end{definition}
+\section{Symmetric groups}
+In order to define a symmetric group, we need some definitions:
+\begin{definition}{Bijection}
+    Let $X, Y$ be sets. A \underline{bijection} is a map $f : X \mapsto Y$ that is both injective and surjective. See IA Numbers and Sets, Chapter 8.
+\end{definition}
+\begin{definition}{Permutation}
+    A bijection of $X \mapsto X$ is a \underline{permutation}.
+\end{definition}
+\begin{definition}{Symmetry group}
+    The symmetry group of a set $X$, $Sym(X)$ is the group of all permutations of $X$. The group operation is composition, $\circ$, and the identity element is the identity permutation $Id_X$.
+\end{definition}
+\begin{lemma}
+    The symmetry group $Sym(X)$ is a group under the composition operation.
+\end{lemma}
+\begin{proof}
+    We check the 4 axioms. Closure follows since we require all permutations, and note that $\circ$ is a binary operation of this set.\par
+    The identity map is defined above, and inverses follow from the fact that we are dealing with bijections. Associativity is the only one to prove, See IA Numbers and Sets.
+\end{proof}
+If $X$ is simply a set of $n$ objects with no structure, we write $Sym(X) = S_n$. Note that $|S_n|$ is $n!$.
+\section{Subgroups}
+Sometimes, one group naturally sits inside another.
+\begin{definition}{Subgroup}
+    Let $G$ be a group, and $H \subseteq G$. If:
+    \begin{enumerate}
+        \item $e \in H$
+        \item $a \cdot b \in H~\forall a, b \in H$
+        \item $a^{-1} \in H~\forall a \in H$
+    \end{enumerate}
+    Then $H$ is a \underline{subgroup} of $G$. We write $H \leq G$.
+\end{definition}
+Subgroup implies subset and group in its own right.
+\begin{examples}{
+        \label{exNonProperSubGrps}
+    }
+    \item $G$ is a subgroup of itself.
+    \item $e$ is always a subgroup of $G$. It is the \underline{trivial subgroup}.
+\end{examples}
+\begin{definition}{Proper subgroup}
+    Any subgroup other than those in example~\ref{exNonProperSubGrps} is a \underline{proper subgroup}
+\end{definition}
+With the group operation addition, $\Z \leq \Q \leq \R \leq \C$.
+\subsection{Subgroups of the integers}
+We consider the subgroups of the set of integers under addition.
+\begin{proposition}
+    The set of multiples of $n$, $n\Z = \subsetselect{nk}{k \in \Z}$ is a group under addition for any $n \in \N$.
+\end{proposition}
+\begin{proof}
+    We check the subgroup axioms:
+    \begin{itemize}
+        \item The identity element is zero which is in $n\Z$.
+        \item For any $nk, nl \in n\Z, nk+nl = n(k+l) \in n\Z$
+        \item The inverse of $nk$ is $n(-k) \in n\Z$.
+    \end{itemize}
+    So $n\Z$ is a subgroup of $\Z$
+\end{proof}
+\begin{lemma}[Subgroups of $\Z$]
+    If $G \leq \Z$, then $G$ is $n\Z$ for some $n \in \N \cup \{0\}$.
+\end{lemma}
+\begin{proof}
+    The trivial subgroup is $0\Z$ and $Z$ itself is $1\Z$, so consider only proper subgroups.\par
+    Assume $H \leq \Z$. Since $H$ is non-trivial, choose the least, positive element in $H$, $m$. Now proceed by induction.\par
+    \underline{Base case:} We have that $m \in H$.
+    \underline{Inductive step:} Assume that $km \in H$.
+    Now by closure axiom, we must have $m + km \in H$, that is, $(k+1)m \in H$. Note that the axiom of inverses can be used to show that all negative multiples of $m$ are in $H$.\par
+    So by induction, we have $H \subseteq m\Z$. Proceed by contradiction to show that $m\Z \subseteq H$.\par
+    Suppose that $n\Z \nsubseteq H$ so $\exists x \in H$ such that $x \notin n\Z$. That is, $x$ is not a multiple of $m$. Using the division algorithm, let $x = m q + r$ for $q \in \Z$, $0 < r < n$.
+    \begin{align*}
+        \therefore r &= x - mq \in H \\
+        \therefore r &\in H
+    \end{align*}
+    But $r < m$ so $r \notin H$ since $m$ was the smallest positive elemement. \contradiction\par
+    So $n\Z \subseteq H$, and $H = n\Z$.
+\end{proof}
+\section{Generating Sets}
+\begin{definition}{Generated group}
+    Let $X$ be a set. Then the \underline{group generated by $X$} is the group formed from all possible compositions of elements of $X$. If $X$ is a subset of a group $G$, then the group generated by $X$, $\langle X \rangle$, is defined by:
+    \begin{equation*}
+        \langle X \rangle = \bigcap_{X \subseteq H \leq G} H
+    \end{equation*}
+    That is, the intersection of all subgroups that contain $X$.
+\end{definition}
+\begin{definition}{Generating set}
+    If, for a group $G$, $G = \langle X \rangle$, then $X$ is a \underline{generating set} for $G$.
+\end{definition}
+\section{Isometries}
+Consider the complex plane $\C$, and the euclidean distance $|(x, y)| = \sqrt{x^2 + y^2}$.\par
+\begin{definition}{Isometry}
+    For any subset $X \subseteq \C$, an \underline{isometry} of $X$, $Isom(X)$ is a bijection $X \mapsto X$ that preserves distance.
+\end{definition}
+\begin{proposition}
+    For $X \subseteq \C$, $Isom(X)$ is a subgroup of $Sym(X)$.
+\end{proposition}
+\begin{proof}
+    First let $f, g \in Isom(X)$ and $x, y \in X$. We have that $Id_X \in Isom(X)$ as it preserves distance.
+    \underline{Closure:} we have the composition $fg(x)$:
+    \begin{align*}
+        |f(g(x)) - f(g(y))| &= |g(x) - g(y)| \text{ since } f \text{ is an isometry.} \\
+        &= |x - y| \text{ as required.}
+    \end{align*}
+    \underline{Inverse:} let $x' = f^{-1}(x), y' = f^{-1}(y)$ Then:
+    \begin{equation*}
+        |x' - y'| = |f(x') - f(y')| = |x - y|
+    \end{equation*}
+    So $f^{-1}$ is in the isometry group.
+\end{proof}
+\end{document}

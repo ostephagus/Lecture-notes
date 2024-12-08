@@ -1,0 +1,41 @@
+\documentclass[british,11pt,a4paper]{report}
+
+\def\course{Groups}
+\def\degreepart{IA}
+\def\term{Michaelmas}
+\def\year{2024}
+\def\lecturer{Prof H. Wilton}
+
+\input{../../Header.tex}
+\graphicspath{.}
+
+\newcommand{\actson}{~\tikz[baseline,scale=0.8] {
+    \node at (0, 0) (A) {};
+    \draw[-latex] (A) arc[start angle=225, end angle=-45, x radius=0.2, y radius=0.2];
+}~}
+\newcommand{\Mobius}{M\"obius}
+\newcommand{\normalin}{\vartriangleleft}
+\newcommand{\mobgrp}{M} %TODO: Improve
+\newcommand{\Ccross}{\C^{\times}}
+\DeclareMathOperator{\Isom}{Isom}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\chapter{Introduction to Groups} % Pages 1-3
+\subfile{Chapters/1 - Introduction.tex}
+\chapter{Homomorphisms and Examples of Groups} % Pages 3-6
+\subfile{Chapters/2 - Homomorphisms, Examples.tex}
+\chapter{Lagrange's Theorem} % Page 7
+\chapter{Group Actions and Conjugation} % Page 8-9
+\subfile{Chapters/4 - Group Actions.tex}
+\chapter{\Mobius~group} % Page 10
+\chapter{Classification of Finite Groups} % Page 11
+\chapter{Quotient Groups} % Page 12
+\chapter{Permutation Groups} % Page 13
+\subfile{Chapters/8 - Permutations.tex}
+\chapter{Matrix Groups}
+\subfile{Chapters/9 - Matrices.tex}
+\chapter{Platonic Solids}
+\subfile{Chapters/10 - Platonic Solids.tex}
+\end{document}

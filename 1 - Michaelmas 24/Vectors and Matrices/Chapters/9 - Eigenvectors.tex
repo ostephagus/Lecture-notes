@@ -1,0 +1,108 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Fundamental Theorem of Algebra}
+\begin{definition}{Multiplicity}
+    Let $P(z)$ be a polynomial. If $(z-\omega)^k$ divides $P(z)$ but $(z-\omega)^{k+1}$ does not, we say $\omega$ is a $k$-times repeated root, or $\omega$ has \underline{multiplicity} $k$.
+\end{definition}
+\begin{theorem}[Fundamental Theorem of Algebra]
+    Let $P(z)$ be a polynomial of degree $m$. That is, $P(z) = \sum_{j=1}^{n}c_j z^j$ where $c_j \in \mathbb{C}$ and $C_m \neq 0$. Then there are exactly $m$ solutions to the equation $P(z) = 0$ when counting multiplicity.
+    \label{thmFundamenalAlgebra}
+\end{theorem}
+For the proof, see Part IB Complex Analysis.
+\begin{corollary}
+    $P(z) = c_m \prod_{j=1}^{m}(z-\omega_j)$ where $\omega_j$ solve $P(z) = 0$.
+\end{corollary}
+\section{Definitions and Remarks}
+\begin{definition}{Eigenvectors and Eigenvalues}
+    Consider a linear map $\alpha : \mathbb{C}^n \mapsto \mathbb{C}^n$ with associated matrix $A$. Then $\vec{x} \neq \vec{0}$ is an \underline{eigenvector} and $\lambda$ is the associated \underline{eigenvalue} if:
+    \begin{equation}
+        A \vec{x} = \lambda \vec{x} \label{eqnEgnVecDef}
+    \end{equation}
+\end{definition}
+Hence we get the following:
+\begin{eqnarray}
+    (A-\lambda I)\vec{x} = \vec{0} \label{eqnEgnVecMatrix}\\
+    \implies \vec{x} \in \ker{(A-\lambda I)} \label{eqnEgnVecInKer}\\
+    \implies \det{(A-\lambda I)} = 0 \label{eqnEgnVecDet}
+\end{eqnarray}
+\underline{Remarks:}
+\begin{enumerate}
+    \item If $\det{(A-\lambda I)} = 0$, then there is at least one solution to Equation~\ref{eqnEgnVecMatrix}, which implies that $\lambda$ is an eigenvalue if and only if \ref{eqnEgnVecDet} is satisfied.
+    \item Equation~\ref{eqnEgnVecDet} is the \underline{characteristic equation} of $A$. We also have the \underline{characteristic polynomial} of A, since the determinant equation is a polynomial in $\lambda$.
+\end{enumerate}
+\section{More on the Characteristic Polynomial}
+We define the characteristic polynomial as the determinant of the matrix $A - \lambda I$.
+\begin{equation}\label{eqnCharPolynomial}
+    P_A(\lambda) = \epsilon_{j_1 j_2 \cdots j_n}(A_{j_1 1} - \lambda \delta_{j_1 1})(A_{j_2 2} - \lambda \delta_{j_2 2}) \cdots (A_{j_n n} - \lambda \delta_{j_n n})
+\end{equation}
+We can see that this is $n$-degree polynomial in $\lambda$. We can then write it in terms of the coefficients of $\lambda$:
+\begin{equation}\label{eqnCharPolynomialCoeffts}
+    P_A(\lambda) = c_0 + c_1 \lambda + \cdots + c_n \lambda^n
+\end{equation}
+We can now use the theorems we know about roots of polynomials.
+\begin{enumerate}
+    \item $P_A(\lambda)$ has $n$ roots, accounting for multiplicity. So an $n \times n$ matrix has $n$ eigenvalues, accounting for multiplicity.
+    \item If $A$ is real, then all the coefficients of \ref{eqnCharPolynomialCoeffts} are real numbers. Hence, all of the eigenvectors are real or come in complex conjugate pairs.
+    \item From \ref{eqnCharPolynomial}, the coefficients of $\lambda^n$ and $\lambda^{n-1}$ come from the single term: $(A_{1 1} - \lambda)(A_{2 2} - \lambda) \cdots (A_{n n} - \lambda)$. Thus the coefficient $c_n$ is $(-1)^n$, and the coefficient $c_{n-1}$ is $(-1)^{n-1}(A_{1 1} + A_{2 2} + \cdots + A_{n n})$, which is $(-1)^{n-1} Tr(A)$.
+    \item We also know that the sum of the eigenvalues is equal to $(-1)^{n-1}$, so we have that the sum of eigenvectors is equal to the trace of the matrix.
+    \item $c_0$ is equal to the value of $P_A(0)$. Using Equation~\ref{eqnEgnVecDet}, we get that this is $\det{A}$. So, using roots of polynomials results, the product of the eigenvectors is equal to the determinant of the matrix.
+\end{enumerate}
+\section{Eigenspaces and Multiplicity}
+The kernel of the matrix $(A - \lambda I)$ is:
+\begin{equation*}
+\{\vec{x} \in \mathbb{C}^n | A\vec{x} = \lambda \vec{x}\}
+\end{equation*}
+Note that it includes the zero vector, which is not an eigenvector.
+\begin{definition}{Eigenspace}
+    We have already shown that the kernel forms a subspace, so let the subspace formed by this kernel be the \underline{eigenspace}, and denote it $e_\lambda$.
+\end{definition}
+\begin{definition}{Algebraic multiplicity}
+    The \underline{algebraic multiplicit}, $M_\lambda$, of an eigenvalue $\lambda$ is the multiplicity of $\lambda$ as a root of the characteristic polynomial.
+\end{definition}
+If $M_\lambda < 1$ then $\lambda$ is said to be \underline{degenerate}.
+\begin{definition}{Geometric multiplicity}
+    The \underline{geometric multiplciity}, $m_\lambda$, is the maximum number of linearly independent eigenvectors corresponding to the eigenvalue $\lambda$. That is, $m_\lambda = \dim{e_\lambda}$.
+\end{definition}
+\begin{definition}{Defect}
+    The \underline{defect}, $\Delta_\lambda$ is defined by $\Delta_\lambda = M_\lambda - m_\lambda$. It is always non-negative.
+\end{definition}
+\begin{theorem}
+    Suppose an $n\times n$ matrix $A$ has $n$ distinct eigenvalues $\lambda_1, \lambda_2, \cdots, \lambda_n$. Then the corresponding eigenvectors are linearly independent.
+    \label{thmLIEigenvectors}
+\end{theorem}
+\begin{proof}
+Assume, on the contrary, that the eigenvectors $\vec{x_1}, \vec{x_2}, \cdots, \vec{x_r}$ are linearly dependent, so $\exists d_i \text{ s.t. } \sum_{i=1}^{r}d_i x_i = \vec{0}$. After relabelling, let this be the shortest non-trivial combination of linearly dependent eigenvectors.\par
+The apply the transformation $(A - \lambda_1 I)$:
+\begin{equation*}
+    d_1(\lambda_1 - \lambda_1)\vec{x_1} + d_2(\lambda_2 - \lambda_1)\vec{x_2} + \cdots + d_r(\lambda_r - \lambda_1)\vec{x_r} = \vec{0}
+\end{equation*}
+But the first term is zero, so we have a new shortest combination of linearly dependent eigenvectors. \contradiction
+\end{proof}
+\begin{corollary}
+    If $A$ has $n$ distinct eigenvalues, it has $n$ linearly independent eigenvectors, that form a basis of the ambient space $\mathbb{R}^n$ or $\mathbb{C}^n$.
+\end{corollary}
+We then consider some examples of matrices in $\mathbb{R}^3$ and $\mathbb{C}^3$.
+\begin{example}[Reflection matrix]
+    Consider a reflection of the plane defined by the unit normal $\hat{v}$. Under the reflection, $\hat{n}\mapsto -\hat{n}$, so $\hat{n}$ is an eigenvector with eigenvalue $-1$. Therefore, $m_{-1}=1$.\par
+    Furthermore, any vector in the plane is unchanged by the reflection, so we have a plane of eigenvectors with eigenvalue $1$. $m_1 = 2$. We have zero defect, so these eigenvectors span the space.
+\end{example}
+\begin{example}[Rotation matrix]
+    For a rotation through angle $\theta$ about an axis parallel to $\hat{n}$, those vectors parallel to the axis are unchanged, so $\hat{n}$ is an eigenvector with eigenvalue $1$. $m_1 = 1$. If the rotation matrix acts on $\mathbb{R}^3$, there are no further eigenvalues and the eigenvectors do not span the space. However, we have the complex eigenvalues $e^{i\theta}$ and $e^{-i\theta}$, so in $\mathbb{C}^3$, the eigenvectors do span the space.
+\end{example}
+\begin{example}[Shear matrix]
+    For a shear matrix in $\mathbb{R}^2$, the only eigenvalue is $1$, corresponding to the eigenvector $\begin{pmatrix}1 \\ 0\end{pmatrix}$. Thus, the eigenvectors do not span the space.
+\end{example}
+If an $n\times n$ matrix $A$ has $n$ distinct eigenvalues, then by Theorem~\ref{thmLIEigenvectors}, it must have $n$ linearly independent eigenvectors. That means, with respect to the eigenvector basis, A is \underline{diagonalisable}:
+\begin{equation*}
+    A =
+    \begin{pmatrix}
+        \lambda_1 & 0 & 0 & \cdots & 0 \\
+        0 & \lambda_2 & 0 & \cdots & 0 \\
+        0 & 0 & \lambda_3 & & \vdots \\
+        \vdots & \vdots & & \ddots & 0 \\
+        0 & 0 & \cdots & 0 & \lambda_n
+    \end{pmatrix}
+\end{equation*}
+where $\lambda_i$ are the $n$ distinct eigenvalues.
+\end{document}

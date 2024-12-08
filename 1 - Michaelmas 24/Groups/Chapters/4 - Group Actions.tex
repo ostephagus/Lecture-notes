@@ -1,0 +1,26 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{An Introduction to Actions}
+\begin{definition}{Group action}
+    An \underline{action} of a group $G$ on a set $X$ is a map:
+    \begin{align*}
+        G \times X &\rightarrow X \\
+        (g, x) &\rightarrow gx
+    \end{align*}
+    that satisfies:
+    \begin{enumerate}
+        \item $ex = x \forall x \in X$;\label{actAxiomIdentity}
+        \item $(g_1 g_2)x = g_1(g_2 x) \forall g_1, g_2 \in G, x \in X$.\label{actAxiomAssoc}
+    \end{enumerate}
+\end{definition}
+$G \actson X$ means $G$ acts on $X$.\par
+The trivial action is $gx=x \forall g \in G, x \in X$.\par
+The symmetric group $Sym(X) \actson X$ with $fx=f(x) \forall f \in Sym(X), x \in X$.\par
+For any $X \subseteq \mathbb{C}$, $Isom(X) \actson X$ as above, as it does for any subgroup. If further $X$ is the regular n-gon $X_n$, $D_{2n} \actson X_n$. It also acts on the set of vertices $\{z \in \mathbb{C} | z^n = 1\}$.\par
+Every group $G$ can act on itself. Let $X = G$, then the \underline{regular action} is:
+\begin{equation*}
+    g \gamma = g \cdot \gamma, g \in G, \gamma \in X
+\end{equation*}
+\section{Actions and the Symmetry Group}
+\end{document}

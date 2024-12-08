@@ -1,0 +1,31 @@
+\usepackage{lecturenotes}
+
+
+% Default values for title page variables
+\ifx \course\undefined
+    \def\course{Course}
+\fi
+\ifx \part\undefined
+    \def\degreepart{Part}
+\fi
+\ifx \term\undefined
+    \def\term{Term}
+\fi
+\ifx \year\undefined
+    \def\year{Year}
+\fi
+\ifx\notetaker\undefined
+    \def\notetaker{Sam Glover}
+\fi
+\ifx \lecturer\undefined
+    \def\lecturer{Lecturer}
+\fi
+
+\title{Part~\degreepart~\course~Lecture Notes}
+\author{Based on lectures by \lecturer \\ Notes taken by \notetaker}
+\date{\term~\year}
+
+\pagestyle{fancyplain}
+\fancyhead{}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\degreepart~\course~notes}

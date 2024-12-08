@@ -1,0 +1,237 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Divisibility I}
+The set of integers provides some interesting results about whether the result of a division is still an integer.
+\begin{definition}{Divisors}
+    For any $a, b \in Z$, we say that $a$ \underline{divides} $b$ if there exists an integer $c$ such that $b = a \times c$. We can also say that $a$ is a \underline{divisor} or \underline{factor} of $b$, or that $b$ is a \underline{multiple} of $a$. We write $a | b$.
+\end{definition}
+\begin{examples}{
+        For any $b \in \Z$:
+        \label{exNonProperFactors}
+    }
+    \item $1 | b$ and $-1 | b$
+    \item $b | b$ and $-b | b$    
+\end{examples}
+\begin{definition}{Proper factor}
+    If $a | b$, then $a$ is a proper factor if $a \notin \{1, -1, b, -b\}$
+\end{definition}
+All of the examples in Example~\ref{exNonProperFactors} are therefore not proper factors.\par
+We often only consider natural numbers when talking about factors.
+\begin{definition}{Prime number}
+    A number $p \geq 2$ is \underline{prime} if it has no proper factors.
+\end{definition}
+The opposite of a prime number is a \underline{composite number}. The natural number $1$ is neither of these.
+\begin{proposition}
+    Any natural number $n \geq 2$ can be written as a product of prime numbers.
+    \label{propPrimeFactorisation}
+\end{proposition}
+\begin{proof}
+    \induction{$n=2$}{
+        $2$ can be written as a product of prime numbers: $2$.
+    }
+    {$n \leq k$}{}
+    {$n = k + 1$}{
+        Now, if $k$ is prime then we are done.\par
+        However, if $k$ is composite then we have $k = ab$. But $a$ and $b$ are less than $k$, so by assumption they can be written as a product of primes.\par
+        So $k$ can be written as a product of primes.
+    }
+\end{proof}
+\begin{theorem}
+    There are infinitely many prime numbers.
+    \label{thmInfinitePrimes}
+\end{theorem}
+\begin{proof}
+    On the contrary, assume there are finitely many primes and list them:
+    \begin{equation*}
+        p_1, p_2, \cdots, p_n
+    \end{equation*}
+    Then consider the number 
+    \begin{equation*}
+        N = \left(\prod_{i=1}^{k} p_i\right) + 1
+    \end{equation*}
+    Then $p_1 \nmid N$ else $p_1$ divides $\left(N - \prod_{i=1}^{k}p_i\right) = 1$.\par
+    We use the same logic to show that $N$ is not divisible by any of the primes in the list.\par
+    Thus $N$ cannot be written as a product of primes. \contradiction\par
+    So there must be infinitely many primes.
+\end{proof}
+\begin{definition}{Highest common factor}
+    \label{defHCF}
+    Given $a, b \in \N$, a number $c \in \N$ is the \underline{highest common factor} of $a$ and $b$ if:
+    \begin{enumerate}
+        \item $c | a$ and $c | b$
+        \item any $d \in \N$ that satisfies the first condition must divide $c$.
+    \end{enumerate}
+\end{definition}
+Then we write $c = (a, b)$, or $c = \hcf{(a, b)}$ if more clarity is needed.
+\begin{proposition}[Division algorithm]
+    Let $n, k \in \N$. Then $n$ can be written $n = qk + r$, where $q, r \in \N$ and $0 \leq r < k$.
+\end{proposition}
+\begin{proof}
+    \induction{$n = 1$}{
+        If $k = 1$ then $n = 1(1) + 0$. If $k > 1$, $q = 0$ and $r = 1$.
+    }
+    {$n = k + 1$}{
+        $n - 1 = qk + r$, where $q, r$ are as above.
+    }
+    {$n = k$}{
+        \begin{case}{$r < k - 1$}
+            In this case $n = qk + (r + 1)$, and $r+1$ is still within the bounds.
+        \end{case}
+        \begin{case}{$r = k - 1$}
+            In this case $r + 1 = k$, so
+            \begin{align*}
+                n &= qk + k \\
+                &= (q + 1)k + 0
+            \end{align*}
+            Which is in the required form.
+        \end{case}
+        So in both cases $n$ can be written in the required form.
+    }
+\end{proof}
+\begin{remark}
+    $(q, r)$ thus obtained are unique for each $n$.
+\end{remark}
+\section{Euclid's Algorithm}
+Euclid's algorithm is a method to find the highest common factor of a number.\par
+\begin{tabular}{c|c|c}
+    Step & Generic form $(a, b)$ & Example $(534, 372)$ \\
+    \hline
+    1 & $a = q_1 b + r_1$ & $534 = 1(372) + 48$ \\
+    2 & $b = q_2 r_1 + r_2$ & $372 = 2(162) + 48$ \\
+    3 & $r_1 = q_3 r_2 + r_3$ & $162 = 3(48) + 18$ \\
+   & \vdots & $48 = 2(18) + 12$ \\
+    n & $r_{n-2} = q_n r_{n-1} + r_n$ & $18 = 1(12) + 6$ \\
+    Final & $r_{n-1} = q_{n+1} r_n + 0$ & $12 = 2(6) + 0$ \\
+    \hline
+    Output & $r_n$ & $6$
+\end{tabular}\par
+It terminates in at most $b$ steps. We can prove that this finds the highest common factor by proving the output satisfies the criteria in definition~\ref{defHCF}:
+\begin{theorem}
+    The output of Euclid's algorithm with inputs $a$ and $b$ is $\hcf{(a, b)}$.
+\end{theorem}
+\begin{proof}
+    We consider each criterion:
+    \begin{enumerate}
+        \item \underline{$r_n$ divides $a$ and $b$}
+        We have:\par
+        \begin{tabular}{c c}
+            $r_n | r_{n-1}$ & (final step) \\
+            $r_n | r_{n-2}$ & (step $n$) \\
+            \vdots & \\
+            $r_n | r_1$ & (step 3) \\
+            $r_n | b$ & (step 2) \\
+            $r_n | a$ & (step 1)
+        \end{tabular}\par
+        as required.
+        \item \underline{Any $d$ that divides $a$ and $b$ must divide $r_n$}
+        We have:\par
+        \begin{tabular}{c c}
+            $d | r_1$ & (step 1) \\
+            $d | r_2$ & (step 2) \\
+            \vdots & \\
+            $d | r_{n-1}$ & (step $n-1$) \\
+            $d | r_n$ & (step $n$)
+        \end{tabular}\par
+        as required.
+    \end{enumerate}
+\end{proof}
+Running Euclid's algorithm \textit{in reverse} can provide a linear combination of two numbers that equals their highest common factor. This is encapsulated in the following theorem.
+\begin{theorem}
+    For all natural numbers $a, b$, there exists an integer solution to the equation $ax + by = \hcf{(a, b)}$.
+    \label{thmLinearComboHCF}
+\end{theorem}
+\begin{proof}[Via Euclid's algorithm]
+    Let $r_n$ be the result of Euclid's algorithm on $a$ and $b$.\par
+    Then $r_n = x_n r_{n-1} + y_n r_{n-2}$ from step $n$.\par
+    At step $n-1$, $r_{n-1}= x_{n-1} r_{n-2} + y_{n-1} r_{n-3}$.
+    \begin{align*}
+        r_n &= x_n x_{n-1} r_{n-2} + x_n y_{n-1} r_{n-3} + y_n r_{n-2} \\
+        &= \left(x_n x_{n-1} + y_n\right)r_{n-2} + \left(x_n y_{n-1}\right)r_{n-3}
+    \end{align*}
+    Which is of the form $x r_{n-2} + y {r_n-3}$\par
+    So by induction, $r_n = x r_i + y r_{i-1} \forall i \in \{1, \cdots, n-1\}$, and therefore we have $r_n = x a + y b$.
+\end{proof}
+This is an important and useful form of proof: a constructive proof (in which, to show there exists a solution, the proof gives a way to find the solution). We can also provide a faster, but non-constructive, proof:
+\begin{proof}[Non-constructive]
+    Let $h$ be the smallest positive linear combination of $a$ and $b$: $h = a x + b y$ for some $x$ and $y$. We then prove that $h$ is the $\hcf{(a, b)}$.\par
+    Condition 1: $h$ divides $a$ and $b$. Assume on the contrary that $h \nmid a$. Then by the division algorithm, $a = qh + r$ with $q \in \N, 0 < r < h$.\par
+    Then $r = a - qh = a - q(a x + b y)$.\par
+    This is a new positive linear combination that is less than $h$ \contradiction~Therefore $h | a$. By similar argument, $h | b$.\par
+    Condition 2: Let there exist $d$ that divides $a$ and $b$. Then clearly $d$ divides any linear combination of $a$ and $b$, so $d | h$.\par
+    Therefore $h = \hcf{(a, b)}$.
+\end{proof}
+We can now prove an important theorem that follows:
+\begin{theorem}[B\texorpdfstring{\'e}{e}zout's theorem]
+    Let $a$ and $b$ be natural numbers. Then there exists an integer solution to the equation
+    \begin{equation}
+        a x + b y = c
+        \label{eqnLinearCombo}
+    \end{equation}
+    if and only if $c$ is a multiple of $\hcf{(a, b)}$.
+    \label{thmBezout}
+\end{theorem}
+\begin{proof}
+    Let $h = \hcf{(a, b)}$.
+    \begin{proofdirection}{$\Rightarrow$}{Assume equation~\ref{eqnLinearCombo} has a solution.}
+        Since $h | a$ and $h | b$, $h | c$ by linear combination.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume $h | c$.}
+        We have, from theorem~\ref{thmLinearComboHCF}, that there exist integers $x'$ and $y'$ such that:
+        \begin{equation}
+            a x' + b y' = h
+            \label{eqnLinearComboHCF}
+        \end{equation}
+        Then multiplying equation~\ref{eqnLinearComboHCF} by $\frac{c}{h}$, which is an integer by assumption, we obtain equation~\ref{eqnLinearCombo}, with $x = \frac{c}{h}x', y = \frac{c}{h}y'$.
+    \end{proofdirection}
+\end{proof}
+\section{Divisibility II}
+Theorem~\ref{thmBezout} gives us a very important fact about divisibility with primes:
+\begin{proposition}
+    Let $p$ be prime. If $p | ab$ then $p | a$ or $p | b$.\label{propPrimeDivisibility}
+\end{proposition}
+\begin{proof}
+    If $p | a$ then we are done. Therefore, assume $p \nmid a$. Their highest common factor is thus 1. Via theorem~\ref{thmLinearComboHCF}, this means we have integers $x$ and $y$ such that:
+    \begin{equation*}
+        x p + y a = 1
+    \end{equation*}
+    Then multiplying this by $b$:
+    \begin{equation*}
+        x p b + y a b = b
+    \end{equation*}
+    $p$ therefore divides the LHS ($p | ab$), so it must divide $b$.
+\end{proof}
+\begin{remark}
+    By induction we also get that if $p$ divides a product of integers, it must divide at least one of those integers.
+\end{remark}
+\begin{theorem}[Fundamental Theorem of Arithmetic]
+    Every natural number $n$ can be expressed as a product of primes. This representation is unique up to reordering.
+    \label{thmFundamentalArith}
+\end{theorem}
+\begin{proof}
+    We have from proposition~\ref{propPrimeFactorisation} that this representation exists. We therefore have to prove uniqueness:
+    \induction{$n=2$}{
+        2 is simply prime, so it is expressed as a unique product of prime factors.
+    }{$n< k-1$}{}
+    {$n = k$}{
+        If $k$ is prime then we are done.\par
+        If not, suppose that $k = p_1 p_2 \cdots p_l = q_1 q_2 \cdots q_m$ for primes $p_i$ and $q_j$.\par
+        We must have that $p_1$ divides $k$, and so by \ref{propPrimeDivisibility} there must be some $q_j$ such that $p_1 | q_j$. But since these are all prime, we have that $p_1 = q_j$. Re-label the $q_j$ such that this element is $q_1$.\par
+        Now consider $\frac{k}{q_1} = p_2 p_3 \cdots p_l = q_2 q_3 \cdots q_m$. This is less than $k$ so by assumption it has a unique prime factorisation.\par
+        Therefore $k$ has a unique prime factorisation.
+    }
+\end{proof}
+We can now provide another proof of theorem~\ref{thmInfinitePrimes}:
+\begin{proof}
+    Assume, on the contrary, that there are finitely many primes: $p_1, \cdots p_k$. Then by theorem~\ref{thmFundamentalArith}, any number can be expressed uniquely as a product of these primes: $p_1^{j_1} p_2^{j_2} \cdots p_k^{j_k}$. However, we can write this as a product of a square number, $m$, and primes to the power 1 or 0:
+    \begin{equation}
+        m^2 p_1^{i_1} p_2^{i_2} \cdots p_k^{i_k}
+        \label{eqnSquareAndPrimes}
+    \end{equation}
+    Now let $N \in \N$. Given $n \leq N$ of the form in equation \ref{eqnSquareAndPrimes}, we have $m \leq \sqrt{N}$. So there can exist at most $\sqrt{N} \times 2^k$ numbers of the form that are at most $N$. If then $N > 4^k$, $N > \sqrt{N} \times 2^k$ so we must have numbers that are not of the form. \contradiction
+\end{proof}
+\begin{remarks}
+    \item This proof gives an upper bound for the $k$th prime: it is less than $4^k$.
+    \item In fact, the sequence of primes grows about as fast as $n \ln{n}$.
+\end{remarks}
+\end{document}

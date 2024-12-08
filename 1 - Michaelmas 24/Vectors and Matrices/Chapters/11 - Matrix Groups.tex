@@ -1,0 +1,35 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Length-preserving matrices}
+\begin{theorem}
+    Let $P \in O(n)$. Then the following statements are equivalent:
+    \begin{enumerate}
+        \item $P$ orthogonal \label{stmtPOrth}
+        \item $|P\vec{x}| = |\vec{x}|$ \label{stmtPreservesLength}
+        \item $(P\vec{x})^T P\vec{y} = \vec{x}^T \vec{y}$ \label{stmtTransposeProduct}
+        \item If $\{\vec{v_1}, \vec{v_2}, \cdots, \vec{v_n}\}$ is an orthogonal set, then $\{P\vec{v_1}, \cdots, P\vec{v_n}\}$ is an orthogonal set. \label{stmtOrthogonalSet}
+        \item The columns of $P$ are orthogonal. \label{stmtOrthogonalColumns}
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Assume $P$ is an orthogonal matrix. Then
+    \begin{align*}
+        |P\vec{x}|^2 &= (P\vec{x})^T P \vec{x} \\
+        &= \vec{x}^T P^T P \vec{x} \\
+        &= \vec{x}^T \vec{x} \text{ by assumption} \\
+        &= |\vec{x}|^2
+    \end{align*}
+    So statement~\ref{stmtPOrth} implies statement~\ref{stmtPreservesLength}.\par
+    Now assume $|P\vec{x}| = |\vec{x}|$.
+    \begin{align*}
+        |P(\vec{x} + \vec{y})|^2 &= |\vec{x} + \vec{y}|^2 \\
+        |P\vec{x} + P\vec{y}|^2 &= |\vec{x} + \vec{y}|^2 \\
+        |P\vec{x}|^2 + 2(P\vec{x})^T P\vec{y} + |P\vec{y}|^2 &= |\vec{x}|^2 + 2\vec{x}^T \vec{y} + |\vec{x}|^2
+        (P\vec{x})^T P\vec{y} &= \vec{x}^T \vec{y} \text{ by assumption}
+    \end{align*}
+    So statement~\ref{stmtPreservesLength} implies statement~\ref{stmtTransposeProduct}.\par
+    Now assume $(P\vec{x})^T P\vec{y}$ = $x^T \vec{y}$.\par
+
+\end{proof}
+\end{document}

@@ -1,0 +1,209 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Fundamental definitions}
+\begin{definition}{Set}
+    A \underline{set} is a collection of mathematical objects. Order does not matter (2 sets are equal after reordering) and elements are not duplicated (a set with duplicate elements is equal to the set with the duplicate elements removed).
+\end{definition}
+We write $x \in A$ if $x$ si an element of the set $A$. If not, we write $x \notin A$.\par
+Two sets are equal if they have the same elements. That is, $A = B$ if and only if we have the equivalence:
+\begin{equation*}
+    x \in A \Leftrightarrow x \in B
+\end{equation*}
+The empty set, denoted $\emptyset$, is unique.
+\begin{definition}{Subset}
+    A set $B$ is a \underline{subset} of $A$, written $B \subseteq A$, if every element of $B$ is an element of $A$. $B \subset A$ means there is additionally the restriction that $A \neq B$. $B$ is a \underline{proper subset} of $A$ if, additionally, $B \neq \emptyset$.
+\end{definition}
+Note the equivalence relation:
+\begin{equation*}
+    A = B \Leftrightarrow A \subseteq B \land B \subseteq A
+\end{equation*}
+If $A$ is a set, and $P(a)$ is a property of some elements of $A$, we can write $\{a \in A | P(a)\}$ to \underline{select} the subset of elements with the property.
+\section{Set operations}
+If $A$ and $B$ are sets, we define:
+\begin{definition}{Union}
+    The \underline{union}, $A \cup B$, is the set $\{x | x \in A \lor x \in B\}$ that contains all the elements from both sets.
+\end{definition}
+\begin{definition}{Intersection}
+    The \underline{intersection}, $A \cap B$, is the set $\{x \in A | x \in B\}$ that ocntains the elements that exist in both sets.
+\end{definition}
+\begin{definition}{Disjoint}
+    When $A \cap B = \emptyset$, $A$ and $B$ are \underline{disjoint}.
+\end{definition}
+\begin{definition}{Set difference}
+    The \underline{difference}, $A \backslash B$, is the set $\{x \in A | x \notin B\}$.
+\end{definition}
+Note that union and intersection are commutative and associative. Union and intersection distribute over each other.
+\section{Functions}
+\subsection{Definition of a Function}
+Given sets $A$ and $B$, a function from $A$ to $B$ is, informally, a rule that assigns, to every $a \in A$, a unique element $b \in B$.
+\begin{definition}{Function}
+    A function $A \mapsto B$ is a subset $f \in A \times B$ such that $\forall x \in A~\exists~y \in B$ which is unique, and $(x, y) \in f$.
+\end{definition}
+If $f$ is a function from $A$ to $B$, we write $f : A \mapsto B$, and if $(x, y) \in f$, write $f(x) = y$. $A$ is the \underline{domain} and $B$ is the \underline{co-domain} or \underline{range}.
+\begin{example}
+    $f : \mathbb{R} \mapsto \mathbb{R}$, $f : x \mapsto \frac{1}{x}$ is not a function since $f$ is not well-defined at the point $x=0$.
+\end{example}
+\subsection{Function Properties}
+For a function $f : A \mapsto B$ we define the following properties:
+\begin{definition}{Injectivity}
+    $f$ is \underline{injective} if each output has no more than 1 input. That is, $f(x) = f(y) \implies x = y$.
+\end{definition}
+\begin{definition}{Surjectivity}
+    $f$ is \underline{surjective} if each output has at least 1 input. That is, $\forall b \in B, \exists~A f(a) = b$.
+\end{definition}
+\begin{definition}{Bijectivity}
+    $f$ is bijective if each output has exactly one input. That is, it is both injective and surjective.
+\end{definition}
+\begin{definition}{Image}
+    The \underline{image} of $f$, $im(f)$, is the set $\{f(a) | a \in A\}$. It is a subset of $B$, representing all the elements of $B$ that are outputs of the function. A surjective function has $im(f) = B$.
+\end{definition}
+\textbf{Note}: When specifying a function the domain and range must be specified. If not, it is impossible to understand the properties of the function. $f(x) = \frac{1}{x}$ can be well-defined or not a function depending on the specified domain.\par
+\textbf{Remarks}:
+\begin{enumerate}
+    \item f surjective is equivalent to $f(A) = B$. So for finite sets, if $|B|>|A|$, there can be no surjection $A \mapsto B$
+    \item For finite sets, if $|A|>|B|$, then there can be no injection $A \mapsto B$
+    \item If $f:A \mapsto A$, then f injective is equivalent to f surjective.\label{remInjectivePerm}
+    \item There is no bijection from $A$ to any proper subset of $A$, since any proper subset has size less than that of $A$.\label{remNoSubsetBijec}
+\end{enumerate}
+Note that Remarks \ref{remInjectivePerm} and \ref{remNoSubsetBijec} do not hold for infinite sets. The funtion $f : \mathbb{N} \mapsto \mathbb{N}$ where $f(n) = n + 1$ is injective but not surjective (since no natural number maps to the number $1$). Furthermore, the function $g : \mathbb{N} \mapsto \mathbb{N}$ with $g(1) = 1$, $g(n) = n-1$ is surjective but not injective.\par
+Some useful examples of functions:
+\begin{enumerate}
+    \item For any set $X$, the function $Id_X : X \mapsto X$ where $x \mapsto x$ is the \underline{identity function}
+    \item Given a set $X$ and $A \subseteq X$, we have the \underline{indication function} (or characteristic function) of $A$, $\chi_A : X \mapsto \{0, 1\}$ defined by $\chi_A(x) = 1$ if $x \in A$, $\chi_A(x) = 0$ if $x \notin A$.
+    \item A sequence of reals $x_1, x_2, \cdots$  is a function $\mathbb{N} \mapsto \mathbb{R}$ with $n \mapsto x_n$.
+    \item The operation $+$ on $\mathbb{N}$ is a function $\mathbb{N} \times \mathbb{N} \mapsto \mathbb{N}$, $(a, b) \mapsto a + b$.
+    \item A set $X$ has size $n$ if and only if there exists a bijection $\{1, 2, \cdots, n\} \mapsto X$.
+\end{enumerate}
+\subsection{Function Composition}
+\begin{definition}{Function composition}
+Given two functions $f : A \mapsto B$ and $g : B \mapsto C$, the \underline{composition} is $g \circ f : A \mapsto C$ with $a \mapsto g(f(a))$.
+\end{definition}
+\begin{example}
+    $f : \mathbb{R} \mapsto \mathbb{R}$ and $g : \mathbb{R} \mapsto \mathbb{R}$.
+    $f(x) = 2x$, $g(x) = x + 1$.
+    Then $g \circ f(x) = 2x + 1$, but $f \circ g(x) = 2(x+1)$.
+\end{example}
+So composition is clearly not commutative. However, we can show that composition is associative.
+\begin{proposition}
+    For 3 functions $f : A \mapsto B$, $g : B \mapsto C$, $h : C \mapsto D$, $h \circ (g \circ f) = (h \circ g) \circ f$.
+\end{proposition}
+\begin{proof}
+    Consider $x \in A$. Then $h \circ (g \circ f)(x) = h \circ (g(f(x))) = h(g(f(x)))$\par
+    $=(h \circ g)((x)) = (h \circ g) \circ f(x)$.
+\end{proof}
+\subsection{Function Inverses}
+\begin{definition}{Invertibility}
+    We say $f : A \mapsto B$ is \underline{invertible} if $\exists g : b \mapsto A$ such that $g \circ f = Id_A$ and $f \circ g = Id_B$.
+\end{definition}
+We must be careful about inverses. The lack of commutativity of function composition means we can construct a pseudo-inverse that only is an inverse when left-composed but not right-composed. The below example illustrates this.
+\begin{example}
+    $f : \mathbb{N} \mapsto \mathbb{N}$, $f(x) = x + 1$\par
+    $g : \mathbb{N} \mapsto \mathbb{N}$, $g(1) = 1, g(x) = x - 1$.\par
+    Then we have $g \circ f = Id_\mathbb{N}$, but $f \circ g \neq Id_\mathbb{N}$
+\end{example}
+\begin{proposition}
+    Given a function $f : A \mapsto B$, there exists a function $g$ such that $g \circ f = Id_A$ if and only if $f$ is injective.
+    \label{propInjectiveIffLeftInverse}
+\end{proposition}
+\begin{proof}
+    ($\Rightarrow$): Assume there exists a function $g$ such that $g(f(a)) = a~\forall a \in A$.\par
+    Then consider two elements of $A$, $a$ and $\bar{a}$, such that $f(a) = f(\bar{a})$.\par
+    Then applying $g$ to both sides gives, $a = \bar{a}$ by definition of $g$, so $f$ must be injective.\par
+    ($\Leftarrow$): Assume $f$ injective. We prove the existence of $g$ by construction.\par
+    Consider $b \in B$. If $b \in im(f)$, then we let $g(b)$ be the element $a$ such that $f(a) = b$.\par
+    This element is unique by assumption. If $b \notin im(f)$, we map $b$ to any element in $A$.\par
+    Thus $g(f(a)) = a \forall a \in A$.
+\end{proof}
+\begin{proposition}
+    Given a function $f : A \mapsto B$, there exists a function $g$ such that $f \circ g = Id_B$ if and only if $f$ is surjective.
+    \label{propSurjectiveIffRightInverse}
+\end{proposition}
+\begin{proof}
+    ($\Rightarrow$): Assume there exists a function $g$ such that $f(g(b)) = b~\forall b \in B$.\par
+    If $f \circ g(b) = b \forall b$, $f(g(b)) = b \forall b$. That is, each $b \in B$ must have a corresponding $g(b) = a \in A$ such that $f(a) = b$. Thus, $f$ must be surjective.\par
+    ($\Leftarrow$): Assume $f$ is surjective. We prove the existence of $g$ by construction.\par
+    For any $b \in B$, we choose an element $a \in A$ such that $f(a) = b$, which is valid by assumption. Thus, we define $g(b) = a$, and this gives $f(g(b)) = b$ as required.
+\end{proof}
+Combining Propositions \ref{propInjectiveIffLeftInverse} and \ref{propSurjectiveIffRightInverse}, we have that the function $f$ as defined is invertible if and only if $f$ is bijective. We write $f^{-1}$ for this inverse function.
+\section{Relations}
+A relation is a statement about two objects that either holds or does not hold. More abstractly, we have:
+\begin{definition}{Relation}
+    A \underline{relation} on a set $X$ is a subset $R \subseteq X \times X$. We write $aRb$ for $(a, b) \in R$.
+\end{definition}
+Some examples will help to illustrate the definition
+\begin{examples}{
+        Consider the following relations between natural numbers:
+    }   
+    \item $aRb$ if $a, b$ share the same final digit \label{exSameFinalDigit}
+    \item $aRb$ if $a | b$ (note the importance of ordering here)
+    \item $aRb$ if $a \neq b$
+    \item $aRb$ if $a = b = 1$
+    \item $aRb$ if $|a - b| \leq 3$.
+\end{examples}
+There are three important properties that a relation might have.
+\begin{itemize}
+    \item $R$ is \underline{reflexive} if for every $x \in X$, $xRx$.
+    \item $R$ is \underline{symmetric} if for every $a, b \in X$, $aRb \Leftrightarrow bRa$.
+    \item $R$ is \underline{transitive} if $\forall~x, y, z \in X$, $xRy\text{ and }yRz \implies xRz$.
+\end{itemize}
+Considering the examples above:\par
+\begin{tabular}{c|c c c c c}
+    Example & 1 & 2 & 3 & 4 & 5 \\
+    Reflexive & \tick & \tick & \cross & \cross & \tick \\
+    Symmetric & \tick & \cross & \tick & \tick & \tick \\
+    Transitive & \tick & \tick & \cross & \tick & \cross 
+\end{tabular}
+\subsection{Equivalence Relations}
+\begin{definition}{Equivalence relation}
+    A relation $R$ is an \underline{equivalence relation} if it is reflexive, symmetric and transitive. We write $a \sim b$ for $aRb$.
+\end{definition}
+So example~\ref{exSameFinalDigit} is an equivalence relation.
+\begin{example}[Modular arithmetic]
+    For the set $X = \mathbb{Z}$, define $a \sim b$ if $a \equiv b~(mod~5)$\par
+    This partitions the set $X$ into pieces consisting of related elements, based on their value mod $5$.\par
+\end{example}
+\begin{definition}{Pairwise disjoint}
+    Two distinct subsets $A$ and $B$ of a set $X$ are \underline{pairwise disjoint} if $A \cap B = \emptyset$.
+\end{definition}
+\begin{definition}{Partition}
+    Given a set $X$, a \underline{partition} of $X$ is a collection of pairwise disjoint subsets whose union is $X$.
+\end{definition}
+\begin{definition}
+    If $\sim$ is an equivalence relation, in $X$, then the \underline{equivalence class} of $x \in X$ is denoted by:
+    \begin{equation*}
+        [x] = \{y \in X | y \sim x\}
+    \end{equation*}
+    that is, all of the elements in $X$ that are equivalent to $x$.
+\end{definition}
+\begin{example}
+    For example~\ref{exSameFinalDigit}, $[35] = \{\text{all natural numbers ending in 5}\}$.
+\end{example}
+\begin{theorem}[Equivalence classes partition]
+    Let $\sim$ be an equivalence relation on a set $X$. Then the equivalence classes forms a partition of $X$.
+\end{theorem}
+\begin{proof}
+    Since $\sim$ is reflexive, we always have that $x \in [x]$ for every $x \in X$. Thus the union of equivalence classes must be $X$:
+    \begin{equation*}
+        \bigcup_{x \in X} [x] = X
+    \end{equation*}
+    We then consider elements $x, y \in X$, and the intersection of equivalence classes $[x] \cap [y]$.\par
+    Suppose $[x] \cap [y] \neq \emptyset$, so $x \in [x] \cap [y]$. Then $z \in [x] \implies z \sim x$, and by the same argument $x \sim y$. Then by transitivity $x \sim y$.\par
+    Now if $w \in [y]$, $w \sim y \sim x$ so $w \sim x$ by transitivity. Thus $[y] \subseteq [x]$. The same argument can be used to show $[x] \subseteq [y]$, so $[x] = [y]$.\par
+    So if $[x]$ and $[y]$ are not disjoint, they must be equal. Thus equivalence classes partition.
+\end{proof}
+Conversely, if we start with a partition of a set $X$, we can build an equivalence relation whose equivalence classes are those subsets that $X$ is partitioned into. We simply define the equivalence relation to be, \textit{a and b lie in the same subset}.\par
+It is now easy to see that there is an equivalence relation on $\mathbb{N}$ with one finite equivalence class, and two infinite ones. Simple partition $\mathbb{N}$ into these required subsets and the equivalence relation follows.
+\subsection{Quotients}
+\begin{definition}{Quotient}
+    Given an equivalence relation $R$ and a set $X$, the \underline{quotient of $X$ by $R$} is $X / R = \{[x] : x \in X\}$
+\end{definition}
+Returning to example 1, the quotient $X / R$ has size 10 (the equivalence classes for all the different digits.)\par % Figure out example numbering.
+This explains the notation $\mathbb{Z} / 5\mathbb{Z}$ instead of $\mathbb{Z}_5$ for the integers modulo 5.\par
+The map $q : X \mapsto X / R$ is the \underline{quotient map}, with $x \mapsto [x]$. It is also known as the projection map.
+\begin{example}
+    Define the relation $R$ in $\mathbb{Z} \times \mathbb{N}$ such that $(a, b)R(c, d)$ if $ad = bc$. This is an equivalence relation.\par
+    We consider the equivalence class of $[(1, 2)]$.This is all the pairs with ratio $\frac{1}{2}$. These are $\{(1, 2), (2, 4), (3, 6)\}$.\par
+    We can then see that $\mathbb{Z} \times \mathbb N / R$ is a copy of the set of rational numbers (the relation $R$ removes \textit{duplicates} where fractions are not in their simplest form). The quotient map is $\mathbb{Z} \times \mathbb{N} \mapsto \mathbb{Z} \times \mathbb{N} / R$ with $(a, b) \mapsto \frac{a}{b}$
+\end{example}
+\end{document}

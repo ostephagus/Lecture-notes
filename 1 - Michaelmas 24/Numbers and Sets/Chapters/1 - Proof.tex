@@ -1,0 +1,43 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definitions and Examples}
+\begin{definition}{Proof}
+    A \underline{proof} is a sequence of true statements without logical gaps establishing some conclusion.
+\end{definition}
+\begin{definition}{Axiom}
+    An \underline{axiom} is an assumption that is defined to be true for the purpose of further proof.
+\end{definition}
+Proofs are useful because:
+\begin{itemize}
+    \item We want to know what is true
+    \item We hope to gain insight into why things are true
+    \item The proof may be elegant
+\end{itemize}
+An example proof:
+\begin{proposition}
+    For all positive integers $n$, $n^3 - n$ is a multiple of 3.
+\end{proposition}
+\begin{proof}
+    $\forall n \in \N, n^3-n=n(n+1)(n-1)$\par
+    These are 3 consecutive integers, therefore one of them must be a multiple of 3. Therefore their product is a multiple of 3.
+\end{proof}
+Be careful in general about the order of implication. $B \implies A$ does not prove $A \implies B$.\par
+To show $A \nRightarrow B$, it is sufficient to show a case where A is true and B is false.
+\begin{proposition}
+    For $n \in \N$, if $n^2$ is even, then so is $n$.
+\end{proposition}
+\begin{proof}
+    Assume, on the contrary, that $n^2$ is even, but $n$ is odd.
+    Thus, let $n=2k-1$ for some $k \in \N$.
+    \begin{align*}
+        \text{Then } n^2 &= (2k-1)^2 \\
+        &= 4k^2-4k+1 \\
+        &=2(2k^2-2k)+1 \\
+    \end{align*}
+    Which is odd. \contradiction
+\end{proof}
+\section{Combining Claims}
+If A and B are assertions, we write $A \land B$ for "A and B", $A \lor B$ for "A or B", and $\lnot A$ for "not A"\par
+To prove $A \implies B$, it is equivalent to show there is no case where A is true and B is false. Also, $A \implies B$ is equivalent to $(\lnot A) \lor B$. Therefore, we can have also that if $A \implies B$, $\lnot B \implies \lnot A$. This is known as the contrapositive statement.
+\end{document}

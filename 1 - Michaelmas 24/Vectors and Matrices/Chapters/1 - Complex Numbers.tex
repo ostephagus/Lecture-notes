@@ -1,0 +1,61 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Properties}
+A complex number, $z$, is in the set of complex numbers $\mathbb{C}$. It can be written in component form as $z=a+ib$ where $a, b \in \mathbb{R}$, $i = \sqrt{-1}$.\par
+We also define $Re(z) = a$, $Im(z) = b$. Note $\mathbb{R} \subset \mathbb{C}$.
+\subsection{Arithmetic}
+Here define $z_1 = a_1 + b_1 i$ and $z_2 = a_2 + b_2 i$.\par
+Addition and subtraction is elementwise: $z_1 \pm z_2 = (a_1 \pm a_2) + (b_1 \pm b_2)i$.
+Multiplication gives: $z_1 z_2 = (a_1 a_2 - b_2 b_2) + (a_1 b_2 + a_2 b_1) i$.
+We then see that $\mathbb{C}$ is closed under addition and multiplication.
+By a similar process to rationalising the denominator, we can arise at:
+\begin{equation}
+    z^{-1} = \frac{a - b i}{a^2 + b^2}
+\end{equation}
+\subsection{Complex Conjugation}
+We also define the complex conjugate, denoted $\bar{z}$ or $z^*$ as the negation of the complex part $a - b i$. The magnitude of $z$ is $\sqrt{a^2 + b^2}$, and so $z\bar{z} = |z|^2$. Also, we can define $z^{-1}$ in this way:
+\begin{equation*}
+    z^{-1} = \frac{\bar{z}}{|z|^2}
+\end{equation*}
+\section{Argand Diagram}
+% TODO: insert image here
+The complex number $z$ can be represented by the position vector in the argand diagram. Then the complex conjugate is the reflection of this vector in the real axis. Addition is akin to tip-to-tail vector addition, and scalar multiplication is equivalent.\par
+From this representation we get the triangle inequality:
+\begin{equation}
+    |z_1 + z_2| \leq |z_1| + |z_2|
+    \label{eqnTriIneq}
+\end{equation}
+and the similar inequality:
+\begin{equation}
+    |z_1 - z_2| \geq \left||z_1| - |z_2|\right|
+    \label{eqnTriIneqNegative}
+\end{equation}
+Which can be derived from Equation~\ref{eqnTriIneq}:
+\begin{align*}
+    \text{Let } z_1 = z'_1 - z'_2; z_2 = z'_2 \\
+    \ref{eqnTriIneq} \implies |z'_1| &\leq |z'_1 - z'_2| + |z'_2| \\
+    |z'_1 - z'_2| &\geq |z'_1| - |z'_2|
+\end{align*}
+Swapping $z'_1 \leftrightarrow z'_2$ should not change the equation so modulus needed on RHS, this then gives \ref{eqnTriIneqNegative}.
+\section{Polar Representation}
+A complex number $z = x + i y$ can also be represented by specifying the modulus and argument (angle ACW from the real axis). $z = x + i y = r(\cos(\theta) + i\sin(\theta))$, where $r = |z|$, $\theta = \arctan(\frac{y}{x})$. In this representation each modulus-argument form represents a distinct complex number, but each complex number does not have a distinct modulus-argument form due to the periodicity of trigonometric functions. Thus $\theta$ is generally restricted to \underline{principal values}, $-\pi < \theta \leq \pi$ or (less commmonly) $0 \leq \theta < 2\pi$.\par
+In this system, we derive multiplication: $z_1 z_2 = r_1 r_2 (\cos(\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2))$.
+The exponential function $\exp(z)$ can be easily extended to the complex plane using its series expansion:
+\begin{equation*}
+    \exp(z) = \sum_{n=0}^{\infty}{\frac{z^2}{n!}}
+\end{equation*}
+And we have an alternative modulus-argument format $z = re^{i\theta}$.
+\begin{proposition}
+    $\exp(z_1)\exp(z_2) = \exp(z_1 + z_2) \forall z_1, z_2 \in \mathbb{C}$
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \exp(z_1)\exp(z_2) &= \sum_{m, n = 0}^{\infty}\frac{z_1^m z_2^n}{m!n!} \\
+        &=\sum_{r=0}^{\infty}\sum_{m=0}^{r}\frac{z_1^{r-m}z_2^m}{m!(r-m)!} \\
+        &=\sum_{r=0}^{\infty}\frac{1}{r!}\sum_{m=0}^{r}\frac{r!}{m!(r-m)!}z_1^{r-m}z_2^m \\
+        &=\sum_{r=0}^{\infty}\frac{1}{r!}\left(z_1 + z_2\right)^r \\
+        &=\exp(z_1 + z_2)
+    \end{align*}
+\end{proof}
+\end{document}

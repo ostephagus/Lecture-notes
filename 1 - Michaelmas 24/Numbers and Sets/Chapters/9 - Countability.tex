@@ -1,0 +1,308 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+We have a vague intuition for the sizes of infinite sets. We understand that $\mathbb{N}$ seems a lot smaller than $\mathbb{Z}$ or $\mathbb{Q}$, or especially $\mathbb{R}$. However, we would like to be able to formally define this notion.
+\section{Countable sets}
+\begin{definition}{Countability}
+    A set $X$ is \underline{countable} if $X$ is finite or there exists a bijection $X \mapsto \mathbb{Z}$.
+\end{definition}
+\begin{example}
+    $\Z$ is a countable set. We can define a bijection:
+    \begin{align*}
+        \N &\mapsto \Z \\
+        n &\mapsto \frac{n}{2} \text{ if n even}\\
+        n &\mapsto -\frac{n-1}{2} \text{ if n odd}
+    \end{align*}
+\end{example}
+\begin{lemma}
+    Any subset of $\N$ is countable.
+    \label{lemCountableNaturalSubset}
+\end{lemma}
+\begin{proof}
+    If $S \subseteq \N$ is non-empty, by the well-ordering principle there is a least element $s_1 \in S$. If $S \backslash \{s_1\} \neq \emptyset$, then by the well-ordering principle there is a least element $s_2$, and we use the same process.\par
+    If this process terminates, then at some point we have the greatest element of the set $s_m$, and so it is finite and countable.\par
+    If this process does not terminate, we define the function:\par
+    \begin{align*}
+        g : \N &\mapsto S \\
+        n &\mapsto s_n
+    \end{align*}
+    It is well-defined (for every $n$, there is a unique $s_n$), and is injective.\par
+    It is also surjective since if $k \in S$, then $k \in \N$ and there are $<k$ elements of $S$ that are less than $k$, so $k = s_m$ for some $m \leq k$. So every element $k$ in $S$ has a corresponding input. We thus have a bijection with the natural numbers.
+\end{proof}
+\begin{theorem}
+    \label{thmCountStatements}
+    The following are equivalent:\par
+    \begin{enumerate}
+        \item The set $X$ is countable \label{stmtCountable}
+        \item there is an injection $X \mapsto \N$ \label{stmtInjection}
+        \item $X$ is empty, or there exists a surjection $\N \mapsto X$ \label{stmtSurjection}
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    If $X$ is countable, it is either finite (and will inject into $\N$), or there exists a bijection $X \mapsto \N$ so there is an injection. Statement~\ref{stmtCountable} implies statement~\ref{stmtInjection}.\par
+    Now suppose that there exists an injection $f : X \mapsto \N$, and we can define a new range to be the image of $f$, label this $S$, and so $f : X \mapsto S$ is a bijection. If $S$ is finite, then so is $X$. However, if $S$ is infinite, then we have a subset of the natural numbers. By Lemma~\ref{lemCountableNaturalSubset}, there is a bijection $g : S \mapsto \N$, so the composition $gf : X \mapsto \N$ is a bijection, so $X$ is countable. Statement~\ref{stmtInjection} implies statement~\ref{stmtCountable}.\par
+    Now assume $X$ is countable. That is, $X$ is finite or there is a bijection $X \mapsto \N$. Now if $X$ is finite and non-empty, we can define an injection from $X$ to the first $|X|$ natural numbers. If $X$ is not finite, then we have a bijection $X \mapsto \N$, so we certainly have an injection $N \mapsto X$.\par
+    Suppose that $X \neq \emptyset$ and that there is a surjection $f : \N \mapsto X$. We define:
+    \begin{align*}
+        g : X &\mapsto \N \\
+        a &\mapsto \text{the least element with } f(b) = a
+    \end{align*}
+    So by construction we have an injective map $g : X \mapsto \N$. Statement~\ref{stmtSurjection} implies statement~\ref{stmtInjection}.
+\end{proof}
+\begin{corollary}
+    Any subset of a countable set is itself countable.
+    \label{corCountableSubet}
+\end{corollary}
+\begin{proof}
+    If we have a subset $Y \subseteq X$, and $X$ is countable, then consider the injection $X \mapsto \N$ which exists by theorem~\ref{thmCountStatements}, and restrict this to the injection $g : Y \mapsto \N$, then $Y$ is countable by theorem~\ref{thmCountStatements}.
+\end{proof}
+\begin{theorem}
+    $N \times N$ is countable.
+    \label{thmDoubleNaturalCountable}
+\end{theorem}
+Two proofs will be provided.
+\begin{proof}[Proof 1 (diagonal argument)]
+    Considering the set of pairs of natural numbers, we count them as follows:\par
+    \begin{equation*}
+        (1, 1), (2, 1), (1, 2), (1, 3), (2, 2), (3, 1), \cdots
+    \end{equation*}
+    This counts the natural numbers diagonally. We then proceed inductively.\par
+    Define the sequence $\left(a_n\right)^\infty_{n=1}$ by $a_1 = (1, 1)$, and $a_n = (p-1, q+1)$ if $p \neq 1$, or $a_n = (q+1, 1)$ if $p = 1$.
+    Then this list includes every point $(x, y) \in \N \times \N$.
+\end{proof}
+\begin{proof}[Proof 2 (defining an injection)]
+    Define:
+    \begin{align*}
+        f : \N \times \N &\mapsto \N \\
+        (x, y) &\mapsto 2^x \times 3^y
+    \end{align*}
+    Then we have a unique factorisation by \ref{thmFundamentalArith}, so the map $f$ is injective. By theorem~\ref{thmCountStatements}, we must have that $\N \times \N$ is countable.
+\end{proof}
+\begin{corollary}
+    $\Z \times \Z$ is countable.
+    \label{corDoubleIntCountable}
+\end{corollary}
+\begin{proof}
+    Since $\Z$ is countable, there is an injection $f : \Z \mapsto \N$, and since $\N \times \N$ is countable, there is an injection $g : \N \times \N \mapsto \N$, so the composition:
+    \begin{equation*}
+        g(f, f) : \Z \times \Z \mapsto \N \times \N \mapsto \N
+    \end{equation*}
+    So by theorem~\ref{thmCountStatements}, $\Z \times \Z$ is countable.
+\end{proof}
+\begin{theorem}
+    A countable union of countable sets is itself countable
+    \label{thmCountableUnion}
+\end{theorem}
+\begin{proof}
+    Assume that the countable sets are indexed by the natural numbers. So we label the countable sets: $A_1, A_2, \cdots$. We wish to show that the union: 
+    \begin{equation*}
+        \bigcup_{n\in\N} A_n
+    \end{equation*}
+    is countable.\par
+    For each integer $i$, since $A_i$ is countable, we may list its elements $a_1^{(i)}, a_2^{(i)}, \cdots$. Note that this list may or may not terminate.\par
+    We then define a function:
+    \begin{align*}
+        f: \bigcup_{n\in\N} A_n &\mapsto \N \\
+        x &\mapsto 2^i \times 3^j
+    \end{align*}
+    Where $x = a_j^{(i)}$. We must define a restriction for $f$ to be well-defined: by the well-ordering principle we choose the least $i$ such that $x \in A_i$.\par
+    Then we have an injection to the natural numbers, so we must have that this union is countable.
+\end{proof}
+\begin{corollary}
+    \label{corQCountable}
+    The set of rational numbers is countable.
+\end{corollary}
+\begin{proof}
+    Let the set of rational numbers be defined:
+    \begin{equation*}
+        \Q = \bigcup_{n \in \N} \left\{\frac{m}{n} | m \in \Z\right\}
+    \end{equation*}
+    Then this is a countable union (it is indexed by natural numbers) of countable sets (they are indexed by the integers), so $\Q$ is countable.
+\end{proof}
+\begin{theorem}
+    \label{thmAlgebraicCountable}
+    The set of algebraic numbers, $\A$, is countable.
+\end{theorem}
+\begin{proof}
+    We can define a bijection between the set of polynomials with integer coefficients of degree $d$ and the set $\Z^{d+1}$, by mapping each coefficient to an integer in the $(d+1)$-tuple that is an element of $\Z^{d+1}$. Thus, the set of polynomials of degree $d$ is countable by theorem~\ref{thmCountableUnion}.\par
+    Then the set of polynomials with integer coefficients is the union of polynomials of degree $d$, where $d \in \N$, so the set of polynomials is a contable union of countable sets, and by theorem~\ref{thmCountableUnion} is coubtable.\par
+    Each such polynomial has a finite number of roots (at most $d$), so the set of roots of polynomials with integer coefficients, $\A$, must be countable.
+\end{proof}
+\section{Uncountable sets}
+The first uncountable set we met was $R$.
+\begin{theorem}
+    $\R$ is uncountable.
+    \label{thmRUncountable}
+\end{theorem}
+\begin{proof}
+    Assume, on the contrary, that $\R$ is countable. That is, we can list the elements of $\R$, indexed by $\N$:
+    \begin{equation*}
+        r_1, r_2, r_3, \cdots
+    \end{equation*}
+    Then we write their decimal expansion:
+    \begin{align*}
+        &r_1 = n_1 \cdot d_{11} d_{12} d_{13} \cdots \\
+        &r_2 = n_2 \cdot d_{21} d_{22} d_{23} \cdots \\
+        &r_3 = n_3 \cdot d_{31} d_{32} d_{33} \cdots \\
+        &\vdots
+    \end{align*}
+    Now define $r$ by its decimal expansion $0\cdot d_1 d_2 d_3 \cdots$, where:
+    \begin{equation*}
+        d_n=
+        \begin{cases}
+            1 & d_{nn} \neq 1 \\
+            2 & d_{nn} = 1
+        \end{cases}
+    \end{equation*}
+    Note that this number has a unique decimal expansion (not all 9), and by construction is not one of the $r_i$ listed above.\contradiction\par
+    $\R$ is not countable
+\end{proof}
+\underline{Remark:} The whole number parts $n_i$ were not used, so the same proof actually shows that the interval $(0,1)$ is uncountable.
+\begin{corollary}
+    \label{corTranscUncountable}
+    There are uncountably many transcendental numbers.
+\end{corollary}
+\begin{proof}
+    Assume on the contrary that the set of transcendental numbers, $\R \backslash \A$, is countable.
+    Then the union $(\R \backslash \A) \cup \A$ is a union of two countable sets, and so must be countable. But this union is $\R$, which by theorem~\ref{thmRUncountable} is uncountable. \contradiction\par
+    So the set of transcendental numbers cannot be countable.
+\end{proof}
+\begin{theorem}
+    The power set $\powerset{\N}$ is uncountable.
+\end{theorem}
+\begin{proof}[Proof 1 (diagonal argument)]
+    Suppose, on the contrary, that $\powerset{\N}$ is countable.\par
+    Then $\powerset{\N} = \{S_1, S_2, \cdots\}$.
+    Define $S \subseteq \N$, so $S \in \powerset{\N}$, as:
+    \begin{equation*}
+        S = \{n \in \N | n \notin S_n\}
+    \end{equation*}
+    Then $S \neq S_i~\forall i \in \N$ since the sets always differ on the element $i$.\par
+    Thus we have constructed a subset of the natural numbers not in the list.\contradiction\par
+    $\powerset{\N}$ cannot be countable.
+\end{proof}
+\begin{proof}[Proof 2 (injections with $\N$)]
+    Consider the function $f : (0, 1) \mapsto \powerset{\N}$.\par
+    We consider the binary expansion of $x \in (0, 1)$:
+    \begin{equation*}
+        0 \cdot x_1 x_2 x_3 \cdots \text{ where } x_i \in \{0, 1\}
+    \end{equation*}
+    Note that we do not include the expansion with all $1$s.\par
+    Now we define $f(x) = \{n \in \N | x_n = 1\}$. The function $f$ therefore selects natural numbers for the subset $f(x)$ based on whether the corresponding digit in the binary expansion is 1.\par
+    This is an injection of $(0, 1) \mapsto \powerset{\N}$, so $\powerset{\N}$ must be uncountable.
+\end{proof}
+A wider statement about power sets is encompassed by the following theorem:
+\begin{theorem}
+    For any set $X$, there is no bijection between $X$ and its power set $\powerset{X}$.
+\end{theorem}
+\begin{proof}
+    Consider the function $f : X \mapsto \powerset{X}$.\par
+    Define $S = \{x \in X : x \notin f(x)\}$.
+    Thus we have a subset of $X$, and so $S \in \powerset{X}$, but that is not in the image of $f$ (since any element of $im(f)$ differs by the element $x$).\par
+    Thus $f$ is not surjective, so it is not a bijection. The set $S$ was defined for any map $f$, so there can not exist a bijection of the form $f$.
+\end{proof}
+\underline{Remarks}:
+\begin{enumerate}
+    \item This is reminiscent of Russel's Paradox, but is permissible since we define $S$ as a subset of $X$.
+    \item This proof can be used to show that there is no universal set. If we suppose $V$ is the universal set, then $\powerset{V} \in V$, but there is no surjection $V \mapsto \powerset{V}$.
+\end{enumerate}
+\begin{lemma}
+    Let $\subsetselect{A_i}{i \in I}$ be a family of open, pairwise-disjoint intervals in $\R$ indexed by the index set $I$. Then $I$ must be countable.
+\end{lemma}
+Two similar proofs are offered:
+\begin{proof}[Proof 1]
+    Each interval $A_i$ must contain a rational number by proposition~\ref{propDenseRationals}. Thus, by the well-ordering principle we can choose the least such, and let this represent the $A_i$. Thus we must have a bijection between $I$ and a subgroup of $\Q$, which by corollary~\ref{corCountableSubet} is countable.\par
+    Thus we have a bijection from $I$ to a countable set, so $I$ is countable.
+\end{proof}
+\begin{proof}[Proof 2]
+    The set $\subsetselect{i \in I}{A_i \text{ has length } \geq 1}$ can be indexed by $\Z$, and so must be countable.\par
+    The set $\subsetselect{i \in I}{A_i \text{ has length } \geq \frac{1}{2}}$ can be indexed by $\frac{1}{2}\Z$. Continuing this process ad infinitum, we see that $I$ is a countable union of countable sets, and is countable by theorem~\ref{thmCountableUnion}.
+\end{proof}
+We now have some tools to show countability:
+\begin{itemize}
+    \item Listing its elements and showing they can be indexed by $\N$ (or another countable set)
+    \item Show an injection of the set into $\N$
+    \item Use theorem~\ref{thmCountableUnion} if it can be seen as a countable union of countable sets
+    \item Consider $\Q$ if the set looks like a subset of $\R$.
+\end{itemize}
+And some tools to show uncountability:
+\begin{itemize}
+    \item Use a diagonal argument and reach a contradiction
+    \item Show there exists an injection from an uncountable set to the set being studied
+\end{itemize}
+\subsection{Functions and Sizes of Sets}
+We have now the intuition that a bijection between two sets implies they are the same \textit{size}. Similarly, an injection $X \mapsto Y$ implies that the \textit{size} of $X$ is at most as big as $Y$, and a surjection $X \mapsto Y$ implies that the \textit{size} of $X$ is at least as big as $Y$.\par
+For these to make sense, we need that if $X$ is at most as big as $Y$, we can say the converse ($Y$ is at least as big as $Y$).
+\begin{lemma}
+    Consider two non-empty sets $A$ and $B$.\par
+    If there exists an injection $f : A \mapsto B$, then this is equivalent to there existing a surjection $g : B \mapsto A$.
+\end{lemma}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose $f : A \mapsto B$ is an injection}
+        Now we are able to define $g$ in a similar way to how we defined inverses in the proof of propositions~\ref{propInjectiveIffLeftInverse} and \ref{propSurjectiveIffRightInverse}\par
+        Now we can define, for any random point $a_0$ in $A$:
+        \begin{align*}
+            g : B &\mapsto A \\
+            b &\mapsto \begin{cases}
+                \text{the unique } a \in A \text{ such that } f(a) = b & \text{if it exists} \\
+                a_0 & \text{otherwise}
+            \end{cases}
+        \end{align*}
+        And we have a well-defined surjective map $g$.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose $g : B \mapsto A$ is a surjection}
+        Let $f : A \mapsto B$ be defined by choosing any of the points in $B$ that have $g(b) = a$ to be $f(a)$. Then $f$ is a well-defined injection.
+    \end{proofdirection}
+\end{proof}
+We also need that if $A$ is at most as big as $B$, and $B$ is at most as big as $B$, then $A$ and $B$ have the same size.
+\begin{theorem}[Schr\"oder-Bernstein Theorem]
+    \label{thmSchroderBernstein}
+    If $f : A \mapsto B$ and $g : B \mapsto A$ are injections, then there exists a bijection $h : A \mapsto B$.
+\end{theorem}
+\begin{proof}
+    For an element $a \in A$, write $g^{-1}(a)$ for the point $b \in B$, if it exists, such that $g(b) = a$. Similarly, write $f^{-1}(b)$ for the $a \in A$, if it exists, such that $f(a) = b$.\par
+    We call the sequence of elements 
+    \begin{equation*}
+        \{g^{-1}(a), f^{-1}(g^{-1}(a)), g^{-1}(f^{-1}(g^{-1}(a))), \cdots\}
+    \end{equation*}
+    the \underline{ancestor sequence} of $a \in A$. The sequence will terminate or repeat. We also define the ancestor sequence of $b \in B$.\par
+    We can then let:
+    \begin{eqnarray*}
+        A_0 = \subsetselect{a \in A}{\text{ancestor sequence terminates after an even number of terms}} \\
+        A_1 = \subsetselect{a \in A}{\text{ancestor sequence terminates after an odd number of terms}} \\
+        A_\infty = \subsetselect{a \in A}{\text{ancestor sequence does not terminate}}
+    \end{eqnarray*}
+    And define $B_0, B_1, B_\infty$ similarly. We now have a partition of both sets into 3 subsets.\par
+    Note that $f$ gives a bijection $A_0 \mapsto B_1$, since everything in the set $B_1$ has at least one ancestor, and this ancestor must have an even number of ancestors (exactly the set $A_0$). The same argument shows that $g$ then provides a bijection from $B_0 \mapsto A_1$.\par
+    We can use either $f$ or $g$ as the bijection $A_\infty \mapsto B_\infty$\par %TODO: clarify.
+    Then we define the function $h$:
+    \begin{align*}
+        h : A &\mapsto B \\
+        a &\mapsto
+        \begin{cases}
+            f(a) & a \in A_0 \\
+            g^{-1}(a) & a \in A_1 \\
+            f(a) & a \in A_\infty
+        \end{cases}
+    \end{align*}
+\end{proof}
+We can now show how this theorem can be used:
+\begin{example}
+    Is there a bijection from the interval $[0, 1] \mapsto [0, 1] \cup [2, 3]$?\par
+    Observe that we clearly have an injection:
+    \begin{align*}
+        f : [0, 1] &\mapsto [0, 1] \cup [2, 3] \\
+        x &\mapsto x
+    \end{align*}
+    But we can also define an injection the other way:
+    \begin{align*}
+        g : [0, 1] \cup [2, 3] &\mapsto [0, 1] \\
+        x &\mapsto \frac{x}{3}
+    \end{align*}
+    And so by theorem~\ref{thmSchroderBernstein} we have a bijection, as required.
+\end{example}
+\begin{remarks}
+    \item It would be nice to say that \textit{For any two sets $A$ and $B$, either $A$ injects into $B$ or $B$ injects into $A$}. This is indeed true but the proof is not seen until Part II Logic and Set Theory.
+    \item The continuum hypothesis says that any subset of the real numbers is either finite, countably infinite (in bijetion with $\N$), or uncountable (in bijection with $\R$). That is, there does not exist a set whose size lies between those of $\N$ and $\R$.
+\end{remarks}
+\end{document}

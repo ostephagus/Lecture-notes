@@ -1,0 +1,146 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{The Problem With the Rational Numbers}
+We have so far seen $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q}$.
+\begin{proposition}
+    There is no rational number $x$ that satisfies $x^2 = 2$. \label{propIrrationalRootTwo}
+\end{proposition}
+\begin{proof}
+    Assume $x>0$ without loss of generality as $x^2 = (-x)^2$.\par
+    On the contrary, assume that $x \in \mathbb{Q}$, let $a = \frac{a}{b}$, $a, b \in \mathbb{N}$.\par
+    $x^2 = \frac{a^2}{b^2} = 2$\par
+    $\therefore a^2 = 2b^2$
+    By Theorem~\ref{thmFundamentalArith}, the prime factorisation of any number is unique. The LHS of the equation, however, has an even exponent of 2, but the RHS has an odd exponent of 2. \contradiction
+\end{proof}
+\begin{corollary}
+    If $\exists x \in \mathbb{Q}$, with $x^2=n$ for some $n \in \mathbb{N}$, then $n$ is a square.
+\end{corollary}
+An alternative proof of \ref{propIrrationalRootTwo}:
+\begin{proof}
+    Suppose on the contrary that $x^2 = 2$ for $x = \frac{a}{b}$, $a, b \in \mathbb{N}$. Then for any $c, d \in \mathbb{N}$, $cx+d$ is of the form $\frac{e}{b}$, for some $e \in \mathbb{Z}$.\par
+    Thus if $cx+d>0$, then $cx+d \geq 1/b$\par
+    We now use the fact that $1<x<2 \implies 0<x-1<1$.\par
+    Therefore, for sufficiently large $n$, consider $(x-1)^n$.\par
+    Then we have $0<(x-1)^n<1/b$.\par
+    For any $n$, $(x-1)^n$ is of the form $cx+d$ because we reduce all the higher order terms using $x^2 = 2$.\par
+    Thus we have $cx+d > 0$ but $cx+d<1/b$ \contradiction
+\end{proof}
+\underline{Remark}: This expresses the idea that $\mathbb{Q}$ has "gaps", where other numbers can exist. \par
+To illustrate this, consider the set $\{x:x^2<2\}$. This clearly has an upper bound: from the rational numbers we can choose $2$, $1.5$, $1.42$, ...\par
+Then $\sqrt{2}$ is the least upper bound of this set, but in the rational numbers there is no such least upper bound.
+\section{Defining the Real Numbers}
+Some preliminary definitions are needed:
+\begin{definition}{Bounded above}
+    A set $S$ is \underline{bounded above} if there exists a number $x$ such that $x\geq y \forall y \in S$. Such an $x$ is called an upper bound.
+\end{definition}
+\begin{definition}{Least upper bound}
+    A number $x$ is the \underline{least upper bound} if it is an upper bound and every other bound is larger than it. Also known as the supremum of a set.
+\end{definition}
+Note that the least upper bound is unique.
+\begin{definition}{Real numbers}
+    Written $\mathbb{R}$, the \underline{real numbers} are a set with elements $0$ and $1$, $0\neq 1$, equipped with operators $+$ and $\times$, and an ordering $<$, that satisfies:
+    \begin{enumerate}
+        \item $+$ is commutative and associative, with identity $0$, and every real number has an inverse under $+$;\label{realAxiomAddition}
+        \item $\times$ is commutative and associative, with identity $1$, and every real number has an inverse under $\times$;\label{realAxiomMultn}
+        \item $\times$ distributes over $+$: for $a, b \in \mathbb{R}$, $a\times(b+c)=a\times b + a \times c$;\label{realAxiomDist}
+        \item $\forall a, b \in \mathbb{R}$, exactly one of $a<b$, $a=b$, $a>b$ holds; $\forall a, b, c \in \mathbb{R}$, if $a<b$ and $b<c$, then $a<c$;\label{realAxiomOrdering}
+        \item $\forall a, b, c \in \mathbb{R}$, $a<b \implies a+c<b+c$;\label{realAxiomAddOrder}
+        \item $\forall a, b, c \in \mathbb{R}$, $a<b \implies a\times c<b\times c$ if $c>0$;\label{realAxiomMultOrder}
+        \item Given any set $S$ of real number that is non-empty and bounded above, $S$ has a least upper bound.\label{realAxiomLUB}
+    \end{enumerate}
+\end{definition}
+\underline{Remarks}:
+\begin{enumerate}
+    \item From the axioms, we can check, for example, that $0<1$. We have already $0 \neq 1$, so by axiom~\ref{realAxiomOrdering}, only other possibilities are $0>1$. Assume this for contradiction.
+    \begin{align*}
+        1 &< 0 \\
+        1-1 &< 0-1 \text{ by (\ref{realAxiomAddOrder})}\\
+        0 &< (-1) \\
+        (0) \times (-1) &< (-1) \times (-1) \text{ which is valid under (\ref{realAxiomMultOrder}) as we have assumed $-1 < 0$} \\
+        0 &< 1.
+    \end{align*} \contradiction
+    \item We may have $\mathbb{Q} \subset \mathbb{R}$ by considering the generic $\frac{a}{b} \in \mathbb{Q}$ with $ab^-1 \in \mathbb{R}$.
+    \item  $\mathbb{Q}$ does not satisfy the least upper bound axiom as shown in the previous section.
+    \item The wording of the upper bound axiom is important: if S were empty then any real number is an upper bound so there is no least such. If S is not bounded above then no number is an upper bound and there cannot be a supremum.
+    \item It is possible to construct $\mathbb{R}$ from $\mathbb{Q}$, and thus the axioms above arise.
+\end{enumerate}
+\subsection{Suprema}
+For a set $S$ bounded above and defined by an inclusive upper bound, it follows immediately that the greatest upper bound of such a set is $\max(S)$. However, if the set does not trivially define a $\max(S)$ then the least upper bound is a very useful concept as it can be used instead of $\max(S)$. We then want a way of defining a least upper bound for such sets.
+\begin{proposition}[Proposition of Archimedes]
+    The set of natural numbers is not bounded above in $\mathbb{R}$.
+    \label{propArchimedes}
+\end{proposition}
+\begin{proof}
+    Suppose, on the contrary, that $\mathbb{N}$ is bounded above. $\mathbb{N} \neq \emptyset$, so $\exists c = \sup(\mathbb{N})$.\par
+    We must have $c - 1 \neq \sup(\mathbb{N})$, so $\exists n \in \mathbb{N}$ such that $n > c - 1$.\par
+    But then $n+1 \in \mathbb{N}$, and $n + 1 > c$ \contradiction~as c is the supremum.
+\end{proof}
+\begin{corollary}
+    For any $t \in \mathbb{R}^+$, $\exists n \in \mathbb{N}$ with $\frac{1}{n} < t$.\par
+    \label{corollNaturalReciprocal}
+\end{corollary}
+\begin{proof}
+    Let $s = \frac{1}{t}$. By Proposition~\ref{propArchimedes}, $\exists n \in \mathbb{N}$ with $n > s$\par
+    $\therefore \frac{1}{n} < \frac{1}{s} \Leftrightarrow \frac{1}{n} < t$
+\end{proof}
+\subsection{Infima}
+\begin{definition}{Bounded below}
+    A set $S$ is \underline{bounded below} if there exists $x$ such that $x \leq y \forall y \in S$. Such an $x$ is a \underline{lower bound}.
+\end{definition}
+If $S \neq \emptyset$ and is bounded below, then define $-S = \{-s | s \in S\}$. Now we have $-S \neq \emptyset$ and bounded above, so there exists a supremum. Hence the infimum (greatest lower bound) of $S$ is $-\sup(-S)$. This is denoted $\inf{S}$.\par
+Corollary~\ref{corollNaturalReciprocal} then gives us a method of finding infima, and the above statement allows us to relate sets bounded above to those bounded below.
+\section{Closing the Gaps in the Rationals}
+\begin{theorem}
+    There exists a rational number $x$ with $x^2 = 2$.
+\end{theorem}
+\begin{proof}
+    Let $S = \{x \in \mathbb{R} | x^2 < 2\}$.\par
+    Then $1 \in S$ so $S$ is non-empty, and all elements of $S$ are less than $2$ so $S$ is also bounded above.\par
+    Thus $\sup(S)$ exists by axiom~\ref{realAxiomLUB}.\par
+    Let $c = \sup(S)$.\par
+    Observe that $1 < c < 2$ by above.\par
+    By axiom~\ref{realAxiomOrdering}, $c^2$ is either equal to, greater than or less than 2.
+    % TODO: include a sub-proof environment.
+    Consider $c^2 < 2$.\par
+    Let $t \in \mathbb{R} : 0 < t < 1$.
+    \begin{align*}
+        (c+t)^2 &= c^2 + 2ct + t^2 \\
+        &< c^2 + 4t + t \text{ as} c < 2 \text{ and } t^2 < t \\
+        &< c^2 + 5t
+    \end{align*}
+    Thus choose $t \leq \frac{2-c^2}{5}$ so we have $c^2 + 5t \leq 2$.\par
+    But now we have $(c+t)^2 < 2$ and so $(c+t) \in S$.\contradiction~c cannot be an upper bound, so $c^2 \nless 2$\par
+    Then consider $c^2 > 2$:
+    Let $t \in \mathbb{R} : 0 < t < 1$\par
+    and then $(c - t)^2 = c^2 - 2ct + t^2 > c^2 - 4t$.\par
+    So if $t \leq \frac{c^2 - 2}{4}$, we get $c^2 - 4t \geq 2$ so it is an upper bound. \contradiction~as c can no longer be the least upper bound since $(c-t) < c$ is an upper bound, so $c^2 \ngtr 2$.\par
+    Thus we are left with only $c^2 = 2$
+\end{proof}
+\underline{Remark}: The same format can be used to show $\sqrt[n]{x}~\forall n \in \mathbb{N}, x \in \mathbb{R}^+$.\par
+\begin{definition}{Irrational Number}
+    A real number that is not rational is \underline{irrational}.
+\end{definition}
+\begin{proposition}
+    The rational numbers are \underline{dense} in $\mathbb{R}$, that is, for any two real numbers $a$ and $b$ with $a<b$, there exists $c \in \mathbb{Q}$ with $a<c<b$.
+    \label{propDenseRationals}
+\end{proposition}
+\begin{proof}
+    We assume $a\geq 0$ without loss of generality, since the argument can be used for $a$ translated along the real line by another real number.\par
+    By Corollary~\ref{corollNaturalReciprocal}, $\exists n \in \mathbb{N}$ with $\frac{1}{n} < b - a$. Let $T = \{k \in \mathbb{N} | \frac{k}{n} \geq b\}$.\par
+    By Proposition~\ref{propArchimedes}, $\exists N \in \mathbb{N}$ s.t. $N > b$.\par
+    So $Nn \in T$, so $T \neq \emptyset$\par
+    By Well-Ordering Principle, $T$ has a minimal element $m$. Set $c=(m-1)\frac{1}{n}$.\par
+    Since $m-1 \notin T$, we have $c < b$ by axiom~\ref{realAxiomOrdering}.
+    To prove $c > a$, we assume $c \leq a$ for contradiction. Then $\frac{m}{n}=c + \frac{1}{n} < a + (b-a)$.\par
+    Then $\frac{m}{n} < b$ \contradiction\par
+    Then $a<c<b$ as required.
+\end{proof}
+\begin{proposition}
+    The irrational numbers are also dense in $\mathbb{R}$.
+    \label{propDenseIrrationals}
+\end{proposition}
+\begin{proof}
+    Using Proposition~\ref{propDenseRationals}, find that $a\sqrt{2} < c < b\sqrt{2}$, then divide through to get $a < \frac{c}{\sqrt{2}} < b$, where clearly $\frac{c}{\sqrt{2}}$ is an irrational number.
+\end{proof}
+\end{document}

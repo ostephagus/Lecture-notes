@@ -1,0 +1,337 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Examples of Matrix Groups}
+Let $M_n(\R) = \{n \times n \text{ real matrices}\}$.\par
+We can check the axioms: with a group action of matrix multiplication, it is associative, has an identity matrix, but we need to be careful with inverses.
+\begin{lemma}
+    Any matrix $A \in M_n(\R)$ has an inverse $A^{-1}$ if and only if $det{A} \neq 0$.
+\end{lemma}
+For the proof, see IA Vectors and Matrices. We can then define the group of $n \times n$ matrices.
+\begin{definition}{General linear group}
+    Let $GL_n(\R) = \{A \in M_n(\R) | \det{A} \neq 0\}$. Then this is a group by the above statements.
+\end{definition}
+We also have some other knowledge about determinants from IA Vectors and Matrices.
+\begin{lemma}
+    For $A, B \in M_n(\R)$, $\det{A} \det{B} = \det{AB}$
+\end{lemma}
+Where the proof is again seen in IA Vectors and Matrices. We then have a homomorphism:
+\begin{align}
+    \det{} : GL_n(\R) &\mapsto \R \label{eqnDetHomism} \\
+    A &\mapsto \det{A}\nonumber
+\end{align}
+Then the kernel of \ref{eqnDetHomism} is another interesting group:
+\begin{definition}{Special linear group}
+    Let $SL_n(\R) = \ker{(\det{})} = \{A \in M_n(\R) | det{A} = 1\}$
+\end{definition}
+\underline{Remark:} By theorem \ref{thmIsomorphism}, $SL_n(\R) \normalin GL_n(\R)$, and $GL_n(\R)/SL_n(\R) \cong im(\det{}) \cong \R$\par
+This also works for complex matrices. We may define $GL_n{\C}$ and $SL_n{\C}$ in the same way.
+\section{Change of Basis}
+There is a natural action of $GL_n{\R}$ on $M_n{\R}$:
+\begin{align*}
+    GL_n{\R} &\actson M_n(\R) \\
+    P \cdot A &\mapsto PAP^{-1}
+\end{align*}
+\begin{proposition}
+    Let $\vec{v}$ be an n-dimensional vector space and $\alpha : \vec{v} \mapsto \vec{v}$ be a linear map.\par
+    If $A \in M_n(\R)$ represents $\alpha$ in some basis, then the orbit:
+    \begin{equation*}
+        GL_n(\R)A = \{PAP^{-1} | P \in GL_n(\R)\} 
+    \end{equation*}
+    Consists of all matrices that represent $\alpha$ in some basis.
+\end{proposition}
+\begin{proof}
+    A basis $|\{\vec{v_1}, \vec{v_2}, \cdots, \vec{v_n}\}$ for $\vec{v}$ defines an isomorphism of vector spaces:
+    \begin{align*}
+        \phi : \R^n &\mapsto \vec{v} \\
+        (\lambda_1, \cdots, \lambda_n) &\mapsto \sum_{i=1}^{n}\lambda_i \vec{v}_i
+    \end{align*}
+    The claim that $A$ represents a linear map $\alpha$ in this basis means:
+    \begin{equation*}
+        A = \phi^{-1} \circ \alpha \circ \phi
+    \end{equation*}
+    Likewise, another basis $\{\vec{u_1}, \cdots \vec{u_n}\}$ for $\vec{v}$ corresponds to another isomorphism:
+    \begin{equation*}
+        \psi : \R^n \mapsto V
+    \end{equation*}
+    and B represents alpha in this basis:
+    \begin{equation*}
+        B = \psi^{-1} \circ \alpha \circ \psi
+    \end{equation*}
+    So now,
+    \begin{align*}
+        B &= (\psi^{-1} \circ \phi) \circ A \circ (\phi^{-1} \circ \psi) \\
+        &= PAP^{-1}
+    \end{align*}
+    Where $P$ represents $\phi^{-1} \circ \psi : \R^n \mapsto \R^n$, so $p \in GL_n(\R)$\par
+    Thus the set of matrices representing $\alpha$ is contain in the orbit of any one of them under this conjugation action.\par
+    Conversely, if $B = PAP^{-1}$ or some $P \in GL_n(\R)$, then setting:
+    \begin{equation*}
+        \psi = \phi \circ P^{-1} : \R^n \mapsto V
+    \end{equation*}
+    We see that $\psi$ therefore defines a basis $\{\vec{u_i} = \psi(\vec{e_i})\}$ where $\{\vec{e_i}\}$ is the standard basis in $\R^n$.\par
+    Now, since $P^{-1} = \phi^{-1} \circ \psi \implies P = \psi^{-1} \circ \phi$
+    \begin{align*}
+        B &= PAP^{-1} = \psi^{-1} \circ \phi \circ A \circ \phi^{-1} \circ \psi \\
+        &= \psi^{-1} \circ \alpha \psi
+    \end{align*}
+    So $B$ represents $\alpha$ in this basis.
+\end{proof}
+\section{\Mobius~Transformations and Matrices}
+Recall that multiplication in $\mobgrp$ looked similar to multiplying $2 \times 2$ matrices. This is explained by the following proposition.
+\begin{proposition}
+    Define the group of complex numbers under multiplication:
+    \begin{equation*}
+        \Ccross = \left\{
+        \begin{pmatrix}
+            \lambda & 0 \\
+            0 & \lambda
+        \end{pmatrix} \subseteq GL_2(\C) | \lambda \neq 0 \right\}
+    \end{equation*}
+    Then $\Ccross \normalin GL_2(\C)$ and $\mobgrp \cong GL_n(\C) / \Ccross$
+\end{proposition}
+\begin{proof}
+    Define:
+    \begin{align*}
+        \Phi : GL_n(\C) &\mapsto \mobgrp \\
+        \begin{pmatrix}a & b \\ c & d\end{pmatrix} &\mapsto \left(z \mapsto \frac{az + b}{cz + d}\right)
+    \end{align*}
+    By our computation of multiplication in $\mobgrp$, we see that $\Phi$ is a homomorphism, and is clearly surjective. A matrix $\begin{pmatrix} a & b \\ c & d\end{pmatrix}$ is is the kernel of $\Phi$ if and only if it fixes $0, 1$ and $\infty$. That is, $b = c = 0$, $a = d \neq 0$.
+    \begin{equation*}
+        \begin{pmatrix}a & b \\ c & d\end{pmatrix} = \begin{pmatrix}a & 0 \\ 0 & a\end{pmatrix} \subseteq \Ccross
+    \end{equation*}
+    Hence, the kernel of $\Phi$ is $\Ccross$, so the result follows from the isomorphism theorem.
+\end{proof}
+\section{Orthogonal Groups}
+\subsection{The Orthogonal Group and Euclidean Distance}
+We want to do geometry, so write $||\vec{v}||$ for the usual notion of length in $\R^n$:
+\begin{equation}
+    ||\vec{v}|| = \sqrt{\sum_{i=1}^{n}u_i^2}
+    \label{eqnVecNorm}
+\end{equation}
+\begin{definition}{Orthogonal group}
+    The $n$-dimensional \underline{orthogonal group} is the subgroup of $GL_n{\R}$ of matrices that preserve lengths in $R^n$.
+    \begin{equation*}
+        O(n) = \{A \in GL_n(\R) |~||A\vec{v}|| = ||\vec{v}||~\forall \vec{v} \in R^n\}
+    \end{equation*}
+\end{definition}
+However, it is difficult to use the definition of length as given in equation~\ref{eqnVecNorm}, so we prefer to use the dot product:
+\begin{equation}
+    \vec{u} \cdot \vec{v} = \sum_{i=1}^{n}u_i \vec{v}_i
+    \label{eqnDotProduct}
+\end{equation}
+\begin{lemma}[Polarisation identity]
+    \label{lemPolarisation}
+    For $\vec{u}, \vec{v} \in R^n$,
+    \begin{equation*}
+        2(\vec{u} \cdot \vec{v}) = ||\vec{u}||^2 + ||\vec{v}||^2 - ||\vec{u} - \vec{v}||^2
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    Rearranging:
+    \begin{equation*}
+        ||\vec{u}-\vec{v}||^2 = (\vec{u}-\vec{v}) \cdot (\vec{u}-\vec{v}) = ||\vec{u}||^2 - 2 (\vec{u} \cdot \vec{v}) + ||\vec{v}||^2
+    \end{equation*}
+\end{proof}
+Hence, we can characterise $O(n)$ using the dot product:
+\begin{lemma}[$O(n)$ and dot product]
+    \begin{equation*}
+        O(n) = \{A \in GL_n(\R) | (Ax) \cdot (Ay) = \vec{x} \cdot y~\forall \vec{x}, y \in \R^n\}
+    \end{equation*}
+    \label{lemDotProdOrthoGrp}
+\end{lemma}
+\begin{proof}
+    If $Ax \cdot Ay = \vec{x} \cdot y \forall \vec{x}, y \in \R^n$, then for any $\vec{v} \in \R^n$,
+    \begin{equation*}
+        ||A\vec{v}||^2 = (A\vec{v}) \cdot (A\vec{v}) = \vec{v} \cdot \vec{v} = ||\vec{v}||^2
+    \end{equation*}
+    So $||A\vec{v}|| = ||\vec{v}||$, and $A \in O(n)$.\par
+    Conversely, if $A \in O(n)$ then, for all $\vec{x}, y \in R^n$:
+    \begin{align*}
+        2(Ax) \cdot (Ay) &= ||Ax||^2 + ||Ay||^2 - ||Ax - Ay||^2 \text{ by Lemma~\ref{lemPolarisation}} \\
+        &= ||Ax||^2 + ||Ay||^2 - ||A(x-y)||^2 \\
+        &= ||x||^2 + ||y||^2 - ||x-y||^2 \text{ by assumption} \\
+        &= 2(x \cdot y) \text{ by Lemma~\ref{lemPolarisation}}
+    \end{align*}
+    Thus $(Ax) \cdot (Ay) = \vec{x} \cdot y$, as required.
+\end{proof}
+\begin{lemma}[Matrices in $O(n)$]
+    Let $A \in M_n(\R)$. Then the following are equivalent:
+    \begin{enumerate}
+        \item $A \in O(n)$ \label{stmtAInOrthGrp}
+        \item The columns of $A$ form an orthonormal basis \label{stmtColumnsOrth}
+        \item $A^T A = I$ \label{stmtTransposeInverse}
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Let $A = (a_{ij})$. Assume $A \in O(n)$ and let $\{e_i\}$ be the standard basis in $R^n$.\par
+    Then the i-th column of $A$ is $Ae_i$ since:
+    \begin{equation}
+        (Ae_i) \cdot (Ae_j) = e_i \cdot e_j =
+        \begin{cases}
+            1 & i = j \\
+            0 & i \neq j
+        \end{cases}
+        \label{eqnDotColumns}
+    \end{equation}
+    And thus the columns form an orthonormal basis. Statement~\ref{stmtAInOrthGrp} implies statment~\ref{stmtColumnsOrth}\par
+    Now assume that the columns are orthogonal. As explained above, statement~\ref{stmtColumnsOrth} implies equation~\ref{eqnDotColumns}. Since $\dot{u}{v} = \vec{u^T}\vec{v}$, this means that:
+    \begin{equation*}
+        \vec{e_i^t}A^t A \vec{e_j} = 
+        \begin{cases}
+            1 & i = j \\
+            0 & i \neq j
+        \end{cases}
+    \end{equation*}
+    But this is the $i, j$ coordinate of $A^t A$, and so $A^T A = I$. Statement~\ref{stmtColumnsOrth} implies statement~\ref{stmtTransposeInverse}.\par
+    Now assume $A^T A = I$. Suppose $\vec{u}, \vec{v} \in \R^n$. Then:
+    \begin{align*}
+        A\vec{u} \cdot A\vec{v} &= A \vec{u^T} A \vec{v} \\
+        &= \vec{u^T} A^T A \vec{v} \\
+        &= \vec{u^T} \vec{v} \text{ by assumption} \\
+        &= \dotprod{u}{v}
+    \end{align*}
+    So $A$ preserves the dot product, and so by Lemma~\ref{lemDotProdOrthoGrp}, $A \in O(n)$. Statement~\ref{stmtTransposeInverse} implies statement~\ref{stmtAInOrthGrp}.\par
+    These are all the implications needed to show that the three statements are equivalent.
+\end{proof}
+\subsection{The Special Orthogonal Group}
+Recall that $\det{A^T} = \det{A}$. Therefore:
+\begin{align*}
+    1 &= \det{A^T A} = \det{A}\det{A^T} \\
+    &= (\det{A})^2 \\
+    &\implies \det{A} = \pm 1
+\end{align*}
+for any matrix in the orthogonal group.
+\begin{definition}{Special orthogonal group}
+    The \underline{special orthogonal group} is the group of orthogonal matrices with determinant 1. It can be defined in two equivalent ways:
+    \begin{eqnarray*}
+        SO(n) = O(n) \cap SL_n(\R) \\
+        SO(n) = \{A \in O(n) | \det{A} = 1\}
+    \end{eqnarray*}
+\end{definition}
+Note also that $SO(n)$ is the kernel of the determinant homomorphism:
+\begin{align*}
+    \det{} : O(n) &\mapsto C_2 \\
+    A &\mapsto \det{A}
+\end{align*}
+which tells us that $SO(n) \normalin O(n)$. Also, from theorem~\ref{thmIsomorphism}, we know that $|O(n) : SO(n)| = 2$.
+\section{Generating the Orthogonal Group}
+\subsection{Reflection}
+\begin{definition}{Reflection}
+    Any vector $\vec{v} \in \R^n, \vec{v} \neq \vec{0}$ defines an orthogonal plane:
+    \begin{equation*}
+        P_\vec{v} = \subsetselect{\vec{x} \in \R^n}{\vec{x} \cdot \vec{x} = \vec{0}}
+    \end{equation*}
+    Then the \underline{reflection} in $P_\vec{v}$ is defined to be:
+    \begin{equation*}
+        S_{\vec{v}}(\vec{x}) = \vec{x} - \frac{2(\vec{x} \cdot \vec{v})}{||\vec{v}||}\vec{v}
+    \end{equation*}
+\end{definition}
+\underline{Remarks:}
+\begin{enumerate}
+    \item We may write also $S_P$ for a reflection in a plane
+    \item The formula is much simpler for a unit vector $\vec{\hat{v}}$:
+    \begin{equation*}
+        S_{\vec{\hat{v}}}(\vec{x}) = \vec{x} - 2(\vec{x} \cdot \vec{v})\vec{v}
+    \end{equation*}
+\end{enumerate}
+\begin{lemma}
+    $S_{\vec{v}}^2 = I$ and $S_\vec{v} \in O(n)$.
+\end{lemma}
+\begin{proof}
+    We may assume that $\vec{v}$ is a unit vector. Note that $S_\vec{v}$ is linear in $\vec{x}$, so it is in $M_n(\R)$. Now note that:
+    \begin{align*}
+        S_{\vec{v}}(\vec{x}) \cdot \vec{v} &= (\vec{x} \cdot \vec{v}) - 2(\vec{x} \cdot \vec{v})(\vec{v} \cdot \vec{v}) \\
+        &= -(\vec{x} \cdot \vec{v})
+    \end{align*}
+    So:
+    \begin{align*}
+        S_{\vec{v}}^2(\vec{x}) &= S_{\vec{v}}(\vec{x}) - 2(S_{\vec{v}}(\vec{x}) \cdot \vec{v})\vec{v} \\
+        &= S_{\vec{v}}(\vec{x}) + 2(\vec{x} \cdot \vec{v})\vec{v} \\
+        &= \vec{x} - 2(\vec{x} \cdot \vec{v})\vec{v} + 2(\vec{x} \cdot \vec{v})\vec{v} \\
+        &= \vec{x}
+    \end{align*}
+    So $S_{\vec{v}}^2 = I$ and $S_\vec{v} = S_{\vec{v}}^{-1}$ and $S_\vec{v} \in GL_n(\R)$.\par
+    Finally, for $\vec{x} \in \R^n$,
+    \begin{align*}
+        ||S_{\vec{v}}(\vec{x})||^2 &= (\vec{x} - 2(\vec{x} \cdot \vec{v})\vec{v}) \cdot (\vec{x} - 2(\vec{x} \cdot \vec{v})\vec{v}) \\
+        &= ||\vec{x}||^2 - 4(\vec{x} \cdot \vec{v})^2 + 4(\vec{x} \cdot \vec{v})^2||\vec{v}||^2 \\
+        &= ||\vec{x}||^2
+    \end{align*}
+    So $S_\vec{v} \in O(n)$ as required.
+\end{proof}
+\underline{Remark:}~Let $||v|| = 1$ and pick an orthonormal basis $\{\vec{v_1}, \vec{v}_2, \cdots \vec{v_{n-1}}\}$ for $P_\vec{v}$. In the basis $\{\vec{v_1}, \vec{v_2}, \cdots \vec{v_{n-1}}, \vec{v}\}$, $S_\vec{v}$ has matrix:
+\begin{equation*}
+    \begin{pmatrix}
+        1 & 0 & 0 & \cdots & 0 \\
+        0 & 1 & 0 & \cdots & 0 \\
+        0 & 0 & 1 & & \vdots \\
+        \vdots & \vdots & & \ddots & 0 \\
+        0 & 0 & \cdots & 0 & 1
+    \end{pmatrix}
+\end{equation*}
+\begin{theorem}
+    Every $A \in O(n)$ is a product of at most $n$ reflections.
+\end{theorem}
+\begin{proof}
+    Proceed by induction on $n$.\par
+    Base case: Let $n = 1$. $O(1) \cong C_n$ so we have $1$ and $-1$ which can be written as $1$ reflected about $0$.\par
+    Inductive step: Let $\{e_1, \cdots e_n\}$ be the standard basis in $\R^n$. Let $\vec{v} = e_n - Ae_n$. We then see that $S_{\vec{v}}(Ae_n) = e_n$, so $S_\vec{v} A$ preserves $e_n$. Therefore, $S_\vec{v} A$ preserves the plane orthogonal to $e_n$, which is the whole of the rest of the space.\par
+    Therefore, $S_\vec{v} A$ restricts to an orthogonal transformation of $\R^{n-1}$, so by indection there exists:
+    \begin{equation*}
+        \vec{v}_1, cdots, \vec{v}_{n-1} \in R^{n-1} \text{ such that } S_\vec{v} A = Sv_1, \cdots Sv_{n-1}, \text{ which is } \R^{n-1}
+    \end{equation*}
+    Extending the $S_{v_i}$ to $R^n$ by declaring:
+    \begin{equation*}
+        S_{v_i}(e_n) = e_n
+    \end{equation*}
+    And the two sides of the equation agree on $R^n$. Therefore, $A = S_\vec{v} S_{v_1} \cdots S_{v_{n-1}}$ as required.
+\end{proof}
+\begin{lemma}[Elements of $O(2)$]
+    Let $A \in O(2)$. Then:
+    \begin{enumerate}
+        \item If $A \notin SO(2)$, then $A$ is a reflection.
+        \item If $A \in SO(2)$, then $A$ is a rotation about $O$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Recall that $\det{(S_{\vec{v}})} = -1$. Therefore:
+    \begin{equation*}
+        det{(S_{v_1} \cdots S_{v_k})} = (-1)^k
+    \end{equation*}
+    And by the theorem, $A = S_{v_1} \cdots S_{v_k}$ when $k \leq 2$.
+    \begin{enumerate}
+        \item If $A \notin SO(2)$ then $k = 1$ and $A = S_\vec{v}$ for some $\vec{v}$, as claimed.
+        \item If $A \in SO(2)$, then $k$ is even so either $A = I$, or $A = S_\vec{u} S_\vec{v}$ for some linearly independent $\vec{u}, \vec{v}$. We claim that this only fixes $O$, so is a rotation.
+    \end{enumerate}
+    Proving the last claim, assume $\vec{x} \neq \vec{0}$ and that it is fixed by $S_\vec{u} S_\vec{v}$.
+    \begin{equation*}
+        S_\vec{u} S_\vec{v} \vec{x} = \vec{x} \Leftrightarrow S_\vec{u} \vec{x} = S_\vec{v} x
+    \end{equation*}
+    But, $\vec{x} - S_\vec{u} \vec{x}$ is parallel to $\vec{u}$, and $\vec{x} - S_\vec{v} \vec{x}$ is parallel to $\vec{v}$, so if $S_\vec{u} \vec{x} = S_\vec{v} \vec{x}$, then $\vec{u}$ and $\vec{v}$ must be parallel. \contradiction
+\end{proof}
+We can also get an explicit formula for elements of $SO(2)$:\par
+\underline{Remark:} let $A \in SO(2)$. Then the columns of $A$ form an orthonormal basis, so:
+\begin{equation*}
+    A =
+    \begin{pmatrix}
+        a & b \\
+        -b & a
+    \end{pmatrix}
+    \text{ with } a^2 + b^2 = 1
+\end{equation*}
+Then we can let:
+\begin{align*}
+    a &= \cos{\theta} \\
+    b &= \sin{\theta}
+\end{align*}
+We can also analyse elements of $SO(3)$.
+\begin{lemma}[Elements of $SO(3)$]
+    If $A \in SO(3)$, then $A$ is a rotation, i.e. $A$ fixes a unique axis (or $A = I$)
+\end{lemma}
+\begin{proof}
+    As above, $A$ is a product of at most $3$ reflections. However, it must be a product of an even number of reflections since its determinant must be $+1$, so we have that it is either the identity or a product of 2 reflections.\par
+    Consider the case where $A = S_\vec{u} S_\vec{v}$, for linearly independent $\vec{u}, \vec{v}$. The planes $P_\vec{u}$ and $P_\vec{v}$ intersect in a line, so $A$ fixes this line $l$.\par
+    Also, $S_\vec{u} S_\vec{v} \vec{x} \Leftrightarrow S_\vec{u} \vec{x} = S_\vec{v}$. So either $S_\vec{u} = S_\vec{v}$ or $\vec{x} \in P_\vec{u} \cap P_\vec{v}$. So there can be no vector fixed by $A$ that is not on the line $l$.
+\end{proof}
+\end{document}

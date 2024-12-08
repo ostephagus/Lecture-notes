@@ -1,0 +1,34 @@
+\documentclass[british,11pt,a4paper]{report}
+
+\def\course{Numbers and Sets}
+\def\degreepart{IA}
+\def\term{Michaelmas}
+\def\year{2024}
+\def\lecturer{Dr Z. Wyatt}
+
+\input{../../Header.tex}
+
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\powerset}[1]{\mathbb{P}(#1)}
+\newcommand{\congruence}[3]{#1 \equiv #2~(\text{mod}~{#3})}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\chapter{Fundamentals of Proof} % Page 1
+\subfile{Chapters/1 - Proof.tex}
+\chapter{The Natural, Integer and Rational Numbers} % Pages 2-3
+\subfile{Chapters/2 - Natural Integer Rational.tex}
+\chapter{Prime Numbers} % Page 4
+\subfile{Chapters/3 - Primes.tex}
+\chapter{Modular Arithmetic} % Page 5
+\subfile{Chapters/4 - Modular Arithmetic.tex}
+\chapter{The Real Numbers} % Page 6
+\subfile{Chapters/5 - Reals.tex}
+\chapter{Sequences and Series}
+\chapter{Complex Numbers}
+\chapter{Sets, Functions and Relations} % Pages 9-11
+\subfile{Chapters/8 - Sets.tex}
+\chapter{Countability of Sets}
+\subfile{Chapters/9 - Countability.tex}
+\end{document}

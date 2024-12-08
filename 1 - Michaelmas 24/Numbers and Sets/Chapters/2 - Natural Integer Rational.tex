@@ -1,0 +1,95 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{The Natural Numbers}
+The natural numbers are, intuitively, the numbers used for counting. They consist of: $1$, $1+1$, $1+1+1$, $\cdots$. But how do we know we have captured all of them, and that they are all distinct?
+\begin{definition}{Natural Numbers}
+    We define the \underline{natural numbers} to be the set $\N$ containing a special element $1$ and an operation $+1$ that satisfies the following axioms:
+    \begin{enumerate}
+        \item $\forall n \in \N$, $n + 1 \neq 1$ \label{naturalAxiomNoRepeat}
+        \item $\forall m, n \in \N$, if $m \neq n$ then $m + 1 \neq n + 1$ \label{naturalAxiomDistinctSuccessor}
+        \item For any property $P(n)$, if $P(1)$ is true and if we have the relation $P(n) \implies P(n+1)$, then $P(n)$ holds for all natural numbers $n$. \label{naturalAxiomInduction}
+    \end{enumerate}
+\end{definition}
+These are known as the Peano axioms. Axioms \ref{naturalAxiomNoRepeat} and \ref{naturalAxiomDistinctSuccessor} capture the idea that any two natural numbers are distinct.\par
+For ease, we write $1+1$ as 2, and so forth to define the base-10 Arabic numeral system we use, and we also define $+k$ to be the application of $+1$ k times.\par
+We define multiplication, exponentiation, comparison ($a < b$ if $\exists c$ such that $a + c = b$), and ensure that the normal arithmetic applies.
+\begin{propositions}[Properties of natural numbers]{
+        Consider natural numbers $a, b, c$.
+        \label{propNaturalProperties}
+    }
+    \item Addition is commutative: $a + b = b + a$ \label{propCommAdd}
+    \item Multiplication is commutative $a \times b = b \times a$ \label{propCommTimes}
+    \item Addition is associative: $a + (b + c) = (a + b) + c$ \label{propAssocAdd}
+    \item Multiplication is associative: $ a \times (b \times c) = (a \times b) \times c$ \label{propAssocTimes}
+    \item Multiplication distributes over addition: $a \times (b + c) = a \times b + a \times c$ \label{propDistTimes}
+    \item $a < b \implies a + c < b + c$ \label{propInequalityAdd}
+    \item $a < b \implies a \times c < b \times c$ \label{propInequalityTimes}
+    \item if $a < b$ and $b < c$ then $a < c$ \label{propInequalityChain}
+    \item $a < a$ is never true \label{propInequalityNotEquality}
+\end{propositions}
+\subsection{Mathematical Induction}
+We have 2 types of mathematical induction:
+\begin{definition}{Weak Principle of Induction}
+    The \underline{weak principle of induction (WPI)} states that if a property $P(n)$ holds for $n=1$, and we have the relation $P(k) \implies P(k+1)$ for any $k$, then the property $P(n)$ holds for all natural numbers.
+\end{definition}
+This definition is exactly axiom~\ref{naturalAxiomInduction}.
+\begin{definition}{Strong Principle of Induction}
+    The \underline{strong principle of induction (SPI)} states that if a property $P(n)$ holds for $n=1$, and we have the relation $P(l) \text{ true } \forall l \leq k \implies P(k+1)$ true, then $P(n)$ holds for all natural numbers.
+\end{definition}
+This is a stronger statement that the WPI, since the relation requires all previous cases to be true.
+Note that these two definitions are actually equivalent. Trivially SPI $\implies$ WPI, since the WPI is a less restrictive statement. However, by considering a new property defined by: $Q(n) = $ ``$P(m)$ holds $\forall m \leq n$'', we see that also WPI $\implies$ SPI.
+\begin{definition}{Well-Ordering Principle (WOP)}    
+    If $P(n)$ holds for some $n \in \N$, then there is a least $n \in N$ for which $P(n)$ holds.\\
+    Equivalently, every non-empty subset of the natural numbers has a least element.
+\end{definition}
+\begin{theorem}
+    The SPI (and also the WPI) are equivalent to the well-ordering principle.
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Assume the well-ordering principle holds}
+        Suppose there exists a property $P(n)$, and that it is not true for some $n \in \N$.\par
+        Then let $C = \subsetselect{n \in N}{P(n) \text{ does not hold}}$, and note that $C \neq \emptyset$\par % TODO: Go over
+        Now assume for contradiction that the strong principle of induction
+        Then by the well-ordering principle, $C$ has a minimal element $m$. Then $\forall k < m, k \notin C$ so we have that $P(k)$. However, by SPI, $P(m)$ must be true \contradiction
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume the strong principle of induction}
+        Suppose $P(n)$ holds for some subset of the natural numbers, but that there is no least $n \in \N$ for which $P(n)$ holds. Then consider $Q(n) =\lnot P(n)$. Note that $P(1)$ false, so $Q(1)$ true.\par
+        For some $k \in \N$, suppose $Q(k) true \forall k < n$, and so $P(k)$ false. Then $P(n)$ false else $n$ would be the minimal element, and so $Q(n)$ true by strong induction.\par
+        But now $P(n)$ cannot hold for any $n$ \contradiction\par
+        Therefore there must be a least element for which $P(n)$ holds.
+    \end{proofdirection}
+\end{proof}
+\section{The Integers}
+The set of integers, denoted $\Z$, consist of all symbols $n$ and $-n$, where $n \in N$, along with the additive identity $0$. Note that $\N \subset \Z$. If we redefine inequalities to be:
+\begin{equation*}
+    a < b \text{ if } \exists c \in \N \text{ such that } a + c = b
+\end{equation*}
+we can then edit Propositions~\ref{propNaturalProperties}:\par
+Properties \ref{propCommAdd} to \ref{propDistTimes}, \ref{propInequalityChain} and \ref{propInequalityNotEquality} hold for the integers as well, but we have to edit the following properties (and we can also add some new ones):
+\begin{propositions}[Extra properties for the integers]{
+        Consider integers $a, b, c$:
+        \label{propIntegerProperties}
+    }
+    \setcounter{subtheorem}{5} % Start at 6
+    \item $a < b \implies a + c < b + c$ for $c > 0$
+    \item $a < b \implies a \times c < b \times c$ for $c > 0$
+    \setcounter{subtheorem}{9} % Jump to 10
+    \item 0 is the additive identity: $\forall a, a + 0 = a$
+    \item Each integer has an additive inverse: $\forall a \exists a' = -a$ such that $a + a' = 0$.
+\end{propositions}
+\section{The Rationals}
+The set of rational numbers, denoted $\Q$, consists of all quotient expressions $\frac{a}{b}$ where $a \in \Z, b \in \N$. Note $\Z \subset \Q$.\par
+Note that some quotient expressions are defined to be the same: $\frac{a}{b} = \frac{c}{d}$ if $ad = bc$.\par
+We define addition and multiplication:
+\begin{align*}
+    \frac{a}{b} + \frac{c}{d} &= \frac{ad + bc}{bd} \\
+    \frac{a}{b} \times \frac{c}{d} &= \frac{ac}{bd}
+\end{align*}
+and define inequality.\par %TODO: how?
+We can then add a new property for the rational numbers:
+\begin{propositions}[Extra property for the rationals]{}
+    \setcounter{subtheorem}{11} % Start at 12
+    \item $\forall a \in \Q, a \neq 0, \exists a' = \frac{1}{a} \in \Q$ such that $a \times a' = 1$.
+\end{propositions}
+\end{document}
