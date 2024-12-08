@@ -190,5 +190,67 @@ We can also extend this to non-prime elements by requiring coprimality.
         \congruence{a^{\varphi(m)}}{1}{m}
     \end{equation*}
 \end{proof}
+The proof of Fermat's little theorem involved the number $(p-1)!$. We can introduce a theorem to tell us more about this number, mod p, but first we need to think about squares mod $p$.
+\begin{lemma}
+    Let $p$ be prime. Then $\congruence{x^2}{1}{p}$ if and only if $x \equiv 1$ or $x \equiv -1$ mod $p$.
+    \label{lemSqrt1ModP}
+\end{lemma}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Assume $\congruence{x^2}{1}{p}$}
+        Note that $\congruence{x^2}{1}{p}$ is equivalent to $p | (x^2 - 1)$.\par
+        Therefore we can factorise:
+        \begin{equation*}
+            p | (x + 1)(x - 1)
+        \end{equation*}
+        And since $p$ is prime we can use proposition~\ref{propPrimeDivisibility} to get that $p$ divides $x+1$ or $x-1$. That is, $\congruence{x}{1}{p}$ or $\congruence{x}{-1}{p}$.
+    \end{proofdirection}
+    The backward direction is trivial: $x = \pm 1 \implies x^2 = 1$ as required.
+\end{proof}
+Now we can think about $(p-1)!$.
+\begin{theorem}[Wilson/Al-Haytham Theorem]
+    Let $p$ be prime. Then $\congruence{(p-1)!}{-1}{p}$.
+    \label{thmFactorialPMinusOne}
+\end{theorem}
+\begin{proof}
+    We have the trivial case $p = 2$ holds ($\congruence{1! = 1}{-1}{p}$), so consider only odd primes.\par
+    All of the multiplied numbers in $(p-1)!$ are either self-inverse or not self inverse. The elements that are not self-inverse will therefore cancel out with their inverse, leaving only a product of terms that are not self-inverse. A self-inverse element must square to 1 by definition, so by lemma~\ref{lemSqrt1ModP} these elements are $1$ and $-1$.\par
+    Therefore we group all numbers that are not self-inverse into pairs, leaving only the self-inverse elements $1$ and $-1$. The product of all of this is therefore $-1$.
+\end{proof}
+We now know how to solve $\congruence{x^2}{1}{p}$. But what about the similar congruence $\congruence{x^2}{-1}{p}$?
+\begin{proposition}
+    Let $p$ be an odd prime. Then $-1$ is a square mod $p$ if and only if $\congruence{p}{1}{4}$.\label{propMinusOneModP}
+\end{proposition}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Assume $\congruence{p}{1}{4}$.}
+        By theorem~\ref{thmFactorialPMinusOne}, we have:
+        \begin{align*}
+            -1 &\equiv (p-1)! \text{ mod } p \\
+            &\equiv 1 \times 2 \times \cdots \times \frac{p-1}{2} \times \frac{p+1}{2} \times \cdots \times (p-2) \times (p-1) \\
+            &\equiv (-1)^{\frac{p-1}{2}} \times \left(\left(\frac{p-1}{2}\right)!\right)^2
+        \end{align*}
+        And since $\congruence{p}{1}{4}$, let $p = 4k + 1$. Then:
+        \begin{align*}
+            -1 &\equiv (-1)^{2k} \times \left(\left(\frac{p-1}{2}\right)!\right)^2 \\
+            &\equiv \left((-1)^k \left(\frac{p-1}{2}\right)!\right)^2
+        \end{align*}
+        Which is a square number, as required.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume $\congruence{x^2}{-1}{p}$.}
+        Assume for contradiction that $\congruence{p}{3}{4}$, and $p$ can be written $4k + 3$.\par
+        Then by theorem~\ref{thmFermatLittle}, $\congruence{x^{p-1}}{1}{p}$.
+        \begin{align*}
+            1 &\equiv x^{4k+2} \text{ mod } p \\
+            &\equiv \left(x^2\right)^{2k+1} \\
+            &\equiv (-1)^{2k+1} \\
+            &\equiv -1
+        \end{align*}
+        But $p \neq 2$ so $1 \not\equiv -1$. \contradiction\par
+        So $p$ must be congruent to $1$ mod $4$.
+    \end{proofdirection}
+\end{proof}
+\begin{remark}
+    This proof gives the solution to the congruence $\congruence{x^2}{-1}{p}$ in the case $\congruence{p}{1}{4}$.
+\end{remark}
+\nonexaminablesection{\texorpdfstring{$\Z_p$}{Zp} as a group under multiplication}
 \section{Asymmetric Encryption}
 \end{document}
