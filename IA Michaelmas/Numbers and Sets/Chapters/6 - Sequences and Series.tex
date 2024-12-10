@@ -1,5 +1,123 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-
+\section{Sequences and Limits}
+\begin{definition}{Sequence}
+    A \underline{sequence} is an enumerated collection of objects in which repetitions are allowed and order matters.
+\end{definition}
+We write the terms of a sequence $a$ as $a_1, a_2, a_3, \cdots$ or $(a_n)_{n=1}^\infty$.\par
+Key question: what does it mean for a sequence to tend to a limit $l$?\par
+We cannot simply say that a sequence gets closer to $l$. Consider the sequence $0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \cdots$. This does not tend to 100, but the terms do get closer to it.\par
+We also cannot say that terms get arbitrarily close to $l$. Consider the sequence $0, 10, \frac{1}{2}, 10, \frac{2}{3}, 10, \frac{3}{4}, \cdots$. This gets arbitrarily close to $1$, but cannot tend to it because of the 10s every other term. We need the sequence to get close to $l$, and stay close to $l$. We can rigorously define this:
+\begin{definition}{Limit of a sequence}
+    A sequence $a_n$ \underline{tends to a limit} $l \in \R$ as $n$ tends to infinity if,
+    \begin{equation*}
+        \forall \epsilon > 0~\exists N \in \N \text{ such that } \forall n \geq N, l - \epsilon < a_n < l + \epsilon.
+    \end{equation*}
+\end{definition}
+We can also write this as:
+\begin{equation}
+    \forall \epsilon > 0, \exists N \in \N \text{ such that } \forall n \geq N, |a_n - l| < \epsilon
+    \label{eqnSequenceLimit}
+\end{equation}
+Note that this introduces modulus signs, for which the triangle inequality can be used:
+\begin{equation}
+    \forall a, b, c \in \R, |a - c| \leq |a - b| + |b - c|
+    \label{eqnTriangleInequality}
+\end{equation}
+When a sequence tends to a limit $l$, we can also write:
+\begin{itemize}
+    \item $a_n \rightarrow l$ as $n \rightarrow \infty$
+    \item $\lim_{n \rightarrow \infty} = l$
+    \item $(a_n)_{n=1}^\infty$ \underline{converges} to $l$.
+\end{itemize}
+\begin{definition}{Convergence}
+    A sequence $a_n$ is \underline{convergent} if it has a limit $l$.
+\end{definition}
+The opposite of convergence is \underline{divergence}.
+\section{Convergence of Sequences}
+We begin by demonstrating how to show convergence of different sequences:
+\begin{examples}{}
+    \item $a_n = 1-\frac{1}{n}$.\par
+        Given $\epsilon > 0$, choose $N > \frac{1}{\epsilon}$ by proposition~\ref{propArchimedes}. Note that the limit to be shown is 1.\par
+        Then $|a_n - 1| = \frac{1}{n}$, so using $n \leq N$ we have $\frac{1}{n} < \epsilon$, as required.
+    \item $a_n = \begin{cases}\frac{1}{n} & n \text{ even} \\ 0 & \text{ otherwise}\end{cases}$.\par
+        As above, choose $N > \frac{1}{\epsilon}$, so $\frac{1}{n} < \epsilon$ as required.
+    \item $a_n = (-1)^n$\par
+        Here we want to show divergence, so proceed by contradiction.\par
+        Assume $a_n \rightarrow l$. Then use equation~\ref{eqnSequenceLimit} with $\epsilon = 1$. Therefore, $|1-l| < 1$ and $|-1-l| < 1$. Using equation~\ref{eqnTriangleInequality}, $|1 - l + 1 + l| \leq |1 - l| + |1 + l| < 2$, but $1 - l + 1 + l = 2$. This contradiction proves divergence.
+\end{examples}
+\begin{lemma}
+    The limit of a convergent sequence is unique.
+    \label{lemUniqueLimit}
+\end{lemma}
+\begin{proof}
+    Assume, on the contrary, that a sequence $a_n$ tends to the distinct real numbers $l$ and $k$.\par
+    Then consider $\epsilon = \frac{1}{2} |l - k|$.\par
+    From equation~\ref{eqnSequenceLimit},
+    \begin{align*}
+        &\exists N \in \N \text{ such that } |a_n - l| < \epsilon \forall n \geq N \\
+        &\exists M \in \N \text{ such that } |a_n - k| < \epsilon \forall n \geq M
+    \end{align*}
+    So for any $n \geq \max{\{M, n\}}$, consider $|l - k|$. By the definition of $\epsilon$, this is equal to $2\epsilon$.\par
+    Also, $|a_n - k - (a_n - l)| \leq |a_n - k| + |a_n - l| < 2\epsilon$ \contradiction
+\end{proof}
+\begin{definition}{Bounded sequence}
+    A sequence $a_n$ is \underline{bounded} if there exists a real number $B$ such that, for all $n$, $a_n \leq B$.
+\end{definition}
+Note that any sequence that converges is also bounded. To see this, choose some tolerance $\delta$. Then by the definition of convergence, all the sequence terms after the $N$th are within $\delta$ of the limit $l$. Then we consider the maximum of the finite set:
+\begin{equation*}
+    \max{\{a_1, a_2, a_3, \cdots, a_{N-1}, l + \delta\}}
+\end{equation*}
+To see that this is the bound.
+\begin{definition}{Monotonic}
+    A sequence $a_n$ is \underline{monotonic} if it is either increasing or decreasing. Increasing means that for all $n$, $a_{n+1} \geq a_n$, and decreasing is the reverse.
+\end{definition}
+\begin{theorem}
+    Every bounded monotonic sequence of real numbers converges.
+\end{theorem}
+\begin{proof}
+    Suppose a sequence $a_n$ is increasing and bounded above.\par
+    Consider the set $\subsetselect{a_n}{n \in \N}$. It is non-empty and bounded above, so we have a supremum $l$.\par
+    For any $\epsilon > 0$, consider $l - \epsilon$ which cannot be an upper bound for the set. Therefore $\exists N \in \N$ such that $a_N > l - \epsilon$.\par
+    But also $a_N \leq a_n$ for all $n \geq N$ by assumption that $a_n$ is increasing, so equation~\ref{eqnSequenceLimit} is satisfied.\par
+    The same method of proof can be used to show that a decreasing bounded sequence must converge.
+\end{proof}
+\begin{remarks}
+    \item For an increasing sequence to converge, we only need it to be bounded above.
+    \item THe bounded condition is necessary - monotonic sequences can (and often do) diverge.
+    \item This theorem is actually equivalent to the least upper bound axiom (each implies the other)
+    \item It can be shown that every sequence has an infinite monotonic subsequence (see Analysis I)
+\end{remarks}
+\begin{proposition}
+    If $a_n \leq d \forall n$ and $a_n \rightarrow c$ as $n \rightarrow \infty$, then $c \leq d$.
+    \label{propLimitLessThanBound}
+\end{proposition}
+\begin{proof}
+    Via real axiom~\ref{realAxiomOrdering}, it suffices to show that $c \not > d$.\par
+    Suppose, on the contrary, that we have $c > d$. Let $\epsilon = c - d > 0$.\par
+    Then $\exists N \in \N$ such that $\forall n > N, |a_n - c| < \epsilon$.\par
+    Note that $a_n \leq d < c$, so $a_n < c$, and $|a_n - c| = c - a_n$. But we therefore have $c - a_n < c - d$, or $a_n > d$\contradiction\par
+    Therefore $c \not > d$ so $c \leq d$.
+\end{proof}
+\begin{remark}
+    If $a_n < d \forall n$ (strict inequality in assumption), we still only get $c \leq d$ (non-strict inequality in result).
+\end{remark}
+\begin{proposition}
+    If $a_n \rightarrow c$ and $b_n \rightarrow d$ as $n \rightarrow \infty$, then $a_n + b_n \rightarrow c + d$.
+    \label{propSumSequences}
+\end{proposition}
+\begin{proof}
+    Given $\epsilon > 0$, we have:
+    \begin{align*}
+        &\exists N \in \N \text{ such that } \forall n \geq N, |a_n - c| < \epsilon \\
+        &\exists M \in \N \text{ such that } \forall n \geq M, |b_n - d| < \epsilon
+    \end{align*}
+    Now let $N' = \max{\{N, M\}}$. Then, $\forall n \geq N'$,
+    \begin{align*}
+        |a_n + b_n - (c + d)| &\leq |a_n - c| + |b_n - d| \text{ by equation~\ref{eqnTriangleInequality}} \\
+        &< \epsilon + \epsilon = 2\epsilon
+    \end{align*}
+    And a new variable $\delta$ can be defined to be $2\epsilon$ for equation~\ref{eqnSequenceLimit} to hold.
+\end{proof}
 \end{document}
