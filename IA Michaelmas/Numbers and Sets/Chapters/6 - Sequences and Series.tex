@@ -120,4 +120,235 @@ To see that this is the bound.
     \end{align*}
     And a new variable $\delta$ can be defined to be $2\epsilon$ for equation~\ref{eqnSequenceLimit} to hold.
 \end{proof}
+\section{Series}
+We have defined the sum of two numbers, so by induction finite sums are also defined. However, we have not defined infinite sums. Nevertheless, we can find examples for which infinite summation converges.\par
+\begin{definition}{Partial sum}
+    Let $a_n$ be a sequence. Then the $k$th \underline{partial sum} of this sequence is:
+    \begin{equation*}
+        s_k = \sum_{n=1}^{k} a_n
+    \end{equation*}
+\end{definition}
+\begin{definition}{Infinite sum}
+    If the sequence of partial sums of a sequence converges, then we write the limit $\sum_{n=1}^{\infty} a_n$.
+\end{definition}
+\begin{examples}
+    \item Consider $a_n = r^n$. When $|r| < 1$, this is a convergent series (``Geometric series''). The limit is $\frac{a_1}{1-r}$
+    \item Now let $a_n = \frac{1}{n}$. \textit{The harmonic series}
+        \begin{equation*}
+            s_{2^k} = 1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \frac{1}{5} + \frac{1}{6} + \frac{1}{7} + \frac{1}{8} + \cdots + \frac{1}{2^k}
+        \end{equation*}
+        And by deleting every term whose denominator is not a power of 2,
+        \begin{equation*}
+            s_{2^k} = 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \cdots + \frac{1}{2^k}
+        \end{equation*}
+        Note that in general, $\frac{1}{2^m + 1} + \frac{1}{2^m + 2} + \cdots + \frac{1}{2^{m+1}} \geq \frac{2^m}{2^{m+1}} = \frac{1}{2}$.\par
+        And so $s_{2^k}$ is bounded below by $1 + \frac{k}{2}$, so as $k \rightarrow \infty$, the series diverges.
+    \item Let $a_n = \frac{1}{n^2}$. We have the partial sum:\par
+        \begin{equation*}
+            s_{2^k - 1} = 1 + \frac{1}{2^2} + \frac{1}{3^2} + \frac{1}{4^2} + \frac{1}{5^2} + \frac{1}{6^2} + \frac{1}{7^2} + \cdots + \frac{1}{(2^k - 1)^2}
+        \end{equation*}
+        And bounding each term by the start of each power-of-two block:
+        \begin{equation*}
+            s_{2^k - 1} \geq 1 + \frac{1}{2^2} + \frac{1}{2^2} + \frac{1}{4^2} + \frac{1}{4^2} + \frac{1}{4^2} + \frac{1}{4^2} + \cdots + \frac{1}{(2^k - 1)^2}
+        \end{equation*}
+        And so in general each block looks like: $\frac{1}{(2^m)^2} + \frac{1}{(2^m + 1)^2} + \cdots + \frac{1}{(2^{m + 1} - 1)^2} \leq \frac{2^m}{(2^m)^2} = \frac{1}{2^m}$.
+        So $s_k$ is bounded by a geometric series, and converges. In fact, it converges to $\frac{\pi^2}{6}$.
+\end{examples}
+\subsection{Decimal Expansions}
+\begin{definition}{Decimal expansion}
+    Let $d_n$ be a sequence of integers 0 to 9. Then the series $\sum_{n=1}^{k} \frac{d_n}{10^n}$ is a \underline{decimal expansion}.
+\end{definition}
+We can be sure that it converges because it is bounded by a geometric series: $\sum_{n=1}^{k} \frac{d_n}{10^n} \leq \sum_{n=1}^{k} \frac{9}{10^n}$.
+If $x = \sum_{n=1}^{\infty} \frac{d_n}{10^n}$, then this is the decimal expansion of $x$.
+\begin{proposition}
+    Any $x \in \R, 0 \leq x \leq 1$ has a decimal expansion.
+    \label{propDecimalExpansion}
+\end{proposition}
+\begin{proof}
+    Select $d_1$ as the largest integer such that $\frac{d_1}{10} \leq x$. Then $d_1$ is between 0 and 9, and also $0 \leq x - \frac{d_1}{10} < \frac{1}{10}$.\par
+    Then select $d_2$ as the largest integer such that $\frac{d_2}{100} \leq x - \frac{d_1}{10}$.\par
+    Now we get $0 \leq d_2 \leq 9$, and $0 \leq x - \frac{d_1}{10} - \frac{d_2}{100} < \frac{1}{100}$.\par
+    Continuing this for $d_k$ as $k \rightarrow \infty$, note that $\frac{1}{10^k} \rightarrow \infty$, so $x - \sum_{n=0}^{k} \frac{d_n}{10^n} \rightarrow 0$, so in the limit we have equality.
+\end{proof}
+\begin{proposition}
+    Decimal expansions are not unique.
+    \label{propDecimalExpansionUniqueness}
+\end{proposition}
+\begin{proof}
+    Let $a = \sum_{j=1}^{\infty}\frac{a_j}{10^j}$, $b = \sum_{j=1}^{\infty}\frac{b_j}{10^j}$. Let $a = b$, and suppose $a_j = b_j \forall j < k$, and that for some $k$, $a_j \neq b_j$. After relabelling, let $a_k < b_k$.\par
+    \begin{equation*}
+        \sum_{j=k+1}^{\infty} \frac{a_j}{10^j} \leq \sum_{j=k+1}^{\infty} \frac{9}{10^j} = \frac{1}{10^k} \text{ by geometric series.}
+    \end{equation*}
+    \begin{equation*}
+        b-a = \frac{b_k}{10^k} - \frac{a_k}{10^k} + \sum_{j=k+1}^{\infty} \frac{b_j}{10^j} - \sum_{j=k+1}^{\infty} \frac{a_j}{10^j}
+    \end{equation*}
+    And $b = a$, so this expression must be 0.\par
+    The largest that $\left|\sum_{j=k+1}^{\infty} \frac{b_j}{10^j} - \sum_{j=k+1}^{\infty} \frac{a_j}{10^j}\right|$ can be is $\frac{1}{10^k}$, which means $b_k - a_k \leq 1$.\par
+    $b_k - a_k = 1$ when $\sum_{j=k+1}^{\infty} \frac{b_j}{10^j} - \sum_{j=k+1}^{\infty} \frac{a_j}{10^j} = \frac{-1}{10^k}$, which is when $b_j = 0$ and $a_j = 9~\forall j > k$.
+\end{proof}
+\begin{remark}
+    This means that the only non-unique decimal expansions are those of the form $0.a_2 a_2 \cdots a_k 9999\cdots$ and $0.a_1 a_2 \cdots b_k 0000 \cdots$.
+\end{remark}
+\begin{definition}{Periodic}
+    A decimal expansion is \underline{periodic} if, after a finite number of terms, it repeats in blocks of the same length. That is,
+    \begin{equation}
+        \exists l, k \text{ such that } \forall n > l, d_{n+k} = d_n
+        \label{eqnPeriodicExpansion}
+    \end{equation}
+\end{definition}
+\begin{proposition}
+    The decimal expansion of a number $x$ is periodic if and only if $x \in \Q$.
+    \label{propDecimalExpansionPeriodic}
+\end{proposition}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Assume $x$ has a periodic decimal expansion, as in equation~\ref{eqnPeriodicExpansion}.}
+        Let $x = \sum_{n=1}^{\infty} \frac{d_n}{10^n}$
+        \begin{align*}
+            10^l x - \sum_{n=1}^{l} 10^{n-l} d_{n+l} &= \sum_{n=l+1}^{\infty}\frac{d_n}{10^{n-l}} \\
+            &= \sum_{n=1}^{\infty} \frac{d_{l + (n \text{ mod } k)}}{10^n} \\
+            &= \left(\sum_{n=1}^{k}10^{n-l} d_{n+l}\right) \sum_{n=1}^{\infty} \frac{1}{10^{kn}} \\
+            &= \left(\sum_{n=1}^{k}10^{n-l} d_{n+l}\right) \frac{1}{10^k} \times \frac{1}{1-\frac{1}{10^k}}
+        \end{align*}
+        Which is an integer multiplied by two rational numbers, and is therefore rational.\par
+        Therefore $10^l x - \sum_{n=1}^{l} 10^{n-l} d_n \in \Q$, and $\sum_{n=1}^{l} 10^{n-l} d_n \in \Z$, so $x \in \Q$.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume $x$ is rational.}
+        Let:
+        \begin{equation*}
+            x = \frac{p}{2^a 5^b q}
+        \end{equation*}
+        Where $a, b, p, q$ are integers and $a, b, p \geq 0$, and $\hcf{(q, 10)} = 1$.
+        \begin{align*}
+            \text{ Then } 10^{\max{\{a, b\}}} x &= \frac{t}{q} \\
+            &= n + \frac{c}{q}
+        \end{align*}
+        for some integers $n, c$ and with $0 \leq c < q$. Now we have $q$ coprime with $10$, so we can use theorem~\ref{thmEulerFermat},
+        \begin{equation*}
+            10^{\varphi(q)} - 1 = kq \text{ for some } k \in \N
+        \end{equation*}
+        Now:
+        \begin{align*}
+            \frac{c}{q} &= \frac{kc}{kq} \\
+            &= \frac{kc}{10^{\varphi(q)} - 1}
+        \end{align*}
+        And note that this is in the form of a geometric series:
+        \begin{equation*}
+            \frac{c}{q} = \sum_{j=1}^{\infty} \frac{1}{10^{\varphi(q) j}}
+        \end{equation*}
+        But we need to ensure that $kc < 10^{\varphi(q) + 1}$. This is satisfied because $0 \leq kc < kq$, and $kq = 10^{\varphi(q)} - 1$.\par
+        And therefore $\frac{c}{q}$ has a periodic decimal expansion.\par
+        $x = \frac{1}{10^{\max{\{a, b\}}}} \left(n + \frac{c}{q}\right)$, and so its decimal expansion is also periodic.
+    \end{proofdirection}
+\end{proof}
+\subsection{Euler's Number}
+Euler's number, $e$, is defined by the infinite series:
+\begin{equation}
+    e = 1 + \frac{1}{1!} + \frac{1}{2!} + \frac{1}{3!} + \frac{1}{4!} + \cdots
+    \label{eqnESeries}
+\end{equation}
+We can see by truncating terms that $e > 3$, and also the geometric sequence with ratio $\frac{1}{2}$, which converges to $3$, bounds it from above.
+Thus $e$ is well-defined, and we have:
+\begin{equation}
+    2 < e < 3
+    \label{eqnEBounds}
+\end{equation}
+If we define $0! = 1$, equation~\ref{eqnESeries} becomes:
+\begin{equation}
+    e = \sum_{n=0}^{\infty} \frac{1}{n!}
+    \label{eqnESum}
+\end{equation}
+\begin{proposition}
+    The number $e$ is irrational.
+    \label{propEIrrational}
+\end{proposition}
+\begin{proof}
+    Suppose, on the contrary, that there exist integers $p$ and $q$ such that $e = \frac{p}{q}$. Note also that $p \neq 1$, by equation~\ref{eqnEBounds}.\par
+    Then $q!e = (q-1)!p$, which is a natural number.\par
+    By equation~\ref{eqnESeries},
+    \begin{equation*}
+        q!e = q! + \frac{q!}{1!} + \frac{q!}{2!} + \cdots + \frac{q!}{(q-1)!} + 1 + \frac{1}{q+1} + \frac{1}{(q + 1)(q + 2)} + \cdots
+    \end{equation*}
+    Define the terms before, and including, 1 to be $N \in \N$, and the terms after (that are not integers) to be $x$. That is, $q!e = N + x$.\par
+    We can bound $x$ by a geometric series:
+    \begin{equation*}
+        x \leq \sum_{n=1}^{\infty} \frac{1}{(q+1)^n} = \frac{1}{q}
+    \end{equation*}
+    But since $q \geq 1, \frac{1}{q} \leq 1$, and so $x < \frac{1}{q}$ cannot be an integer.\par
+    However, $q!e$ is an integer and so is $N$, but $q!e = N + x$ \contradiction\par
+    Therefore $q!e$ is not an integer, and $e$ is irrational.
+\end{proof}
+\section{Polynomials}
+\begin{definition}{Polynomial}
+    A \underline{polynomial} is a function $P(x)$, which has the form:
+    \begin{equation}
+        P(x) = a_d x^d + a_{d-1} x^{d-1} + \cdots + a_1 x + a_0
+        \label{eqnPolynomial}
+    \end{equation}
+    Where $d$ is the \underline{degree} of the polynomial, and $a_d \neq 0$.
+\end{definition}
+\begin{definition}{Root}
+    A \underline{root} of the polynomial $P(x)$ is a number $x_0$ that satisfies $P(x_0) = 0$.
+\end{definition}
+\begin{definition}{Algebraic number}
+    A real number $x$ is \underline{algebraic} if it is a root of a polynomial that has integer coefficients.
+\end{definition}
+The opposite of an algebraic number is a \underline{transcendental number}. For a long time, it was not known whether transcendental numbers existed. Also note that, at the time these terms were defined, algebra related only to the study of polynomials.
+\begin{lemma}
+    For any polynomial $P(x)$, there exists a real number $K$ such that $|P(x) - P(y)| \leq K|x - y|$ for $0 \leq x, y \leq 1$.
+    \label{lemPolynomialBounds}
+\end{lemma}
+\begin{proof}
+    From equation~\ref{eqnPolynomial}, we get:
+    \begin{align*}
+        |P(x) - P(y)| &= |a_n(a^n - y^n) + a_{n-1}(x^{n-1} - y^{n-1}) + \cdots + a_1(x-y)| \\
+        &= |x - y| |a_n(x^{n-1} + x^{n-2} y + \cdots + y^{n-1}) + a_{n-1} (\cdots) + \cdots + a_1| \\
+        &\leq |x - y| \left[d(|a_n| + |a_{n-1}| + \cdots + |a_1|)\right]
+    \end{align*}
+    So we have a value $K$ independent of $x$ and $y$.
+\end{proof}
+\begin{theorem}{Fundamental Theorem of Algebra}
+    A non-constant polynomial of degree $d$ has at most $d$ real roots.
+    \label{thmFundamentalAlgebra}
+\end{theorem}
+\begin{proof}
+    \induction{$d=1$}{
+        A polynomial of degree 1 is of the form $ax + b$ and has exactly one real root $-\frac{b}{a}$.
+    }
+    {$d \leq k - 1$}{}
+    {$d = k$}{
+        If this polynomial has no roots then we are done.\par
+        If not, we have a root $r$. Then we can factor $P(x) = (x - r)Q(x)$, where $Q(x)$ is a polynomial of degree $k - 1$, so has at most $k - 1$ roots by assumption. Therefore $P(x)$ has at most $k$ roots.
+    }
+\end{proof}
+The first number that was proven to be transcendental was Liouville's constant.
+\begin{theorem}{Existence of transcendental numbers}
+    The number $L = \sum_{n=1}^{\infty} \frac{1}{10^{n!}}$, Liouville's constant, is transcendental.
+\end{theorem}
+\begin{proof}
+    Let the $n$th partial sum of $L$ be $L_n = \sum_{k=1}^{\infty} \frac{1}{10^{k!}}$.\par
+    Note that $0 < L_n \leq L < 1$, and that as $n \rightarrow \infty, L_n \rightarrow L$.\par
+    Now suppose that there exists a polynomial with integer coefficients for which $L$ is a root. By lemma~\ref{lemPolynomialBounds}, we have a real number $K$ such that:
+    \begin{equation*}
+        |P(x) - P(y)| \leq K|x - y|
+    \end{equation*}
+    and note that:
+    \begin{equation*}
+        |L - L_n| = \sum_{k=n+1}^{\infty} \frac{1}{10^{k!}} \leq \frac{2}{10^{(n+1)!}}
+    \end{equation*}
+    due to the very fast convergence of the terms of $L$.\par
+    Suppose also that $P(x)$ has degree $d$. Also, note that $L_n = \frac{s}{10^{n!}}$ for some integer $s$ by putting all terms over a common denominator, and $P(L_n) = \frac{t}{10^{d(n!)}}$ for some integer $t$ by the same method.\par
+    Then we can choose $n$ sufficiently large so that $L_n$ is not a root of $P(x)$, because by theorem~\ref{thmFundamentalAlgebra} there are only finitely many roots.\par
+    We have $|P(L_n) - P(L)| = |P(L_n)| \geq \frac{1}{10^{d(n!)}}$, and therefore:
+    \begin{align*}
+        \frac{1}{10^{d(n!)}} &\leq K|L-L_n| \\
+        &\leq K \times \frac{2}{10^{(n+1)!}} \\
+        \frac{1}{10^d} &\leq 2K \times \frac{1}{10^{n+1}}
+    \end{align*}
+    And as $n \rightarrow \infty$, this inequality does not hold.\contradiction\par
+    $L$ cannot be a root of any polynomial with integer coefficients.
+\end{proof}
+\begin{remarks}
+    \item This is Liouville's constant, and other numbers with the property that $0 < |x - \frac{p}{q}| < \frac{1}{q^n}$ are Liouville numbers, and these are numbers that are very well-approximated by a rational number. The proof above can work for any Liouville number
+    \item The above proof does not work for other constants like $\pi$ and $e$, which are transcendental.
+\end{remarks}
 \end{document}
