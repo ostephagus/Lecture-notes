@@ -61,7 +61,7 @@ We have a vague intuition for the sizes of infinite sets. We understand that $\m
     \label{thmDoubleNaturalCountable}
 \end{theorem}
 Two proofs will be provided.
-\begin{proof}[Proof 1 (diagonal argument)]
+\begin{proof}[diagonal argument]
     Considering the set of pairs of natural numbers, we count them as follows:\par
     \begin{equation*}
         (1, 1), (2, 1), (1, 2), (1, 3), (2, 2), (3, 1), \cdots
@@ -70,13 +70,13 @@ Two proofs will be provided.
     Define the sequence $\left(a_n\right)^\infty_{n=1}$ by $a_1 = (1, 1)$, and $a_n = (p-1, q+1)$ if $p \neq 1$, or $a_n = (q+1, 1)$ if $p = 1$.
     Then this list includes every point $(x, y) \in \N \times \N$.
 \end{proof}
-\begin{proof}[Proof 2 (defining an injection)]
+\begin{proof}[defining an injection]
     Define:
     \begin{align*}
         f : \N \times \N &\mapsto \N \\
         (x, y) &\mapsto 2^x \times 3^y
     \end{align*}
-    Then we have a unique factorisation by \ref{thmFundamentalArith}, so the map $f$ is injective. By theorem~\ref{thmCountStatements}, we must have that $\N \times \N$ is countable.
+    Then we have a unique factorisation by theorem~\ref{thmFundamentalArith}, so the map $f$ is injective. By theorem~\ref{thmCountStatements}, we must have that $\N \times \N$ is countable.
 \end{proof}
 \begin{corollary}
     $\Z \times \Z$ is countable.
@@ -87,7 +87,7 @@ Two proofs will be provided.
     \begin{equation*}
         g(f, f) : \Z \times \Z \mapsto \N \times \N \mapsto \N
     \end{equation*}
-    So by theorem~\ref{thmCountStatements}, $\Z \times \Z$ is countable.
+    is an injection. So by theorem~\ref{thmCountStatements}, $\Z \times \Z$ is countable.
 \end{proof}
 \begin{theorem}
     A countable union of countable sets is itself countable
@@ -96,7 +96,7 @@ Two proofs will be provided.
 \begin{proof}
     Assume that the countable sets are indexed by the natural numbers. So we label the countable sets: $A_1, A_2, \cdots$. We wish to show that the union: 
     \begin{equation*}
-        \bigcup_{n\in\N} A_n
+        \bigcup_{n \in \N} A_n
     \end{equation*}
     is countable.\par
     For each integer $i$, since $A_i$ is countable, we may list its elements $a_1^{(i)}, a_2^{(i)}, \cdots$. Note that this list may or may not terminate.\par
@@ -105,7 +105,7 @@ Two proofs will be provided.
         f: \bigcup_{n\in\N} A_n &\mapsto \N \\
         x &\mapsto 2^i \times 3^j
     \end{align*}
-    Where $x = a_j^{(i)}$. We must define a restriction for $f$ to be well-defined: by the well-ordering principle we choose the least $i$ such that $x \in A_i$.\par
+    Where $x = a_j^{(i)}$. But we must be careful of duplicates: by the well-ordering principle we choose the least $i$ such that $x \in A_i$.\par
     Then we have an injection to the natural numbers, so we must have that this union is countable.
 \end{proof}
 \begin{corollary}
@@ -115,7 +115,7 @@ Two proofs will be provided.
 \begin{proof}
     Let the set of rational numbers be defined:
     \begin{equation*}
-        \Q = \bigcup_{n \in \N} \left\{\frac{m}{n} | m \in \Z\right\}
+        \Q = \bigcup_{n \in \N} \left\{\frac{m}{n}~|~m \in \Z\right\}
     \end{equation*}
     Then this is a countable union (it is indexed by natural numbers) of countable sets (they are indexed by the integers), so $\Q$ is countable.
 \end{proof}
@@ -146,7 +146,7 @@ The first uncountable set we met was $R$.
         &r_3 = n_3 \cdot d_{31} d_{32} d_{33} \cdots \\
         &\vdots
     \end{align*}
-    Now define $r$ by its decimal expansion $0\cdot d_1 d_2 d_3 \cdots$, where:
+    Now define a new real number $r$ by its decimal expansion $0\cdot d_1 d_2 d_3 \cdots$, where:
     \begin{equation*}
         d_n=
         \begin{cases}
@@ -154,10 +154,12 @@ The first uncountable set we met was $R$.
             2 & d_{nn} = 1
         \end{cases}
     \end{equation*}
-    Note that this number has a unique decimal expansion (not all 9), and by construction is not one of the $r_i$ listed above.\contradiction\par
+    Note that this number has a unique decimal expansion (since the digits are neither all 9s nor all 0s), and by construction is not one of the $r_i$ listed above.\contradiction\par
     $\R$ is not countable
 \end{proof}
-\underline{Remark:} The whole number parts $n_i$ were not used, so the same proof actually shows that the interval $(0,1)$ is uncountable.
+\begin{remark}
+    The whole number parts $n_i$ were not used, so the same proof actually shows that the interval $(0,1)$ is uncountable.
+\end{remark}
 \begin{corollary}
     \label{corTranscUncountable}
     There are uncountably many transcendental numbers.
@@ -169,31 +171,34 @@ The first uncountable set we met was $R$.
 \end{proof}
 \begin{theorem}
     The power set $\powerset{\N}$ is uncountable.
+    \label{thmPowerSetNUncountable}
 \end{theorem}
-\begin{proof}[Proof 1 (diagonal argument)]
+Two proofs are provided, by diagonal argument and by injections.
+\begin{proof}[diagonal argument]
     Suppose, on the contrary, that $\powerset{\N}$ is countable.\par
     Then $\powerset{\N} = \{S_1, S_2, \cdots\}$.
     Define $S \subseteq \N$, so $S \in \powerset{\N}$, as:
     \begin{equation*}
-        S = \{n \in \N | n \notin S_n\}
+        S = \subsetselect{n \in \N}{n \notin S_n}
     \end{equation*}
     Then $S \neq S_i~\forall i \in \N$ since the sets always differ on the element $i$.\par
     Thus we have constructed a subset of the natural numbers not in the list.\contradiction\par
     $\powerset{\N}$ cannot be countable.
 \end{proof}
-\begin{proof}[Proof 2 (injections with $\N$)]
+\begin{proof}[injections with $\N$]
     Consider the function $f : (0, 1) \mapsto \powerset{\N}$.\par
-    We consider the binary expansion of $x \in (0, 1)$:
+    We consider the binary expansion (like decimal expansion but in base 2) of $x \in (0, 1)$:
     \begin{equation*}
         0 \cdot x_1 x_2 x_3 \cdots \text{ where } x_i \in \{0, 1\}
     \end{equation*}
     Note that we do not include the expansion with all $1$s.\par
-    Now we define $f(x) = \{n \in \N | x_n = 1\}$. The function $f$ therefore selects natural numbers for the subset $f(x)$ based on whether the corresponding digit in the binary expansion is 1.\par
+    Now we define $f(x) = \subsetselect{n \in \N}{x_n = 1}$. The function $f$ therefore selects natural numbers for the subset $f(x)$ based on whether the corresponding digit in the binary expansion is 1.\par
     This is an injection of $(0, 1) \mapsto \powerset{\N}$, so $\powerset{\N}$ must be uncountable.
 \end{proof}
 A wider statement about power sets is encompassed by the following theorem:
 \begin{theorem}
     For any set $X$, there is no bijection between $X$ and its power set $\powerset{X}$.
+    \label{thmNoPowerSetBijections}
 \end{theorem}
 \begin{proof}
     Consider the function $f : X \mapsto \powerset{X}$.\par
@@ -201,20 +206,19 @@ A wider statement about power sets is encompassed by the following theorem:
     Thus we have a subset of $X$, and so $S \in \powerset{X}$, but that is not in the image of $f$ (since any element of $im(f)$ differs by the element $x$).\par
     Thus $f$ is not surjective, so it is not a bijection. The set $S$ was defined for any map $f$, so there can not exist a bijection of the form $f$.
 \end{proof}
-\underline{Remarks}:
-\begin{enumerate}
+\begin{remarks}
     \item This is reminiscent of Russel's Paradox, but is permissible since we define $S$ as a subset of $X$.
     \item This proof can be used to show that there is no universal set. If we suppose $V$ is the universal set, then $\powerset{V} \in V$, but there is no surjection $V \mapsto \powerset{V}$.
-\end{enumerate}
+\end{remarks}
 \begin{lemma}
     Let $\subsetselect{A_i}{i \in I}$ be a family of open, pairwise-disjoint intervals in $\R$ indexed by the index set $I$. Then $I$ must be countable.
 \end{lemma}
 Two similar proofs are offered:
-\begin{proof}[Proof 1]
+\begin{proof}[Bijections with $\Q$]
     Each interval $A_i$ must contain a rational number by proposition~\ref{propDenseRationals}. Thus, by the well-ordering principle we can choose the least such, and let this represent the $A_i$. Thus we must have a bijection between $I$ and a subgroup of $\Q$, which by corollary~\ref{corCountableSubet} is countable.\par
     Thus we have a bijection from $I$ to a countable set, so $I$ is countable.
 \end{proof}
-\begin{proof}[Proof 2]
+\begin{proof}[Countable union of countable sets]
     The set $\subsetselect{i \in I}{A_i \text{ has length } \geq 1}$ can be indexed by $\Z$, and so must be countable.\par
     The set $\subsetselect{i \in I}{A_i \text{ has length } \geq \frac{1}{2}}$ can be indexed by $\frac{1}{2}\Z$. Continuing this process ad infinitum, we see that $I$ is a countable union of countable sets, and is countable by theorem~\ref{thmCountableUnion}.
 \end{proof}
@@ -232,7 +236,7 @@ And some tools to show uncountability:
 \end{itemize}
 \subsection{Functions and Sizes of Sets}
 We have now the intuition that a bijection between two sets implies they are the same \textit{size}. Similarly, an injection $X \mapsto Y$ implies that the \textit{size} of $X$ is at most as big as $Y$, and a surjection $X \mapsto Y$ implies that the \textit{size} of $X$ is at least as big as $Y$.\par
-For these to make sense, we need that if $X$ is at most as big as $Y$, we can say the converse ($Y$ is at least as big as $Y$).
+For these to make sense, we need that if $X$ is at most as big as $Y$, we can say the converse ($Y$ is at least as big as $X$).
 \begin{lemma}
     Consider two non-empty sets $A$ and $B$.\par
     If there exists an injection $f : A \mapsto B$, then this is equivalent to there existing a surjection $g : B \mapsto A$.
@@ -267,14 +271,14 @@ We also need that if $A$ is at most as big as $B$, and $B$ is at most as big as 
     \end{equation*}
     the \underline{ancestor sequence} of $a \in A$. The sequence will terminate or repeat. We also define the ancestor sequence of $b \in B$.\par
     We can then let:
-    \begin{eqnarray*}
-        A_0 = \subsetselect{a \in A}{\text{ancestor sequence terminates after an even number of terms}} \\
-        A_1 = \subsetselect{a \in A}{\text{ancestor sequence terminates after an odd number of terms}} \\
-        A_\infty = \subsetselect{a \in A}{\text{ancestor sequence does not terminate}}
-    \end{eqnarray*}
+    \begin{align*}
+        A_0 &= \subsetselect{a \in A}{\text{ancestor sequence terminates after an even number of terms}} \\
+        A_1 &= \subsetselect{a \in A}{\text{ancestor sequence terminates after an odd number of terms}} \\
+        A_\infty &= \subsetselect{a \in A}{\text{ancestor sequence does not terminate}}
+    \end{align*}
     And define $B_0, B_1, B_\infty$ similarly. We now have a partition of both sets into 3 subsets.\par
     Note that $f$ gives a bijection $A_0 \mapsto B_1$, since everything in the set $B_1$ has at least one ancestor, and this ancestor must have an even number of ancestors (exactly the set $A_0$). The same argument shows that $g$ then provides a bijection from $B_0 \mapsto A_1$.\par
-    We can use either $f$ or $g$ as the bijection $A_\infty \mapsto B_\infty$\par %TODO: clarify.
+    We can use either $f$ or $g$ as the bijection $A_\infty \mapsto B_\infty$\par
     Then we define the function $h$:
     \begin{align*}
         h : A &\mapsto B \\

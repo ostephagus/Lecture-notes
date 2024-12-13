@@ -31,7 +31,7 @@ If $A$ and $B$ are sets, we define:
     When $A \cap B = \emptyset$, $A$ and $B$ are \underline{disjoint}.
 \end{definition}
 \begin{definition}{Set difference}
-    The \underline{difference}, $A \backslash B$, is the set $\{x \in A | x \notin B\}$.
+    The \underline{difference}, $A \backslash B$, is the set $\subsetselect{x \in A}{x \notin B}$.
 \end{definition}
 Note that union and intersection are commutative and associative. Union and intersection distribute over each other.
 \section{Functions}
@@ -50,31 +50,29 @@ For a function $f : A \mapsto B$ we define the following properties:
     $f$ is \underline{injective} if each output has no more than 1 input. That is, $f(x) = f(y) \implies x = y$.
 \end{definition}
 \begin{definition}{Surjectivity}
-    $f$ is \underline{surjective} if each output has at least 1 input. That is, $\forall b \in B, \exists~A f(a) = b$.
+    $f$ is \underline{surjective} if each output has at least 1 input. That is, $\forall b \in B, \exists~a \text{ such that } f(a) = b$.
 \end{definition}
 \begin{definition}{Bijectivity}
     $f$ is bijective if each output has exactly one input. That is, it is both injective and surjective.
 \end{definition}
 \begin{definition}{Image}
-    The \underline{image} of $f$, $im(f)$, is the set $\{f(a) | a \in A\}$. It is a subset of $B$, representing all the elements of $B$ that are outputs of the function. A surjective function has $im(f) = B$.
+    The \underline{image} of $f$, $im(f)$, is the set $\subsetselect{f(a)}{a \in A}$. It is a subset of $B$, representing all the elements of $B$ that are outputs of the function. A surjective function has $im(f) = B$.
 \end{definition}
 \textbf{Note}: When specifying a function the domain and range must be specified. If not, it is impossible to understand the properties of the function. $f(x) = \frac{1}{x}$ can be well-defined or not a function depending on the specified domain.\par
-\textbf{Remarks}:
-\begin{enumerate}
+\begin{remarks}
     \item f surjective is equivalent to $f(A) = B$. So for finite sets, if $|B|>|A|$, there can be no surjection $A \mapsto B$
     \item For finite sets, if $|A|>|B|$, then there can be no injection $A \mapsto B$
     \item If $f:A \mapsto A$, then f injective is equivalent to f surjective.\label{remInjectivePerm}
     \item There is no bijection from $A$ to any proper subset of $A$, since any proper subset has size less than that of $A$.\label{remNoSubsetBijec}
-\end{enumerate}
+\end{remarks}
 Note that Remarks \ref{remInjectivePerm} and \ref{remNoSubsetBijec} do not hold for infinite sets. The funtion $f : \mathbb{N} \mapsto \mathbb{N}$ where $f(n) = n + 1$ is injective but not surjective (since no natural number maps to the number $1$). Furthermore, the function $g : \mathbb{N} \mapsto \mathbb{N}$ with $g(1) = 1$, $g(n) = n-1$ is surjective but not injective.\par
-Some useful examples of functions:
-\begin{enumerate}
+\begin{examples}{Some useful examples of functions}
     \item For any set $X$, the function $Id_X : X \mapsto X$ where $x \mapsto x$ is the \underline{identity function}
     \item Given a set $X$ and $A \subseteq X$, we have the \underline{indication function} (or characteristic function) of $A$, $\chi_A : X \mapsto \{0, 1\}$ defined by $\chi_A(x) = 1$ if $x \in A$, $\chi_A(x) = 0$ if $x \notin A$.
     \item A sequence of reals $x_1, x_2, \cdots$  is a function $\mathbb{N} \mapsto \mathbb{R}$ with $n \mapsto x_n$.
     \item The operation $+$ on $\mathbb{N}$ is a function $\mathbb{N} \times \mathbb{N} \mapsto \mathbb{N}$, $(a, b) \mapsto a + b$.
-    \item A set $X$ has size $n$ if and only if there exists a bijection $\{1, 2, \cdots, n\} \mapsto X$.
-\end{enumerate}
+    \item A set $X$ has size $n$ if and only if there exists a bijection $X \mapsto \{1, 2, \cdots, n\}$.
+\end{examples}
 \subsection{Function Composition}
 \begin{definition}{Function composition}
 Given two functions $f : A \mapsto B$ and $g : B \mapsto C$, the \underline{composition} is $g \circ f : A \mapsto C$ with $a \mapsto g(f(a))$.
@@ -89,7 +87,7 @@ So composition is clearly not commutative. However, we can show that composition
     For 3 functions $f : A \mapsto B$, $g : B \mapsto C$, $h : C \mapsto D$, $h \circ (g \circ f) = (h \circ g) \circ f$.
 \end{proposition}
 \begin{proof}
-    Consider $x \in A$. Then $h \circ (g \circ f)(x) = h \circ (g(f(x))) = h(g(f(x)))$\par
+    Consider $x \in A$. Then $h \circ (g \circ f)(x) = h \circ g(f(x)) = h(g(f(x)))$\par
     $=(h \circ g)((x)) = (h \circ g) \circ f(x)$.
 \end{proof}
 \subsection{Function Inverses}
@@ -107,23 +105,29 @@ We must be careful about inverses. The lack of commutativity of function composi
     \label{propInjectiveIffLeftInverse}
 \end{proposition}
 \begin{proof}
-    ($\Rightarrow$): Assume there exists a function $g$ such that $g(f(a)) = a~\forall a \in A$.\par
-    Then consider two elements of $A$, $a$ and $\bar{a}$, such that $f(a) = f(\bar{a})$.\par
-    Then applying $g$ to both sides gives, $a = \bar{a}$ by definition of $g$, so $f$ must be injective.\par
-    ($\Leftarrow$): Assume $f$ injective. We prove the existence of $g$ by construction.\par
-    Consider $b \in B$. If $b \in im(f)$, then we let $g(b)$ be the element $a$ such that $f(a) = b$.\par
-    This element is unique by assumption. If $b \notin im(f)$, we map $b$ to any element in $A$.\par
-    Thus $g(f(a)) = a \forall a \in A$.
+    \begin{proofdirection}{$\Rightarrow$}{Assume there exists a function $g$ such that $g(f(a)) = a~\forall a \in A$}
+        Then consider two elements of $A$, $a$ and $\bar{a}$, such that $f(a) = f(\bar{a})$.\par
+        Then applying $g$ to both sides gives $a = \bar{a}$ by definition of $g$, so $f$ must be injective.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume $f$ injective}
+        We prove the existence of $g$ by construction.\par
+        Consider $b \in B$. If $b \in im(f)$, then we let $g(b)$ be the element $a$ such that $f(a) = b$.\par
+        This element is unique by assumption. If $b \notin im(f)$, we map $b$ to any element in $A$.\par
+        Thus $g(f(a)) = a~\forall a \in A$.
+    \end{proofdirection}
 \end{proof}
 \begin{proposition}
     Given a function $f : A \mapsto B$, there exists a function $g$ such that $f \circ g = Id_B$ if and only if $f$ is surjective.
     \label{propSurjectiveIffRightInverse}
 \end{proposition}
 \begin{proof}
-    ($\Rightarrow$): Assume there exists a function $g$ such that $f(g(b)) = b~\forall b \in B$.\par
-    If $f \circ g(b) = b \forall b$, $f(g(b)) = b \forall b$. That is, each $b \in B$ must have a corresponding $g(b) = a \in A$ such that $f(a) = b$. Thus, $f$ must be surjective.\par
-    ($\Leftarrow$): Assume $f$ is surjective. We prove the existence of $g$ by construction.\par
-    For any $b \in B$, we choose an element $a \in A$ such that $f(a) = b$, which is valid by assumption. Thus, we define $g(b) = a$, and this gives $f(g(b)) = b$ as required.
+    \begin{proofdirection}{$\Rightarrow$}{Assume there exists a function $g$ such that $f(g(b)) = b~\forall b \in B$}
+        If $f \circ g(b) = b~\forall b$, $f(g(b)) = b~\forall b$. That is, each $b \in B$ must have a corresponding $g(b) = a \in A$ such that $f(a) = b$. Thus, $f$ must be surjective.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume $f$ is surjective}
+        We prove the existence of $g$ by construction.\par
+        For any $b \in B$, we choose an element $a \in A$ such that $f(a) = b$, which is valid by assumption. Thus, we define $g(b) = a$, and this gives $f(g(b)) = b$ as required.
+    \end{proofdirection}
 \end{proof}
 Combining Propositions \ref{propInjectiveIffLeftInverse} and \ref{propSurjectiveIffRightInverse}, we have that the function $f$ as defined is invertible if and only if $f$ is bijective. We write $f^{-1}$ for this inverse function.
 \section{Relations}
@@ -150,6 +154,7 @@ There are three important properties that a relation might have.
 Considering the examples above:\par
 \begin{tabular}{c|c c c c c}
     Example & 1 & 2 & 3 & 4 & 5 \\
+    \hline
     Reflexive & \tick & \tick & \cross & \cross & \tick \\
     Symmetric & \tick & \cross & \tick & \tick & \tick \\
     Transitive & \tick & \tick & \cross & \tick & \cross 
@@ -169,7 +174,7 @@ So example~\ref{exSameFinalDigit} is an equivalence relation.
 \begin{definition}{Partition}
     Given a set $X$, a \underline{partition} of $X$ is a collection of pairwise disjoint subsets whose union is $X$.
 \end{definition}
-\begin{definition}
+\begin{definition}{Equivalence class}
     If $\sim$ is an equivalence relation, in $X$, then the \underline{equivalence class} of $x \in X$ is denoted by:
     \begin{equation*}
         [x] = \{y \in X | y \sim x\}
@@ -196,9 +201,9 @@ Conversely, if we start with a partition of a set $X$, we can build an equivalen
 It is now easy to see that there is an equivalence relation on $\mathbb{N}$ with one finite equivalence class, and two infinite ones. Simple partition $\mathbb{N}$ into these required subsets and the equivalence relation follows.
 \subsection{Quotients}
 \begin{definition}{Quotient}
-    Given an equivalence relation $R$ and a set $X$, the \underline{quotient of $X$ by $R$} is $X / R = \{[x] : x \in X\}$
+    Given an equivalence relation $R$ and a set $X$, the \underline{quotient of $X$ by $R$} is $X / R = \subsetselect{[x]}{x \in X}$
 \end{definition}
-Returning to example 1, the quotient $X / R$ has size 10 (the equivalence classes for all the different digits.)\par % Figure out example numbering.
+Returning to example~\ref{exSameFinalDigit}, the quotient $X / R$ has size 10 (the equivalence classes for all the different digits.)\par % Figure out example numbering.
 This explains the notation $\mathbb{Z} / 5\mathbb{Z}$ instead of $\mathbb{Z}_5$ for the integers modulo 5.\par
 The map $q : X \mapsto X / R$ is the \underline{quotient map}, with $x \mapsto [x]$. It is also known as the projection map.
 \begin{example}

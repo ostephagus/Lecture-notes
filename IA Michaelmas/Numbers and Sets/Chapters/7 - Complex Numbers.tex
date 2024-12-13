@@ -1,5 +1,29 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-
+Some polynomials have no real roots, such as $x^2 + 1$. Then we want to define such a root: a number $z$ that satisfies $z^2 + 1 = 0$.\par
+\begin{definition}{Complex numbers}
+    We define the set of \underline{complex numbers}, $\C$, to consist of $\R^2$ (the set of ordered pairs of real numbers $a$ and $b$: $(a, b)$).\par
+    Also define addition elementwise:
+    \begin{equation}
+        (a_1, b_1) + (a_2, b_2) = (a_1 + a_2, b_1 + b_2)
+        \label{eqnComplexAdd}
+    \end{equation}
+    And multiplication:
+    \begin{equation}
+        (a_1, b_1) \times (a_2, b_2) = (a_1 a_2 - b_1 b_2, a_1 b_2 + a_2 b_1)
+        \label{eqnComplexTimes}
+    \end{equation}
+\end{definition}
+We can show that $\R \subset \C$ by considering all real numbers $x$ to be $(x, 0)$ in the complex numbers.
+Define the constant $i$:
+\begin{equation}
+    i = (0, 1)
+\end{equation}
+Note that $i^2 = (-1, 0)$, or $-1$ from the real numbers. Therefore, $i$ is a root of the equation $z^2 + 1 = 0$. The other root is $-i: (0, -1)$.\par
+Any complex number can be written as $a + bi$, and in this way the parallel with the real numbers is more sensible.\par
+\begin{remarks}
+    \item $\C$ obeys all the usual rules of arithmetic. It obeys real axioms \ref{realAxiomAddition} to \ref{realAxiomDist}. These are trivial to check except multiplicative inverses: note that for $z = a + bi$, $w = \frac{a - bi}{a^2 + b^2}$ is its inverse.
+    \item Every non-constant polynomial with complex coefficients has exactly $d$ roots (when allowing repeated roots). This is the full version of the Fundamental Theorem of Alegebra.
+\end{remarks}
 \end{document}
