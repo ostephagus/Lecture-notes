@@ -10,7 +10,7 @@
     \end{align*}
     that satisfies:
     \begin{enumerate}
-        \item $ex = x \forall x \in X$;\label{actAxiomIdentity}
+        \item $ex = x~\forall x \in X$;\label{actAxiomIdentity}
         \item $(g_1 g_2)x = g_1(g_2 x) \forall g_1, g_2 \in G, x \in X$.\label{actAxiomAssoc}
     \end{enumerate}
 \end{definition}
@@ -23,4 +23,33 @@ Every group $G$ can act on itself. Let $X = G$, then the \underline{regular acti
     g \gamma = g \cdot \gamma, g \in G, \gamma \in X
 \end{equation*}
 \section{Actions and the Symmetry Group}
+\begin{theorem}
+    An action of a group $G$ on a set $X$ is equivalent to a homomorphism $G \mapsto \Sym(X)$.
+    \label{thmActionEquivHism}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose $G \actson X$}
+        Then define the set of maps:
+        \begin{align*}
+            t_g : X &\mapsto X \\
+            x &\mapsto gx
+        \end{align*}        
+        For any $g \in G$.\par
+        Now we have that $t_{g^{-1}} \circ t_g = Id_X$, since $t_{g^{-1}}(t_g(x)) = g^{-1}g(x) = x$ by axiom~\ref{actAxiomIdentity}.\par
+        $t_g$ is a bijection from $X$ to itself, so $t_g \in \Sym(X)$.
+        Therefore we define the required map:
+        \begin{align*}
+            \phi : G &\mapsto \Sym(x) \\
+            g &\mapsto t_g
+        \end{align*}
+        Note that $t_g \circ t_h = g_{gh}$ for any elements $g, h \in G$ by axiom~\ref{actAxiomAssoc}.\par
+        Therefore, $\phi(g) \phi(h) = t_g t_h = t_{gh} = \phi(gh)$, and $\phi$ is a homomorphism.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Let the homomorphism $\phi$ be defined as above}
+        Then we define the action with $gx = \phi(g)(x)$.        
+        We have $ex = \phi(e)(x) = x$ by identity of $\Sym(X)$.\par
+        We also have $(gh)x = \phi(gh)x = \phi(g) \circ \phi(h) x = g(hx)$, by homomorphism.
+        So this action satisfies the required axioms.
+    \end{proofdirection}
+\end{proof}
 \end{document}
