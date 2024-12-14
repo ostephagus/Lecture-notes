@@ -1,5 +1,107 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-
+\section{Preliminary Lemmas}
+We would like to make sense of the size of subgroups of a group $G$. For this, we will introduce a key theorem. The proof will slice $G$ into pieces, each of which is the size of the subgroup, $H$. A key idea is the \underline{coset}.
+\begin{definition}{Coset}
+    Let $H \leq G, g \in G$. Then the \underline{left coset of $H$ by $g$}, $gH = \subsetselect{gh}{h \in H}$. All elements of $H$, left-multiplied by $g$.\par
+    The \underline{right coset of $H$ by $g$}, $Hg = \subsetselect{hg}{h \in H}$.
+\end{definition}
+Note: cosets are not necessarily distinct! We must therefore be careful when using cosets to define functions.\par
+The set of all left cosets in $G$ is denoted $G / H = \subsetselect{gH}{g \in G}$. The set of right cosets is $H \backslash G$.
+\begin{lemma}
+    Let $H \leq G$. Then the set of left cosets of $H$ partitions $G$. That is,
+    \begin{enumerate}
+        \item $G$ is the union of all left cosets
+        \item Cosets are disjoint
+    \end{enumerate}
+    \label{lemCosetsPartition}
+\end{lemma}
+\begin{proof}
+    Firstly, for any $g \in G, g = g \cdot e \in gH$, so all elements of $G$ are in some coset, and therefore $G$ is the union of all cosets as required.\par
+    Secondly, suppose there exists two cosets $g_1H$ and $g_2 H$, with an element $k$ in the intersection.\par
+    Then $k = g_1 h_1 = g_2 h_2$, for some $h_1, h_2 \in H$.\par
+    \begin{align*}
+        g_1 &= (g_2 h_2) h_1^{-1} \\
+        &= g_2 (h_2 h_1^{-1})
+    \end{align*}
+    Therefore, for any element of $g_1 H, g_1 h$, we have also that $g_1 h = g_2 ((h_2 h_1^{-1}) h)$, which is an element of $g_2 H$.\par
+    That is, $g_1 H \subseteq g_2 H$.\par
+    Using the same logic, it can be shown that $g_2 H \subseteq g_1 H$. So $g_1 H = g_2 H$.\par
+    If two cosets overlap, they are the same coset. Therefore all cosets are disjoint as required.
+\end{proof}
+\begin{lemma}
+    Let $H \leq G$. There exists a bijection $H \mapsto gH~\forall g \in G$.
+    \label{lemCosetsBijection}
+\end{lemma}
+\begin{proof}
+    We have a map:
+    \begin{align*}
+        H &\mapsto gH \\
+        h &\mapsto gh
+    \end{align*}
+    And we can show it has a well-defined inverse:
+    \begin{align*}
+        gH &\mapsto H \\
+        gh &\mapsto (g^{-1} g)H = H
+    \end{align*}
+    since inverses are unique.
+\end{proof}
+\begin{corollary}
+    The size of any coset is the same. That is, $|H| = |gH|~\forall g \in G$.
+    \label{corCosetsSameSize}
+\end{corollary}
+We can also define:
+\begin{definition}{Index of a subgroup}
+    The \underline{index} of a subgroup $H$ in a group $G$ is $|G : H| = |G / H|$. Also written $\left[G : H\right]$.
+\end{definition}
+\section{Lagrange's Theorem and Corollaries}
+We now have the necessary groundwork for:
+\begin{theorem}[Lagrange's Theorem]
+    If $G$ is finite, and there is a subgroup $H \leq G$, then $|G| = |G : H| |H|$.
+    \label{thmLagrange}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        |G| &= \sum_{gH \in G / H} |gH| \text{ by lemma~\ref{lemCosetsPartition}} \\
+        &= \sum_{gH \in G / H} |H| \text{ by corollary~\ref{corCosetsSameSize}} \\
+        &= |G : H| |H| \text{ by definition of } |G : H|.
+    \end{align*}
+\end{proof}
+The theorem itself is useful, but gives rise to many useful corollaries:
+\begin{corollary}
+    If $G$ is finite and contains an element $g$, then the order of $g$ divides the order of $G$.
+    \label{corElementOrderDividesGrpOrder}
+\end{corollary}
+\begin{proof}
+    Let the subgroup $H$ be $\langle g \rangle$. Then result follows.
+\end{proof}
+\begin{corollary}
+    If $G$ is finite and contains an element $G$, then $g^{|G|} = e$.
+    \label{corGroupOrderExponent}
+\end{corollary}
+\begin{proof}
+    Follows directly from corollary~\ref{corElementOrderDividesGrpOrder}.
+\end{proof}
+\begin{corollary}
+    If $|G|$ is prime, then $G$ is cyclic. Also, any element in $G$ except $e$ generates this group.
+    \label{corPrimeGroupCyclic}
+\end{corollary}
+\begin{proof}
+    Choose any $g \in G$. By corollary~\ref{corElementOrderDividesGrpOrder}, its order is $|G|$ or 1. If it is 1, then $g = e$. If not, then $\langle g \rangle$ has the same size as $G$, and since it is a subgroup we must have $\langle g \rangle = G$. That is, $G$ is cyclic.
+\end{proof}
+\nonexaminablesection{An Application to Number Theory}
+Recall that $\varphi(n)$ is the number of elements in $\subsetselect{x \in \Z_n}{\hcf{(x, n)} = 1}$\par
+Also recall that $x \in \Z_n$ has a multiplicative inverse mod $n$ if it is coprime with $n$. Therefore, we can define a group from this resticted domain:
+\begin{equation*}
+    \Z_n^{\times} = \subsetselect{x \in \Z_n}{\hcf{(x, n)} = 1}
+\end{equation*}
+And it has group operation $\times_n$, multiplication mod $n$.
+We can then provide a different proof of the Euler-Fermat Theorem:
+\begin{theorem}[Euler-Fermat Theorem]
+    Let $x, n \in \Z$. If $\hcf{(x, n)} = 1, x^{\varphi(n)} \equiv 1~(\text{mod }n)$.
+\end{theorem}
+\begin{proof}
+    Note that $|\Z_n^{\times}| = \varphi(n)$. Therefore, by corollary~\ref{corGroupOrderExponent}, $x^{\varphi(n)} \equiv 1$.
+\end{proof}
 \end{document}
