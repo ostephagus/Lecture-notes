@@ -52,4 +52,242 @@ Every group $G$ can act on itself. Let $X = G$, then the \underline{regular acti
         So this action satisfies the required axioms.
     \end{proofdirection}
 \end{proof}
+\begin{theorem}[Cayley's Theorem]
+    Every group $G$ is isomorphic to a subgroup of some $\Sym(X)$.
+    \label{thmCayley}
+\end{theorem}
+\begin{proof}
+    Let $X = G$. Then use the regular action: $G \actson G$, which is equivalent to the homomorphism $\phi : G \mapsto \Sym(G)$.\par
+    Then let $H = \im(\phi)$ for surjectivity, with $H$ the required subgroup of $\Sym(X)$.\par
+    Now consider $\ker(\phi)$. If $g \in \ker(\phi), \phi(g) = Id_g$. That is, $g \gamma = \gamma~\forall \gamma \in G$.\par
+    By uniqueness of the identity, this means $g = e$. And by proposition~\ref{propInjectivityTrivialKer}, this means $\phi$ is injective.
+\end{proof}
+\section{Orbits and Stabilisers}
+Let $G \actson X$ and $x \in X$.
+\begin{definition}{Orbit}
+    The \underline{orbit} of an element $x$ is the set:
+    \begin{equation}
+        Gx = \subsetselect{y \in X}{\exists g \in G \text{ such that } y = gx}
+    \end{equation}
+    It is all the places that $x$ is sent under $G$.
+\end{definition}
+\begin{definition}{Stabiliser}
+    The \underline{stabiliser} of $x$ is the set:
+    \begin{equation}
+        \Stab_G(x) = \subsetselect{g \in G}{gx = x}
+    \end{equation}
+    It is all the elements of $G$ that leave $x$ unchanged.
+\end{definition}
+\begin{definition}{Transitivity}
+    If $Gx = X$, that is, an element $x$ is mapped to all elements in the set $X$ under $G$, then the action is \underline{transitive}.
+\end{definition}
+\begin{definition}{Faithfulness}
+    If every $g \in G$ has an $x \in X$ such that $gx \neq x$, except the element $e$, then the action is \underline{faithful}.\par
+    The action is also \underline{faithful} if the implication $gx = x~\forall x \in X \implies g = e$ holds.\par
+    The action is also \underline{faithful} if the homomorphism $G \mapsto \Sym(X)$ defined by the action is injective.
+\end{definition}
+Note that $\Stab_G(x)$ is sometimes written $G_x$, and $Gx$ is sometimes written $\text{Orb}_G(x)$.\par
+We would like to understand how the orbit and the stabliser exist within the group $G$ and the set $X$.
+\begin{propositions}{
+        Let $G \actson X$.
+    }
+    \item $\Stab_G(x) \leq G~\forall x \in X$ \label{propStabIsSubgroup}
+    \item The set of orbits $\subsetselect{Gx}{x \in X}$ partitions $X$. \label{propOrbitsPartition}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item We check the definition of a subgroup:
+            We clearly have the identity, since $e$ is always in $\Stab_G(x)$ by axiom~\ref{actAxiomIdentity}.\par
+            Associativity: if $g, h \in \Stab_G(x)$,
+            \begin{align*}
+                (g \cdot h)x &= g(hx) \text{ by axiom~\ref{actAxiomAssoc}} \\
+                &= gx = x \text{ by definition of stabilisers}
+            \end{align*}
+            So $g \cdot h \in \Stab_G(x)$.\par
+            Inverse: if $g \in \Stab_G(x)$,
+            \begin{align*}
+                g^{-1} x &= g^{-1} (gx) \\
+                &= (g^{-1} \cdot g) x \\
+                &= ex = x
+            \end{align*}
+            So $g^{-1} \in \Stab_G(x)$.\par
+            Therefore $\Stab_G(x) \leq G$.
+        \item Consider the 2 conditions for a partition.
+            First, $x = ex \in Gx$, so orbits contain all $x \in X$.\par
+            Then consider an element $y$ in the intersection of two orbits $Gx_1$ and $Gx_2$.\par
+            Let $g_1 x_1 = g_2 x_2$. Then $x_1 = (g_1^{-1} g_2) x_2$. Therefore any $g x_1 = (g g_1^{-1} g_2) x_2 \in Gx_2$.\par
+            $Gx_1 \subseteq Gx_2$. By the same logic, $G x_2 \subseteq G x_1$.\par
+            So $G x_1 = G x_2$.
+    \end{enumerate}
+\end{proof}
+We can also prove a key theorem allowing us to enumerate groups by considering actions.
+\begin{theorem}[Orbit-Stabiliser theorem]
+    Suppose $G \actson X$ and $x \in X$. The assignment:
+    \begin{equation*}
+        g \Stab_G(x) \mapsto gx
+    \end{equation*}
+    Gives a well-defined bijection:
+    \begin{equation*}
+        G / Stab_G(x) \mapsto Gx
+    \end{equation*}
+    \label{thmOrbitStab}
+\end{theorem}
+To clear up notation, in words this is: \textit{the set of cosets, $g$ times elements of the stabiliser of $x$ for all $g$, maps to the orbit of $x$ under $G$. This is via the map: $g$ times the stabiliser of $x$ maps to the element that $x$ maps to under $g$ in the action.}
+\begin{proof}
+    Let $S = \Stab_G(x)$. Let $\Phi$ be the map $\Phi(gS) = gx$.
+    First, we need to show $\Phi$ is well-defined. That is, if $g_1 S = g_2 S$ then $g_1 x = g_2 x$.\par
+    We have $g_1 \in g_1 S$, so choose an element $s \in S$ such that $g_1 = g_2 s$.
+    \begin{align*}
+        g_1 x &= (g_2 s) x \\
+        &= g_2 (sx) \\
+        &= g_2 x \text{ since } s \text{ is a stabiliser.}
+    \end{align*}
+    which is as required: $\Phi$ is a well-defined map.\par
+    Now for any $gx \in Gx$, choose the corresponding coset $gS$, then every output has an input and so $\Phi$ is surjective.\par
+    For injectivity, suppose that $\Phi(g_1 S) = \Phi(g_2 S)$. That is, $g_1 x = g_2 x$. Let $s = g_2^{-1} g_1$.
+    \begin{align*}
+        s x &= (g_2^{-1} g_1) x \\
+        &= g_2^{-1} (g_1 x) \\
+        &= g_2^{-1} (g_2 x) \text{ by assumption} \\
+        &= (g_2^{-1} g_2) x \\
+        &= x
+    \end{align*}
+    So $s \in S$. Therefore $g_1 = (g_2 g_2^{-1}) g_1 = g_2 (g_2^{-1} g_1) = g_2 s$.\par
+    So $g_1 \in g_2 S$, which means that $g_1 S = g_2 S$ by lemma~\ref{lemCosetsPartition}, and $\Phi$ is injective.
+\end{proof}
+Now we have a bijection, we can say useful things about the sizes of these sets:
+\begin{corollary}
+    Suppose $G$ is finite. If $G \actson X$ and $x \in X$, then $|G| = |Gx| \times |\Stab_G(x)| \forall x$.
+    \label{corOrbitStabSizes}
+\end{corollary}
+\begin{proof}
+    Theorem~\ref{thmOrbitStab} gives 
+    \begin{equation*}
+        |G : \Stab_G(x)| = |Gx|
+    \end{equation*}
+    Then theorem~\ref{thmLagrange} gives
+    \begin{equation*}
+        |G : \Stab_G(x)| = \frac{|G|}{\Stab_G(x)}
+    \end{equation*}
+    So equating and multiplying up gives:
+    \begin{equation}
+        |G| = |Gx| \times |\Stab_G(x)|
+        \label{eqnOrbitStab}
+    \end{equation}
+\end{proof}
+\section{Counting With Actions}
+\begin{example}
+    We consider the symmetry group of a cube. Let $x$ be a point at the middle of a face. Then the size of the orbit must be 6, since there are 6 faces. Then the stabilisers of $x$ are the transformations that fix the face. This is isomorphic to $D_8$, the symmetry group of a square. Therefore the size of $\Stab_G(x)$ is 8. Then we can simply calculate $|G| = 6 \times 8 = 48$.
+\end{example}
+\begin{theorem}[Cauchy's Theorem]
+    If $G$ is a finite group, and $p$ is a prime that divides $|G|$, then there is an element in $G$ with order $p$.
+    \label{thmCauchy}
+\end{theorem}
+\begin{proof}
+    Consider the set $X$ consisting of $p$-tuples whose product is the identity:
+    \begin{equation}
+        \subsetselect{(g_1, g_2, \cdots, g_p)}{g_i \in G, g_1 g_2 \cdots g_p = e}
+    \end{equation}
+    and define an action of $C_p$ on $X$:\par
+    Let $t$ generate $C_p$. Then let the action be defined by:
+    \begin{equation*}
+        t^k(g_1, g_2, \cdots, g_p) = (g_{k+1}, g_{k+2}, \cdots, g_p, g_1, g_2, \cdots, g_k)
+    \end{equation*}
+    That is, $t^k$ performs a rotate-right by $k$.\par
+    Consider the axioms of an action:\par
+    Identity: $t^0 = e$, which shifts by 0 \tick\par
+    Associativity: $t^k \cdot t^l = t^{k + l}$, both of which rotate right by $k + l$.\tick\par
+    But we also need to ensure that the action respects the condition of $X$ that the product of each $p$-tuple is $e$:\par
+    Let $a = g_1, \cdots g_k$ and $b = g_{k + 1}, \cdots, g_p$. Now we have $a \cdot b = e$, and by proposition~\ref{propFundamentals}, $b \cdot a = e$ \tick\par
+    So this is indeed an action.\par
+    Next we consider the size of $X$. Each element can be chosen from $G$ different elements, except the last since this element is fully determined due to the product condition. Therefore,
+    \begin{equation}
+        |X| = |G|^{p-1}
+    \end{equation}
+    Note that $C_p$ partitions $X$ into orbits:
+    \begin{equation*}
+        |X| = \sum_{i=1}^{k} |C_p x_i|
+    \end{equation*}
+    assuming there are $k$ different orbits.\par
+    Also, by theorem~\ref{thmOrbitStab}, $|C_p| = |C_p x_i| \times |\Stab_{C_p}(x_i)|$. However, $|C_p|$ is $p$, so $|C_p x_i|$ is $p$ or 1.\par
+    Let $l$ be the number of size-1 orbits. Re-label the $x_i$ such that:
+    \begin{equation*}
+        |C_p x_i| =
+        \begin{cases}
+            1 & 1 \leq i \leq l \\
+            p & l < i \leq k
+        \end{cases}
+    \end{equation*}
+    So now the size of $X$ is:
+    \begin{align*}
+        |X| &= \sum_{i=1}^{k} |C_p x_i| \\
+        &= \sum_{i=1}^{l} |C_p x_i| + \sum_{i=l+1}^{k} |C_p x_i| \\
+        &= l + p(k-l)
+    \end{align*}
+    And by the original assumption $p | |G|$, which means $p | |G|^{p-1} = |X|$.\par
+    Therefore $p | l + p(k-l)$, and thus $p | l$.\par
+    $l$ could be 0, but if not $l geq 2$.\par
+    A size-1 orbit means $x$ is unaffected by shifts, which in this case implies that all the elements of the $p$-tuple are equal. Note that there are $l$ of these. We have the case $x = (e, e, \cdots, e)$, so there must be at least one such $x$, and by conditions on $l$ that means that $l \geq 2$.\par
+    Therefore, there is at least one more $x$ with all elements equal. For the product condition to hold, this element $g$ must have $g^p = e$.\par
+    So there is at least one non-identity element $g$ with $g^p = e$.
+\end{proof}
+\section{Conjugation}
+\begin{definition}{Conjugation}
+    Let $G$ be a group, $g \in G$. For some $g' \in G, g' \neq g$, $g'$ is a \underline{conjugate} of $g$ if there is some element $h$ such that $h \cdot g \cdot h^{-1} = g'$. Then $g'$ is the \underline{conjugate of $g$ by $h$}.
+\end{definition}
+\begin{example}
+    If $G$ is abelian, $h \cdot g \cdot h^{-1} = h \cdot h^{-1} \cdot g = g$, so elements are only conjugate with themselves.
+\end{example}
+However, conjugation provides a good way to study non-abelian groups. We shall see that conjugates of an element are those that behave in a similar way. This might correspond to some notion of \textit{shape} or \textit{type}.\par
+The \underline{conjugation action} is a very important action for non-abelian groups. It is defined thus:
+\begin{proposition}
+    $G$ acts on itself via conjugation. That is:
+    \begin{align}
+        G &\mapsto G \\
+        (h, g) &\mapsto h g h^{-1} \nonumber
+    \end{align}
+\end{proposition}
+\begin{proof}
+    Identity: $h = e$ gives $e \cdot g \cdot e = g$ \tick\par
+    Associativity: $h = h_1 h_2$ gives:
+    \begin{align*}
+        (h_1 h_2) g (h_1 h_2)^{-1} &= h_1 h_2 g h_2^{-1} h_1^{-1} \\
+        &= h_1 (h_2 g h_2^{-1}) h_1^{-1}
+    \end{align*}
+    Which is the result of $h_2$ then $h_1$, as required.
+\end{proof}
+\begin{definition}{Conjugacy classes}
+    The \underline{conjugacy class} of an element $g$ is the set:
+    \begin{equation*}
+        \ccl_G(g) = \subsetselect{hgh^{-1}}{h \in G}
+    \end{equation*}
+    They are the orbits of the conjugation action.
+\end{definition}
+\begin{definition}{Centraliser}
+    The \underline{centraliser} of an element $g$ is the set:
+    \begin{equation*}
+        C_G(g) = \subsetselect{h \in G}{g = hgh^{-1}}
+    \end{equation*}
+    They are the stabilisers of the conjugation action, and represent all the elements that commute with $g$.
+\end{definition}
+\begin{definition}{Centre}
+    The \underline{centre} of a group $G$ is the union of centralisers:
+    \begin{equation*}
+        Z_G = \subsetselect{h \in G}{g = hgh^{-1}~\forall g \in G}
+    \end{equation*}
+    It is the set of elements that commute with everything in the group.
+\end{definition}
+\begin{example}
+    Consider the group $S_3$. It is the permutations of a set of 3 elements.
+    \begin{equation*}
+        S_3 = \{e, t_1, t_2, t_3, c, c^{-1}\}
+    \end{equation*}
+    Where $t_i$ is the transposition that keeps element $i$ the same and swaps the other two. $c$ is the cycle that moves each element right.\par
+    This group has 3 conjugacy classes:
+    \begin{enumerate}
+        \item The identity, conjugate with only itself
+        \item The transpositions (3 of them)
+        \item The cycles (2 of them)
+    \end{enumerate}
+\end{example}
 \end{document}

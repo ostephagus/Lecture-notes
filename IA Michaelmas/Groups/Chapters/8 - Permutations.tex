@@ -6,8 +6,8 @@
 Theorem \ref{thmConjugacySn} makes it easy to understand conjugacy classes in $S_n$.
 \begin{example}
 Consider the group $S_3$.\par
-We consider now $ccl_{S_3}((1~~2))$. Using Theorem \ref{thmConjugacySn}, the conjugacy class is all transpositions. These are exactly the pairs of elements where order of elements in the pair does not matter, so its size is therefore $\begin{pmatrix}3 \\ 2\end{pmatrix} = 3$.\par
-The conjugacy class of the $3$-cycle, $ccl_{S_3}((1~~2~~3))$, is all the $3$-cycles. We can count these by assuming the first number is $1$, then there are $2$ choices for the second number, and the third number is determined. So in $S_3$, $ccl_{S_3}((1~~2~~3))$ has size $2$.\par
+We consider now $\ccl_{S_3}((1~~2))$. Using Theorem \ref{thmConjugacySn}, the conjugacy class is all transpositions. These are exactly the pairs of elements where order of elements in the pair does not matter, so its size is therefore $\begin{pmatrix}3 \\ 2\end{pmatrix} = 3$.\par
+The conjugacy class of the $3$-cycle, $\ccl_{S_3}((1~~2~~3))$, is all the $3$-cycles. We can count these by assuming the first number is $1$, then there are $2$ choices for the second number, and the third number is determined. So in $S_3$, $\ccl_{S_3}((1~~2~~3))$ has size $2$.\par
 \end{example}
 \begin{example}
     Consider now $S_4$.
@@ -15,7 +15,7 @@ The conjugacy class of the $3$-cycle, $ccl_{S_3}((1~~2~~3))$, is all the $3$-cyc
 \end{example}
 Recall that the centraliser of a group is the stabiliser of an element under the conjugation action. That is, the set of elements that commute with an element. Written $C_{S_n}(\gamma)$. Also, applying \ref{thmOrbitStab}:
 \begin{equation}
-|C_{S_n}(\gamma)| = \frac{|S_n|}{|ccl_{S_n}(\gamma)}
+|C_{S_n}(\gamma)| = \frac{|S_n|}{|\ccl_{S_n}(\gamma)}
 \label{eqnCentraliserSize}
 \end{equation}
 \begin{example}
@@ -25,7 +25,7 @@ The elements are then $\{e, (1~~2), (3~~4), (1~~2)(3~~4),$\newline$(1~~3)(2~~4),
 \begin{example}
     Now we know enough to list all the conjugacy classes of $S_4$.\par
     \begin{tabular}{c|c|c}
-        Element & $|ccl_{S_4}(\gamma)|$ & $|C_{S_4}(\gamma)|$ \\
+        Element & $|\ccl_{S_4}(\gamma)|$ & $|C_{S_4}(\gamma)|$ \\
         e & 1 & 24 \\
         \hline
         $(1~~2)$ & 6 & 4 \\
@@ -48,10 +48,10 @@ Left as an exercise.
 \begin{lemma}[Conjugacy classes in $A_n$]
     Let $\gamma \in A_n \leq S_n$.
     \begin{enumerate}
-        \item If some odd element of $S_n$ commutes with $\gamma$, then the conjugacy class of $A_n$ of $\gamma$ is equal to the conjugacy class in $S_n$. $ccl_{A_n}(\gamma) = ccl_{S_n}(\gamma)$
-        \item If every element of $S_n$ that commutes with $\gamma$ is even, then $ccl_{S_n}(\gamma)$ splits into two:
+        \item If some odd element of $S_n$ commutes with $\gamma$, then the conjugacy class of $A_n$ of $\gamma$ is equal to the conjugacy class in $S_n$. $\ccl_{A_n}(\gamma) = \ccl_{S_n}(\gamma)$
+        \item If every element of $S_n$ that commutes with $\gamma$ is even, then $\ccl_{S_n}(\gamma)$ splits into two:
         \begin{equation*}
-            ccl_{S_n}(\gamma) = ccl_{A_n}(\gamma) \cup ccl_{A_n}(\tau\gamma\tau) 
+            \ccl_{S_n}(\gamma) = \ccl_{A_n}(\gamma) \cup \ccl_{A_n}(\tau\gamma\tau) 
         \end{equation*}
         where $\tau$ is any transposition.
     \end{enumerate}
@@ -61,35 +61,35 @@ Note that in condition 1 we have an element inside $C_{S_n}(\gamma)$ but not ins
 \begin{proof}
     From \ref{thmOrbitStab}, 
     \begin{align*}
-        |S_n| = |ccl_{S_n}(\gamma)||C_{S_n}(\gamma)| \\
-        |A_n| = |ccl_{A_n}(\gamma)||C_{A_n}(\gamma)| \\
+        |S_n| = |\ccl_{S_n}(\gamma)||C_{S_n}(\gamma)| \\
+        |A_n| = |\ccl_{A_n}(\gamma)||C_{A_n}(\gamma)| \\
     \end{align*}
     Since $|S_n| = 2|A_n|$,
     \begin{equation}
-        |ccl_{S_n}(\gamma)| = 2|ccl_{A_n}(\gamma)|\frac{|C_{A_n}(\gamma)|}{|C_{S_n}(\gamma)|}
+        |\ccl_{S_n}(\gamma)| = 2|\ccl_{A_n}(\gamma)|\frac{|C_{A_n}(\gamma)|}{|C_{S_n}(\gamma)|}
         \label{eqnSizeCcl1}
     \end{equation}
     Then by Proposition~\ref{propSubgroupIndices}, $|C_{S_n}(\gamma) : C_{A_n}(\gamma)| \leq 2$. This means, therefore, that $C_{S_n}(\gamma)$ is either equal to $C_{A_n}(\gamma)$, or is partitioned into two by it. That is, $|C_{S_n}(\gamma) : C_{A_n}(\gamma)| = 1$ or $2$. Using Lagrange's Theorem on Equation~\ref{eqnSizeCcl1}, we get:
     \begin{equation}
-        |ccl_{S_n}(\gamma)| = \frac{2|ccl_{A_n}(\gamma)|}{|C_{S_n}(\gamma) : C_{A_n}(\gamma)|}
+        |\ccl_{S_n}(\gamma)| = \frac{2|\ccl_{A_n}(\gamma)|}{|C_{S_n}(\gamma) : C_{A_n}(\gamma)|}
         \label{eqnSizeCcl2}
     \end{equation}
     And the denominator is either 1 or 2.We can therefore consider the cases:\par
     \begin{case}{Denominator is $2$}
         Here there is an odd element of $C_{S_n}(\gamma)$, $C_{A_n}(\gamma) \neq C_{S_n}(\gamma)$.\par
-        Therefore, $|ccl_{S_n}(\gamma)| = |ccl_{A_n}(\gamma)|$, and since $C_{S_n}(\gamma)$ must be contained within $C_{A_n}(\gamma)$, the two must be equal as required.\par
+        Therefore, $|\ccl_{S_n}(\gamma)| = |\ccl_{A_n}(\gamma)|$, and since $C_{S_n}(\gamma)$ must be contained within $C_{A_n}(\gamma)$, the two must be equal as required.\par
     \end{case}
     \begin{case}{Denominator is $1$}
         In this case, the centralisers are equal, so \ref{eqnSizeCcl2} becomes:
         \begin{equation*}
-            |ccl_{S_n}(\gamma)| = 2|ccl_{A_n}(\gamma)|
+            |\ccl_{S_n}(\gamma)| = 2|\ccl_{A_n}(\gamma)|
         \end{equation*}
         So the conjugacy class of $\gamma$ in $A_n$ is only half the size.\par
         Now consider a transposition $\tau \in S_n$. This is an odd permutation, so $\tau \notin S_n$.\par
-        Note that $\tau\gamma\tau^{-1} \in ccl_{S_n}(\gamma)$ by definition.\par
-        We then see what happens if $\tau\gamma\tau^{-1} \in ccl_{A_n}(\gamma)$.\par
+        Note that $\tau\gamma\tau^{-1} \in \ccl_{S_n}(\gamma)$ by definition.\par
+        We then see what happens if $\tau\gamma\tau^{-1} \in \ccl_{A_n}(\gamma)$.\par
         Then $\tau\gamma\tau^{-1} = \alpha\gamma\alpha^{-1}$ for some $\alpha \in A_n$, which is even. But rearranging this gives $(\tau\alpha)\gamma(\tau\alpha)^{-1} = \gamma$, so the odd element $\tau\alpha \in C_{S_n}(\gamma)$. This contradicts the assumption of case 2.\par
-        Hence, $\tau\gamma\tau^{-1} \notin ccl_{A_n}(\gamma)$, so $ccl_{S_n}(\gamma) = ccl_{A_n}(\gamma) \cup ccl_{A_n}(\tau\gamma\tau^{-1})$ as required.
+        Hence, $\tau\gamma\tau^{-1} \notin \ccl_{A_n}(\gamma)$, so $\ccl_{S_n}(\gamma) = \ccl_{A_n}(\gamma) \cup \ccl_{A_n}(\tau\gamma\tau^{-1})$ as required.
     \end{case}
 \end{proof}
 This lemma makes it possible to determine the conjugacy classes in $A_n$.
@@ -100,7 +100,7 @@ This lemma makes it possible to determine the conjugacy classes in $A_n$.
     For $3$-cycles, the elements that commute with it are the identity, itself, and itself squared. These are all even elements, so we are in case 2 of Lemma~\ref{lemConjugacyAn}, and our conjugacy class splits.
     We can now classify all the conjugacy classes in $A_4$:\par
     \begin{tabular}{c|c}
-        Element & $|ccl_{A_n}(\gamma)$ \\
+        Element & $|\ccl_{A_n}(\gamma)$ \\
         $e$ & $1$ \\
         $(1~~2)(3~~4)$ & $3$ \\
         $(1~~2~~3)$ & $4$ \\
@@ -110,7 +110,7 @@ This lemma makes it possible to determine the conjugacy classes in $A_n$.
 \begin{example}
     Consider the group $A_5$ and $S_5$.\par
     \begin{tabular}{c|c|c}
-        Element $\gamma$ & $|ccl_{S_5}(\gamma)$ & $|C_{S_5}(\gamma)|$ \\
+        Element $\gamma$ & $|\ccl_{S_5}(\gamma)$ & $|C_{S_5}(\gamma)|$ \\
         \hline
         $e$ & $1$ & $120$ \\
         $(1~~2)$ & $\begin{pmatrix}5 \\ 2\end{pmatrix} = 10$ & $12$ \\
@@ -128,7 +128,7 @@ This lemma makes it possible to determine the conjugacy classes in $A_n$.
     \end{itemize}
     We now have enough information to categorise the conjugacy classes of $A_n$.\par
     \begin{tabular}{c|c}
-        Element $\gamma$ & $|ccl_{A_n}(\gamma)$ \\
+        Element $\gamma$ & $|\ccl_{A_n}(\gamma)$ \\
         \hline
         $e$ & $1$ \\
         $(1~~2~~3)$ & $20$ \\
