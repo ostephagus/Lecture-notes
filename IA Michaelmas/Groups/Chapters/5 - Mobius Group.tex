@@ -1,5 +1,215 @@
 \documentclass[../Main.tex]{subfiles}
-
 \begin{document}
 
+\section{Understanding the \texorpdfstring{M\"obius}{Mobius} Group}
+The M\"obius group is a very interesting group. It is almost a group of bijections of the complex plane, but it also includes the single point at infinity.
+\begin{definition}{Extended Complex Plane}
+    The complex plane, $\C$, can be extended to include the single point at infinity. This is represented by $\CInf$ = $\C \cup \{\infty\}$.
+\end{definition}
+\subsection{Riemann Sphere}
+The Riemann Sphere (first seen in IA Vectors and Matrices) returns here as a useful method of describing points in the complex plane. It is a stereographic projection of a unit circle onto $\C$. It can also describe $\infty$ as the point at the top of the sphere. The Riemann Sphere will be very useful when understanding how circles and lines relate in $\CInf$.
+% TODO: draw a diagram of the Riemann sphere
+\subsection{Definition of the \texorpdfstring{M\"obius}{Mobius} group}
+\begin{definition}{M\"obius transform}
+    Let $a, b, c, d$ be complex numbers with $ad - bc \neq 0$. Then the \underline{M\"obius transform} $\mu(z)$ is defined, for $c \neq 0$, by:
+    \begin{equation*}
+        z \mapsto
+        \begin{cases}
+            \frac{a}{c} & z = \infty \\
+            \infty & z = -\frac{c}{d} \\
+            \frac{az + b}{cz + d} & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    and if $c = 0$, by:
+    \begin{equation*}
+        z \mapsto
+        \begin{cases}
+            \infty & z = \infty \\
+            \frac{az + b}{d} & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    Note that in general, $\mu(z) = \frac{az + b}{cz + d}$, with some extra complication to do with the single point at infinity.
+\end{definition}
+Then we consider the set $\mobgrp$ which is the set of all such M\"obius transformations.\par
+What happens when we compose two M\"obius transformations?\par
+Consider $\mu_1(z) = \frac{a_1z + b_1}{c_1z + d_1}$ and $\mu_2(z) = \frac{a_2z + b_2}{c_2z + d_2}$. Then the composition is:
+\begin{align*}
+    \mu_1 \mu_2(z) &= \frac{a_1 \frac{a_2 z + b_2}{c_2 z + d_2} + b_1}{c_1 \frac{a_2 z + b_2}{c_2 z + d_2} + d_1} \\
+    &= \frac{a_1 a_2 z + a_1 b_2 + b_1 c_2 z + b_1 d_2}{c_1 a_2 z + c_1 d_2 + d_1 c_2 z + d_1 d_2} \\
+    &= \frac{(a_1 a_2 + b_1 c_2)z + (a_1 b_2 + b_1 d_2)}{(c_1 a_2 + d_1 c_2)z + (c_1 b_2 + d_1 d_2)}
+\end{align*}
+Which is remarkably similar to $2 \times 2$ matrix multiplication.
+\begin{theorem}
+    The M\"obius group, $\mobgrp$, is a group under composition.
+    \label{thmMobiusGrp}
+\end{theorem}
+\begin{proof}
+    We consider the axioms of a group. By the above computation, we see that $\mobgrp$ is closed under composition, and that such composition is associative.\par
+    The identity element is $Id_{\CInf} = \frac{1 z + 0}{0z + 1}$.\par
+    And the inverse of the generic element is $\nu(z) = \frac{dz - b}{-cz + a}$,
+    \begin{align*}
+        \nu \mu(z) &= \frac{(ad-bc)z + (-ab + ba)}{(cd - cd)z + (ad - bc)} \\
+        &= \frac{ad - bc}{ad - bc} z \\
+        &= z \text{ since } ad - bc \neq 0
+    \end{align*}
+\end{proof}
+\section{Fixed points of \texorpdfstring{M\"obius}{Mobius} transformations}
+\begin{definition}{Fixed point}
+    Suppose $f : X \mapsto X$ is a transformation of a set $X$. Then any $x \in X$ with $f(x) = x$ is a \underline{fixed point} of $f$.
+\end{definition}
+\begin{lemma}[3-point Lemma for $\mobgrp$]
+    If $\mu \in \mobgrp$ has 3 distinct fixed points in $\CInf$, then $\mu = Id$.
+    \label{lemMobius3Point}
+\end{lemma}
+\begin{proof}
+    Let $\mu(z) = \frac{az + b}{cz + d}$. Let $w_1, w_2, w_3$ be fixed points, so for $i \in \{1, 2, 3\}, \frac{a w_i + b}{c w_i + d} = w_i$.
+    \begin{case}{One of the $w_i$ is infinite}
+        \label{caseInfiniteFixedPts}
+        If any of the $w_i$ are infinite then $c = 0$. After relabelling, suppose $w_1 = \infty$.\par
+        Then $w_2$ and $w_3$ satisfy:
+        \begin{equation*}
+            \frac{a w_i + b}{d} = w_i \Leftrightarrow (a-d) w_i + b
+        \end{equation*}
+        But this is a degree-1 polynomial with 2 distinct solutions. This is only possible if it is in fact constant, that is, $a - d = 0$ and $b = 0$.\par
+        Therefore, all points satisfy the fixed point equation: all points are fixed by the transformation and thus it is the identity.
+    \end{case}
+    \begin{case}{All of the $w_i$ are finite}
+        \label{caseFiniteFixedPts}
+        We now solve:
+        \begin{equation}
+            \frac{a w_i + b}{c w_i + d} = w_i \Leftrightarrow c w_i^2 + (d - a) w_i - b = 0
+            \label{eqnMobiusFixedPts}
+        \end{equation}
+        This is a degree-2 polynomial but has 3 solutions. This quadratic is not constant, since $c \neq 0$. \contradiction
+    \end{case}
+\end{proof}
+\begin{corollary}
+    M\"obius transformations, except the identity, have 1 or 2 fixed points.
+    \label{corNumMobiusFixedPoints}
+\end{corollary}
+\begin{proof}
+    \begin{case}{$c = 0$}
+        If $c = 0$, we are in case~\ref{caseInfiniteFixedPts} from above, so $\infty$ is a fixed point. Then the equation $(a - d) z + b = 0$ has a solution if $a \neq d$, but if $a = d$ then the transform is either $Id$ or has no more fixed points.
+    \end{case}
+    \begin{case}{$c \neq 0$}
+        If $c = 0$, we are in case~\ref{caseFiniteFixedPts} from above, and so we have a quadratic. By the Fundamental Theorem of Algebra, there are therefore 1 or 2 roots of this quadratic in the complex plane.
+    \end{case}
+\end{proof}
+\begin{lemma}{Triple transitivity}
+    For any two triples of distinct points in the extended complex plane:
+    \begin{align*}
+        z_1, z_2, z_3 &\in \CInf \\
+        w_1, w_2, w_3 &\in \CInf
+    \end{align*}
+    there exists a M\"obius transform $\mu \in \mobgrp$ that maps $z_i \mapsto w_i, i \in \{1, 2, 3\}$
+    \label{lemTripleTransitivity}
+\end{lemma}
+\begin{proof}
+    We can define a M\"obius transform $\alpha$ which maps:
+    \begin{align*}
+        z_1 &\mapsto 0 \\
+        z_2 &\mapsto 1 \\
+        z_3 &\mapsto \infty
+    \end{align*}
+    That is, $\alpha(z) = \frac{(z - z_1)(z_2 - z_3)}{(z - z_3)(z_2 - z_1)}$, unless any of the $z_i$ are infinite, in which case the two brackets including the infinite term are removed.\par
+    Then consider another map $\beta$ that maps $\{w_1, w_2, w_3\} \mapsto \{0, 1, \infty\}$.\par
+    Then the map $\beta^{-1}\circ \alpha$ is the required map.
+\end{proof}
+\begin{lemma}
+    There is a unique $\mu \in \mobgrp$ which maps the set of distinct points $z_1, z_2, z_3$ onto $w_1, w_2, w_3$
+    \label{lemSharpTripleTransitivity}
+\end{lemma}
+\begin{proof}
+    % TODO: do this (use same ideas as theorem about contents of D_{2n})
+\end{proof}
+\section{Cross Ratios and Generating Sets}
+\subsection{The Cross Ratio}
+\begin{definition}{Cross ratio}
+    Let $z_1, z_2, z_3, z_4 \in \CInf$. Then use the unique $\mu \in \mobgrp$ with:
+    \begin{equation*}
+        \mu(z_1) = 0, \mu(z_2) = 1, \mu(z_3) = \infty
+    \end{equation*}
+    Then the cross ratio is:
+    \begin{equation*}
+        \left[z_1, z_2, z_3, z_4\right] = \frac{(z_4 - z_1)(z_2 - z_3)}{(z_4 - z_3)(z_2 - z_1)}
+    \end{equation*}
+\end{definition}
+\subsection{Generating the M\"obius Group}
+We can now use lemma~\ref{lemMobius3Point} to find a generating set for $\mobgrp$.
+\begin{proposition}
+    $\mobgrp$ is generated by the set of elements of the following forms:
+    \begin{enumerate}
+        \item $\alpha_a: z \mapsto az, a \neq 0$
+        \item $\beta_b: z \mapsto z + b$
+        \item $\gamma: z \mapsto z^{-1}$
+    \end{enumerate}
+    For $a$ and $b$ in the complex plane.
+    \label{propMobiusGeneratingSet}
+\end{proposition}
+\begin{proof}
+    Let $\mu \in \mobgrp$.\par
+    Let $z_1 = \mu(0), z_2 = \mu(1), z_3 = \mu(\infty)$.\par
+    The proof is then by moving each element back to its start point.\par
+    STEP 1: Moving $z_3 \mapsto \infty$\par
+    Consider the transform $\mu_1$ that maps $z_3 \mapsto \infty$. Either $z_3 = \infty$, so $\mu_1 = Id$\par
+    If $z_3 \neq \infty$, let $\mu_1(z) = \frac{1}{z - z_3}$. That is, $\gamma \circ \beta_{-z_3}$.\par
+    Now let $\mu_1(z_1) = z_1'$, and $\mu_1(z_2) = z_2'$.\par
+    STEP 2: Moving $z_1' \mapsto 0$.\par
+    Let $\mu_2 = \beta_{-z_1'}$. Now $\mu_2(z_1') = 0, \mu_2(\infty) = \infty$\par
+    Let $\mu_2(z_2') = z_2''$.\par
+    STEP 3: Moving $z_2'' \mapsto 1$.\par
+    Let $\mu_3 = \alpha_{z_2''^{-1}}$. Then we have the following:\par
+    \begin{tabular}{c c c c c c c}
+         & $\mu_1$ & & $\mu_2$ & & $\mu_3$ & \\
+        $z_3$ & $\mapsto$ & $\infty$ & $\mapsto$ & $\infty$ & $\mapsto$ & $\infty$ \\
+        $z_1$ & $\mapsto$ & $z_1'$ & $\mapsto$ & $0$ & $\mapsto$ & $0$ \\
+        $z_2$ & $\mapsto$ & $z_2'$ & $\mapsto$ & $z_2''$ & $\mapsto$ & $1$ \\
+    \end{tabular}
+    And so the transformation $(\mu_3 \circ \mu_2 \circ \mu_1) \circ \mu = Id$ by lemma~\ref{lemMobius3Point}.\par
+    So $\mu = (\mu_3 \circ \mu_2 \circ \mu_1)^{-1}$ which is composed of only the specified generators.
+\end{proof}
+\subsection{Circles under M\"obius Transformations}
+Recall that M\"obius transformations are not, in general, isometries of $\C$. Recall also that the Riemann sphere can be used to represent $\CInf$. Then a circle on the Riemann sphere maps to either a standard Euclidean circle, or a line (which occurs when the circle on the Riemann sphere passes through the single point at infinity).
+\begin{theorem}
+    If $C \subseteq \CInf$ is a circle on the Riemann sphere, the the image of $C$ under any M\"obius transform is also a circle on the Riemann sphere
+    \label{thmCirclesMobius}
+\end{theorem}
+\begin{proof}
+    Consider $C$ under the transforms $\alpha_a, \beta_b$ and $\gamma$. This is sufficient by proposition~\ref{propMobiusGeneratingSet}.\par
+    Lines and circles are invariant under scaling ($\alpha_a$) and translation ($\beta_b$), but $\gamma$ is harder to check.
+    \begin{case}{$C$ is a Euclidean circle, defined by $|z - c| = r$}
+        Then $\gamma(C)$ is defined by $|\frac{1}{z} - c| = r$.\par
+        \begin{align*}
+            \left(\frac{1}{z} - c\right)\left(\frac{1}{z} - c\right)^* &= r^2 \\
+            \frac{1}{|z|^2} - \frac{c^*}{z} - \frac{c}{z^*} + |c|^2 &= r^2 \\
+            1 - cz - c^* z^* + (|c|^2 - r^2)|z|^2 &= 0
+        \end{align*}
+        Now if $|c|^2 - r^2 = 0$, that is, the original circle went through 0, we have a line. Therefore, now assume that $|c|^2 - r^2 \neq 0$:\par
+        \begin{equation*}
+            \frac{1}{|c|^2 - r^2} - \frac{c}{|c|^2 - r^2}z - \frac{c^*}{|c|^2 - r^2} + |z|^2 = 0
+        \end{equation*}
+        And completing the square:
+        \begin{align*}
+            \left|z  - \frac{c^*}{|c|^2 - r^2}\right| &= \frac{|c|^2}{\left(|c|^2 - r^2\right)} - \frac{1}{|c|^2 - r^2} \\
+            &= \frac{r^2}{\left(|c|^2 - r^2\right)}
+        \end{align*}
+    \end{case}
+    \begin{case}{$C$ is a line in $\C$, defined by ...}
+        % TODO: this case
+    \end{case}
+\end{proof}
+\subsection{Circles and the Cross Ratio}
+We can obtain a nice characterisation of circles using cross ratios.
+\begin{proposition}
+    4 points $z_1, z_2, z_3, z_4$ on the Riemann sphere lie on a circle if and only if their cross ratio is real (or infinite).
+\end{proposition}
+\begin{proof}
+    Let $\mu$ be the transformation that maps $z_1 \mapsto 0, z_2 \mapsto 1, z_3 \mapsto \infty$. The cross ratio is then $\mu(z_4)$.
+    \begin{proofdirection}{$\Rightarrow$}{Assume the points lie on a circle in $\CInf$}
+        Then by theorem~\ref{thmCirclesMobius}, the points under $\mu$ must lie on a circle. The only such circle is the real axis (that contains 0, 1 and $\infty$). So the cross ratio, $\mu(z_4)$, must be real.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume the cross ratio is real}
+        Now we have the converse: all of the image points $\mu(z_1), \cdots, \mu(z_4)$ lie on a circle (the real axis), so by theorem~\ref{thmCirclesMobius}, the original points must lie on a circle.
+    \end{proofdirection}
+\end{proof}
 \end{document}
