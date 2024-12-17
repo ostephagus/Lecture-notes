@@ -1,4 +1,116 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
+So far we have the direct product, which gives a way to find a product of two groups. We have some vague notion of divisibility in the idea of a \textit{subgroup}, and we would like to know if there exists a method to \textit{divide} a group by a subgroup.
+\section{Normal Subgroups}
+The idea of a normal subgroup will provide a more formal definition of what it means for a subgroup to be a \textit{factor} of a group.
+\begin{definition}{Normal subgroup}
+    A subgroup $H$ is a \underline{normal subgroup} of a group $G$ if $H \leq G$ and $ghg^{-1} \in H~\forall h \in H, g \in G$. That is, $H$ is closed under conjugation by any elements of $G$.\par
+    If this is true we also say that $H$ is \underline{normal in $G$}, and denote this $H \normalin G$.
+\end{definition}
+\begin{examples}{
+        We have some notable examples
+    }
+    \item The trivial subgroup is always normal
+    \item The group itself is always normal: $G \normalin G$
+    \item If $G$ is abelian, any subgroup is normal
+    \item The subgroup of rotations is normal in $D_{2n}$: $\langle r \rangle \normalin D_{2n}$ \label{exRotNormalInD2n}
+    \item The kernel of any homomorphism $G \mapsto K$, where $K$ is any group, is always normal in G. This idea will be revisited later.
+\end{examples}
+\begin{lemma}
+    If $H \leq G$, then $H \normalin G$ if and only if $gH = Hg \forall g \in G$.
+    \label{lemNormalEquivCosets}
+\end{lemma}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Assume $H \normalin G$}
+        Now let $g \in G$ be any group element. For any $h \in H, h' = ghg^{-1} \in H$.\par
+        Then $gh = h'g \in Hg$, so $gH \subseteq Hg$.\par
+        Likewise, $g^{-1} H \subseteq H g^{-1}$. Multiplying left and right by $g$:\par
+        $Hg \subseteq gH$.\par
+        So $gH = Hg$ as required.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume $gH = Hg~\forall g \in G$}
+        Then for $h \in H$, $gh = h'g$, which equivalently gives $h = g^{-1} h' g$, so $H$ is closed under conjugation with any $g \in G$.\par
+        Therefore $H \normalin G$.        
+    \end{proofdirection}
+\end{proof}
+\section{Quotient Groups}
+Now we have a notion of \textit{factors} of groups, we can find quotients:
+\begin{theorem}[Quotient groups]
+    If $H \normalin G$, then the set $G / H = \subsetselect{gH}{g \in G}$ is a group, with operation $(g_1 H) \cdot (g_2 H) = (g_1 \cdot g_2) H$.
+    \label{thmQuotientGroups}
+\end{theorem}
+\begin{proof}
+    We need to check that this satisfies the group actions, and that the group operation is well-defined.\par
+    First consider the proposed group operation.\par
+    Suppose $g_1 H = g_1' H$, and $g_2 H = g_2' H$. Then by lemma~\ref{lemNormalEquivCosets}, we also have $H g_1 = H g_1'$, and $H g_2 = H g_2'$.\par
+    Then we have elements of $H$, $h_1 and h_2$: $g_1 = g_1' h_2, g_2 = h_2 g_2'$.\par
+    Then $g_1 g_2 = g_1' h_1 h_2 g_2'$, and so let $h_1 h_2 g_2' = g_2' h_3$, for some element $h_3$ of $H$.\par
+    Therefore $g_1 g_2 = g_1' g_2' h_3 \in g_1' g_2' H$,\par
+    Therefore $g_1 g_2 H \subseteq g_1' g_2' H$. The same logic can also give $g_1' g_2' H \subseteq g_1 g_2 H$.\par
+    So $g_1 g_2 H = g_1' g_2' H$, and the group operation is well-defined.\par
+    We then consider the group axioms:
+    \begin{itemize}
+        \item Closure: closure follows from closure of $G$: $(g_1 H)(g_2 H) = (g_1 g_2)H$, which is in $G / H$ because $g_1 g_2 \in G$.
+        \item Associativity also follows from associativity of $G$.
+        \item The identity element is $eH = H$.
+        \item Inverses are as in $G$: $(gH)^{-1} = g^{-1} H$.
+    \end{itemize}
+\end{proof}
+\begin{definition}{Quotient of a group}
+    If $H \normalin G$, then the group $G / H$ is the \underline{quotient of $G$ by $H$}.
+\end{definition}
+\subsection{Identifying Quotient Groups}
+\begin{examples}{
+        We can then think about some example quotient groups
+    }
+    \item $G / \{e\} \cong G, G / G \cong \{e\}$
+    \item $\Z$ is an abelian group, and so $n\Z \normalin \Z$. Then $\Z / n\Z \cong C_n$ unless $n = 0$, where $n\Z = \{0\}$.
+    \item For $H \leq G$, if $|G : H| = 2$ then we have the condition $gH = Hg$, and by lemma~\ref{lemNormalEquivCosets} $H \normalin G$.
+    \item The example above shows why example~\ref{exRotNormalInD2n} holds.
+    \item Quotients do not obey the rules of algebraic division. For example $C_4 / C_2 \cong C_2$, and $K_4 \cong C_2$, but $C_2 \times C_2 \cong K_4 \not\cong C_4$.
+\end{examples}
+A very useful theorem building upon the kernel idea can allow us to identify quotient groups more easily.
+\begin{theorem}[Isomorphism theorem]
+    If $\phi : G \mapsto H$ is a group homomorphism, then $G / \ker{\phi} \cong \im{\phi}$.
+    \label{thmIsomorphism}
+\end{theorem}
+\begin{proof}
+    Since $\ker{\phi}$ is normal, $G / \ker{\phi}$ is a group. Define the map:
+    \begin{align*}
+        \psi : G / \ker{\phi} &\mapsto \im{\phi} \\
+        g \ker{\phi} &\mapsto \phi(g)
+    \end{align*}
+    We now need to prove various properties about $\psi$.
+    \begin{subproof}{$\psi$ is well-defined}
+        Suppose $g_1 \ker{\phi} = g_2 \ker{\phi}$. That is, $g_1 = g_2 k$ for some $k \in \ker{\phi}$. Then:\par
+        \begin{align*}
+            \psi(g_1 \ker{\phi}) &= \phi(g_1) \\
+            &= \phi(g_2 k) \\
+            &= \phi(g_2) \phi(k) \text{ since } \phi \text{ is a homomorphism} \\
+            &= \phi(g_2) \text{ since } k \in \ker{\phi} \\
+            &= \psi(g_2 \ker(\phi)) \text{ as required.}
+        \end{align*}
+    \end{subproof}
+    \begin{subproof}{$\psi$ is a homomorphism}
+        Let $g_1, g_2 \in G$. Then:\par
+        \begin{align*}
+            \psi(g_1 \ker{\phi} \cdot g_2 \ker{\phi}) &= \phi(g_1 g_2) \\
+            &= \phi(g_1) \phi(g_2) \\
+            &= \psi(g_1 \ker{\phi}) \cdot \psi(g_2 \ker{\phi}) \text{ as required.}
+        \end{align*}        
+    \end{subproof}
+    \begin{subproof}{$\psi$ is injective}
+        Consider an element $g \ker{\phi}$ of $\ker{\psi}$. Then $\psi(g \ker{\phi}) = e$, so $\phi(g) = e$.\par
+        But therefore $g \in \ker{\phi}$, so $g \ker{\phi} = \ker{\phi}$, and any coset in $\ker{\psi}$ is the trivial coset, so $\psi$ is injective.
+    \end{subproof}
+    Surjectivity follows by definition of $\psi$, since the range of $\psi$ is defined to be $\im{\phi}$.\par
+    Therefore $\psi$ is an isomorphism, and $G / \ker{\phi} \cong \im{\phi}$.
+\end{proof}
+\subsection{A Leading Question}
+We can also define a similar notion to a prime number for groups.
+\begin{definition}{Simple groups}
+    A group $G$ is \underline{simple} if its only normal subgroups are $1_G$ and itself.
+\end{definition}
+Then, what can we find out about non-abelian simple groups?
 \end{document}
