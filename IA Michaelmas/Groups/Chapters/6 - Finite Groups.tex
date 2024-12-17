@@ -1,5 +1,225 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-
+The purpose of this chapter is to classify all of the finite groups by their size, up to and including size 8. We will introduce some theorems relating to classifying finite groups that will go beyond size-8 groups.
+\section{Small Groups}
+The groups in this section have sizes less than 4.
+There exists only one group of size 1: the trivial group.\par
+There exists only one group of size 2: $C_2$ by corollary~\ref{corPrimeGroupCyclic} since 2 is prime. The same is true for size 3: there is only one group, $C_3$
+\section{Groups of Order 4 and 5}
+We know that $C_4$ is an order-4 group, but we have a method of construction not yet discussed that leads to another order-4 group.
+\subsection{Direct Product}
+The direct product is a way to combine two groups into a new group.
+\begin{definition}{Direct Product}
+    Let $G$ and $H$ be groups. Then the \underline{direct product}, $G \times H$, is the set of elementwise pairs of elements:
+    \begin{equation*}
+        \subsetselect{(g, h)}{g \in G, h \in H}
+    \end{equation*}
+    Then if the group operation of $G$ is $\cdot_g$, and of $H$ is $\cdot_H$, the group operation of $G \times H$ is $(g_1, h_1) \cdot (g_2, h_2) = (g_1 \cdot_G g_2, h_1 \cdot_H h_2)$.
+    The identity element is $(e_G, e_H)$, and inverses are found by inverting each element of the pair: $(g^{-1}, h^{-1})$.
+    Therefore the direct product is a group.
+\end{definition}
+We now have a useful way to construct groups. However, we need to be sure that the result of a direct product is not something already known. For this, we have the following theorem to identify direct products.
+\begin{theorem}[Direct Product Theorem]
+    If, for $H_1, H_2 \leq G$,
+    \begin{enumerate}
+        \item The subgroups have trivial intersection: $H_1 \cap H_2 = {e}$
+        \item The subgroup elements commute with each other: $h_1 h_2 = h_2 h_1 \forall h_1 \in H_1, h_2 \in H_2$
+        \item The subgroups cover the whole group: $\forall g \in G, \exists h_1 \in H_1, h_2 \in H_2$ such that $g = h_1 h_2$
+    \end{enumerate}
+    Then $G \cong H_1 \times H_2$.
+    \label{thmDirectProduct}
+\end{theorem}
+\begin{proof}
+    Consider the map:
+    \begin{align*}
+        \Phi : H_1 \times H_2 &\mapsto G \\
+        (h_1, h_2) &\mapsto h_1 h_2
+    \end{align*}
+    We show that $\Phi$ is a homomorphism by considering:
+    \begin{align*}
+        \Phi((h_1, h_2))\Phi((h_1', h_2')) &= h_1 h_2 h_1' h_2' \\
+        &= h_1 h_1' h_2 h_2' \text{ by assumption 2} \\
+        &= \Phi((h_1 h_1', h_2 h_2')) \\
+        &= \Phi((h_1 h_2) \cdot (h_1' h_2'))
+    \end{align*}
+    as required.\par
+    Surjectivity follows immediately from assumption 3.\par
+    Injectivity is shown by considering elements in the kernel. Let $(h_1, h_2) \in \ker{\Phi}$, then:
+    \begin{equation*}
+        \Phi((h_1, h_2)) = h_1 h_2 = e
+    \end{equation*}
+    Which means $h_1 = h_2^{-1}$. However, by assumption 1 the intersection of $H_1$ and $H_2$ is trivial, and so we must have $h_1 = h_2 = e$.\par
+    Thus the kernel of $\Phi$ is trivial, and $\Phi$ is injective.\par
+    Therefore $\Phi$ is an isomorphism.
+\end{proof}
+\subsection{Classifying Order-4 Groups}
+Using the direct product, we get the Klein-4 group, $K_4$ ($C_2 \times C_2$). We can then classify all order-4 groups in the following lemma.
+\begin{lemma}[Order-4 groups]
+    If $G$ is a group with order 4, then $G \cong C_4$ or $G \cong K_4$.
+    \label{lemOrder4Groups}
+\end{lemma}
+\begin{proof}
+    If $g \in G$, then $g = e$, $|g| = 2$ or $|g| = 4$ by corollary~\ref{corElementOrderDividesGrpOrder}.
+    \begin{case}{There exists an order-4 element}
+        Then $\langle g \rangle$ is an order-4 group, so $g$ generates the group and $G \cong C_4$.
+    \end{case}
+    \begin{case}{There does not exist an order-4 element}
+        By Ex1Q11, this means the group is abelian. Then let $a$ and $b$ be different non-trivial elements.\par
+        Let $H_1 = \langle a \rangle \cong C_2, H_2 = \langle b \rangle \cong C_2$.\par
+        We have trivial intersection since these are distinct elements, and by counting we have that $\langle a \rangle \cup \langle b \rangle = G$, so by theorem~\ref{thmDirectProduct}, $G$ is $C_2 \times C_2$, or $G \cong K_4$.
+    \end{case}
+\end{proof}
+\subsection{Classifying Order-5 Groups}
+5 is a prime number so the only group of order 5 is $C_5$.
+\section{Groups of Order 6 and 7}
+\subsection{Chinese Remainder Theorem}
+We first state a theorem that is equivalent to the Chinese Remainder Theorem from IA Numbers and Sets:
+\begin{theorem}[Chinese Remainder Theorem (group theory)]
+    If $m$ and $n$ are coprime, then $C_m \times C_n \cong C_mn$.
+    \label{thmChineseRemainder}
+\end{theorem}
+\begin{proof}
+    We check the hypotheses of the direct product theorem.\par
+    Note that an element of $C_mn$, $c^k$ is in the subgroup $C_m$ if and only if $m | k$, and the same for $C_n$. Therefore, to be in the intersection we require that $mn | k$ (since $m$ and $n$ are coprime), which is only $c^mn = e$.\par
+    Cyclic groups are abelian since they are only generated by one element.\par
+    By Bezont's Theorem from IA Numbers and Sets, any $k$ can be represented by a unique linear combination of $m$ and $n$, so we have that $c^k = \left(c^m\right)^p \cdot \left(c^n\right)^q$ for all $k$.\par
+    Therefore, the result follows by theorem~\ref{thmDirectProduct}.
+\end{proof}
+\begin{remark}
+    Note that this does not hold if $m$ and $n$ are not coprime. For example, $C_4 \not\cong C_2 \times C_2$.
+\end{remark}
+\subsection{Classifying Order-6 Groups}
+We classify order-6 groups with the following lemma:
+\begin{lemma}[Order-6 groups]
+    If $|G| = 6$, then $G \cong C_6$ or $G \cong D_6$.
+\end{lemma}
+\begin{proof}
+    By theorem~\ref{thmCauchy}, we have elements $r, s \in G$ such that $|r| = 3, |s| = 2$.\par
+    Now $\langle r \rangle = C_3$, and therefore by theorem~\ref{thmLagrange}, $|G : \langle r \rangle| = 2$. Note also that $s \notin \langle r \rangle$.\par
+    Because $\langle r \rangle$ has index 2 in $G$, we must have that the cosets $s \langle r \rangle$ and $\langle r \rangle s$ are the same.\par
+    Therefore let $sr = r^k s$, where $k \in \{0, 1, 2\}$.
+    \begin{case}{$k = 0$}
+        This implies that $sr = s \implies r = e$. \contradiction
+    \end{case}
+    \begin{case}{$k = 1$}
+        This implies that $r$ and $s$ commute: $sr = rs$. Therefore, we can use theorems \ref{thmDirectProduct} and \ref{thmChineseRemainder} which give $G \cong C_6$.
+    \end{case}
+    \begin{case}{$k = 2$}
+        This gives $sr = r^{-1} s$, which is the dihedral relation. We have all the necessary conditions for theorem~\ref{thmD2nIsomorphism} and therefore $G \cong D_6$.
+    \end{case}
+\end{proof}
+\subsection{Classifying Order-7 Groups}
+7 is a prime number so the only group of order 7 is $C_7$.
+\section{Groups of Order 8}
+We already have 3 abelian groups of order 8: $C_8, C_4 \times C_2, K_4 \times C_2$; we also have a non-abelian group, $D_8$. However, there is another group to consider.
+\subsection{The Quaternion Group}
+We define 4 matrices:
+\begin{equation*}
+    1 =
+    \begin{pmatrix}
+        1 & 0 \\
+        0 & 1
+    \end{pmatrix},
+    i = 
+    \begin{pmatrix}
+        i & 0 \\
+        0 & -i
+    \end{pmatrix},
+    k = 
+    \begin{pmatrix}
+        0 & 1 \\
+        -1 & 0
+    \end{pmatrix},
+    k = 
+    \begin{pmatrix}
+        0 & i \\
+        i & 0
+    \end{pmatrix}
+\end{equation*}
+And their negatives (all signs switched).\par
+We have some relations:
+\begin{itemize}
+    \item $i^2 = j^2 = k^2 = -1$
+    \item We define $-1 \cdot i = -i$, etc
+    \item We have a cyclic relation: $ij = k, jk = i, ki = j$, and note that these are antisymmetric: $ji = -k$, etc
+\end{itemize}
+We know that it is distinct from $D_8$ by considering orders of elements: $D_8$ has five order-2 elements, whereas $Q_8$ has only one such element, $-1$.\par
+We can also generate $Q_8$ from just $i$ and $j$:
+\begin{lemma}
+    If $G$ is a group with elements $a$ and $b$, such that:
+    \begin{enumerate}
+        \item $|G| = 8$
+        \item $|a| = 4$
+        \item $a^2 = b^2$
+        \item $ba = a^{-1}b$
+    \end{enumerate}
+    Then $G \cong Q_8$.
+    \label{lemQ8Isomorphism}
+\end{lemma}
+\begin{proof}
+    Consider the map:
+    \begin{align*}
+        \phi : Q_8 &\mapsto G \\
+        i &\mapsto a \\
+        j &\mapsto b
+    \end{align*}
+    We can then derive:
+    \begin{align*}
+        \phi : k &\mapsto ab \\
+        -1 &\mapsto a^2 = b^2 \\
+    \end{align*}
+    and note that $(ab)^2 = abab = a(ba)b = a(a^{-1}b)b$ by dihedral relation\par
+    and therefore $= b^2 = a^2 = \phi(-1)$.\par
+    We can also derive the cyclic relations:\par
+    $b(ab) = (ba)b = a^{-1}b^2 = a$, $(ab)a = a(ba) = a(a^{-1}b) = b$\par
+    And show antisymmetry:\par
+    $ba = a^{-1}b = \phi(-1)(ab), (ab)b = a b^2 = a^3 = \phi(-1)a$,\par
+    $a(ab) = a^2 b = \phi(-1)b$.\par
+    Therefore $\phi$ is a homomorphism, that is surjective because is maps generators, and is therefore bijective since the groups are the same size.
+\end{proof}
+\subsection{Classifying Order-8 Groups}
+\begin{lemma}[Order-8 groups]
+    If $|G| = 8$, then $G \cong C_8, C_4 \times C_2, K_4 \times C_2, D_8$ or $Q_8$.
+\end{lemma}
+\begin{proof}
+    This proof consists of an unfortunate amount of cases.\par
+    By theorem~\ref{thmLagrange}, every element has order 1, 2, 4 or 8.\par
+    If we have an order-8 element, this generates the group and $G \cong C_8$. If all elements are order-2, then $G$ is abelian. We choose distinct elements $a, b, c$ where the intersections of each generated group $\langle a \rangle, \langle b \rangle, \langle c \rangle$ are trivial. Then, by theorem~\ref{thmDirectProduct}, $G \cong C_2 \times C_2 \times C_2 \cong K_4 \times C_2$.
+    If none of the above are true, we have an element $a$ of order 4. Now choose also $b \notin \langle a \rangle$. We must have that the cosets $b \langle a \rangle = \langle a \rangle b$, so $ba = a^k b$.\par
+    We consider the cases for $k$:
+    \begin{itemize}
+        \item \underline{$k = 0$}: then $b a = b \implies a = e$. \contradiction
+        \item \underline{$k = 1$}: then $ba = ab$, so the group is abelian. \underline{\textbf{Case A}}
+        \item \underline{$k = 2$}: then $ba = a^2 b$, but this implies that $b a b^{-1} = a^2$, but $a$ and $a^2$ have different orders. \contradiction
+        \item \underline{$k = 3$}: then $ba = a^{-1} b$, the dihedral relation. \underline{\textbf{Case B}}
+    \end{itemize}
+    However this is not sufficient to determine $G$. We need to consider also $b^2$. We know that $b \notin \langle a \rangle$, so $b^2 \in \langle a \rangle$, since $b$ and $b^2$ cannot be in the same coset.\par
+    Now $b^2 = a^k$:
+    \begin{itemize}
+        \item \underline{$k = 0$}: then $b^2 = e$ \underline{\textbf{Case 0}}
+        \item \underline{$k = 1$}: then $b^2 = a$, which implies $|b| =  8$ \contradiction
+        \item \underline{$k = 2$}: then $b^2 = a^2$ \underline{\textbf{Case 2}}
+        \item \underline{$k = 2$}: then $b^2 = a^3$, which implies $|b| =  8$ \contradiction
+    \end{itemize}
+    Then we consider the 4 combinations of non-contradictory cases.
+    \begin{enumerate}
+        \item[A0:] In this case $G$ is abelian and $b$ has order 2. Now the groups generated by $a$ and $b$ have empty intersection, and we can use theorem~\ref{thmDirectProduct} to show that $G \cong C_4 \times C_2$.
+        \item[A2:] In this case $G$ is abelian and $b^2 = a^2$. Now consider $c = ab^{-1}$. Note that $c = a^2 b^{-2} = e$, so we have case A0 with $c$ instead of $b$.
+        \item[B0:] In this case we have the dihedral relation, $|a| = 4, |b| = 2|$ and so by theorem~\ref{thmD2nIsomorphism}, $G \cong D_{8}$.
+        \item[B2:] In this case we have the dihedral relation and $a^2 = b^2$. Therefore by lemma~\ref{lemQ8Isomorphism}, $G \cong Q_8$.
+    \end{enumerate}
+\end{proof}
+\section{Summary of Classified Groups}
+The groups we have classified are:
+\begin{enumerate}
+    \item $\{e\}$
+    \item $C_2$
+    \item $C_3$
+    \item $C_4, K_4$
+    \item $C_5$
+    \item $C_6, D_6$
+    \item $C_7$
+    \item $C_8, C_4 \times C_2, K_4 \times C_2, D_8, Q_8$
+\end{enumerate}
 \end{document}
