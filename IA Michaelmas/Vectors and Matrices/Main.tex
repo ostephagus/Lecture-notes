@@ -8,6 +8,14 @@
 
 \input{../../Header.tex}
 
+\newcommand{\tvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \tilde{\textbf{\firstpart}}_{\secondpart}
+}
+
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator{\diag}{diag}
+
 \begin{document}
 \maketitle
 \tableofcontents
@@ -20,7 +28,7 @@
 \chapter{Linear Maps} % Page 11
 \chapter{Matrices and Determinants} % Pages 12-13
 \chapter{Linear Systems of Equations} % Page 14
-\chapter{Change of Basis, Eigenvectors and Eigenvalues} % Page 15
+\chapter{Eigenvectors and Eigenvalues} % Pages 15-17
 \subfile{Chapters/9 - Eigenvectors.tex}
 \chapter{Quadratic forms}
 \chapter{Transformation matrices}

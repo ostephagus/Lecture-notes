@@ -105,4 +105,146 @@ If an $n\times n$ matrix $A$ has $n$ distinct eigenvalues, then by Theorem~\ref{
     \end{pmatrix}
 \end{equation*}
 where $\lambda_i$ are the $n$ distinct eigenvalues.
+\section{Change of Basis}
+\subsection{Transforming Basis Vectors}
+Consider the bases of $\C^n$, $\{\vec{e_1}, \vec{e_2}, \cdots, \vec{e_n}\}$ and $\{\tvec{e_1}, \tvec{e_2}, \cdots, \tvec{e_n}\}$\par
+Let $\tvec{e_j} = \sum_{i=1}^{n} P_{ij} \vec{e_i}$, for some matrix $P$.\par
+Then the element $P_{ij}$ is the $i$th component of $\tvec{e_j}$ with respect to the original basis. $P$ has the columns $\tvec{e_j}$ with respect to this original basis.\par
+Similarly, we can write $\vec{e_j} = \sum_{i=1}^{n} Q_{ij} \tvec{e_i}$, and therefore $Q$ has the columns $\vec{e_i}$ with respect to the tilde basis.\par
+Doing this process twice,
+\begin{align*}
+    \tvec{e_j} &= \sum_{i=1}^{n} \left(\sum_{k=1}^{n} Q_{ki} \tvec{e_k}\right) P_{ij} \\
+    &= \sum_{k=1}^{n} \tvec{e_k} \sum_{i=1}^{n} Q_{ki} P_{ij}
+\end{align*}
+But since these are basis vectors, they are therefore linearly independent and so $QP = I$, and $Q = P^{-1}$.\par
+\subsection{Transformation Law for Vectors}
+Consider the bases $\vec{e_i}$ and $\tvec{e_i}$ as above. Then consider a vector represented by $\vec{v}$ in the original basis, and $\tvec{v}$ in the new basis.\par
+Now, using the change-of-basis matrix $P$ from above,
+\begin{align*}
+    \vec{v} &= \sum_{j=1}^{n} \tilde{v}_j \tvec{e_j} \\
+    &= \sum_{j=1}^{n} \tilde{v}_j \sum_{i=1}^{n} P_{ij} \vec{e_i} \\
+    &= \sum_{i=1}^{n} \left(\sum_{j=1}^{n} \tilde{v}_j P_{ij}\right) \vec{e_i}
+\end{align*}
+And therefore, since $v = \sum_{i=1}^{n} v_i \vec{e_i}$, by matching up the final line:
+\begin{equation}
+    v_i = \sum_{j=1}^{n} \tilde{v}_j P_{ij}
+\end{equation}
+And, without index notation:
+\begin{equation}
+    \tvec{v} = P^{-1} \vec{v}
+    \label{eqnVecTransform}
+\end{equation}
+\subsection{Transformation Law for Matrices}
+Consider a linear map:
+\begin{align*}
+    \alpha : \C^n & \mapsto \C^n \\
+    \vec{x} &\mapsto \vec{x}' = A\vec{x}
+\end{align*}
+Also consider the vectors $\vec{u}, \vec{u}' = Au, \tvec{u}$ and $\tvec{u}'$, where the bases are the standard basis and the $\tvec{e_i}$ basis.\par
+Using the transformation matrix $P$ defined above:
+\begin{align*}
+    \vec{u}' &= A\vec{u} \\
+    \implies P \tvec{u}' &= AP\tvec{u} \\
+    \implies \tvec{u}' = P^{-1} A P \tvec{u}
+\end{align*}
+So the matrix $A$ in the new basis is:
+\begin{equation}
+    \tilde{A} = P^{-1} A P
+    \label{eqnMatrixTransform}
+\end{equation}
+\section{Similar Matrices}
+\begin{definition}{Similar matrices}
+    Two square matrices $A$ and $B$ are \underline{similar} if there exists a matrix $P$ such that:
+    \begin{equation*}
+        B = P^{-1} A P
+    \end{equation*}
+    That is, they represent the same linear map under different bases.
+\end{definition}
+We have the following properties:
+\begin{enumerate}
+    \item $\det{A} = \det{B}$.
+        \begin{align*}
+            \det{B} &= \det{(P^{-1} A P)} \\
+            &= \det{P^{-1}} \det{A} \det{P} \\
+            &= \det{A} \frac{\det{P}}{\det{P}}~\tick
+        \end{align*}
+    \item $\tr{A} = \tr{B}$
+        \begin{align*}
+            B_{ii} &= [P^{-1}AP]_{ii} \\
+            &= P_{ij}^{-1} A_{jk} P_{ki} \\
+            &= P_{ij}^{-1} P_{ki} A_{jk} \\
+            &= \delta_{kj} A_{jk} \\
+            &= A_{jj}~\tick
+        \end{align*}
+    \item $A$ and $B$ have the same characteristic polynomial, and the same eigenvalues. Eigenvectors will be different because different bases are used.
+        \begin{align*}
+            P_B(\lambda) &= \det{(B - \lambda I)} \\
+            &= \det{(P^{-1} A P - \lambda I)} \\
+            &= \det{(P^{-1}[AP - \lambda I]P)} \\
+            &= \det{(A - \lambda I)} \det{P} \det{P^{-1}}~\tick
+        \end{align*}
+\end{enumerate}
+\section{Diagonal Matrices}
+\begin{definition}{Diagonalisability}
+An $n \times n$ matrix $A$ is \underline{diagonalisable} if it is similar to a diagonal matrix. That is, a matrix of the form:
+    \begin{equation*}
+        \begin{pmatrix}
+            \lambda_1 & 0 & 0 & \cdots & 0 \\
+            0 & \lambda_2 & 0 & \cdots & 0 \\
+            0 & 0 & \lambda_3 & & \vdots \\
+            \vdots & \vdots & & \ddots & 0 \\
+            0 & 0 & \cdots & 0 & \lambda_n
+        \end{pmatrix}
+    \end{equation*}
+\end{definition}
+This is equivalent to the statement that the eigenvectors form a basis.\par
+The requirement that $A$ has $n$ distinct eigenvalues is sufficient but not necessary for diagonalisability. We can use the eigenvector basis to diagonalise a matrix:
+\begin{example}
+    Define the matrix $A$:
+    \begin{equation*}
+        A = 
+        \begin{pmatrix}
+            -2 & 2 & -3 \\
+            2 & 1 & 6 \\
+            -1 & -2 & 0
+        \end{pmatrix}
+    \end{equation*}
+    With eigenvectors:
+    \begin{equation*}
+        \begin{pmatrix}
+            1 \\ 2 \\ -1
+        \end{pmatrix},
+        \begin{pmatrix}
+            -2 \\ 1 \\ 0
+        \end{pmatrix},
+        \begin{pmatrix}
+            3 \\ 0 \\ 1
+        \end{pmatrix}
+    \end{equation*}
+    And therefore the change-of-basis matrix has these eigenvectors as its columns:
+    \begin{equation*}
+        P = 
+        \begin{pmatrix}
+            1 & -2 & 3 \\
+            2 & 1 & 0 \\
+            -1  & 0 & 1
+        \end{pmatrix}
+    \end{equation*}
+    And since we have 3 linearly independent eigenvectors, we have the diagonal matrix:
+    \begin{equation*}
+        P^{-1} A P = 
+        \begin{pmatrix}
+            5 & 0 & 0 \\
+            0 & -3 & 0 \\
+            0 & 0 & -3
+        \end{pmatrix}
+    \end{equation*}
+    Also written as $\diag{\{5, -3, -3\}}$. Note that we have a repeated eigenvalue but still $A$ is diagonalisable.
+\end{example}
+\begin{theorem}
+    Let $\lambda_1, \lambda_2, \cdots, \lambda_r$ be distinct eigenvalues of an $n \times n$ matrix $A$. Note that $r \leq n$, as some eigenvalues may be repeated.\par
+    Let the sets $B_1, B_2, \cdots, B_r$ be the bases of the eigenspaces $E_{\lambda_1}, E_{\lambda_2}, \cdots, E_{\lambda_r}$.\par
+    Then the union of all of these sets is linearly independent.
+    \label{thmEspacesLI}
+\end{theorem}
 \end{document}
