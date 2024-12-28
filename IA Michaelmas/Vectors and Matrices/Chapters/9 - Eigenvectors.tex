@@ -184,7 +184,7 @@ We have the following properties:
             &= \det{(A - \lambda I)} \det{P} \det{P^{-1}}~\tick
         \end{align*}
 \end{enumerate}
-\section{Diagonal Matrices}
+\subsection{Diagonal Matrices}
 \begin{definition}{Diagonalisability}
 An $n \times n$ matrix $A$ is \underline{diagonalisable} if it is similar to a diagonal matrix. That is, a matrix of the form:
     \begin{equation*}
@@ -247,4 +247,143 @@ The requirement that $A$ has $n$ distinct eigenvalues is sufficient but not nece
     Then the union of all of these sets is linearly independent.
     \label{thmEspacesLI}
 \end{theorem}
+\begin{proof}
+    Let $B_1 = \{\vec{x_1}^{(1)}, \vec{x_2}^{(1)}, \cdots, \vec{x_{m_{\lambda_1}}}^{(1)}\}$, where $m_{\lambda_1}$ is the dimension of the eigenspace. Define the other $B_i$ similarly.\par
+    Then consider the general linear combination of all elments of $B$:
+    \begin{equation}
+        \sum_{i=1}^{r} \sum_{j=1}^{m_{\lambda_i}} \alpha_{ij} \vec{x_j}^{(i)} = \vec{0}
+        \label{eqnBasisLinearCombo}
+    \end{equation}
+    where $\alpha_{ij}$ are constants, not all zero.\par
+    Now consider the matrix:
+    \begin{equation*}
+        M_K = \prod_{k = 1, 2, \cdots, \bar{K}, \cdots, r} (A - \lambda_k I)
+    \end{equation*}
+    And then left-multiply equation~\ref{eqnBasisLinearCombo} by it:
+    \begin{align*}
+        &\sum_{j=1}^{m_{\lambda_K}} \alpha_{Kj} \prod_{k = 1, \cdots, \bar{K}, \cdots, r} (A - \lambda_k I) \vec{x_j}^{(K)} \\
+        &= \sum_{j=1}^{m_{\lambda_K}} \alpha_{Kj} \prod_{k = 1, \cdots, \bar{K}, \cdots, r} (A\vec{x_j}^{(K)} - \lambda_k \vec{x_j}^{(K)}) \\
+        &= \sum_{j=1}^{m_{\lambda_K}} \alpha_{Kj} \prod_{k = 1, \cdots, \bar{K}, \cdots, r} (\lambda_K - \lambda_k) \vec{x_j}^{(K)} \text{ since } \vec{x_j}^{(K)} \text{ is an eigenvector } \\
+    \end{align*}
+    However, by assumption $\lambda_K \neq \lambda_k$, so the only term that can be zero is $\alpha_Kj$, and must be zero for all $j$.\par
+    Since $K$ was chosen arbitrarily, we can use the same logic to get that all of the $\alpha_{ij}$ coefficients must be zero, and therefore the union is linearly independent.
+\end{proof}
+\begin{remark}
+    We now have a very useful test for diagonalisability, since we can relate this to the defect of the matrix.\par
+    For a matrix $A$, find its eigenvalues and corresponding eigenvectors. If there is no defect for any of the eigenvalues, that is, the matrix has no defect, then it is diagonalisable.
+\end{remark}
+\subsection{Canonical Form of a 2 \texorpdfstring{$\times$}{x} 2 matrix}
+We can categorise any $2 \times 2$ complex matrix by its similar matrices. This is encompassed in the following proposition:
+\begin{proposition}
+    A $2 \times 2$ complex matrix $A$ is similar to:
+    \begin{enumerate}
+        \item $\begin{pmatrix}
+            \lambda_1 & 0 \\
+            0 & \lambda_2
+        \end{pmatrix}, \lambda_1 \neq \lambda_2$
+        \label{form2EVals}
+        \item $\begin{pmatrix}
+            \lambda & 0 \\
+            0 & \lambda
+        \end{pmatrix}$
+        \label{form1EVal}
+        \item $\begin{pmatrix}
+            \lambda & 1 \\
+            0 & \lambda
+        \end{pmatrix}$.
+        \label{formNonDiag}
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{case}{$A$ has two distinct eigenvalues, $\lambda_1$ and $\lambda_2$}
+        In this case the matrix is diagonalisable and we have form \ref{form2EVals}.
+    \end{case}
+    \begin{case}{$A$ has a repeated eigenvalue $\lambda$, but $\dim{(E_\lambda)} = 2$}
+        In this case there is zero defect and therefore the matrix is diagonalisable, and we have form \ref{form1EVal}.
+    \end{case}
+    \begin{case}{$A$ has a repeated eigenvalue $\lambda$, and $\dim{(E_\lambda)} = 1$}
+        This case has a defect of 1. Let $\vec{v}$ be an eigenvector. Also let $\vec{w}$ be linearly independent of $\vec{v}$, so $\spanset{\{\vec{v}, \vec{w}\}} = \C^2$.\par
+        Now let $A\vec{w} = \alpha \vec{v} + \beta \vec{w}$. Change basis to $\{\vec{v}, \vec{w}\}$. In the new basis, then, $A$ becomes the matrix:
+        \begin{equation*}
+            \tilde{A} =
+            \begin{pmatrix}
+                \lambda & \alpha \\
+                0 & \beta
+            \end{pmatrix}
+        \end{equation*}
+        But since $A$ and $\tilde{A}$ must have the same characteristic equation (some multiple of $(\lambda - p)^2$), we must have that $\beta = \lambda$.\par
+        Further, we introduce $\vec{u} = (\tilde{A} - \lambda_I) \vec{w}$.\par
+        Note that $\vec{u}$ is non-zero, but that $(\tilde{A} - \lambda I) \vec{u} = (\tilde{A} - \lambda I)^2 \vec{v} = \vec{0}$, so $\vec{u}$ must be an eigenvector of $A$ and must have eigenvalue $\lambda$.\par
+        We therefore have:
+        \begin{align*}
+            \vec{u} &= \tilde{A} \vec{w} - \lambda \vec{w} \\
+            \implies \tilde{A} \vec{w} &= \vec{u} + \lambda \vec{w}
+        \end{align*}
+        And therefore changing basis again to $\{\vec{u}, \vec{w}\}$ gives the required matrix for form \ref{formNonDiag}.
+    \end{case}
+\end{proof}
+\begin{remark}
+    There is a generalisation of this result to n dimensions, not proved in this course, which looks like:
+    \begin{equation*}
+        \begin{pmatrix}
+            \lambda_1 & \mu_1 & 0 & \cdots & 0 \\
+            0 & \lambda_2 & \mu_2 & & \vdots \\
+            0 & 0 & \lambda_3 & \ddots & 0 \\
+            \vdots & \vdots & & \ddots & \mu_{n-1} \\
+            0 & 0 & \cdots & 0 & \lambda_n
+        \end{pmatrix}
+    \end{equation*}
+    where $\lambda_i$ are the eigenvectors, and $\mu_i$ are either zero or one.
+\end{remark}
+\subsection{Algebra with Diagonal Matrices}
+Diagonalisation allows us to define algebraic operations with matrices, and then use matrices as arguments for functions.
+\begin{theorem}
+    Every $n \times n$ complex matrix $A$ satisfies its own characteristic equation.
+\end{theorem}
+\begin{proof}[for diagonalisable matrices]
+    Let $D$ be the diagonal form of $A$, $D = P^{-1} A P$.\par
+    Note that repeated multiplication is much simplier:
+    \begin{equation*}
+        D^k = P^{-1} A P P^{-1} A P \cdots P^{-1} A P = P^{-1} A^k P
+    \end{equation*}
+    This means we can put $D$ into its own characteristic equation:
+    \begin{equation*}
+        p_D(D) = p_D(P^{-1} A P) = p^{-1} p_D(A) P
+    \end{equation*}
+    But since these matrices are similar, they have the same characteristic equation:
+    \begin{align*}
+        p_A(D) &= P^{-1} p_A(A) P \\
+        &= P^{-1} \diag{(p_A(\lambda_1), p_A(\lambda_2)), \cdots, p_A(\lambda_n)} P^{-1}  \\
+        &= P^{-1} 0 P = 0 \text{ since all eigenvalues solve the characteristic equation}
+    \end{align*}
+\end{proof}
+\begin{corollary}
+    If $A^{-1}$ exists,
+    \begin{equation*}
+        A^{-1} p_A(A) = A^{-1} (c_0 I + c_1 A + \cdots + c_n A^n)
+    \end{equation*}
+    And $c_0$ is non-zero since det $A$ is invertible:
+    \begin{equation*}
+        A^{-1} = -\frac{1}{c_0} \left(c_1 I + c_2 A + \cdots + c_n A^{n-1}\right)
+    \end{equation*}
+\end{corollary}
+\begin{remark}
+    This is more an interesting other way to define the matrix inverse, it is by no means a better method of computing it.
+\end{remark}
+We can also define the matrix exponential! For a matrix $A$,
+\begin{equation}
+    e^A = I + A + \frac{1}{2} A^2 + \frac{1}{6} A^3 + \cdots
+    \label{eqnMatrixExp}
+\end{equation}
+And then if $A$ is diagonalisable,
+\begin{align*}
+    P^{-1} e^A P &= P^{-1} I P + P^{-1} A P + \frac{1}{2}P^{-1} A^2 P + \cdots \\
+    &= I + D + \frac{1}{2} D^2 + \cdots \\
+    &= \diag{(e^{\lambda_1}, \cdots, e^{\lambda_n})}
+\end{align*}
+And therefore we have equation~\ref{eqnMatrixExp} in a more convenient form:
+\begin{equation}
+    e^A = P \diag{(e^{\lambda_1}, \cdots, e^{\lambda_n})} P^{-1}
+    \label{eqnMatrixExpSimpler}
+\end{equation}
 \end{document}
