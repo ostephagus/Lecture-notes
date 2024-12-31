@@ -11,7 +11,7 @@
         \congruence{x}{y}{n}
     \end{equation*}
 \end{definition}
-We can view $\Z_n$ as a circle. For example, $Z_4$:
+We can view $\Z_n$ as a circle. For example, $\Z_4$:
 \begin{center}
     \begin{tikzpicture}
         \tikzset{
@@ -83,7 +83,7 @@ We have the usual rules of arithmetic, so we consider what an \textit{equation} 
         &\equiv b'(ab) \\
         &\equiv b'
     \end{align*}
-    So $\equiv{b}{b'}{n}$. That is, any two inverses must be congruent to each other.
+    So $\congruence{b}{b'}{n}$. That is, any two inverses must be congruent to each other.
 \end{proof}
 Now we have some form of division or cancellation in modulo arithmetic: if $a$ is a unit, then we can say $\congruence{ab}{ac}{n} \implies \congruence{b}{c}{n}$.
 \begin{proposition}
@@ -155,10 +155,10 @@ We can introduce some theorems to make this process easier.
     Let $p$ be prime. Then $\congruence{a^p}{a}{p}$.
     \label{thmFermatLittle}
 \end{theorem}
-The theorem is alternately stated $\congruence{a^{p-1}}{1}{p}$ if $a \neq 0$.
+The theorem is alternately stated $\congruence{a^{p-1}}{1}{p}$ if $a \not\equiv 0$.
 \begin{proof}
-    If $a = 0$ then we are done.\par
-    If $a \neq 0$ then $a$ is a unit mod $p$ by proposition~\ref{propUnitsCoprimes}. Therefore, $\congruence{ax}{ay}{p}$ if and only if $\congruence{x}{y}{p}$. Hence the numbers
+    If $a \equiv 0$ then we are done.\par
+    If $a \not\equiv 0$ then $a$ is a unit mod $p$ by proposition~\ref{propUnitsCoprimes}. Therefore, $\congruence{ax}{ay}{p}$ if and only if $\congruence{x}{y}{p}$. Hence the numbers
     \begin{equation*}
         a, 2a, \cdots, (p-1)a
     \end{equation*}
@@ -213,7 +213,7 @@ Now we can think about $(p-1)!$.
 \end{theorem}
 \begin{proof}
     We have the trivial case $p = 2$ holds ($\congruence{1! = 1}{-1}{p}$), so consider only odd primes.\par
-    All of the multiplied numbers in $(p-1)!$ are either self-inverse or not self inverse. The elements that are not self-inverse will therefore cancel out with their inverse, leaving only a product of terms that are not self-inverse. A self-inverse element must square to 1 by definition, so by lemma~\ref{lemSqrt1ModP} these elements are $1$ and $-1$.\par
+    All of the multiplied numbers in $(p-1)!$ are either self-inverse or not self inverse. The elements that are not self-inverse will therefore cancel out with their inverse, leaving only a product of terms that are self-inverse. A self-inverse element must square to 1 by definition, so by lemma~\ref{lemSqrt1ModP} these elements are $1$ and $-1$.\par
     Therefore we group all numbers that are not self-inverse into pairs, leaving only the self-inverse elements $1$ and $-1$. The product of all of this is therefore $-1$.
 \end{proof}
 We now know how to solve $\congruence{x^2}{1}{p}$. But what about the similar congruence $\congruence{x^2}{-1}{p}$?

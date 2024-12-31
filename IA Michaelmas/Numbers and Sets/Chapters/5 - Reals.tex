@@ -50,21 +50,20 @@ Note that the least upper bound is unique.
         \item Given any set $S$ of real number that is non-empty and bounded above, $S$ has a least upper bound.\label{realAxiomLUB}
     \end{enumerate}
 \end{definition}
-\underline{Remarks}:
-\begin{enumerate}
-    \item From the axioms, we can check, for example, that $0<1$. We have already $0 \neq 1$, so by axiom~\ref{realAxiomOrdering}, only other possibilities are $0>1$. Assume this for contradiction.
+\begin{remarks}
+    \item From the axioms, we can check, for example, that $0<1$. We have already $0 \neq 1$, so by axiom~\ref{realAxiomOrdering}, the only other possibility is $0>1$. Assume this for contradiction. Note that this also implies $-1 > 0$ by axiom~\ref{realAxiomAddOrder}.
     \begin{align*}
         1 &< 0 \\
         1-1 &< 0-1 \text{ by (\ref{realAxiomAddOrder})}\\
         0 &< (-1) \\
-        (0) \times (-1) &< (-1) \times (-1) \text{ which is valid under (\ref{realAxiomMultOrder}) as we have assumed $-1 < 0$} \\
+        (0) \times (-1) &< (-1) \times (-1) \text{ which is valid under (\ref{realAxiomMultOrder}) as $-1 > 0$} \\
         0 &< 1.
     \end{align*} \contradiction
-    \item We may have $\mathbb{Q} \subset \mathbb{R}$ by considering the generic $\frac{a}{b} \in \mathbb{Q}$ with $ab^-1 \in \mathbb{R}$.
+    \item We may have $\mathbb{Q} \subset \mathbb{R}$ by considering the generic $\frac{a}{b} \in \mathbb{Q}$ with $ab^{-1} \in \mathbb{R}$.
     \item  $\mathbb{Q}$ does not satisfy the least upper bound axiom as shown in the previous section.
     \item The wording of the upper bound axiom is important: if S were empty then any real number is an upper bound so there is no least such. If S is not bounded above then no number is an upper bound and there cannot be a supremum.
     \item It is possible to construct $\mathbb{R}$ from $\mathbb{Q}$, and thus the axioms above arise.
-\end{enumerate}
+\end{remarks}
 \subsection{Suprema}
 For a set $S$ bounded above and defined by an inclusive upper bound, it follows immediately that the greatest upper bound of such a set is $\max(S)$. However, if the set does not trivially define a $\max(S)$ then the least upper bound is a very useful concept as it can be used instead of $\max(S)$. We then want a way of defining a least upper bound for such sets.
 \begin{proposition}[Proposition of Archimedes]

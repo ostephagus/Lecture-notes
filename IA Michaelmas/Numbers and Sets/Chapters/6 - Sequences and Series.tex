@@ -131,7 +131,7 @@ We have defined the sum of two numbers, so by induction finite sums are also def
 \begin{definition}{Infinite sum}
     If the sequence of partial sums of a sequence converges, then we write the limit $\sum_{n=1}^{\infty} a_n$.
 \end{definition}
-\begin{examples}
+\begin{examples}{}
     \item Consider $a_n = r^n$. When $|r| < 1$, this is a convergent series (``Geometric series''). The limit is $\frac{a_1}{1-r}$
     \item Now let $a_n = \frac{1}{n}$. \textit{The harmonic series}
         \begin{equation*}
@@ -300,13 +300,13 @@ The opposite of an algebraic number is a \underline{transcendental number}. For 
 \begin{proof}
     From equation~\ref{eqnPolynomial}, we get:
     \begin{align*}
-        |P(x) - P(y)| &= |a_n(a^n - y^n) + a_{n-1}(x^{n-1} - y^{n-1}) + \cdots + a_1(x-y)| \\
+        &|P(x) - P(y)| = |a_n(a^n - y^n) + a_{n-1}(x^{n-1} - y^{n-1}) + \cdots + a_1(x-y)| \\
         &= |x - y| |a_n(x^{n-1} + x^{n-2} y + \cdots + y^{n-1}) + a_{n-1} (\cdots) + \cdots + a_1| \\
         &\leq |x - y| \left[d(|a_n| + |a_{n-1}| + \cdots + |a_1|)\right]
     \end{align*}
     So we have a value $K$ independent of $x$ and $y$.
 \end{proof}
-\begin{theorem}{Fundamental Theorem of Algebra}
+\begin{theorem}[Fundamental Theorem of Algebra]
     A non-constant polynomial of degree $d$ has at most $d$ real roots.
     \label{thmFundamentalAlgebra}
 \end{theorem}
