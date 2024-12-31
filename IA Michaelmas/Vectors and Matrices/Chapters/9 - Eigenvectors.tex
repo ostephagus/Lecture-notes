@@ -386,4 +386,127 @@ And therefore we have equation~\ref{eqnMatrixExp} in a more convenient form:
     e^A = P \diag{(e^{\lambda_1}, \cdots, e^{\lambda_n})} P^{-1}
     \label{eqnMatrixExpSimpler}
 \end{equation}
+\section{Hermitian Matrices}
+\subsection{Eigenvectors and Eigenvalues}
+\begin{theorem}
+    Eigenvalues of a hermitian matrix are real.
+    \label{thmHermitianEVals}
+\end{theorem}
+\begin{proof}
+    Let $H$ be a hermitian matrix. Let $\lambda$ be an eigenvalue and $\vec{v}$ be a non-zero eigenvector.
+    \begin{equation*}
+        H \vec{v} = \lambda \vec{v}
+    \end{equation*}
+    Pre-multiply by the row vector $\vec{v}^\dagger$:
+    \begin{equation}
+        \vec{v}^\dagger H \vec{v} = \lambda \vec{v}^\dagger \vec{v}
+        \label{eqnHermVecAndTransp}
+    \end{equation}
+    Taking the hermitian conjugate of equation~\ref{eqnHermVecAndTransp}:
+    \begin{align}
+       & \left(\vec{v}^\dagger H \vec{v}\right)^\dagger = \left(\lambda \vec{v}^\dagger \vec{v}\right)^\dagger \nonumber \\
+       \implies & \vec{v}^\dagger H^\dagger \left(\vec{v}^\dagger\right)^\dagger = \lambda^\dagger \vec{v}^\dagger \left(\vec{v}^\dagger\right)^\dagger \nonumber \\
+       \implies & \vec{v}^\dagger H^\dagger \vec{v} = \bar{\lambda} \vec{v} \vec{v}^\dagger \label{eqnHermVecAndTranspConj}
+    \end{align}
+    Then subtracting equation~\ref{eqnHermVecAndTranspConj} from equation~\ref{eqnHermVecAndTransp}:
+    \begin{equation*}
+        0 = \left(\lambda - \bar{\lambda}\right)\vec{v}^\dagger \vec{v}
+    \end{equation*}
+    But $\vec{v}$ is non-zero, so we must have $\lambda - \bar{\lambda} = 0$.\par
+    That is, $\lambda$ is real.
+\end{proof}
+\begin{theorem}
+    The eigenvectors of a hermitian matrix corresponding to distinct eigenvalues are orthogonal.
+    \label{thmHermitianEVecs}
+\end{theorem}
+\begin{proof}
+    Consider two distinct eigenvalues $\lambda_1$ and $\lambda_2$, and corresponding eigenvectors $\vec{v_1}$ and $\vec{v_2}$.\par
+    Then $H \vec{v_1} = \lambda_1 \vec{v_1}$, and $H \vec{v_2} = \lambda_2 \vec{v_2}$\par
+    Pre-multiplying by the hermitian conjugates of these vectors:
+    \begin{align}
+        \text{By } \vec{v_2}^\dagger:&~~\vec{v_2}^\dagger H \vec{v_1} = \lambda_1 \vec{v_2}^\dagger \vec{v_1} \label{eqnPremult2} \\
+        \text{By } \vec{v_1}^\dagger:&~~\vec{v_1}^\dagger H \vec{v_2} = \lambda_2 \vec{v_1}^\dagger \vec{v_2} \label{eqnPremult1}
+    \end{align}
+    Taking the hermitian conjugate of equation~\ref{eqnPremult1}:
+    \begin{align}
+        \vec{v_2}^\dagger H \vec{v_1} &= \lambda_2^\dagger \vec{v_2}^\dagger \vec{v_1} \nonumber \\
+        &= \lambda_2 \vec{v_2}^\dagger \vec{v_1} \text{ by theorem~\ref{thmHermitianEVals}} \label{eqnPremult1Conj} 
+    \end{align}
+    Then subtracting equation~\ref{eqnPremult1Conj} from \ref{eqnPremult2}:
+    \begin{equation*}
+        (\lambda_1 - \lambda_2)\vec{v_2}^\dagger \vec{v_1} = 0
+    \end{equation*}
+    But, $\lambda_1 - \lambda_2 \neq 0$ by assumption, so we must have $\vec{v_2}^\dagger \vec{v_1} = 0$.\par
+    That is, these vectors are orthogonal.
+\end{proof}
+\begin{corollary}
+    If a hermitian matrix has $n$ distinct eigenvectors, then the eigenvectors form an orthonormal basis.
+    \label{corHermitianEVecBasis}
+\end{corollary}
+\begin{proof}
+    Theorem~\ref{thmHermitianEVecs} gives us that, if all eigenvalues are distinct, all eigenvectors are orthogonal. If all such eigenvectors are normalised, this is an orthonormal basis.
+\end{proof}
+\subsection{Gram-Schmidt Orthogonalisation}
+Consider a set of vectors $B = \{\vec{w_1}, \vec{w_2}, \cdots, \vec{w_r}\}$ of linearly independent vectors. We want to form an orthogonal set $\tilde{B} = \{\vec{v_1}, \cdots, \vec{v_r}\}$.\par
+\begin{definition}{Projection of a vector}
+    The component of a vector $w$ in the direction of another vector $v$ is called the \underline{projection of $w$ onto $v$}. It is calculated:
+    \begin{equation}
+        P_{\vec{v}}(\vec{w}) = \frac{\vec{v} \cdot \vec{w}}{\vec{v} \cdot \vec{v}} \vec{v}
+        \label{eqnVecProjection}
+    \end{equation}
+\end{definition}
+We can therefore obtain a method for constructing $\tilde{B}$:
+\begin{enumerate}
+    \item Let $\vec{v_1} = \vec{w_1}$
+    \item Let $\vec{v_2} = \vec{w_2} - P_{\vec{v_1}}(\vec{w_2})$, to remove the component of $v_1$ from $w_2$
+    \item Continue this process:
+        \begin{equation*}
+            \vec{v_i} = \vec{w_i} - \sum_{j=1}^{i-1} P_{\vec{v_j}}(\vec{w_i})
+        \end{equation*}
+        until $i = r$.
+\end{enumerate}
+\begin{proposition}
+    Let $U$ be a transformation matrix from an orthonormal basis to a new orthonormal basis $\{\vec{u_1}, \vec{u_2}, \cdots, \vec{u_n}\}$. Then $U$ is a unitary matrix.
+    \label{propUnitaryTransform}
+\end{proposition}
+\begin{proof}
+    Note that $U$ has the vector $u_i$ in its $i$th column.\par
+    Now consider $U^\dagger U$:
+    \begin{align*}
+        [U^\dagger U]_{ij} &= (U^\dagger)_{ik} U_{kj} \\
+        &= (\bar{\vec{u_i}})_k (\vec{u_j})_k \\
+        &= [\bar{\vec{u_i}} \vec{u_j}]_k \\
+        &= \delta_{ij} \text{ by noticing complex inner product of orthogonal vectors}
+    \end{align*}
+    So $U^\dagger U = I$, and therefore $U$ is unitary.
+\end{proof}
+We can also now get a very important theorem that most of this part of the course has been leading up to:
+\begin{theorem}
+    An $n \times n$ hermitian matrix has $n$ orthogonal eigenvectors and is therefore diagonalisable.
+    \label{thmHermitianEVecsN}
+\end{theorem}
+\begin{proof}
+    Let $\lambda_i, 1 \leq i \leq r$ be the distint eigenvalues of an $n \times n$ hermitian matrix $H$. Note that $r \leq n$, due to duplication.\par
+    Let the set $B = \{\vec{v_1}, \vec{v_2}, \cdots, \vec{v_r}\}$ be the set of orthogonal (by theorem~\ref{thmHermitianEVecs}) eigenvectors corresponding to $\lambda_i$.\par
+    Let $B' = \{\vec{v_1}, \vec{v_2}, \cdots, \vec{v_r}, \vec{w_1}, \vec{w_2}, \cdots, \vec{w_{n-r}}\}$ be a basis of $\C^n$.\par
+    Using Gram-Schmidt, make this basis orthonormal:
+    \begin{equation*}
+        \tilde{B} = \{\vec{v_1}, \vec{v_2}, \cdots, \vec{v_r}, \vec{u_1}, \vec{u_2}, \cdots, \vec{u_{n-r}}\}
+    \end{equation*}
+    Now consider the matrix $P$ that transforms the standard basis to $\tilde{B}$. By proposition~\ref{propUnitaryTransform}, this is unitary: $P^{-1} = P^\dagger$.\par
+    Now consider the matrix $H$ under the new basis:
+    \begin{equation*}
+        P^{-1} H P =
+        \begin{pmatrix}
+            \lambda_1 & 0 & \cdots & 0 & & & & \\
+            0 & \lambda_2 & & \vdots & & & & \\
+            \vdots & & \ddots & 0 & & \text{\huge{0}} & & \\
+            0 & \cdots & 0 & \lambda_r & & & & \\
+            & & & & C_{11} & C_{12} & \cdots & C_{1(n-r)} \\
+            & & \text{\huge{0}} & & C_{21} & C_{22} & \cdots & C_{2(n-r)} \\
+            & & & & \vdots & & \ddots & \vdots \\
+            & & & & C_{(n-r)1} & C_{(n-r)2} & \cdots & C_{(n-r)(n-r)} 
+        \end{pmatrix}
+    \end{equation*}
+\end{proof}
 \end{document}
