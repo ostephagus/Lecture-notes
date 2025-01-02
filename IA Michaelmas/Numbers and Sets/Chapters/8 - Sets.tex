@@ -100,6 +100,132 @@ Let $\N_0$ be the set $\N \cup \{0\}$, the natural numbers including zero.
     Given a set $A$, we say $A$ has \underline{size} $n$ if we can write $A$ as $\{a_1, a_2, \cdots, a_n\}$ with all $a_i$ distinct.
 \end{definition}
 The empty set has size $0$.
+\begin{definition}{Finite set}
+    A set $A$ is \underline{finite} if $\exists n \in \N_0$ such that $n = |A|$.
+\end{definition}
+The opposite is that $A$ is \underline{infinite}.\par
+\subsection{Counting Subsets}
+\begin{proposition}
+    A set of size $n$ has precisely $2^n$ subsets.
+    \label{propNumSubsets}
+\end{proposition}
+Two proofs are provided:
+\begin{proof}[by combinatorics]
+    Assume that $A = \{a_1, a_2, \cdots, a_2\}$. To select a subset, we specify whether $a_1$ is in the subset (a choice of 2 - in or not in), whether $a_2$ is in the subset, and continuing $n$ times. That is, a choice between 2 options $n$ times, which is $2^n$ possible subsets.
+\end{proof}
+\begin{proof}[by induction]
+    \induction{$n=0$}{In this case we have the single subset $\emptyset$, $1 = 2^0$ \tick}
+    {$n=k$}{
+        Assume that a set of size $k$ has $2^k$ subsets.
+    }
+    {$n = k + 1$}{
+        Let $T \subseteq \{1, \cdots, k\}$. Then there are precisely two subsets of $\{1, \cdots, k + 1\}$ that satisfy $S \cap \{1, \cdots, k\} = T$. Those are $T$ and $T \cup \{k + 1\}$. There are therefore double the amount of subsets of $\{1, \cdots k+1\}$ than $\{1, \cdots, k\}$.\par
+        Therefore, by assumption, there are $2 \times 2^k$ subsets, which is $2^{k+1}$, as required.
+    }
+\end{proof}
+\begin{corollary}
+    The size of a power set $\powerset{A}$ is $2^{|A|}$
+    \label{corSizePowerSet}
+\end{corollary}
+\begin{proof}
+    The result follows immediately from the definition of $\powerset{A}$ and proposition~\ref{propNumSubsets}.
+\end{proof}
+\subsection{Choose Function}
+\begin{definition}{Choose function}
+    Given $n \in \N_0$, and $0 \leq k \leq n$, the \underline{choose function} gives the number of $k$-sized subsets of a set $\{1, \cdots, n\}$.\par
+    It is written:
+    \begin{equation*}
+        \begin{pmatrix}n \\ k\end{pmatrix} = \left|\left\{S \subseteq \{1, 2, \cdots, n\}~|~|S|=k\right\}\right|
+    \end{equation*}
+    It is also written $nCk$ and said ``n choose k''.
+\end{definition}
+\begin{examples}{
+        Consider $n > 0, 0 \leq k \leq n$
+    }
+    \item $\begin{pmatrix}n \\ 0\end{pmatrix} = 1$
+    \item $\begin{pmatrix}n \\ n\end{pmatrix} = 1$
+    \item $\begin{pmatrix}n \\ 1\end{pmatrix} = n$
+    \item $\sum_{k=0}^n \begin{pmatrix}n \\ k\end{pmatrix} = 2^n$ by proposition~\ref{propNumSubsets}
+    \item $\begin{pmatrix}n & k\end{pmatrix} = \begin{pmatrix}n & n - k\end{pmatrix}$, since specifying which $k$ elements to include is the same as specifying which $n - k$ elements to exclude.
+\end{examples}
+\begin{example}
+    In addition, we have the identity:
+    \begin{equation}
+        \begin{pmatrix}n \\ k\end{pmatrix} = \begin{pmatrix}n - 1 \\ k - 1\end{pmatrix} + \begin{pmatrix}n - 1 \\ k\end{pmatrix}
+        \label{eqnChooseAsSum}
+    \end{equation}
+    for $0 < k < n$.\par
+    This is becase we can consider the number of subsets of $\{1, \cdots, n-1\}$ excluding a special element $m$, and including $m$.
+\end{example}
+So far, we have not been given an explicit formula to calculate the choose function. Such a formula does exist (although is not easy to calculate for large $n$ and $k$):
+\begin{proposition}
+    \begin{equation*}
+        \begin{pmatrix}n \\ k\end{pmatrix} = \frac{n!}{k!(n-k)!}
+    \end{equation*}
+    \label{propChooseFunc}
+\end{proposition}
+\begin{proof}
+    Consider a set of $n$ elements $A$.\par
+    There are $n(n-1)(n-2) \cdots (n-k+1)$ ways to choose $k$ elements, without repetition, and in order. However, for a set order does not matter.\par
+    There are $k$ ways to reorder the first elements, $k - 1$ ways to reorder the second element, and so forth. So there are $k!$ ways to reorder a subset. There are therefore:
+    \begin{equation*}
+        \frac{(n)(n-1)(n-2) \cdots (n-k+1)}{k!}
+    \end{equation*}
+    subsets. Using the factorial function for the numerator also, this is:
+    \begin{equation*}
+        \begin{pmatrix}n \\ k\end{pmatrix} = \frac{n!}{k!(n-k)!}
+    \end{equation*}
+\end{proof}
+\begin{theorem}[Binomial theorem]
+    For all $a, b \in \R, n \in \N$:
+    \begin{equation*}
+        (a + b)^n = \begin{pmatrix}n \\ 0\end{pmatrix}a^n b^0 + \begin{pmatrix}n \\ 1\end{pmatrix}a^{n-1} b^1 + \cdots + \begin{pmatrix}n \\ n\end{pmatrix} a^0 b^n
+    \end{equation*}
+    \label{thmBinomial}
+\end{theorem}
+\begin{proof}
+    $(a + b)^n = (a + b)(a + b) \cdots (a + b)$, $n$ brackets.\par
+    We then obtain terms of the form $a^{n-k} b^k$. For such a term, we choose from $k$ brakcets to get the $b^k$ - that is $\begin{pmatrix}n \\ k\end{pmatrix}$ choices. Hence,
+    \begin{equation}
+        (a + b)^n = \sum_{k=0}^{n} \begin{pmatrix}n \\ k\end{pmatrix} a^{n-k}{b^k}
+    \end{equation}
+\end{proof}
+\subsection{Sizes of Unions and Intersections}
+We can also relate the sizes of unions and intersections of sets.
+\begin{theorem}[Inclusion-Exclusion principle]
+    Let $S_1, S_2, \cdots, S_n$ be finite sets. Then the size of the union of those sets is:
+    \begin{equation*}
+        \left|\bigcup_{i=1}^n S_i\right| = \sum_{|A|=1} |S_A| - \sum_{|A| = 2} |S_A| + \cdots + (-1)^{n+1} \sum_{|A| = n} |S_A|
+    \end{equation*}
+    where $S_a = \bigcap_{i \in A} S_i$ and $\sum_{|A| = k} |S_A|$ is the sum of the sizes fo all $k$-sized intersections. Equivalently, the theorem may be stated:
+    \begin{equation*}
+        \left|\bigcup_{i=1}^n S_i\right| = \sum_{\gamma = 1}^{n} (-1)^{\gamma + 1} \sum_{|A| = \gamma} |S_A|
+    \end{equation*}
+\end{theorem}
+For example, for a union of 3 sets:
+\begin{equation*}
+    |A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|
+\end{equation*}
+\begin{proof}
+    Let $x = S_1 \cup S_2 \cup \cdots \cup S_n$, and assume that $x$ is in exactly $k$ different sets $S_i$. We ensure that $x$ is counted exactly once in the above formula.
+    \begin{align*}
+        &|\subsetselect{A}{|A| = 1 \text{ and } x \in S_A}| = k, \\
+        &|\subsetselect{A}{|A| = 2 \text{ and } x \in S_A}| = \begin{pmatrix}k \\ 2\end{pmatrix}
+    \end{align*}
+    and in general,
+    \begin{equation*}
+        |\subsetselect{A}{|A| = r \text{ and } x \in S_A}| = \begin{pmatrix}k \\ r\end{pmatrix}
+    \end{equation*}
+    for $r \leq k$.\par
+    So $x$ is counted:
+    \begin{align*}
+        & k - \begin{pmatrix}k \\ 2\end{pmatrix} + \cdots + (-1)^{k+1} \begin{pmatrix}k \\ k\end{pmatrix} \text{ times} \\
+        &= 1 - \left(1 - k + \begin{pmatrix}k \\ 2\end{pmatrix} - \cdots + (-1)^k\begin{pmatrix}k \\ k\end{pmatrix}\right) \\
+        &= 1-(1 + (-1))^k \text{ by theorem~\ref{thmBinomial}} \\
+        &= 1
+    \end{align*}
+    So $x$ is counted exactly once as required.
+\end{proof}
 \section{Functions}
 \subsection{Definition of a Function}
 Given sets $A$ and $B$, a function from $A$ to $B$ is, informally, a rule that assigns, to every $a \in A$, a unique element $b \in B$.
