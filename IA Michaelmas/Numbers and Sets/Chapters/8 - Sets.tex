@@ -33,7 +33,73 @@ If $A$ and $B$ are sets, we define:
 \begin{definition}{Set difference}
     The \underline{difference}, $A \backslash B$, is the set $\subsetselect{x \in A}{x \notin B}$.
 \end{definition}
-Note that union and intersection are commutative and associative. Union and intersection distribute over each other.
+Note that union and intersection are commutative and associative. Union and intersection distribute over each other. An example proof is given:
+\begin{proposition}
+    Union distributes over intersection. That is, for sets $A, B$ and $C$:
+    \begin{equation*}
+        A \cap (B \cup C) = (A \cap B) \cup (A \cap C)
+    \end{equation*}
+    \label{propUnionDist}
+\end{proposition}
+\begin{proof}
+    If $x \in A \cap (B \cup C)$, then $x \in A$ and also $x \in B$ or $x \in C$.\par
+    If $x \in B$, then $x \in A \cap B$. If $x \in C$, then $x \in A \cap C$.\par
+    In both cases, $x \in (A \cap B) \cup (A \cap C)$.\par
+    So $LHS \subseteq RHS$.\par
+    If $x \in (A \cap B) \cup (A \cap C)$, then $x \in A \cap B$ or $x \in A \cap C$.\par
+    Then we must have $x \in A$, and we have either $x \in B$ or $x \in C$.\par
+    In both cases, $x \in A$ and $x \in B \cup C$.\par
+    So $x \in A \cap (B \cup C)$.\par
+    So $RHS \subseteq LHS$.\par
+    So combining both, $LHS = RHS$.
+\end{proof}
+\begin{remark}
+    When proving equalities to do with sets, it is common to use this format, to show that each side of the equality is a subset of the other.
+\end{remark}
+If $A_1, A_2, \cdots$ are sets, then their intersection is:
+\begin{align*}
+    \bigcap_{n=1}^\infty A_n &= A_1 \cap A_2 \cap \cdots \\
+    &= \subsetselect{x}{x \in A_n~\forall n \in \N}
+\end{align*}
+And their union is:
+\begin{equation*}
+    \bigcup_{n=1}^\infty A_n
+\end{equation*}
+More generally, for a collection of sets $A_i$ indexed by an indexing set $I$, we write:
+\begin{equation*}
+    \bigcup_{i \in I} A_i \text{ for their union, and }
+    \bigcap_{i \in I} A_i \text{ for their intersection.}
+\end{equation*}
+\begin{definition}{Cartesian product}
+    Given two sets $A$ and $B$, their \underline{Cartesian product} $A \times B$ is the set:
+    \begin{equation*}
+        A \times B = \subsetselect{(a, b)}{a \in A, B \in B}
+    \end{equation*}
+    It is the set of ordered pairs of elements of each set. This can be extended to more than two sets by forming ordered $n$-tuples for an $n$-set product.
+\end{definition}
+\begin{definition}{Power set}
+    For a set $X$, the \underline{power set of $X$}, $\powerset{X}$, is the set of all subsets of $X$. $\powerset{X} = \subsetselect{Y}{Y \subseteq X}$.
+\end{definition}
+\begin{example}
+    The power set of a set of two elements:
+    \begin{equation*}
+        \powerset{\{1, 2\}} = \{\emptyset, \{1\}, \{2\}, \{1, 2\}\}
+    \end{equation*}
+\end{example}
+\begin{warning}
+    Given a set $A$, we can use subset selection to form a subset based on a property $P(a)$: $\subsetselect{a \in A}{P(a) \text{ true}}$ is valid. However, there is \underline{no universal set}! That is, we cannot define the subset $\subsetselect{x}{P(x) \text{ true}}$, because such sets are contradictory.\par
+    Consider the set $X = \subsetselect{Y}{Y \text{ is a set and } Y \notin Y}$. Then also consider the set $X$ itself.\par
+    Then $X \in X \implies X \notin X$.\par
+    And $X \in X \implies X \notin X$.\contradiction\par
+    This is known as Russel's Paradox, and shows that there can be no universal set. Therefore, to guarantee that a set exists, it must be obtained from known sets like $\N, \R$.
+\end{warning}
+\section{Sets and Counting}
+\subsection{Sizes of Sets}
+Let $\N_0$ be the set $\N \cup \{0\}$, the natural numbers including zero.
+\begin{definition}{Size of a set}
+    Given a set $A$, we say $A$ has \underline{size} $n$ if we can write $A$ as $\{a_1, a_2, \cdots, a_n\}$ with all $a_i$ distinct.
+\end{definition}
+The empty set has size $0$.
 \section{Functions}
 \subsection{Definition of a Function}
 Given sets $A$ and $B$, a function from $A$ to $B$ is, informally, a rule that assigns, to every $a \in A$, a unique element $b \in B$.
