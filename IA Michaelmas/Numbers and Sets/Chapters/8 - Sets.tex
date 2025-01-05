@@ -111,7 +111,7 @@ The opposite is that $A$ is \underline{infinite}.\par
 \end{proposition}
 Two proofs are provided:
 \begin{proof}[by combinatorics]
-    Assume that $A = \{a_1, a_2, \cdots, a_2\}$. To select a subset, we specify whether $a_1$ is in the subset (a choice of 2 - in or not in), whether $a_2$ is in the subset, and continuing $n$ times. That is, a choice between 2 options $n$ times, which is $2^n$ possible subsets.
+    Assume that $A = \{a_1, a_2, \cdots, a_n\}$. To select a subset, we specify whether $a_1$ is in the subset (a choice of 2 - in or not in), whether $a_2$ is in the subset, and continuing $n$ times. That is, a choice between 2 options $n$ times, which is $2^n$ possible subsets.
 \end{proof}
 \begin{proof}[by induction]
     \induction{$n=0$}{In this case we have the single subset $\emptyset$, $1 = 2^0$ \tick}
@@ -146,7 +146,7 @@ Two proofs are provided:
     \item $\begin{pmatrix}n \\ n\end{pmatrix} = 1$
     \item $\begin{pmatrix}n \\ 1\end{pmatrix} = n$
     \item $\sum_{k=0}^n \begin{pmatrix}n \\ k\end{pmatrix} = 2^n$ by proposition~\ref{propNumSubsets}
-    \item $\begin{pmatrix}n & k\end{pmatrix} = \begin{pmatrix}n & n - k\end{pmatrix}$, since specifying which $k$ elements to include is the same as specifying which $n - k$ elements to exclude.
+    \item $\begin{pmatrix}n \\ k\end{pmatrix} = \begin{pmatrix}n \\ n - k\end{pmatrix}$, since specifying which $k$ elements to include is the same as specifying which $n - k$ elements to exclude.
 \end{examples}
 \begin{example}
     In addition, we have the identity:
@@ -185,7 +185,7 @@ So far, we have not been given an explicit formula to calculate the choose funct
 \end{theorem}
 \begin{proof}
     $(a + b)^n = (a + b)(a + b) \cdots (a + b)$, $n$ brackets.\par
-    We then obtain terms of the form $a^{n-k} b^k$. For such a term, we choose from $k$ brakcets to get the $b^k$ - that is $\begin{pmatrix}n \\ k\end{pmatrix}$ choices. Hence,
+    We then obtain terms of the form $a^{n-k} b^k$. For such a term, we choose from $k$ brackets to get the $b^k$ - that is $\begin{pmatrix}n \\ k\end{pmatrix}$ choices. Hence,
     \begin{equation}
         (a + b)^n = \sum_{k=0}^{n} \begin{pmatrix}n \\ k\end{pmatrix} a^{n-k}{b^k}
     \end{equation}
