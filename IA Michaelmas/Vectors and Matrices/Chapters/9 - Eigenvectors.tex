@@ -180,8 +180,11 @@ We have the following properties:
         \begin{align*}
             P_B(\lambda) &= \det{(B - \lambda I)} \\
             &= \det{(P^{-1} A P - \lambda I)} \\
-            &= \det{(P^{-1}[AP - \lambda I]P)} \\
-            &= \det{(A - \lambda I)} \det{P} \det{P^{-1}}~\tick
+            &= \det{(P^{-1}[AP - \lambda PI])} \\
+            &= \det{(P^{-1}[A - \lambda I]P)} \\
+            &= \det{P^{-1}} \det{(A - \lambda I)} \det{P} \\
+            &= \det{(A - \lambda I)} \det{P} (\det{P})^{-1} \\
+            &= \det{(A - \lambda I)}~\tick
         \end{align*}
 \end{enumerate}
 \subsection{Diagonal Matrices}
