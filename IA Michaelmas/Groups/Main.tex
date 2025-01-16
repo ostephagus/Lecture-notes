@@ -13,6 +13,12 @@
     \node at (0, 0) (A) {};
     \draw[-latex] (A) arc[start angle=225, end angle=-45, x radius=0.2, y radius=0.2];
 }~}
+
+\newcommand{\uvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \hat{\textbf{\firstpart}}_{\secondpart}
+}
+
 \newcommand{\normalin}{\vartriangleleft}
 \newcommand{\mobgrp}{\mathcal{M}}
 \newcommand{\Ccross}{\C^{\times}}

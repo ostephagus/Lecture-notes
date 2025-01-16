@@ -44,7 +44,7 @@ There is a natural action of $GL_n{\R}$ on $M_n{\R}$:
     A basis $|\{\vec{v_1}, \vec{v_2}, \cdots, \vec{v_n}\}$ for $\vec{v}$ defines an isomorphism of vector spaces:
     \begin{align*}
         \phi : \R^n &\mapsto \vec{v} \\
-        (\lambda_1, \cdots, \lambda_n) &\mapsto \sum_{i=1}^{n}\lambda_i \vec{v}_i
+        (\lambda_1, \cdots, \lambda_n) &\mapsto \sum_{i=1}^{n} \lambda_i \vec{v_i}
     \end{align*}
     The claim that $A$ represents a linear map $\alpha$ in this basis means:
     \begin{equation*}
@@ -117,7 +117,7 @@ We want to do geometry, so write $||\vec{v}||$ for the usual notion of length in
 \end{definition}
 However, it is difficult to use the definition of length as given in equation~\ref{eqnVecNorm}, so we prefer to use the dot product:
 \begin{equation}
-    \vec{u} \cdot \vec{v} = \sum_{i=1}^{n}u_i \vec{v}_i
+    \vec{u} \cdot \vec{v} = \sum_{i=1}^{n}u_i \vec{v_i}
     \label{eqnDotProduct}
 \end{equation}
 \begin{lemma}[Polarisation identity]
@@ -175,7 +175,7 @@ Hence, we can characterise $O(n)$ using the dot product:
         \label{eqnDotColumns}
     \end{equation}
     And thus the columns form an orthonormal basis. Statement~\ref{stmtAInOrthGrp} implies statment~\ref{stmtColumnsOrth}\par
-    Now assume that the columns are orthogonal. As explained above, statement~\ref{stmtColumnsOrth} implies equation~\ref{eqnDotColumns}. Since $\dot{u}{v} = \vec{u^T}\vec{v}$, this means that:
+    Now assume that the columns are orthogonal. As explained above, statement~\ref{stmtColumnsOrth} implies equation~\ref{eqnDotColumns}. Since $\dot{u}{v} = \vec{u}^T\vec{v}$, this means that:
     \begin{equation*}
         \vec{e_i^t}A^t A \vec{e_j} = 
         \begin{cases}
@@ -186,9 +186,9 @@ Hence, we can characterise $O(n)$ using the dot product:
     But this is the $i, j$ coordinate of $A^t A$, and so $A^T A = I$. Statement~\ref{stmtColumnsOrth} implies statement~\ref{stmtTransposeInverse}.\par
     Now assume $A^T A = I$. Suppose $\vec{u}, \vec{v} \in \R^n$. Then:
     \begin{align*}
-        A\vec{u} \cdot A\vec{v} &= A \vec{u^T} A \vec{v} \\
-        &= \vec{u^T} A^T A \vec{v} \\
-        &= \vec{u^T} \vec{v} \text{ by assumption} \\
+        A\vec{u} \cdot A\vec{v} &= A \vec{u}^T A \vec{v} \\
+        &= \vec{u}^T A^T A \vec{v} \\
+        &= \vec{u}^T \vec{v} \text{ by assumption} \\
         &= \dotprod{u}{v}
     \end{align*}
     So $A$ preserves the dot product, and so by Lemma~\ref{lemDotProdOrthoGrp}, $A \in O(n)$. Statement~\ref{stmtTransposeInverse} implies statement~\ref{stmtAInOrthGrp}.\par
@@ -220,9 +220,9 @@ which tells us that $SO(n) \normalin O(n)$. Also, from theorem~\ref{thmIsomorphi
 \begin{definition}{Reflection}
     Any vector $\vec{v} \in \R^n, \vec{v} \neq \vec{0}$ defines an orthogonal plane:
     \begin{equation*}
-        P_\vec{v} = \subsetselect{\vec{x} \in \R^n}{\vec{x} \cdot \vec{x} = \vec{0}}
+        P_{\vec{v}} = \subsetselect{\vec{x} \in \R^n}{\vec{x} \cdot \vec{x} = \vec{0}}
     \end{equation*}
-    Then the \underline{reflection} in $P_\vec{v}$ is defined to be:
+    Then the \underline{reflection} in $P_{\vec{v}}$ is defined to be:
     \begin{equation*}
         S_{\vec{v}}(\vec{x}) = \vec{x} - \frac{2(\vec{x} \cdot \vec{v})}{||\vec{v}||}\vec{v}
     \end{equation*}
@@ -230,16 +230,16 @@ which tells us that $SO(n) \normalin O(n)$. Also, from theorem~\ref{thmIsomorphi
 \underline{Remarks:}
 \begin{enumerate}
     \item We may write also $S_P$ for a reflection in a plane
-    \item The formula is much simpler for a unit vector $\vec{\hat{v}}$:
+    \item The formula is much simpler for a unit vector $\uvec{v}$:
     \begin{equation*}
-        S_{\vec{\hat{v}}}(\vec{x}) = \vec{x} - 2(\vec{x} \cdot \vec{v})\vec{v}
+        S_{\uvec{v}}(\vec{x}) = \vec{x} - 2(\vec{x} \cdot \vec{v})\vec{v}
     \end{equation*}
 \end{enumerate}
 \begin{lemma}
-    $S_{\vec{v}}^2 = I$ and $S_\vec{v} \in O(n)$.
+    $S_{\vec{v}}^2 = I$ and $S_{\vec{v}} \in O(n)$.
 \end{lemma}
 \begin{proof}
-    We may assume that $\vec{v}$ is a unit vector. Note that $S_\vec{v}$ is linear in $\vec{x}$, so it is in $M_n(\R)$. Now note that:
+    We may assume that $\vec{v}$ is a unit vector. Note that $S_{\vec{v}}$ is linear in $\vec{x}$, so it is in $M_n(\R)$. Now note that:
     \begin{align*}
         S_{\vec{v}}(\vec{x}) \cdot \vec{v} &= (\vec{x} \cdot \vec{v}) - 2(\vec{x} \cdot \vec{v})(\vec{v} \cdot \vec{v}) \\
         &= -(\vec{x} \cdot \vec{v})
@@ -251,16 +251,16 @@ which tells us that $SO(n) \normalin O(n)$. Also, from theorem~\ref{thmIsomorphi
         &= \vec{x} - 2(\vec{x} \cdot \vec{v})\vec{v} + 2(\vec{x} \cdot \vec{v})\vec{v} \\
         &= \vec{x}
     \end{align*}
-    So $S_{\vec{v}}^2 = I$ and $S_\vec{v} = S_{\vec{v}}^{-1}$ and $S_\vec{v} \in GL_n(\R)$.\par
+    So $S_{\vec{v}}^2 = I$ and $S_{\vec{v}} = S_{\vec{v}}^{-1}$ and $S_{\vec{v}} \in GL_n(\R)$.\par
     Finally, for $\vec{x} \in \R^n$,
     \begin{align*}
         ||S_{\vec{v}}(\vec{x})||^2 &= (\vec{x} - 2(\vec{x} \cdot \vec{v})\vec{v}) \cdot (\vec{x} - 2(\vec{x} \cdot \vec{v})\vec{v}) \\
         &= ||\vec{x}||^2 - 4(\vec{x} \cdot \vec{v})^2 + 4(\vec{x} \cdot \vec{v})^2||\vec{v}||^2 \\
         &= ||\vec{x}||^2
     \end{align*}
-    So $S_\vec{v} \in O(n)$ as required.
+    So $S_{\vec{v}} \in O(n)$ as required.
 \end{proof}
-\underline{Remark:}~Let $||v|| = 1$ and pick an orthonormal basis $\{\vec{v_1}, \vec{v}_2, \cdots \vec{v_{n-1}}\}$ for $P_\vec{v}$. In the basis $\{\vec{v_1}, \vec{v_2}, \cdots \vec{v_{n-1}}, \vec{v}\}$, $S_\vec{v}$ has matrix:
+\underline{Remark:}~Let $||v|| = 1$ and pick an orthonormal basis $\{\vec{v_1}, \vec{v_2}, \cdots \vec{v_{n-1}}\}$ for $P_{\vec{v}}$. In the basis $\{\vec{v_1}, \vec{v_2}, \cdots \vec{v_{n-1}}, \vec{v}\}$, $S_{\vec{v}}$ has matrix:
 \begin{equation*}
     \begin{pmatrix}
         1 & 0 & 0 & \cdots & 0 \\
@@ -276,16 +276,16 @@ which tells us that $SO(n) \normalin O(n)$. Also, from theorem~\ref{thmIsomorphi
 \begin{proof}
     Proceed by induction on $n$.\par
     Base case: Let $n = 1$. $O(1) \cong C_n$ so we have $1$ and $-1$ which can be written as $1$ reflected about $0$.\par
-    Inductive step: Let $\{e_1, \cdots e_n\}$ be the standard basis in $\R^n$. Let $\vec{v} = e_n - Ae_n$. We then see that $S_{\vec{v}}(Ae_n) = e_n$, so $S_\vec{v} A$ preserves $e_n$. Therefore, $S_\vec{v} A$ preserves the plane orthogonal to $e_n$, which is the whole of the rest of the space.\par
-    Therefore, $S_\vec{v} A$ restricts to an orthogonal transformation of $\R^{n-1}$, so by indection there exists:
+    Inductive step: Let $\{e_1, \cdots e_n\}$ be the standard basis in $\R^n$. Let $\vec{v} = e_n - Ae_n$. We then see that $S_{\vec{v}}(Ae_n) = e_n$, so $S_{\vec{v}} A$ preserves $e_n$. Therefore, $S_{\vec{v}} A$ preserves the plane orthogonal to $e_n$, which is the whole of the rest of the space.\par
+    Therefore, $S_{\vec{v}} A$ restricts to an orthogonal transformation of $\R^{n-1}$, so by indection there exists:
     \begin{equation*}
-        \vec{v}_1, cdots, \vec{v}_{n-1} \in R^{n-1} \text{ such that } S_\vec{v} A = Sv_1, \cdots Sv_{n-1}, \text{ which is } \R^{n-1}
+        \vec{v_1}, cdots, \vec{v_{n-1}} \in R^{n-1} \text{ such that } S_{\vec{v}} A = Sv_1, \cdots Sv_{n-1}, \text{ which is } \R^{n-1}
     \end{equation*}
     Extending the $S_{v_i}$ to $R^n$ by declaring:
     \begin{equation*}
         S_{v_i}(e_n) = e_n
     \end{equation*}
-    And the two sides of the equation agree on $R^n$. Therefore, $A = S_\vec{v} S_{v_1} \cdots S_{v_{n-1}}$ as required.
+    And the two sides of the equation agree on $R^n$. Therefore, $A = S_{\vec{v}} S_{v_1} \cdots S_{v_{n-1}}$ as required.
 \end{proof}
 \begin{lemma}[Elements of $O(2)$]
     Let $A \in O(2)$. Then:
@@ -301,14 +301,14 @@ which tells us that $SO(n) \normalin O(n)$. Also, from theorem~\ref{thmIsomorphi
     \end{equation*}
     And by the theorem, $A = S_{v_1} \cdots S_{v_k}$ when $k \leq 2$.
     \begin{enumerate}
-        \item If $A \notin SO(2)$ then $k = 1$ and $A = S_\vec{v}$ for some $\vec{v}$, as claimed.
-        \item If $A \in SO(2)$, then $k$ is even so either $A = I$, or $A = S_\vec{u} S_\vec{v}$ for some linearly independent $\vec{u}, \vec{v}$. We claim that this only fixes $O$, so is a rotation.
+        \item If $A \notin SO(2)$ then $k = 1$ and $A = S_{\vec{v}}$ for some $\vec{v}$, as claimed.
+        \item If $A \in SO(2)$, then $k$ is even so either $A = I$, or $A = S_{\vec{u}} S_{\vec{v}}$ for some linearly independent $\vec{u}, \vec{v}$. We claim that this only fixes $O$, so is a rotation.
     \end{enumerate}
-    Proving the last claim, assume $\vec{x} \neq \vec{0}$ and that it is fixed by $S_\vec{u} S_\vec{v}$.
+    Proving the last claim, assume $\vec{x} \neq \vec{0}$ and that it is fixed by $S_{\vec{u}} S_{\vec{v}}$.
     \begin{equation*}
-        S_\vec{u} S_\vec{v} \vec{x} = \vec{x} \Leftrightarrow S_\vec{u} \vec{x} = S_\vec{v} x
+        S_{\vec{u}} S_{\vec{v}} \vec{x} = \vec{x} \Leftrightarrow S_{\vec{u}} \vec{x} = S_{\vec{v}} x
     \end{equation*}
-    But, $\vec{x} - S_\vec{u} \vec{x}$ is parallel to $\vec{u}$, and $\vec{x} - S_\vec{v} \vec{x}$ is parallel to $\vec{v}$, so if $S_\vec{u} \vec{x} = S_\vec{v} \vec{x}$, then $\vec{u}$ and $\vec{v}$ must be parallel. \contradiction
+    But, $\vec{x} - S_{\vec{u}} \vec{x}$ is parallel to $\vec{u}$, and $\vec{x} - S_{\vec{v}} \vec{x}$ is parallel to $\vec{v}$, so if $S_{\vec{u}} \vec{x} = S_{\vec{v}} \vec{x}$, then $\vec{u}$ and $\vec{v}$ must be parallel. \contradiction
 \end{proof}
 We can also get an explicit formula for elements of $SO(2)$:\par
 \underline{Remark:} let $A \in SO(2)$. Then the columns of $A$ form an orthonormal basis, so:
@@ -331,7 +331,7 @@ We can also analyse elements of $SO(3)$.
 \end{lemma}
 \begin{proof}
     As above, $A$ is a product of at most $3$ reflections. However, it must be a product of an even number of reflections since its determinant must be $+1$, so we have that it is either the identity or a product of 2 reflections.\par
-    Consider the case where $A = S_\vec{u} S_\vec{v}$, for linearly independent $\vec{u}, \vec{v}$. The planes $P_\vec{u}$ and $P_\vec{v}$ intersect in a line, so $A$ fixes this line $l$.\par
-    Also, $S_\vec{u} S_\vec{v} \vec{x} \Leftrightarrow S_\vec{u} \vec{x} = S_\vec{v}$. So either $S_\vec{u} = S_\vec{v}$ or $\vec{x} \in P_\vec{u} \cap P_\vec{v}$. So there can be no vector fixed by $A$ that is not on the line $l$.
+    Consider the case where $A = S_{\vec{u}} S_{\vec{v}}$, for linearly independent $\vec{u}, \vec{v}$. The planes $P_{\vec{u}}$ and $P_{\vec{v}}$ intersect in a line, so $A$ fixes this line $l$.\par
+    Also, $S_{\vec{u}} S_{\vec{v}} \vec{x} \Leftrightarrow S_{\vec{u}} \vec{x} = S_{\vec{v}}$. So either $S_{\vec{u}} = S_{\vec{v}}$ or $\vec{x} \in P_{\vec{u}} \cap P_{\vec{v}}$. So there can be no vector fixed by $A$ that is not on the line $l$.
 \end{proof}
 \end{document}
