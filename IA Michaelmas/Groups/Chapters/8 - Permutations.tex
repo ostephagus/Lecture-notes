@@ -144,13 +144,13 @@ We can now define the sign homomorphism:
         &\tau_1 \tau_2 \cdots \tau_k \\
         &\tau_1' \tau_2' \cdots \tau_l'
     \end{align*}
-    Then consider their product:
+    such that these products are equal. Thus, multiply one by the inverse of the other:
     \begin{align*}
         &\tau_k \tau_{k-1} \cdots \tau_1 \tau_1' \tau_2' \cdots \tau_l' \\
         &= \tau_k \tau_{k-1} \cdots \tau_1 \tau_1 \cdots \tau_{k-1} \tau_k \\
         &= e \text{ by repeated cancellation}
     \end{align*}
-    So $k + l \equiv 0~(\text{mod}~2)$, which means $k \equiv l~(\text{mod}~2)$. And therefore $\sign$ is well-defined.\par
+    So by lemma~\ref{lemEvenProductIdentity}, $k + l \equiv 0~(\text{mod}~2)$, which means $k \equiv l~(\text{mod}~2)$. And therefore $\sign$ is well-defined.\par
     Now to show it is a homomorphism:\par
     \begin{align*}
         \sign{(\tau_1 \tau_2 \cdots \tau_k \tau_1' \tau_2' \cdots \tau_l')} &= (-1)^{k + l} \\

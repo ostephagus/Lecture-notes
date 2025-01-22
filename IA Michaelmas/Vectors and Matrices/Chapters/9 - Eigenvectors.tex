@@ -180,8 +180,11 @@ We have the following properties:
         \begin{align*}
             P_B(\lambda) &= \det{(B - \lambda I)} \\
             &= \det{(P^{-1} A P - \lambda I)} \\
-            &= \det{(P^{-1}[AP - \lambda I]P)} \\
-            &= \det{(A - \lambda I)} \det{P} \det{P^{-1}}~\tick
+            &= \det{(P^{-1}[AP - \lambda PI])} \\
+            &= \det{(P^{-1}[A - \lambda I]P)} \\
+            &= \det{P^{-1}} \det{(A - \lambda I)} \det{P} \\
+            &= \det{(A - \lambda I)} \det{P} (\det{P})^{-1} \\
+            &= \det{(A - \lambda I)}~\tick
         \end{align*}
 \end{enumerate}
 \subsection{Diagonal Matrices}
@@ -406,7 +409,7 @@ And therefore we have equation~\ref{eqnMatrixExp} in a more convenient form:
     \begin{align}
        & \left(\vec{v}^\dagger H \vec{v}\right)^\dagger = \left(\lambda \vec{v}^\dagger \vec{v}\right)^\dagger \nonumber \\
        \implies & \vec{v}^\dagger H^\dagger \left(\vec{v}^\dagger\right)^\dagger = \lambda^\dagger \vec{v}^\dagger \left(\vec{v}^\dagger\right)^\dagger \nonumber \\
-       \implies & \vec{v}^\dagger H^\dagger \vec{v} = \bar{\lambda} \vec{v} \vec{v}^\dagger \label{eqnHermVecAndTranspConj}
+       \implies & \vec{v}^\dagger H^\dagger \vec{v} = \bar{\lambda} \vec{v}^\dagger \vec{v} \label{eqnHermVecAndTranspConj}
     \end{align}
     Then subtracting equation~\ref{eqnHermVecAndTranspConj} from equation~\ref{eqnHermVecAndTransp}:
     \begin{equation*}
