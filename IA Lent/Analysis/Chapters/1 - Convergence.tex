@@ -1,0 +1,90 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Limits}
+\subsection{Defining Limits}
+\begin{definition}{Limit of a sequence}
+    Consider a sequence of real numbers, $a_1, a_2, a_3, \cdots$ or $(a_n)_{n=1}^\infty$ and $a_n \in \R$.\par
+    We say that the sequence \underline{tends to the limit a} as $n$ tends to infinity if, given $\epsilon > 0$ there exists a natural number $N$ such that
+    \begin{equation}
+        |a_n - a| < \epsilon~\forall n \geq N
+        \label{eqnSequenceConvergence}
+    \end{equation}
+\end{definition}
+\begin{remarks}
+    \item $N$ depends on $\epsilon$
+    \item The inequality can be non-strict without changing the definition
+    \item Any fixed multiple of $\epsilon$ on the RHS does not change the definition (replace $\epsilon$ with a multiple to return to 1 on RHS)
+    \item Here $a$ must be finite and real.
+\end{remarks}
+\subsection{Monotonic Sequences}
+If $a_n \leq a_{n+1}~\forall n$, we say $(a_n)$ is increasing.\par
+If $a_n \geq a_{n+1}~\forall n$, we say $(a_n)$ is decreasing.\par
+Sequences can be strictly increasing or strictly decreasing if the inequalities above are strict.\par
+If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\par
+\begin{proposition}[Fundamental axiom of real numbers]
+    An increasing sequence of real numbers that is bounded above converges.
+\end{proposition}
+\begin{remarks}
+    \item Equivalently, every decreasing sequence bounded below converges.
+    \item Note that this is equivalent to the least upper bound axiom from IA Numbers and Sets.
+    \item This is not true for the rational numbers. Consider the sequence of rational approximations to $\sqrt{2}$. This does not have a limit in the rational numbers.
+\end{remarks}
+\subsection{Facts About Sequences}
+\begin{propositions}{
+        \label{propsSequenceFacts}
+    }
+    \item If $a_n \rightarrow a$ and $a_n \rightarrow b$, then $a = b$. \label{propLimitUnique}
+    \item If $a_n \rightarrow a$ and $n_1 < n_2 < n_3 < \cdots$ is a sequence of natural numbers, then $a_{n_j} \rightarrow a$ as $j \rightarrow \infty$. \label{propSubsequenceLimit}
+    \item If $a_n = c~\forall n$, then $a_n \rightarrow c$.\label{propConstantLimit}
+    \item If $a_n \rightarrow a$ and $b_n \rightarrow b$, $a_n + b_n \rightarrow a + b$.\label{propSumOfSequences}
+    \item If $a_n \rightarrow a$ and $b_n \rightarrow b$, then $a_n b_n \rightarrow ab$.\label{propProductOfSequences}
+    \item If $a_n \rightarrow a$, $a_n \neq 0, a \neq 0$, then $\frac{1}{a_n} \rightarrow \frac{1}{a}$ \label{propReciprocalSequence}
+    \item If $a_n$ is bounded above by $A$, and $a_n \rightarrow a$, then $a \leq A$.\label{propBoundedLimit}
+    \item If $a_n \rightarrow a$ and $c_n \rightarrow a$ as $n \rightarrow \infty$, and we have $b_n$ such that $a_n \leq b_n \leq c_n$, then $b_n \rightarrow a$. \label{propSequenceSandwich}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Limit is unique:
+            For any $\epsilon > 0$, we can find $N_1(\epsilon)$ and $N_2(\epsilon)$ such that:
+            \begin{equation*}
+                n \geq N_1 \implies |a_n - a| < \epsilon
+            \end{equation*}
+            and
+            \begin{equation*}
+                n \geq N_2 \implies |a_n - b| < \epsilon
+            \end{equation*}
+            If $n \geq \max{\{N_1, N_2\}}$, then:
+            \begin{align*}
+                0 \leq |b - a| &= |b - a_n + a_n - a| \\
+                &\leq |a_n - b| + |a_n - a| \text{ by triangle inequality} \\
+                &\leq 2\epsilon
+            \end{align*}
+            And since $\epsilon$ was arbitrary, $|b - a| = 0$ and $a = b$. \proofend
+        \item Subsequences converge to the same limit:
+        Since $n_j < n_{j + 1}$, we must have that $n_{j + 1} \geq n_j + 1$, so by induction we must have that $n_j \geq j$.\par
+        Then since $a_n \rightarrow a$, given $\epsilon > 0$ there exists $N(\epsilon)$ such that:
+        \begin{equation*}
+            n \geq N \implies |a_n - a| < \epsilon
+        \end{equation*}
+        So if $j \geq N(\epsilon)$ then $n_j \geq N(\epsilon)$ and therefore $|a_{n_j} - a| < \epsilon$. \proofend
+        \setcounter{enumi}{4} % Next number is 5
+        \item Product of sequences tends to product of limit:
+        Since $a_n \rightarrow a$ and $b_n \rightarrow b$, for any $\epsilon > 0$, we can find $N_1(\epsilon)$ and $N_2(\epsilon)$ such that:
+            \begin{equation*}
+                n \geq N_1 \implies |a_n - a| < \epsilon
+            \end{equation*}
+            and
+            \begin{equation*}
+                n \geq N_2 \implies |b_n - b| < \epsilon
+            \end{equation*}
+            Then:
+            \begin{align*}
+                |a_n b_n - ab| &= |a_n b_n - a_n b + a_n b - ab| \\
+                &\leq |a_n b_n - a_n b| + |a_n b - ab| \\
+                &\leq |a_n| |b_n - b| + |b| |a_n - a|
+            \end{align*}
+            We are nearly there
+    \end{enumerate}
+\end{proof}
+\end{document}
