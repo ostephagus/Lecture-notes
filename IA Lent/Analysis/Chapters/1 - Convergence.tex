@@ -88,4 +88,104 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
             Therefore, if $n \geq \max{\{N_1(\epsilon), N_1(1), N_2(\epsilon)\}}$, then $|a_n b_n - ab| < (1 + |a| + |b|)\epsilon$, which is a constant multiple so $a_n b_n \rightarrow ab$.
     \end{enumerate}
 \end{proof}
+\begin{propositions}{}
+    \item The sequence $a_n = \frac{1}{n}$ tends to 0
+    \item For any $|x| < 1$, then $a_n = x^n$ tends to 0.
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item $a_n = \frac{1}{n}$.\par
+            First note that this is a decreasing sequence, bounded below by 0, and so it has a limit $l$ by the Fundamental Axiom.\par
+            Consider the sequence $a_{2n} = \frac{1}{2} a_n$.\par
+            By Proposition~\ref{propProductOfSequences}, this converges to $\frac{1}{2}l$.\par
+            But by proposition~\ref{propSubsequenceLimit}, this subsequence must tend to $l$.\par
+            These are equal by proposition~\ref{propLimitUnique}, so $l = \frac{l}{2}$, and $l = 0$.
+        \item $a_n = x^n$, $|x| < 1$.\par
+            Suppose that $x$ is non-negative. Then we have that the sequence $x^n$ is decreasing and bounded below by 0, and so converges to $l$.\par
+            Now $x^{n+1} = x \times x^n$, and so $a_{n+1}$ converges to $x l$.\par
+            But this is a subsequence, and must converge to $l$.\par
+            Now $xl = l$, and $l$ must be 0 since $x \neq 1$.\par
+            Now consider any $x$ in range. $-|x|^n \leq x^n \leq |x|^n$. By above, $|x|^n$ tends to 0 and so does its negative.\par
+            Therefore by proposition~\ref{propSequenceSandwich}, $x^n \rightarrow 0$.
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    When we say a sequence converges, we mean that it converges to a finite limit. There does exist a notion of \textit{tending to infinity} - based on sequence gets larger than, and stays larger than, any number we choose as long as we go far enough along the sequence.
+\end{remark}
+\begin{definition}{Convergence to infinity}
+    Given a sequence $a_n$ and a real number $M$, then if there exists some natural number $N(M)$ such that:
+    \begin{equation*}
+        a_n > M~\forall n \geq N
+    \end{equation*}
+    Then $a_n$ tends to infinity.
+\end{definition}
+\begin{warning}
+    Not all of the results about finite limits carry over.
+\end{warning}
+\begin{remark}
+    The definition of convergence to a limit still works for complex numbers. We can intuit this as ensuring that all $a_n$ are within a small disk (radius $\epsilon$) of the limit, for all $n \geq N(\epsilon)$.\par
+    Propositions \ref{propLimitUnique} to \ref{propReciprocalSequence} still hold, but due to difficulties with ordering for complex numbers propositions \ref{propBoundedLimit} and \ref{propSequenceSandwich}, and the fundamental axiom do not hold. We have do do extra work to get similar results.
+\end{remark}
+\begin{lemma}
+    If $(z_n)$ is a complex sequence than $z_n \rightarrow z$ if and only if both
+    \begin{align*}
+        \Re(z_n) &\rightarrow \Re(z) \\
+        \Im(z_n) &\rightarrow \Im(z)
+    \end{align*}
+\end{lemma}
+\begin{proof}
+    Note that for any complex number $w$:
+    \begin{equation}
+        \max{\{|\Re(w)|, |\Im(w)|\}} \leq |w| \leq |\Re(w)| + |\Im(w)|
+        \label{eqnComplexInequalities}
+    \end{equation}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose $z_n \rightarrow z$.}
+        Then $\forall \epsilon > 0, \exists N(\epsilon), n \geq N \implies |z_n - z| < \epsilon$. But then using inequality~\ref{eqnComplexInequalities}, this also implies:
+        \begin{equation*}
+            |\Re(z_n) - \Re(z)| < \epsilon \text{ and } |\Im(z_n) - \Im(z)| < \epsilon
+        \end{equation*}
+        As required.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose $\Re(z_n) \rightarrow z$ and $\Im(z_n) \rightarrow \Im(z)$.}
+        Then for all $\epsilon > 0~\exists N_1(\epsilon), N_2(\epsilon)$:
+        \begin{align*}
+            n \geq N_1 \implies |\Re(z_n) - \Re(z)| &< \epsilon \\
+            n \geq N_2 \implies |\Im(z_n) - \Im(z)| &< \epsilon
+        \end{align*}
+        Let $N(\epsilon) = \max{\{N_1, N_2\}}$. Then summing the above equations:
+        \begin{equation*}
+            n \geq N \implies |\Re(z_n - z)| + |\Im(z_n - z)| < 2\epsilon
+        \end{equation*}
+        Which, by the right side of inequality~\ref{eqnComplexInequalities}, gives the result.
+    \end{proofdirection}
+\end{proof}
+\begin{theorem}[Bolzano-Weierstrass Theorem]
+    If $x_n \in \R$ and there exists some $K$ such that $|x_n| \leq K~\forall n$, then there must exist a subsequence that converges. That is, for some sequence of increasing natural numbers $n_i$, $x_{n_i} \rightarrow x$.
+\end{theorem}
+\begin{remark}
+    The theorem does not assert that the sequence is unique. Consider $(-1)^n$. There are two convergent subsequences (that of even terms that converges to 1, that of odd terms that converges to -1).
+\end{remark}
+\begin{proof}
+    First set $a_1 = -k, b_1 = k$ so that all terms of the sequence lie between $a_1$ and $b_1$.\par
+    Then let $c$ be the midpoint of the interval: $c = \frac{a_1 + b_1}{2}$.\par
+    Either there are infinitely many terms of $x_n$ between $a_1$ and $c$ (case 1), or there are infinitely many terms between $c$ and $b_1$ (case 2).
+    Then if we are in case 1, set $a_2 = a_1, b_2 = c$. If we are not in case 1 then we have case 2 and so set $a_2 = c$, $b_2 = b_1$.\par
+    We continue this process of halving the intervals, to get sequences $a_k$ and $b_k$. We have that, by the method of construction, we have:
+    \begin{itemize}
+        \item infinitely many terms of $x_n$ within $a_k$ and $b_k$
+        \item the size of the interval halves each time
+        \item $a_k$ is an increasing sequence, $b_k$ is a decreasing sequence.
+    \end{itemize}
+    Note that now $a_k$ is an increasing sequence bounded above by $b_1$, and $b_k$ is a decreasing sequence bounded below by $a_1$. Therefore let $a_k$ converge to some $a$ and $b_k$ converge to some $b$. But since $b_{k+1} a_{k + 1} = \frac{1}{2}(b_k - a_k)$, we require that $(b - a) = \frac{1}{2}(b - a)$, and so $a = b$.\par
+    Recall that, at every stage, we have infinitely many terms of $x_n$ within each interval. Then construct the subsequence $x_{n_i}$ as follows:
+    \begin{itemize}
+        \item $n_1 = 1$
+        \item Let $n_{i + 1}$ be the smallest integer greater than $n_i$ such that:
+            \begin{equation*}
+                x_{n_{i+1}} \in [a_{j + 1}, b_{j + 1}]
+            \end{equation*}
+            This is valid beacause there are infinitely many terms within these intervals.
+    \end{itemize}
+    Now by proposition~\ref{propSequenceSandwich}, this subsequence converges to $a$.
+\end{proof}
 \end{document}
