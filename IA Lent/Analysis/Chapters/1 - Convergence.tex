@@ -84,7 +84,8 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
                 &\leq |a_n b_n - a_n b| + |a_n b - ab| \\
                 &\leq |a_n| |b_n - b| + |b| |a_n - a|
             \end{align*}
-            We are nearly there
+            We are nearly there, but note that $a_n$ is not fixed. However, if, for example, $n \geq N_1(1)$, then $|a_n - a| < 1$, so $|a_n| \leq 1 + |a|$, which is fixed.\par
+            Therefore, if $n \geq \max{\{N_1(\epsilon), N_1(1), N_2(\epsilon)\}}$, then $|a_n b_n - ab| < (1 + |a| + |b|)\epsilon$, which is a constant multiple so $a_n b_n \rightarrow ab$.
     \end{enumerate}
 \end{proof}
 \end{document}
