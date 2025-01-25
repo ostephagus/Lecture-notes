@@ -8,9 +8,22 @@
 
 \input{../../Header.tex}
 
+\newcommand{\uvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \hat{\textbf{\firstpart}}_{\secondpart}
+}
+\newcommand{\dvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \dot{\textbf{\firstpart}}_{\secondpart}
+}
+\newcommand{\ddvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \ddot{\textbf{\firstpart}}_{\secondpart}
+}
+
 \begin{document}
 \maketitle
 \tableofcontents
-\chapter{Newtonian Mechanics}
-\subfile{Chapters/1 - Newtonian.tex}
+\chapter{Reference Frames and Examples of Forces}
+\subfile{Chapters/1 - Frames and Forces.tex}
 \end{document}
