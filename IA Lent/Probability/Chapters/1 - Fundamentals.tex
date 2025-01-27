@@ -1,0 +1,79 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Fundamental Definitions}
+\begin{definition}{$\sigma$-algebra}
+    Suppose $\Omega$ is a set and $\sigalg$ a collection of subsets.\par
+    We call $\sigalg$ a \underline{$\sigma$-algebra} if:
+    \begin{enumerate}
+        \item $\Omega \in \sigalg$
+        \item If $A \in \sigalg$, then $A^c \in \sigalg$ % What is a complement?
+        \item For any countable collection $(A_n)_{n \in \N}$ of sets is $\sigalg$, if all $A_n$ are in $\sigalg$ then the union must be in $\sigalg$.
+    \end{enumerate}
+\end{definition}
+\begin{definition}{Probability measure}
+    A function $P : \sigalg \mapsto [0, 1]$ is called a \underline{probability measure} if:
+    \begin{enumerate}
+        \item $P(\Omega) = 1$
+        \item For any countable collection of disjoint sets $(A_n)_{n \in \N}$ in $\sigalg$ then the probability of the union is:
+            \begin{equation*}
+                P(\bigcup_{n \in \N} A_n) = \sum_{n \in \N} P(A_n)
+            \end{equation*}
+    \end{enumerate}
+    And we say $P(A)$ is the probability of $A$.
+\end{definition}
+\begin{definition}{Probability space}
+    Then the triplet $(\Omega, \sigalg, P)$ is a \underline{probability space}.\par
+    The elements of $\Omega$ are \underline{outcomes} and the elements of $\sigalg$ are called \underline{events}.
+\end{definition}
+Important properties:
+\begin{enumerate}
+    \item $P(A^c) = 1 -P(A)$ for any $A \in \sigalg$
+    \item $P(\emptyset) = 0$
+    \item If $A \subseteq B$ then $P(A) \leq P(B)$
+    \item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
+\end{enumerate}
+\section{Examples of Probaility Spaces}
+\begin{example}[Rolling a fair die]
+    $\Omega = \{1, 2, \cdots, 6\}, \sigalg = \powerset(\Omega)$\par % This is power set - how to distinguish?
+        Then $P(\{\omega\}) = \frac{1}{6}$, and so $P(A) = \frac{|A|}{6}$.
+\end{example}
+\begin{remark}
+    When $\Omega$ is countable we take $\sigalg$ to be all the subsets of $\Omega$.
+\end{remark}
+\begin{example}[Uniform distribution]
+    Let $\Omega$ be a finite set $\Omega = \{\omega_1, \cdots, \omega_n\}$.\par
+    Then let $\sigalg$ be all subsets.\par
+    Let $P(A) = \frac{|A|}{|\Omega|}$.
+\end{example}
+\begin{example}[Picking balls from a bag]
+    Suppose we have $n$ balls labelled $1$ to $n$ in a bag indistinguishable when in the bag. Pick $k$ balls at random, without replacement.\par
+    Then $\Omega = \subsetselect{A \in \{1, \cdots, n\}}{|A| = k}$.\par
+    Then $|Omega| = \begin{pmatrix}n \\ k\end{pmatrix}$.\par
+    $P(\omega) = \frac{1}{nCk}$.
+\end{example}
+\begin{example}[Deck of cards]
+    Consider a well-shuffled deck of cards.\par
+    Then $\Omega = \{\text{all permutations of 52 elements}\}$. It has size $52!$.\par
+    Then consider $P(\text{two top cards are aces}) = \frac{4 \times 3 \times 50!}{52!}$.
+\end{example}
+\begin{example}{Largest digit}
+    Consider a string of n base-10 digits chosen randomly.\par
+    $\Omega = \{0, \cdots, 9\}^n$, $|\Omega| = 10^n$.\par
+    Then let $A_k=\{\text{no digit exceeds } k\}$.\par
+    \begin{equation*}
+        P(A_k) = \frac{|A_k|}{|\Omega|} = \frac{(k + 1)^n}{10^n}
+    \end{equation*}
+    Also consider $B_k = \{\text{largest digit is } k\}$. Note that $B_k = A_k \backslash A_{k - 1}$.
+\end{example}
+\begin{example}[Birthday problem]
+    Consider $n$ people and assume each person is equally likely to have been born on each day (excluding 29th February). We calculate the probability that two people share the same birthday.\par
+    $\Omega = \{1, \cdots, 365\}^n$, $\sigalg$ is all subsets.\par
+    Then the probability of any outcome $\omega$ is $\frac{1}{365^n}$.\par
+    Let $A = \{\text{at least two people share a birthday}\}$. It is easier to consider $A^c$: all birthdays are distinct.\par
+    \begin{equation*}
+        P(A^c) = \frac{|A^c|}{|\Omega|} = \frac{365 \times 364 \times \cdots \times (365-n + 1)}{365^n}
+    \end{equation*}
+    And $P(A) = 1 - P(A^c)$.
+\end{example}
+\end{document}
