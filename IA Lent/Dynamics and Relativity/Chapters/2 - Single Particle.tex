@@ -1,0 +1,21 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Motion in One Dimension}
+Often, we can reduce problems to motion in one dimension. In one dimension, Newton's Second Law is:
+\begin{equation}
+    m\ddot{x} = F_x
+    \label{eqnNewtonSecondOneDim}
+\end{equation}
+If $F_x$ is velocity independent, then it can always be written as a gradient of a potential:
+\begin{equation}
+    V(x) = -\int_{x_0}^{x} F_x(u) du
+    \label{eqnPotentialOneDim}
+\end{equation}
+Then we can conserve an energy $E = \frac{1}{2} m \dot{x}^2 + V(x)$. Solving this as a first-order differential equation:
+\begin{equation}
+    t - t_0 = \pm \int_{x_0}^x \frac{du}{\sqrt{\frac{2}{m}\left(E - V(u)\right)}}
+    \label{eqnTimeGivenEnergy}
+\end{equation}
+Such a formula is only easy to derive for 1 dimension. In more dimensions something like this may not even be possible to find.
+\end{document}

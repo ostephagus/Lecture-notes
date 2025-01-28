@@ -165,11 +165,79 @@ Conserivative forces have the property that work done by the force as a particle
     &= V(\vec{x}(t_1)) - V(\vec{x}(t_2)) \text{ by conservation of energy}
 \end{align*}
 Which only depends on the endpoints.\par
-Note that the quantity $\vec{F} cdot \dvec{x}$ is the power, $P$. It is the rate of change of doing work.\par
+Note that the quantity $\vec{F} \cdot \dvec{x}$ is the power, $P$. It is the rate of change of doing work.\par
 The second way is using a property of line integrals and gradients.
 \begin{align*}
     W &= \int_C \vec{F} \cdot \vec{dx} \\
     &= -\int_C \nabla V dx \\
     &= V(\vec{x_1}) - V(\vec{x_2})
 \end{align*}
+\subsection{Electromagnetic Forces}
+Forces that depend on velocity typically do not have a conserved energy. One important exception is the Lorentz force that an electromagnetic field exerts on a charged particle.
+\begin{definition}{Lorentz force}
+    The force experienced by a particle with charge $q$ and at position $\vec{x}$ is the Lorentz force:
+    \begin{equation}
+        \vec{F} = q\left(\vec{E}(\vec{x}) + \dvec{x} \times \vec{B}(\vec{x})\right)
+        \label{eqnLorentzForce}
+    \end{equation}
+    Here $\vec{E}$ is the electric field, $\vec{B}$ is the magnetic field. We assume static fields (that do not depend on time).
+\end{definition}
+Also, the electric field is given by:
+\begin{equation}
+    \vec{E}(\vec{x}) = -\nabla \phi(\vec{x})
+    \label{eqnElectricField}
+\end{equation}
+And $\phi$ is the electric potential.\par
+In the electric field, the conserved energy is $E = \frac{1}{2} m\dvec{x}^2 + q\phi(\vec{x})$. Checking the field is conservative:
+\begin{align*}
+    \frac{dE}{dt} &= m\dvec{x} \cdot \ddvec{x} + q \nabla\phi \cdot \vec{x} \\
+    &= \dvec{x} \cdot (\vec{F} - q\vec{E}(\vec{x})) \\
+    &= \dvec{x} \cdot (q\vec{x} \times \vec{B}(\vec{x})) = 0
+\end{align*}
+The velocity-dependent force is orthogonal to the trajectory of the particle, and so does no work on the particle, and therefore energy is conserved.\par
+The electric force is similar to gravitational force. The potential at $\vec{x}$ due to a particle of charge $Q$ at $\vec{x_0}$ is:
+\begin{equation}
+    \phi(\vec{x}) = \frac{Q}{4\pi \epsilon_0} \frac{1}{|\vec{x} - \vec{x_0}}
+    \label{eqnElectricPotential}
+\end{equation}
+And therefore like gravity we have an inverse-square law, this is called the Coulomb Force.\par
+One important difference between the gravitational force and the Coulomb force is that mass is always positive, so gravity is attractive. Charges can be positive or negative, and so the electric force can be attractive or repulsive.\par
+Magnetic forces are different. A charged particle in a magnetic field obeys:
+\begin{equation}
+    m\ddvec{x} = q\dvec{x} \times \vec{B} \\
+    \label{eqnMagneticForce}
+\end{equation}
+This is a vector differential equation. We solve for constant magnetic field. Align the coordinate system such that $\vec{B} = B\uvec{z}$. Also write $\vec{x} = (x, y, z)^T$.\par
+Then solve equation~\ref{eqnMagneticForce} using this coordinate system:
+\begin{align*}
+    m\ddot{x} &= qB\dot{y} \\
+    m\ddot{y} &= -qB\dot{x} \\
+    m\ddot{z} &= 0
+\end{align*}
+Parameterising $m, q, B$ as $\omega = \frac{qB}{m}$ fully describes the system. $\omega$ is called the cyclotron frequency.\par
+Solving the equation in $z$:
+\begin{equation*}
+    z = z_0 + v_z t
+\end{equation*}
+So we have constant-velocity motion in the $z$ direction.\par
+Then we have a system of 2 equations to solve ($x$ and $y$). We can eliminate a variable:
+\begin{align*}
+    m \frac{d\ddot{x}}{dt} &= qb\ddot{y} \\
+    &= -\omega^2 \dot{x} \text{ by substituting for } \ddot{y} \\
+    \dot{x} &= \tilde{A}\sin{(\omega t + \phi)} \\
+    x = x_0 + A \cos{(\omega t + \phi)}
+\end{align*}
+And we can solve for $y$:
+\begin{equation*}
+    y = y_0 - A \sin{(\omega t + \phi)}
+\end{equation*}
+And this motion is circular in the x-y plane, with constant velocity in the $z$ direction.\par
+We can solve this in a much easier way using complex numbers.\par
+Let $\xi = x + iy$. Now consider:
+\begin{align*}
+    \ddot{\xi} &= \ddot{x} + i\ddot{y} \\
+    &= -i\omega \dot{\xi} \\
+    \xi &= c_1 e^{-i\omega t} + c_2
+\end{align*}
+Then relabelling the constants as: $c_1 = Ae^{-\phi}, c_2 = x_0 + i y_0$, we get the solutions as above.
 \end{document}
