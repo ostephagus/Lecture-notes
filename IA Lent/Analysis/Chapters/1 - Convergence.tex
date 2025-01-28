@@ -1,7 +1,7 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-\section{Limits}
+\section{Sequences}
 \subsection{Defining Limits}
 \begin{definition}{Limit of a sequence}
     Consider a sequence of real numbers, $a_1, a_2, a_3, \cdots$ or $(a_n)_{n=1}^\infty$ and $a_n \in \R$.\par
@@ -88,9 +88,11 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
             Therefore, if $n \geq \max{\{N_1(\epsilon), N_1(1), N_2(\epsilon)\}}$, then $|a_n b_n - ab| < (1 + |a| + |b|)\epsilon$, which is a constant multiple so $a_n b_n \rightarrow ab$.
     \end{enumerate}
 \end{proof}
-\begin{propositions}{}
-    \item The sequence $a_n = \frac{1}{n}$ tends to 0
-    \item For any $|x| < 1$, then $a_n = x^n$ tends to 0.
+\begin{propositions}{
+        \label{propSequenceLimits}
+    }
+    \item The sequence $a_n = \frac{1}{n}$ tends to 0 \label{propReciprocalLimit}
+    \item For any $|x| < 1$, then $a_n = x^n$ tends to 0. \label{propPowersLimit}
 \end{propositions}
 \begin{proof}
     \begin{enumerate}
@@ -132,6 +134,7 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
         \Re(z_n) &\rightarrow \Re(z) \\
         \Im(z_n) &\rightarrow \Im(z)
     \end{align*}
+    \label{lemComplexConvergence}
 \end{lemma}
 \begin{proof}
     Note that for any complex number $w$:
@@ -159,8 +162,10 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
         Which, by the right side of inequality~\ref{eqnComplexInequalities}, gives the result.
     \end{proofdirection}
 \end{proof}
+\subsection{Bolzano-Weierstrass Theorem}
 \begin{theorem}[Bolzano-Weierstrass Theorem]
     If $x_n \in \R$ and there exists some $K$ such that $|x_n| \leq K~\forall n$, then there must exist a subsequence that converges. That is, for some sequence of increasing natural numbers $n_i$, $x_{n_i} \rightarrow x$.
+    \label{thmBolzanoWeierstrass}
 \end{theorem}
 \begin{remark}
     The theorem does not assert that the sequence is unique. Consider $(-1)^n$. There are two convergent subsequences (that of even terms that converges to 1, that of odd terms that converges to -1).
@@ -188,4 +193,123 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
     \end{itemize}
     Now by proposition~\ref{propSequenceSandwich}, this subsequence converges to $a$.
 \end{proof}
+\section{Cauchy Sequences}
+A Caucy sequence is an alternate way to characterise sequences and convergence.
+\begin{definition}{Cauchy sequence}
+    A sequence $a_n$ of real numbers is called a \underline{Cauchy sequence} if, far enough along the sequence, terms get and stay close together. Precisely, this is:\par
+    Given $\epsilon > 0$, there exists $N(\epsilon)$ such that for any natural number $m$ and $n$ greater than $N(\epsilon)$,
+    \begin{equation*}
+        |a_n - a_m| < \epsilon
+    \end{equation*}
+\end{definition}
+We will then show that Cauchy sequences are equivalent to convergent sequences.
+\begin{lemma}
+    Every convergent sequence is a Cauchy sequence.
+    \label{lemConvergeImpliesCauchy}
+\end{lemma}
+\begin{proof}
+    Let $a_n \to a$ as $n \to \infty$. Then for any $\epsilon > 0$, we have $N(\epsilon)$ such that:
+    \begin{equation*}
+        n > N(\epsilon) \implies |a_n - a| < \epsilon
+    \end{equation*}
+    Then if $m$ and $n$ are greater than $N(\epsilon)$,
+    \begin{align*}
+        |a_n - a_m| &= |a_n - a + a_m - a| \\
+        &\leq |a_n - a| + |a_m - a| < 2\epsilon
+    \end{align*}
+\end{proof}
+More surprising and more useful is the converse:
+\begin{theorem}
+    Every Cauchy sequence converges to a finite limit.
+    \label{thmCauchyImpliesConverge}
+\end{theorem}
+\begin{proof}
+    Suppose $a_n$ is a Cauchy sequence. We first show that $a_n$ is bounded (to use theorem~\ref{thmBolzanoWeierstrass}).\par
+    Then using the property where $\epsilon = 1$:\par
+    if $n, m > N(1)$, $|a_n - a_m| < 1$.\par
+    Then we can bound the terms. Set $m = N(1)$:
+    \begin{equation*}
+        |a_n| \leq 1 + |a_{N(1)}|~\forall n \geq N(1)
+    \end{equation*}
+    Then set $K = 1 + \max{\{|a_1|, |a_2|, \cdots, |a_{N(1)}|\}}$, and so $|a_n| \leq K$ for any $n$.\par
+    Now by theorem~\ref{thmBolzanoWeierstrass}, there must be a convergent subsequence:\par
+    There exists a real number $a$ and natural numbers $n_1 < n_2 < \cdots$ such that $a_{n_j} \to a$.\par
+    Now we can argue that $a_n \to a$, since all the terms are arbitrarily close to the convergent subsequence.\par
+    \begin{align}
+        |a_n - a| &= |a_n - a_{n_j} + a_{n_j} - a| \nonumber \\
+        &\leq |a_n - a_{n_j}| + |a_{n_j} - a| \label{eqnSumOfModTerms}
+    \end{align}
+    Then fix $\epsilon > 0$, and since $a_n$ is cauchy there exists $N_1(\epsilon)$ such that $n, n_j \geq N_1(\epsilon)$, $|a_n - a_{n_j}$.\par
+    Also, since $a_{n_j} \to a$, there exists $N_2(\epsilon)$ such that if $j \geq N_2$ then $|a_{n_j} - a| < \epsilon$.\par
+    Then choose $j$ such that $j \geq N_2(\epsilon)$ and $n_j \geq N_1(\epsilon)$. Now we have the two properties above we can say that, from equation~\ref{eqnSumOfModTerms},
+    \begin{equation*}
+        |a_n - a| < 2 \epsilon
+    \end{equation*}
+    and so $a_n \to a$.
+\end{proof}
+The combination of lemma~\ref{lemConvergeImpliesCauchy} and theorem~\ref{thmCauchyImpliesConverge} is known as the \\ \underline{General Principle of Convergence}: a real sequence converges if and only if it is a Cauchy sequence.
+\begin{corollary}
+    A complex sequence converges if and only if it is a Cauchy sequence.
+    \label{corComplexCauchyConvergence}
+\end{corollary}
+\begin{proof}
+    We can use equation~\ref{eqnComplexInequalities} to consider the two real sequences formed by the real part and the imaginary part. Then we see that the General Principle of Convergence holds for complex sequences by using the same method of proof as above, along with lemma~\ref{lemComplexConvergence}
+\end{proof}
+\section{Series}
+\begin{definition}{Convergence of a series}
+    Suppose $a_j$ is a sequence of real numbers. The series:
+    \begin{equation*}
+        \sum_{j=1}^{\infty} a_j
+    \end{equation*}
+    converges to a limit $S$ if the sequence of partial sums:
+    \begin{equation*}
+        S_N = \sum_{j=1}^{N} a_j
+    \end{equation*}
+    converges to $S$.\par
+    In this case, write $\sum_{j=1}^\infty a_j = S$.
+\end{definition}
+Note that this definition also works if the numbers are all complex.
+\begin{remark}
+    Any problem about series can be rephrased to a problem about sequences, and and problem about sequences can be rephrased in in terms of series.
+\end{remark}
+\begin{propositions}{
+        \label{eqnSeriesProperties}
+    }
+    \item If $\sum_{j=1}^\infty a_j$ and $\sum_{j=1}^\infty b_j$ converge, then any linear combination does. \label{propSeriesLinearCombo}
+    \item Suppose there exists some $N$ such that $a_j = b_j, j \geq N$.
+        Then $\sum_{j=1}^\infty a_j$ and $\sum_{j=1}^\infty b_j$ either both diverge or both converge. \label{propSameTailSeries}
+\end{propositions}
+\begin{proof}[of proposition \ref{propSameTailSeries}]
+    Suppose $n \geq N$. Then:
+    \begin{equation*}
+        S_n = \sum_{j=1}^n a_j = \sum_{j=1}^{N-1}a_j + \sum_{j=N}^{n} a_j
+    \end{equation*}
+    and also
+    \begin{align*}
+        S_n &= \sum_{j=1}^n b_j = \sum_{j=1}^{N-1}b_j + \sum_{j=N}^{n} b_j \\
+        &= S_n + \left(\sum_{j=1}^{N-1} b_j - \sum{j=1}^{N-1} a_j\right) \\
+        &= S_n + k
+    \end{align*}
+    Where $k$ does not depend on $n$.
+\end{proof}
+An important example is the geometric series:
+\begin{definition}{Geometric series}
+    Suppose $x$ is a real number, and take $a_n = x^{n-1}$.\par
+    Then the \underline{geometric series} has partial sum:
+    \begin{equation*}
+        S_n = \sum_{j=1}^n a_j = 1 + x + x^2 + \cdots + x^{n-1}
+    \end{equation*}
+    and we have a closed form:
+    \begin{equation*}
+        S_n =
+        \begin{cases}
+            \frac{1 - x^n}{1 - x} & x \neq 1 \\
+            n & x = 1
+        \end{cases}
+    \end{equation*}
+\end{definition}
+Now if, for a geometric series, $|x| < 1$, proposition \ref{propPowersLimit} shows that $x^n \to 0$ so $S_n \to \frac{1}{1-x}$.\par
+Also, if $x > 1$ then $x^n = (1 + \delta)^n \geq 1 + n\delta$ by the binomial theorem, which diverges and so $S_n$ diverges.\par
+In the case $x < -1$, whih is the same as the $x > 1$ case but with alternating sign.\par
+When $x = 1$, the sequence of partial sums is the sequence of natural numbers, which diverges. If $x = -1$, the series alternates between $1$ and $0$ and so diverges.
 \end{document}
