@@ -272,6 +272,7 @@ Note that this definition also works if the numbers are all complex.
 \begin{remark}
     Any problem about series can be rephrased to a problem about sequences, and and problem about sequences can be rephrased in in terms of series.
 \end{remark}
+\subsection{Properties of Series}
 \begin{propositions}{
         \label{eqnSeriesProperties}
     }
@@ -312,4 +313,126 @@ Now if, for a geometric series, $|x| < 1$, proposition \ref{propPowersLimit} sho
 Also, if $x > 1$ then $x^n = (1 + \delta)^n \geq 1 + n\delta$ by the binomial theorem, which diverges and so $S_n$ diverges.\par
 In the case $x < -1$, whih is the same as the $x > 1$ case but with alternating sign.\par
 When $x = 1$, the sequence of partial sums is the sequence of natural numbers, which diverges. If $x = -1$, the series alternates between $1$ and $0$ and so diverges.
+\subsection{Tests for Convergence}
+A simple, but useful, result is the $n$th term test:
+\begin{lemma}[$n$th term test]
+    If $\sum_{j=1}^\infty a_j$ converges, then $a_j \to 0$ as $j \to \infty$.
+    \label{lemNthTermTest}
+\end{lemma}
+\begin{proof}
+    If $S_n$ is the $n$th partial sum, then $a_n = S_n - S_{n-1}$.\par
+    If the series converges, then $S_n$ converges to a limit $S$. Also, $S_{n-1}$ must also tend to $S$ and so $a_n$ converges to $S - S = 0$.
+\end{proof}
+\begin{remark}
+    This is most often used to show a series does not converge if the terms do not tend to 0.
+\end{remark}
+\begin{example}[Converse of lemma~\ref{lemNthTermTest} does not hold]
+    Consider $\sum_{j=1}^\infty \frac{1}{j}$, the harmonic series.
+    Then consider $S_{2n}$:
+    \begin{align*}
+        S_{2n} &= S_n + \frac{1}{n+1} + \frac{1}{n+2} \cdots \frac{1}{2n} \\
+        &\geq S_n + \frac{1}{2n} + \cdots + \frac{1}{2n} \\
+        &= S_n + \frac{1}{2}
+    \end{align*}
+    And now if $S_n \to S$ then $S_{2n} \to S$ and $S \geq S + \frac{1}{2}$ \contradiction\par
+    The harmonic series diverges, and this is a counterexample of the converse of lemma~\ref{lemNthTermTest}.
+\end{example}
+\begin{theorem}[Comparison test]
+    Suppose that two sequences $a_j$ and $b_j$ are such that $0 \leq b_j \leq a_j$ for any $j$.\par
+    Then if $\sum_{j=1}^\infty a_j$ converges, then so does $\sum_{j=1}^\infty b_j$
+    \label{thmComparisonTest}
+\end{theorem}
+\begin{proof}
+    Let $S_n = \sum_{j=1}^n b_j$, and $D_n = \sum_{j=1}^n a_j$. Note that both are monotone increasing sequences, and that $D_n \to D$ as $n \to \infty$.\par
+    Further, due to the bounds on the terms $S_n \leq D_n \leq D$.\par
+    And now we have that $S_n$ is increasing and bounded above, so by the Fundamental Axiom of the Real Numbers, $S_n$ must converge.
+\end{proof}
+\begin{example}
+    Consider $\sum_{j=1}^\infty \frac{1}{j^2}$. Then the terms of this sequence are certainly non-negative, and for $j \geq 2$ we can bound this above by $\frac{1}{j(j-1)}$. However, we can write this as:
+    \begin{equation*}
+        0 \leq \frac{1}{j^2} < \frac{1}{j-1} - \frac{1}{j} = a_j
+    \end{equation*}
+    Note that $a_j$ is telescoping: $\sum_{j=1}^n = 1 - \frac{1}{n}$ which converges to $1$.\par
+    Then by theorem~\ref{thmComparisonTest}, the original series converges.
+\end{example}
+\begin{theorem}[Root test]
+    Suppose that $a_n$ is a sequence of non-negative terms, and $\sqrt[n]{a_n}$ converges to a limit $a$.\par
+    Then if $a < 1, \sum_{n=1}^{\infty} a_n$ converges, and if $a > 1, \sum_{n=1}^{\infty} a_n$ diverges.
+    \label{thmRootTest}
+\end{theorem}
+\begin{proof}
+    \begin{case}{$a < 1$}
+        Then choose a value $r$ such that $a < r < 1$. After some number of terms, all $a_n$ are less than $r$ since $r > a$. We can see this from the definition of the limit:
+        There exists a natural number $N$ such that, for any $\epsilon$:
+        \begin{equation*}
+            n \geq N \implies a - \epsilon < \sqrt[n]{a_n} < a + \epsilon
+        \end{equation*}
+        Then if $\epsilon = r - a, n \geq N$:
+        \begin{align*}
+            \sqrt[n]{a_n} &< r \\
+            a_n &< r^n
+        \end{align*}
+        And since $r < 1$, the geometric series in $r$ converges, and so we have the requirements for theorem~\ref{thmComparisonTest}, and the series:
+        \begin{equation*}
+            \sum_{n=1}^\infty a_n
+        \end{equation*}
+        converges.
+    \end{case}
+    \begin{case}{$a > 1$}
+        So there exists a natural number $N$ such that:
+        \begin{equation*}
+            a_n^{\frac{1}{n}} > 1 \implies a_n > 1
+        \end{equation*}
+        But this means that the terms $a_n$ do not tend to 0, and so by lemma~\ref{lemNthTermTest}, the series $a_n$ does not converge.
+    \end{case}
+\end{proof}
+\begin{remark}
+    In the case $a = 1$, the test fails as convergence and divergence are both possible. See example~\ref{exRootAndRatioFail}
+\end{remark}
+\begin{theorem}[Ratio test]
+    Consider a sequence $a_n$ of strictly positive terms.\par
+    Assume that the ratio of terms $\frac{a_{n+1}}{a_n}$ tends to a limit $l$.\par
+    Then if $l < 1$, the series converges and if $l > 1$ the series diverges.
+    \label{thmRatioTest}
+\end{theorem}
+\begin{remark}
+    Like the last test, if $l = 1$ we have no conclusion. See example~\ref{exRootAndRatioFail}.
+\end{remark}
+\begin{proof}
+    \begin{case}{$l < 1$}
+        Again choose $r$ such that $l < r < 1$.\par
+        Then from the definition of the limit, there is some $N$ such that:
+        \begin{equation*}
+            n \geq N \implies \frac{a_{n+1}}{a_n} < r
+        \end{equation*}
+        Then rewrite $a_n$ for $n \geq N$:
+        \begin{equation*}
+            a_n = \frac{a_n}{a_{n-1}} \frac{a_{n-1}}{a_{n-2}} \cdots \frac{a_{N+1}}{a_N} a_N
+        \end{equation*}
+        And we can bound this:
+        \begin{equation*}
+            a_n < a_N r^{n - N}
+        \end{equation*}
+        That is, $a_n < Kr^n$ where $K$ is independent of $n$.\par
+        Now, since $\sum_{n = 1}^\infty Kr^n$ converges, by theorem~\ref{thmComparisonTest} the series $\sum_{n=1}^\infty a_n$ converges.
+    \end{case}
+    \begin{case}{$l > 1$}
+        Then if $l > 1$, choose $r$ sch that $1 < r < l$, then there exists an $N$ such that:
+        \begin{equation*}
+            n \geq N \implies \frac{a_{n+1}}{a_n} > r
+        \end{equation*}
+        and by the same argument as the previous case, we bound $a_n$ below by $r^{n-N}a_N$, and so the terms do not tend to 0. By lemma~\ref{lemNthTermTest}, the series does not converge.
+    \end{case}
+\end{proof}
+\begin{example}
+    Consider $\sum_{n=1}^{\infty} \frac{n}{2^n}$. Then:
+    \begin{equation*}
+        \frac{a_{n+1}}{a_n} = \frac{n+1}{2^{n+1}} \frac{2^n}{n} = \frac{1}{2} \left(1 + \frac{1}{n}\right) \to \frac{1}{2}
+    \end{equation*}
+\end{example}
+\begin{example}
+    Consider the series $\sum_{n=1}^\infty \frac{1}{n}$.\par
+    Here %TODO: finish the example, showing we are in the a=1, l=1 case above. Also, consider sum(1/n^2) and show that we are in the indeterminate case but it converges.
+    \label{exRootAndRatioFail}
+\end{example}
 \end{document}
