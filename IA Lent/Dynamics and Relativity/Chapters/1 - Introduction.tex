@@ -240,4 +240,49 @@ Let $\xi = x + iy$. Now consider:
     \xi &= c_1 e^{-i\omega t} + c_2
 \end{align*}
 Then relabelling the constants as: $c_1 = Ae^{-\phi}, c_2 = x_0 + i y_0$, we get the solutions as above.
+\section{Dimensional Analysis}
+\begin{definition}{Dimensional analysis}
+    \underline{Dimensional analysis} is the ability to remove constants from equations by rescaling variables.
+\end{definition}
+\begin{example}[Explicit dimensional analysis for a pendulum]
+    Consider a pendulum: a light rod of length $l$ suspending a mass of length $m$ that makes an angle of length $\theta$ to the vertical. The gravitational field strength at this point is $g$.\par
+    We know that the equation of motion is:
+    \begin{equation}
+        \frac{d^2\theta}{dt^2} = -\frac{g}{l}\sin{\theta}
+        \label{eqnPendulumDiffEqn}
+    \end{equation}
+    We would like to know the period $T$ of the pendulum: $\theta(t + T) = \theta(T)$, where $T$ is the least such.\par
+    We want to remove $g$ and $l$ from the equation. The only way to do this is by rescaling time (rescaling $\theta$ will not work):
+    \begin{equation*}
+        t = \sqrt{\frac{l}{g}}\tau
+    \end{equation*}
+    If we let $\theta(t) = \theta(t(\tau)) = F(\tau)$ equation~\ref{eqnPendulumDiffEqn} becomes:
+    \begin{equation*}
+        \frac{d^2 F}{dt^2} = -\sin{F}
+    \end{equation*}
+    Therefore the period $\Delta \tau$ of $F(\tau)$ may depend on initial conditions but cannot depend on $l$ and $g$.
+    \begin{align*}
+        &\implies F(\tau + \Delta\tau) = F(\tau) \\
+        &\implies \theta(t) = F(\tau) = F\left(\sqrt{\frac{g}{l}}t\right) \\
+        &= F\left(\sqrt{\frac{g}{l}}t + \Delta\tau\right) \\
+        &= F\left(\sqrt{\frac{g}{l}}\left(t + \sqrt{\frac{l}{g}} \Delta \tau\right)\right) \\
+        &= \theta\left(t + \sqrt{\frac{l}{g}}\Delta\tau\right) \\
+        &\implies T = \sqrt{\frac{l}{g}} \Delta \tau \propto \sqrt{\frac{l}{g}}
+    \end{align*}
+    So without solving the equation, we know that the period of a pendulum is proportional to $\sqrt{l}$.\par
+\end{example}
+In general, the rescalings might not be obvious. We associate dimensions to constant and variables as a shorthand.\par
+\begin{definition}{Dimension of a variable}
+    We define any variable a \underline{dimension} based on the fundamental dimensions: length $L$, mass $M$, and time $T$.
+\end{definition}
+\begin{examples}{}
+    \item $[\dot{x}] = LT^{-1}$,
+    \item $[\ddot{x}] = LT^{-2}$,
+    \item $[E] = ML^2 T^{-2}$
+\end{examples}
+For any physical equation, the dimension on the LHS and RHS must be equal. This implies that all arguments to non-linear functions must be dimensionless (for example $\sin$).
+\begin{example}[Pendulum revisited]
+    We have $[g] = LT^{-2}, [l] = L, [m] = M$. We want the period $T$ to have dimension time.\par
+    Then $T = f(\theta) g^A l^B m^C$ for constant to be determined.
+\end{example}
 \end{document}
