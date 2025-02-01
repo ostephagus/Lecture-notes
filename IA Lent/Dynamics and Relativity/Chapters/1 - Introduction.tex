@@ -240,7 +240,66 @@ Let $\xi = x + iy$. Now consider:
     \xi &= c_1 e^{-i\omega t} + c_2
 \end{align*}
 Then relabelling the constants as: $c_1 = Ae^{-\phi}, c_2 = x_0 + i y_0$, we get the solutions as above.
+\subsection{Friction}
+\begin{remark}
+    This subsection assumes knowledge of dimensional analysis, see section~\ref{sectDimAnalysis}.
+\end{remark}
+When objects move through a medium, there are many microscopic forces between the object and the particles of its medium. These cause momentum to be carried off into the medium. This momentum is called heat, and is lost.
+\begin{definition}{Friction}
+    \underline{Friction} is the macroscopic force that keeps track of the momentum lost due to complicated microscopic effects.
+\end{definition}
+We require it to have some properties:
+\begin{itemize}
+    \item Does not conserve the energy of the object (energy lost as heat)
+    \item Friction is irreversible (no energy gain from friction). It is antiparallel to $\dvec{x}$.
+\end{itemize}
+Thus the two simplest cases that describe friction are:
+\begin{definition}{Linear drag}
+    A representation of friction that is linear in the velocity is \underline{linear drag}:
+    \begin{equation}
+        \vec{F} = -k\dvec{x}
+        \label{eqnLinearDrag}
+    \end{equation}
+\end{definition}
+\begin{definition}{Quadratic Drag}
+    We can also have a friction proportional to the square of the velocity, \underline{quadratic drag}:
+    \begin{equation}
+        \vec{F} = -k|\dvec{x}|\dvec{x}
+        \label{eqnQuadraticDrag}
+    \end{equation}
+\end{definition}
+Quadratic drag can arise as we have one factor of $\dvec{v}$ in the rate of collision with medium particles, and the other factor in the amount of momentum lost per collision. Also, the number of collisions should be proportional to the density of the medium, $\rho$, and the frontal area $A$ of the object. Therefore $k \propto \rho A$.\par
+Dimensional analysis: $[F] = MLT^{-2}$, and $[kv^2] = ML^{-3}L^2L^2T^{-2} = MLT^{-2}$. So any other factor in this constant is dimensionless.\par
+Linear drag is slightly harder: it comes from viscous effects (the \textit{stickiness} of a medium). The linearity in $\dvec{x}$ comes from the particle dragging the particles of the medium with it. The required result is Stokes' Law: for a spherical object of radius $l$ in fluid of viscosity $\eta$, the required constant $k$ is $6\pi L\eta$.\par
+Whether quadratic or linear drag is more important is dependent on the Reynold's Number:
+\begin{equation*}
+    R = \frac{\rho v L}{\eta} = \frac{F_{\text{quadratic}}}{F_{\text{linear}}}
+\end{equation*}
+Which describes the relative importance of quadratic and linear drag.\par
+We also have another type of friction:
+\begin{definition}{Dry Friction}
+    When one object is in contact with another, we can represent this object with dry friction. See chapter~\ref{chapRigidBodies}.
+\end{definition}
+\begin{example}[Terminal velocity]
+    Consider a particle falling under gravity and under the influence of quadratic friction.\par
+    Consider only motion in one dimension (radial with respect to the gravitational field).
+    \begin{equation*}
+        m\ddot{x} = -mg + k \dot{x}^2
+    \end{equation*}
+    We can consider this a differential equation in $v = \dot{x}$:
+    \begin{equation*}
+        m\frac{dv}{dt} = kv^2 - mg
+    \end{equation*}
+    Then we have a stable fixed point when $v = -\sqrt{\frac{mg}{k}}$. This is known as the \underline{terminal velocity}. For a raindrop, this is about $10 m s^{-1}$.\par
+    The time taken to reach terminal velocity can be considered by dimensional analysis:\par
+    Let $T = f(m, g, k)$, so $T \propto M^A L^B T^{-2B} M^C L^{-C}$. Solving this gives:
+    \begin{equation*}
+        T \propto \sqrt{\frac{m}{kg}}.
+    \end{equation*}
+    For a raindrop, this is around 1 second.
+\end{example}
 \section{Dimensional Analysis}
+\label{sectDimAnalysis}
 \begin{definition}{Dimensional analysis}
     \underline{Dimensional analysis} is the ability to remove constants from equations by rescaling variables.
 \end{definition}
@@ -283,6 +342,11 @@ In general, the rescalings might not be obvious. We associate dimensions to cons
 For any physical equation, the dimension on the LHS and RHS must be equal. This implies that all arguments to non-linear functions must be dimensionless (for example $\sin$).
 \begin{example}[Pendulum revisited]
     We have $[g] = LT^{-2}, [l] = L, [m] = M$. We want the period $T$ to have dimension time.\par
-    Then $T = f(\theta) g^A l^B m^C$ for constant to be determined.
+    Then $T = f(\theta) g^A l^B m^C$ for constants to be determined. This gives:
+    \begin{align*}
+        [T] &= [g]^A[l]^B[m]^C \\
+        T &= L^A T^{-2A} L^B M^C
+    \end{align*}
+    which gives $A = -\frac{1}{2}$, $B = \frac{1}{2}$, $C = 0$.
 \end{example}
 \end{document}
