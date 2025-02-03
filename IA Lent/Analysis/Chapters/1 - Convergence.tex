@@ -335,7 +335,7 @@ A simple, but useful, result is the $n$th term test:
         &= S_n + \frac{1}{2}
     \end{align*}
     And now if $S_n \to S$ then $S_{2n} \to S$ and $S \geq S + \frac{1}{2}$ \contradiction\par
-    The harmonic series diverges, and this is a counterexample of the converse of lemma~\ref{lemNthTermTest}.
+    The harmonic series diverges, and this is a counterexample to the converse of lemma~\ref{lemNthTermTest}.
 \end{example}
 \begin{theorem}[Comparison test]
     Suppose that two sequences $a_j$ and $b_j$ are such that $0 \leq b_j \leq a_j$ for any $j$.\par
@@ -432,7 +432,157 @@ A simple, but useful, result is the $n$th term test:
 \end{example}
 \begin{example}
     Consider the series $\sum_{n=1}^\infty \frac{1}{n}$.\par
-    Here %TODO: finish the example, showing we are in the a=1, l=1 case above. Also, consider sum(1/n^2) and show that we are in the indeterminate case but it converges.
+    Here $\sqrt[n]{a_n} = \frac{1}{n^{\frac{1}{n}}}$\par
+    \begin{align*}
+        n^{\frac{1}{n}} &= (1 + \delta_n) \text{ for some positive } \delta_n \\
+        n &= (1 + \delta_n)^n \\
+        &>\frac{n(n+1)}{2} \delta_n^2 \\
+        \delta_n^2 &< \frac{2}{n-1}
+    \end{align*}
+    And so $\delta_n$ tends to $0$, and $n^{-\frac{1}{n}}$ tends to 1.\par
+    The ratio test also fails: $\frac{a_n}{a_{n+1}}$ converges to 1.\par
+    However, consider also $\sum_{n=1}^\infty \frac{1}{n^2}$. Here $\sqrt[n]{a_n} = \frac{1}{n^{\frac{2}{n}}}$, which tends to 1, so the test fails. The ratio test fails also.\par
+    However, we have already seen that the harmonic series diverges, and the sequence of inverse squares converges, so these are two examples to show that either outcome can happen in the $a = l = 1$ case for both tests.
     \label{exRootAndRatioFail}
 \end{example}
+\begin{theorem}[Cauchy's Condensation Test]
+    Let $a_n$ be a decreasing sequence of positive terms.\par
+    Then the series $\sum_{n=0}^\infty a_n$ converges if and only if the series
+    \begin{equation*}
+        \sum_{n=1}^\infty 2^n a_{2^n}
+    \end{equation*}
+    \label{thmCauchyCondensation}
+\end{theorem}
+\begin{proof}
+    Since $a_n$ is decreasing, this means we have:
+    \begin{equation*}
+        a_{2^k} \leq a_{2^{k-1}+i} \leq a_{2^{k-1}} \text{ where } 1 \leq i \leq 2^{k-1}
+    \end{equation*}
+    \begin{proofdirection}{$\Rightarrow$}{Assume the sum of $a_n$ converges}
+        Create a correspondence between each term in $\sum_{n=1}^\infty 2^n a_{2^n}$ and a block of $2^{k-1}$ terms in the series of $a_n$.
+        \begin{align*}
+            2^{k-1} a_{2^k} &= a_{2^k} + \cdots + a_{2^k} \\
+            &\leq a_{2^{k-1}+1} + a_{2^{k-1}+2} + \cdots + a_{2^{k-1}+2^{k-1}} \\
+            &= \sum_{n=2^{k-1}+1}^{2^k} a_n
+        \end{align*}
+        Therefore we have:
+        \begin{align*}
+            \sum_{k=1}^{K} 2^{n-1} a_{2^k} &\leq \sum_{k=1}^{K} \left(\sum_{n=2^{k-1} + 1}^{2^k} a_n\right) \\
+            &= \sum_{n=2}^{2^K} a_n \leq \sum_{n=1}^\infty a_n
+        \end{align*}
+        So we have shown that $\sum_{n=1}^K 2^k a_{2^k}$ is increasing in $K$ and bounded above by $2\sum_{n=1}^\infty a_n$, and therefore must converge.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that the sum $\sum 2^n a_{2^n}$ converges.}
+        Create the same correspondence, but with the term $a_{2^{k-1}}$ instead of $a_{2^k}$ to have the other inequality:
+        \begin{equation*}
+            a_{2^{k-1}+1} + a_{2^{k-1}+2} + \cdots + a_{2^{k-1}+2^{k-1}} \leq a_{2^{k-1}} + \cdots + a_{2^{k-1}}
+        \end{equation*}
+        Which gives:
+        \begin{equation*}
+            \sum_{n=2^{k-1}+1}^{2^k} a_n \leq 2^{k-1} a_{2^{k-1}}
+        \end{equation*}
+        \begin{align*}
+            \sum_{n=2}^{2^K} a_n &= \sum_{k=1}^K \sum_{n=2^{k-1}+1}^{2^k} a_n \\
+            &\leq \sum_{k=1}^K 2^{k-1}a_{2^{k-1}} \\
+            &\leq \sum_{n=1}^\infty 2^{n-1} a_{2^{n-1}}
+        \end{align*}
+        And since the series in $a_n$ is increasing, we have:
+        \begin{equation*}
+            \sum_{n=2}^N a_n \leq \sum_{n=2}^{2^N} a_n \leq \sum_{n=1}^\infty 2^{k-1}a_{2^{k-1}}
+        \end{equation*}
+        And therefore $\sum_{n=2}^\infty a_n$ is increasing and bounded above, so converges.
+    \end{proofdirection}
+\end{proof}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        \sum_{n=1}^\infty \frac{1}{n^k}
+    \end{equation*}
+    This is a decreasing sequence of positive terms, so apply theorem~\ref{thmCauchyCondensation}.
+    \begin{align*}
+        2^n a_{2^n} &= 2^n \left(\frac{1}{2^n}\right)^k \\
+        &= \left(2^{1-k}\right)^n
+    \end{align*}
+    Now we know that this converges if and only if $2^{1-k} < 1$, which means $k > 1$.\par
+    so we now know:
+    \begin{equation}
+        \sum_{n=1}^\infty \frac{1}{n^k} \text{ converges if and only if } k > 1
+        \label{eqnSumOfPowerReciprocals}
+    \end{equation}
+\end{example}
+\begin{theorem}[Alternating Series Test]
+    Suppose that $a_n$ is a decreasing sequence tending to 0 as $n \to \infty$.\par
+    Then the series:
+    \begin{equation*}
+        \sum_{n=1}^\infty (-1)^{n+1} a_n
+    \end{equation*}
+    converges.
+    \label{thmAlternatingSeriesTest}
+\end{theorem}
+\begin{proof}
+    Let $S_n$ be the partial sum of $n$ terms of $\sum_{n=1}^\infty (-1)^{n+1} a_n$.\par
+    \begin{align*}
+        S_{2n} &= (a_1 - a_2) + (a_3 - a_4) + \cdots + (a_{2n-1} - a_{2n})
+    \end{align*}
+    Where each bracket is non-negative, and therefore $S_{2n}$ is increasing.
+    \begin{align*}
+        S_{2n+1} &= a_1 + (-a_2 + a_3) + \cdots + (-a_{2n} + a_{2n+1})
+    \end{align*}
+    Where each bracket is non-positive, and therefore $S_{2n+1}$ is decreasing.\par
+    Now, $S_{2n+1} = S_{2n} + a_{2n+1} \geq S_{2n}$.\par 
+    Therefore the subsequence:
+    \begin{equation*}
+        (S_{2n})_{n = 1}^\infty \geq S_1
+    \end{equation*}
+    So it is decreasing and bounded below, and so $S_{2n} \to S$.
+    \begin{equation*}
+        (S_{2n+1})_{n = 1}^\infty \leq S_2
+    \end{equation*}
+    So it is increasing and bounded above, and so $S_{2n+1} \to \tilde{S}$.\par
+    However, $S_{2n+1} = S_{2n} + a_{2n_1}$, which in the limit $a_n \to 0$, so $S = \tilde{S}$.\par
+    Then we can show convergence:\par
+    Given $\epsilon > 0$, there exist $N_1$ and $N_2$ such that:
+    \begin{align*}
+        n \geq N_1 &\implies |S_{2n} - S| < \epsilon \\
+        n \geq N_2 &\implies |S_{2n+1} - S| < \epsilon
+    \end{align*}
+    So choosing $n \geq \left(2\max{\{N_1, N_2\}}+1\right)$ then:
+    \begin{equation*}
+        |S_{n} - S| < \epsilon
+    \end{equation*}
+\end{proof}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        \sum_{n=1}^\infty \frac{(-1)^{n+1}}{n}
+    \end{equation*}
+    And now if $a_n$ is $\frac{1}{n}$, theorem~\ref{thmAlternatingSeriesTest} gives us that the sequence converges.
+\end{example}
+\subsection{Absolute Convergence}
+\begin{definition}{Absolute Convergence}
+    Let $a_n$ be a sequence of complex numbers. If $\sum_{n=1}^\infty |a_n|$ converges, then the series $\sum_{n=1}^\infty a_n$ is \underline{absolutely convergent}
+\end{definition}
+This is useful as most of the tests require non-negative integers, and do not work with complex numbers. Therefore by taking moduli, we can show absolute convergence much more easily.
+\begin{theorem}[Absolute convergence implies convergence]
+    If $\sum_{n=1}^\infty a_n$ is absolutely convergent, then it is convergent.
+    \label{thmAbsoluteImpliesConvergence}
+\end{theorem}
+\begin{proof}
+    Let $S_n = \sum_{n=1}^n a_k$, and let $\bar{S_n} = \sum_{n=1}^n |a_k|$.\par
+    Then suppose $n \leq m$. Then:
+    \begin{align*}
+        |S_m - S_n| &= |\sum_{k=n+1}^m a_k| \\
+        &\leq \sum_{k=n+1}^m |a_k| \text{ by triangle inequality} \\
+        &= \bar{S_m} - \bar{S_n}
+    \end{align*}
+    And we have that $(\bar{S_n})$ is convergent, so it is Cauchy. Therefore $(S_n)$ is Cauchy, and therefore it is convergent.
+\end{proof}
+Note that for this proof slightly more rigour might be needed instead of the last line. \\
+\begin{remark}
+    This is equivalent to the Fundamental Axiom of the Real Numbers.
+\end{remark}
+\begin{examples}{}
+    \item $\sum_{n=1}^\infty \frac{(-1)^{n+1}}{n}$ is convergent, but not absolutely convergent (converse of theorem~\ref{thmAbsoluteImpliesConvergence} does not hold).
+    \item $\sum_{n=1}^\infty \frac{z^n}{2^n}$ is a geometric series, and therefore converges absolutely if and only if $|z| < 2$. Also, if $|z| \geq 2$, then the terms do not tend to 0 so the series diverges.
+\end{examples}
 \end{document}
