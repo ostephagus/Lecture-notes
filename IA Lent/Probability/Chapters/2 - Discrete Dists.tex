@@ -1,0 +1,32 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definitions}
+We consider the triple $(\Omega, \sigalg, P)$ to be a probability space. Let $\Omega$ be the set of events $\omega_1, \omega_2, \cdots$, and let $\sigalg$ be all subsets.\par
+If we know $P(\omega_i)$ for all $i$, then any subset $A$ in $\sigalg$ has probability:
+\begin{equation}
+    P(A) = P\left(\bigcup_{\omega \in A} \{\omega\}\right) = \sum_{\omega \in A}P(\{\omega\})
+    \label{eqnFiniteCountAdd}
+\end{equation}
+Then we write $P_i = P(\{\omega_i\})$, and call $(p_i)_{i \in \N}$ a discrete probability distribution. It must satisfy:
+\begin{itemize}
+    \item $p_i \geq 0~\forall i$,
+    \item $\sum_{i \in \N} p_i = 1$.
+\end{itemize}
+\section{Important Discrete Distributions}
+\begin{enumerate}
+    \item The \underline{Bernoulli distribution} models the outcome of a coin toss.\par
+        $\Sigma = \{0, 1\}$ to represent heads and tails, and $p_1 = p$ so $p_0 = 1-p$. $p$ is a parameter of this distribution, representing the fairness of the coin.
+    \item The \underline{Binomial distribution} models the outcome of $n$ independent tosses of a coin with probability $p$. It gives the probability of $k \leq n$ heads from $n$ tosses:
+        \begin{equation*}
+            P(k \text{ heads}) = \choose{n}{k}p^k(1-p)^{n-k}
+        \end{equation*}
+    \item The \underline{Multinomial distribution} models throwing $n$ balls into $k$ boxes. Each ball goes into box $i$ with probability $p_i$, independent of all other balls.\par
+        It has parameters $n, k, (p_i)_{i=1}^k$ where the $p_i$ all sum to 1. Then this distribution gives:
+        \begin{align*}
+            &P(n_1 \text{ balls in }1, \cdots, n_k \text{ balls in } k) \\
+            &= \choose{n}{n_1, \cdots, n_k} p_1^{n_1} \cdots p_k^{n_k}
+        \end{align*}
+        Where the $n_i$ sum to $n$.
+\end{enumerate}
+\end{document}

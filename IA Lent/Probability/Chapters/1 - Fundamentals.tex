@@ -3,12 +3,18 @@
 \begin{document}
 \section{Probability Spaces}
 \subsection{Fundamental Definitions}
+\begin{definition}{Complement of a subset}
+    If $A$ is a subset of another set $\Omega$, then the \underline{complement} of $A$ is defined to be:
+    \begin{equation*}
+        A^C = \Omega \backslash A
+    \end{equation*}
+\end{definition}
 \begin{definition}{$\sigma$-algebra}
     Suppose $\Omega$ is a set and $\sigalg$ a collection of subsets.\par
     We call $\sigalg$ a \underline{$\sigma$-algebra} if:
     \begin{enumerate}
         \item $\Omega \in \sigalg$
-        \item If $A \in \sigalg$, then $A^c \in \sigalg$ % What is a complement?
+        \item If $A \in \sigalg$, then $A^c \in \sigalg$
         \item For any countable collection $(A_n)_{n \in \N}$ of sets is $\sigalg$, if all $A_n$ are in $\sigalg$ then the union must be in $\sigalg$.
     \end{enumerate}
 \end{definition}
@@ -27,13 +33,129 @@
     Then the triplet $(\Omega, \sigalg, P)$ is a \underline{probability space}.\par
     The elements of $\Omega$ are \underline{outcomes} and the elements of $\sigalg$ are called \underline{events}.
 \end{definition}
-Important properties:
-\begin{enumerate}
-    \item $P(A^c) = 1 -P(A)$ for any $A \in \sigalg$
-    \item $P(\emptyset) = 0$
-    \item If $A \subseteq B$ then $P(A) \leq P(B)$
-    \item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
-\end{enumerate}
+\subsection{Properties of a Probability Space}
+\begin{propositions}[Properties of a probability measure] {
+        Let $(\Omega, \sigalg, P)$ be a probability space. Let $A$ and $B$ be events.
+        \label{propsProbMeasure}
+    }
+    \item $P(A^c) = 1 - P(A)$ for any $A \in \sigalg$ \label{propComplmentProb}
+    \item $P(\emptyset) = 0$ \label{propPropEmpty}
+    \item If $A \subseteq B$ then $P(A) \leq P(B)$ \label{propSubsetProbs}
+    \item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$. \label{propUnionProb}
+\end{propositions}
+\begin{proposition}[Countable subaddivity of P]
+    If $(A_n)_{n \geq 1}$ is a countable collection if $\sigalg$, then:
+    \begin{align*}
+        P\left(\bigcup_{n \in \N} A_n\right) \leq \sum_{n \in \N} P(A_n)
+    \end{align*}
+    \label{propUnionProbInequality}
+\end{proposition}
+\begin{proof}
+    Define $B_1 = A_1$, and for $n \geq 2$
+    \begin{equation*}
+        B_n = A_n \backslash (A_1 \cup \cdots \cup A_{n-1})
+    \end{equation*}
+    Then the sets $B_n$ are disjoint and in $\sigalg$. Also, the union of all $B_n$ is equal to the union of all $A_n$.
+    \begin{align*}
+        P\left(\bigcup_{n \in \N} A_n\right) &= P\left(\bigcup_{n \in \N} B_n \right) \\
+        &= \sum_{n \in \N} P(B_n).
+    \end{align*}
+    But $B_n \subseteq A_n$ for any $n$. This means $P(A_n) \geq P(B_n)$. So:
+    \begin{equation*}
+        P\left(\bigcup_{n \in \N} A_n\right) = \sum_{n \in \N} P(B_n) \leq \sum_{n \in \N} P(A_n)
+    \end{equation*}
+\end{proof}
+\begin{proposition}[Continuity of Probability measures]
+    Suppose $(A_i)_{i \geq 1}$ is an increasing family of events in $\sigalg$, and:
+    \begin{equation*}
+        A_i \subseteq A_{i+1}
+    \end{equation*}
+    Therefore $P(A_i) \leq P(A_{i+1})$ for all $i$.\par
+    Then $P(A_i) \to P\left(\bigcup_{n \in \N} A_n\right)$ as $i \to \infty$.
+    \label{propProbIncreasing}
+\end{proposition}
+\begin{proof}
+    Define $B_i$ as in proof of proposition~\ref{propUnionProbInequality}.
+    \begin{align*}
+        P(A_n) &= P\left(\bigcup_{k=1}^n B_k\right) \\
+        &= \sum_{k=1}^{n} P(B_k)
+    \end{align*}
+    So as $n \to \infty$, along with the second property of a probability measure,
+    \begin{equation*}
+        P\left(\bigcup_{n=1}^\infty B_n \right) = \sum_{n=1}^{\infty} P(B_n)
+    \end{equation*}
+    And since the union of $A_n$ is the union of $B_n$,
+    \begin{equation*}
+        P\left(\bigcup_{n \in \N} A_n \right) = \sum_{k=1}^{\infty} P(B_k)
+    \end{equation*}
+\end{proof}
+\begin{proposition}
+    Let $A_i$ be a sequence of events in $\sigalg$ for any natural $i$. Let also $A_i \supseteq A_{i+1}$\par
+    Then $P(A_i) \to P\left(\cap_{n \in \N} A_n\right)$ as $i \to \infty$.
+    \label{propProbDecreasing}
+\end{proposition}
+\begin{proof}
+    Take complements and then use proposition~\ref{propProbIncreasing}.
+\end{proof}
+Proposition~\ref{propUnionProb}: for events $A$ and $B$ in $\sigalg$,
+\begin{equation*}
+    P(A \cup B) = P(A) + P(B) - P(A \cap B)
+\end{equation*}
+This can be extended to $n$ different events.
+\begin{theorem}[Inclusion-Exclusion formula]
+    Let $A_1, \cdots, A_n$ be events. Then
+    \begin{align*}
+        P\left(\cup_{i = 1}^n A_i\right) &= \sum_{i = 1}^n P(A) - \sum_{i \leq i_1 < i_2 \leq n} P(A_{i_1} \cap P(A_{i_2})) \cdots \\
+        &+ (-1)^{n+1} P(A_1 \cap \cdots \cap A_n) 
+    \end{align*}
+    Or,
+    \begin{equation}
+        \sum_{k=1}^{n} (-1)^{k+1} \sum_{1 \leq i_1 < \cdots < i_k \leq n} P(A_{i_1} \cap \cdots \cap A_{i_k})
+        \label{eqnInclusionExclusion}
+    \end{equation}
+    \label{thmInclusionExclusion}
+\end{theorem}
+\begin{proof}
+    \induction{$n=2$}{In this case the statement is identical to the starting formula.}
+    {$n = k - 1$}{}
+    {$n = k$}{
+        %TODO: finish.
+    }
+\end{proof}
+\begin{propositions}[Bonferroni inequalities]{
+        The Bonferroni Inequalities are:
+        \label{propsBonferroni}
+    }
+    \item $P(A \cup B) \leq P(A) + P(B)$
+    \item For events $A_i$,
+        \begin{equation*}
+            P\left(\cup_{i = 1}^n\right)
+            \begin{cases}
+                \leq \sum_{k=1}^r (-1)^{k+1} \sum_{1 \leq i_1 < \cdots < i_n \leq n} P(A_{i_1} \cap \cdots \cap A_{i_k}) & r \text{ odd} \\
+                \geq \sum_{k=1}^r (-1)^{k+1} \sum_{1 \leq i_1 < \cdots < i_n \leq n} P(A_{i_1} \cap \cdots \cap A_{i_k}) & r \text{ even}
+            \end{cases}
+        \end{equation*}
+\end{propositions}
+\begin{proof}
+    \induction{$n = 2$}{This is the first Bonferroni inequality, proven by considering proposition~\ref{propUnionProbInequality}}
+    {$n = k - 1$}{}
+    {$n = k$}{
+        \begin{case}{$r$ is odd}
+            %TODO: finish
+        \end{case}
+        \begin{case}{$r$ is even}
+        \end{case}
+    }
+\end{proof}
+Now consider a set $\Omega$ such that the probability measure is:
+\begin{equation*}
+    P(A) = \frac{|A|}{|\Omega|}
+\end{equation*}
+Then using the inclusion-exclusion formula:
+\begin{equation}
+    |A_1 \cup \cdots \cup A_n| = \sum_{k=1}^{n} (-1)^{k+1} \sum_{1 \leq i_1 < \cdots < i_n \leq n} |A_{i_1} \cap \cdots \cap A_{i_k}|
+    \label{eqnInclusionExclusionFiniteSets}
+\end{equation}
 \subsection{Examples of Probaility Spaces}
 \begin{example}[Rolling a fair die]
     $\Omega = \{1, 2, \cdots, 6\}, \sigalg = \powerset(\Omega)$\par % This is power set - how to distinguish?
@@ -76,6 +198,46 @@ Important properties:
         P(A^c) = \frac{|A^c|}{|\Omega|} = \frac{365 \times 364 \times \cdots \times (365-n + 1)}{365^n}
     \end{equation*}
     And $P(A) = 1 - P(A^c)$.
+\end{example}
+\begin{example}[Counting the number of surjections]
+    Let $\Omega = \{f : \{1, \cdots, n\} \mapsto \{1, \cdots, m\}\}$. \\
+    Let $A = \subsetselect{f \in \Omega}{f \text{ is a surjection}}$.\par
+    Define:
+    \begin{equation*}
+        A_i = \subsetselect{f \in \Omega}{i \notin \{f(1), \cdots, f(n)\}}
+    \end{equation*}
+    Therefore $A = \cap_{i=1}^m A_i^C$.\par
+    And so the size of $A$ is:
+    \begin{equation*}
+        |A| = \left|\cap_{i=1}^m A_i^C\right| = |\Omega| - \left|\cup_{i=1}^m A_i\right|
+    \end{equation*}
+    Note that $|\Omega| = m^n$.
+\end{example}
+\begin{example}[Number of derangements]
+    A derangement is a permutation that has no fixed points.\par
+    Let $\Omega = \{\text{set of permutations of } \{1, \cdots, n\}\}$.\par
+    And let $A$ be the set of derangements: $A = \subsetselect{f \in \Omega}{f(i) \neq i~\forall i}$.
+    Now we pick a permutation at random. What is the probability that it is a derangement?\par
+    For this, we need to consider $|A|$.\par
+    Let $A_i$ be a sequence of events: $A_i = \subsetselect{f \in \Omega}{f(i) = i}$. This is such that:
+    \begin{equation*}
+        A = \bigcap_{i=1}^n A_i^C = \left(\bigcup_{i=1}^n A_i\right)^C
+    \end{equation*}
+    \begin{align*}
+        P(A) &= 1- P\left(\bigcup_{i=1}^n A_i\right) \\
+        &= 1 = \sum_{k=1}^{n} (-1)^{k+1} \sum_{1 \leq i_1 < \cdots < i_k \leq n} P(A_{i_1} \cap \cdots \cap A_{i_k})
+    \end{align*}
+    Now we consider this intersection:
+    \begin{align*}
+        P(A_{i_1} \cap \cdots \cap A_{i_k}) &= \frac{|A_{i_1} \cap \cdots \cap A_{i_k}}{|\Omega} \\
+        &= \frac{(n-k)!}{n!}
+    \end{align*}
+    Then our probability is:
+    \begin{align*}
+        P(A) &= 1 - \sum_{k=1}^n (-1)^{k+1} \choose{n}{k} \frac{(n-k)!}{n!} \\
+        &= 1 - \sum_{k=1}^n (-1)^{k+1} \frac{1}{k!}
+    \end{align*}
+    And as $n \to \infty$, this tends to $e^{-1}$.
 \end{example}
 \section{Combinatorial Analysis}
 \subsection{Examples of Combinatorics}
@@ -227,4 +389,222 @@ A weaker statement is: $\log{n!} \sim n \log{n}$.
     \end{align*}
     And since this is no longer in terms of $n$, $A = \sqrt{2\pi}$
 \end{proof}
+\section{Independence of Events}
+\subsection{Definition of Independence}
+\begin{definition}{Independence of events}
+    Let $A, B \in \sigalg$. They are \underline{independent} if:
+    \begin{equation*}
+        P(A \cap B) = P(A) \times P(B)
+    \end{equation*}
+    In this case, we denote independence by $A \perp B$.
+\end{definition}
+Let $A_i$ be a countable collection of events. They are independent if for all distinct indices $i_1, \cdots, i_k$, and for all $k \leq n$:
+\begin{align*}
+    P(A_{i_1} \cap \cdots \cap A_{i_k}) = \prod_{j=1}^{k} P(A_{i_j})
+\end{align*}
+\begin{warning}
+    Pairwise independence does not imply independence. Independence is a stronger statement, as any possible sub-collection of $A_i$ must be independent.
+\end{warning}
+\begin{example}[Counter-example of pairwise independence]
+    Consider tossing a fair coin twice. Denote heads with 1 and tails with 0.
+    \begin{equation*}
+        \Omega = \{(0, 0), (0, 1), (1, 0), (1, 1)\}
+    \end{equation*}
+    And for any $\omega \in \Omega, P(\omega) = \frac{1}{4}$.\par
+    Let $A, B$ and $C$ be pairwise independent. Define:
+    \begin{align*}
+        A &= \{(0, 0), (0, 1)\} \\
+        B &= \{(0, 0), (1, 0)\} \\
+        C &= \{(0, 1), (1, 0)\}
+    \end{align*}
+    Then the probability of all of these events is $\frac{1}{2}$. Also, these events all have exactly one element in common (pairwise), so the probability of any pairwise intersection is $\frac{1}{4}$, so the elements are pairwise independent. However,
+    \begin{align*}
+        P(A \cap B \cap C) &= P(\emptyset) = 0 \\
+        P(A)P(B)P(C) &= \frac{1}{8} \neq 0
+    \end{align*}
+\end{example}
+\begin{proposition}
+    If $A$ is independent of $B$, then $A \perp B^C$.
+    \label{propIndependentComplement}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        P(A \cap B^C) &= P(A) - P(A \cap B) \\
+        &= P(A) - P(A)P(B) \text{ by independence} \\
+        &= P(A) (1 - P(B)) \\
+        &= P(A) P(B^C)
+    \end{align*}
+\end{proof}
+\subsection{Conditional Probability}
+We want to define the probability of an event $A$ \textit{given} another event $B$ occurs.\par
+We require that, if $A$ and $B$ are independent, the probability of $A$ given $B$ should be $P(A)$. Thus we define:
+\begin{definition}{Conditional probability}
+    Let $A$ and $B$ be events, and $P(B) > 0$. The \underline{probability of $A$ given $B$} is:
+    \begin{equation*}
+        P(A | B) = \frac{P(A \cap B)}{P(B)}
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    As required, if $A \perp B$ then $P(A | B) = P(A)$.
+\end{remark}
+\begin{proposition}
+    Supose that $(A_n)$ are disjoint events in $\sigalg$, and let $B$ be an event such that $P(B) > 0$.
+    \begin{equation*}
+        P\left(\bigcup_{n \in \N} A_n | B\right) = \sum_{n \in \N} P(A_n | B)
+    \end{equation*}
+    \label{propConditionalDisjointProb}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        P\left(\bigcup_{n \in \N} A_n | B\right) &= \frac{P\left(\bigcup_{n \in \N} A_n \cup B\right)}{P(B)} \\
+        &= \frac{P\left(\bigcup_{n \in \N} (A_n | B)\right)}{P(B)} \\
+        &= \sum_{n \in \N} \frac{P(A_n \cap B)}{P(B)} \\
+        &= \sum_{n \in \N} P(A_n | B)
+    \end{align*}
+\end{proof}
+\begin{theorem}[Law of Total Probability]
+    Suppose $(B_n)_{n \in \N}$ is a disjoint collection of events whose union is $\Omega$ and that $P(B_n) > 0$.\par
+    Let $A \in \sigalg$. Then:
+    \begin{equation*}
+        P(A) = \sum_{n \in \N} P(A | B_n) P(B_n)
+    \end{equation*}
+    \label{thmTotalProbability}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        A &= A \cap \Omega \\
+        &= A \cap \left(\bigcup_{n \in \N}B_n\right)
+    \end{align*}
+    And then:
+    \begin{align*}
+        P(A) &= P\left(\bigcup_{n \in \N} (A \cap B_n) \right) \\
+        &= \sum_{n \in \N}P(A \cap B_n) \\
+        &= \sum_{n \in \N} P(A | B_n) P(B_n)
+    \end{align*}
+\end{proof}
+\subsection{Bayes' Formula}
+\begin{theorem}[Bayes' Formula]
+    Let $(B_n)_{n \in \N}$ be a collection of disjoint subsets, and let their union be $\Omega$.
+    \begin{equation*}
+        P(B_n | A) = \frac{P(A | B_n) P(B_n)}{\sum_{k \in \N} P(A | B_k) P(B_k)}
+    \end{equation*}
+    \label{thmBayesFormula}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        P(B_n | A) &= \frac{P(B_n) | A}{P(A)} \\
+        &= \frac{P(A | B_n)P(B_n)}{\sum_{k \in \N} P(A | B_k) P(B_k)}
+    \end{align*}
+    by theorem~\ref{thmTotalProbability}
+\end{proof}
+\begin{example}[False positives]
+    Suppose that a condition $A$ affects $0.1 \%$ of the population, and a medical test that gives a positive test result for $98\%$ of those affected with the condition, and a positive test result for $1\%$ of those who do not have the condition (false positives).\par
+    Then we want to know the probability that a person suffers from $A$ given that they test positive.\par
+    Let $A$ be the event that the individual suffers from the disease, let $T$ be the event that the individual tested positive.\par
+    Then we are given: $P(A) = 0.001, P(T | A) = 0.98, P(T | A^C) = 0.001$.\par
+    We want to find $P(A | T)$.\par
+    By theorem~\ref{thmBayesFormula}:
+    \begin{align*}
+        P(A | T) &= \frac{P(T | A)P(A)}{P(T | A)P(A) + P(T | A^C)(P(A^C))} \\
+        &= 0.09
+    \end{align*}
+    This is $9\%$, much lower than the intuition given that the test is fairly accurate. The reason is $P(T | A^C)$ ($1\%$) is much higher than $P(A)$ ($0.1\%$).
+\end{example}
+Bayes' Formula also tells us how to include extra knowledge:
+\begin{example}
+        Suppose there are 2 children. Assume there is equal likelihood for all outcomes (boy or girl and birthday).
+        \begin{enumerate}
+        \item First, suppose there is at least 1 boy. What then is the probability both children are boys?\par
+        Define the events:
+        \begin{align*}
+            BB &= \{\text{both children are boys}\} \\
+            BG &= \{\text{elder is a boy, younger is a girl}\} \\
+            GB &= \{\text{elder is a girl, younger is a boy}\} \\
+        \end{align*}
+        We then want $P(BB | BB \cup BG \cup GB)$:
+        \begin{align*}
+            \frac{P(BB)}{P(BB \cup BG \cup GB)} &= \frac{P(BB)}{P(BB) + P(BG) + P(GB)} \\
+            &= \frac{1/4}{1/4 + 1/4 + 1/4} = \frac{1}{3}
+        \end{align*}
+        \item Instead, suppose that the elder child is a boy.
+        Then $P(BB | BB \cup BG) = \frac{1}{2}$, which makes sense: this is the probability that the younger is a boy.
+        \item Suppose now that there is a boy born on a thirsday. Define:
+            \begin{align*}
+                TT &= \{\text{Both boys born on Thursday}\} \\
+                TN &= \{\text{Elder is boy on Thursday, younger is boy not on Thursday}\} \\
+                NT &= \{\text{Elder is boy not on Thursday, younger is boy on Thursday}\} \\
+                GT &= \{\text{Elder is girl, younger is boy on Thursday}\} \\
+            \end{align*}
+            and define the events $TG, GN$ and $NG$ similarly.\par
+            Then the probability of 2 boys given the informaion one is born on a thursday is:
+            \begin{align*}
+                &P(TT \cup TN \cup NT | TT \cup TN \cup NT \cup GT \cup TG) \\
+                &= \frac{P(TT \cup TN \cup NT)}{P(TT \cup TN \cup NT \cup GT \cup TG)}
+            \end{align*}
+            And working each probability out, this is $\frac{13}{27}$.
+    \end{enumerate}
+\end{example}
+\subsection{Simpson's Paradox: Extended Example}
+Suppose all 100 Cambridge applicants to a course come from either the North or the South. Suppose also that they were educated at either a state school or an independent school.\par
+Then consider the date in figure~\ref{figApplicationData}.\par
+\begin{figure}[ht]
+    \centering
+    \begin{tabular}{c|c|c|c}
+        All Applicants& Admitted & Rejected & Proportion \\
+        \hline
+        State & 25 & 25 & 50\% \\
+        Independent & 28 & 22 & 56\%
+    \end{tabular}
+    \par
+    Then consider the data from each region:\par
+    \begin{tabular}{c|c|c|c}
+        The North & Admitted & Rejected & Proportion \\
+        \hline
+        State & 15 & 22 & 41\% \\
+        Independent & 5 & 8 & 38\% \\
+        \hline
+    \end{tabular}
+    \begin{tabular}{c|c|c|c}
+        The South & Admitted & Rejected & Proportion \\
+        \hline
+        State & 10 & 3 & 77\% \\
+        Independent & 23 & 14 & 62\%
+    \end{tabular}
+    \caption{Sample application data split by region and schooling}
+    \label{figApplicationData}
+\end{figure}
+We have that the acceptance rate from independent schools is lower in both North and South, but overall is higher than in state schools.\par
+This phenomenon is called \underline{confounding statistics}. It arises when combining data from disparate populations. Let:
+\begin{align*}
+    A &= \{\text{Individual is admitted}\} \\
+    B &= \{\text{Individual is from North}\} \\
+    B^C &= \{\text{Individual is from South}\} \\
+    C &= \{\text{Individual is from State school}\} \\
+    C^C &= \{\text{Individual is from Independent school}\}
+\end{align*}
+Now, from the second table we have $P(A | B \cap C) > P(A | B \cap C^C)$,\\
+and from the third table we have $P(A | B^C \cap C) > P(A | B^C \cap C^C)$\\
+However, from the first table we have $P(A | C) > P(A | C^C)$.\par
+For this to occur,
+\begin{align*}
+    P(A | C) &= P(A \cap B | C) + P(A \cap B^C | C) \\
+    &= \frac{P(A \cap B \cap C)}{P(C)} + \frac{P(A \cap B^C \cap C)}{P(C)} \\
+    &= \frac{P(A | B \cap C)P(B \cap C)}{P(C)} + \frac{P(A | B^C \cap C)P(B^C \cap C)}{P(C)} \\
+    &= P(A | B \cap C)P(B | C) + P(A | B^C \cap C)P(B^C | C) \\
+    &> P(A | B \cap C^C)P(B | C) + P(A | B^C \cap C^C) P(B^C | C)
+\end{align*} 
+Then if $P(B|C) = P(B | C^C)$:
+\begin{align*}
+    P(A | C) &> P(A | B \cap C^C) P(B | C^C) + P(A | B^C \cap C^C) P(B^C | C^C) \\
+    &= P(A | C^C)
+\end{align*}
+Which is not true.\par %TODO: go over, annotate, give intuition.
+This pseudo-paradox is known as Simpson's Paradox. It comes from the fact that the inequalities:
+\begin{equation*}
+    \frac{a_1}{a_2} > \frac{b_1}{b_2} \text{ and } \frac{c_1}{c_2} > \frac{d_1}{d_2}
+\end{equation*}
+do not always imply that:
+\begin{equation*}
+    \frac{a_1 + c_1}{a_2 + c_2} > \frac{b_1 + d_1}{b_2 + d_2}
+\end{equation*}
 \end{document}
