@@ -1,0 +1,74 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\begin{definition}{Continuity at a point}
+    Suppose that $E$ is a non-empty subset of the complex numbers. Let $f: E \mapsto \C$ be any function.\par
+    Then $f$ is \underline{continuous at the point} $a \in E$ if, given $\epsilon > 0$, there exists $\delta(\epsilon) > 0$ such that:
+    \begin{equation}
+        |f(z) - f(a)| < \epsilon~\forall |z - a| < \delta
+        \label{eqnContinuityDefinition}
+    \end{equation}
+\end{definition}
+Equation~\ref{eqnContinuityDefinition} roughly says that points close together in the domain are mapped onto points that are close together in the image.
+\begin{definition}{Continuity on a set}
+    A function $f$ as defined above is \underline{continuous on the set} $E$ if $f$ is continuous at every point in $E$.
+\end{definition}
+\begin{theorem}[Sequential characterisation of continuity]
+    A function $f : E \mapsto \C$ is continuous at $a \in E$ if and only if $f(z_n) \to f(a)$ for all sequences $z_n$ where $z_n \to a$, and each point $z_n \in E$.
+    \label{thmContinuitySequenceDef}
+\end{theorem}
+Informally, this says that a function is convergent if it commutes with sequence limits:
+\begin{equation}
+    f(\lim_{n \to \infty}z_n) = \lim_{n \to \infty}f(z_n)
+    \label{eqnLimitCommutativity}
+\end{equation}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose that $f$ is continuous at $a$}
+        Let $z_n$ be a sequence satisfying the required properties. Let $\epsilon > 0$, then there exists $\delta(\epsilon) > 0$ such that if $z \in E$,
+        \begin{equation*}
+            |z - a| < \delta \implies |f(z) - f(a)| < \epsilon
+        \end{equation*}
+        But since $z_n \to a$, there exists $N(\delta)$ such that:
+        \begin{align*}
+            n \geq N &\implies |z_n - a| < \delta \\
+            &\implies |f(z_n) - f(a)| < \epsilon
+        \end{align*}
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose, on the contrary, that $f$ is not continuous at $a$.}
+        Therefore there exists some number $\epsilon_0 > 0$ such that for all $\delta(\epsilon_0)$ there exists a $z \in E$ with $|z - a| < \delta$ and $|f(z) - f(a)| \geq \epsilon_0$.\par
+        Then consider this with $\delta = 1, \frac{1}{2}, \frac{1, 3}, \cdots, \frac{1}{n}, \cdots$. Then for each $n$ there exists a $z_n$ with $|z_n - a| < \frac{1}{n}$ and:
+        \begin{equation*}
+            |f(z_n) - f(a)| \geq \epsilon_0
+        \end{equation*}
+        Then $z_n \to a$ but $f(z_n) \not\to f(a)$.
+    \end{proofdirection}
+\end{proof}
+This is very useful. We can get lots of extra results about convergence with little extra work.
+\begin{propositions}{
+        Suppose that $f$ and $g$ are functions $E \mapsto \C$, and are continuous at a point $a \in E$. Then the following are continuous at $a$:
+        \label{propsContinuityProperties}
+    }
+    \item $f(z) + g(z)$ \label{propSumContinuity}
+    \item $f(z)g(z)$ \label{propProductContinuity}
+    \item $\lambda f(z)$ for complex coefficient $\lambda$ \label{propScalingContinuity}
+    \item $\frac{1}{f(z)}$ as long as $f(z)$ non-zero \label{propReciprocalContinuity}
+\end{propositions}
+\begin{proof}
+    All proofs by proposition~\ref{propsSequenceFacts} and theorem~\ref{thmContinuitySequenceDef}
+\end{proof}
+\begin{theorem}[Composition of continuous functions]
+    Consider two subsets $A$ and $B$ of the complex numbers. Let $f : A \mapsto B$, and $g : B \mapsto \C$.\par
+    Suppose that $f$ is continuous at $a \in A$, and $g$ is continuous at $f(a) \in B$. Then the composition $g \circ f$ is continuous at $a$.
+    \label{thmCompositionContinuous}
+\end{theorem}
+\begin{proof}
+    Suppose that $z_n$ is any sequence with $z_n \in A$, and $z_n \to a$. Then for each $n$, $f(z_n) \in B$, and $f(z_n) \to f(a)$ by continuity of $f$. Therefore this is a sequence in $B$ converging to $f(a)$ and so by the continuity of $g$, the sequence $g(f(z_n))$ must converge to $g(f(a))$.\par
+    Now we have that any sequence $z_n$ in $A$ converges to $g(f(a))$ in $\C$.
+\end{proof}
+\begin{examples}{}
+    \item $f(z) = z$ is continuous at all $z \in \C$.
+    \item Any polynomial is continuous at any point by the above example and proposition~\ref{propsContinuityProperties}.
+    \item $f(z) = |z|$ is continuous at all points (consider the estimate \\ $\big ||z| - |w|\big | \leq |z - w|$)
+    \item The function $f(x) = 0$ if $x \leq 0$, and $f(x) = 1$ if $x > 0$, is not continuous at $x = 0$.
+\end{examples}
+\end{document}

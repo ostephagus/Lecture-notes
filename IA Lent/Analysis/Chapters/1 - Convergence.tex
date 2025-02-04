@@ -585,4 +585,34 @@ Note that for this proof slightly more rigour might be needed instead of the las
     \item $\sum_{n=1}^\infty \frac{(-1)^{n+1}}{n}$ is convergent, but not absolutely convergent (converse of theorem~\ref{thmAbsoluteImpliesConvergence} does not hold).
     \item $\sum_{n=1}^\infty \frac{z^n}{2^n}$ is a geometric series, and therefore converges absolutely if and only if $|z| < 2$. Also, if $|z| \geq 2$, then the terms do not tend to 0 so the series diverges.
 \end{examples}
+\begin{definition}{Conditional convergence}
+    If $\sum_{n=1}^\infty a_n$ converges, but $\sum_{n=1}^\infty |a_n|$ does not converge, the series is \underline{conditionally convergent}
+\end{definition}
+Such series exhibit unusual behaviour: for example rearranging the terms can change the limit of the sequence (see Example Sheet 1, Q7).
+\begin{definition}{Rearrangement of a sequence}
+    Let $\sigma$ be a bijection $\N \mapsto \N$. Then the sequence $a'_n$ with $a'_n = a_{\sigma(n)}$ is a \underline{rearrangement} of $a_n$.
+\end{definition}
+\begin{theorem}
+    If $a'_n = a_{\sigma(n)}$ is a rearrangement of $a_n$, and $\sum_{n=1}^\infty a_n$ is absolutely convergent, then:
+    \begin{equation*}
+        \sum_{n=1}^\infty a_n = \sum_{n=1}^\infty a'_n
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Consider $\epsilon > 0$. Since $\sum_{n=1}^\infty |a_n|$ converges, there exists $N(\epsilon)$ such that:
+    \begin{equation*}
+        \sum_{n=N+1}^\infty |a_n| < \epsilon
+    \end{equation*}
+    Then choose $M(\epsilon)$ such that $\sigma^{-1}(k) < M$ for $k \in \{1, \cdots, N\}$.\par
+    Then if $m \geq M$,
+    \begin{equation*}
+        \sum_{n=1}^\infty a_n - \sum_{n=1}^M a_{\sigma(n)} = \sum_{n \in K_m} a_n
+    \end{equation*}
+    Here $K_m = \{N+1, N+2, \cdots\} \backslash \{\text{finitely many terms}\}$.
+    \begin{align*}
+        \therefore& \left|\sum_{n=1}^\infty a_n - \sum_{n=1}^m a_{\sigma_n}\right| \\
+        &\leq \sum_{n \in K_m} |a_n| \text{ by triangle inequality} \\
+        &\leq \sum_{n=N+1}^\infty |a_n| < \epsilon
+    \end{align*}
+\end{proof}
 \end{document}
