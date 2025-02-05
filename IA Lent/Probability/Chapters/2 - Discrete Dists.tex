@@ -14,19 +14,128 @@ Then we write $P_i = P(\{\omega_i\})$, and call $(p_i)_{i \in \N}$ a discrete pr
     \item $\sum_{i \in \N} p_i = 1$.
 \end{itemize}
 \section{Important Discrete Distributions}
-\begin{enumerate}
-    \item The \underline{Bernoulli distribution} models the outcome of a coin toss.\par
-        $\Sigma = \{0, 1\}$ to represent heads and tails, and $p_1 = p$ so $p_0 = 1-p$. $p$ is a parameter of this distribution, representing the fairness of the coin.
-    \item The \underline{Binomial distribution} models the outcome of $n$ independent tosses of a coin with probability $p$. It gives the probability of $k \leq n$ heads from $n$ tosses:
+\begin{definition}{Bernoulli distribution}
+    The \underline{Bernoulli distribution} with parameter $p$ models two outcomes: $\Omega = \{0, 1\}$. It is given by $p_1 = p$, so $p_0 = 1-p$.
+\end{definition}
+The Bernoulli distribution is used to model a single trial with two outcomes, such as a coin toss (where, if the coin is unbiased, $p = 0.5$).
+\begin{definition}{Binomial distribution}
+    The \underline{binomial distribution} with parameters $n$ and $p$ models the outcomes of $n$ trials of an event with two outcomes. $\Omega = \{1, \cdots, n\}$, and the probability of each event is:
+    \begin{equation*}
+        p_i = \choose{n}{i}p^i(1-p)^{n-i}
+    \end{equation*}
+    This can be derived from multiple independent Bernoulli-distributed events.
+\end{definition}
+\begin{example}[Multiple coin tosses]
+    For a biased coin with probability of heads $p$, the Binomial distribution models the outcomes of $n$ independent coin tosses.
+\end{example}
+\begin{definition}{Multinomial distribution}
+    The \underline{multinomial distribution} with parameters $n, k, (p_i)_{i=1}^k$ models the outcome of $n$ independent trials of an event with $k$ outcomes, each with probability $p_i$. $\Omega = \subsetselect{(n_1, n_2, \cdots, n_k)}{\sum_{i=1}^k n_i = n}$.\par
+    Therefore the probability of any such tuple, $p_{n_1, \cdots, n_k}$ is:
+    \begin{equation*}
+        p_{n_1, \cdots, n_k} = \choose{n}{n_1, \cdots, n_k} p_1^{n_1} \cdots p_k^{n_k}
+    \end{equation*}
+\end{definition}
+Note that the binomial distribution is the special case $n = 2$, with probabilities $p_2 = p, p_1 = 1-p$.
+\begin{example}[Throwing balls into boxes]
+    Given $n$ balls, each thrown independently into exactly one of $k$ boxes, the multinomial distribution models the probability of any final configuration of balls in boxes.
+\end{example}
+\begin{definition}{Geometric distribution}
+    The \underline{geometric distribution} with parameter $p$ models repeating a trial with 2 outcomes until an outcome appears. $\Omega$ is the set of numbers of trials required, and so $\Omega = \N$. The probability that $i$ trials are needed is:
+    \begin{equation*}
+        p_i = (1-p)^{i-1}p
+    \end{equation*}
+    \label{defGeometricDist}
+\end{definition}
+The geometric distribution can model, for example, tossing a coin $k$ times until getting a head.
+\begin{warning}
+    There exist 2 similar ways of defining the geometric distribution. Either definition~\ref{defGeometricDist}, or $p_i = (1-p)^i$, which is the number of unsuccessful trials before a successful one. In the second case, $\Omega = \N_0$.
+\end{warning}
+\begin{definition}{Poisson distribution}
+    The \underline{Poisson distribution} with parameter $\lambda$ models the number of ocurrences of an event that occurs at an average rate $\lambda$ over an interval. Then the probability of $i$ occurrences is:
+    \begin{equation*}
+        p_i = e^{-\lambda}\frac{\lambda^i}{i!}
+    \end{equation*}
+\end{definition}
+The Poisson distribution is the limit of the binomial distribution, and we can derive $p_i$ as such. Consider the following example:
+\begin{example}[Customers arriving at a shop]
+    Suppose customers arrive at a shop on an interval. Rescale time such that the interval is $[0, 1]$. Let $N \in \N$ to discretise $[0, 1]$:
         \begin{equation*}
-            P(k \text{ heads}) = \choose{n}{k}p^k(1-p)^{n-k}
+            \left[\frac{i-1}{N}, \frac{i}{N}\right], i = 1, \cdots, N
         \end{equation*}
-    \item The \underline{Multinomial distribution} models throwing $n$ balls into $k$ boxes. Each ball goes into box $i$ with probability $p_i$, independent of all other balls.\par
-        It has parameters $n, k, (p_i)_{i=1}^k$ where the $p_i$ all sum to 1. Then this distribution gives:
+        Then let the probability a customer arrives in a sub-interval be $p$. Let arrivals in different intervals be independent. Then the probability that $k$ customers arrive in $[0, 1]$ is:
+        \begin{equation*}
+            \choose{N}{k}p^k(1-p)^k
+        \end{equation*}
+        Now let us take $p = \frac{\lambda}{N}$, where $\lambda$ is the rate of arrival.\par
+        Then the probability that $k$ customers arrive becomes:
         \begin{align*}
-            &P(n_1 \text{ balls in }1, \cdots, n_k \text{ balls in } k) \\
-            &= \choose{n}{n_1, \cdots, n_k} p_1^{n_1} \cdots p_k^{n_k}
+            &\choose{N}{k} \left(\frac{\lambda}{N}\right)^k \left(1-\frac{\lambda}{N}\right)^{N-k} \\
+            &= \frac{N!}{k!(N-k)!} \frac{\lambda^k}{N^k}\left(1-\frac{\lambda}{N}\right)^{N-k} \\
+            &= \frac{\lambda^k}{k!} \frac{N(N-1)\cdots(N-k+1)}{N^k}\left(1-\frac{\lambda}{N}\right)^{N-k}
         \end{align*}
-        Where the $n_i$ sum to $n$.
-\end{enumerate}
+        And as $N \to \infty$, this tends to:
+        \begin{equation*}
+            e^{-\lambda} \frac{\lambda^k}{k!}
+        \end{equation*}
+        Which is the definition of the Poisson distribution.
+\end{example}
+\section{Random Variables}
+Consider a probability space $(\Omega, \sigalg, P)$.
+\begin{definition}{Random variable}
+    A \underline{random variable} is a function $X: \Omega \mapsto \R$ with the property that for all $x \in \R$, $\subsetselect{\omega \in \Omega}{X(\omega) \leq x} \in \sigalg$.
+\end{definition}
+Intuitively, we think of a random variable as assigning a number to each event in $\Omega$. For example, if $X$ represents dice rolls, we assign the numbers 1 to 6 for each outcome in $\Omega$.\par
+We also write $\{X \in A\}$ for the set:
+\begin{equation*}
+    \subsetselect{\omega \in \Omega}{X(\omega) \in A}
+\end{equation*}
+That is, the set of outcomes corresponding to the elements of $A$, after mapping using $X$. Then the defining property of a random variable becomes:
+\begin{equation*}
+    \{X \leq x\} \in \sigalg
+\end{equation*}
+Now we can intuit what this property means: it requires the subset of outcomes given by $\{X \leq x\}$ be a valid event, for all $x$. Using this, we can consider an ordering of events.\par
+We also define the \underline{indicator function} for a set $A$:
+\begin{align*}
+    1_A : \Omega &\mapsto \{0, 1\} \\
+    \omega &\mapsto
+    \begin{cases}
+        1 & \omega \in A \\
+        0 & \omega \in A^C
+    \end{cases}
+\end{align*}
+\begin{definition}{Probability distribution function}
+    The \underline{probability distribution function} of $X$ is defined to be:
+    \begin{align*}
+        F_X : \R &\mapsto [0, 1] \\
+        x &\mapsto P(X \leq x)
+    \end{align*}
+\end{definition}
+Here we see the power of the random variable. The outcomes in $\Omega$ have no explicit ordering, but using the random variable to assign numbers to each outcome allows us to enjoy all the properties of real numbers.
+\begin{definition}{random variables in $\R^n$}
+    $(X_1, X_2, \cdots, X_n)$ is called a \underline{random variable in $\R^n$} if
+    \begin{equation*}
+        (X_1, \cdots, X_n) : \Omega \mapsto \R
+    \end{equation*}
+    is a function, and for all $x_1, \cdots, x_n$ then:
+    \begin{equation*}
+        \{X_1 < x_1, \cdots, X_n < x_n\} \in \sigalg
+    \end{equation*}
+\end{definition}
+This is equivalent to saying that $X_1, \cdots, X_n$ are all random variables.
+\begin{definition}{Discrete random variables}
+    A random variable $X$ is a \underline{discrete random variable} if its range is finite, or a countable subset of $\R$.
+\end{definition}
+\begin{definition}{Probability mass function}
+    Suppose $X$ takes values in the countable set $S$. For every $x \in S$, we write $p_x$ for $P(X = x)$\par
+    We call $(p_x)_{x \in S}$ the \underline{probability mass function} or distribution of $X$. This completely determines the random variable.
+\end{definition}
+If, for example, the distribution of $X$ is the Bernoulli distribution then we say $X$ is a Bernoulli random variable, or $X$ has the Bernoulli distribution. Same goes for Geometric, Poisson, etc.
+\begin{definition}{Independence of random variables}
+    Recall that if $A$ and $B$ are events, then $P(A \cap B) = P(A) \times P(B)$ is the condition for independence. We can apply the same notion to random variables:\par
+    Let $X_1, \cdots, X_n$ be discrete random variables with ranges $S_1, \cdots, S_n$. Then these are \underline{independent} if 
+    \begin{equation*}
+        P(X_1 = x_1, \cdots, X_n = x_n) = P(X_1 = x_1) \cdots P(X_n = x_n)
+    \end{equation*}
+    for any $x_i \in S_i, i = 1, \cdots, n$.
+\end{definition}
 \end{document}
