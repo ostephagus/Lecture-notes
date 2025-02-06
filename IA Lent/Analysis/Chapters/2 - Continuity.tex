@@ -1,11 +1,13 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
+\section{Definitions and Examples}
+\subsection{Definitions}
 \begin{definition}{Continuity at a point}
     Suppose that $E$ is a non-empty subset of the complex numbers. Let $f: E \mapsto \C$ be any function.\par
     Then $f$ is \underline{continuous at the point} $a \in E$ if, given $\epsilon > 0$, there exists $\delta(\epsilon) > 0$ such that:
     \begin{equation}
-        |f(z) - f(a)| < \epsilon~\forall |z - a| < \delta
+        |z - a| < \delta \implies |f(z) - f(a)| < \epsilon
         \label{eqnContinuityDefinition}
     \end{equation}
 \end{definition}
@@ -65,10 +67,113 @@ This is very useful. We can get lots of extra results about convergence with lit
     Suppose that $z_n$ is any sequence with $z_n \in A$, and $z_n \to a$. Then for each $n$, $f(z_n) \in B$, and $f(z_n) \to f(a)$ by continuity of $f$. Therefore this is a sequence in $B$ converging to $f(a)$ and so by the continuity of $g$, the sequence $g(f(z_n))$ must converge to $g(f(a))$.\par
     Now we have that any sequence $z_n$ in $A$ converges to $g(f(a))$ in $\C$.
 \end{proof}
-\begin{examples}{}
+\subsection{Examples}
+\begin{examples}{\label{exContinuityExamples}}
     \item $f(z) = z$ is continuous at all $z \in \C$.
     \item Any polynomial is continuous at any point by the above example and proposition~\ref{propsContinuityProperties}.
     \item $f(z) = |z|$ is continuous at all points (consider the estimate \\ $\big ||z| - |w|\big | \leq |z - w|$)
-    \item The function $f(x) = 0$ if $x \leq 0$, and $f(x) = 1$ if $x > 0$, is not continuous at $x = 0$.
+    \item The function $f(x) = 0$ if $x \leq 0$, and $f(x) = 1$ if $x > 0$, is not continuous at $x = 0$. \label{exStepDiscontinuity}
+    \item Consider $f : \R \mapsto \R$:
+        \begin{equation*}
+            f(x) =
+            \begin{cases}
+                \sin{(1/x)} & x \neq 0 \\
+                0 & x = 0
+            \end{cases}
+        \end{equation*}
+        Assume that $\sin$ is continuous everywhere, so if $x \neq 0$ then proposition~\ref{propReciprocalContinuity} gives that $f$ is continuous for non-zero $x$. However, $f$ is discontinuous at $x = 0$. To see this, let $x_n = \frac{1}{(2n + 1/2)\pi}$. Then for all $n$, $f(x_n) = 1$, but $x_n \to 0$ and $f(0) = 0$.
+        \label{exSinOneOverXDiscontinuity}
+    \item Consider a similar function $f : \R \mapsto \R$:
+        \begin{equation*}
+            f(x) = 
+            \begin{cases}
+                x \sin{(1/x)} & x \neq 0 \\
+                0 & x = 0
+            \end{cases}
+        \end{equation*}
+        We show that this function is, in fact, continuous. Consider any sequence $x_n \to 0$. Estimate $|f(x_n)| = |x_n| |\sin{(1/x_n)}| \leq |x_n|$. Note that this does not hold for $x_n = 0$, but no matter since we define $f(0) = 0$. Therefore the sequence converges by theorem~\ref{thmContinuitySequenceDef}
+        \label{exXSinOneOverXContinuity}
+    \item Consider the Dirichlet Function $f : \R \mapsto \R$:
+        \begin{equation*}
+            f(x) = 
+            \begin{cases}
+                1 & x \in \Q \\
+                0 & x \notin \Q
+            \end{cases}
+        \end{equation*}
+        Then this function is discontinuous at every point. If $x$ is irrational, then we consider the sequence of finite decimal expansions $x_n$ that converges to $x$. However, $f(x_n) = 1$, and $f(x) = 0$. Similarly, if $x$ is rational, then take any sequence of irrational numbers converging to $x$. \label{exDirichletDiscontinuity}
 \end{examples}
+Example \ref{exStepDiscontinuity} is the classic discontinuous function, but discontinuous functions can be more complex, as shown in example \ref{exSinOneOverXDiscontinuity}. We can also have continuous functions that are not very ``well-behaved'', as shown in example~\ref{exXSinOneOverXContinuity}
+\section{Limit of a Function}
+Suppose that $f : E \mapsto \C$. Then we want to define what we mean by
+\begin{equation*}
+    \lim_{z \to a} f(x)
+\end{equation*}
+even if $a \notin E$.\par
+For example, we would like to define $\lim_{z \to 0} \frac{\sin{z}}{z}$.\par
+This concept does not always make sense. For example, if a function is defined on the interval $[1, 2]$ and at the point $0$, it does not really make sense to consider $\lim_{x \to 1/2}f(x)$ because there are no points nearby, nor does it make sense to consider $\lim_{x \to 0} f(x)$, by the same logic.
+\begin{definition}{Limit point}
+    Suppose that $E \subseteq \C$ and $a \in \C$. Then $a$ is a \underline{limit point} of $E$ if, for any $\delta > 0$, there exists some $z \in E$ such that:
+    \begin{equation*}
+        0 < |z - a| < \delta
+    \end{equation*}
+\end{definition}
+Intuitively, this requires that there be a point of $E$ inside any size disc around $a$. If $a$ belongs to $E$ but is not a limit point, it is an \underline{isolated point}.
+\begin{remark}
+    $a$ is a limit point of $E$ if and only if there exists a sequence $(z_n)$ such that $z_n \in E$, $z_n \neq a$, but $z_n \to a$.
+\end{remark}
+\begin{definition}{Limit}
+    Suppose that $f: E \subseteq C \mapsto \C$. Let $a$ be a limit point of $E$. Then $l$ is the \underline{limit} as $z \to a$ of $f(a)$:
+    \begin{equation*}
+        \lim_{z \to a} f(z) = l
+    \end{equation*}
+    if for all $\epsilon > 0$, there exists some $\delta > 0$ such that for all $z \in E$ which lie within $\delta$ of $a$ ($0 < |z - a| < \delta$), we have that:
+    \begin{equation*}
+        |f(z) - l| < \epsilon
+    \end{equation*}
+\end{definition}
+We also have an equivalent definition in terms of sequences:
+\begin{lemma}
+    If $f, E$ and $a$ are as above, then $\lim_{z \to a} f(x) = l$ if and only if $f(z_n) \to l$ for all sequences $z_n \in E$, $z_n \neq a$ and $z_n \to a$.
+    \label{lemLimitSequenceDef}
+\end{lemma}
+The proof is almost identical to that of theorem~\ref{thmContinuitySequenceDef}.\par
+\begin{remark}
+    Combining the sequence definitions of continuity and of the limit, if $a \in E$ and is a limit point of $E \backslash \{a\}$, then $f$ is continuous if and only if $\lim_{z \to a} f(z) = f(a)$. Also, if $a$ is an isolated point, then continuity is immediate (and also not very useful).
+\end{remark}
+\begin{propositions}{
+        Let $f$, $a$, $E$ be defined as above Let $g$ also be a function $E \mapsto \C$.
+        \label{propsLimitProperties}
+    }
+    \item The limit of a function at any point is unique, or not defined. \label{propLimitUnique}
+    \item $\lim_{z \to a} (f(z) + g(z)) = \lim_{z \to a}(f(z)) + \lim_{z \to a} (g(z))$ \label{propLimitSum}
+    \item $\lim_{z \to a} (f(z) \times g(z)) = \lim_{z \to a}(f(z)) \times \lim_{z \to a} (g(z))$ \label{propLimitProduct}
+    \item If $g(z)$ is non-zero and the limit is non-zero, then:
+        \begin{equation*}
+            \lim_{z \to a} \frac{f(z)}{g(z)} = \frac{\lim_{z \to a} f(z)}{\lim_{z \to a} g(z)}
+        \end{equation*}
+\end{propositions}
+\section{The Intermediate Value Theorem}
+The Intermediate Value Theorem informally captures the idea that if $f$ is continuous, it can be sketched without lifting the pen from the page.
+\begin{theorem}[Intermediate value theorem]
+    Suppose that $f : [a, b] \mapsto \R$ and is continuous on the whole interval. Without loss of generality, let $f(a) < f(b)$. Then for any $\eta$ with $f(a) < \eta < f(b)$, there exists at least one value $c$ with $a \leq c \leq b$ where $\eta = f(c)$.
+\end{theorem}
+This theorem is aided by figure~\ref{figIntermediateValue}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \draw[->] (-0.1, 0) -- (3, 0) node[right] {$x$};
+        \draw[->] (0, -0.1) -- (0, 4) node[above] {$y$};
+        \draw[domain=0:3, samples=50] plot (\x, {\x * \x * \x -4.2 * \x * \x + 4.9 * \x + 0.2}) node[right] {$f(x)$};
+        \foreach \x / \xtext in {0.2/a, 2.8/b, 0.55781/c}
+            \draw (\x, 0.1) -- (\x, -0.1) node[below] {$\xtext$};
+
+        \foreach \y / \ytext in {1.02/$f(a)$,2.944/$f(b)$,1.8/$\eta$}
+            \draw(0.1, \y) -- (-0.1, \y) node[left] {\ytext};
+
+        \draw[dashed] (0, 1.8) -- (0.55781, 1.8) -- (0.55781, 0);
+    \end{tikzpicture}    
+    \caption{Illustration of the Intermediate Value Theorem}
+    \label{figIntermediateValue}
+\end{figure}
 \end{document}

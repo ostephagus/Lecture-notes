@@ -34,7 +34,7 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
 \begin{propositions}{
         \label{propsSequenceFacts}
     }
-    \item If $a_n \rightarrow a$ and $a_n \rightarrow b$, then $a = b$. \label{propLimitUnique}
+    \item If $a_n \rightarrow a$ and $a_n \rightarrow b$, then $a = b$. \label{propSequenceLimitUnique}
     \item If $a_n \rightarrow a$ and $n_1 < n_2 < n_3 < \cdots$ is a sequence of natural numbers, then $a_{n_j} \rightarrow a$ as $j \rightarrow \infty$. \label{propSubsequenceLimit}
     \item If $a_n = c~\forall n$, then $a_n \rightarrow c$.\label{propConstantLimit}
     \item If $a_n \rightarrow a$ and $b_n \rightarrow b$, $a_n + b_n \rightarrow a + b$.\label{propSumOfSequences}
@@ -101,7 +101,7 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
             Consider the sequence $a_{2n} = \frac{1}{2} a_n$.\par
             By Proposition~\ref{propProductOfSequences}, this converges to $\frac{1}{2}l$.\par
             But by proposition~\ref{propSubsequenceLimit}, this subsequence must tend to $l$.\par
-            These are equal by proposition~\ref{propLimitUnique}, so $l = \frac{l}{2}$, and $l = 0$.
+            These are equal by proposition~\ref{propSequenceLimitUnique}, so $l = \frac{l}{2}$, and $l = 0$.
         \item $a_n = x^n$, $|x| < 1$.\par
             Suppose that $x$ is non-negative. Then we have that the sequence $x^n$ is decreasing and bounded below by 0, and so converges to $l$.\par
             Now $x^{n+1} = x \times x^n$, and so $a_{n+1}$ converges to $x l$.\par
@@ -126,7 +126,7 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
 \end{warning}
 \begin{remark}
     The definition of convergence to a limit still works for complex numbers. We can intuit this as ensuring that all $a_n$ are within a small disk (radius $\epsilon$) of the limit, for all $n \geq N(\epsilon)$.\par
-    Propositions \ref{propLimitUnique} to \ref{propReciprocalSequence} still hold, but due to difficulties with ordering for complex numbers propositions \ref{propBoundedLimit} and \ref{propSequenceSandwich}, and the fundamental axiom do not hold. We have do do extra work to get similar results.
+    Propositions \ref{propSequenceLimitUnique} to \ref{propReciprocalSequence} still hold, but due to difficulties with ordering for complex numbers propositions \ref{propBoundedLimit} and \ref{propSequenceSandwich}, and the fundamental axiom do not hold. We have do do extra work to get similar results.
 \end{remark}
 \begin{lemma}
     If $(z_n)$ is a complex sequence than $z_n \rightarrow z$ if and only if both
