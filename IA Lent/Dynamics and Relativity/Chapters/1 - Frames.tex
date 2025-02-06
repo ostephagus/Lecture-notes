@@ -1,0 +1,43 @@
+\documentclass[../Main.tex]{subfiles}
+\begin{document}
+\section{Key Definitions}
+Three dimensional space can be endowed with a Cartesian reference frame (origin and axes) such that points in space can be labelled:
+\begin{equation*}
+    \vec{x} = \begin{pmatrix}x_1 \\ x_2 \\ x_3\end{pmatrix}
+\end{equation*}
+Time can be labelled with respect to an arbitrary reference time by a real number $t$.\par
+\begin{definition}{Point particle}
+    A \underline{point particle} is an idealised object that is completely determined by its position at a given time $\vec{x}(t)$.
+\end{definition}
+We can model various real-world objects: we can model an electron, tennis ball, or planet (given appropriate scale).
+\begin{definition}{Velocity}
+    The \underline{velocity} is the vector:
+    \begin{equation*}
+        \vec{v} \equiv \frac{d\vec{x}}{dt} = \dot{\vec{x}}
+    \end{equation*}
+    The velocity is tangent to the trajectory.
+\end{definition}
+In Cartesian coordinates, we differentiate each component with respect to time.
+\begin{definition}{Acceleration}
+    The \underline{acceleration} is $\vec{a} = \dot{\vec{v}} = \ddot{\vec{x}}$. The second derivative of the position vector.
+\end{definition}
+Consider a free particle that does not experience any forces. The position of this particle is $\vec{x}(t)$. This particle may be at rest in a frame $S$ (a specific choice of origin and axes), but moving in a complicated way with respect to another frame.
+\section{Law of Inertia}
+\begin{definition}{Inertial reference frame}
+    A frame $S$ is \underline{inertial} if a free particle has a constant velocity. For this particle, $\ddot{\vec{x}} = \vec{0}$.
+\end{definition}
+The law of inertia states that if a particle is not acted on by any forces, there exists a reference frame in which it moves at constant velocity.
+\section{Galilean Relativity Principle}
+\begin{definition}{Galilean transformation}
+    A \underline{Galilean transformation} transforms coordinate vectors $\vec{x}$:
+    \begin{equation}
+        \vec{x}' = R\vec{x} + \vec{k} + \vec{w}t
+        \label{eqnGalileanTransform}
+    \end{equation}
+    Where $R$ is an orthogonal matrix, and $\vec{k}$ and $\vec{w}$ are constant vectors. $\vec{w}$ defines a constant velocity, and is known as a boost.
+\end{definition}
+Then the Galilean Relativity Principle states that a frame related to an inertial reference frame by a Galilean transformation is also an inertial reference frame. All laws of physics are the same in both frames.\par
+The Galilean transformations form the Galilean group, often supplemented by time translations $t' = t + t_0$.\par
+Galilean relativity implies that the laws of physics make reference to no special point, direction, time or velocity. If these are made reference to, they must all be relative.\par
+However, acceleration is not relative: if a body accelerates in one inertial reference frame, it does so in all others with the same magnitude (but directions may be different).
+\end{document}
