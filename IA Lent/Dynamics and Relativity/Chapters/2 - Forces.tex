@@ -430,7 +430,7 @@ Then Newton's Second Law in polar coordinates is:
 \end{align}
 We consider the angular momentum again:
 \begin{align*}
-    \vec{L} &= mvec{x} \times \dvec{x} \\
+    \vec{L} &= m\vec{x} \times \dvec{x} \\
     &= m r \uvec{r} \times \left(\dot{r} \uvec{r} + r \dot{\theta} \uvec{\theta}\right) \\
     &= m r^2 \dot{\theta} (\uvec{r} \times \uvec{\theta})
 \end{align*}
@@ -454,7 +454,18 @@ Such that when differentiated, it satiesfies:
 Let $V(r)$ be $-\frac{k}{r}$. Then consider figure~\ref{figEffectivePotentialPlot}.\par
 \begin{figure}[ht]
     \centering
-    % Plot a graph as in Ex1Q2, label the "potential barrier" where potential +ve, and label the stable point
+    \begin{tikzpicture}
+        \draw[->] (-0.1, 0) -- (8, 0) node[right] {$x$};
+        \draw[->] (0, -2) -- (0, 3) node[above] {$V(x)$};
+        \draw[domain=0.485:2, samples=50] plot (\x, {3 / (\x)^2 - 4.8/\x});
+        \draw[domain=2:8, samples=50] plot (\x, {3 / (\x)^2 - 4.8/\x});
+
+        \draw[fill] (1.25, -1.92) circle[radius=0.5mm];
+        \draw[fill] (0.625, 0) circle[radius=0.5mm];
+
+        \draw [-Bar] (0, 0.5) -- (0.625, 0.5) node[pos=0.5, anchor=south] {A};
+        \draw [Bar-] (0.7, -0.2) -- (7.5, -0.2) node[pos=0.5, anchor=north] {B};
+    \end{tikzpicture}
     \caption{Effective potential plot for angular motion}
     \label{figEffectivePotentialPlot}
 \end{figure}
@@ -469,12 +480,7 @@ Then the centrifugal barrier is the kinetic energy due to angular momentum.\par
 We return to figure~\ref{figEffectivePotentialPlot}. If the particle exists, at any point, in region $A$, then the motion is unbounded and the particle will fly off to $\infty$.\par
 If the energy is negative, then the particle must exist in region $B$. It performs bounded motion, oscillating in radius around the turning point. If the particle has exactly the same energy as the potential at the turning point, it can stay in stable state with constant radius.\par
 In the special case $E = 0$, the particle will have just enough energy to escape.\par
-We can also consider different potentials: if $V_{eff} \propto r^{-2}$, the potential plot is much less stable. See figure~\ref{figInverseSquarePotentialPlot}. In this case all motion is unstable, including the stationary point.
-\begin{figure}[ht]
-     
-    \caption{Inverse-square potential plot}
-    \label{figInverseSquarePotentialPlot}
-\end{figure}
+We can also consider different potentials: if $V_{eff} \propto r^{-2}$, the potential plot is much less stable. In this case all motion is unstable, including the stationary point.
 \subsection{The Orbit Equation}
 Returning to 2 dimensions, we will solve for $r$ in terms of $\theta$. We need to perform a change of variables. Centuries of study have found that it is convenient to work in terms of $u = r^{-1}$.\par
 We will derive the orbit equation for $u(\theta)$. Changing variables first from $r(t)$ to $u(\theta)$:
@@ -518,5 +524,5 @@ This is the equation for a conic section; $e$ is the eccentricity. We have the f
     \item $e > 1$: in this case the body moves in a hyperbolic motion, also escaping to $\infty$.
 \end{itemize}
 Note that we can convert the polar equation~\ref{eqnKeplerProblemR} to cartesian coordinates.\par
-Planets in the solar system have small $e$, so their orbits are similar to a circle. However, Mercury has the most eccentric with $e = 0.2$. Other objects in the solar system have more eccentric orbits, such as Halley's Comet has $e \approx 0.97$.
+Planets in the solar system have small $e$, so their orbits are similar to a circle. However, Mercury has the most eccentric with $e = 0.2$. Other objects in the solar system have more eccentric orbits, such as Halley's Comet has $e \approx 0.97$ and thus displays a very elliptical orbit.
 \end{document}
