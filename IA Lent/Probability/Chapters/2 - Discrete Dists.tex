@@ -122,6 +122,7 @@ Here we see the power of the random variable. The outcomes in $\Omega$ have no e
     \end{equation*}
 \end{definition}
 This is equivalent to saying that $X_1, \cdots, X_n$ are all random variables.
+\subsection{Discrete Random Variables}
 \begin{definition}{Discrete random variables}
     A random variable $X$ is a \underline{discrete random variable} if its range is finite, or a countable subset of $\R$.
 \end{definition}
@@ -129,7 +130,7 @@ This is equivalent to saying that $X_1, \cdots, X_n$ are all random variables.
     Suppose $X$ takes values in the countable set $S$. For every $x \in S$, we write $p_x$ for $P(X = x)$\par
     We call $(p_x)_{x \in S}$ the \underline{probability mass function} or distribution of $X$. This completely determines the random variable.
 \end{definition}
-If, for example, the distribution of $X$ is the Bernoulli distribution then we say $X$ is a Bernoulli random variable, or $X$ has the Bernoulli distribution. Same goes for Geometric, Poisson, etc.
+If, for example, the distribution of $X$ is the Bernoulli distribution then we say $X$ is a Bernoulli random variable, or $X$ has the Bernoulli distribution. Same goes for Geometric, Poisson, etc. For this, we write $X \sim B(n, p)$ which means $X$ has binomial distribution.
 \begin{definition}{Independence of random variables}
     Recall that if $A$ and $B$ are events, then $P(A \cap B) = P(A) \times P(B)$ is the condition for independence. We can apply the same notion to random variables:\par
     Let $X_1, \cdots, X_n$ be discrete random variables with ranges $S_1, \cdots, S_n$. Then these are \underline{independent} if 
@@ -138,4 +139,80 @@ If, for example, the distribution of $X$ is the Bernoulli distribution then we s
     \end{equation*}
     for any $x_i \in S_i, i = 1, \cdots, n$.
 \end{definition}
+\begin{example}[Tossing a biased coin]
+    Consider tossing a coin, with probability of heads $p$, independently.\par
+    $\Omega = \{0, 1\}^N$. That is, each $\omega \in \Omega$ is a string of 0 or 1.\par
+    Define a random variable $X_k$ for each outcome, such that $X_k \in \{0, 1\}$ represents the outcome of the $k$th coin toss.\par
+    Then $P(X_k = 1) = p, P(X_k = 0) = 1-p$, and so $X_k$ is a Bernoulli random variable.\par
+    We can also consider the total number of heads. Let $S_N : \Omega \mapsto \{1, \cdots, N\}$ and:
+    \begin{equation*}
+        S_N(\omega) = \sum_{k=1}^N X_k(\omega_k)
+    \end{equation*}
+    So then $S_N$ is a Binomial random variable:
+    \begin{equation*}
+        P(S_N = k) = \choose{n}{k} p^k (1-p)^{N-k}
+    \end{equation*}
+\end{example}
+\subsection{Expectation}
+The power of random variables gives us the ability to define an expected value, which may not be in the range of the random variable, but gives an important result nontheless.
+\begin{definition}{Expectation}
+    Let $X$ be a random variable with non-negative range.\par
+    Then the \underline{expectation} of $X$ is:
+    \begin{equation}
+        E[X] = \sum_{\omega \in \Omega} X(\omega) P(\{\omega\})
+        \label{eqnExpectationDiscrete}
+    \end{equation}
+\end{definition}
+Note that if we define $\Omega_X$ to be the range of $X$, then equation~\ref{eqnExpectationDiscrete} can be written as:
+\begin{equation*}
+    E[X] = \sum_{x \in \Omega_X} x P(X = x)
+\end{equation*}
+So the expectation can be considered a weighted average of outcomes by probability.
+\begin{example}[Expectation of the binomial distribution]
+    Let $X \sim B(n, p)$.
+    \begin{align*}
+    E[X] &= \sum_{k=0}^N k P(X = k) \\
+    &= \sum_{k=0}^N \frac{k \cdot N!}{k! (N-k)!} p^k (1-p)^{N-k} \\
+    &= \sum_{k=1}^N \frac{N (N-1)!}{(k-1)!(N-k)!} p^k (1-p)^{N-k} \\
+    &= Np \sum_{k=1}^N \frac{(N-1)!}{(k-1)!(N-k)!} p^{k-1} (1-p)^{N-k} \\
+    &= Np \sum_{k=1}^N \choose{N-1}{k-1} p^{k-1} (1-p)^{N-k} \\
+    &= Np \sum_{k=0}^{n-1} \choose{N-1}{k} p^k (1-p)^{N-k-1} \\
+    &= Np
+    \end{align*}
+\end{example}
+So far we have not defined $E[X]$ if $X$ takes negative values.\par
+Let $X$ be any discrete random variable. Let $X_+ = \max{\{X, 0\}}$ and $X_- = \max{\{-X, 0\}}$.\par
+Now we have two non-negative variables. Then the expectation of $X$ is given by:
+\begin{equation}
+    E[X] = E[X_+] - E[X_-]
+    \label{eqnExpectationNegativeDiscrete}
+\end{equation}
+Note that it is possible for equation~\ref{eqnExpectationDiscrete} not to converge (if it is a sum to $\infty$). In this case we say that the expectation is not defined. If, however, we do get a valid (finite) expectation, we call $X$ integrable.
+\begin{propositions}[Properties of expectation]{
+        Let $X$ be a discrete random variable.
+        \label{propsExpectationProps}
+    }
+    \item If $X \geq 0$, then $E[X] \geq 0$ \label{propExpecNonNegativity}
+    \item If $X \geq 0$, and $E[X] = 0$, then $P(X = 0) = 1$. \label{propExpecZero}
+    \item If $c$ is a real number, $E[cX] = cE[X]$ and $E[c + X] = c + E[X]$. \label{propExpecSumProd}
+    \item Let $X_1, X_2, \cdots, X_n$ be integrable random variables. Let $c_1, \cdots, c_n$ be real numbers. Then expectation obeys linear combination.
+        \begin{equation*}
+            E\left[\sum_{i=1}^n c_i X_i\right] = \sum_{i=1}^n c_i E[X_i]
+        \end{equation*}
+        \label{propExpecLinearCombo}
+\end{propositions}
+\begin{lemma}
+    Suppose $X_1, X_2, \cdots$ are non-negative random variables.
+    \begin{equation*}
+        E\left[\sum_{n=1}^\infty X_n\right] = \sum_{n=1}^\infty E[X_n]
+    \end{equation*}
+    if the sums are convergent.
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        E\left[\sum_{n=1}^\infty X_n\right] &= \sum_{\omega \in \Omega} \sum_{n=1}^\infty X_n(\omega) P(\{\omega\}) \\
+        &= \sum_{n=1}^\infty \sum_{\omega \in \Omega} X_n(\omega) P(\{\omega\}) \\
+        &= \sum_{n=1}^\infty E[X_n]
+    \end{align*}
+\end{proof}
 \end{document}
