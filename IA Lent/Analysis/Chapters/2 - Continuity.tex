@@ -153,10 +153,12 @@ The proof is almost identical to that of theorem~\ref{thmContinuitySequenceDef}.
             \lim_{z \to a} \frac{f(z)}{g(z)} = \frac{\lim_{z \to a} f(z)}{\lim_{z \to a} g(z)}
         \end{equation*}
 \end{propositions}
-\section{The Intermediate Value Theorem}
+\section{Bounding functions}
+\subsection{Intermediate Value Theorem}
 The Intermediate Value Theorem informally captures the idea that if $f$ is continuous, it can be sketched without lifting the pen from the page.
 \begin{theorem}[Intermediate value theorem]
     Suppose that $f : [a, b] \mapsto \R$ and is continuous on the whole interval. Without loss of generality, let $f(a) < f(b)$. Then for any $\eta$ with $f(a) < \eta < f(b)$, there exists at least one value $c$ with $a \leq c \leq b$ where $\eta = f(c)$.
+    \label{thmIntermediateVal}
 \end{theorem}
 This theorem is aided by figure~\ref{figIntermediateValue}
 \begin{figure}[ht]
@@ -164,16 +166,100 @@ This theorem is aided by figure~\ref{figIntermediateValue}
     \begin{tikzpicture}
         \draw[->] (-0.1, 0) -- (3, 0) node[right] {$x$};
         \draw[->] (0, -0.1) -- (0, 4) node[above] {$y$};
-        \draw[domain=0:3, samples=50] plot (\x, {\x * \x * \x -4.2 * \x * \x + 4.9 * \x + 0.2}) node[right] {$f(x)$};
-        \foreach \x / \xtext in {0.2/a, 2.8/b, 0.55781/c}
+        \draw[domain=0.2:2.8, samples=50] plot (\x, {\x * \x * \x -4.2 * \x * \x + 4.9 * \x + 0.2}) node[right] {$f(x)$};
+        \foreach \x / \xtext in {0.2/a, 2.8/b, 2.49045/c}
             \draw (\x, 0.1) -- (\x, -0.1) node[below] {$\xtext$};
 
         \foreach \y / \ytext in {1.02/$f(a)$,2.944/$f(b)$,1.8/$\eta$}
             \draw(0.1, \y) -- (-0.1, \y) node[left] {\ytext};
 
-        \draw[dashed] (0, 1.8) -- (0.55781, 1.8) -- (0.55781, 0);
+        \draw[dashed] (0, 1.8) -- (2.49045, 1.8) -- (2.49045, 0);
+
+        \foreach \x/\y in {2.49045/1.8, 0.2/1.02, 2.8/2.944}
+            \draw[fill] (\x, \y) circle[radius=0.5mm];
     \end{tikzpicture}    
     \caption{Illustration of the Intermediate Value Theorem}
     \label{figIntermediateValue}
 \end{figure}
+\begin{proof}
+    Let $S = \subsetselect{x \in [a, b]}{f(x) < \eta}$. Note that $S$ is non-empty and bounded above by hypotheses, so there exists a supremum $c$.\par
+    From the definition of a supremum, for each $n$ there exists some $x_n \in S$ with $c - \frac{1}{n} \leq x_n \leq c$. Now $x_n$ must converge to $c$. Since $f$ is continuous, $f(x_n) \to f(c)$, so since $x_n \in S$, $f(x_n) < \eta \implies f(c) \leq \eta$.\par
+    Note we have $c \neq b$, so we can find a decreasing sequence $\tilde{x}_n = c + \frac{1}{n}$. Then for sufficiently large $n$, $\tilde{x}_n \in [a, b] \backslash S$, and this converges to $c$. Now $f(\tilde{x}_n) \to f(c)$ as above, and so $f(c) \geq \eta$.\par
+    However, now $f(c) \leq \eta \leq f(c)$, so $\eta = f(c)$.
+\end{proof}
+\begin{remarks}
+    \item By applying the theorem to $-f$, we can get the same result for $f(a) > f(b)$. The case $f(a) = f(b)$ is trivial, since $\eta = f(a) = f(b)$.
+    \item This theorem can be used to prove the existence of roots of functions on a given interval (by the change-of-sign method).
+\end{remarks}
+\begin{example}[Existence of $n$th roots]
+    Suppose $y > 0$, and let $N \in \N$.\par
+    Define:
+    \begin{align*}
+        f : [0, 1+y] &\mapsto \R \\
+        x &\mapsto x^N
+    \end{align*}
+    Since $(1+y)^N = 1 + Ny + \cdots \geq y$, we have:
+    \begin{equation*}
+        f(0) < y < f(1+y)
+    \end{equation*}
+    So there exists a $c \in (0, 1+y)$ such that $f(c) = y$ by theorem~\ref{thmIntermediateVal}.\par
+    Thus $c^N = y$. That is, there exists a positive $N$th root of $y$.\par
+    Also, since $f$ is strictly increasing, this $N$th root must be unique.
+\end{example}
+\subsection{Extreme Value Theorem}
+\begin{lemma}[Bounds on continuous functions]
+    Suppose that $f : [a, b] \mapsto \R$, and that $f$ is continuous. Then there exists some $K \geq 0$ such that $|f(x)| \leq K~\forall x \in [a, b]$.
+    \label{lemContinuousBounded}
+\end{lemma}
+\begin{proof}
+    Suppose, on the contrary, there is no such bound $K$. Therefore for each $n = \{1, 2, \cdots\}$, we can find $x_n \in [a, b]$ with $|f(x_n)| > n$.\par
+    We have that the $x_n$ are bounded, so by theorem~\ref{thmBolzanoWeierstrass}, we can find a convergent subsequence $x_{n_j}$ with limit $x \in [a, b]$.\par
+    However, $|f(x_{n_j})| > n_j \geq j$, so $f(x_{n_j})$ cannot converge. However, this contradicts theorem~\ref{thmContinuitySequenceDef}.\contradiction\par
+    Therefore the lemma must be true.
+\end{proof}
+\begin{theorem}[Extreme value theorem]
+    Suppose that $f : [a, b] \mapsto \R$ and $f$ is continuous. Then there exists a pair of numbers $y, Y \in [a, b]$ such that:
+    \begin{equation*}
+        f(y) \leq f(x) \leq f(Y)
+    \end{equation*}
+    for any $x \in [a, b]$.
+    \label{thmExtremeValue}
+\end{theorem}
+\begin{proof}
+    Let $A$ be the set of values that $f(x)$ takes on the interval. This is non-empty and bounded by lemma~\ref{lemContinuousBounded}, so has a supremum $M$.\par
+    For sufficiently large $n$, there exists a $y_n \in A$ such that $M - \frac{1}{n} \leq y_n \leq M$.\par
+    Then by the definition of $A$ there exists an $x_n \in [a, b]$ such that $f(x_n) = y_n$:
+    \begin{equation*}
+        M - \frac{1}{n} \leq f(x_n) \leq M
+    \end{equation*}
+    This therefore gives that $f(x_n) \to M$ as $n \to \infty$.\par
+    By theorem~\ref{thmBolzanoWeierstrass}, we have a convergent subsequence $x_{n_j}$ which converges to $Y$ and which also has the property that $f(x_{n_j}) \to M$ as $j \to \infty$. Therefore by continuity of $f$, $f(Y) = M$.\par
+    Applying the same to $-f$, we have that $-f$ is bounded above by some $-f(y)$, so $f$ is bounded below by $f(y)$.
+\end{proof}
+\begin{remark}
+    It is crucial here that the domain is bounded and closed. $a$ and $b$ must be finite and both in the domain.
+\end{remark}
+\section{Inverse Functions}
+\begin{definition}{Strictly increasing}
+    A function $f : [a, b] \mapsto \R$ is \underline{strictly increasing} if:
+    \begin{equation*}
+        a \leq x_1 < x_2 \leq b \implies f(x_1) < f(x_2)
+    \end{equation*}
+\end{definition}
+\begin{theorem}[Inverse function theorem I]
+    Suppose that $f : [a, b] \mapsto \R$ is continuous and strictly increasing.\par
+    Let $c = f(a), d = f(b)$. Then $f : [a, b] \mapsto [c, d]$ is a bijection and the inverse map $f^{-1} : [c, d] \mapsto [a, b]$ is continuous and strictly increasing.
+\end{theorem}
+\begin{proof}
+    \begin{subproof}{$f$ is injective}
+        Consider $x \neq y$. After relabelling, $x < y$ so by strictly increasing $f(x) < f(y) \implies f(x) \neq f(y)$.
+    \end{subproof}
+    \begin{subproof}{$f$ maps to $[c, d]$}
+        If $a \leq x \leq b$ then $f(a) \leq f(x) \leq b$, so $c \leq f(x) \leq d$.
+    \end{subproof}
+    \begin{subproof}{$f$ is surjective}
+        This follows immediately from the intermediate value theorem: if $\eta \in (c, d)$ then there exists $x \in [a, b]$ with $f(x) = \eta$, and the endpoints are hit by construction.
+    \end{subproof}
+    So now we have that $f$ is a bijection $[a, b] \mapsto [c, d]$.
+\end{proof}
 \end{document}
