@@ -524,5 +524,158 @@ This is the equation for a conic section; $e$ is the eccentricity. We have the f
     \item $e > 1$: in this case the body moves in a hyperbolic motion, also escaping to $\infty$.
 \end{itemize}
 Note that we can convert the polar equation~\ref{eqnKeplerProblemR} to cartesian coordinates.\par
-Planets in the solar system have small $e$, so their orbits are similar to a circle. However, Mercury has the most eccentric with $e = 0.2$. Other objects in the solar system have more eccentric orbits, such as Halley's Comet has $e \approx 0.97$ and thus displays a very elliptical orbit.
+Planets in the solar system have small $e$, so their orbits are similar to a circle. However, Mercury has the most eccentric with $e = 0.2$. Other objects in the solar system have more eccentric orbits, such as Halley's Comet has $e \approx 0.97$ and thus displays a very elliptical orbit.\par
+We can also consider energies along each orbit:
+\begin{equation}
+    E = \frac{1}{2}m\dot{r}^2 + \frac{ml^2}{2r^2} - \frac{km}{r}
+    \label{eqnOrbitEnergy}
+\end{equation}
+Then substituting equation~\ref{eqnKeplerProblemR} with the appropriate value of $e$ into equation~\ref{eqnOrbitEnergy} gives a constant value, the energy of the orbital path.
+\subsection{Kepler's Laws}
+Kepler's laws of planetary motion follow easily from the above. These are:
+\begin{enumerate}
+    \item[K1] Each planet moves in an ellipse, with the sun at one focus
+    \item[K2] The line between the planet and the sun sweeps out equal areas in equal times (see figure~\ref{figOrbitAreas})
+    \item[K3] The period of the orbit is proportional to the radius to the power $\frac{3}{2}$.
+\end{enumerate}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \coordinate (A) at (1.5, 0);
+        \coordinate (B) at (1.3, 0.5);
+        \draw (0, 0) circle[x radius=1.5cm, y radius=1cm];
+
+        \draw (A) -- (0, 0) node[pos=0.5, anchor=north] {$r$} -- (B);
+        \node at (1, 0.2) {$A$};
+        \node[anchor=west] at (0.3, 0.08) {$\theta$};
+        \draw (0.5, 0) arc[radius=0.6cm, start angle=0, end angle=18];
+        \draw[fill] (A) circle[radius=0.5mm];
+        \draw[fill] (B) circle[radius=0.5mm];
+    \end{tikzpicture}
+    \caption{Areas swept by planetary orbit}
+    \label{figOrbitAreas}
+\end{figure}
+The second law follows from conservation of angular momentum. In figure~\ref{figOrbitAreas}, we see that the change in area is:
+\begin{equation*}
+    \delta A = \frac{1}{2} r^2 \delta \theta
+\end{equation*}
+So the rate of change of $A$ is:
+\begin{equation*}
+    \dot{A} = \frac{1}{2} r^2 \dot{\theta} = \frac{1}{2}l
+\end{equation*}
+Which is constant since angular momentum is conserved. This also tells us that K2 is true for any central force.\par
+The proof of K3 is by dimensional analysis:\par
+We have $R$, the characteristic radius, and $k = GM$. Note that mass cancels. $[R] = L$, $[k] = L^3T^{-2}$. So then we have:\par
+\begin{align*}
+    T &\propto [R]^A [k]^B \\
+    &\propto L^A L^{3B} T^{-2B}
+\end{align*}
+Which gives $A = \frac{3}{2}, B = -\frac{1}{2}$.\par
+Therefore we note that this only holds for central forces with potential proportional to $\frac{1}{r}$.\par
+We can also fix the constant of proportionality in this equation:
+\begin{align*}
+    T &= \int_0^t dt = \int_0^A \frac{2}{l} dA \\
+    &= \frac{2}{l} A \\
+    &= \frac{2}{l} \pi a b \text{ where the semi-major and semi-minor axes are} a, b \\
+    &= \frac{2\pi}{l} \frac{r_0^2}{(1-e^2)^{\frac{3}{2}}} \\
+    &= \frac{2\pi}{\sqrt{k}} \frac{r_0^{\frac{3}{2}}}{(1-e^2)^{\frac{3}{2}}} \text{ since } l^2 = kr_0
+\end{align*}
+And if we define $R_{av} = \frac{1}{2} \left(\frac{r_0}{1+e} + \frac{r_0}{1-e}\right)$:
+\begin{equation}
+    T = \frac{2\pi}{\sqrt{GM}} R_{av}^{\frac{3}{2}}
+    \label{eqnKepler3Improved}
+\end{equation}
+Thereby giving an improved version of Keppler's 3rd law.
+\subsection{Repulsive potentials}
+\begin{definition}{Scattering experiment}
+    In a \underline{scattering experiment}, a particle is shot in from large $R$ at a target, and observed to fly out again at some different angle.
+\end{definition}
+For scattering to be possible, consider a central potential $V(r)$ which has very positive potential at small $r$, and $V(r) \to 0$ as $r \to \infty$.
+\begin{definition}{Impact parameter}
+    The \underline{impact parameter}, $b$, is the perpendicular distance from the target to the tangent to the initial velocity. See figure~\ref{figScatteringMotion}
+\end{definition}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \draw[fill] (0, 0) circle[radius=0.5mm] node[below] (T) at (0, 0) {Target};
+        \coordinate (A) at (-2, 0);
+        \coordinate (B) at (-1.5, 0.25);
+        \coordinate (C) at (1, 1.5);
+        \coordinate (D) at (-0.4, 0.8);
+        \draw[dashed] (A) -- (C) node[right, align=left] {Non-deflected \\ path};
+        \draw (A) -- (B) arc[radius=5cm, start angle=-63.5, end angle=-40] -- +(0.5, 0.6) node[above] {Deflected path};
+        \draw (0, 0) -- (D) node[pos=0.5, anchor=west] {$b$};
+        \draw (-0.5, 0.75) -- ++(0.05, -0.1) -- ++(0.1, 0.05);
+    \end{tikzpicture}
+    \caption{Motion of a particle in a scattering experiment}    
+    \label{figScatteringMotion}
+\end{figure}
+The scattering parameter $b$ is related to the angular momentum $l$ by:
+\begin{equation}
+    l = bv
+    \label{eqnScatteringAngularMomentum}
+\end{equation}
+We can understand this by considering a non-interacting particle, that follows the dotted trajectory in figure~\ref{figScatteringMotion}. At the point where its trajectory is a distance $b$ from the target, $l = |\vec{x} \times \dvec{x}| = b \times v$ since the vectors are orthogonal. Therefore its angular momentum at every point must be $bv$, since it is conserved.\par
+Now consider an interacting particle. When the particle is infinitely far away from the target, its motion is the same as the non-interacting particle and thus its angular momentum is $bv$. This means that even when it interacts, its angular momentum is $bv$ since angular momentum is conserved.\par
+We can then consider the potential around the target:
+\begin{equation}
+    V = \frac{K}{r} \text{ where } K = \frac{Qq}{4\pi \epsilon_0}
+    \label{eqnChargePotential}
+\end{equation}
+Then solving the orbit equation as before:
+\begin{equation}
+    r = \frac{r_0}{e \cos{\theta} - 1}
+    \label{eqnChargeOrbit}
+\end{equation}
+Now we consider the angle $\phi$ through which the particle is scattered. See figure~\ref{figScatteringAngles}.
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}
+        \tikzset {
+            patharrow/.pic={
+                \draw (-0.1, 0.1) -- (0, 0) -- (0.1, 0.1);
+            }
+        }
+        \draw[dashed] (210:3) -- (30:4);
+        \draw[dashed] (150:3) -- (330:4);
+        \draw[dashed] (180:2.6) -- (0:4.3);
+
+        \draw[fill] (-1, 0) circle[radius=0.5mm];
+        \draw [->] (-2, -0.3) node[anchor=north east] {Target} -- (-1.1, -0.05);
+
+        \draw (30:5) -- (30:4) 
+            arc[start angle=120, radius=2.32, end angle=240]
+            pic[pos=0.3, rotate=-20] {patharrow}
+            pic[pos=0.7, rotate=20] {patharrow}
+            -- (330:5);
+
+        \draw (1, 0) arc[start angle=0, end angle=30, radius=1] node[pos=0.4, anchor= east] {$\alpha$};
+        \draw (1, 0) arc[start angle=0, end angle=-30, radius=1] node[pos=0.4, anchor= east] {$\alpha$};
+
+        \draw (0.6, 0.35) arc[start angle=30, end angle=150, radius=0.7] node[pos=0.5, anchor=north] {$\phi$};
+
+        \draw (-1, 0) -- (150:0.86) node[pos=0.7, anchor=east] {$b$};
+        \draw (-1, 0) -- (210:0.86) node[pos=0.7, anchor=east] {$b$};
+    \end{tikzpicture}
+    \caption{Diagram of a scattering experiment with charged particles}
+    \label{figScatteringAngles}
+\end{figure}
+Note that value of the impact parameter for the incoming and outgoing trajectories are the same due to conservation of energy and angular momentum.\par
+From the diagram, $\phi = \pi - 2\alpha$. From equation~\ref{eqnChargeOrbit}, the angle $\alpha$ satisfies $\cos{\alpha} = \frac{1}{e}$. Then we can obtain $\phi$ in terms of the impact parameter and initial velocity:
+\begin{align*}
+    E &= \frac{1}{2}m v^2 \\
+    &= \frac{k^2}{2l^2m}(e^2-1) \text{ by conservation of energy} \\
+    &= \frac{k^2}{2b^2v^2m}(\tan^2{\alpha})
+\end{align*}
+Then substituting for $\phi$:
+\begin{align*}
+    \tan{\alpha} &= \tan{\left(\frac{\pi-\phi}{2}\right)} \\
+    &= \frac{1}{\tan{\frac{\phi}{2}}}
+\end{align*}
+So then we have a formula for $\phi$:
+\begin{equation}
+    \phi = 2\tan^{-1} \left(\frac{k}{bmv^2}\right)
+    \label{eqnScatteringAngle}
+\end{equation}
+Note also that for small $b$, $\phi \approx \pi$, which is the statement that the particle bounces back.
 \end{document}

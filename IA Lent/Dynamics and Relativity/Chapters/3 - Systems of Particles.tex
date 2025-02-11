@@ -1,0 +1,65 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Setting up a Generic System}
+The universe consists of many particles. For this chapter, we consider a system of $N$ particles, labelled $i = 1, \cdots, N$. Each particle has a momentum:
+\begin{equation}
+    p_i = m_i \dvec{x_i}
+    \label{eqnManyMomentum}
+\end{equation}
+and obey Newton's law:
+\begin{equation}
+    \dot{p}_i = \vec{F_i}
+    \label{eqnManyNewtonII}
+\end{equation}
+The force $\vec{F_i}$ on the $i$th particle can be \underline{external}, or due to the other particles. We write this:
+\begin{equation}
+    \vec{F_i} = \vec{F_i}^{\text{ext}} + \sum_{j \neq i} \vec{F_{ij}}
+    \label{eqnMultiForces}
+\end{equation}
+Where $\vec{F_{ij}}$ is the force on particle $i$ due to particle $j$. Such forces must be anti-symmetric by Newton's 3rd Law: $\vec{F_{ij}} = -\vec{F_{ji}}$.
+\subsection{Centre of Mass}
+\begin{definition}{Total mass}
+    The \underline{total mass}, $M$, is the sum of the masses of all the particles.
+\end{definition}
+\begin{definition}{Centre of mass}
+    The \underline{centre of mass} is a weighted sum of position by mass:
+    \begin{equation}
+        \vec{R} = \frac{1}{M} \sum_{i=1}^N m_i \vec{x_i}
+        \label{eqnCentreOfMass}
+    \end{equation}    
+\end{definition}
+Then we can use concepts like \underline{total momentum}, $\vec{p} = M\dvec{R}$. For whole-system concepts like this, it may be appropriate to imagine a single particle with mass $M$ and position vector $\vec{R}$.\par
+We can also apply Newton's Second Law:
+\begin{align*}
+    \dvec{p} &= \sum_{i = 1}^N \left(\vec{F_i}^{\text{ext}} + \sum_{j \neq i} \vec{F_{ij}}\right) \\
+    &= \sum_{i = 1}^N \left(\vec{F_i}^{\text{ext}} + + \sum_{j > i} \left(\vec{F_{ij}} + \vec{F_{ji}}\right)\right) \\
+    &= \sum_{i=1}^N \vec{F_i}^{\text{ext}} \text{ by Newton's 3rd Law} 
+\end{align*}
+And so we define the call of external forces $\vec{F}$:
+\begin{equation}
+    M\ddvec{R} = \vec{F} = \sum_{i=1}^N \vec{F_i}^\text{ext}
+\end{equation}
+And this is why we can treat macroscopic objects as point particles. Also, if there are no external forces then the total momentum is conserved.
+\subsection{Angular Momentum}
+\begin{definition}{Total angular momentum}
+    The \underline{total angular momentum} about a fixed point $\vec{a}$ is:
+    \begin{equation}
+        \vec{L} = \sum_{i=1}^N \left(\vec{x_i} - \vec{a}\right) \times \vec{p_i}
+    \end{equation}
+\end{definition}
+Then the rate of change of this quantity is:
+\begin{align}
+    \dvec{L} &= \sum_{i = 1}^N \left[\left(\vec{x_i} - \vec{a}\right)\times \dvec{p_i} + \dvec{x_i} \times \vec{p_i}\right] \nonumber \\
+    &= \sum_{i=1}^N \left(\vec{x_i} - \vec{a}\right) \times \left(\vec{F_i}^\text{ext} + \sum_{i \neq j} \vec{F_{ij}}\right) \nonumber \\
+    &= \vec{G} + \sum_{i < j} \left(x_i - x_j\right) \times \vec{F_{ij}} \text{ by Newton's 3rd Law} \label{eqnAngularMomentumChange}
+\end{align}
+Where $\vec{G} = \sum_{i=1}^N \left(\vec{x_i} - \vec{a}\right) \times \vec{x_i}^\text{ext}$ is the total torque. Note also that the final term does not vanish by Newton's 3rd Law alone, suggesting that the particles can impart angular momentum to themselves. However, this term does vanish for forces whose potentials depend only on distance between particles.
+\begin{align*}
+    \text{Let } \vec{F_{ij}} &= -\nabla V\left(|\vec{x_i} - \vec{x_j}|\right) \\
+    &= -\nabla V'\left(|\vec{x_i} - \vec{x_j}|\right) \frac{\vec{x_i} - \vec{x_j}}{|\vec{x_i} - \vec{x_j}|}
+\end{align*} 
+And substituting this into equation~\ref{eqnAngularMomentumChange}, the second term vanishes.\par
+Note that this derivation only works for constant $\vec{a}$, so the calculation must be redone for other cases such as $\vec{a} = \vec{R}$. See example sheet 3.
+\subsection{Energy of a System}
+\end{document}
