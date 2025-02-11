@@ -260,6 +260,30 @@ This theorem is aided by figure~\ref{figIntermediateValue}
     \begin{subproof}{$f$ is surjective}
         This follows immediately from the intermediate value theorem: if $\eta \in (c, d)$ then there exists $x \in [a, b]$ with $f(x) = \eta$, and the endpoints are hit by construction.
     \end{subproof}
-    So now we have that $f$ is a bijection $[a, b] \mapsto [c, d]$.
+    So now we have that $f$ is a bijection $[a, b] \mapsto [c, d]$, and so $f^{-1}$ is well-defined.
+    \begin{subproof}{$f^{-1}$ is continuous}
+        Consider $z \in (c, d)$, and let $y = f^{-1}(z)$. Let $\epsilon > 0$ be sufficiently small such that $(y - \epsilon, y + \epsilon)$ is contained within $[a, b]$.
+        \begin{align*}
+            a &\leq y - \epsilon < y < y + \epsilon \leq b \\
+            \implies c &\leq f(y-\epsilon) < z < f(y + \epsilon) \leq d
+        \end{align*}
+        And since $f : (y - \epsilon, y + \epsilon) \mapsto (f(y - \epsilon), f(y + \epsilon))$ since $f$ is bijective,
+        \begin{align*}
+            |z' - z| < \delta &\implies z' \in (f(y - \epsilon), f(y + \epsilon)) \\
+            &\implies f^{-1}(z') \in (y - \epsilon, y + \epsilon) \\
+            &\implies |f^{-1}(z') - f^{-1}(z)| < \epsilon
+        \end{align*}
+    \end{subproof}
+    \begin{subproof}{$f^{-1}$ is strictly increasing}
+        Suppose that $f^{-1}$ is not strictly increasing:
+        \begin{equation*}
+            \exists c \leq z_1 < z_2 \leq d \text{ where } f^{-1}(z_1) \geq f^{-1}(z_2)
+        \end{equation*}
+        But then applying $f$ to both sides:
+        \begin{equation*}
+            f(f^{-1}(z_1)) \geq f(f^{-1}(z_2)) \implies z_1 \geq z_2
+        \end{equation*}
+        \contradiction
+    \end{subproof}
 \end{proof}
 \end{document}

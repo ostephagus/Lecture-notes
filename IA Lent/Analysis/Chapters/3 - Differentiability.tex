@@ -1,0 +1,72 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definitions}
+\begin{definition}{Differentiability}
+    Let $f : E \subseteq \C \mapsto \C$. Let $x \in E$ be a limit point. Then $f$ is \underline{differentiable} at $x$ with derivative $f'(x)$ if:
+    \begin{equation}
+        \lim_{y \to x} \frac{f(y) - f(x)}{y - x} = f'(x)
+        \label{eqnDifferentiability}
+    \end{equation}
+    Further, if this is true for any point $x \in E$, then $f$ is \underline{differentiable on $E$}.
+\end{definition}
+Assume from now on that $E$ has no isolated points, and further that $E$ is an interval or disc.\par
+\begin{remarks}
+    \item Most of the time we will deal with $f : E \subseteq \R \mapsto \R$.
+    \item There are other common notations for the derivative. These have been seen in IA Differential Equations.
+    \item $y$ may be swapped for $x + h$ as $h \to 0$
+    \item Defining $\epsilon(h) = f(x + h) - f(x) - hf'(x)$, then requiring $\epsilon(h) / h \to 0$ as $h \to 0$ gives an alternative definition:
+        $f$ is differentiable at $x$ if and only if there exists $A$ and $\epsilon(h)$ such that
+        \begin{equation*}
+            f(x + h) = f(x) + hA + \epsilon(h)
+        \end{equation*}
+        Where $\epsilon(h)$ obeys $\lim_{h \to 0} \frac{\epsilon(h)}{h} = 0$.\par
+        As an aside, this definition works in higher dimension.
+    \item If $f$ is differentiable at $x$ then it must be continuous there, since $f(x + h) \to f(x)$ as $h \to 0$.
+\end{remarks}
+\begin{examples}{}
+    \item $Id : \R \mapsto \R$ such that $Id(x) = x$. Then:
+        \begin{align*}
+            \frac{Id(x + h) - Id(x)}{h} &= \frac{x + h - x}{h}
+            &= 1
+        \end{align*}
+    \item $f : \R \mapsto \R$ such that $f(x) = |x|$. This is differentiable for $x \neq 0$. However, we get two different values for $f'(0)$ for $h \to 0^+$ and $h \to 0^-$ which means it is not differentiable there.
+\end{examples}
+\section{Properties of Differentiability}
+\begin{propositions}{
+        Let $f : E \mapsto \C$. Let $E$ have no isolated points. Let also $g : E \mapsto \C$.
+        \label{propsDiffProperties}
+    }
+    \item If $f(x) = c$, then $f$ is differentiable with derivative 0. \label{propConstantDiffability}    
+    \item If $f$ and $g$ are differentiable at $x$, then so is $f(x) + g(x)$ with derivative $f'(x) = g'(x)$ \label{propSumDiffability}
+    \item If $f$ and $g$ are differentiable at $x$, then so is $f(x)g(x)$ with derivative $f'(x) g(x) = f(x) g'(x)$. \label{propProdDiffability}
+    \item If $f$ is differentiable at $x$ adn $f(y) \neq 0~\forall y \in E$, then $frac{1}{f(x)}$ is differentiable with derivative $\frac{-f'(x)}{f(x)^2}$. \label{propReciprocalDiffability}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item $\lim_{h \to 0} \frac{c - c}{h} = 0$.
+        \item
+            \begin{align*}
+                &\lim_{h \to 0} \frac{f(x + h) + g(x + h) - f(x) - g(x)}{h} \\
+                &= \lim_{h \to 0} \frac{f(x + h) - f(x)}{h} + \lim_{h \to 0} \frac{g(x + h) - g(x)}{g}
+            \end{align*}
+            Using proposition~\ref{propLimitSum}
+        \item 
+            \begin{align*}
+                &\lim_{h \to 0} \frac{f(x + h)g(x + h) - f(x) g(x)}{h} \\
+                &= \lim_{h \to 0} \frac{f(x + h) g(x + h) - f(x + h) g(x) + f(x + h) g(x) - f(x) g(x)}{h} \\
+                &= \lim_{h \to 0} f(x + h) \frac{g(x + h) - g(x)}{h} + \lim_{h \to 0} g(x) \frac{f(x + h) - f(x)}{h} \\
+                &= \lim_{h \to 0} f(x + h) g'(x) + g(x) f'(x) \\
+                &= f(x) g'(x) + f'(x) g(x)
+            \end{align*}
+            Since $f$ is continuous.
+        \item 
+            \begin{align*}
+                &\lim_{h \to 0} \frac{1/f(x + h) + 1/f(x)}{h} \\
+                &= \lim_{h \to 0} \frac{1}{f(x) f(x + h)} \frac{f(x) - f(x + h)}{h} \\
+                &= -\lim_{h \to 0} \frac{1}{f(x) f(x + h)} f'(x) \\
+                &= -\frac{f'(x)}{f(x)^2}
+            \end{align*}
+    \end{enumerate}
+\end{proof}
+\end{document}
