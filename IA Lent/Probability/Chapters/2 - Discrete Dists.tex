@@ -215,4 +215,256 @@ Note that it is possible for equation~\ref{eqnExpectationDiscrete} not to conver
         &= \sum_{n=1}^\infty E[X_n]
     \end{align*}
 \end{proof}
+\begin{proposition}
+    Suppose that $X$ is a random variable, and let $\Sigma$ be countable. Let $g$ be a function $\R \mapsto \R$.
+    \begin{equation*}
+        E[g(X)] = \sum_{x \in \Sigma_X} g(x) P(X = x)
+    \end{equation*}
+    \label{propExpecFunc}
+\end{proposition}
+\begin{proof}
+    Let $Y = g(X)$. Then its expectation is:
+    \begin{equation*}
+        E[Y] = \sum_{y \in \Sigma_Y} y P(Y = y)
+    \end{equation*}
+    Note that the set $\{Y = y\}$ is:
+    \begin{align*}
+        \subsetselect{\omega \in \Omega}{Y(\omega) = y} &= \subsetselect{\omega \in \Omega}{g(X(\omega)) = y} \\
+        &= \{X \in g^{-1}(\{y\})\} \\
+        &= \bigcup_{x \in g^{-1}(\{y\})} \{X = x\}
+    \end{align*}
+    So then we can evaluate $E[Y]$:
+    \begin{align*}
+        E[Y] &= \sum_{y \in \Omega_Y} y P(X \in g^{-1}(\{y\})) \\
+        &= \sum_{y \in \Omega_Y} y \sum_{x \in g^{-1}(\{y\})} P(X = x) \\
+        &= \sum_{y \in \Omega_Y} \sum_{x \in g^{-1}(\{y\})} g(x) P(X = x) \\
+        &= \sum_{x \in \Omega_X} g(x) P(X = x)
+    \end{align*}
+\end{proof}
+\subsection{Indicator Functions}
+We can define indicator functions in a similar (but not identical) way to IA Numbers and Sets.
+\begin{definition}{Indicator function}
+    For an event $A \in \sigalg$, the \underline{indicator function} for $A$ is defined to be:
+    \begin{equation*}
+        I_A(\omega) =
+        \begin{cases}
+            1 & \omega \in A \\
+            0 & \omega \notin A
+        \end{cases}
+    \end{equation*}
+\end{definition}
+A very useful fact for probability is that the expectation of the indicator is the probability:
+\begin{equation}
+    E\left[I_A\right] = P(A)
+    \label{eqnIndicatorExpec}
+\end{equation}
+The indicator function has a number of properties. For $A, B \in \sigalg$:
+\begin{itemize}
+    \item $I_A(\omega) = 1 - I_{A^C}(\omega)$.
+    \item $I_{A \cap B}(\omega) = I_A(\omega) I_B(\omega)$
+    \item $I_{A \cup B}(\omega) = 1 - (1 - I_A(\omega))(1 - I_B(\omega))$.
+\end{itemize}
+More generally, for a countable set $A_i \in \sigalg$,
+\begin{equation}
+    I_{A_1 \cup A_2, \cdots}(\omega) = 1 - \prod_{i \in \N} (1 - I_{A_i}(\omega))
+    \label{eqnUnionIndicator}
+\end{equation}
+Then equation~\ref{eqnUnionIndicator} can be expanded, and when expectations are taken we get the inclusion-exclusion formula.
+\begin{proposition}
+    Let $X$ be a random variable taking values in the set $\N_0$.
+    \begin{equation*}
+        E[X] = \sum_{k=1}^\infty P(X \geq k) = \sum_{k = 0}^\infty P(X > k)
+    \end{equation*}
+\end{proposition}
+\begin{proof} %TODO: Go over this
+    \begin{align*}
+        X(\omega) &= \sum_{k=1}^\infty 1(X(\omega) \geq k) \\
+        &= \sum_{k=0}^\infty 1(X(\Omega) \geq k)
+    \end{align*}
+    Then taking the expectation:
+    \begin{equation*}
+        E[X] = \sum_{k=1}^\infty P(X \geq k) = \sum_{k=0}^\infty P(X > k)
+    \end{equation*}
+\end{proof}
+\subsection{Variance}
+\begin{definition}{Moment of a Random Variable}
+    For a random variable $X$, and a natural number $r$, the \underline{$r$th moment of $X$} is $E[X^r]$.
+\end{definition}
+\begin{definition}{Variance}
+    The \underline{variance} of a random variable $X$ is defined:
+    \begin{equation*}
+        \Var{(X)} = E\left[(X - E[X])^2\right]
+    \end{equation*}
+\end{definition}
+Variance is a measure of the spread of $X$. A low variance means $X$ is very concentrated around a single point.\par
+The standard deviation is defined as the square root of the variance.\par
+We have some properties. Consider $X$ a random variable and $c$ a real number:
+\begin{itemize}
+    \item If $\Var{(X)} = 0$ the $X$ takes a single value
+    \item $\Var{(cX)} = c^2 \Var{(X)}$
+    \item $\Var{(X + c)} = \Var{(X)}$
+\end{itemize}
+\begin{proposition}
+    \begin{equation}
+        \Var{(X)} = E[X^2] - \left(E[X]^2\right)
+        \label{eqnAlternateVariance}
+    \end{equation}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \Var{(X)} &= E\left[(X - E[X])^2\right] \\
+        &= E\left[X^2 - 2XE[X] + (E[X])^2\right] \\
+        &= E[X^2] - E[2XE[X]] + E\left[(E[X])^2\right] \\
+        &= E[X^2] - 2E[X]E[X] + (E[X])^2 \\
+        &= E[X^2] - (E[X])^2
+    \end{align*}
+\end{proof}
+\begin{lemma}
+    \begin{equation*}
+        \Var{(X)} = \min_{c \in \R} E\left[(X - c)^2\right]
+    \end{equation*}
+    And is achieved when $c = E[X]$.
+\end{lemma}
+\begin{proof}
+    Let $f(c) = E\left[(X - c)^2\right]$.
+    \begin{align*}
+        f(c) &= E[X^2] - 2cE[X] + c^2 \\
+        f'(c) &= -2E[X] + 2c
+    \end{align*}
+    Which is zero when $c = E[X]$.
+\end{proof}
+We can calculate variances for different distributions.
+\begin{example}[Variance of the binomial distribution]
+    Consider $X \sim B(n, p)$.\par
+    \begin{align*}
+        E[X(X-1)] &= \sum_{k=0}^n k(k-1) P(X = k) \\
+        &= \sum_{k=2}^n k(k-1) \choose{n}{k} p^k (1-p)^{n-k} \\
+        &= \sum_{k=2}^n k(k-1) \frac{n!}{k!(n-k)!} p^k (1-p)^{n-k} \\
+        &= \sum_{k=2}^n \frac{n(n-1)(n-2)!}{(k-2)!(n-k)!} p^{k-2} p^2 (1-p)^{n-k} \\
+        &= \sum_{k=0}^{n-2} \choose{n-2}{k} p^{k} (1-p)^{n-2-k} p^2 n(n-1) \\
+        &= p^2 n(n-1)
+    \end{align*}
+    So then the variance is:
+    \begin{align*}
+        \Var{(X)} &= p^2 n(n-1) + np - (np)^2 \\
+        &= p^2 n^2 - p^2 n + np - n^2 p^2 \\
+        &= np(1-p)
+    \end{align*}
+\end{example}
+We have also that the variance of the Poisson distribution is $\lambda$, worked out similarly to the above.
+\subsection{Covariance}
+\begin{definition}{Covariance}
+    Let $X$ and $Y$ be two random variables. The the \underline{covariance} of $X$ and $Y$ is:
+    \begin{equation}
+        \Cov{(X, Y)} = E\left[(X - E[X])(Y - E[Y])\right]
+        \label{eqnCovariance}
+    \end{equation}
+\end{definition}
+We have some properties that follow immediately. Consider $X, Y$ and $Z$ random variables, and $c$ a real number.
+\begin{enumerate}
+    \item $\Cov{(X, Y)} = \Cov{(Y, X)}$
+    \item $\Cov{(X, X)} = \Var{(X)}$
+    \item $\Cov{(X, Y)} = E[XY] - E[X]E[Y]$.
+    \item $\Cov{(cX, Y)} = c\Cov{(cX, Y)}$
+    \item $\Cov{(X + c, Y)} = \Cov{(cX, Y)}$.
+    \item $\Var{(X + Y)} = \Var{(X)} + \Var{(Y)} + 2\Cov{(X,Y)}$.
+    \item $\Cov{(c, X)} = 0$
+    \item $\Cov{(X + Y, Z)} = \Cov{(X, Z)} + \Cov{(Y, Z)}$
+\end{enumerate}
+An in general, for random variables $X_i$ and $Y_i$:
+\begin{equation}
+    \Cov{\left(\sum_{i \in \N} X_i\right)} = \sum_{i=1}^N \Var{(X_i)} + \sum_{i \neq j}^N \Cov{(X_i, X_j)}
+\end{equation}
+\begin{lemma}
+    Let $X$ and $Y$ be independent random variables. Let $f, g : \R \mapsto \R$. Then $E[f(X)g(Y)] = E[f(X)]E[g(Y)]$.
+\end{lemma}
+\begin{proof}
+    For any $x$ and $y$, $P(X = x, Y = y) = P(X = x)P(Y = y)$.
+    \begin{align*}
+        E[f(X)g(Y)] &= \sum_{(x, y)} f(x) g(y) P(X = x, Y = y) \\
+        &= \sum_{(x, y)} f(x) g(y) P(X = x)P(Y = y) \\
+        &= \sum_x gf(x) P(X = x) \sum_y g(y) P(Y = y) \\
+        &= E[f(X)]E[g(Y)]
+    \end{align*}
+\end{proof}
+Therefore if $X$ and $Y$ are independent, their covariance is 0. However, the converse is not true:
+\begin{example}[0 covariance does not imply independence]
+    Let $X_1, X_2, X_3$ be independent Bernoulli random variables with probability $\frac{1}{2}$. Let $Y_1 = 2X_1 - 1$, $Y_2 = 2X_2 - 1$, $Z_1 = Y_1 X_3$ and $Z_2 = Y_2 X_3$.\par
+    Then the expectation of $Y_1$ adn $Y_2$ are 0 (since they have equal probability of being $1$ and $-1$), and therefore so are the expectations of $Z_1$ and $Z_2$.
+    \begin{align*}
+        \Var{(Z_1, Z_2)} &= E[Z_1 Z_2] - E[Z_1] E[Z_2] \\
+        &= 0 - 0 - 0 = 0
+    \end{align*}
+    So $Z_1$ and $Z_2$ have 0 covariance.\par
+    However, $P(Z_1 = 0, Z_2 = 0) = P(X_3 = 0) = \frac{1}{2}$, but $P(Z_1 = 0)P(Z_2 = 0) = \frac{1}{4}$, so they are not independent.
+\end{example}
+\section{Important Inequalities}
+\subsection{Markov's Inequality and Corollaries}
+\begin{theorem}[Markov's Inequality]
+    Let $X$ be a non-negative random variable. Let $a > 0$.\par
+    \begin{equation*}
+        P(X \geq a) \leq \frac{E[X]}{a}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    For any $a > 0$, $X \geq a I_{X \geq a}$. Then taking expectations:
+    \begin{equation*}
+        E[X] \geq a P(X \geq a)
+    \end{equation*}
+    And rearranging gives the result.
+\end{proof}
+\begin{theorem}[Chebyshev's Inequality]
+    Let $X$ be a random variable with finite expectation and variance. Then for any $a > 0$,
+    \begin{equation*}
+        P(|X - E[X]| \geq a) \leq \frac{\Var{(X)}}{a^2}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        P(|X - E[x]|^2 \geq a^2) &\leq \frac{E[(X - E[X]^2)]}{a^2} \\
+        &= \frac{\Var{(X)}}{a^2}
+    \end{align*}
+\end{proof}
+\begin{theorem}[Cauchy-Schwartz]
+    Let $X$ and $Y$ be random variables. Then:
+    \begin{equation*}
+        E[|XY|] \leq \sqrt{E[X^2]E[Y^2]}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Assume that $E[X^2]$ and $E[Y^2]$ are finite, otherwise the statement is trivial.
+    \begin{equation*}
+        |XY| \leq \frac{1}{2} \left(X^2 + Y^2\right)
+    \end{equation*}
+    and then taking expectations,
+    \begin{equation*}
+        E[|XY|] \leq \frac{1}{2}\left(E[X^2] + E[Y^2]\right)
+    \end{equation*}
+    Now assume wlog $X$ and $Y$ are non-negative (to avoid having to use absolute values). Let $t \in \R$:
+    \begin{align*}
+        E\left[(X - tY)^2\right] &\geq 0 \\
+        0\leq E[X^2] - 2tE[XY] + t^2 E[Y^2]
+    \end{align*}
+    Then considering this as a quadratic, we require $b^2 - 4ac \leq 0$:
+    \begin{align*}
+        0 &\geq 4E[XY]^2 - 4E[X^2] E[Y^2] \\
+        0 &\geq E[XY]^2 - E[X^2] E[Y^2] \\
+        E[XY] \leq \sqrt{E[X^2]E[Y^2]}
+    \end{align*}
+\end{proof}
+\begin{remark}
+    As in IA Vectors and Matrices, the case for equality is that one random variable is a multiple of the other (or that one is zero).
+\end{remark}
+\subsection{Jensen's Inequality}
+\begin{definition}{Convex function}
+    A function $f : \R \mapsto \R$ is \underline{convex} if for any $x$ and $y$, and $t \in [0, 1]$,
+    \begin{equation*}
+        f(tx + (1-t)y) \leq tf(x) + (1-t) f(y)
+    \end{equation*}
+    That is, $f$ is below any chord that joins $x$ and $y$
+\end{definition}
+\begin{proposition}
+    Let $f$ be a convex function. Then $f$ is the supremum of all the lines lying below it. In other words, for any $m$ there exist real numbers $a$ and $b$ such that $f(m) = am+b$ and $f(x) \geq ax + b~\forall x$.
+\end{proposition}
+This means that for a point and correspoinding tangent line, $f(x)$ is above this tangent line everywhere other than the point where they touch.
 \end{document}
