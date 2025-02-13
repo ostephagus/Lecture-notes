@@ -69,4 +69,142 @@ Assume from now on that $E$ has no isolated points, and further that $E$ is an i
             \end{align*}
     \end{enumerate}
 \end{proof}
+\begin{example}
+    Let $f_n(x) = x^n$ for $n \in \N_0$.\par
+    Then $n = 0 \implies f_0(x) = 1$ and so $f'_0(x) = 0$.\par
+    Similarly $f'_1(x) = 1$. Then claim that for any $n$, $f_n$ is differentiable on $\R$ with $f'_n(x) = nx^{n-1}$.\par
+    \induction{$n = 1$}{Shown above.}
+    {$n = k-1$}{}
+    {$n = k$}{
+        Then $f_k(x) = f_{k-1}(x) f_1(x)$. The by the product rule $f_k$ is differentiable on $\R$ and this derivative is:
+        \begin{align*}
+            f_k(x) &= f'_{k-1} f_1(x) + f_{k-1}(x) f'_1(x) \\
+            &= (k-1)x^{n-2} \times x + x^{k-1} \times 1 \\
+            &= kx^{k-1}
+        \end{align*}
+    }
+    Also, we now have all of the negative powers of $x$ by the quotient rule, for $x^n$ where $n$ is a negative integer, $f$ is differentiable on $\R \backslash \{0\}$ and its derivative is:
+    \begin{align*}
+        f'_n(x) &= \frac{-f'_{-n}(x)}{f_{-n}(x)^2} \\
+        &= \frac{-(-nx^{-n-1})}{\left(x^{-n}\right)^2} \\
+        &= nx^{n-1}
+    \end{align*}
+    So the power rule holds for all integers $n$.
+\end{example}
+Combining this with the results in proposition~\ref{propsDiffProperties}, we see that polynomials are differentiable on all of $\R$, and that rational functions (functions $\frac{p(x)}{q(x)}$ where $p$ and $q$ are polynomials with no common roots) are differentiable on $R$ excluding the roots of $q$.\par
+Note that this logic can be applied to the complex plane to get that these results hold in $\C$.
+\begin{theorem}[Chain Rule]
+    Suppose that $U, V \subseteq \C$. Let $f : U \mapsto V$ and $g : V \mapsto \C$ are such that $f$ is differentiable at $a \in U$ and $g$ is differentiable at $f(a) \in V$. Then the composition is differentiable at $a$ with derivative:
+    \begin{equation}
+        (g \circ f)'(a) = g'(f(a)) f'(a)
+        \label{eqnChainRule}
+    \end{equation}
+    \label{thmChainRule}
+\end{theorem}
+\begin{remark}
+    Though this formula should be very familiar, the statement that this composition is differentiable is quite powerful.
+\end{remark}
+\begin{proof}
+    Let $b = f(a)$.\par
+    We know that:
+    \begin{align}
+        f(x) &= f(a) + (x-a) f'(a) + \epsilon_f(x) (x - a) \text{ where } \lim_{x \to a} \epsilon_f(x) = 0 \label{eqnDiffDefF} \\
+        g(y) &= g(b) + (y-b) g'(b) + \epsilon_g(y) (y - b) \text{ where } \lim_{y \to b} \epsilon_g(y) = 0 \label{eqnDiffDefG}
+    \end{align}
+    Notice that by setting $\epsilon_f(a) = 0, \epsilon_g(b) = 0$, we have that $\epsilon_f$ and $\epsilon_g$ are continuous at $a$ and $b$ (respectively).\par
+    Then set $y = f(x)$ in equation~\ref{eqnDiffDefG}:
+    \begin{equation*}
+        f(f(x)) = g(b) + (f(x) - b) g'(b) + \epsilon_g(f(x))(f(x) - b)
+    \end{equation*}
+    Then using equation~\ref{eqnDiffDefF}:
+    \begin{align*}
+        g(f(x)) &= g(b) = \left((x - a) f'(a) + \epsilon_f(x)(x - a)\right) g'(b) \\
+        &+ \epsilon_g(f(x))\left((x - a) f'(a) + \epsilon_f(x) (x - a)\right) \\
+        &= g(f(a)) + (x - a)f'(a) g'(f(a)) \\
+        &+ (x - a) \left[g'(f(a)) \epsilon_f(x) + f'(a) \epsilon_g(f(x)) + \epsilon_g(f(x)) \epsilon_g(x)\right]
+    \end{align*}
+    Now let $\sigma(x) = g'(f(a)) \epsilon_f(x) + f'(a) \epsilon_g(f(x)) + \epsilon_g(f(x)) \epsilon_g(x)$, and consider $x \to a$. We have that $f$, $g$, $\epsilon_f$ and $\epsilon_g$ are continuous, so:
+    $\epsilon_g(f(x)) \to 0$, $\epsilon_f(x) \to 0$ so $\sigma(x) \to 0$ as $x \to a$. So $\sigma = \epsilon_{g \circ f}$ and:
+    \begin{equation*}
+        g(f(x)) = g(f(a)) + (x - a) f'(a) g'(f(a)) + (x - a) \epsilon_{g \circ f}(x)
+    \end{equation*}
+\end{proof}
+\begin{examples}{}
+    \item $f(x) = \sin{(x^2)}$. Assume that $\sin$ is continuous everywhere. Then this is a composition of differentiable functions and is thus differentiable at all real $x$.
+        \begin{equation*}
+            f'(x) = 2x\cos{(x^2)}
+        \end{equation*}
+    \item $f(x) = x\sin{\left(\frac{1}{x}\right)}$ for non-zero $x$ and $f(0) = 0$. For non-zero $x$, theorem~\ref{thmChainRule} gives us that this is differentiable. However, at $x = 0$, we consider:
+        \begin{equation*}
+            \lim_{t \to 0} \frac{f(t) - f(0)}{t} = \lim_{t \to 0} \sin{\frac{1}{t}}
+        \end{equation*}
+        So this function is not differentiable at $x = 0$, despite being continuous (see example~\ref{exXSinOneOverXContinuity})
+    \item $f(x) - x^2 \sin{\left(\frac{1}{x}\right)}$ for $x$ non-zero, and $f(0) = 0$. This is again differentiable for $x$ non-zero. Consider differentiablility at $x = 0$:
+        \begin{equation*}
+            \lim_{t \to 0} \frac{f(t) - f(0)}{t} = \lim_{t \to 0}  t \sin{\left(\frac{1}{t}\right)}
+        \end{equation*}
+        And this does tend to 0. This shows that, if $f$ is differentiable, $f'$ need not even be continuous.
+\end{examples}
+\section{The Mean Value Theorem}
+\begin{theorem}[Rolle's Theorem]
+    Let $f : [a, b] \mapsto \R$. Let it be continuous on $[a, b]$ and differentiable on $(a, b)$. If $f(a) = f(b)$, then there exists some $c$ in $(a, b)$ such that $f'(c) = 0$.
+\end{theorem}
+That is, if a function has the same output for two separate inputs, then it must have a turning point between those points (or be constant).
+\begin{proof}
+    Consider theorem~\ref{thmExtremeValue}. This shows that there must exist some $y$ and $Y$ in $[a, b]$ such that $m = f(y) \leq f(x) \leq f(Y) = M$. We want to show that at an extreme value, the derivative is zero.
+    \begin{case}{$m = M$}
+        If $m = M$, then the function must be constant $f(x) = f(a)$. Therefore, the derivative of $f$ is 0 at any $x$.
+    \end{case}
+    \begin{case}{$M > f(a)$}
+        This then gives that $Y \in (a, b)$.\par
+        Now let $h_n$ be a sequence decreasing to $0$.
+        \begin{align*}
+            &\frac{f(Y + h_n) - f(Y)}{h_n} \leq 0 \text{ since } f(Y) \text{ is a maximum.} \\
+            &\frac{f(Y - h_n) - f(Y)}{h_n} \geq 0
+        \end{align*}
+        So in the limit as $h_n \to 0$,
+        \begin{equation*}
+            0 \leq \frac{f(Y + h) - f(Y)}{h} \leq 0
+        \end{equation*}
+        And so $f'(Y) = 0$.
+    \end{case}
+    \begin{case}{$m < f(a)$}
+        This case is almost identical to the previous, $f'(y) = 0$.
+    \end{case}
+    In all cases, we have a valid value for $c$.
+\end{proof}
+\begin{theorem}[Mean Value Theorem]
+    Let $f : [a, b] \mapsto \R$. Let $f$ be continuous on $[a, b]$ and differentiable on $(a, b)$. Then there exists $c \in (a, b)$ such that:
+    \begin{equation*}
+        f(b) - f(a) = f'(c)(b - a) \Leftrightarrow f'(c) = \frac{f(b) - f(a)}{b - a}
+    \end{equation*}
+    \label{thmMeanValue}
+\end{theorem}
+This theorem captures the idea that for the graph of any function, at some point $c$ the gradient will match that of the line between its endpoints. See figure~\ref{figMeanValue}.
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \draw[domain=0:4,samples=50] plot (\x, {(\x-1)*sin(\x r)}) node[right] {$f(x)$};
+        \coordinate (A) at (0, 0);
+        \coordinate (B) at (4, -2.27);
+        \coordinate (C) at (2.48, 0.905);
+
+        \coordinate (B1) at ($(B)-0.6*(1, -0.568)$);
+        \coordinate (C1) at ($(C)-0.6*(1, -0.568)$);
+        \coordinate (C2) at ($(C)+0.6*(1, -0.568)$);
+
+        \draw[dashed] (A) -- (B);
+        \draw[dashed] (C1) -- (C2);
+
+        \foreach \coord/\name in {(A)/a, (B)/b}
+            \draw[fill] \coord circle[radius=0.4mm] node[below left] {$\name, f(\name)$};
+        \draw[fill] (C) circle[radius=0.4mm] node[above right] {$c, f(c)$};
+
+        \node[anchor=west] (D) at (4, 1) {Same gradients};
+        \draw[->] (D) -- (B1);
+        \draw[->] (D) -- (C2);
+    \end{tikzpicture}
+    \caption{Illustration of the Mean Value Theorem}
+    \label{figMeanValue}
+\end{figure}
 \end{document}
