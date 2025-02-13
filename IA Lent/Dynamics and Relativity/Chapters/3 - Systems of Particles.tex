@@ -36,7 +36,7 @@ We can also apply Newton's Second Law:
     &= \sum_{i = 1}^N \left(\vec{F_i}^{\text{ext}} + + \sum_{j > i} \left(\vec{F_{ij}} + \vec{F_{ji}}\right)\right) \\
     &= \sum_{i=1}^N \vec{F_i}^{\text{ext}} \text{ by Newton's 3rd Law} 
 \end{align*}
-And so we define the call of external forces $\vec{F}$:
+And so we define the sum of external forces $\vec{F}^\text{ext}$:
 \begin{equation}
     M\ddvec{R} = \vec{F} = \sum_{i=1}^N \vec{F_i}^\text{ext}
 \end{equation}
@@ -54,12 +54,90 @@ Then the rate of change of this quantity is:
     &= \sum_{i=1}^N \left(\vec{x_i} - \vec{a}\right) \times \left(\vec{F_i}^\text{ext} + \sum_{i \neq j} \vec{F_{ij}}\right) \nonumber \\
     &= \vec{G} + \sum_{i < j} \left(x_i - x_j\right) \times \vec{F_{ij}} \text{ by Newton's 3rd Law} \label{eqnAngularMomentumChange}
 \end{align}
-Where $\vec{G} = \sum_{i=1}^N \left(\vec{x_i} - \vec{a}\right) \times \vec{x_i}^\text{ext}$ is the total torque. Note also that the final term does not vanish by Newton's 3rd Law alone, suggesting that the particles can impart angular momentum to themselves. However, this term does vanish for forces whose potentials depend only on distance between particles.
+Where $\vec{G} = \sum_{i=1}^N \left(\vec{x_i} - \vec{a}\right) \times \vec{x_i}^\text{ext}$ is the total torque. Note also that the final term does not vanish by Newton's 3rd Law alone, suggesting that the particles can impart angular momentum to themselves. This does, however, require that forces between particles have a component perpendicular to the line between them, which is not possible for most forces we will consider.
 \begin{align*}
     \text{Let } \vec{F_{ij}} &= -\nabla V\left(|\vec{x_i} - \vec{x_j}|\right) \\
     &= -\nabla V'\left(|\vec{x_i} - \vec{x_j}|\right) \frac{\vec{x_i} - \vec{x_j}}{|\vec{x_i} - \vec{x_j}|}
 \end{align*} 
 And substituting this into equation~\ref{eqnAngularMomentumChange}, the second term vanishes.\par
-Note that this derivation only works for constant $\vec{a}$, so the calculation must be redone for other cases such as $\vec{a} = \vec{R}$. See example sheet 3.
+Note that this derivation only works for constant $\vec{a}$, so the calculation must be redone for other cases such as $\vec{a} = \vec{R}$. See example sheet 3. It is also possible to show that this term is always zero, but out of the scope of the course.
 \subsection{Energy of a System}
+Let:
+\begin{equation}
+    \vec{x_i} = \vec{R} + \vec{y_i}
+    \label{eqnRelativePositions}
+\end{equation}
+Here $\vec{y_i}$ is the position vector of particle $i$ relative to the centre of mass.\par
+Note also that $\vec{M}\vec{R} = \sum_{i=1}^N m_i \vec{x_i}$, so $\sum_{i=1}^N m_i \vec{y_i} = 0$. Its derivative must also be zero.\par
+Then the kinetic energy is:
+\begin{align*}
+    T &= \sum_{i=1}^N \frac{1}{2} m_i \vec{x_i} \cdot \vec{x_i} \\
+    &= \sum_{i=1}^N \frac{1}{2} m_i \left(\dvec{R}^2 + \dvec{y_i}^2 + 2\dvec{R} \cdot \dvec{y_i}\right)
+\end{align*}
+And thus:
+\begin{equation}
+    T = \frac{1}{2} M \dvec{R}^2 + \sum_{i=1}^N \frac{1}{2} m_i \dvec{y_i}^2
+    \label{eqnSystemEnergy}
+\end{equation}
+This first term is the kinetic energy of the centre of mass, and the second term is the internal kinetic energies of the particles.\par
+For a conserved energy, therefore, all forces must be conservative:
+\begin{align*}
+    \vec{F_i}^\text{ext} &= -\nabla_i V_i(\vec{x_i}) \\
+    \vec{F_{ij}} &= -\nabla_i V_{ij}(|\vec{x_i} - \vec{x_j})
+\end{align*}
+There are a few things to note here: $\nabla_i$ means differentiation with respect to $\vec{x_i}$, $V$ is symmetric and $\vec{F}$ is antisymmetric. Then consider the energy:
+\begin{align*}
+    E &= T + \sum_{i=1}^N V_i(\vec{x_i}) + \sum_{i < j}^N V_{ij}(|\vec{x_i} - \vec{x_j}|) \\
+    \frac{dE}{dt} &=\sum_{i=1}^N m_i \dvec{x_i} \cdot \ddvec{x_i} + \sum_{i=1}^N \vec{x_i} \cdot \nabla_i V_i(\vec{x_i}) \\
+    &+ \sum_{i<j}^N \left[\dvec{x_i} \cdot \nabla_i V_{ij}(|\vec{x_i} - \vec{x_j}|) + \dvec{x_j} \cdot \nabla_j V_{ij}(|\vec{x_i} - \vec{x_j}|)\right] \\
+    &= \sum_{i=1}^N \vec{x_i} \cdot \left[m_i \ddvec{x_i} - \vec{F_i}^\text{ext} - \sum_{j \neq i}^N \vec{F_{ij}}\right] \\
+    &= 0 \text{ by Newton's Second Law (part in square brackets)}
+\end{align*}
+\section{Two-Body Problem}
+Consider two particles moving only under the effect of gravitation between them.\par
+let $\vec{r} = \vec{x_1} - \vec{x_2}$ be the \underline{relative separation}.\par
+Then the centre of mass is $M \vec{R} = m_1 \vec{x_1} + m_2 \vec{x_2}$. Then we represent the position vectors:
+\begin{align*}
+    \vec{x_1} &= \vec{R} + \frac{m_2}{M} \vec{r} \\
+    \vec{x_2} &= \vec{R} + \frac{m_1}{M} \vec{r}
+\end{align*}
+And the kinetic energy (by equation~\ref{eqnSystemEnergy})
+\begin{align*}
+    T &= \frac{1}{2}M\dvec{R}^2 + \left(\frac{1}{2} m_1 \frac{m_2^2}{M^2}\dvec{r}^2 + \frac{1}{2} m_2 \frac{m_1^n}{M^2} \dvec{r}^2\right) \\
+    &= \frac{1}{2} M \dvec{R}^2 + \frac{1}{2} \mu \dvec{r}^2
+\end{align*}
+where $\mu = \frac{m_1 m_2}{M}$ is the \underline{reduced mass}. Note that cancellation occurs in the above since $M = m_1 + m_2$.\par
+This starts to suggest that we can treat this system as two different one-particle systems, a virtual particle at the centre of mass, and a separate virtual particle whose motion depends only on the separation.\par
+Then Newton's Second Law:
+\begin{align*}
+    \mu \ddvec{r} &= \mu(\ddvec{x_1} - \ddvec{x_2}) = \mu \left(\frac{\vec{F_{12}}}{m_1} - \frac{\vec{F_{21}}}{m_2}\right) \\
+    &=F_{12}
+\end{align*}
+And therefore we see that the system is reduced to a problem in a single particle (as long as $\vec{F_{12}}$ is a function only of separation).\par
+If one mass is much bigger than the other, $m_1 >> m_2$, then $\mu \approx m_2$ and we have one object orbiting the other.
+\section{Variable Mass and the Rocket Equation}
+The relation $\dvec{P} = \vec{F}^\text{ext}$ for the total momentum $\vec{P}$ is useful for cases where the internal forces may be complicated, such as the engine of a rocket.\par
+Consider a rocket that ejects fuel with speed $u$ relative to the rocket.\par
+The rocket has mass that depends on time, and the mass lost by the rocket is equal to the mass of fuel it releases.\par
+Assume that the rocket moves vertically. Then consider the 1-dimensional problem in this vertical direction:
+\begin{equation*}
+    \dot{p} = \frac{p(t + \delta t) - p(t)}{\delta t} = F^\text{ext}
+\end{equation*}
+\begin{align*}
+    p(t) &= m(t) v(t) \\
+    p(t + \delta t) &= m(t + \delta t) v(t + \delta t) + (m(t) - m(t + \delta t))(v(t) - u) \\
+    p(t + dt) &= m(t) v(t) + m(t) v'(t)dt + m'(t) v(t) dt - m'(t) dt (v(t) - u) \\
+    &= m(t) v(t) + m(t) v'(t) dt - u m'(t) dt
+\end{align*}
+And so:
+\begin{align}
+    F^\text{ext} &= \frac{m(t) v'(t) dt - u m'(t) dt}{dt} \nonumber\\
+    &= m\dot{v} + u\dot{m} \label{eqnRocket}
+\end{align}
+Equation~\ref{eqnRocket} is the Tsiolkovsky Rocket Equation. It can also be written as:
+\begin{equation}
+    m\dot{v} = F^\text{ext} - u\dot{m}
+    \label{eqnRocketThrust}
+\end{equation}
+Where the term $u \dot{m}$ is the ``thrust force'', the virtual force provided to the rocket by expelling fuel.
 \end{document}
