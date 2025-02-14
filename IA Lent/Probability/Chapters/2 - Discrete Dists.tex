@@ -484,6 +484,179 @@ Therefore if $X$ and $Y$ are independent, their covariance is 0. However, the co
 \end{figure}
 \begin{proposition}
     Let $f$ be a convex function. Then $f$ is the supremum of all the lines lying below it. In other words, for any $m$ there exist real numbers $a$ and $b$ such that $f(m) = am+b$ and $f(x) \geq ax + b~\forall x$.
+    \label{propTangentBelowConvex}
 \end{proposition}
 This means that for a point and correspoinding tangent line, $f(x)$ is above this tangent line everywhere other than the point where they touch.
+\begin{proof}
+    Let $m \in \R$ and $x < m < y$. Then:
+    \begin{equation}
+        m = tx + (1-t)y
+        \label{eqnInterpolation}
+    \end{equation}
+    for some $t \in [0, 1]$.\par
+    $f(m) = f(tx + (1-t)y) \leq tf(x) + (1-t)f(y)$ from the definition.
+    \begin{align*}
+        \implies f(m) &\leq  tf(x) + (1-t)f(y) \\
+        (1 - t) f(m) + tf(m) &\leq tf(x) + (1-t)f(y) \\
+        t(f(m) - f(x)) &\leq (1-t)(f(y)-f(m))
+    \end{align*}
+    Then rearranging equation~\ref{eqnInterpolation}, $t = \frac{y - m}{y - x}$ and $1 - t = \frac{m - x}{y - x}$. Substituting this in the inequality gives:
+    \begin{equation}
+        \frac{f(m) - f(x)}{m - x} \leq \frac{f(y) - f(m)}{y-m}
+        \label{eqnRatioInequality}
+    \end{equation}
+    Now define $a = \sup_{x < m} \frac{f(m) - f(x)}{m - x}$. Therefore, for all $x < m < y$, equation~\ref{eqnRatioInequality} gives:
+    \begin{equation}
+        \frac{f(m) - f(x)}{m - x} \leq a \leq \frac{f(y) - f(m)}{y - m}
+        \label{eqnSupremumBounds}
+    \end{equation}
+    Then rearranging this inequality, for any $z$ in range:
+    \begin{equation*}
+        f(z) \geq a(z - m) + f(m)
+    \end{equation*}
+    As required. This is from the LHS of equation~\ref{eqnSupremumBounds} if $z < m$, and the RHS if $z > m$.
+\end{proof}
+\begin{theorem}[Jensen's Inequality]
+    Let $f$ be convex and $X$ a random variable.\par
+    Then $E[f(x)] \geq f(E[X])$.
+    \label{thmJensenInequality}
+\end{theorem}
+\begin{proof}
+    Let $m = E[X]$. By proposition~\ref{propTangentBelowConvex}, there exist $a$ and $b$ such that
+    \begin{equation*}
+        f(m) = am + b, f(x) \geq ax + b~\forall x
+    \end{equation*}
+    Then $f(X) \geq aX + b$. Taking expectations:
+    \begin{align*}
+        E[f(X)] \geq aE[X] + b \\
+        &= am + b = f(m) \\
+        &= f(E[X])
+    \end{align*}
+\end{proof}
+\begin{corollary}[Equality in Jensen's Inequality]
+    Let $X$ be a random variable and $f$ a convex function with the property that for $m = E[X]$ there exist $a$ and $b$ such that $f(m) = am + b$ and $f(x) > ax + b$ for any $x \neq m$.\par
+    Then $f(E[X]) = E[f(X)]$ only if $X$ is constant.
+    \label{corJensenEquality}
+\end{corollary}
+\begin{remark}
+    This final statement can be extended to an \textit{if and only if} statement, since if $X$ is constant, then $X = E[X]$ and equality is trivially true since $f(X)$ is also constant.
+\end{remark}
+\begin{proof}
+    We then consider what properties of $X$ give $E[f(X)] = f(E[X])$.\par
+    We have that $f(X) \geq aX + b$, which means $f(X) - (aX + b) \geq 0$. Taking expectations,
+    \begin{equation*}
+        E[f(X)] \geq a E[X] + b = am + b = f(m) = f(E[X])
+    \end{equation*}
+    And for equality,
+    \begin{align*}
+        E[f(X)] &= f(E[X]) \\
+        E[f(X) - (aX + b)] &= 0
+    \end{align*}
+    However, since $f(X) - (aX + b)$ is greater than or equal to zero, for it to have zero expectation it must be zero everywhere. That is, $P(f(X) = aX + b) = 1 \implies P(X = m) = 1$. That is, $X$ is constant.
+\end{proof}
+\begin{corollary}
+    Let $f$ be a convex function and $x_1, \cdots, x_n$ be real numbers. Then:
+    \begin{equation*}
+        \frac{1}{n} \sum_{k=1}^n f(x_k) \geq f\left(\frac{1}{n}\sum_{k=1}^n x_k\right)
+    \end{equation*}
+    \label{corGenericAMGM}
+\end{corollary}
+\begin{proof}
+    Let $X$ be a random variable taking values $x_1, \cdots, x_n$. Let $P(X = x_i) = \frac{1}{n}$
+    \begin{align*}
+        \frac{1}{n} \sum_{k=1}^n f(x_k) &= \sum_{k=1}^n P(X = x_k) f(x_k) \\
+        &= E[f(X)]
+    \end{align*}
+    Note also that $E[X] = \frac{1}{n} \sum_{k=1}^n x_n$.
+    Then apply Jensen's Inequality:
+    \begin{align*}
+        E[f(X)] &\geq f(E[X]) \\
+        \frac{1}{n} \sum_{k=1}^n f(x_k) & \geq f\left(\frac{1}{n} \sum_{k=1}^n x_k\right)
+    \end{align*}
+\end{proof}
+\begin{corollary}[AM-GM Inequality]
+    Let $f(x) = -\log{(x)}$. This is a convex function.\par
+    \begin{align*}
+        -\frac{1}{n} \sum_{k=1}^n \log{x_k} & \geq -\log{(\frac{1}{n}\sum_{k=1}^n x_k)} \\
+       \implies \left(\prod_{k=1}^n x_k\right)^{\frac{1}{n}} &\geq \frac{1}{n} \sum_{k=1}^n x_k \text{ by exponentiation}
+    \end{align*}
+    \label{corAMGM}
+\end{corollary}
+\section{Conditional Expectation}
+\begin{definition}{Conditional expectation}
+    Let $X$ be a random variable, $B$ an event, and $P(B) > 0$. Then we define the \underline{conditional expectation}:
+    \begin{equation}
+        E[X | B] = \frac{E[X \times I_B]}{P(B)}
+        \label{eqnConditionalExpec}
+    \end{equation}
+\end{definition}
+\begin{lemma}[Law of Total Expectation]
+    Let $X$ be a random variable and $(\Omega_n)$ be a partition of $\Omega$. Suppose that $P(\Omega_n) > 0$ for all $n$. Then:
+    \begin{equation*}
+        E[X] = \sum_n E[X | \Omega_n] \times P(\Omega_n)
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    Let $X = XI_\Omega$:
+    \begin{align*}
+        X &= XI_{\cup_n \Omega_n} \\
+        &= \sum_n XI_{\Omega_n} \text{ as the } \Omega_n \text{ are disjoint}
+    \end{align*}
+    Taking expectations:
+    \begin{align*}
+        E[X] &= \sum_n E[XI_{\Omega_n}] \\
+        &= \sum_n E[X | \Omega_n] P(\Omega_n) \text{ by rearranging equation~\ref{eqnConditionalExpec}}
+    \end{align*}
+\end{proof}
+\begin{definition}{Joint distribution}
+    Let $X_1, \cdots, X_n$ be discrete random variables. Their \underline{joint distribution} is defined to be:
+    \begin{equation*}
+        P(X_1 = x_1, \cdots, X_n = x_n)~\forall x_1, \cdots, x_n
+    \end{equation*}
+    That is, a single distribution that encompasses all of the random variables.
+\end{definition}
+\begin{definition}{Marginal distribution}
+    Given a joint distribution, the \underline{marginal distribution} is the distribution of only one of the random variables. It is obtained by summing probabilities over all of the values of the other variables:
+    \begin{equation*}
+        P(X_1 = x_1) = \sum_{x_2, \cdots, x_n} P(X_1 = x_2, X_2 = x_2, \cdots, X_n = x_n)
+    \end{equation*}
+\end{definition}
+\begin{definition}{Conditional distribution}
+    Let $X$ and $Y$ be two random variables. Then the \underline{conditional distribution} of $X$ given $Y = y$ is defined to be:
+    \begin{equation*}
+        P(X = x | Y = y) = \frac{P(X = x, Y = y)}{P(Y = y)}~\forall x
+    \end{equation*}
+\end{definition}
+By the law of total probability,
+\begin{equation*}
+    P(X = x) = \sum_y P(X = x | Y = y) P(Y = y)
+\end{equation*}
+\begin{proposition}[Convolutions]
+    Consider two independent discrete random variables $X$ and $Y$. Then the probability distribution given by their sum is a \underline{convolution}:
+    \begin{align*}
+        P(X + Y = z) &= \sum_y P(Y = y) P(X = z - y) \\
+        \text{ or } P(X + Y = z) &= \sum_x P(X = x) P(Y = z - x)
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        P(X + Y = z) &= \sum_x P(X + Y = z, X = x) \\
+        &= \sum_x P(Y = z - x, X = x) \\
+        &= \sum_x P(X = x) P(Y = z - x) \text{ by independence}
+    \end{align*}
+    And the second formula is obtained by summing over $y$ instead of $x$.
+\end{proof}
+\begin{example}
+    Let $X \sim Po(\lambda)$ and $Y \sim Po(\mu)$. Let them be independent.\par
+    Then consider $P(X + Y = z)$.\par
+    \begin{align*}
+        P(X + Y = n) &= \sum_{k = 0}^n P(X + y = n, X = k) \\
+        &= \sum_{k = 0}^n P(X = k) P(Y = n-k) \\
+        &= \sum_{k = 0}^n e^{-\lambda} \frac{\lambda^k}{k!} e^{-\mu} \frac{\mu^{n-k}}{(n-k)!} \\
+        &= \frac{e^{-(\lambda + \mu)}}{n!} \sum_{k = 0}^n \choose{n}{k} \mu^{n-k} \lambda^k \\
+        &= \frac{e^{-(\lambda + \mu)}}{n!} (\lambda + \mu)^n
+    \end{align*}
+    And so $X + y \sim Po(\lambda + \mu)$.\par
+    In general, adding two random variables is not so easy.
+\end{example}
 \end{document}
