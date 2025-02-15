@@ -21,14 +21,14 @@ The key equation is:
 \begin{figure}[ht]
     \centering
     \begin{tikzpicture}[scale=2]
-        \tdplotsetmaincoords{0}{0};
-        \tdplotsetrotatedcoords{90}{40}{0};
+        \tdplotsetmaincoords{0}{0}
+        \tdplotsetrotatedcoords{90}{40}{0}
         \draw[->] (0, 0, 0) -- (0.9, 0.5, 0) node[below right] {$\vec{x}$};
         \draw[fill] (0.9, 0.5, 0) circle[radius=0.2mm];
         \draw[->] (0, 0, 0) -- (0, 1, 0) node[above] {$\vec{\omega}$};
         \draw[dashed] (0, -0.5, 0) -- (0, 0, 0);
 
-        \tdplotdrawarc{(0, 0, 0)}{0.4}{29}{90}{}{};
+        \tdplotdrawarc{(0, 0, 0)}{0.4}{29}{90}{}{}
         \node[anchor=center] at (0.1, 0.2) {\small$\phi$};
 
         \draw[dashed] (0, 0.5, 0) -- (0.9, 0.5, 0) node[pos=0.5, anchor=south] {$d$};
@@ -36,7 +36,7 @@ The key equation is:
 
         \draw[->] (0.9, 0.5, 0) -- (0.9, 0.5, -1) node[right] {$\dvec{x}$};
 
-        \tdplotdrawarc[tdplot_rotated_coords,->]{(-0.1, 0, 0)}{0.1}{30}{300}{left}{$\theta$};
+        \tdplotdrawarc[tdplot_rotated_coords,->]{(-0.1, 0, 0)}{0.1}{30}{300}{left}{$\theta$}
     \end{tikzpicture}
     \caption{Diagram of vectors involved in rotational motion}
     \label{figRotationalMotion}
