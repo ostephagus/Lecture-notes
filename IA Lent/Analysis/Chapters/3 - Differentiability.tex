@@ -90,6 +90,7 @@ Assume from now on that $E$ has no isolated points, and further that $E$ is an i
         &= nx^{n-1}
     \end{align*}
     So the power rule holds for all integers $n$.
+    \label{exPowerRule}
 \end{example}
 Combining this with the results in proposition~\ref{propsDiffProperties}, we see that polynomials are differentiable on all of $\R$, and that rational functions (functions $\frac{p(x)}{q(x)}$ where $p$ and $q$ are polynomials with no common roots) are differentiable on $R$ excluding the roots of $q$.\par
 Note that this logic can be applied to the complex plane to get that these results hold in $\C$.
@@ -148,6 +149,7 @@ Note that this logic can be applied to the complex plane to get that these resul
 \section{The Mean Value Theorem}
 \begin{theorem}[Rolle's Theorem]
     Let $f : [a, b] \mapsto \R$. Let it be continuous on $[a, b]$ and differentiable on $(a, b)$. If $f(a) = f(b)$, then there exists some $c$ in $(a, b)$ such that $f'(c) = 0$.
+    \label{thmRolles}
 \end{theorem}
 That is, if a function has the same output for two separate inputs, then it must have a turning point between those points (or be constant).
 \begin{proof}
@@ -180,7 +182,7 @@ That is, if a function has the same output for two separate inputs, then it must
     \end{equation*}
     \label{thmMeanValue}
 \end{theorem}
-This theorem captures the idea that for the graph of any function, at some point $c$ the gradient will match that of the line between its endpoints. See figure~\ref{figMeanValue}.
+This theorem captures the idea that for the graph of any function, at some point $c$ the gradient will match that of the line between its endpoints. See figure~\ref{figMeanValue}. Another intuition is that if a car is driven 50 miles in 1 hour, at some point it must have been going at 50 miles per hour.
 \begin{figure}[ht]
     \centering
     \begin{tikzpicture}
@@ -207,4 +209,122 @@ This theorem captures the idea that for the graph of any function, at some point
     \caption{Illustration of the Mean Value Theorem}
     \label{figMeanValue}
 \end{figure}
+\begin{proof}
+    We consider $\phi(x) = (x - a)(f(b) - f(a)) - (b - a)(f(x) - f(a))$. This must be continuous on $[a, b]$ and differentiable on $(a, b)$. Furthermore, $\phi(a) = \phi(b) = 0$. Now $\phi$ satisfies the condition of theorem~\ref{thmRolles}, so at some point $c$ the derivative $\phi'(x)$ is zero. Now:
+    \begin{align*}
+        0 &= \phi'(c) \\
+        &= (f(b) - f(a)) - (b - a)f'(c) \\
+        \implies f(b) - f(a) &= f'(c)(b - a)
+    \end{align*}
+\end{proof}
+\begin{remark}
+    The Mean Value Theorem allows local properties (to do with the derivative of a function) to be exported to global properties with non-infinitesimal scales.
+\end{remark}
+\begin{corollary}
+    If $f$ is differentiable on an open interval $I$ containing $a$, then this is equivalent to:\par
+    Given $h$ such that $a + h \in I$, then there exists $\theta(h) \in (0, 1)$ such that:
+    \begin{equation*}
+        f(a + h) = f(a) + hf'(a + h\theta)
+    \end{equation*}
+\end{corollary}
+The proof is by theorem~\ref{thmMeanValue}, setting $b = a + h$.
+\begin{corollary}
+    Assume that $f : [a, b] \mapsto \R$ is continuous on $[a, b]$ and differentiable on $(a, b)$. Then if $f'(x) \geq 0 \forall x \in [a, b]$ then $f$ is increasing. Also, if this derivative is strictly positive then $f$ is strictly increasing. Further, if $f'(x) = 0$ for all $x$, then $f$ is constant.
+    \label{corDerivativeSign}
+\end{corollary}
+\begin{proof}
+    First consider $f'(x) \geq 0$. Consider points $a \leq x < y \leq b$. Then apply theorem~\ref{thmMeanValue} on $[x, y]$ to $f$. Therefore there exists some $c \in (x, y)$ such that:
+    \begin{align*}
+        f(y) - f(x) &= f'(c)(y-x) \geq 0 \\
+        \implies f(x) &\leq f(y)
+    \end{align*}
+    Note that the same can be said for strictly positive, and strictly/non-strictly negative derivative.\par
+    Now assume that $f'(x) = 0$. Then choose $x \in (a, b]$, and apply theorem~\ref{thmMeanValue}, so we have $c \in (a, x)$ sich that $f(x) - f(a) = 0$. That is, $f(x) = f(a)$. And since $x$ was arbitrary, $f(x) = f(a)$ for all $x$.
+\end{proof}
+\begin{warning}
+    The Mean Value Theorem does not necessarily hold for more general sets. For example, consider:
+    \begin{align*}
+        f : \Q &\mapsto \Q \\
+        x &\mapsto
+        \begin{cases}
+            0 & x^2 < 2 \\
+            1 & x^2 > 2
+        \end{cases}
+    \end{align*}
+    Here $f$ is differentiable with $f'(x) = 0$ for every $x$ (note this is because $\sqrt{2}$ is not in the domain) but $f$ is not constant.
+\end{warning}
+\begin{theorem}[Inverse Function Theorem II]
+    Suppose that $f : [a, b] \mapsto \R$ and differentiable on $(a, b)$. Let $f'(x) > 0$ for all $x$ in the interval.\par
+    Define $f(a) = c, f(b) = d$. Then $f : [a, b] \mapsto [c, d]$ is a bijection, and $f^{-1}$ exists and is differentiable on $(c, d)$ with derivative:
+    \begin{equation*}
+        (f^{-1})'(y) = \left[f'(f^{-1}(y))\right]^{-1}
+    \end{equation*}
+    \label{thmInverseFunctionII}
+\end{theorem}
+\begin{proof}
+    By corollary~\ref{corDerivativeSign} $f$ is strictly increasing. Therefore, theorem~\ref{thmInverseFunctionI} gives that $f$ is bijective, and that $f^{-1}$ exists, is continuous, and is strictly increasing.
+    \begin{subproof}{$f^{-1}$ is differentiable on $(c, d)$ with the given derivative.}
+        Let $y \in (c, d)$ adn set $x = f^{-1}(y)$. Given $h$ such that $y + h \in (c, d)$, define $k$ such that $y + h = f(x + k)$
+        \begin{align*}
+            \frac{f^{-1}(y + h) - f^{-1}(y)}{h} &= \frac{k + x - x}{f(x + k) - y} \\
+            &= \frac{k}{f(x + k) - f(x)}
+        \end{align*}
+        Now for any $\epsilon > 0$, there exists $\delta$ such that $0 < |k| < \delta$:
+        \begin{equation*}
+            \left|\frac{k}{f(x + k) - f(x) - \frac{1}{f'(x)}}\right| < \epsilon
+        \end{equation*}
+        And also note that since $f^{-1}$ is continuous, there exists $\delta' > 0$ such that:
+        \begin{equation*}
+            0 < |h| < \delta' \implies 0 < |k| < \delta
+        \end{equation*}
+        And therefore by the above,
+        \begin{equation*}
+            \left|\frac{f^{-1}(y + h) - f^{-1}(y)}{h} - \frac{1}{f'(x)}\right| < \epsilon
+        \end{equation*}
+        Therefore $f^{-1}$ is differentiable at $y$, with derivative:
+        \begin{equation*}
+            (f^{-1})'(y) = \frac{1}{f'(x)} = \frac{1}{f'(f^{-1}(y))}
+        \end{equation*}
+    \end{subproof}
+\end{proof}
+\begin{corollary}
+    The set of functions $f(x) = x^{\frac{1}{n}}$ is differentiable on the interval $(0, R)$ with derivative $\frac{1}{n} x^{\frac{1}{n} - 1}$
+    \label{corNthRootDiffable}
+\end{corollary}
+\begin{proof}
+    Consider the function:
+    \begin{align*}
+        f_n : [0, R^{\frac{1}{n}}] &\mapsto \R \\
+        x \mapsto x^n
+    \end{align*}
+    Then by theorem~\ref{thmInverseFunctionII}, $g_n = f_n^{-1}$ is differentiable on the required interval. Its derivative is:
+    \begin{align*}
+        g'_n(y) &= \frac{1}{(f'_n(g(y)))} \\
+        &= \frac{1}{n (g(y)^{n-1})} \\
+        &= \frac{1}{n}\frac{1}{(y^{\frac{1}{n}})^{n-1}} \\
+        &= \frac{1}{n}\frac{1}{y^{1 - \frac{1}{n}}} \\
+        &= \frac{1}{n} y^{\frac{1}{n} - 1}
+    \end{align*}
+\end{proof}
+\begin{remark}
+    By this corollary and example~\ref{exPowerRule}, we have (by induction) that the power rule holds for all rational powers.
+\end{remark}
+We can give a generalisation of theorem~\ref{thmMeanValue}:
+\begin{theorem}[Cauchy's Mean Value Theorem]
+    Let $f, g : [a, b] \mapsto \R$ be continuous on $[a, b]$ and differentiable on $(a, b)$. Then there exists $c \in (a, b)$ such that:
+    \begin{equation*}
+        g'(c)(f(a) - f(b)) = f'(c)(g(a) - g(b))
+    \end{equation*}
+    \label{thmCauchyMeanValue}
+\end{theorem}
+\begin{proof}
+    Let $\phi(x) = (g(x) - g(a))(f(b) - f(a)) - (g(b) - g(a))(f(x) - f(a))$. Again $\phi$ is continuous on $[a, b]$ and differentiable on $(a, b)$ and $\phi(a) = \phi(b) = 0$. Therefore for some $c$, $\phi'(c) = 0$ by theorem~\ref{thmRolles}, and this gives:
+    \begin{align*}
+        0 &= \phi'(c) \\
+        &= g'(c) (f(b) - f(a)) - f'(c)(g(b) - g(a))
+    \end{align*}
+\end{proof}
+\begin{remark}
+    This is the foundation for L'H\^opital's Rule, proved on the example sheet.
+\end{remark}
 \end{document}
