@@ -1,0 +1,114 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+A rigid body problem is a type of $N$-body problem that is tractable, since the distance between particles is fixed (due to very strong molecular forces). The only motions a rigid body can undergo are translations of the centre of mass and rotations.
+\section{Rotational Motion}
+\subsection{Angular Velocity}
+In 3 dimensions, rotations are described by a vector:
+\begin{definition}{Angular velocity}
+    The \underline{angular velocity} is defined by:
+    \begin{equation*}
+        \vec{\omega} = \omega \uvec{n}
+    \end{equation*}
+    such that $\omega = \dot{\theta}$, the angular speed of rotation, and $\uvec{n}$ is the axis of rotation.
+\end{definition}
+The \textit{right hand rule} is used: $\theta$ increases looking down the axis from positive to negative.\par
+The key equation is:
+\begin{equation}
+    \dvec{x} = \vec{\omega} \times \vec{x}
+    \label{eqnRotationalMotion}
+\end{equation}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \tdplotsetmaincoords{0}{0};
+        \tdplotsetrotatedcoords{90}{40}{0};
+        \draw[->] (0, 0, 0) -- (0.9, 0.5, 0) node[below right] {$\vec{x}$};
+        \draw[fill] (0.9, 0.5, 0) circle[radius=0.2mm];
+        \draw[->] (0, 0, 0) -- (0, 1, 0) node[above] {$\vec{\omega}$};
+        \draw[dashed] (0, -0.5, 0) -- (0, 0, 0);
+
+        \tdplotdrawarc{(0, 0, 0)}{0.4}{29}{90}{}{};
+        \node[anchor=center] at (0.1, 0.2) {\small$\phi$};
+
+        \draw[dashed] (0, 0.5, 0) -- (0.9, 0.5, 0) node[pos=0.5, anchor=south] {$d$};
+        \draw (0.75, 0.5, 0) -- (0.75, 0.5, -0.15) -- (0.9, 0.5, -0.15);
+
+        \draw[->] (0.9, 0.5, 0) -- (0.9, 0.5, -1) node[right] {$\dvec{x}$};
+
+        \tdplotdrawarc[tdplot_rotated_coords,->]{(-0.1, 0, 0)}{0.1}{30}{300}{left}{$\theta$};
+    \end{tikzpicture}
+    \caption{Diagram of vectors involved in rotational motion}
+    \label{figRotationalMotion}
+\end{figure}
+Consider equation~\ref{eqnRotationalMotion} and figure~\ref{figRotationalMotion}. Here we see that $\dvec{x}$ is orthogonal to both $\vec{\omega}$ and $\vec{x}$, and $|\dvec{x}| = \omega |\vec{x}| \sin{\phi} = \omega d$. Therefore, $d = |\uvec{n}| |\vec{x}|$.\par
+In addition to the angular velocity, a rotation must specify a point through which the axis passes. The vector $\vec{x}$ is relative to this point.
+\subsection{Moment of Inertia as Mass}
+Moment of inertia provides an analogue to mass for rotating bodies.\par
+Kinetic energy of a particle that is rotating is given by:
+\begin{align*}
+    T &= \frac{1}{2}m\dvec{x} \cdot \dvec{x} \\
+    &= \frac{1}{2} m \left(\vec{\omega} \times \vec{x}\right) \cdot \left(\vec{\omega} \times \vec{x}\right) \\
+    &= \frac{1}{2} m \omega^2 d^2
+\end{align*}
+In a rigid body, all particles rotate with the same angular velocity. To check this is an allowed motion, ensure particle distances stay fixed:
+\begin{align*}
+    \frac{d}{dt}|x_i - x_j|^2 &= 2(\vec{x_i} - \vec{x_j}) \cdot (\dvec{x_i} - \dvec{x_j}) \\
+    &= 2(\vec{x_i} - \vec{x_j}) \cdot \left[\vec{\omega} \times (\vec{x_i} - \vec{x_j})\right] \\
+    &= 0
+\end{align*}
+Therefore this motion keeps particle distances fixed and is permitted.\par
+\begin{definition}{Moment of Inertia}
+    The \underline{Moment of Inertia}, $I$, of a rigid body is defined by:
+    \begin{equation}
+        I = \sum_{i=1}^{N} m_i d_i^2
+        \label{eqnMomentOfInertia}
+    \end{equation}
+    It depends on the axis of rotation and the body.
+\end{definition}
+The kinetic energy of a rotating body is then:
+\begin{align}
+    T &= \frac{1}{2} \sum_{i=1}^{N} m_i \omega_i^2 d_i^2 \nonumber \\
+    &= \frac{1}{2}I\omega^2 \label{eqnRotationalKE}
+\end{align}
+We would like to consider moment of inertia as mass for rotating bodies. We see this by relating angular momentum and angular velocity to moment of inertia.\par
+Angular momentum of a rigid body is:
+\begin{align*}
+    \vec{L} &= \sum_{i=1}^{N} m_i \vec{x_i} \times \dvec{x_i} \\
+    &= \sum_{i=1}^{N} m_i \vec{x_i} \times (\vec{\omega} \times \vec{x_i})
+\end{align*}
+Then consider the angular momentum along the axis of rotation:
+\begin{align*}
+    L &= \vec{L} \cdot \uvec{n} \\
+    &= \sum_{i=1}^{N} m_i \left[\vec{x_i} \times \left(\omega \vec{n} \times \vec{x_i}\right)\right] \cdot \uvec{n} \\
+    &= \omega \sum_{i=1}^{N} m_i \left(\uvec{n} \times \vec{x_i}\right) \cdot \left(\uvec{n} \times \vec{x_i}\right) \\
+    &= \omega \sum_{i=1}^{N} m_i d_i^2
+\end{align*}
+And so:
+\begin{equation}
+    L = \omega I
+    \label{eqnAngularMass}
+\end{equation}
+This solidifies the understanding of $I$ as angular mass. Recall that torque, $\vec{G}$, causes change in the angular momentum. If torque is also in the direction of rotation, then $\vec{G} = G \uvec{n}$ and so:
+\begin{equation}
+    G = I \dot{\omega} = I \ddot{\theta}
+    \label{eqnTorqueEffect}
+\end{equation}
+\subsection{Calculating Moment of Inertia}
+To calculate the moment of inertia for a given body, we use the fact that a sum over many closely spaced points in a rigid body can be approximated by an integral:
+\begin{equation*}
+    \sum_{i=1}^{N} m_i f(\vec{x_i}) \approx \int \rho(\vec{x})f(\vec{x}) d^3x
+\end{equation*}
+Where $\rho(\vec{x})$ is the scalar field that represents density of the body at a point.\par
+So then we can define mass:
+\begin{equation}
+    M = \int \rho(\vec{x}) d^3x
+    \label{eqnIntegralMass}
+\end{equation}
+and moment of inertia:
+\begin{equation}
+    I = \int \rho(\vec{x}) x_\perp^2 d^3x
+    \label{eqnIntegralMomentInertia}
+\end{equation}
+Where $x_\perp$ is $d_i$, the perpendicular distance of $\vec{x}$ to the axis of rotation. %TODO: Check
+\end{document}
