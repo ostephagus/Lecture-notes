@@ -583,7 +583,7 @@ This means that for a point and correspoinding tangent line, $f(x)$ is above thi
     \label{corAMGM}
 \end{corollary}
 \section{Conditional Expectation}
-\begin{definition}{Conditional expectation}
+\begin{definition}{Conditional expectation on an event}
     Let $X$ be a random variable, $B$ an event, and $P(B) > 0$. Then we define the \underline{conditional expectation}:
     \begin{equation}
         E[X | B] = \frac{E[X \times I_B]}{P(B)}
@@ -659,4 +659,131 @@ By the law of total probability,
     And so $X + y \sim Po(\lambda + \mu)$.\par
     In general, adding two random variables is not so easy.
 \end{example}
+\begin{definition}{Conditional distribution}
+    Let $X$ and $Y$ be random variables. The \underline{conditional distribution} of $X$ given $Y = y$ is:
+    \begin{equation*}
+        P(X = x | Y = y) = \frac{P(X = x, Y = y)}{P(Y = y)}
+    \end{equation*}
+\end{definition}
+Consider again $X$ and $Y$, and the event $Y = y$. Then the conditional expectation of $X$ given $Y = y$ is:
+\begin{align*}
+    E[X | Y = y] &= \frac{E[X I_{Y = y}]}{P(Y = y)} \\
+    &= \sum_x \frac{xP(X = x, Y = y)}{P(Y = y)} \\
+    &= \sum_x x P(X = x | Y = y)
+\end{align*}    
+Note that $E[X | Y = y]$ is only a function of $y$. Let this function be $g(y)$
+We now want to define the conditional expectation given a random variable:
+\begin{definition}{Conditional expectation given a random variable}
+    Let $X$ and $Y$ be random variables. The \underline{conditional expectation} of $X$ given $Y$ is:
+    \begin{equation*}
+        E[X | Y] = g(Y)
+    \end{equation*}
+    where $g$ was defined above.
+\end{definition}
+Note that $E[X | Y]$ is a random variable, not a number. This is because it is a function of $Y$. We can alternatively write this as:
+\begin{align*}
+    E[X | Y] &= g(Y) \times 1 \\
+    &= g(Y) \sum_y I_{Y = y} \\
+    &= \sum_y g(Y) I_{Y = y} \\
+    &= \sum_y g(y) I_{Y = y}
+\end{align*}
+\begin{example}
+    \label{exCoinTossCondExpec}
+    Consider tossing a coin, probability $p$ of heads, $n$ times independently. Set $X_i = I_{\text{toss } i \text{ is a head}}$.\par
+    Let $Y_n$ be the total number of heads, $Y_n = X_1 + \cdots + X_n$.\par
+    Then consider $E[X_1 | Y_n]$:
+    \begin{align*}
+        E[X_1 | Y_n] &= \sum_y g(y) I_{Y_n = y} \\
+        \text{where } g(y) &= E[X_1 | Y_n = y], y \in \{1, \cdots, n\} \\
+        &= 0 \times P(X_1 = 0 | Y_n = y) + 1 \times P(X_1 = 1 | Y_n = y) \\
+        &= P(X_1 = 1 | Y_n = y) \\
+        &= \frac{P(X_1 = 1, Y_n = y)}{P(Y_n = y)} \\
+        &= \frac{p \choose{n-1}{y-1} p^{y-1} (1-p)^{n-y}}{\choose{n}{y} p^y (1-p)^{n-y}} \\
+        &= \frac{y}{n}.
+    \end{align*}
+    So $g(y) = \frac{y}{n}$ and therefore $E[X_1 | Y_n] = g(Y_n) = \frac{Y_n}{n}$.
+\end{example}
+\begin{propositions}[Properties of conditional expectation] {
+        Let $X$ and $Y$ be random variables. Let $c$ be a real number.
+        \label{propsCondExpecProperties}
+    }
+    \item $E[cX | Y] = cE[X | Y]$, and $E[c | Y] = c$. \label{propCondExpecConstant}
+    \item If $X_1, \cdots, X_n$ are random variables,
+        \begin{equation*}
+            E\left[\sum_{i=1}^n X_i | Y\right] = \sum_{i=1}^n E[X_i | Y]
+        \end{equation*}
+        \label{propCondExpecSum}
+    \item $E[E[X | Y]] = E[X]$ \label{propCondExpecTwice}
+    \item If $X$ and $Y$ are independent, $E[X | Y] = E[X]$. \label{propCondExpecIndep}
+    \item If $Z$ is also a random variable, independent of $Y$, then:
+        \begin{equation*}
+            E\left[E[X | Y] | Z\right] = E[X]
+        \end{equation*}
+        \label{propCondExpecSecondIndepRV}
+    \item Let $h : \R \mapsto \R$. Then $E[h(Y) X | Y] = h(Y) E[X | Y]$. \label{propCondExpecFactorOutFunc}
+    \item $E[E[X | Y] | Y] = E[X | Y]$ and $E[X | X] = X$. \label{propCondExpecTwiceGiven}
+\end{propositions}
+\begin{proof}[Of \ref{propCondExpecTwice} to \ref{propCondExpecTwiceGiven}]
+    \begin{enumerate}
+        \setcounter{enumi}{2} % Start at 3
+        \item The expectation of a conditional expectation is $E[X]$:
+            \begin{equation*}
+                E[X | Y] = \sum_y I_{Y = y} g(y)
+            \end{equation*}
+            Where $g(y) = E[X | Y = y]$. Then:
+            \begin{align*}
+                E[E[X | Y]] &= \sum_y g(y) P(Y = y) \\
+                &= \sum_y E[X | Y = y] P(Y = y) \\
+                &= \sum_y E[X \times I_{Y = y}] \\
+                &= E[X]
+            \end{align*}
+        \item Expectation given an independent variable is $E[X]$:
+            \begin{align*}
+                E[X | Y] &= g(Y) = \sum_y g(y) I_{Y = y} \\
+                &= \sum_y E[X | Y = y] I_{Y = y} \\
+                &= \sum_y \left(\sum_x x P(X = x, Y = y)\right) I_{Y = y} \\
+                &= \sum_y \left(\sum_x x P(X = x)\right) I_{Y = y} \\
+                &= \sum_y E[X] I_{Y = y} \\
+                &= E[X]
+            \end{align*}
+        \item Conditional expectation given a second independent random variable is $E[X]$:
+            The claim is equivalent to showing that $g(Y) = E[X | Y]$ is independent of $Z$:
+            \begin{align*}
+                P(g(Y) = w, Z = z) &= \sum_{y \in g^{-1}(\{w\})} P(Y = y, Z = z) \\
+                &= \sum_{y \in g^{-1}(\{w\})}
+            \end{align*}
+            And this is independent of $Z$, so by proposition~\ref{propCondExpecIndep}, we have that:
+            \begin{equation*}
+                E[E[X | Y] | Z] = E[E[X | Y]] = E[X] \text{ by proposition~\ref{propCondExpecTwice}}
+            \end{equation*}
+        \item \begin{align*}
+                E[h(Y) X | Y] &= \sum_y I_{Y = y} E[h(Y) X | Y = y] \\
+                &= \sum_y I_{Y = y} E[h(y) X | Y = y] \\
+                &= \sum_y I_{Y = y} h(y) E[X | Y = y] \\
+                &= h(Y) E[X | Y]
+            \end{align*}
+        \item This follows immediately from \ref{propCondExpecFactorOutFunc}, factoring out the function of $Y$, $E[X | Y]$, in the first case, and the function of $X$, $X$, in the second case.
+    \end{enumerate}
+\end{proof}
+\begin{example}[Example~\ref{exCoinTossCondExpec} revisited]
+    Consider again example~\ref{exCoinTossCondExpec}. We can now reach the result much more easily.\par
+    By symmetry, $E[X_i | Y_n]$ must all be the same:
+    \begin{align*}
+        E[X_1 + X_2 + \cdots + X_n | Y_n] &= n E[X_1 | Y_n] \\
+        E[Y_n | Y_n] &= n E[X_1 | Y_n] \\
+        \therefore E[X_1 | Y_n] &= \frac{Y_n}{n}
+    \end{align*}
+\end{example}
+\section{Random Walks}
+\begin{definition}{Stochastic process}
+    A stochastic process is a sequence of random variables, that are not necessarily independent.    
+\end{definition}
+Stochastic is simply another word for random.
+\begin{definition}{Random walk}
+    A \underline{random walk} is a random process that can be expressed by:
+    \begin{equation*}
+        X_n = x + Y_1 + \cdots + Y_n
+    \end{equation*}
+    Where $x$ is a number, $Y_i$ are are independent and identically distributed random variables. $Y_i$ are known as the \underline{steps} of the random walk.
+\end{definition}
 \end{document}
