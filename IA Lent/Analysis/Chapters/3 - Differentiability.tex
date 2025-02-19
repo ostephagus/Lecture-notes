@@ -40,7 +40,7 @@ Assume from now on that $E$ has no isolated points, and further that $E$ is an i
     \item If $f(x) = c$, then $f$ is differentiable with derivative 0. \label{propConstantDiffability}    
     \item If $f$ and $g$ are differentiable at $x$, then so is $f(x) + g(x)$ with derivative $f'(x) = g'(x)$ \label{propSumDiffability}
     \item If $f$ and $g$ are differentiable at $x$, then so is $f(x)g(x)$ with derivative $f'(x) g(x) = f(x) g'(x)$. \label{propProdDiffability}
-    \item If $f$ is differentiable at $x$ adn $f(y) \neq 0~\forall y \in E$, then $frac{1}{f(x)}$ is differentiable with derivative $\frac{-f'(x)}{f(x)^2}$. \label{propReciprocalDiffability}
+    \item If $f$ is differentiable at $x$ and $f(y) \neq 0~\forall y \in E$, then $frac{1}{f(x)}$ is differentiable with derivative $\frac{-f'(x)}{f(x)^2}$. \label{propReciprocalDiffability}
 \end{propositions}
 \begin{proof}
     \begin{enumerate}
@@ -72,7 +72,7 @@ Assume from now on that $E$ has no isolated points, and further that $E$ is an i
 \begin{example}
     Let $f_n(x) = x^n$ for $n \in \N_0$.\par
     Then $n = 0 \implies f_0(x) = 1$ and so $f'_0(x) = 0$.\par
-    Similarly $f'_1(x) = 1$. Then claim that for any $n$, $f_n$ is differentiable on $\R$ with $f'_n(x) = nx^{n-1}$.\par
+    Similarly, $f'_1(x) = 1$. Then claim that for any $n$, $f_n$ is differentiable on $\R$ with $f'_n(x) = nx^{n-1}$.\par
     \induction{$n = 1$}{Shown above.}
     {$n = k-1$}{}
     {$n = k$}{
@@ -83,7 +83,7 @@ Assume from now on that $E$ has no isolated points, and further that $E$ is an i
             &= kx^{k-1}
         \end{align*}
     }
-    Also, we now have all of the negative powers of $x$ by the quotient rule, for $x^n$ where $n$ is a negative integer, $f$ is differentiable on $\R \backslash \{0\}$ and its derivative is:
+    Also, we now have all the negative powers of $x$ by the quotient rule, for $x^n$ where $n$ is a negative integer, $f$ is differentiable on $\R \backslash \{0\}$ and its derivative is:
     \begin{align*}
         f'_n(x) &= \frac{-f'_{-n}(x)}{f_{-n}(x)^2} \\
         &= \frac{-(-nx^{-n-1})}{\left(x^{-n}\right)^2} \\
@@ -140,7 +140,7 @@ Note that this logic can be applied to the complex plane to get that these resul
             \lim_{t \to 0} \frac{f(t) - f(0)}{t} = \lim_{t \to 0} \sin{\frac{1}{t}}
         \end{equation*}
         So this function is not differentiable at $x = 0$, despite being continuous (see example~\ref{exXSinOneOverXContinuity})
-    \item $f(x) - x^2 \sin{\left(\frac{1}{x}\right)}$ for $x$ non-zero, and $f(0) = 0$. This is again differentiable for $x$ non-zero. Consider differentiablility at $x = 0$:
+    \item $f(x) - x^2 \sin{\left(\frac{1}{x}\right)}$ for $x$ non-zero, and $f(0) = 0$. This is again differentiable for $x$ non-zero. Consider differentiability at $x = 0$:
         \begin{equation*}
             \lim_{t \to 0} \frac{f(t) - f(0)}{t} = \lim_{t \to 0}  t \sin{\left(\frac{1}{t}\right)}
         \end{equation*}
@@ -239,7 +239,7 @@ The proof is by theorem~\ref{thmMeanValue}, setting $b = a + h$.
         \implies f(x) &\leq f(y)
     \end{align*}
     Note that the same can be said for strictly positive, and strictly/non-strictly negative derivative.\par
-    Now assume that $f'(x) = 0$. Then choose $x \in (a, b]$, and apply theorem~\ref{thmMeanValue}, so we have $c \in (a, x)$ sich that $f(x) - f(a) = 0$. That is, $f(x) = f(a)$. And since $x$ was arbitrary, $f(x) = f(a)$ for all $x$.
+    Now assume that $f'(x) = 0$. Then choose $x \in (a, b]$, and apply theorem~\ref{thmMeanValue}, so we have $c \in (a, x)$ such that $f(x) - f(a) = 0$. That is, $f(x) = f(a)$. And since $x$ was arbitrary, $f(x) = f(a)$ for all $x$.
 \end{proof}
 \begin{warning}
     The Mean Value Theorem does not necessarily hold for more general sets. For example, consider:
@@ -264,7 +264,7 @@ The proof is by theorem~\ref{thmMeanValue}, setting $b = a + h$.
 \begin{proof}
     By corollary~\ref{corDerivativeSign} $f$ is strictly increasing. Therefore, theorem~\ref{thmInverseFunctionI} gives that $f$ is bijective, and that $f^{-1}$ exists, is continuous, and is strictly increasing.
     \begin{subproof}{$f^{-1}$ is differentiable on $(c, d)$ with the given derivative.}
-        Let $y \in (c, d)$ adn set $x = f^{-1}(y)$. Given $h$ such that $y + h \in (c, d)$, define $k$ such that $y + h = f(x + k)$
+        Let $y \in (c, d)$ and set $x = f^{-1}(y)$. Given $h$ such that $y + h \in (c, d)$, define $k$ such that $y + h = f(x + k)$
         \begin{align*}
             \frac{f^{-1}(y + h) - f^{-1}(y)}{h} &= \frac{k + x - x}{f(x + k) - y} \\
             &= \frac{k}{f(x + k) - f(x)}

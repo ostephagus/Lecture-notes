@@ -5,7 +5,7 @@
 \subsection{Defining Limits}
 \begin{definition}{Limit of a sequence}
     Consider a sequence of real numbers, $a_1, a_2, a_3, \cdots$ or $(a_n)_{n=1}^\infty$ and $a_n \in \R$.\par
-    We say that the sequence \underline{tends to the limit a} as $n$ tends to infinity if, given $\epsilon > 0$ there exists a natural number $N$ such that
+    We say that the sequence \underline{tends to the limit $a$} as $n$ tends to infinity if, given $\epsilon > 0$ there exists a natural number $N$ such that
     \begin{equation}
         |a_n - a| < \epsilon~\forall n \geq N
         \label{eqnSequenceConvergence}
@@ -122,11 +122,11 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
     Then $a_n$ tends to infinity.
 \end{definition}
 \begin{warning}
-    Not all of the results about finite limits carry over.
+    Not all the results about finite limits carry over.
 \end{warning}
 \begin{remark}
     The definition of convergence to a limit still works for complex numbers. We can intuit this as ensuring that all $a_n$ are within a small disk (radius $\epsilon$) of the limit, for all $n \geq N(\epsilon)$.\par
-    Propositions \ref{propSequenceLimitUnique} to \ref{propReciprocalSequence} still hold, but due to difficulties with ordering for complex numbers propositions \ref{propBoundedLimit} and \ref{propSequenceSandwich}, and the fundamental axiom do not hold. We have do do extra work to get similar results.
+    Propositions \ref{propSequenceLimitUnique} to \ref{propReciprocalSequence} still hold, but due to difficulties with ordering for complex numbers propositions \ref{propBoundedLimit} and \ref{propSequenceSandwich}, and the fundamental axiom do not hold. We have to do extra work to get similar results.
 \end{remark}
 \begin{lemma}
     If $(z_n)$ is a complex sequence than $z_n \rightarrow z$ if and only if both
@@ -174,7 +174,7 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
     First set $a_1 = -k, b_1 = k$ so that all terms of the sequence lie between $a_1$ and $b_1$.\par
     Then let $c$ be the midpoint of the interval: $c = \frac{a_1 + b_1}{2}$.\par
     Either there are infinitely many terms of $x_n$ between $a_1$ and $c$ (case 1), or there are infinitely many terms between $c$ and $b_1$ (case 2).
-    Then if we are in case 1, set $a_2 = a_1, b_2 = c$. If we are not in case 1 then we have case 2 and so set $a_2 = c$, $b_2 = b_1$.\par
+    Then, if we are in case 1, set $a_2 = a_1, b_2 = c$. If we are not in case 1 then we have case 2 and so set $a_2 = c$, $b_2 = b_1$.\par
     We continue this process of halving the intervals, to get sequences $a_k$ and $b_k$. We have that, by the method of construction, we have:
     \begin{itemize}
         \item infinitely many terms of $x_n$ within $a_k$ and $b_k$
@@ -189,12 +189,12 @@ If $(a_n)$ is either increasing or decreasing then it is \underline{monotone}.\p
             \begin{equation*}
                 x_{n_{i+1}} \in [a_{j + 1}, b_{j + 1}]
             \end{equation*}
-            This is valid beacause there are infinitely many terms within these intervals.
+            This is valid because there are infinitely many terms within these intervals.
     \end{itemize}
     Now by proposition~\ref{propSequenceSandwich}, this subsequence converges to $a$.
 \end{proof}
 \section{Cauchy Sequences}
-A Caucy sequence is an alternate way to characterise sequences and convergence.
+A Cauchy sequence is an alternate way to characterise sequences and convergence.
 \begin{definition}{Cauchy sequence}
     A sequence $a_n$ of real numbers is called a \underline{Cauchy sequence} if, far enough along the sequence, terms get and stay close together. Precisely, this is:\par
     Given $\epsilon > 0$, there exists $N(\epsilon)$ such that for any natural number $m$ and $n$ greater than $N(\epsilon)$,
@@ -239,7 +239,7 @@ More surprising and more useful is the converse:
         |a_n - a| &= |a_n - a_{n_j} + a_{n_j} - a| \nonumber \\
         &\leq |a_n - a_{n_j}| + |a_{n_j} - a| \label{eqnSumOfModTerms}
     \end{align}
-    Then fix $\epsilon > 0$, and since $a_n$ is cauchy there exists $N_1(\epsilon)$ such that $n, n_j \geq N_1(\epsilon)$, $|a_n - a_{n_j}$.\par
+    Then fix $\epsilon > 0$, and since $a_n$ is Cauchy there exists $N_1(\epsilon)$ such that $n, n_j \geq N_1(\epsilon)$, $|a_n - a_{n_j}$.\par
     Also, since $a_{n_j} \to a$, there exists $N_2(\epsilon)$ such that if $j \geq N_2$ then $|a_{n_j} - a| < \epsilon$.\par
     Then choose $j$ such that $j \geq N_2(\epsilon)$ and $n_j \geq N_1(\epsilon)$. Now we have the two properties above we can say that, from equation~\ref{eqnSumOfModTerms},
     \begin{equation*}
@@ -270,7 +270,7 @@ The combination of lemma~\ref{lemConvergeImpliesCauchy} and theorem~\ref{thmCauc
 \end{definition}
 Note that this definition also works if the numbers are all complex.
 \begin{remark}
-    Any problem about series can be rephrased to a problem about sequences, and and problem about sequences can be rephrased in in terms of series.
+    Any problem about series can be rephrased to a problem about sequences, and any problem about sequences can be rephrased in terms of series.
 \end{remark}
 \subsection{Properties of Series}
 \begin{propositions}{
@@ -311,7 +311,7 @@ An important example is the geometric series:
 \end{definition}
 Now if, for a geometric series, $|x| < 1$, proposition \ref{propPowersLimit} shows that $x^n \to 0$ so $S_n \to \frac{1}{1-x}$.\par
 Also, if $x > 1$ then $x^n = (1 + \delta)^n \geq 1 + n\delta$ by the binomial theorem, which diverges and so $S_n$ diverges.\par
-In the case $x < -1$, whih is the same as the $x > 1$ case but with alternating sign.\par
+In the case $x < -1$, which is the same as the $x > 1$ case but with alternating sign.\par
 When $x = 1$, the sequence of partial sums is the sequence of natural numbers, which diverges. If $x = -1$, the series alternates between $1$ and $0$ and so diverges.
 \subsection{Tests for Convergence}
 A simple, but useful, result is the $n$th term test:
@@ -504,7 +504,7 @@ A simple, but useful, result is the $n$th term test:
         &= \left(2^{1-k}\right)^n
     \end{align*}
     Now we know that this converges if and only if $2^{1-k} < 1$, which means $k > 1$.\par
-    so we now know:
+    So we now know:
     \begin{equation}
         \sum_{n=1}^\infty \frac{1}{n^k} \text{ converges if and only if } k > 1
         \label{eqnSumOfPowerReciprocals}

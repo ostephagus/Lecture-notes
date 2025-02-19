@@ -115,7 +115,7 @@ It is useful to write energy as $E = T + V$, where $T$ is the kinetic energy, an
     \end{equation}
     It is a line integral.
 \end{definition}
-Conserivative forces have the property that work done by the force as a particle moves along a trajectory depends only on the endpoints of the trajectory, not the specific path. There are two ways to see this.
+Conservative forces have the property that work done by the force as a particle moves along a trajectory depends only on the endpoints of the trajectory, not the specific path. There are two ways to see this.
 \begin{align*}
     W &= \int_C \vec{F} \cdot \vec{dx} \\
     &= \int_{t_1}^{t_2} dt \vec{F} \cdot \dvec{x} \\
@@ -149,7 +149,7 @@ Then we can conserve an energy $E = \frac{1}{2} m \dot{x}^2 + V(x)$. Solving thi
     t - t_0 = \pm \int_{x_0}^x \frac{du}{\sqrt{\frac{2}{m}\left(E - V(u)\right)}}
     \label{eqnTimeGivenEnergy}
 \end{equation}
-Such a formula is only easy to derive for 1 dimension. In more dimensions something like this may not even be possible to find. Even still, this integral is rarely able to be solved, especially for more complex systems.
+Such a formula is only easy to derive for 1 dimension. In more dimensions something like this may not even be possible to find. Even still, this integral is rarely solvable, especially for more complex systems.
 \subsection{Potential and Stationary Points}
 We can try to understand 1-dimensional motion without computing the integral in equation~\ref{eqnTimeGivenEnergy}. Considering the energy:
 \begin{align*}
@@ -370,7 +370,7 @@ We also have another type of friction:
     For a raindrop, this is around 1 second.
 \end{example}
 \subsection{Damping}
-Friction damps small oscillations about an equlibrium point.\par
+Friction damps small oscillations about an equilibrium point.\par
 For small oscillations, linear drag is more important and the equation of motion is:
 \begin{equation}
     \ddot{x} = -\omega_0^2 x - 2\alpha\dot{x}
@@ -383,7 +383,7 @@ In IA Differential Equations, we considered 3 types of motion:
     \item \underline{Overdamping}: A slow exponential decay to the equilibrium
 \end{enumerate}
 \section{Central Forces}
-An important class of potentials (including gravity and electrostatics) depend only on the distance to some origin. The force therefore points towards the origin. % What about electrostatics?
+An important class of potentials (including gravity and electrostatics) depend only on the distance to some origin. The force therefore points towards the origin.
 \begin{align*}
     \vec{F} &= -\nabla V = -\frac{dV}{dr} \nabla r \\
     &= - \frac{dV}{dr} \uvec{x}
@@ -446,7 +446,7 @@ To simplify this even further, we define the \underline{effective potential}:
 \begin{equation*}
     V_{eff}(r) = V(r) + \frac{ml^2}{2r^2}
 \end{equation*}
-Such that when differentiated, it satiesfies:
+Such that when differentiated, it satisfies:
 \begin{equation}
     m\ddot{r} = -\frac{dV_{eff}}{dr}
     \label{eqnSimplifiedPotential}
@@ -523,7 +523,7 @@ This is the equation for a conic section; $e$ is the eccentricity. We have the f
     \item $e = 1$: in this case the body moves in a parabolic motion, escaping to $\infty$.
     \item $e > 1$: in this case the body moves in a hyperbolic motion, also escaping to $\infty$.
 \end{itemize}
-Note that we can convert the polar equation~\ref{eqnKeplerProblemR} to cartesian coordinates.\par
+Note that we can convert the polar equation~\ref{eqnKeplerProblemR} to Cartesian coordinates.\par
 Planets in the solar system have small $e$, so their orbits are similar to a circle. However, Mercury has the most eccentric with $e = 0.2$. Other objects in the solar system have more eccentric orbits, such as Halley's Comet has $e \approx 0.97$ and thus displays a very elliptical orbit.\par
 We can also consider energies along each orbit:
 \begin{equation}
@@ -571,7 +571,7 @@ We have $R$, the characteristic radius, and $k = GM$. Note that mass cancels. $[
     &\propto L^A L^{3B} T^{-2B}
 \end{align*}
 Which gives $A = \frac{3}{2}, B = -\frac{1}{2}$.\par
-Therefore we note that this only holds for central forces with potential proportional to $\frac{1}{r}$.\par
+Therefore, we note that this only holds for central forces with potential proportional to $\frac{1}{r}$.\par
 We can also fix the constant of proportionality in this equation:
 \begin{align*}
     T &= \int_0^t dt = \int_0^A \frac{2}{l} dA \\
@@ -585,7 +585,7 @@ And if we define $R_{av} = \frac{1}{2} \left(\frac{r_0}{1+e} + \frac{r_0}{1-e}\r
     T = \frac{2\pi}{\sqrt{GM}} R_{av}^{\frac{3}{2}}
     \label{eqnKepler3Improved}
 \end{equation}
-Thereby giving an improved version of Keppler's 3rd law.
+Thereby giving an improved version of Kepler's 3rd law.
 \subsection{Repulsive potentials}
 \begin{definition}{Scattering experiment}
     In a \underline{scattering experiment}, a particle is shot in from large $R$ at a target, and observed to fly out again at some different angle.

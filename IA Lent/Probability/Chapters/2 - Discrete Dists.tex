@@ -51,7 +51,7 @@ The geometric distribution can model, for example, tossing a coin $k$ times unti
     There exist 2 similar ways of defining the geometric distribution. Either definition~\ref{defGeometricDist}, or $p_i = (1-p)^i$, which is the number of unsuccessful trials before a successful one. In the second case, $\Omega = \N_0$.
 \end{warning}
 \begin{definition}{Poisson distribution}
-    The \underline{Poisson distribution} with parameter $\lambda$ models the number of ocurrences of an event that occurs at an average rate $\lambda$ over an interval. Then the probability of $i$ occurrences is:
+    The \underline{Poisson distribution} with parameter $\lambda$ models the number of occurrences of an event that occurs at an average rate $\lambda$ over an interval. Then the probability of $i$ occurrences is:
     \begin{equation*}
         p_i = e^{-\lambda}\frac{\lambda^i}{i!}
     \end{equation*}
@@ -144,7 +144,8 @@ If, for example, the distribution of $X$ is the Bernoulli distribution then we s
     $\Omega = \{0, 1\}^N$. That is, each $\omega \in \Omega$ is a string of 0 or 1.\par
     Define a random variable $X_k$ for each outcome, such that $X_k \in \{0, 1\}$ represents the outcome of the $k$th coin toss.\par
     Then $P(X_k = 1) = p, P(X_k = 0) = 1-p$, and so $X_k$ is a Bernoulli random variable.\par
-    We can also consider the total number of heads. Let $S_N : \Omega \mapsto \{1, \cdots, N\}$ and:
+    We can also consider the total number of heads.\par
+    Let $S_N : \Omega \mapsto \{1, \cdots, N\}$ and:
     \begin{equation*}
         S_N(\omega) = \sum_{k=1}^N X_k(\omega_k)
     \end{equation*}
@@ -154,7 +155,7 @@ If, for example, the distribution of $X$ is the Bernoulli distribution then we s
     \end{equation*}
 \end{example}
 \subsection{Expectation}
-The power of random variables gives us the ability to define an expected value, which may not be in the range of the random variable, but gives an important result nontheless.
+The power of random variables gives us the ability to define an expected value, which may not be in the range of the random variable, but gives an important result nonetheless.
 \begin{definition}{Expectation}
     Let $X$ be a random variable with non-negative range.\par
     Then the \underline{expectation} of $X$ is:
@@ -356,7 +357,7 @@ We can calculate variances for different distributions.
 We have also that the variance of the Poisson distribution is $\lambda$, worked out similarly to the above.
 \subsection{Covariance}
 \begin{definition}{Covariance}
-    Let $X$ and $Y$ be two random variables. The the \underline{covariance} of $X$ and $Y$ is:
+    Let $X$ and $Y$ be two random variables. The \underline{covariance} of $X$ and $Y$ is:
     \begin{equation}
         \Cov{(X, Y)} = E\left[(X - E[X])(Y - E[Y])\right]
         \label{eqnCovariance}
@@ -378,7 +379,7 @@ An in general, for random variables $X_i$ and $Y_i$:
     \Var{\left(\sum_{i \in \N} X_i\right)} = \sum_{i=1}^N \Var{(X_i)} + \sum_{i \neq j}^N \Cov{(X_i, X_j)}
     \label{eqnVarianceSum}
 \end{equation}
-Therefore, equation~\ref{eqnVarianceSum} shows that for independent random variables, variance commutes with sumation.
+Therefore, equation~\ref{eqnVarianceSum} shows that for independent random variables, variance commutes with summation.
 \begin{lemma}
     Let $X$ and $Y$ be independent random variables. Let $f, g : \R \mapsto \R$. Then $E[f(X)g(Y)] = E[f(X)]E[g(Y)]$.
 \end{lemma}
@@ -394,7 +395,7 @@ Therefore, equation~\ref{eqnVarianceSum} shows that for independent random varia
 Therefore if $X$ and $Y$ are independent, their covariance is 0. However, the converse is not true:
 \begin{example}[0 covariance does not imply independence]
     Let $X_1, X_2, X_3$ be independent Bernoulli random variables with probability $\frac{1}{2}$. Let $Y_1 = 2X_1 - 1$, $Y_2 = 2X_2 - 1$, $Z_1 = Y_1 X_3$ and $Z_2 = Y_2 X_3$.\par
-    Then the expectation of $Y_1$ adn $Y_2$ are 0 (since they have equal probability of being $1$ and $-1$), and therefore so are the expectations of $Z_1$ and $Z_2$.
+    Then the expectation of $Y_1$ and $Y_2$ are 0 (since they have equal probability of being $1$ and $-1$), and therefore so are the expectations of $Z_1$ and $Z_2$.
     \begin{align*}
         \Var{(Z_1, Z_2)} &= E[Z_1 Z_2] - E[Z_1] E[Z_2] \\
         &= 0 - 0 - 0 = 0
@@ -486,7 +487,7 @@ Therefore if $X$ and $Y$ are independent, their covariance is 0. However, the co
     Let $f$ be a convex function. Then $f$ is the supremum of all the lines lying below it. In other words, for any $m$ there exist real numbers $a$ and $b$ such that $f(m) = am+b$ and $f(x) \geq ax + b~\forall x$.
     \label{propTangentBelowConvex}
 \end{proposition}
-This means that for a point and correspoinding tangent line, $f(x)$ is above this tangent line everywhere other than the point where they touch.
+This means that for a point and corresponding tangent line, $f(x)$ is above this tangent line everywhere other than the point where they touch.
 \begin{proof}
     Let $m \in \R$ and $x < m < y$. Then:
     \begin{equation}
@@ -613,10 +614,10 @@ This means that for a point and correspoinding tangent line, $f(x)$ is above thi
     \begin{equation*}
         P(X_1 = x_1, \cdots, X_n = x_n)~\forall x_1, \cdots, x_n
     \end{equation*}
-    That is, a single distribution that encompasses all of the random variables.
+    That is, a single distribution that encompasses all the random variables.
 \end{definition}
 \begin{definition}{Marginal distribution}
-    Given a joint distribution, the \underline{marginal distribution} is the distribution of only one of the random variables. It is obtained by summing probabilities over all of the values of the other variables:
+    Given a joint distribution, the \underline{marginal distribution} is the distribution of only one of the random variables. It is obtained by summing probabilities over all the values of the other variables:
     \begin{equation*}
         P(X_1 = x_1) = \sum_{x_2, \cdots, x_n} P(X_1 = x_2, X_2 = x_2, \cdots, X_n = x_n)
     \end{equation*}

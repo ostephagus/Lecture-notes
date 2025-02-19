@@ -156,7 +156,7 @@ Then using the inclusion-exclusion formula:
     |A_1 \cup \cdots \cup A_n| = \sum_{k=1}^{n} (-1)^{k+1} \sum_{1 \leq i_1 < \cdots < i_n \leq n} |A_{i_1} \cap \cdots \cap A_{i_k}|
     \label{eqnInclusionExclusionFiniteSets}
 \end{equation}
-\subsection{Examples of Probaility Spaces}
+\subsection{Examples of Probability Spaces}
 \begin{example}[Rolling a fair die]
     $\Omega = \{1, 2, \cdots, 6\}, \sigalg = \powerset(\Omega)$\par % This is power set - how to distinguish?
         Then $P(\{\omega\}) = \frac{1}{6}$, and so $P(A) = \frac{|A|}{6}$.
@@ -262,8 +262,8 @@ We can also consider the number of possible functions between finite sets:
     \end{equation*}
 \end{definition}
 Now consider the set of increasing functions $f : \{1, \cdots, k\} \mapsto \{1, \cdots, \}$.\par
-We can uniquely determine each function by its image, which is a subset of $\{1, \cdots, n\}$ of size $k$. Therefore there are $\choose{n}{k}$ such functions.\par
-Now we consider a similar set of non-decreasing functions $f : \{1, \cdots, k\} \mapsto \{1, \cdots, k\}$. We can put this in bijection with a set of increasing functions: define a map $\phi$:
+We can uniquely determine each function by its image, which is a subset of $\{1, \cdots, n\}$ of size $k$. Therefore, there are $\choose{n}{k}$ such functions.\par
+Now we consider a similar set of non-decreasing functions\\$f : \{1, \cdots, k\} \mapsto \{1, \cdots, k\}$. We can put this in bijection with a set of increasing functions: define a map $\phi$:
 \begin{equation*}
     \phi(f(x)) = g(x) = f(x) + x - 1
 \end{equation*}
@@ -364,7 +364,7 @@ A weaker statement is: $\log{n!} \sim n \log{n}$.
         &= \frac{(2n)!}{2^{2n}(n!)^2} \frac{\pi}{2} \\
         &= 2^{-2n} \choose{2n}{n} \frac{\pi}{2}
     \end{align*}
-    Simiarly,
+    Similarly,
     \begin{align*}
         I_{2n+1} &= \frac{1}{2n+1}\left(2^{-2n} \choose{2n}{n}\right)^{-1} I_1 \text{ by the same method} \\
         &= \frac{1}{2n+1}\left(2^{-2n} \choose{2n}{n}\right)^{-1}
@@ -448,7 +448,7 @@ We require that, if $A$ and $B$ are independent, the probability of $A$ given $B
     As required, if $A \perp B$ then $P(A | B) = P(A)$.
 \end{remark}
 \begin{proposition}
-    Supose that $(A_n)$ are disjoint events in $\sigalg$, and let $B$ be an event such that $P(B) > 0$.
+    Suppose that $(A_n)$ are disjoint events in $\sigalg$, and let $B$ be an event such that $P(B) > 0$.
     \begin{equation*}
         P\left(\bigcup_{n \in \N} A_n | B\right) = \sum_{n \in \N} P(A_n | B)
     \end{equation*}
@@ -528,15 +528,17 @@ Bayes' Formula also tells us how to include extra knowledge:
         \end{align*}
         \item Instead, suppose that the elder child is a boy.
         Then $P(BB | BB \cup BG) = \frac{1}{2}$, which makes sense: this is the probability that the younger is a boy.
-        \item Suppose now that there is a boy born on a thirsday. Define:
+        \item Suppose now that there is a boy born on a Thursday. Define:
             \begin{align*}
                 TT &= \{\text{Both boys born on Thursday}\} \\
-                TN &= \{\text{Elder is boy on Thursday, younger is boy not on Thursday}\} \\
-                NT &= \{\text{Elder is boy not on Thursday, younger is boy on Thursday}\} \\
+                TN &= \{\text{Elder is boy on Thursday,}\\
+                &\text{younger is boy not on Thursday}\} \\
+                NT &= \{\text{Elder is boy not on Thursday,}\\
+                &\text{younger is boy on Thursday}\} \\
                 GT &= \{\text{Elder is girl, younger is boy on Thursday}\} \\
             \end{align*}
             and define the events $TG, GN$ and $NG$ similarly.\par
-            Then the probability of 2 boys given the informaion one is born on a thursday is:
+            Then the probability of 2 boys given the information one is born on a Thursday is:
             \begin{align*}
                 &P(TT \cup TN \cup NT | TT \cup TN \cup NT \cup GT \cup TG) \\
                 &= \frac{P(TT \cup TN \cup NT)}{P(TT \cup TN \cup NT \cup GT \cup TG)}
