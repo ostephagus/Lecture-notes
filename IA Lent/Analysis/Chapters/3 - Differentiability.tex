@@ -327,4 +327,92 @@ We can give a generalisation of theorem~\ref{thmMeanValue}:
 \begin{remark}
     This is the foundation for L'H\^opital's Rule, proved on the example sheet.
 \end{remark}
+\section{Taking Higher Derivatives}
+\begin{definition}{$n$-times differentiability}
+    Suppose $E \in \C$ with no isolated points. Suppose also that $f : E \mapsto \C$ is differentiable on $E$.\par
+    Then consider $f' : E \mapsto \C$ which maps $x$ to the derivative of $f$ at $x$.\par
+    If this function is differentiable at some $x \in E$, then $f$ is \\\underline{twice-differentiable} at $x$. We write the derivative $f''(x)$ or $f^{(2)}(x)$. If $f$ has this property at every $x \in E$, then $f$ is \underline{twice-differentiable on $E$}. Iterating this given $n$-times differentiability.
+\end{definition}
+\begin{definition}{Smoothness}
+    If $f$ is $n$-times differentiable for every $n \in \N$, then $f$ is \underline{smooth}.
+\end{definition}
+\begin{theorem}[Taylor's Theorem I]
+    Suppose that $f$ and its derivatives to order $n - 1$ are continuous on some interval $[a, a + h]$, and that $f$ is $n$ times differentiable on the interval $(a, a + h)$. Then there exists some $\theta \in (0, 1)$ such that:
+    \begin{equation*}
+        f(a + h) = f(a) + hf'(a) + \frac{h^2}{2!} f''(a) + \cdots + \frac{h^{n-1}}{(n-1)!} f^{(n-1)}(a) + \frac{h^n}{n!} f^{(n)}(a + \theta h)
+    \end{equation*}
+    \label{thmTaylorsI}
+\end{theorem}
+\begin{remarks}
+    \item Setting $n = 1$ gives exactly theorem~\ref{thmMeanValue}, so this result is an $n$th order generalisation of it.
+    \item The remainder term, $R_n = \frac{h^n}{n!} f^{(n)}(a + \theta h)$ is Lagrange's Form of the remainder.
+    \item If $h < 0$ then select instead the intervals $[a + h, a]$ and $(a + h, a)$, and apply the theorem to $-f(-a)$ to get the result as required.
+    \item If $f$ is $n$ times differentiable on $[a, a + h]$, then all the conditions hold.
+\end{remarks}
+\begin{proof}[In the style of theorem~\ref{thmMeanValue}]
+    Relabel $f(x)$ to $f(x + a)$, so we can choose $a = 0$ wlog. Then consider the function, for $0 \leq t \leq h$
+    \begin{equation*}
+        \phi(t) = f(t) - f(0) - tf'(0) - \cdots - \frac{t^{n-1}}{(n-1)!} f^{(n-1)}(0) - \frac{t^n}{n!}B
+    \end{equation*}
+    Where we choose $B$ such that $\phi(h) = 0$:
+    \begin{equation}
+        \frac{h^n}{n!} B = f(h) - f(0) - hf'(0) - \cdots - \frac{h^{n-1}}{(n-1)!} f^{(n-1)}(0)
+        \label{eqnRemainderTerm}
+    \end{equation}
+    Then we repeatedly apply theorem~\ref{thmRolles} to $\phi$ to find another expression for $B$.\par
+    We first observe that $\phi$ and its first $n - 1$ derivatives are continuous on $[0, h]$ and differentiable on $(0, h)$. Note also that $\phi$ and its first $n - 1$ derivatives of $\phi$ are equal to $0$ at $t = 0$. We have also chosen $B$ such that $\phi(0) = \phi(h) = 0$.\par
+    Therefore, by theorem~\ref{thmRolles} there exists $\theta_1 \in (0, 1)$ such that $\phi'(\theta_1h) = 0$.\par
+    We apply theorem~\ref{thmRolles} again: there exists $\theta_2 \in (0, 1)$ such that $\phi^{(2)}(\theta_2\theta_1h) = 0$.\par
+    So by application $n-2$ more times, there exists $\theta_n \in (0, 1)$ such that $\phi^{(n)}(\theta_n \cdot \cdots \cdot \theta_1h) = 0$. Therefore, let $\theta$ be this product: $\theta = \theta_n \cdot \cdots \cdot \theta_1$. Note that $\theta \in (0, 1)$.\par
+    Now, $\theta^{(n)}(\theta h) = 0$. But $\theta^{(n)}(t) = f^{(n)}(t) - B$, so $B = f^{(n)}(\theta h)$.\par
+    Inserting this expression for $B$ into equation~\ref{eqnRemainderTerm} and rearranging:
+    \begin{equation*}
+        f(h) = f(0) + hf'(0) + \cdots + \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(0) + \frac{h^n}{n!} f^{(n)}(\theta h)
+    \end{equation*}
+\end{proof}
+We can also offer an alternative proof by choosing $\phi$ more cleverly:
+\begin{proof}[Using a clever choice for $\phi$]
+    Again we assume that $a = 0$. This time, for $0 \leq t \leq h$, let:
+    \begin{equation*}
+        \phi(t) = f(h) - f(t) - (h - t)f'(t) - \frac{(h - t)^2}{2!} - \cdots - \frac{(h - t)^{n-1}}{(n-1)!} f^{(n-1)}(t)
+    \end{equation*}
+    Here $\phi$ is only once differentiable on $(0, h)$:
+    \begin{align*}
+        \phi'(t) &= -f'(t) + f'(t) - (h - t)f''(t) + (h - t)f''(t)\\
+        &- \frac{(h - t)^2}{2!} f'''(t) + \cdots - \frac{(h - t)^{n - 1}}{(n-1)!} f^{(n)}(t) \\
+        &= -\frac{(h-t)^{n-1}}{(n-1)!} f^{(n)}(t)
+    \end{align*}
+    So now set:
+    \begin{equation*}
+        \psi(t) = \phi(t) - \left(\frac{h - t}{h}\right)^p \phi(0)
+    \end{equation*}
+    For $1 \leq p \leq n$.\par
+    This gives $\psi(0) = \psi(h) = 0$. Then by theorem~\ref{thmRolles} there exists $\theta \in (0, 1)$ such that $\psi'(\theta h) = 0$. But note that:
+    \begin{equation*}
+        \psi'(\theta h) = \phi'(\theta h) + p \frac{(1 - \theta)^{p-1}}{h} \phi(0)
+    \end{equation*}
+    Which gives:
+    \begin{align*}
+        &0 = - \frac{h^{n-1}}{(n-1)!}(1 - \theta)^{n-1} f^{(n)} (\theta h) \\
+        &+ p \frac{(1 - \theta)^{p-1}}{h} \left(f(h) - f(0) - hf'(0) - \cdots - \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(0)\right) \\
+        &\implies f(h) = f(0) + hf'(0) + \cdots + \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(0)\\
+        &+ \frac{h^n}{(n-1)!} \frac{(1 - \theta)^{n-1}}{p(1-\theta)^{p-1}} f^{(n)} (\theta h)
+    \end{align*}
+    Then setting $p = n$ gives the required result.
+\end{proof}
+\begin{remark}
+    Not that we did not have to choose $p = n$. Instead, choosing $p = 1$ gives an alternate form of the remainder:
+\end{remark}
+\begin{theorem}[Taylor's Theorem II]
+    With the same hypotheses of theorem~\ref{thmTaylorsI}, we have:
+    \begin{align*}
+        f(a + h) &= f(a) + hf'(a) + \cdots + \frac{h^{n-1}}{(n-1)!} f^{(n-1)}(a) \\
+        &+ \frac{(1 - \theta)^{n-1} f^{(n)} (a + \theta h) h^n}{(n - 1)!}
+    \end{align*}
+    \label{thmTaylorsII}
+\end{theorem}
+\begin{remarks}
+    \item Both versions of the theorem give a \underline{Taylor Polynomial}, of degree $n - 1$ and a remainder term in $h^n$ using the $n$th derivative of $f$.
+    \item Taylor's Theorem does not assert that the infinite series approximates the function, even if it is smooth.
+\end{remarks}
 \end{document}
