@@ -110,5 +110,91 @@ and moment of inertia:
     I = \int \rho(\vec{x}) x_\perp^2 d^3x
     \label{eqnIntegralMomentInertia}
 \end{equation}
-Where $x_\perp$ is $d_i$, the perpendicular distance of $\vec{x}$ to the axis of rotation. %TODO: Check
+Where $x_\perp$ is $d_i$, the perpendicular distance of $\vec{x}$ to the axis of rotation.
+\begin{examples}{
+        Consider different rigid bodies with constant density $\rho$.
+    }
+    \item Consider a ring with radius $a$. Then its mass is $2\pi \rho a$, and the moment of inertia is $I = 2 \pi \rho a^3$. Alternatively, $I = Ma^2$.
+    \item Consider a rod with length $l$ rotating around one of its ends. Then the mass is $M = l \rho$, and the moment of inertia is:
+        \begin{equation*}
+            I = \rho \int_0^l x^2 dx = \rho \frac{l^3}{3}
+        \end{equation*}
+        Or, in terms of mass, this is $M\frac{l^2}{3}$.
+    \item Consider a disc (filled in ring) with radius $a$. Its mass is then $M = \pi a^2 \rho$, and then its moment of inertia is:
+        \begin{align*}
+            I &= 2 \pi \rho \int_0^a r \times r^2 dr \\
+            &= \frac{pi}{2} \rho a^4
+        \end{align*}
+        Which is $\frac{1}{2} M a^2$.
+    \item Consider a solid sphere with radius $a$. Then its mass is $\frac{4}{3} \pi a^3 \rho$, and its moment of inertia is:
+        \begin{align*}
+            I &= 2 \pi \rho \int_{r=0}^a r^2 \int_{\theta = 0}^\pi \sin{\theta} \times r^2 \sin^2{\theta} dr d\theta \\
+            &= 2 \pi \rho \int_{\theta = 0}^\pi \sin^3{\theta} d\theta \int_{r=0}^a r^4 dr \\
+            &= \frac{2}{5} Ma^2
+        \end{align*}
+\end{examples}
+\subsection{Theorems for Moment of Inertia}
+\begin{lemma}[Perpendicular axis theorem]
+    Consider a 2-dimensional body (a lamina). Let any point have coordinates $(x, y)$. Then the moments of inertia about the $x$ and $y$ axes are:
+    \begin{align*}
+        I_x &= \int \rho y^2 dx dy \\
+        I_y &= \int \rho x^2 dx dy
+    \end{align*}
+    Then the moment of inertia through the $z$ axis is:
+    \begin{equation}
+        I_z = I_x + I_y
+        \label{eqnPerpendicularAxis}
+    \end{equation}
+\end{lemma}
+\begin{lemma}[Parallel axis theorem]
+    Consider a generic 3-dimensional body. Let the moment of inertia about the centre of mass be $I_\text{COM}$. Consider a second, parallel axis with perpendicular distance $h$ from the line through the centre of mass. Then the moment of inertia through this new axis, $I_p$, is:
+    \begin{equation}
+        I_p = I_\text{COM} + Mh^2
+    \end{equation}
+\end{lemma}
+\begin{remark}
+    The moment of inertia in a given direction is minimised when it passes through the centre of mass, since the term $Mh^2$ is always positive.
+\end{remark}
+\section{Motion of Rigid Bodies}
+As previously discussed, we will allow 2 motions: rotation and translation of the centre of mass. We describe this:
+\begin{equation}
+    \vec{x_i} = \vec{R}(t) + \vec{y_i}
+    \label{eqnRigidBodyMotion}
+\end{equation}
+We consider the kinetic energy:
+\begin{equation*}
+    T = \frac{1}{2} M \dvec{R}^2 + \frac{1}{2} \sum_i m_i \dvec{y_i}^2
+\end{equation*}
+And by using equation~\ref{eqnRotationalKE},
+\begin{equation}
+    T = \frac{1}{2} M \dvec{R}^2 + \frac{1}{2} I_\text{COM}\omega^2
+    \label{eqnRigidBodyKE}
+\end{equation}
+Recall also that external forces act as though the rigid body were a point particle at the centre of mass. Thus, if the force is conservative:
+\begin{equation}
+    E = T + V(\vec{R})
+    \label{eqnTotalEnergyConservForce}
+\end{equation}
+This suggests that it is often easier to consider axes through the centre of mass. Note, however, that this is not always the case:
+\begin{example}[Rigid pendulum]
+    Consider a rigid pendulum of mass $M$, length $L$. Let $\theta(t)$ be the angle that the pendulum makes with the vertical.\par
+    In the first method, consider the kinetic energy in relation to the fixed endpoint:
+    \begin{equation*}
+        T = \frac{1}{2} I\dot{theta}^2
+    \end{equation*}
+    Note that the angular velocity is $\dot{theta}$, and moment of inertia is $\frac{1}{2} ML^2$ as calculated earlier.\par
+    In the second method, consider the kinetic energy in relation to the centre of mass.
+    \begin{align*}
+        T &= \frac{1}{2} M \dvec{R}^2 + \frac{1}{2} I_\text{COM} \omega^2 \\
+        &= \frac{1}{2} \left(M \left(\frac{L}{2}\right)^2 + I_\text{COM}\right) \\
+        &= \frac{1}{2} I \dot{\theta}^2 \text{ by recognising parallel axis theorem.}
+    \end{align*}
+    Note that here it was easier to consider an axis through the fixed point because there was no translational motion there.\par
+    Then the total energy is:
+    \begin{align*}
+        E &= \frac{1}{2} I \dot{\theta}^2 - Mg \frac{L}{2} \cos{\theta} \\
+        \frac{dE}{dt} &= \frac{1}{2} I \dot{\theta} \ddot{\theta} + Mg \frac{L}{2} \sin{\theta} \dot{\theta} = 0 \\
+        I \ddot{\theta} &= -Mg \frac{L}{2} \sin{\theta}
+    \end{align*}
+\end{example}
 \end{document}
