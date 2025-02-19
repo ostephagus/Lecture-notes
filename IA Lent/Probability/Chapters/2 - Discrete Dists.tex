@@ -785,6 +785,128 @@ Stochastic is simply another word for random.
     \begin{equation*}
         X_n = x + Y_1 + \cdots + Y_n
     \end{equation*}
-    Where $x$ is a number, $Y_i$ are are independent and identically distributed random variables. $Y_i$ are known as the \underline{steps} of the random walk.
+    Where $x$ is a number, $Y_i$ are independent and identically distributed random variables. $Y_i$ are known as the \underline{steps} of the random walk.
 \end{definition}
+Consider a simple random walk, wherein $Y_i$ is defined, with parameter $p$, by:
+\begin{equation*}
+    Y_i =
+    \begin{cases}
+        1 & \text{ probability } p \\
+        -1 & \text{ probability } 1-p
+    \end{cases}
+\end{equation*}
+\subsection{Extended Example: Gambler's Ruin}
+A gambler plays a game where they can double their money, with probability $p$, or lose their money, with probability $1-p$. They start with £$x$ and each time bets £1. They stop when either they run out of money, or when they reach £$a$.\par
+This can be modelled using a random walk.\par
+First consider the probability that the gambler reaches £$a$ before reaching $0$, given their start point of £$x$. Let:
+\begin{equation*}
+    h(x) = P((X_n) \text{ reaches } a \text{ before reaching } 0~|~X_0 = x)
+\end{equation*}
+Denote $P(A | X_0 = x)$ as $P_x(A)$ for some event $A$.\par
+Note that $h(a) = 1$, and $h(0) = 0$.\par
+Also, for convenience, let $W$ be the event that $X$ hits $a$ before $0$ (a win).\par
+Split the probability based on the value of $Y_1$:
+\begin{align*}
+    h(x) &= P_x(W) \\
+    &= P_x(W | Y_1 = 1) + P_x(W | Y_1 = -1)\\
+    &= P_{x+1}(W)P(Y_1 = 1)+ P_{x-1}(W)P(Y_1 = -1) \\
+    &= h(x + 1)p + h(x - 1)(1 - p)
+\end{align*}
+Which gives a difference equation.\par
+Consider the case $p = \frac{1}{2}$. This is a simple symmetric random walk.
+\begin{align*}
+    h(x) &= \frac{1}{2} h(x + 1) + \frac{1}{2} h(x - 1) \\
+    h(x) - h(x - 1) &= h(x + 1) - h(x) \\
+    h(x) &= \sum_{i=1}^x (h(i) - h(i - 1)) \\
+    &= cx \text{ for some } c
+\end{align*}
+Then by boundary conditions, $c = \frac{1}{a}$ and $h(x) = \frac{x}{a}$.\par
+Now consider the general case. Try a solution of the form $h(x) = \lambda^x$ in the difference equation:
+\begin{align*}
+    &\lambda^x = p \lambda^{x + 1} + (1 - p) \lambda^{x - 1} \\
+    &\implies \lambda = p\lambda^2 + (1 - p) \\
+    &\implies \lambda = 1 \text{ or } \frac{1 - p}{p}
+\end{align*}
+Reject the solution $\lambda = 1$ and apply the boundary conditions:
+\begin{equation*}
+    h(x) = \frac{\left(\frac{1-p}{p}\right)^x - 1}{\left(\frac{1-p}{p}\right)^a - 1}
+\end{equation*}
+\subsection{Time to Absorption}
+\begin{definition}{Time to absorption}
+    In a bounded random walk, with bounds $0$ and $a$, define the \\\underline{time to absorption} as:
+    \begin{equation*}
+        T = \min{\subsetselect{n \geq 0}{X_n \in \{0, a\}}}
+    \end{equation*}
+\end{definition}
+Then we want to find, for a simple random walk, $E_x[T] = E[T | X_0 = x]$. Let this be $k(x)$.
+\begin{align*}
+    E_x[T] &= E_x[T | Y_1 = 1]P_x(Y_1 = 1) + E_x[T | Y_1 = -1]P_x(Y_1 = -1) \\
+    &= E_x[T | Y_1 = 1] \times p + E_x[T | Y_1 = -1] \times (1-p) \\
+    &= p(1 + k(x + 1)) + (1 - p)(1 + k(x - 1)) \\
+    &= 1 + pk(x + 1) + (1-p)k(x - 1)
+\end{align*}
+This gives another difference equation. We have the boundary conditions $k(0) = k(a) = 0$.\par
+Consider first the case $p = \frac{1}{2}$. Then the difference equation is:
+\begin{equation*}
+    k(x) = 1 + \frac{1}{2}k(x + 1) + \frac{1}{2}k(x - 1)
+\end{equation*}
+Then consider a solution of the form $Ax^2$. This gives the result that $k(x) = x(a - x)$.\par
+Then consider $p \neq \frac{1}{2}$. Try a solution of the form $Cx$, and this gives the result that:
+\begin{equation*}
+    k(x) = \frac{1}{1 - 2p} x - \frac{1 - p}{1 - 2p}\frac{\left(\frac{1-p}{p}\right)^x - 1}{\left(\frac{1-p}{p}\right)^a - 1}
+\end{equation*}
+\begin{remark}
+    Note the key idea here: each step, we can consider the following steps as a new random walk, starting from the new position. This is the defining idea of a Markov Chain. See the course IB Markov Chains.
+\end{remark}
+\section{Probability Generating Functions}
+We have already seen the probability mass function for a random variable, the function that takes a possible value of the random variable as input, and returns as output its probability.
+\begin{definition}{Probability generating function}
+    For a random variable $X$, the \underline{probability generating function} is defined to be:
+    \begin{equation*}
+        p(z) = \sum_{r = 0}^\infty p_r z^r = E[z^X], |z| \leq 1
+    \end{equation*}
+    where $p_r = P(X = r)$. Note that this displays absolute convergence for any $|z| \leq 1$.
+\end{definition}
+\begin{theorem}
+    The probability generating function uniquely determines the distribution of $X$.
+\end{theorem}
+\begin{proof}
+    Suppose $(p_r)$ are two probability distributions with the same PGFs:
+    \begin{equation}
+        \forall |z| \leq 1, \sum_{r = 0}^\infty p_r z^r = \sum_{r = 0}^\infty q_r z^r
+        \label{eqnEqualPGFs}
+    \end{equation}
+    \induction{$r = 0$}{
+        Set $z = 0$. Then equation~\ref{eqnEqualPGFs} gives $p_0 = q_0$.
+    }{$r \leq k$}{}
+    {$r = k + 1$}{
+        We have, by assumption, that
+        \begin{equation*}
+            \sum_{r = k + 1}{\infty} p_r z^r = \sum_{r = k + 1}{\infty} q_r z^r
+        \end{equation*}
+        Therefore divide by $z^{n+1}$ and take the limit as $z \to 0$. This gives $p_{k + 1} = q_{k + 1}$.
+    }
+\end{proof}
+\begin{example}
+    Let $X \sim B(n, p)$.\par
+    Then the probability generating function is:
+    \begin{align*}
+        p(z) &= \sum_{r = 0}^n z^r \choose{n}{r} p^r (1-p)^{n-r} \\
+        &= (zp + 1 - p)^n
+    \end{align*}
+\end{example}
+\begin{proposition}
+    Suppose that $(X_i)$ are a set of independent random variables, with PGFs $q_i(z)$.\par
+    Then the PGF of their sum is:
+    \begin{equation*}
+        q(z) = \prod_i q_i(z)
+    \end{equation*}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        q(z) &= E[z^{X_1 + X_2 + \cdots + X_n}] \\
+        &= E[z^{X_1} \times \cdots \times z^{X_n}] \\
+        &= q_1(z) \times \cdots \times q_n(z)
+    \end{align*}
+\end{proof}
 \end{document}
