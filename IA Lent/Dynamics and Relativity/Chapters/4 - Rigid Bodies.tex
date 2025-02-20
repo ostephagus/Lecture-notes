@@ -180,9 +180,9 @@ This suggests that it is often easier to consider axes through the centre of mas
     Consider a rigid pendulum of mass $M$, length $L$. Let $\theta(t)$ be the angle that the pendulum makes with the vertical.\par
     In the first method, consider the kinetic energy in relation to the fixed endpoint:
     \begin{equation*}
-        T = \frac{1}{2} I\dot{theta}^2
+        T = \frac{1}{2} I\dot{\theta}^2
     \end{equation*}
-    Note that the angular velocity is $\dot{theta}$, and moment of inertia is $\frac{1}{2} ML^2$ as calculated earlier.\par
+    Note that the angular velocity is $\dot{\theta}$, and moment of inertia is $\frac{1}{2} ML^2$ as calculated earlier.\par
     In the second method, consider the kinetic energy in relation to the centre of mass.
     \begin{align*}
         T &= \frac{1}{2} M \dvec{R}^2 + \frac{1}{2} I_\text{COM} \omega^2 \\
@@ -197,4 +197,139 @@ This suggests that it is often easier to consider axes through the centre of mas
         I \ddot{\theta} &= -Mg \frac{L}{2} \sin{\theta}
     \end{align*}
 \end{example}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \draw (0, 0) -- (2, 0);
+        \draw (0, 0) -- (30:2);
+        \draw (0.5, 0) arc[start angle=0, end angle=30, radius=0.5];
+        \node at (0.35, 0.1) {$\alpha$};
+        
+        \draw (30:1.5) -- ++(120:0.5)
+            node[pos=0.5, anchor=west] {$a$}
+            circle[radius=0.5]
+            node (C) {};
+
+        \draw[->] (28:1.7) -- ++(210:0.4)
+            node[anchor=north, pos=0.5] {$x$};
+
+        \draw[->] ($(C) + (120:0.6)$) arc[start angle=120, end angle=160, radius=0.6]
+            node[anchor=south east, pos=0.4] {$\omega$};
+
+        \draw[->] ($(C) + (210:0.6)$) -- ++(210:0.5)
+            node[pos=0.3, anchor=south east] {$\dot{x} = v$};
+    \end{tikzpicture}
+    \caption{Diagram of a ball rolling down a slope}
+    \label{figBallSlope}
+\end{figure}
+\begin{example}[Rolling ball]
+    No-slip rolling occurs when the friction between the bottom of the ball and the ground is so strong that the relative velocity between the ball and the ground is 0. The ball experiences two kinds of motion: a rotational motion about the centre of mass, and a translational motion. Let the translational speed be $v$, the rotational speed be $\omega$, and the radius be $a$. If $v = a\omega$, then the point of contact always has velocity $0$, since the rotational and translational motions cancel out.\par
+    In this case, the kinetic energy is:
+    \begin{align*}
+        T &= \frac{1}{2} M v^2 + \frac{1}{2} I\omega^2 \\
+        &= \frac{1}{2} \left(\frac{I}{a^2} + M\right)v^2
+    \end{align*}
+    We see that rolling changes the effective mass of the ball. That is, a greater impulse is needed to start the ball moving. Furthermore, in this case the friction \textit{does} conserve energy because the friction does no work (there is no relative velocity at the point where friction acts). The only role of friction in this system is to impose the no-slip condition. Since it is infinitely strong, there can be no movement against it and it thusly does no work.\par
+    Consider now figure~\ref{figBallSlope}, a ball rolling down a slope with angle $\alpha$ to the horizontal. We consider the conserved energy:
+    \begin{equation*}
+        E = \frac{1}{2}\left(\frac{I}{a^2} + M\right)\dot{x}^2 - Mgx \sin{\alpha}
+    \end{equation*}
+    Note that this is not quite the energy, there is an extra constant to do with the height of the centre of mass above the slope, but we can disregard this since it is constant for the motion.\par
+    We can get the equation of motion by differentiating this energy:
+    \begin{equation*}
+        \left(\frac{I}{a^2} + M\right)\ddot{x} - Mg\sin{\alpha} = 0
+    \end{equation*}
+\end{example}
+\section{Normal forces and Dry Friction}
+Rigid bodies do not fall through each other. This is due to normal forces. These originate from complicated microscopic dynamics, but can be modelled as a force normal to the surface of contact between two rigid bodies.
+\subsection{Dry friction}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \draw (0, 0) -- (2, 0);
+        \draw (0, 0) -- (30:2);
+        \draw (0.5, 0) arc[start angle=0, end angle=30, radius=0.5];
+        \node at (0.35, 0.1) {$\theta$};
+
+        \coordinate (C) at ($(30:1.5) + (120:0.2)$);
+        \draw[fill] (C) circle[radius=0.2mm];
+
+        % Rectangle, centre C, x length 0.6, y length 0.4.
+        \draw ($(C) + (300:0.2) + (30:0.3)$)
+        -- ++(120:0.4) -- ++(210:0.6) -- ++(300:0.4) -- cycle;
+
+        \draw[->] (C) -- +(30:0.6) node[right] {$F_f$};
+        \draw[->] (C) -- +(120:0.6) node[above] {$F_n = -mg\cos{\theta}$};
+        \draw[->] (C) -- +(210:0.6) node[left] {$mg\sin{\theta}$};
+        \draw[->] (C) -- +(300:0.6) node[right] {$mg\cos{\theta}$};
+        \draw[->,dotted] (C) -- +(270:0.4) node[below] {$mg$};
+    \end{tikzpicture}
+    \caption{Force diagram of a box on a slope}
+    \label{figBoxSlopeForces}
+\end{figure}
+In figure~\ref{figBoxSlopeForces}, we see the normal force, $F_n$ acting perpendicular to the surface. However, \underline{dry friction} also acts on the box. This force acts parallel to the surface, and counteracts any motion in this direction. It takes the minimum value required to stop the box's motion, but the maximum value is:
+\begin{equation}
+    F_f \leq \mu F_N
+\end{equation}
+Here $\mu$ is a dimensionless constant, the coefficient of friction. It is often slightly below $1$.\par
+\subsection{Bouncing under Normal Forces}
+Consider a ball moving freely and bouncing against a wall. See figure~\ref{figBallBounceWall}.
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \tikzset{
+            patharrow/.pic={
+                \draw (-0.1, -0.1) -- (0, 0) -- (-0.1, 0.1);
+            }
+        }
+        \begin{scope}[every node/.style={minimum size=1cm, draw, circle}]
+            \node (A) at (150:1) {};            
+            \node (B) at (0, 0) {};            
+            \node (C) at (30:1) {};            
+        \end{scope}
+        \node[above=0.1cm of A] {Ball};
+        
+        \draw (A) -- (B)
+            pic[pos=0.5, rotate=-30] {patharrow}
+            (B) -- (C)
+            pic[pos=0.5, rotate=30] {patharrow};
+        \draw [dashed] (-0.7, 0) edge (B)
+            (B) edge(0.7, 0);
+
+        \draw (-0.5, 0) arc[start angle=180, end angle=150, radius=0.5] 
+            node[pos=0.3, anchor=west] {$\alpha$};
+        \draw (0.5, 0) arc[start angle=0, end angle=30, radius=0.5] 
+            node[pos=0.3, anchor=east] {$\beta$};
+        \draw (-1, -0.25) -- (1, -0.25)
+            node[pos=0.5, anchor=north] {Wall};
+
+        \draw[->] (0, -0.25) -- ++(0, 0.75) node[above] {$F_N$};
+    \end{tikzpicture}
+    \caption{Ball bouncing against a wall}
+    \label{figBallBounceWall}
+\end{figure}
+The normal force on impact has no effect on the momentum in the $x$ direction, so the speed of the ball in the $x$ direction stays the same.\par
+Consider the momentum in the $y$ direction. Let $p_y$ be the momentum of the ball before the collision. Let $q_y$ be the momentum of the ball after the collision, and $Q_y$ be the momentum of the wall after the collision.\par
+Then conservation of momentum implies:
+\begin{equation}
+    p_y = q_y + Q_y
+    \label{eqnBounceCOM}
+\end{equation}
+In an elastic collision, energy is conserved so:
+\begin{equation}
+    \frac{p_y^2}{2m} = \frac{q_y^2}{2m} + \frac{Q_y^2}{2M}
+    \label{eqnBounceCOE}
+\end{equation}
+Where $m$ is the mass of the ball, and $M$ is the mass of the wall.\par
+Substituting equation~\ref{eqnBounceCOM} into \ref{eqnBounceCOE}:
+\begin{align*}
+    \frac{1}{2m}\left(q_y^2 + 2q_y Q_y + Q_y^2\right) &= \frac{q_y^2}{2m} + \frac{Q_y^2}{2M} \\
+    \frac{1}{2m}\left(2q_yQ_y + Q_y^2\right) &= \frac{Q_y^2}{2M}
+\end{align*}
+Take the limit $M >> m$:
+\begin{equation*}
+    \frac{1}{2m} \left(2q_yQ_y + Q_y^2\right) = 0
+\end{equation*}
+This then gives $Q_y = 0$ or $-2q_y$. The first solution is unphysical (the wall and ball must interact), so take $Q_y = -2q_y$. That is, $p_y = -q_y$.\par
+So in the case of elastic collision, the ball bounces and has the same speed as before. Therefore, $\alpha = \beta$ (see figure~\ref{figBallBounceWall})
 \end{document}
