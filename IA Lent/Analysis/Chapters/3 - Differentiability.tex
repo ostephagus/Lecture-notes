@@ -336,6 +336,7 @@ We can give a generalisation of theorem~\ref{thmMeanValue}:
 \begin{definition}{Smoothness}
     If $f$ is $n$-times differentiable for every $n \in \N$, then $f$ is \underline{smooth}.
 \end{definition}
+\subsection{Taylor's Theorem}
 \begin{theorem}[Taylor's Theorem I]
     Suppose that $f$ and its derivatives to order $n - 1$ are continuous on some interval $[a, a + h]$, and that $f$ is $n$ times differentiable on the interval $(a, a + h)$. Then there exists some $\theta \in (0, 1)$ such that:
     \begin{equation*}
@@ -370,6 +371,9 @@ We can give a generalisation of theorem~\ref{thmMeanValue}:
         f(h) = f(0) + hf'(0) + \cdots + \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(0) + \frac{h^n}{n!} f^{(n)}(\theta h)
     \end{equation*}
 \end{proof}
+\begin{remark}
+    This form of the remainder is known as Lagrange's form of the remainder.
+\end{remark}
 We can also offer an alternative proof by choosing $\phi$ more cleverly:
 \begin{proof}[Using a clever choice for $\phi$]
     Again we assume that $a = 0$. This time, for $0 \leq t \leq h$, let:
@@ -401,7 +405,7 @@ We can also offer an alternative proof by choosing $\phi$ more cleverly:
     Then setting $p = n$ gives the required result.
 \end{proof}
 \begin{remark}
-    Not that we did not have to choose $p = n$. Instead, choosing $p = 1$ gives an alternate form of the remainder:
+    Not that we did not have to choose $p = n$. Instead, choosing $p = 1$ gives an alternate form of the remainder, Cauchy's form:
 \end{remark}
 \begin{theorem}[Taylor's Theorem II]
     With the same hypotheses of theorem~\ref{thmTaylorsI}, we have:
@@ -414,5 +418,75 @@ We can also offer an alternative proof by choosing $\phi$ more cleverly:
 \begin{remarks}
     \item Both versions of the theorem give a \underline{Taylor Polynomial}, of degree $n - 1$ and a remainder term in $h^n$ using the $n$th derivative of $f$.
     \item Taylor's Theorem does not assert that the infinite series approximates the function, even if it is smooth.
+    \item To show that a function is equal to its Taylor series requires estimates and effort. We need to show that the remainder term tends to $0$ as $n \to \infty$ with $h$ fixed.
 \end{remarks}
+\begin{example}[The Binomial Series]
+    Consider $f(x) = (1 + x)^r$.\par
+    We have not yet defined irrational powers, so consider $r \in \Q$.\par
+    We claim that $(1 + x)^r = 1 + \choose{r}{1} x + \cdots + \choose{r}{n} x^n$, and that the series converges absolutely in the limit $n \to \infty$. Here $\choose{r}{n}$ is the generalised binomial coefficient:
+    \begin{equation*}
+        \choose{r}{n} = \frac{1}{n!} \prod_{k = 0}^{n - 1} (r - k)
+    \end{equation*}
+    Then the $n$th derivative of $x$ is:
+    \begin{equation*}
+        f^{(n)}(x) = r(r-1)\cdots(r-n+1)(1+x)^{r-n}
+    \end{equation*}
+    Then by theorem~\ref{thmTaylorsI}, and assuming that $|x|<1, n \geq r$,
+    \begin{equation*}
+        (1 + x)^r = 1 + \choose{r}{1} x + \cdots + \choose{r}{n-1}x^{n-1} + \choose{n}{r} \frac{x^n}{(1 + \theta x)^{n-r}}
+    \end{equation*}
+    If $x \geq 0$, then $(1 + \theta x)^{n-r} \geq 1$, so:
+    \begin{align*}
+        &\implies 0 < \frac{1}{(1 + \theta x)^{n-r}} \leq 1 \\
+        &\implies |R_n| = \left|\choose{r}{n} \frac{x^n}{(1 + \theta x)^{n-r}}\right| \leq \left|\choose{r}{n}x^n\right|
+    \end{align*}
+    Now observe that:
+    \begin{equation*}
+        \sum_{n \geq 0} \choose{r}{n}x^n \text{ converges absolutely}
+    \end{equation*}
+    This is by the ratio test,
+    \begin{equation*}
+        \left|\frac{a_{n+1}}{a_n}\right| = \left|\frac{r-n}{n+1}\right||x|
+    \end{equation*}
+    The RHS converges to $|x|$ which is less than $1$ by assumption. Note now that by the $n$th term test, the terms go to $0$ and so the remainder term $R_n$ goes to $0$.\par
+    In the case that $x$ is negative, we cannot as easily use the Lagrange form of the remainder. However, we can employ Cauchy's form:
+    \begin{align*}
+        R_n &= (1 - \theta)^{n-1} \frac{r(r-1)\cdots(r-n+1)}{(n-1)!} (1 + \theta x)^{r-n} x^n \\
+        &= r \choose{r-1}{n-1} \left(\frac{1-\theta}{1+\theta x}\right)^{n-1} (1 + \theta x)^{r-1} x^n
+    \end{align*}
+    Note here that the quantity in brackets is less than $1$, so we gain the following bound:
+    \begin{equation*}
+        |R_n| \leq r|x| \left|\choose{r-1}{n-1}x^{n-1}\right|(1+\theta x)^{r-1}
+    \end{equation*}
+    Note also that the final term can be bounded:
+    \begin{equation*}
+        (1 + \theta x)^{r-1} \leq \max{\{(1 - |x|)^{r-1}, (1 + |x|)^{r-1}\}}
+    \end{equation*}
+    And therefore we have a bound on $R_n$:
+    \begin{equation*}
+        |R_n| \leq r|x|\max{\{(1 - |x|)^{r-1}, (1 + |x|)^{r-1}\}} \left|\choose{r-1}{n-1} x^n\right|
+    \end{equation*}
+    Which tends to $0$ as $n \to \infty$.
+\end{example}
+\subsection{Complex Differentiation}
+We defined differentiability for functions $f: E\subseteq \C \mapsto \C$. Results on sums, products, and the chain rule, apply to functions of a complex variable. However, complex differentiability is in general more restrictive than differentiability on $\R$.
+\begin{example}
+    Polynomials are differentiable on the complex plane. However, consider the function of conjugation:
+    \begin{align*}
+        f : \C &\mapsto \C \\
+        z &\mapsto \bar{z}
+    \end{align*}
+    $f$ is continuous, because $|z - a| = |\bar{z} - \bar{a}$, so $|z - a| < \epsilon \implies |\bar{z} - \bar{a}| < \epsilon$.\par
+    However, consider the difference quotient:
+    \begin{equation*}
+        \frac{f(z) - f(a)}{z - a} = \frac{\bar{z} - \bar{a}}{z - a}
+    \end{equation*}
+    Then suppose $z_n = a + h_n$, where $h_n$ is a real sequence tending to $0$. Then the difference quotient gives $\frac{h_n}{h_n} = 1$. If instead $z_n = a + ih(n)$, the difference quotient gives $-1$. So $f$ is complex differentiable nowhere.
+\end{example}
+The condition of complex differentiability is more restrictive than real differentiability, but gives stronger conclusions about this class of functions. For example, if $D = \{z \in \C, |z| < 1\}$ (the open disc of radius $1$ in $\C$). If $f : D \mapsto \C$ is complex differentiable on $D$, we can get much stronger conclusions:
+\begin{itemize}
+    \item $f$ is infinitely differentiable on $D$
+    \item The Taylor series of $f$ about $0$ converges to $f$ on the whole of $D$.
+\end{itemize}
+Neither condition is true for real functions, in general. See IB Complex Methods/Complex Analysis.
 \end{document}

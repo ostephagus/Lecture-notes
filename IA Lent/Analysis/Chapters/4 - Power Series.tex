@@ -1,0 +1,32 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+We want to consider functions defined by power series of the form:
+\begin{equation}
+    f(z) = \sum_{n=0}^\infty a_n (z - z_0)^n
+\end{equation}
+Where $a_n$, $z$ and $z_0$ are complex numbers. By translation, we can assume $z_0 = 0$.
+\section{Convergence of power series}
+This series may not converge for all $z \in \C$. The first task, therefore, is to understand the set of points for which a function of this form converges.
+\begin{lemma}
+    If a power series $\sum_{n=0}^\infty a_n z^n$ converges, and $|w| < |z|$, then the power series:
+    \begin{equation*}
+        \sum_{n=0}^\infty a_n w^n
+    \end{equation*}
+    converges absolutely.
+    \label{lemConvergenceRegionIsDisc}
+\end{lemma}
+\begin{proof}
+    Since $\sum_{n=0}^\infty a_n z^n$ converges, $a_n z^n \to 0$.\par
+    Therefore $\exists K > 0$ such that $|a_n z^n| \leq K$ for all $n$.\par
+    Now consider, for $w \neq 0$ (note that the case $w = 0$ is trivial),
+    \begin{align*}
+        |a_n w^n| &= |a_n z^n| \left|\frac{w}{z}\right| \\
+        &\leq K\rho^n
+    \end{align*}
+    where $\rho = \frac{|w|}{|z|}$, and is less than $1$ by assumption. Therefore, by the comparison to the sum $\sum_{n=0}^\infty K\rho^n$, the required power series converges.
+\end{proof}
+\begin{remark}
+    We will use this result to show that every power series has a well-defined radius of convergence.
+\end{remark}
+\end{document}
