@@ -882,7 +882,7 @@ We have already seen the probability mass function for a random variable, the fu
     {$r = k + 1$}{
         We have, by assumption, that
         \begin{equation*}
-            \sum_{r = k + 1}{\infty} p_r z^r = \sum_{r = k + 1}{\infty} q_r z^r
+            \sum_{r = k + 1}^{\infty} p_r z^r = \sum_{r = k + 1}^{\infty} q_r z^r
         \end{equation*}
         Therefore divide by $z^{n+1}$ and take the limit as $z \to 0$. This gives $p_{k + 1} = q_{k + 1}$.
     }
@@ -909,4 +909,139 @@ We have already seen the probability mass function for a random variable, the fu
         &= q_1(z) \times \cdots \times q_n(z)
     \end{align*}
 \end{proof}
+\begin{example}[Geometric distribution]
+    Consider $X \sim Geo(p)$. Now consider $E[z^X]$:
+    \begin{align*}
+        E[z^X] &= \sum_{r=0}^\infty z^r (1-p)^r p \\
+        &= \frac{p}{1-z(1-p)}
+    \end{align*}
+\end{example}
+\begin{example}[Poisson distribution]
+    Consider $X \sim Po(\lambda)$.
+    \begin{align*}
+        E[z^X] &= \sum_{k=0}^\infty z^k e^{-\lambda} \frac{\lambda^k}{k!} \\
+        &= e^{-\lambda} e^{\lambda z} \\
+        &= e^{\lambda (z-1)}
+    \end{align*}
+\end{example}
+\begin{theorem}
+    Given a random variable $X$, and probability generating function $p(z)$,
+    \begin{equation*}
+        \lim_{z \to 1-} p'(z) = E[X]
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    \begin{case}{$X$ has finite expectation.}
+        Let $0 < z < 1$.
+        \begin{align*}
+            p'(z) &= \sum_{r=1}^\infty r p_r z^{r-1} \\
+            ^\leq \sum_{r=1}^\infty rp_r = E[X]
+        \end{align*}
+        Note also that $p'(z)$ is an increasing function in $z$\par
+        Therefore $\lim_{z \to 1^-} \leq E[X]$.\par
+        Let $N > 0$. For any $\epsilon > 0$, let $N$ be such that:
+        \begin{equation*}
+            \sum_{r=1}^N rp_r \geq E[X] - \epsilon
+        \end{equation*}
+        Also $p'(z) \geq \sum_{r=1}^N rp_r ^{n-1}$\par
+        \begin{equation*}
+            \lim_{z \to 1^-} p'(z) \geq \sum_{r=1}^N rp_r \geq E[X] - \epsilon
+        \end{equation*}
+        Since this holds for any $\epsilon$,
+        \begin{equation*}
+            \lim_{z \to 1^-} p'(z) = E[X]
+        \end{equation*}
+    \end{case}
+    \begin{case}{$X$ has infinite expectation.}
+        In this case, for any $M$ there exists $N$ such that:
+        \begin{equation*}
+            \sum_{r=1}^N \geq M
+        \end{equation*}
+        And therefore, by the above,
+        \begin{align*}
+            \lim_{z \to 1^-} p'(z) &\geq \lim_{z \to 1^-} \sum_{r=1}^N rp_r z^{r-1} \\
+            &=\sum_{r=1}^N rp_r \geq M 
+        \end{align*}
+        And therefore $\lim_{z \to 1-} = \infty$.
+    \end{case}
+\end{proof}
+\begin{theorem}
+    \begin{equation*}
+        \lim_{z \to 1^-} p''(z) = E[X(X-1)]
+    \end{equation*}
+\end{theorem}
+The proof is as above. More generally,
+\begin{equation}
+    \lim_{z \to 1^-} p^{(k)}(z) = E[X(X-1)(X-2) \cdots(X-k+1)]
+    \label{eqnPGFDerivative}
+\end{equation}
+And therefore $\Var{(X)} = lim_{z \to 1^-} \left(p''(z) + p'(z) - (p'(z))^2\right)$.\par
+Note also that we can recover $p_n$:
+\begin{equation}
+    P(X = n) = \frac{1}{n!} \frac{d^n p(z)}{dz^n} |_{z = 0}
+    \label{eqnPGFProb}
+\end{equation}
+\begin{proposition}
+    Let $X_1, \cdots, X_n$ be independent identically distributed random variables. Let $N$ be an independent random variable with values in $\N$. Define:
+    \begin{align*}
+        S_n &= \sum_{i=1}^n X_i \\
+        S_N &= \sum_{i=1}^N X_i \\
+        S_n(\omega) &= \sum_{i=1}^{N(\omega)} X_i(\omega)
+    \end{align*}
+    Let $q$ be the probability generating function of $N$, $q(z) = E[z^N]$; let $p$ be the probability generating function of $X_i$ (note that these all have the same distribution).
+    Then the probability generating function of $S_N$, $r(z)$ is:
+    \begin{equation*}
+        r(z) = qp(z)
+    \end{equation*}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        r(z) &= E[z^{S_N}] = \sum_{n=0}^\infty E[z^{S_N} I_{N=n}] \\
+        &= \sum_{n=0}^\infty E[z^{X_1 + X_2 + \cdots + X_n} I_{N=n}] \\
+        &= \sum_{n=0}^\infty E[z^{X_1 + X_2 + \cdots + X_n}]P(N=n) \\
+        &= \sum_{n=0}^\infty \left(p(z)\right)^n P(N=n) \\
+        &= E[p(z)^N] \\
+        &= q(p(z))
+    \end{align*}
+    So $r(z) = qp(z)$.
+\end{proof}
+We can provide an alternate proof:
+\begin{proof}
+    \begin{align*}
+        r(z) &= E[z^{S_n}] \\
+        &= E[E[z^{S_n} | N]]
+    \end{align*}
+    Now consider $E[Z^{S_n} | N] = g(N)$:
+    \begin{align*}
+        g(n) &= E[z^{S_N}|N=n] \\
+        &= E[z^{S_n}|N=n] \\
+        &= E[z^{S_N}]
+    \end{align*}
+    by independence. Therefore, we get the expectation:
+    \begin{align*}
+        E[z^{S_N} | N] &= g(N) = (p(z))^n \\
+        r(z) &= q(p(z))
+    \end{align*}
+\end{proof}
+Now we have the probability generating function $r(z)$, we can evaluate probabilities:
+\begin{align*}
+    E[S_N] &= \lim_{z \to 1^-} r'(z) \\
+    &= \lim_{z \to 1^-} q'(p(z)) p'(z) \\
+    &= E[N] E[X_i]
+\end{align*}
+We can also get variance:
+\begin{equation*}
+    \Var{(S_N)} = E[N] \Var{(X_i)} + \Var{(N)} \left(E[X_i]\right)^2
+\end{equation*}
+\subsection{Branching Processes}
+Consider a model of population growth. Let $X_n$ be the number of individuals in each generation. Let $X_0 = 1$. Then each individual independently produces a random number of offspring, with distribution $g_k$. Therefore, $P(X_1 = k) = g_k$, since there is one individual in generation $0$.\par
+Define:
+\begin{equation*}
+    \left(Y_{k, n}~|~k \geq 1, n \geq 0\right)
+\end{equation*}
+Then $Y_{k, n}$ is the number of offspring that the $k$th individual in generation $n$ produces. All of these are independent, and with distribution $g_k$. Then the relation between generations is:
+\begin{equation*}
+    X_{n + 1} = Y_{1, n} + \cdots + Y_{n, n}
+\end{equation*}
+Note that if $X_n = 0$, all subsequent generations have $X_m = 0$ (the population dies out).
 \end{document}
