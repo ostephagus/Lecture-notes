@@ -7,6 +7,7 @@ We want to consider functions defined by power series of the form:
 \end{equation}
 Where $a_n$, $z$ and $z_0$ are complex numbers. By translation, we can assume $z_0 = 0$.
 \section{Convergence of power series}
+\subsection{Radius of Convergence}
 This series may not converge for all $z \in \C$. The first task, therefore, is to understand the set of points for which a function of this form converges.
 \begin{lemma}
     If a power series $\sum_{n=0}^\infty a_n z^n$ converges, and $|w| < |z|$, then the power series:
@@ -19,7 +20,7 @@ This series may not converge for all $z \in \C$. The first task, therefore, is t
 \begin{proof}
     Since $\sum_{n=0}^\infty a_n z^n$ converges, $a_n z^n \to 0$.\par
     Therefore $\exists K > 0$ such that $|a_n z^n| \leq K$ for all $n$.\par
-    Now consider, for $w \neq 0$ (note that the case $w = 0$ is trivial),
+    Now consider, for $z \neq 0$ (note that the case $z = 0$ is trivial),
     \begin{align*}
         |a_n w^n| &= |a_n z^n| \left|\frac{w}{z}\right| \\
         &\leq K\rho^n
@@ -29,4 +30,107 @@ This series may not converge for all $z \in \C$. The first task, therefore, is t
 \begin{remark}
     We will use this result to show that every power series has a well-defined radius of convergence.
 \end{remark}
+\begin{theorem}
+    Let $\sum_{n=0}^\infty a_n z^n$ be a power series. Then there exists some $R \in [0, \infty]$, the \underline{radius of convergence}, such that the series converges absolutely for $|z| < R$, and diverges for $|z| > R$.
+    \label{thmRadiusOfConvergence}
+\end{theorem}
+\begin{proof}
+    Let $A = \subsetselect{r \geq 0}{\exists z \in \C, |z| = r, \sum_{n=0}^\infty a_n z^n \text{ converges}}$\par
+    Clearly $0 \in A$, so $A$ is non-empty. Let $R = \sup{A}$. If $A$ is not bounded above, define $R = \infty$.\par
+    From the definition of $A$, $\sum_{n=0}^\infty a_n z^n$ diverges for $|z| > R$.\par
+    Consider now $w \in \C$ with $|w| < R$. Then there exists $r \in A$ with $|w| < r$. This means there exists $z \in \C$ with $|z| = r$ and $\sum_{n=0}^\infty a_n z^n$ convergent. Then by Lemma~\ref{lemConvergenceRegionIsDisc}, $\sum_{n=0}^\infty a_n w^n$ converges absolutely.
+\end{proof}
+\begin{remarks}
+    \item If $R = 0$, then the sum converges only for $z = 0$.
+    \item If $R = \infty$, then the sum converges for any $z \in \C$.
+    \item If $R \in \R^+ \backslash \{0\}$, the theorem gives no information about $|z| = R$. In this case, we can have any possible subset of this circle convergent.
+\end{remarks}
+We can get a useful way to find $R$.
+\begin{lemma}
+    If $\left|\frac{a_{n+1}}{a_n}\right| \to l$ as $n \to \infty$, then $R = \frac{1}{l}$/ If $l = \infty$, then $R = 0$ and if $l = 0$ then $R = \infty$.
+    \label{lemRatioReciprocalRadius}
+\end{lemma}
+\begin{proof}
+    Use the ratio test. Consider:
+    \begin{align*}
+	\lim_{n \to \infty} \left|\frac{a_{n+1} z^{n+1}}{a_n z^n}\right| = \lim_{n \to \infty} \left|\frac{a_{n+1}}{a_n}\right| |z| = l|z|
+    \end{align*}
+    Therefore by the ratio test, if $l|z| < 1$ the power series converges absolutely, and if $l|z| > 1$ then the power series diverges.\par
+    The cases where $l = \infty$ and $l = 0$ are similar.
+\end{proof}
+\begin{lemma}
+    If $|a_n|^\frac{1}{n} \to l$ then $R = \frac{1}{l}$.
+    \label{lemRootReciprocalRadius}
+\end{lemma}
+The proof of this lemma is identical to that of lemma~\ref{lemRatioReciprocalRadius}, using the root test instead of the ratio test.
+\begin{examples}{}
+    \item $\sum_{n=0}^\infty \frac{z^n}{n!}$ has ratio of terms going to $0$, so the radius of convergence is $\infty$ and the series converges on the whole of $\C$.
+    \item $\sum_{n=0}^\infty n! z^n$ has ratio of terms going to $\infty$, so the radius of convergence is $0$, and the series diverges everywhere except $z = 0$.
+    \item $\sum_{n=0}^\infty z^n$ has radius of convergence $1$. Note that in this case the series diverges everywhere on the boundary circle.
+    \item $\sum_{n=1}^\infty \frac{z^n}{n^2}$ has convergence for $|z| \leq 1$ by comparison to the series in $\frac{1}{n^2}$. Therefore, the series converges on the boundary circle.
+    \item $\sum_{n=1}^\infty \frac{z^n}{n}$ has radius of convergence 1. For $z = 1$ the series diverges (this is the harmonic series). For $|z| = 1$, $z \neq 1$, consider:
+        \begin{align*}
+		(1-z)\sum_{n=1}^N \frac{z^n}{n} &= \sum_{n=1}^N \left(\frac{z^n}{n} - \frac{z^{n+1}}{n}\right) \\
+		&= \sum_{n=1}^N \left(\frac{z^{n+1}}{n+1} - \frac{z^{n+1}}{n}\right) + z - \frac{z^{N+1}}{N+1} \\
+		&= z - z \sum_{n=1}^N \frac{1}{n(n+1)} z^n - \frac{z^{N+1}}{N+1}
+	\end{align*}
+	And therefore this series converges absolutely by comparison to the sum in $\frac{1}{n(n+1)}$. Therefore, $\sum_{n=1}^\infty \frac{z^n}{n}$ converges for $|z| \leq 1$
+\end{examples}
+So we have examples of divergence, absolute convergence, and conditional convergence except at a single point. This illustrates the fact that we can find any set of convergence on the circle $|z| = R$.
+\subsection{Differentiating a Power Series(*)}
+We can show that inside the disc, power series are well-behaved.
+\begin{theorem}
+    Consider the function:
+    \begin{equation*}
+        f(z) = \sum_{n = 0}^\infty a_n z^n
+    \end{equation*}
+    and suppose it has radius of convergence $R$. Then $f$ is differentiable on $\subsetselect{z}{|z| < R}$ with derivative:
+    \begin{equation*}
+        f'(z) = \sum_{n = 0}^\infty n a_n z^{n-1}
+    \end{equation*}
+    \label{thmPowerSeriesDerivative}
+\end{theorem}
+The rest of this subsection is \textbf{non-examinable}.\par
+We need some lemmas in order to prove theorem~\ref{thmPowerSeriesDerivative}.
+\begin{lemma}
+    If $f(z)$ has radius of convergence $R$, then so do:
+    \begin{equation*}
+        \sum_{n = 0}^\infty n a_n z^{n-1} \text{ and } \sum_{n = 0}^\infty n(n-1) a_n z^{n-2}
+    \end{equation*}
+    \label{lemPowerSeriesDerivativesConverge}
+\end{lemma}
+%TODO: Prove
+\begin{propositions}{
+        We can establish the follwing bounds:
+        \label{propsDerivativeBounds}
+    }
+    \item $\choose{n}{r} \leq n(n-1)\choose{n-2}{r-2}$ for any $n, r \in \N$, $2 \leq r \leq n$. \label{propChooseBounds}
+    \item $|(z + h)^n - z^n - nhz^{n-1}| \leq n(n-1)[|z| + |h|]^{n-2} |h|^2$ \label{propDiffQuotBounds}
+\end{propositions}
+%TODO: Prove
+Now we can prove the theorem:
+\begin{proof}[of theorem~\ref{thmPowerSeriesDerivative}]
+    By lemma~\ref{lemPowerSeriesDerivativesConverge}, we can define:
+    \begin{equation*}
+        g(z) = \sum_{n=0}^\infty na_n z^{n-1}
+    \end{equation*}
+    for $|z| < R$.\par
+    Consider the difference quotient:
+    \begin{equation*}
+        I = \frac{f(z + h) - f(h) - hg(z)}{h}
+    \end{equation*}
+    Now, fix $z$ such that $|z| < R$ and assume that $|z| + |h| < r < R$ for some $r$.
+    \begin{equation*}
+        I = \frac{1}{h} \sum_{n = 0}^\infty \left[(z + h)^n - z^n - hnz^{n-1}\right]a_n
+    \end{equation*}
+    Then consider its magnitude:
+    \begin{align*}
+        |I| &= \frac{1}{|h|} \left|\lim_{N \to \infty} \sum_{n = 0}^N a_n\left[(z _ h)^n - z^n - hnz^{n-1}\right]\right| \\
+        &= \lim_{N \to \infty} \left|\frac{1}{|h|} \sum_{n = 0}^N a_n\left[(z _ h)^n - z^n - hnz^{n-1}\right]\right| \text{ by continuity of } |z|
+    \end{align*}
+    Therefore, define:
+    \begin{align*}
+        I_n &= \frac{1}{n} \sum_{n = 0}^N a_n \left[(z + h)^n - z^n - hnz^{n-1}\right]
+    \end{align*}
+\end{proof}
 \end{document}
