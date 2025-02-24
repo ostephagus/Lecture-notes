@@ -23,9 +23,9 @@ Then we consider how angular momentum changes with time:
     &= \vec{x} \times \vec{F}
 \end{align*}
 We define this quantity to be the torque, $\vec{G} = \vec{x} \times \vec{F}$.\par
-Then for a central force, $\vec{F}$ is in the direction of $\vec{x}$, so $\frac{d\vec{L}}{dt} = 0$. This therefore shows that the particle must move in the same plane (the plane orthogonal to $\vec{L}$), since $\vec{L}$ is conserved. Therefore, we have reduced a 3-dimensional problem to a 2-dimensional one.
+For a central force, $\vec{F}$ is in the direction of $\vec{x}$, so $\frac{d\vec{L}}{dt} = 0$. This therefore shows that the particle must move in the same plane (the plane orthogonal to $\vec{L}$), since $\vec{L}$ is conserved. Therefore, we have reduced a 3-dimensional problem to a 2-dimensional one.
 \section{Polar coordinates}
-In the plane, consider polar coordinates ($x = r \cos{\theta}, y = r\sin{\theta}$).\par
+In the plane orthogonal to $\vec{L}$, consider polar coordinates ($x = r \cos{\theta}, y = r\sin{\theta}$).\par
 Then let $\uvec{r}$ be the 2-dimensional vector in the direction of $\vec{x}$, and let $\uvec{{\theta}}$ be the vector perpendicular to it in the plane.
 \begin{align*}
     \uvec{r} &= \begin{pmatrix}\cos{\theta} \\ \sin{\theta}\end{pmatrix} \\
@@ -55,7 +55,7 @@ We consider the angular momentum again:
 And so we define $|\vec{L}| = ml = mr^2 \dot{\theta}$. We often refer to $l$ as the angular momentum, where really it is angular momentum per unit mass.\par
 Then we can use $l = r^2 \dot{\theta}$ to simplify equation~\ref{eqnNewtonIIPolar}:
 \begin{equation}
-    m\ddot{r} - \frac{ml^2}{r^3} = -\frac{dV}{dr}
+    m\ddot{r} - \frac{ml^2}{r^3} = -\frac{dV}{dr} = F(r)
     \label{eqnRadialEquation}
 \end{equation}
 Then equation~\ref{eqnRadialEquation} is only an equation in $r(t)$, so we have reduced the two-dimensional problem to a single dimension.
@@ -99,13 +99,13 @@ We return to figure~\ref{figEffectivePotentialPlot}. If the particle exists, at 
 If the energy is negative, then the particle must exist in region $B$. It performs bounded motion, oscillating in radius around the turning point. If the particle has exactly the same energy as the potential at the turning point, it can stay in stable state with constant radius.\par
 In the special case $E = 0$, the particle will have just enough energy to escape.\par
 We can also consider different potentials: if $V_{eff} \propto r^{-2}$, the potential plot is much less stable. In this case all motion is unstable, including the stationary point.
-\section{The Orbit Equation}
+\section{Solving the Orbit Equation}
 Returning to 2 dimensions, we will solve for $r$ in terms of $\theta$. We need to perform a change of variables. Centuries of study have found that it is convenient to work in terms of $u = r^{-1}$.\par
 We will derive the orbit equation for $u(\theta)$. Changing variables first from $r(t)$ to $u(\theta)$:
 \begin{align*}
     \dot{r} &= \frac{dr}{d\theta} \dot{\theta} \\
     &= \frac{dr}{dt}\frac{l}{r^2}\\
-    &= -\frac{du}{d\theta}
+    &= -\frac{du}{d\theta} l
 \end{align*}
 And the second derivative:
 \begin{align*}
@@ -119,6 +119,7 @@ Then applying this to equation~\ref{eqnRadialEquation} with force instead of $\n
     \frac{d^2u}{d\theta^2} + u &= -\frac{1}{ml^2u^2} F\left(\frac{1}{u}\right) \label{eqnOrbit}
 \end{align}
 Where equation~\ref{eqnOrbit} is the \underline{Orbit equation}\par
+\subsection{The Kepler Problem}
 Consider the special case $V = \frac{-km}{r}$ (the Kepler Problem):
 \begin{equation*}
     \frac{d^2u}{d\theta^2} + u = \frac{k}{l^2}

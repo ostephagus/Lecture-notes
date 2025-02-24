@@ -69,7 +69,32 @@ The centrifugal force is conservative:
 The potential energy is decreased by the particle moving away from its axis of rotation.
 \begin{figure}[ht]
     \centering
-    See the diagram Hanging string. %TODO: Tikz this.
+    \begin{tikzpicture}[scale=2]
+        \tikzset{
+            patharrow/.pic={
+                \draw (-0.1, -0.1) -- (0, 0) -- (-0.1, 0.1);
+            }
+        }
+        \draw (-15:1) arc[start angle=-15, end angle=90, radius=1];
+        \draw (0:0.5) arc[start angle=0, end angle=30, radius=0.5]
+            node[anchor=west, pos=0.7] {$\theta$};
+
+        \draw[dashed] (0:1.5) -- (0:0) -- (30:2);
+        \draw[fill] (30:2) circle[radius=0.2mm];
+
+        \draw (30:2) -- ++(250:0.5)
+            pic[pos=0.4, rotate=70] {patharrow}
+            node[pos=0.6, anchor=west] {$\vec{T}$}
+            node[circle, fill, minimum size=1mm, inner sep=0] (A) {};
+        \draw (30:1.7) arc[start angle=210, end angle=250, radius=0.3]
+            node[anchor=east, pos=0.8] {$\phi$};
+
+        \draw[->] (A) -- +(200:0.5)
+            node[pos=0.6, anchor=north] {$\vec{F_g}$};
+
+        \draw[->] (A) -- +(0:0.5)
+            node[pos=0.6, anchor=north] {$\vec{F_{cen}}$};
+    \end{tikzpicture}
     \caption{Diagram of example~\ref{exHangingString}: a hanging string}
     \label{figHangingString}
 \end{figure}
