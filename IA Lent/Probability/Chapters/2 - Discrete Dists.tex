@@ -1041,7 +1041,109 @@ Define:
 \end{equation*}
 Then $Y_{k, n}$ is the number of offspring that the $k$th individual in generation $n$ produces. All of these are independent, and with distribution $g_k$. Then the relation between generations is:
 \begin{equation*}
-    X_{n + 1} = Y_{1, n} + \cdots + Y_{n, n}
+    X_{n + 1} = Y_{1, n} + \cdots + Y_{{X_n}, n}
 \end{equation*}
 Note that if $X_n = 0$, all subsequent generations have $X_m = 0$ (the population dies out).
+\begin{theorem}
+    \begin{equation*}
+        E[X_n] = \left(E[X_1]\right)^n
+    \end{equation*}
+    \label{thmBranchingExpectation}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        E[X_{n + 1}] &= E[E[X_{n + 1} | X_n]] \\
+        E[X_{n + 1} | X_n = m] &= E[Y_{1, n} + \cdots + Y_{{X_n}, m} | X_n = m] \\
+        &= E[Y_{1, n} + \cdots + Y_{m, n}] \\
+        &= mE[X_1]
+    \end{align*}
+    Then
+    \begin{align*}
+        E[X_{n + 1} | X_n] &= X_n E[X_1]
+        \therefore E[X_{n + 1}] &= E[X_n E[X_1]] = E[X_1] E[X_n] \\
+        \therefore E[X_{n + 1}] &= \left(E[X_1]\right)^{n + 1} \text{ by chaining the formula}
+    \end{align*}
+\end{proof}
+\begin{theorem}
+    Let $G(z) = E[z^{X_1}]$ and $G_n(z) = E[z^{X_n}]$.\par
+    Then $G_{n + 1}(z) = G(G_n(z))$.
+    \label{thmBranchingGenFunc}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        G_{n + 1}(z) &= E[z^{X_{n + 1}}] \\
+        &= E[E[z^{X_{n+1}} | X_n]]
+    \end{align*}
+    \begin{align*}
+        E[z^{X_{n + 1}} | Z_n = m] &= E[z^{Y_{1, n} + \cdots + Y_{X_n, 1}} | X_n = m] \\
+        &= E[z^{Y_1 + \cdots + Y_m} | X_n = m] \\
+        &= \left(E[z^{X_1}]\right)^m
+    \end{align*}
+    and therefore $E[Z^{X_{n + 1}} | X_n] = \left(G(z)\right)^{X_n}$
+    \begin{equation*}
+        G_{n + 1}(z) = E[\left(G(z)\right)^{X_n}] = G_n(G(z))
+    \end{equation*}
+\end{proof}
+Now consider the probability that the population goes extinct. Set:
+\begin{equation*}
+    q = P(X_n = 0 \text{ for some } n \geq 1)
+\end{equation*}
+and $q_n = P(X_n = 0)$. Therefore, $A_n = \{X_n = 0\}$ is a subset of $A_{n + 1}$. Now we have an increasing family of events, and $q_n \to q$ as $n \to \infty$.
+\begin{proposition}
+    $q_{n + 1} = G(q_n)$, where $G$ is as defined before: $G(z) = E[z^{X_1}]$.
+    \label{propExtinctionProb}
+\end{proposition}
+\begin{proof}[by conditioning on $X_n$]
+    \begin{align*}
+        q_{n + 1} &= P(X_{n + 1} = 0) \\
+        &= G_{n + 1}(0) \text{ by expanding out the expectation function} \\
+        &= G(G_n(0)) \text{ by theorem~\ref{thmBranchingGenFunc}}
+    \end{align*}
+\end{proof}
+\begin{proof}[by conditioning on $X_1$]
+    We condition on $X_1 = m$. Let $X_n^{(1)}, \cdots, X_n^{(m)}$ be independent and identically distributed branching processes with the same offspring distribution as $X_1$. We can do this because the offspring from the second generation can be thought of as another independent branching process as before.\par
+    Note also that $X_{n + 1} = X_n^{(1)} + \cdots + X_n^{(m)}$ given $X_1 = m$\par
+    \begin{align*}
+        q_{n + 1} &= P(X_{n + 1} = 0) \\
+        &= \sum_m P(X_{n + 1} = 0 | X_1 = m)P(X_1 = m) \\
+        &= \sum_m P(X_1 = m) \left(P(X_n^{(1)} = 0)\right)^m \text{ by independence} \\
+        &= \sum_m P(X_1 = m) \left(P(X_n = 0)\right)^m \\
+        &= G(P(X_n = 0)) \\
+        &= G(q_n)
+    \end{align*}
+\end{proof}
+Now we have that $q_n \to q$ and $q_{n + 1} = G(q_n)$, so by the continuity of $G$, the limit probability $q$ must satisfy $q = G(q)$.\par
+We can reason by theorem~\ref{thmBranchingExpectation}:
+\begin{align*}
+    &\text{If } E[X_1] < 1 \implies E[X_n] \to 0 \implies q = 1 \\
+    &\text{If } E[X_1] > 1 \implies E[X_n] \to \infty \implies q < 1 \\
+    &\text{If } E[X_1] = 1 \implies E[X_n] = 1
+\end{align*}
+\begin{theorem}
+    Suppose $P(X_1 = 1) < 1$. Then the extinction probability is the minimal non-negative solution to $x = G(x)$. Moreover, $q < 1$ if and only if $E[X_1] > 1$.
+    \label{thmExtinctionProb}
+\end{theorem}
+\begin{proof}
+    We know that $q = G(q)$. Let $t$ be the smallest solution of $x = G(x)$. We will show that $t = q$, by showing $q \leq t$.\par
+    \induction{$n = 0$}{$q_0 = 0 \leq t$ as required.}
+    {$n = k$}{Suppose $q_k \leq t$}
+    {$n = k + 1$}{
+        Note that $G(z) = E[z^{X_1}]$ is an increasing function.
+        \begin{equation*}
+            q_{n + 1} = G(q_n) \leq G(t) = t
+        \end{equation*}
+    }
+    Now we have that $q_n \leq t~\forall n$, so by taking the limit, $q \leq t$. But, since $t$ is the smallest possible solution to $x = G(x)$, and $q$ is a solution, $t = q$.\par
+    It now remains to prove that $q < 1 \Leftrightarrow E[X_1] > 1$.
+    \begin{case}{$g_0 + g_1 = 1$}
+        Then $P(X_1 \leq 1) = 1$ and $E[X_1] = g_1$. Therefore, $G(z) = g_0 + g_1 z = 1 - E[X_1] + E[X_1] z$. Then solving $G(z) = z$:
+        \begin{equation*}
+            1 - E[X_1] = \left(1 - E[X_1]\right)z \implies z = 1
+        \end{equation*}
+        Then $E[X_1] < 1$ since $P(X_1 = 1) < 1$.
+    \end{case}
+    \begin{case}{$g_0 + g_1 < 1$}
+        Something
+    \end{case}
+\end{proof}
 \end{document}
