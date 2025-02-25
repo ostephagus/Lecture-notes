@@ -54,7 +54,8 @@ Assume from now on that $E$ has no isolated points, and further that $E$ is an i
         \item 
             \begin{align*}
                 &\lim_{h \to 0} \frac{f(x + h)g(x + h) - f(x) g(x)}{h} \\
-                &= \lim_{h \to 0} \frac{f(x + h) g(x + h) - f(x + h) g(x) + f(x + h) g(x) - f(x) g(x)}{h} \\
+                &= \lim_{h \to 0} \frac{f(x + h) g(x + h) - f(x + h) g(x)}{h} \\
+                &+\frac{f(x + h) g(x) - f(x) g(x)}{h} \\
                 &= \lim_{h \to 0} f(x + h) \frac{g(x + h) - g(x)}{h} + \lim_{h \to 0} g(x) \frac{f(x + h) - f(x)}{h} \\
                 &= \lim_{h \to 0} f(x + h) g'(x) + g(x) f'(x) \\
                 &= f(x) g'(x) + f'(x) g(x)
