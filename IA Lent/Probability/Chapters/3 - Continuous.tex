@@ -1,0 +1,68 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Defining Continuous Probability}
+Previously we defined the probability space $\left(\Omega, \sigalg, P\right)$, and $X$ was a random variable $X : \Omega \mapsto \R$ with a notion of order: $\forall x \in \R \{X \leq x\} = \subsetselect{\omega}{X(\omega) \leq x} \in \sigalg$.
+\begin{definition}{Probability distribution function}
+    The \underline{probability distribution function} is defined to be:
+    \begin{align*}
+        F : \R &\mapsto [0, 1] \\
+        x &\mapsto P(X \leq x)
+    \end{align*}
+\end{definition}
+\begin{propositions}{
+        Suppose that $F$ is a probability distribution function as above defined.
+        \label{propsPDFProps}
+    }
+    \item If $x \leq y$, then $F(x) \leq F(y)$. \label{propPDFIncreasing}
+    \item For any real numbers $a < b$, $P(a < X \leq b) = F(b) - F(a)$. \label{propPDFSubtract}
+    \item $F$ is right-continuous, and left limits always exist. \label{propPDFContinuity}
+    \item $\lim_{y \to x^-} F(y) = P(X < x)$.\label{propPDFStrictLessThan}
+    \item $\lim_{x \to \infty} F(x) = 1$ and $\lim_{x \to -\infty} F(x) = 0$. \label{propPDFLimits}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Simply note that $\{X \leq x\} \subseteq \{X \leq y\}$.
+        \item \begin{align*}
+            P(A < X \leq B) &= P(X \leq b, X > a) \\
+            &= P(X \leq b) - P(X \leq b, X \leq a) \\
+            &= P(X \leq b) - P(X \leq a) \\
+            &= F(b) - F(a)
+        \end{align*}
+        \item Let $x_n$ be a decreasing sequence converging to $x$ as $n \to \infty$.
+            Define $A_n = \{x < X \leq x_n\}$. Note that $A_n$ is a decreasing sequence ($A_{n + 1} \subseteq A_n$).\par
+            Note that for a decreasing sequence,
+            \begin{equation*}
+                P(A_n) \to P\left(\bigcap_{n \in \N} A_n\right)
+            \end{equation*}
+            and in this case the infinite intersection is the empty set, so $P(A_n) \to 0$.\par
+            Therefore $F(x_n) - F(x) \to 0$, and so $F$ is right-continuous.\par
+            To show that left limits exist, we can bound them from above (since $F$ is increasing) by their limit point:
+            \begin{equation*}
+                \lim_{y \to x^-} F(y) \leq F(x)
+            \end{equation*}
+        \item $\lim_{y \to x^-} F(y) = \lim_{n \to \infty} F(x - \frac{1}{n})$ (we can choose any increasing sequence converging to $x$).\par
+            Define also $B_n = \{X \leq x - \frac{1}{n}\}$. $B_n$ is increasing, and so $P(B_n)$ tends to the probability of the union. The probability of the union is exactly equal to $\{X < x\}$.
+        \item Proof by the previous case.
+    \end{enumerate}
+\end{proof}
+\begin{definition}{Continuous random variable}
+    A random variable $X$ is \underline{continuous} if its probability distribution function is continuous. That is,
+    \begin{equation*}
+        \lim_{y \to x^-} F(y) = \lim_{y \to x^+} F(x)
+    \end{equation*}
+\end{definition}
+Immediately this tells us that $P(X < x) = P(X \leq x)$, or $P(X = x) = 0$.\par
+$F$ may not always be differentiable. However, in this course, we will assume the differentiability of $F$ on the whole of $\R$.
+\begin{definition}{Probability density function}
+    Given that, for a random variable $X$, the probability distribution function $F$ is differentiable everywhere, the \underline{probability density function} $f$ is defined to be the derivative $F'$.
+\end{definition}
+\begin{propositions}{
+        Consider a random variable $X$, with probability distribution function $F$ and probability density function $f$.
+        \label{propsPdensFuncProps}
+    }
+    \item $f(x) \geq 0$. \label{propPdensFuncNonNegative}
+    \item $\int_{-\infty}^\infty f(x) dx = 1$ \label{propPdensFuncIntegralOne}
+    \item $F(x) = \int_{-\infty}^x f(y) dy$. \label{propPdensFuncIntegratePDF}
+\end{propositions}
+\end{document}
