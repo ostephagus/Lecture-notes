@@ -1143,7 +1143,26 @@ We can reason by theorem~\ref{thmBranchingExpectation}:
         Then $E[X_1] < 1$ since $P(X_1 = 1) < 1$.
     \end{case}
     \begin{case}{$g_0 + g_1 < 1$}
-        Something
+        Define $H(z) = G(z) - z$. Then certainly $H(1) = 0$, and we will prove that there can exist at most one more in $[0, 1)$.\par
+        Consider $H''(z)$:
+        \begin{equation*}
+            H''(z) = \sum_{r=2}^\infty r(r-1) g_r z^{r-2}
+        \end{equation*}
+        This is strictly positive by assumption of the case ($g_0 + g_1 < 1$). Therefore $H'(z)$ is strictly increasing on $[0, 1)$, and this implies $H$ can have at most $1$ other root in the range. To see this, suppose there exist two (or more) other roots in the range. Then $H'$ would have to be equal to zero at two points (between each root) by Rolle's Theorem, which is a contradiction.\par
+        Consider now the case that there is no second solution, $q = 1$.
+        \begin{equation*}
+            \lim_{z \to 1^-} H'(z) = \lim_{z \to 1^-} G'(z) - 1
+        \end{equation*}
+        Note that $H(0) = G(0) = g_0 \geq 0$, and $H(1) = 0$, so this implies that $H(z) \geq 0$ for all $z \in [0, 1)$.\par
+        Then we can consider the limit definition of $H'$:
+        \begin{equation*}
+            \lim_{z \to 1^-} H'(z) = \lim_{z \to 1^-} \frac{H(z) - H(1)}{z - 1} \leq 0
+        \end{equation*}
+        But $\lim_{z \to 1^-} H'(z) = E[X] - 1$, so indeed $E[x] \leq 1$.\par
+        Consider the case that there does exist a second solution, $r < 1$.\par
+        Now $H(r) = 0$, and $H(1) = 0$, so there exists some $w \in (r, 1)$ such that $H'(w) = 0$ by Rolle's Theorem.\par
+        We have that $H'$ is strictly increasing, so for any $z > w$, $H'(z) > H'(w) = 0$.\par
+        Therefore $\lim_{z \to 1^-} H'(z) > 0$, which means $E[X] - 1 > 0$, and $E[X] > 1$ as required.
     \end{case}
 \end{proof}
 \end{document}
