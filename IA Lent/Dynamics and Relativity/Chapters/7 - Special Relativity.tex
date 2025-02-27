@@ -1,0 +1,58 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Basic Postulates of Relativity}
+Maxwell's Equations, formulated by Maxwell in 1862, predict the existence of electromagnetic waves that travel at the speed of light. This is $c = 299792458 m s^{-1}$ (note that this number is precise, because it defines the metre).\par
+A theory such as Maxwell's equations with a preferred velocity cannot be Galilean invariant. In principle this is permissible, sound waves travel through the air around $300 ms^{-1}$, but this is relative to the rest frame of the air. Thus, it was assumed that light must travel through a medium, this proposed medium was known as the Luminiferous Ether. However, experiments to demonstrate the existence of the Luminiferous Ether (Michelson \& Morley, 1881) showed that light travels at the same speed regardless of how fast the observer (on Earth) is moving through the Ether.\par
+In 1905, Einstein postulated that there was no Ether. He provided two postulates:
+\begin{enumerate}
+    \item The laws of physics are the same in all inertial reference frames. This is the principle of relativity that Galileo postulated before.
+    \item The speed of light in a vacuum is the same in all inertial reference frames. This is clearly not compatible with Galilean Relativity.
+\end{enumerate}
+\section{Lorentz Transformations}
+We will derive the Lorentz transformations to replace Galilean transformations.\par
+\subsection{1-Dimensional Space}
+We will first consider 1 spatial dimension. An inertial frame $S$ has coordinates $(x, t)$. Consider a second frame $S'$ that moves at a speed $v$ relative to $S$ and has coordinates $(x', t')$.\par
+According to Galileo, $x' = x - vt$ and $t' = t$.\par
+This will not work, as the speed of light will not be constant in both frames. Instead consider a general transformation:
+\begin{align*}
+    x' &= f(x, t) \\
+    t' &= g(x, t) \\
+\end{align*}
+Postulate 1 requires that in both frames $S$ and $S'$, a particle experiencing no forces must move at a constant velocity (Law of Inertia). So for a free particle in $S$, with $x = A + Bt$, the particle in $S'$ must be moving with $x' = A' + B't'$. Therefore the transformation $(f, g)$ must map lines in the $(x, t)$ plane to lines in the $(x', t')$ plane. Therefore $f$ and $g$ must be linear:
+\begin{align*}
+    x' &= ax + bt \\
+    t' &= cx + dt
+\end{align*}
+Note that $a, b, c, d$ could depend on $v$ but must not depend on $x, t$. Note also that we have chosen the frames to have a common origin. We could just as well have added a constant term to both of the above equations.\par
+The frame $S'$ is moving at speed $v$ in the frame $S$, but obviously must be at rest with respect to itself, $x' = 0$. Therefore the line $x = vt$ must be mapped to the line $x' = 0$. Therefore we can get the function $f$ up to scaling:
+\begin{equation*}
+    x' = \gamma_v (x - vt)
+\end{equation*}
+We can also relate in the other direction: $S$ moves at speed $-v$ in relation to $S'$, so $x = \gamma_{-v} (x' + vt)$.
+\begin{proposition}
+    In the above, $\gamma_v = \gamma_{-v}$
+\end{proposition}
+If we assume this to be true, we have that:
+\begin{align}
+    x' &= \gamma(x - vt) \\
+    t' &= \frac{1-\gamma^2}{\gamma v} x + \gamma t
+\end{align}
+We cannot give a rigorous proof. We give 3 arguments:
+\begin{enumerate}
+    \item There is no preferred direction of space. Therefore $\gamma_v$ should be a function of $|v|$ only: $\gamma_v = \gamma_{-v}$.
+    \item Consider frames $\tilde{S}$ and $\tilde{S'}$ where the $x$ axis is reflected. That is, $\tilde{x} = -x, \tilde{x'} = -x'$. Then if $S$ moves at speed $v$ with respect to $S'$, $\tilde{S}$ moves at speed $-v$ with respect to $\tilde{S'}$. Therefore
+    \begin{align*}
+        \tilde{x'} &= \gamma_{-v}(\tilde{x} + vt) \\
+        -x' &= \gamma_{-v} (-x + vt) \\
+        x' &= \gamma_{-v} (x - vt) \\
+        \gamma_v &= \gamma_{-v}
+    \end{align*}
+    \item If a particle increases to speed $v$ relative to $S$, and then changes its speed by $-v$, it returns to rest is $S$. Consider the $x$ coordinate after these two changes in speed, assuming $\gamma_v = \gamma_{-v} = \gamma$:
+        \begin{align*}
+            x'' &= \gamma_{-v} (x' + vt') \\
+            &= \gamma \left(\gamma (x - vt) + v\left(\gamma t + \frac{1 - \gamma^2}{\gamma v}\right)\right) \\
+            &= x
+        \end{align*}
+\end{enumerate}
+\end{document}
