@@ -217,7 +217,6 @@ We immediately have that $e$ is differentiable, and also that its derivative is 
     \end{align*}
 \end{proof}
 We can also consider the function $e$ with real inputs. There are no complex coefficients in the definition so $e : \R \mapsto \R$.
-%TODO: Add individual labels.
 \begin{propositions}{
         Consider this function $e : \R \mapsto \R$:
         \label{propsExpRealProps}
@@ -244,4 +243,137 @@ We can also consider the function $e$ with real inputs. There are no complex coe
             We can then use theorem~\ref{thmInverseFunctionII} on this restricted domain to show that $e$ is surjective.
     \end{enumerate}
 \end{proof}
+From propositions~\ref{propExpAdditivity} and \ref{propExpBijection}, we note that $e$ is a group isomorphism from the group of real number under addition to the group of positive real numbers under multiplication.\par
+Since $e$ is a bijection in this way, it has an inverse $l = e^{-1} : (0, \infty) \mapsto \R$.
+\begin{propositions}{
+        Consider $l : (0, \infty) \mapsto \R$.
+        \label{propsLogRealProps}
+    }
+    \item $l : (0, \infty) \mapsto \R$ is a bijection and is the inverse of $e$. \label{propLogInverseOfExp}
+    \item $l$ is differentiable and $l'(t) = \frac{1}{t}$ \label{propLogDerivative}
+    \item $l(st) = l(s) + l(t)$ \label{propLogMultity}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item This is immediate from the definition of $l$.
+        \item Theorem~\ref{thmInverseFunctionII} gives that $l$ is differentiable, and we can find this derivative:
+            \begin{equation*}
+                l'(t) = \frac{1}{e'(l(t))} = \frac{1}{e(l(t))} = \frac{1}{t}
+            \end{equation*}
+        \item See IA Groups, using the isomorphism already established.
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    $l(t) \to -\infty$ as $t \to 0^+$ and $l(t) \to \infty$ as $t \to \infty$.
+\end{remark}
+Define, for any $\alpha \in \R$, and for $x \in (0, \infty)$:
+\begin{equation*}
+    r_{\alpha}(x) = e(\alpha l(x))
+\end{equation*}
+\begin{propositions}{
+        Suppose that $x, y > 0$, $\alpha, \beta \in \R$.
+        \label{propsPwrProps}
+    }
+    \item $r_\alpha(xy) = r_\alpha(x) r_\alpha(y)$ \label{propPrwMultiply}
+    \item $r_{\alpha + \beta}(x) = r_\alpha(x)r_\beta(x)$ \label{propPwrSum}
+    \item $r_\alpha(r_\beta(x)) = r_{\alpha\beta}(x)$ \label{propPwrChain}
+    \item $r_1(x) = x$ \label{propPwr1Identity}
+    \item $r_0(x) = 1$ \label{propPwrZero}
+\end{propositions}
+\begin{proof}
+    All proofs using the properties already established about $e$ and $l$.
+\end{proof}
+Now suppose that $p$ and $q$ are positive. Consider $r_p(x)$. We can write this as $r_{\sum_{k=1}^p 1}$, and we can iterate proposition~\ref{propPwrSum} to get $\prod_{k = 1}^p r_1(x) = x^p$ as required.\par
+Now consider $r_{1/q}(x)$:
+\begin{align*}
+    \left(r_{1/q}(x)\right)^q &= \prod_{k = 1}^q r_{1/q}(x) \\
+    &= r_{\sum_{k = 1}^q 1/q}(x) \\
+    &= r_1(x) = x
+\end{align*}
+And therefore $r_{1/q} = x^{\frac{1}{q}}$ as we defined.\par
+Also note that:
+\begin{align*}
+    r_\alpha(x) r_{-\alpha}(x) &= r_0(x) \\
+    &=1 \\
+    \therefore r_{-\alpha} &= \frac{1}{r_\alpha(x)}
+\end{align*}
+Now we can show that $e(x) \equiv \exp(x)$ and denote $l$ by $\log(x)$. Further, $x^\alpha = r_\alpha(x)$.\par
+We define $e = \sum_{n=0}^\infty \frac{1}{n!}$ and then $\exp(x) = e^x$.\par
+By the chain rule,
+\begin{align*}
+    \frac{d}{dx}(x^\alpha) &= \frac{d}{dx}(e^{\alpha \log(x)}) \\
+    &= e^{\alpha \log(x)} \frac{\alpha}{x} \\
+    &= \alpha x^{\alpha - 1}
+\end{align*}
+Or, differentiating with respect to the exponent:
+\begin{align*}
+    \frac{d}{dx} (a^x) &= \frac{d}{dx}(e^{x \log(a)}) \\
+    &= \log(a) e^{x \log(a)} \\
+    &= \log(a) a^x
+\end{align*}
+\begin{propositions}{
+        For any $r > 0$ we have that:
+        \label{propsExpLimits}
+    }
+    \item $x^r e^{-x} \to 0$ as $x \to \infty$
+    \item $x^{-r} \log(x) \to 0$ as $x \to \infty$
+    \item $x^r \log(x) \to 0$ as $x \to 0^+$
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item For $x > 0$,
+            \begin{equation*}
+                e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots > \frac{x^n}{n!}
+            \end{equation*}
+            for any $n \in \N$. Choose $n$ such that $n - r > 0$. Then:
+            \begin{equation*}
+                0 \leq \frac{x^r}{e^x} \leq \frac{n!}{x^{n-r}}
+            \end{equation*}
+            And thus as $x \to \infty$, the upper bound goes to $0$, so $x^r e^{-x} \to 0$.
+        \item Choose $m$ such that $m \geq \frac{2}{r}$.
+            \begin{equation*}
+                0 \leq \frac{x^{\frac{1}{r}}}{e^x} \leq \frac{m!}{x^{m - \frac{1}{r}}} \leq \frac{m!}{x^{\frac{1}{r}}}
+            \end{equation*}
+            Then for $y$ sufficiently large, let $x = \log(y)$.
+            \begin{equation*}
+                0 \leq \frac{(\log(y))^\frac{1}{r}}{y} \leq \frac{m!}{(\log(y)^\frac{1}{r})}
+            \end{equation*}
+            Then since raising to a positive power preserves inequalities:
+            \begin{equation*}
+                0 \leq \frac{log(y)}{y^r} \leq \frac{m!}{\log(y)}
+            \end{equation*}
+            The upper bound goes to $0$ as $y \to \infty$, so $y^{-r} \log(y)$ must go to $0$.
+        \item Let $z = y^{-1}$. Then from above:
+            \begin{equation*}
+                0 \leq z^r \log(z) \leq \frac{(m!)^r}{-\log(z)}
+            \end{equation*}
+            And as $z \to 0^+$, the upper bound goes to $0$, so $z^r \log(z) \to 0$.
+    \end{enumerate}
+\end{proof}
+\subsection{Trigonometric Function}
+We define the trigonometric functions in terms of their power series:
+\begin{definition}{Cosine}
+    For $z \in \C$, define the \underline{cosine} of $z$ to be:
+    \begin{equation*}
+        \cos(z) = \sum_{k = 0}^\infty (-1)^k \frac{z^{2k}}{(2k)!}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Sine}
+    For $z \in \C$, define the \underline{sine} of $z$ to be:
+    \begin{equation*}
+        \sin(z) = \sum_{k = 0}^\infty (-1)^k \frac{z^{2k+1}}{(2k+1)!}
+    \end{equation*}
+\end{definition}
+Both series have infinite radius of convergence (by the Ratio Test), and we can therefore term-by-term differentiate this to give:
+\begin{align*}
+    \frac{d}{dx} \cos(x) &= -\sin(x) \\
+    \frac{d}{dx} \sin(x) &= \cos(x) \\
+\end{align*}
+We also observe that:
+\begin{align*}
+    e^{iz} &= \lim_{n \to \infty} \left(\sum_{k = 0}^{2k + 1} \frac{(iz)^k}{k!}\right) \\
+    &= \lim_{n \to \infty} \left(\sum_{k = 0}^n \frac{(iz)^{2k}}{(2k)!} + \sum_{k = 0}^n \frac{(iz)^{2k+1}}{(2k+1)!}\right) \\
+    &= \lim_{n \to \infty} \left(\sum_{k = 0}^n (-1)^k \frac{z^{2k}}{(2k)!} + i\sum_{k = 0}^n (-1)^k \frac{z^{2k+1}}{(2k+1)!}\right) \\
+    &= \cos(z) + i\sin(z)
+\end{align*}
 \end{document}
