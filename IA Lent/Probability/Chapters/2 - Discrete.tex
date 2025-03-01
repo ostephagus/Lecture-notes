@@ -445,10 +445,10 @@ Therefore if $X$ and $Y$ are independent, their covariance is 0. However, the co
     \begin{equation*}
         E[|XY|] \leq \frac{1}{2}\left(E[X^2] + E[Y^2]\right)
     \end{equation*}
-    Now assume wlog that $X$ and $Y$ are non-negative (to avoid having to use absolute values). Let $t \in \R$:
+    Re-label $X$ to be $|X|$ and $Y$ to be $Y$, so now $X$ and $Y$ are non-negative. Let $t \in \R$:
     \begin{align*}
-        E\left[(X - tY)^2\right] &\geq 0 \\
-        0\leq E[X^2] - 2tE[XY] + t^2 E[Y^2]
+        0 &\leq E\left[(X - tY)^2\right] \\
+        &= E[X^2] - 2tE[XY] + t^2 E[Y^2]
     \end{align*}
     Then considering this as a quadratic, we require $b^2 - 4ac \leq 0$:
     \begin{align*}
@@ -483,10 +483,10 @@ Therefore if $X$ and $Y$ are independent, their covariance is 0. However, the co
     \caption{Diagram of a convex function and a chord}
     \label{figConvexCurve}
 \end{figure}
-\begin{proposition}
+\begin{lemma}
     Let $f$ be a convex function. Then $f$ is the supremum of all the lines lying below it. In other words, for any $m$ there exist real numbers $a$ and $b$ such that $f(m) = am+b$ and $f(x) \geq ax + b~\forall x$.
-    \label{propTangentBelowConvex}
-\end{proposition}
+    \label{lemTangentBelowConvex}
+\end{lemma}
 This means that for a point and corresponding tangent line, $f(x)$ is above this tangent line everywhere other than the point where they touch.
 \begin{proof}
     Let $m \in \R$ and $x < m < y$. Then:
@@ -523,13 +523,13 @@ This means that for a point and corresponding tangent line, $f(x)$ is above this
     \label{thmJensenInequality}
 \end{theorem}
 \begin{proof}
-    Let $m = E[X]$. By proposition~\ref{propTangentBelowConvex}, there exist $a$ and $b$ such that
+    Let $m = E[X]$. By proposition~\ref{lemTangentBelowConvex}, there exist $a$ and $b$ such that
     \begin{equation*}
         f(m) = am + b, f(x) \geq ax + b~\forall x
     \end{equation*}
     Then $f(X) \geq aX + b$. Taking expectations:
     \begin{align*}
-        E[f(X)] \geq aE[X] + b \\
+        E[f(X)] &\geq aE[X] + b \\
         &= am + b = f(m) \\
         &= f(E[X])
     \end{align*}
@@ -1059,7 +1059,7 @@ Note that if $X_n = 0$, all subsequent generations have $X_m = 0$ (the populatio
     \end{align*}
     Then
     \begin{align*}
-        E[X_{n + 1} | X_n] &= X_n E[X_1]
+        E[X_{n + 1} | X_n] &= X_n E[X_1] \\
         \therefore E[X_{n + 1}] &= E[X_n E[X_1]] = E[X_1] E[X_n] \\
         \therefore E[X_{n + 1}] &= \left(E[X_1]\right)^{n + 1} \text{ by chaining the formula}
     \end{align*}

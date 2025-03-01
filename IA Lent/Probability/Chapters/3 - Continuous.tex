@@ -2,7 +2,7 @@
 
 \begin{document}
 \section{Defining Continuous Probability}
-Previously we defined the probability space $\left(\Omega, \sigalg, P\right)$, and $X$ was a random variable $X : \Omega \mapsto \R$ with a notion of order: $\forall x \in \R \{X \leq x\} = \subsetselect{\omega}{X(\omega) \leq x} \in \sigalg$.
+Previously we defined the probability space $\left(\Omega, \sigalg, P\right)$, where $X$ is a random variable $X : \Omega \mapsto \R$ with a notion of order: $\forall x \in \R \{X \leq x\} = \subsetselect{\omega}{X(\omega) \leq x} \in \sigalg$.
 \begin{definition}{Probability distribution function}
     The \underline{probability distribution function} is defined to be:
     \begin{align*}
@@ -57,6 +57,7 @@ $F$ may not always be differentiable. However, in this course, we will assume th
 \begin{definition}{Probability density function}
     Given that, for a random variable $X$, the probability distribution function $F$ is differentiable everywhere, the \underline{probability density function} $f$ is defined to be the derivative $F'$.
 \end{definition}
+%TODO: Are these properties that can be derived or defining properties?
 \begin{propositions}{
         Consider a random variable $X$, with probability distribution function $F$ and probability density function $f$.
         \label{propsPdensFuncProps}
@@ -65,4 +66,156 @@ $F$ may not always be differentiable. However, in this course, we will assume th
     \item $\int_{-\infty}^\infty f(x) dx = 1$ \label{propPdensFuncIntegralOne}
     \item $F(x) = \int_{-\infty}^x f(y) dy$. \label{propPdensFuncIntegratePDF}
 \end{propositions}
+More generally, for any subset of the real numbers $A$,
+\begin{equation*}
+    P(X \in A) = \int_A f(x) dx
+\end{equation*}
+\section{Simple Continuous Distributions}
+\subsection{Uniform Distribution}
+\begin{definition}{Uniform distribution}
+    Given a real interval $[a, b]$, the \underline{uniform distribution} on that interval is $U([a, b])$. Its probability density function is: 
+    \begin{equation*}
+        f(x) =
+        \begin{cases}
+            \frac{1}{b-a} & x \in [a, b] \\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    The probability $P(X \leq x)$ is:
+    \begin{equation*}
+        P(X \leq x) = \int_{-\infty}^x f(y) dy = \frac{x - a}{b - a}
+    \end{equation*}
+\end{definition}
+\subsection{Exponential Distribution}
+\begin{definition}{Exponential distribution}
+    Let $\lambda > 0$ be a real number. Then the \underline{exponential distribution} is $\text{Exp}(\lambda)$, with probability density function:
+    \begin{equation*}
+        f(x) =
+        \begin{cases}
+            \lambda e^{-\lambda x} & x > 0 \\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+\end{definition}
+\begin{proposition}
+    Let $T \sim Exp(\lambda)$, let $T_n = \lfloor nT \rfloor$.\par
+    Then $T_n$ is a geometric distribution, and
+    \begin{equation*}
+        \frac{T_n}{n} \to T \text{ as } n \to \infty
+    \end{equation*}
+    \label{propExpLimitOfGeom}
+\end{proposition}
+\begin{proof}
+    For any $k \in \N$,
+    \begin{align*}
+        P(T_n \geq k) &= P(\lfloor nT \rfloor \geq k) \\
+        &= P(nt \geq k) \\
+        &= P(T \geq \frac{k}{n}) \\
+        &= e^{-\frac{\lambda k}{n}} \\
+        &= \left(e^{-\frac{\lambda}{n}}\right)^k
+    \end{align*}
+    Note that this is a geometric random variable with success parameter $p_n = 1 - e^{-\frac{\lambda}{n}}$, as required, and this tends to $\frac{\lambda}{n}$ when $n$ is large.\par
+    Therefore $\frac{T_n}{n} \to T$ as $n \to \infty$.
+\end{proof}
+\begin{proposition}[Memoryless property]
+    If $T$ is an exponential random variable with parameter $\lambda$,
+    \begin{equation*}
+        P(T \geq t + s | T \geq s) = P(T \geq t)
+    \end{equation*}
+    \label{propExpMemoryless}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        P(T \geq t + s | T \geq s) &= \frac{P(T \geq t + s, T \geq s)}{P(T \geq s)} \\
+        &= \frac{P(T \geq t + s)}{P(T \geq s)} \\
+        &= \frac{e^{-\lambda(t + s)}}{e^{-\lambda s}} \\
+        &= e^{-\lambda t}
+    \end{align*}
+\end{proof}
+\begin{theorem}[Memoryless property unique to exponentials]
+    Let $T$ be a positive random variable with a density $g$, not identically equal to $0$ or $\infty$. Then $T$ has the memoryless property only if $T$ is an exponential random variable.
+    \label{thmExpMemorylessUnique}
+\end{theorem}
+\begin{proof}
+    $T$ has the memoryless property, so $g(t + s) = g(t) g(s)$.\par
+    If $t > 0$ and $m \in \N$,
+    \begin{equation*}
+        g(mt) = \left(g(t)\right)^m
+    \end{equation*}
+    Then setting $m = 1$ gives $g(m) = g(1)^m$.\par
+    Now set $\lambda = -\log(P(T \geq 1))$, so $P(T \geq 1) = e^{-\lambda}$.\par
+    Therefore, for any $m \in \N$, $g(m) = e^{-\lambda m}$. Let also $n \in \N$:
+    \begin{equation*}
+        g(\frac{m}{n}) = e^{-\lambda \frac{m}{n}}
+    \end{equation*}
+    Therefore we have the property that $g(r) = r^{-\lambda r}$ for any $r \in \Q_+$.\par
+    Let $t$ be a positive real number. Then let $s$ and $r \in \Q_+$ such that $s < t < r$ and $|s - r| \leq \epsilon$. Since $g$ is a decreasing function,
+    \begin{equation*}
+        g(r) \leq g(t) \leq g(s) \implies e^{-\lambda r} \leq g(t) \leq e^{-\lambda s}
+    \end{equation*}
+    Then taking the limit as $\epsilon$ goes to zero gives the required result for positive real values also.
+\end{proof}
+\section{Expectation and Variance}
+\subsection{Expectation}
+\begin{definition}{Continuous expectation}
+    The \underline{expectation} of a non-negative continuous random variable $X$, with a probability density function $f$, is:
+    \begin{equation*}
+        E[X] = \int_0^\infty xf(x) dx
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item We can define the expectation for random variables that take negative values in the same way as in the discrete case, using $X_+$ and $X_-$. This gives:
+        \begin{equation*}
+            E[X] = \int_{-\infty}^\infty xf(x) dx
+        \end{equation*}
+    \item Expectation is still a linear function, i.e.
+        \begin{equation*}
+            E\left[\sum_{i = 1}^n a_i X_i\right] = \sum_{i = 1}^n a_i E[X_i]
+        \end{equation*}
+\end{remarks}
+\begin{lemma}
+    Given $X \geq 0$, the expectation is:
+    \begin{equation*}
+        E[X] = \int_0^\infty P(X \geq x)
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        E[X] &= \int_0^\infty x f(x) dx \\
+        &= \int_0^\infty \left(\int_0^x 1 dy\right)f(x) dx \\
+        &= \int_0^\infty \left(\int_0^y f(x) dx\right) dy \\
+        &= \int_0^\infty P(X \geq y) dy
+    \end{align*}
+\end{proof}
+\subsection{Variance}
+\begin{definition}{Variance}
+    Given a continuous random variable $X$, the \underline{variance} is:
+    \begin{equation*}
+        \Var(X) = E\left[(X - E[X])^2\right] = E\left[X^2\right] - \left(E[X]\right)^2
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    Note that this definition needs no modification from the discrete case.
+\end{remark}
+\begin{example}[Expectation and variance of uniform distribution]
+    Let $X \sim U([a, b])$. Then the expectation is:
+    \begin{align*}
+        E[X] &= \int_{-\infty}^\infty xf(x) dx \\
+        &= \int_a^b \frac{x}{b-a} dx \\
+        &= \frac{b^2-a^2}{2(b-a)} \\
+        &= \frac{a + b}{2}
+    \end{align*}
+    That is, the expectation of a uniform distribution is its midpoint, as we would expect.\par
+    The variance of a uniform distribution is $\frac{1}{12}(b - a)^2$.
+\end{example}
+\begin{example}[Expectation and variance of exponential distribution]
+    Let $X \sim Exp(\lambda)$. Then its expectation is:
+    \begin{align*}
+        E[X] &= \int_0^\infty xf(x) \\
+        &= \int_0^\infty x \lambda e^{-\lambda x} \\
+        &= \frac{1}{\lambda}
+    \end{align*}
+    As we would expect, given the result of proposition~\ref{propExpLimitOfGeom}.\par
+    Note also that its variance is $\frac{1}{\lambda^2}$.
+\end{example}
 \end{document}
