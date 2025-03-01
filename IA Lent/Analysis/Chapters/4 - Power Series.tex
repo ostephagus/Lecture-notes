@@ -179,9 +179,7 @@ Now we can prove the theorem:
     and the final sum converges by the assumption $r < R$ and lemma~\ref{lemPowerSeriesDerivativesConverge}.
     So we have that $|I| \leq |h| A_r$, and $|h| A_r \to 0$ as $h \to 0$, as required.
 \end{proof}
-\section{Familiar Power Series}
-In this section, we will define and prove properties of familiar functions such as $\exp, \sin, \cos$.
-\subsection{The Exponential Function}
+\section{Exponential Functions}
 We saw previously that the sum:
 \begin{equation*}
     \sum_{n = 0}^\infty \frac{z^n}{n!}
@@ -350,7 +348,8 @@ Or, differentiating with respect to the exponent:
             And as $z \to 0^+$, the upper bound goes to $0$, so $z^r \log(z) \to 0$.
     \end{enumerate}
 \end{proof}
-\subsection{Trigonometric Function}
+\section{Trigonometric Functions}
+\subsection{Defining the Trigonometric Functions}
 We define the trigonometric functions in terms of their power series:
 \begin{definition}{Cosine}
     For $z \in \C$, define the \underline{cosine} of $z$ to be:
@@ -369,6 +368,7 @@ Both series have infinite radius of convergence (by the Ratio Test), and we can 
     \frac{d}{dx} \cos(x) &= -\sin(x) \\
     \frac{d}{dx} \sin(x) &= \cos(x) \\
 \end{align*}
+\subsection{Important Identities}
 We also observe that:
 \begin{align*}
     e^{iz} &= \lim_{n \to \infty} \left(\sum_{k = 0}^{2k + 1} \frac{(iz)^k}{k!}\right) \\
@@ -376,4 +376,120 @@ We also observe that:
     &= \lim_{n \to \infty} \left(\sum_{k = 0}^n (-1)^k \frac{z^{2k}}{(2k)!} + i\sum_{k = 0}^n (-1)^k \frac{z^{2k+1}}{(2k+1)!}\right) \\
     &= \cos(z) + i\sin(z)
 \end{align*}
+And therefore:
+\begin{align*}
+    \cos(z) &= \frac{1}{2} \left(e^{iz} + e^{-iz}\right) \\
+    \sin(z) &= \frac{1}{2i} \left(e^{iz} - e^{-iz}\right)
+\end{align*}
+This gives many trigonometric identities. For example, $\cos(z) = \cos(-z)$, $\sin(z) = -\sin(-z)$.\par
+We also have addition formulae. For complex numbers $z$ and $w$:
+\begin{align}
+    \sin(z + w) &= \sin(z) \cos(w) + \cos(z) \sin(w) \label{eqnSinAddition} \\
+    \cos(z + w) &= \cos(z) \cos(w) - \sin(z) \sin(w) \label{eqnCosAddition}
+\end{align}
+Also, setting $w = -z$ in equation~\ref{eqnCosAddition} gives:
+\begin{equation}
+    \cos^2(z) + \sin^2(z) = 1
+    \label{eqnSquareTrig}
+\end{equation}
+Further, if $x$ is a real number then so are its sine and cosine (by considering its power series), and so equation~\ref{eqnSquareTrig} implies that $|\sin(x)|$ and $|\cos(x)|$ are both less than or equal to $1$. Note that this need not be true for complex arguments.
+\subsection{Periodicity of Trigonometric Functions}
+\begin{lemma}
+    There exists a smallest positive integer $\omega$, where $\sqrt{2} < \frac{\omega}{2} \sqrt{3}$ such that:
+    \begin{equation*}
+        \cos\left(\frac{\omega}{2}\right) = 0
+    \end{equation*}
+    \label{lemRootOfCos}
+\end{lemma}
+\begin{proof}
+    Suppose $0 \leq x \leq 2$. Then $\cos(x)$ is:
+    \begin{align*}
+        \sin(x) &= \left(x - \frac{x^3}{3!}\right) + \cdots + \frac{x^{2n-1}}{(2n-1)!}\left(1 - \frac{x^2}{2n(2n+1)}\right) + \cdots \\
+        &>0
+    \end{align*}
+    And also $\frac{d}{dx} \cos(x) = -\sin(x)$, so $\cos(x)$ is strictly decreasing on the interval $[0, 2]$ by corollary~\ref{corDerivativeSign}. Therefore $\cos$ has at most one root in $[0, 2]$. We now consider the interval $\left[\sqrt{2}, \sqrt{3}\right]$.\par
+    This is a subset of $[0, 2]$ so $\cos$ is decreasing. We consider the sign of $\cos$ at either end of the interval.\par
+    \begin{align*}
+        \cos(\sqrt{2}) &= 1 - \frac{(\sqrt{2})^2}{2!} + \frac{(\sqrt{2})^4}{4!} + \cdots \\
+        &= \sum_{n = 0}^\infty \frac{(\sqrt{2})^{4n}}{(4n)!}\left(1 - \frac{2}{(4n + 1)(4n + 2)}\right) \\
+        &>0
+    \end{align*}
+    \begin{align*}
+        \cos(\sqrt{3}) &= 1 - \frac{(\sqrt{3})^2}{2!} + \frac{(\sqrt{3})^4}{4!} - \left(\frac{(\sqrt{3})^6}{6!} - \frac{(\sqrt{3})^8}{8!}\right) \\
+        &- \cdots - \frac{(\sqrt{3})^{4n+2}}{(4n+2)!}\left(1 - \frac{3}{(4n + 3)(4n + 4)}\right)
+    \end{align*}
+    Which are definitely less than zero except the first few terms which must be checked directly:
+    \begin{equation*}
+        1 - \frac{3}{2} + \frac{9}{24} = -\frac{1}{8}
+    \end{equation*}
+    So $\cos{\sqrt{3}} < 0$.
+    Therefore by theorem~\ref{thmIntermediateVal}, there exists at least one root in $[\sqrt{2}, \sqrt{3}]$.\par
+    Therefore there is exactly one root in $[0, 2]$ with the required bounds.
+\end{proof}
+\begin{corollary}
+    \begin{equation*}
+        \sin\left(\frac{\omega}{2}\right)
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    We have that $\cos\left(\frac{\omega}{2}\right) = 0$, so $\sin\frac{omega}{2} = \pm 1$ by equation~\ref{eqnSquareTrig}. In the proof of lemma~\ref{lemRootOfCos}, it was shown that $\sin$ is positive on this interval, so $\sin\frac{\omega}{2} = 1$.
+\end{proof}
+We will now define $\pi$ to be $\omega$
+\begin{theorem}
+    For all $z \in \C$:
+    \begin{align*}
+        \sin\left(z + \frac{\pi}{2}\right) &= \cos(z) \\
+        \sin\left(z + \pi\right) &= -\sin(z) \\
+        \sin\left(z + 2\pi\right) &= \sin(z) \\
+    \end{align*}
+    \label{thmTrigPeriodicity}
+\end{theorem}
+\begin{proof}
+    All proofs by lemma~\ref{lemRootOfCos} and addition formulae.
+\end{proof}
+Note that this immediately gives:
+\begin{align*}
+    e^{iz + 2\pi i} &= \cos(z + 2\pi) + i\sin(z + 2\pi) \\
+    &= \cos(z) + i\sin(z) = e^{-iz}
+\end{align*}
+So $e^z$ also has period $2\pi$. Note also that $e^{i\pi} = -\cos(0) + i(\sin(0)) = -1$.\par
+\begin{remark}
+    Given a pair of vectors $\vec{x}, \vec{y} \in \R^2$, define:
+    \begin{equation*}
+        \vec{x} \cdot \vec{y} = x_1 y_1 + x_2 y_2
+    \end{equation*}
+    Where $x_i$ are the components of the vectors.\par
+    Define also the length of a vector:
+    \begin{equation*} 
+        ||\vec{x}|| = \sqrt{\vec{x} \cdot \vec{x}}
+    \end{equation*}
+    From the Cauchy-Schwarz Inequality:
+    \begin{equation*}
+        |\vec{x} \cdot \vec{x}| \leq ||\vec{x}||~~||\vec{y}||
+    \end{equation*}
+    So for $\vec{x}, \vec{y} \neq 0$,
+    \begin{equation*}
+        \frac{\vec{x} \cdot \vec{y}}{||\vec{x}||~~||\vec{y}||} \leq 1
+    \end{equation*}
+    We then define the angle between $\vec{x}$ and $\vec{y}$ to be the unique $\theta \in [0, \pi]$ such that:
+    \begin{equation*}
+        \cos{\theta} = \frac{\vec{x} \cdot \vec{y}}{||\vec{x}||~~||\vec{y}||}
+    \end{equation*}
+    And in this way we can rigorously define angles.
+\end{remark}
+\subsection{Hyperbolic Functions}
+We can also define:
+\begin{definition}{Hyperbolic Cosine}
+    The function $\cosh$ is defined as:
+    \begin{equation*}
+        \cosh(z) = \frac{1}{2}\left(e^z + e^{-z}\right)
+    \end{equation*}
+\end{definition}
+\begin{definition}{Hyperbolic Sine}
+    The function $\sinh$ is defined as:
+    \begin{equation*}
+        \sinh(z) = \frac{1}{2}\left(e^z - e^{-z}\right)
+    \end{equation*}
+\end{definition}
+We have various identities, which can be derived easily from these definitions where required.
 \end{document}
