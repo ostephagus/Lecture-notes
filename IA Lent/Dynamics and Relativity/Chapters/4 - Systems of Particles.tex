@@ -33,7 +33,7 @@ Then we can use concepts like \underline{total momentum}, $\vec{p} = M\dvec{R}$.
 We can also apply Newton's Second Law:
 \begin{align*}
     \dvec{p} &= \sum_{i = 1}^N \left(\vec{F_i}^{\text{ext}} + \sum_{j \neq i} \vec{F_{ij}}\right) \\
-    &= \sum_{i = 1}^N \left(\vec{F_i}^{\text{ext}} + + \sum_{j > i} \left(\vec{F_{ij}} + \vec{F_{ji}}\right)\right) \\
+    &= \sum_{i = 1}^N \left(\vec{F_i}^{\text{ext}} + \sum_{j > i} \left(\vec{F_{ij}} + \vec{F_{ji}}\right)\right) \\
     &= \sum_{i=1}^N \vec{F_i}^{\text{ext}} \text{ by Newton's 3rd Law} 
 \end{align*}
 And so we define the sum of external forces $\vec{F}^\text{ext}$:
@@ -54,10 +54,10 @@ Then the rate of change of this quantity is:
     &= \sum_{i=1}^N \left(\vec{x_i} - \vec{a}\right) \times \left(\vec{F_i}^\text{ext} + \sum_{i \neq j} \vec{F_{ij}}\right) \nonumber \\
     &= \vec{G} + \sum_{i < j} \left(x_i - x_j\right) \times \vec{F_{ij}} \text{ by Newton's 3rd Law} \label{eqnAngularMomentumChange}
 \end{align}
-Where $\vec{G} = \sum_{i=1}^N \left(\vec{x_i} - \vec{a}\right) \times \vec{x_i}^\text{ext}$ is the total torque. Note also that the final term does not vanish by Newton's 3rd Law alone, suggesting that the particles can impart angular momentum to themselves. This does, however, require that forces between particles have a component perpendicular to the line between them, which is not possible for most forces we will consider.
+Where $\vec{G} = \sum_{i=1}^N \left(\vec{x_i} - \vec{a}\right) \times \vec{F_i}^\text{ext}$ is the total torque. Note also that the final term does not vanish by Newton's 3rd Law alone, suggesting that the particles can impart angular momentum to themselves. This does, however, require that forces between particles have a component perpendicular to the line between them, which is not possible for most forces we will consider.
 \begin{align*}
     \text{Let } \vec{F_{ij}} &= -\nabla V\left(|\vec{x_i} - \vec{x_j}|\right) \\
-    &= -\nabla V'\left(|\vec{x_i} - \vec{x_j}|\right) \frac{\vec{x_i} - \vec{x_j}}{|\vec{x_i} - \vec{x_j}|}
+    &= - V'\left(|\vec{x_i} - \vec{x_j}|\right) \frac{\vec{x_i} - \vec{x_j}}{|\vec{x_i} - \vec{x_j}|}
 \end{align*} 
 And substituting this into equation~\ref{eqnAngularMomentumChange}, the second term vanishes.\par
 Note that this derivation only works for constant $\vec{a}$, so the calculation must be redone for other cases such as $\vec{a} = \vec{R}$. See example sheet 3. It is also possible to show that this term is always zero, but out of the scope of the course.
