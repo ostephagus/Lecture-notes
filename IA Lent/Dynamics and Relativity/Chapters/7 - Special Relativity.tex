@@ -167,5 +167,71 @@ Causality is the physical idea that causes must come before effects. If we have 
     \caption{Spacetime diagram with light cones}
     \label{figLightCones}
 \end{figure}
-Then, in figure~\ref{figLightCones}, $Q$ could be caused by $P$, but $R$ could not be caused by $P$ since it is outside the future light cone. $P$ can be caused by any event inside the past light cone.
+Then, in figure~\ref{figLightCones}, $Q$ could be caused by $P$, but $R$ could not be caused by $P$ since it is outside the future light cone. $P$ can be caused by any event inside the past light cone.\par
+Given a second frame $S'$, the lines of constant $t'$ must make an angle less than $\frac{\pi}{4}$ to the horizontal. Thus, in figure~\ref{figLightCones}, we can find a frame in which $P$ and $R$ are simultaneous, but there can be no frame in which $P$ and $Q$ are simultaneous. The future light cone for $P$ is always to the future of $P$, in any frame.\par
+Because nothing travels faster than light, this is sufficient to ensure causality. That is, all frames agree on what can influence what: events can only influence other events in the future light cone.
+\subsection{Time Dilation}
+Consider a clock at rest in a frame $S'$. This ticks at intervals $T'$. Then we consider each clock tick as an event. Each event $P_i$ happens at coordinates $(c(t'_0 + iT), 0)$. We then use the inverse Lorentz transformation to return to a frame $S$ and consider when the events $P_i$ happen:
+\begin{equation*}
+    t = \gamma(t' + \frac{vx'}{c^2})
+\end{equation*}
+Given that $x' = 0$, $t = \gamma t'$.\par
+Therefore, the period between ticks in frame $S$ is $T = \gamma T'$. Recall that $\gamma \geq 1$, and so $T \geq T'$. That is, moving clocks run slow.
+\begin{example}[Twin Paradox]
+    Consider two twins (with the same age). Suppose that twin $A$ stays on earth, and twin $B$ travels towards Neptune and back at speed close to $c$.\par
+    Then twin $A$ sees twin $B$'s clock tick more slowly and therefore $A$ expects $B$ to be younger when they return.\par
+    However, from the point of view of twin $B$, the Earth is travelling away from them at speed close to $c$ and so clocks on Earth appear to tick slower. Therefore, it would appear that twin $A$ would be younger.\par
+    The paradox is broken because twin $B$ has to turn around to get back.\par
+    From the perspective of twin $A$, a time $2T$ has passed. As we have seen, $2T' = \frac{2T}{\gamma}$ has passed for $B$.\par
+    For $B$, while travelling away $A$'s clock ticks more slowly, and also while coming back: $2T = \frac{2T'}{\gamma}$. However, this accounting misses the jump in velocity (and thus lines of simultaneity) when $B$ turns around. When this time is added back in, the times agree again. This is seen in Example Sheet 4.
+\end{example}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \draw[->] (0, 0) -- (2.1, 0) node[right] {$x$};
+        \draw[->] (0, 0) -- (0, 3.1) node[above] {$ct$};
+
+        \draw (0, 0) -- (0.7, 1.5)
+            node[anchor=north west, pos=0.5] {$B$} -- (0, 3);
+        \draw[dashed] (0.7, 0) -- (0.7, 3) node[above] {Neptune};
+
+        \node[anchor=east] at (0, 0.7) {$A$};
+
+        \draw (0, 1.5) -- (1, 1.5) node[right, align=left] {Line of simultaneity\\for $A$};
+
+        \draw[dashed] (0, 2) -- (1.5, 0.93);
+
+    \end{tikzpicture}
+    \caption{Spacetime diagram for twin paradox}
+    \label{figTwinParadox}
+\end{figure}
+\subsection{Length Contraction}
+Consider a rod that has length $L'$, at rest in a frame $S'$.
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \draw (0, 0) -- (2.1, 0) node[right] {$x'$};
+        \draw (0, 0) -- (0, 2.1) node[above] {$ct'$};
+    \end{tikzpicture}
+    \caption{Spacetime diagram for length contraction}
+    \label{figLengthContraction}
+\end{figure}
+We define length to be the distance between endpoints at equal times.\par
+Then in a frame $S$, the rod has length $L$. Then, as seen in figure~\ref{figLengthContraction}, the events of the two ends of the rod at time $t' = 0$ are not simultaneous in $S$. In fact, we have that:
+\begin{align*}
+    P_1 &= (0, 0) \text{ in both frames} \\
+    P_2 &= (0, L') \text{ in frame } S' \\
+    P_2 &= \left(\gamma \frac{v}{c} L', \gamma L'\right) \text{ in frame } S
+\end{align*}
+Now note that $S'$ is moving at speed $v$ relative to $S$, so $P_3$ has x-coordinate:
+\begin{align*}
+    x &= \gamma L' - vt \\
+    &= \gamma L' - \frac{\gamma v L'}{c^2} \\
+    &= \gamma(1 - \frac{v^2}{c^2}) L' \\
+    &= \frac{L'}{\gamma}
+\end{align*}
+So the new length is $L = \frac{L'}{\gamma}$. This is called Lorentz contraction
+\begin{example}[Ladder and Barn thought experiment]
+    Imagine a ladder has length $2L$ and a barn has length $L$ with open doors on both sides. Suppose that the ladder moves at a speed such that $\gamma = 2$. Lorentz contraction therefore implies that, in the frame of the barn, the ladder has length $L$ and fits in the barn. However, in the frame of the ladder the barn is contracted and the ladder is four times too long.
+\end{example}
 \end{document}
