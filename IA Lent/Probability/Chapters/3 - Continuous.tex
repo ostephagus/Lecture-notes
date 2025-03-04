@@ -218,4 +218,145 @@ More generally, for any subset of the real numbers $A$,
     As we would expect, given the result of proposition~\ref{propExpLimitOfGeom}.\par
     Note also that its variance is $\frac{1}{\lambda^2}$.
 \end{example}
+\section{The Normal Distribution}
+\begin{definition}{Normal distribution}
+    Given real numbers $\mu$ and $\sigma$, with $\sigma > 0$, define the \underline{normal distribution} with parameters $\mu$ and $\sigma$, $N(\mu, \sigma^2)$. Let the probability density function be:
+    \begin{equation*}
+        f(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
+    \end{equation*}
+\end{definition}
+\begin{proposition}
+    $f(x)$, as above defined, is a valid density function.
+\end{proposition}
+\begin{proof}
+    We need to show that $I = \int_{-\infty}^\infty f(x) dx = 1$.
+    First change variables to $u = \frac{x - \mu}{\sigma}$, so $dx = \sigma du$:
+    \begin{align*}
+        \int_{-\infty}^\infty \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}} &= \int_{-\infty}^\infty \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{u^2}{2}} \sigma du \\
+        &= \int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}}e^{-\frac{u^2}{2}} du
+    \end{align*}
+    Then consider $I^2$ and use polar coordinates:
+    \begin{align*}
+        I^2 &= \frac{1}{2\pi} \int_{x = -\infty}^\infty \int_{y = -\infty}^\infty e^{-\frac{x^2}{2}} e^{-\frac{y^2}{2}} dx dy \\
+        &= \frac{1}{2\pi} \int_{x = -\infty}^\infty \int_{y = -\infty}^\infty e^{-\frac{x^2 + y^2}{2}} dx dy \\
+        &= \frac{1}{2\pi} \int_{r = 0}^\infty \int_{\phi = 0}^{2\pi} e^{-\frac{r^2}{2}} r dr d\phi \\
+        &= \frac{1}{2\pi} \int_{r = 0}^\infty \int_{\phi = 0}^{2\pi} e^{-\frac{r^2}{2}} r dr d\phi \\
+        &= \int_{r = 0}^\infty \frac{d}{dx}\left(-e^{-\frac{r^2}{2}}\right) dr \\
+        &= 1
+    \end{align*}
+    Therefore, since $f(x)$ is a positive function, we must have the positive root:
+    \begin{equation*}
+        I = 1
+    \end{equation*}
+\end{proof}
+\begin{propositions}{
+        Let $X \sim N(\mu, \sigma^2)$.
+        \label{propsNormalMeanVar}
+    }
+    \item $E[X] = \mu$ \label{propNormalMean}
+    \item $\Var(X) = \sigma^2$ \label{propNormalVar}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Expectation given by:
+            \begin{align*}
+                E[X] &= \int_{-\infty}^\infty xf(x) dx \\
+                &= \int_{-\infty}^\infty x \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}} dx \\
+                &= \int_{-\infty}^\infty \frac{x - \mu}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}} dx + \int_{-\infty}^\infty \frac{\mu}{\sigma\sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}} dx \\
+                &= 0 + \mu
+            \end{align*}
+        \item Variance given by:
+            \begin{align*}
+                \Var(X) &= E[(X - \mu)^2] \\
+                &= \int_{-\infty}^\infty \frac{(x - \mu)^2}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}} dx
+            \end{align*}
+            Change variables to $u = \frac{x - \mu}{\sigma}$:
+            \begin{align*}
+                \Var(X) &= \int_{-\infty}^\infty \frac{\sigma^2u^2}{\sqrt{2\pi}} e^{-\frac{u}{2}}du \\
+                &= \sigma^2 \int_{-\infty}^\infty \frac{u^2}{\sqrt{2\pi}} e^{-\frac{u}{2}} du
+            \end{align*}
+            Which is equal to $\sigma^2$ (integration by parts).
+    \end{enumerate}
+\end{proof}
+\subsection{Transforming a Distribution}
+\begin{theorem}
+    Let $X$ have density $f$. Let $g$ be a continuous function which is strictly monotone and has inverse $g^{-1}$ which is differentiable.\par
+    Then $g(X)$ has a density given by:
+    \begin{equation*}
+        f(g^{-1}(x)) \left|\frac{d(g^{-1})}{dx}\right|
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    \begin{case}{$g$ is strictly increasing.}
+        \begin{align*}
+            P(g(X) \geq x) &= P(X \leq g^{-1}(x)) \\
+            &= F(g^{-1}(x))
+        \end{align*}
+        Then denote by $f_{g(X)}$ the density function of $g(X)$.
+        \begin{align*}
+            f_{g(X)} &= \frac{d}{dx} P(g(X) \leq x) \\
+            &= f(g^{-1}(x)) \frac{d(g^{-1}(x))}{dx}
+        \end{align*}
+        Note also that since $g$ is increasing, the derivative of its inverse (which is also increasing) is positive.
+    \end{case}
+    \begin{case}{$g$ is strictly decreasing.}
+        Proceed as above, but note:
+        \begin{equation*}
+            P(g(X) \geq x) = -f(g^{-1}(x)) \frac{d(g^{-1}(x))}{dx}
+        \end{equation*}
+        and that its derivative is negative, but since we use absolute value:
+        \begin{equation*}
+            f_{g(X)} = f(g^{-1}(x)) \left|\frac{d(g^{-1})}{dx}\right|
+        \end{equation*}
+    \end{case}
+\end{proof}
+\begin{example}[Transforming the normal distribution]
+    Suppose $X \sim N(\mu, \sigma^2)$. Let $a, b$ be real numbers and $a \neq 0$. Define $g(x) = ax + b$, and $g(X) = Y$. Then we consider the density function of $Y$.\par
+    First note that $g^{-1} = \frac{x - b}{a}$, and that its derivative is $\frac{1}{a}$. Then $f_{Y}$ is:
+    \begin{align*}
+        f_Y(y) &= f_X (g^{-1}(y)) \left|\frac{d(g^{-1}(y))}{dy}\right| \\
+        &= \frac{1}{\sigma\sqrt{2\pi}} \exp{\left(-\frac{\left(\frac{y - b}{a} - \mu\right)^2}{2\sigma^2}\right)} \frac{1}{a}
+        &= \frac{1}{a\sigma\sqrt{2\pi}} \exp{\left(-\frac{y - (a\mu + b)}{2(a\sigma)^2}\right)}
+    \end{align*}
+    Which is a distribution $N(a\mu + b, (a\sigma)^2)$.\par
+    We can therefore find any normal distribution by transforming the standard normal: suppose that $X \sim N(\mu, \sigma^2)$. Then $\frac{X - \mu}{\sigma}$ is a standard normal random variable.
+\end{example}
+\subsection{The Standard Normal}
+\begin{definition}{Standard normal distribution}
+    If $X \sim N(0, 1)$, $X$ has the \underline{standard normal distribution}. Its probability density function is:
+    \begin{equation*}
+        \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}
+    \end{equation*}
+\end{definition}
+\begin{example}[More on the standard normal]
+    Define:
+    \begin{align*}
+        \Phi(x) &= \int_{-\infty}^x \frac{1}{\sqrt{2\pi}} e^{-\frac{u^2}{2}} du = P(N(0, 1) \leq x) \\
+        \phi(x) &= \Phi'(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}
+    \end{align*}
+    Note now that $\phi$ is even: $\phi(x) = \phi(-x)$.
+    %TODO: Continue
+\end{example}
+The ability to transform any normal distribution to a standard normal is very useful, only one table of probabilities is needed (that of the standard normal) to be able to calculate any normal distribution probability.
+\subsection{The Median of a Distribution}
+\begin{definition}{Median}
+    Let $X$ be a continuous random variable. Then the \underline{median} of $X$, $m$, is the number that satisfies:
+    \begin{equation*}
+        P(X \leq m) = P(X \geq m)
+    \end{equation*}
+\end{definition}
+\begin{example}[Median of $X$]
+    We can transform any normal distribution to the standard normal, so consider only the standard normal. As above calculated, $\Phi(0) = \frac{1}{2}$, and so the median is 0. Transforming back to the general normal distribution, this gives that the median is $\mu$.
+\end{example}
+\section{Multivariate Density Functions}
+\begin{definition}{Multivariate density function}
+    Let $X$ be a continuous random variable. Let $(X_i)_{i=1}^n$ be continuous random variables. Then $X$ has \underline{density function} $f$ if:
+    \begin{equation*}
+        P(X_1 \leq x_1, \cdots, X_n \leq x_n) = \int_{-\infty}^{x_1} \cdots \int_{-\infty}^{x_n} f(y_1, \cdots, y_n) dy_1 \cdots dy_n
+    \end{equation*}
+\end{definition}
+Note that we can further generalise this: for a set $B \subseteq R^n$,
+\begin{equation*}
+    P((X_1, \cdots, X_n) \in B) = \int_B f(y_1, \cdots, y_n) dy_1 \cdots dy_n
+\end{equation*}
 \end{document}

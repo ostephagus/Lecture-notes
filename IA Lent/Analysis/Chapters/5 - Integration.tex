@@ -2,5 +2,130 @@
 
 \begin{document}
 \section{Defining Integration}
-We are often introduced to integration as an inverse operation to differentiation. This is fine, if we know (or can guess) an antiderivative. However, this does not serve well as a definition when we can't. The idea is that the integral should be the area under a graph. We will consider the definite integral from $a$ to $b$ to be the signed area under the graph of $f(x)$. The problem with this, however, is to define such an area in terms of known concepts.
+We are often introduced to integration as an inverse operation to differentiation. This is fine, if we know (or can guess) an antiderivative. However, this does not serve well as a definition when we can't. The idea is that the integral should be the area under a graph. We will consider the definite integral from $a$ to $b$ to be the signed area under the graph of $f(x)$. The problem with this, however, is to define such an area in terms of known concepts.\par
+We first assume that $f$ is a bounded, real-valued function over the closed interval $[a, b]$. That is,
+$f : [a, b] \mapsto \R$ and there exists some bound $K$ such that $|f(x)| \leq K$ for all $x$ in $[a, b]$.
+\begin{definition}{Dissection}
+    A \underline{Dissection}, $\dissec$, of $[a, b]$ is a finite subset of $[a, b]$ containing the endpoints $a, b$. We write $\dissec = \{x_0, x_1, \cdots, x_n\}$ with $a = x_0 < x_1 < \cdots < x_n < b$.
+\end{definition}
+Associated to such a dissection are the upper and lower sums given by:
+\begin{equation}
+    U(f, \dissec) = \sum_{j = 1}^n (x_j - x_{j - 1}) \sup_{x \in [x_{j-1}, x_j]} f(x)
+    \label{eqnUpperSum}
+\end{equation}
+\begin{equation}
+    L(f, \dissec) = \sum_{j = 1}^n (x_j - x_{j - 1}) \inf_{x \in [x_{j-1}, x_j]} f(x)
+    \label{eqnLowerSum}
+\end{equation}
+Note that the suprema and infinima are defined here, since $f$ is bounded.\par
+Clearly we have that $L(f, \dissec) \leq U(f, \dissec)$.
+\begin{lemma}
+    Suppose that $\dissec$ and $\dissec'$ are dissections. Suppose that $\dissec \subseteq \dissec'$. Then:
+    \begin{equation*}
+        L(f, \dissec) \leq L(f, \dissec') \leq U(f, \dissec') \leq U(f, \dissec)
+    \end{equation*}
+    \label{lemRefinement}
+\end{lemma}
+\begin{remark}
+    In this case, where $\dissec \leq \dissec'$, we say that $\dissec'$ is a \underline{refinement} of $\dissec$.
+\end{remark}
+\begin{proof}
+    Let $\dissec = \{x_0, \cdots, x_n\}$. First consider $\dissec' = \dissec \cup \{y\}$, where $y \notin\dissec$.\par
+    Then $y \in (x_{r - 1}, x_r)$ for some $r \in \{1, \cdots, n\}$.\par
+    We must have that:
+    \begin{equation*}
+        \sup_{x \in [x_{r - 1}, y]} f(x), \sum_{x \in [y, x_r]} f(x) \leq \sup_{x \in [x_{r - 1}, x_r]} f(x)
+    \end{equation*}
+    Therefore:
+    \begin{align*}
+        &(y - x_{r - 1}) \sup_{x \in [x_{r - 1}, y]}f(x) + (x_r - y) \sup_{x \in [y, x_r]} f(x) \\
+        &\leq (y - x_{r - 1}) \sup_{x \in [x_{r - 1}, x_r]}f(x) + (x_r - y) \sup_{x \in [x_{r - 1}, x_r]} f(x) \\
+        &\leq (x_r - x_{r - 1}) \sup_{x \in [x_{r - 1}, x_r]}f(x) \\
+    \end{align*}
+    That is, $U(f, \dissec') \leq U(f, \dissec)$.\par
+    Similarly, we know that:
+    \begin{equation*}
+        \inf_{x \in [x_{r - 1}, y]} f(x), \inf_{x \in [y, x_r]} f(x) \geq \inf_{x \in [x_{r - 1}, x_r]} f(x)
+    \end{equation*}
+    and we can use the above idea to show that:
+    \begin{equation*}
+        L(f, \dissec) \leq L(f, \dissec')
+    \end{equation*}
+    Further, if there exists more than one point in $\dissec' \backslash \dissec$, we can use the result iteratively and add each point one-by-one.
+\end{proof}
+\begin{lemma}
+    Suppose that $\dissec_1$ and $\dissec_2$ are two dissections. Then:
+    \begin{equation*}
+        L(f, \dissec_1) \leq U(f, \dissec_2)
+    \end{equation*}
+    \label{lemUpperSumAlwaysGreater}
+\end{lemma}
+\begin{proof}
+    Consider $\dissec = \dissec_1 \cup \dissec_2$. Then this is a refinement of both $\dissec_1$ and $\dissec_2$. Then, using lemma~\ref{lemRefinement}:
+    \begin{equation*}
+        L(f, \dissec_1) \leq L(f, \dissec) \leq U(f, \dissec) \leq U(f, \dissec_2)
+    \end{equation*}
+\end{proof}
+We have also the trivial dissection, $\dissec_0 = \{a, b\}$.
+\begin{align*}
+    L(f, \dissec_0) &= (b - a) \inf_{x \in [a, b]} f(x) \geq -(b - a)K \\
+    U(f, \dissec_0) &= (b - a) \sup_{x \in [a, b]} f(x) \leq (b - a)K
+\end{align*}
+So we have that:
+\begin{align*}
+    \subsetselect{U(f, \dissec)}{\dissec \text{ is a dissection}} \text{ is bounded above.}\\
+    \subsetselect{L(f, \dissec)}{\dissec \text{ is a dissection}} \text{ is bounded below.}
+\end{align*}
+Note also that, by considering the trivial dissection, neither set is empty. We can therefore take a supremum and infinimum:
+\begin{definition}{Upper integral}
+    The \underline{upper integral} of $f$ is:
+    \begin{equation*}
+        I^*(f) = \inf_{\dissec\text{ in set of dissections}} U(f, \dissec)
+    \end{equation*}
+\end{definition}
+\begin{definition}{Lower integral}
+    The \underline{lower integral} of $f$ is:
+    \begin{equation*}
+        I_*(f) = \sup_{\dissec\text{ in set of dissections}} L(f, \dissec)
+    \end{equation*}
+\end{definition}
+Note that these are well-defined for any bounded function. We can also bound these in the following way by lemma~\ref{lemUpperSumAlwaysGreater}:
+\begin{equation*}
+    (b - a)\inf_{x \in [a, b]}f(x) \leq I_*(f) \leq I^*(f) \leq (b - a) \sup_{x \in [a, b]}f(x)
+\end{equation*}
+\begin{definition}{Integrable function}
+    A bounded function $f : [a, b] \mapsto \R$ is \underline{Riemann integrable}, or just\\\underline{integrable}, if the lower integral of $f$ is equal to the upper integral of $f$. In this case, we define the integral to be this common limit:
+    \begin{equation*}
+        \int_a^b f(x) dx = I_*(f) = I^*(f)
+    \end{equation*}
+\end{definition}
+\section{Examples of Integrable Functions}
+\begin{example}
+    For ease, define $\dissec_k = \{0, \frac{1}{k}, \frac{2}{k}, \cdots, 1\}$, the uniform dissection.
+    $f : [0, 1] \mapsto \R, f(x) = x$.
+    Then consider $U(f, \dissec_k)$:
+    \begin{align*}
+        U(f, \dissec_k) &= \sum_{j = 1}^k \left(\frac{j}{j} - \frac{j - 1}{k}\right) \sup_{x \in [\frac{j - 1}{k}, \frac{j}{k}]} f(x) \\
+        &= \sum_{j = 1}^k \frac{1}{k} \frac{j}{k} \\
+        &= \frac{1}{k^2} \frac{1}{2} k(k + 1) \\
+        &= \frac{1}{2} + \frac{1}{2k}
+    \end{align*}
+    Similarly, the lower sum is:
+    \begin{equation*}
+        L(f, \dissec_k) = \frac{1}{2} - \frac{1}{2k}
+    \end{equation*}
+    We deduce that the upper integral is bounded above by the infinimum over $k$ of the upper sums. This is $\frac{1}{2}$. Further, the lower integral is bounded below by the supremum over $k$ of the lower sum. This is $\frac{1}{2}$. Now, by the inequalities already established, the upper and lower integrals must both be $\frac{1}{2}$.
+\end{example}
+\begin{example}
+    Consider now the function:
+    \begin{align*}
+        f : [0, 1] &\mapsto \R \\
+        x &\mapsto
+        \begin{cases}
+            1 & x \in \Q \\
+            0 & x \notin \Q 
+        \end{cases}
+    \end{align*}
+    $f$ is not integrable. For any $\dissec$, every upper sum gives $1$ (there is always a rational number between any two real numbers), and every lower sum gives $0$ (there is always an irrational number between two real numbers). Therefore, $I^* = 1$ and $I_* = 0$.
+\end{example}
 \end{document}
