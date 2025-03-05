@@ -359,4 +359,138 @@ Note that we can further generalise this: for a set $B \subseteq R^n$,
 \begin{equation*}
     P((X_1, \cdots, X_n) \in B) = \int_B f(y_1, \cdots, y_n) dy_1 \cdots dy_n
 \end{equation*}
+\subsection{Independence of Random Variables}
+\begin{definition}{Independence}
+    If $X_1, \cdots, X_n$ are random variables, we say that they are \underline{independent} if for any $x_1, \cdots, x_n$:
+    \begin{equation*}
+        P(X_1 \leq x_1, \cdots, X_n \leq x_n) = \prod_{i=1}^{n} P(X_i \leq x_i)
+    \end{equation*}
+\end{definition}
+\begin{theorem}
+    Let $X = (X_1, \cdots, X_n)$ have density $f$.\par
+    Suppose that $X_i$ are independent with densities $f_i$, $i = 1, \cdots, n$. Then:
+    \begin{equation}
+        f(x_1, \cdots, x_n) = \prod_i f_i(x_i)
+        \label{eqnDensityFuncProduct}
+    \end{equation}
+    Conversely, suppose that $f$ factorises as in equation~\ref{eqnDensityFuncProduct} for some non-negative functions $f_i$. Then $X_i$ are independent and have densities proportional to the $f_i$.
+    \label{thmDensityFactorising}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose that $X_i$ are independent with densities $f_i$}
+        \begin{align*}
+            P(X_1 \leq x_1, &\cdots, X_n \leq x_n) = \prod_{i = 1}^n P(X_i \leq x_i) \\
+            &= \prod_{i = 1}^n \int_{-\infty}^{x_i} f_i(y_i) dy_i \\
+            &= \int_{-\infty}^{x_1} \int_{-\infty}^{x_2} \cdots \int_{-\infty}^{x_n} f_1(y_1) \cdots f_1(y_n) dy_1 dy_2 \cdots dy_n
+        \end{align*}
+        Which, by differentiation $n$ times with respect to $y_i$ for each $i$, gives the result.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that $f$ factorises as above.}
+        Fix $i$ and defined $B_j = \R \forall j \neq i$. Let $B_i \subseteq \R$.
+        \begin{align*}
+            P(X_i \in B_i) &= P(X_i \in B_i, X_j \in B_j~\forall j \neq i) \\
+            &= \int_{B_i} \int_{B_1} \cdots_{\text{excl. } i} \int_{B_n} f_1(x_1) \cdots f_n(x_n) dx_1 \cdots dx_n \\
+            &= \int_{B_i} f_i(x_i) dx_i \prod_{j \neq i} \int_{-\infty}^\infty f_j(x_j) dx_j
+        \end{align*}
+        However, we know that $f$ is a density. Therefore,
+        \begin{equation*}
+            \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty f_1(x_1) \cdots f_n(x_n) dx_1 \cdots dx_n = 1
+        \end{equation*}
+        Therefore, we have that:
+        \begin{equation*}
+            \implies \int_{-\infty}^\infty f_i(x_i) dx_i \left(\prod_{j \neq i} \int_{-\infty}^\infty f_j(x_j) dx_j\right) = 1
+        \end{equation*}
+        So we can get the required probability:
+        \begin{equation*}
+            P(X_i \in B_i) = \frac{\int_{B_i} f_i(x_i) dx_i}{\int_{-\infty}^\infty f_i(x_i) dx_i}
+        \end{equation*}
+        And therefore the density of $X_i$ is:
+        \begin{equation*}
+            \frac{f_i}{\int_{-\infty}^\infty f_i(x) dx}
+        \end{equation*}
+        Then consider the probability with this new density:
+        \begin{align*}
+            P(X_1 \leq x_1)&\cdots P(X_n \leq x_n) = \prod_{i=1}^{n} \frac{\int_{-\infty}^{x_i} f_i(y_i) dy_i}{\int_{-\infty}^\infty f_i(x_i) dx_i} \\
+            &= \frac{\int_{y_1 = -\infty}^{x_1} \cdots \int_{y_n = -\infty}^{x_n} f_1(y_1) \cdots f_n(y_n) dy_1 \cdots dy_n}{\int_{y_1 = -\infty}^{\infty} \cdots \int_{y_n = -\infty}^{\infty} f_1(y_1) \cdots f_n(y_n) dy_1 \cdots dy_n} \\
+            &= \frac{\int_{y_1 = -\infty}^{x_1} \cdots \int_{y_n = -\infty}^{x_n} f(y_1, \cdots, y_n) dy_1 \cdots dy_n}{\int_{y_1 = -\infty}^{\infty} \cdots \int_{y_n = -\infty}^{\infty} f(y_1, \cdots y_n) dy_1 \cdots dy_n} \\
+            &=\frac{P(X_1 \leq x_1, \cdots, X_n \leq x_n)}{1}
+        \end{align*}
+    \end{proofdirection}
+\end{proof}
+Therefore, suppose that $X = (X_1, \cdots, X_n)$ has density $f$.
+\begin{align*}
+    P(X_1 &\leq x) = P(X_1 \leq x, X_2 \leq \infty, \cdots, X_n \leq \infty) \\
+    &= \int_{x_1 = -\infty}^x \int_{x_2 = -\infty}^\infty \cdots \int_{x_n = -\infty}^\infty f(x_1, x_2, \cdots, x_n) dx_1 \cdots dx_n \\
+    &= \int_{x_1 = -\infty}^x \left(\int_{x_2 = -\infty}^\infty \cdots \int_{x_n = -\infty}^\infty f(x_1, \cdots, x_n) dx_2 \cdots dx_n\right)dx_1 \\
+\end{align*}
+Therefore the density of $X_1$ is:
+\begin{equation*}
+    f_{X_1}(x) = \int_{x_2 = -\infty}^\infty \cdots \int_{x_n = -\infty}^\infty f(x, x_2, \cdots, x_n) dx_2 \cdots dx_n
+\end{equation*}
+by differentiating. This is the \underline{marginal density} of $X_1$.
+\subsection{Summing Random Variables}
+Consider random variables $X$ and $Y$ with densities $f_X$ and $f_Y$, which are independent. We want to consider $f_{X + Y}$.\par
+In the discrete case, we had the convolution:
+\begin{equation*}
+    P(X + Y = z) = \sum_x P(X = x)P(Y = z - x)
+\end{equation*}
+Therefore in the continuous case, we can do a similar thing:
+\begin{proposition}[Convolutions in the continuous case]
+    For random variables $X$ and $Y$ as above defined,
+    \begin{equation*}
+        f_{X + Y}(z) = \int_{-\infty}^\infty f_X(x) f_Y(z - x) dx
+    \end{equation*}
+    \label{propSumContRVs}
+\end{proposition}
+\begin{proof}
+    Let the joint density of $X$ and $Y$ be $f_{X, Y}$.
+    \begin{align*}
+        P(X + Y \leq z) &= \int_{\{x + y \leq z\}} f_{X, Y} (x, y) dx dy \\
+        &= \int_{\{x + y \leq z\}} f_X(x) f_Y(y) dx dy \\
+        &= \int_{x = -\infty}^\infty \int_{y = -\infty}^{z - x} f_X(x) F_Y(y) dx dy \\
+        &= \int_{-\infty}^\infty f_X(x) dx \int_{-\infty}^{z - x} f_Y(y) dy \\
+        &= \int_{-\infty}^\infty f_X(x) dx \int_{-\infty}^z f_Y(y - x) dy \\
+        &= \int_{-\infty}^z \left(\int_{-\infty}^\infty f_X(x) f_Y(y-x)dx\right)dy
+    \end{align*}
+    And therefore we have the required result.
+\end{proof}
+This is important enough that we use a special notation:
+\begin{definition}{Convolution}
+    Given two independent densities $f$ and $g$, the \underline{convolution} is defined to be:
+    \begin{equation}
+        f \star g(x) = \int_{-\infty}^\infty f(x - y) g(y) dy
+        \label{eqnContConvolution}
+    \end{equation}
+\end{definition}
+\subsection{Conditional Density and Expectation}
+\begin{definition}{Conditional density}
+    Let $X$ and $Y$ be random variables with joint density $f_{X, Y}$ and marginal densities $f_X$ and $f_Y$. Then the \underline{conditional density} of $X$ given $Y = y$ is:
+    \begin{equation*}
+        F_{X | Y}(x | y) = \frac{f_{X, Y}(x, y)}{F_Y(y)}
+    \end{equation*}
+\end{definition}
+This is as would be expected given the continuous case.\par
+We have also the Law of Total Probability:
+\begin{equation*}
+    f_X(x) = \int_{-\infty}^\infty f_{X | Y}(x | y) f_Y(y) dy
+\end{equation*}
+\begin{definition}{Conditional expectation}
+    Given $X$ and $Y$ random variables, with densities as above defined, the \underline{conditional expectation} of $X$ given $Y = y$ is:
+    \begin{equation*}
+        g(y) = \int_{-\infty}^\infty xf_{X | Y} (x | y) dx
+    \end{equation*}
+    Then applying this function to the random variable $Y$ gives:
+    \begin{equation*}
+        E[X | Y] = g(Y)
+    \end{equation*}
+    Which, as in the discrete case, is a random variable depending on $Y$.
+\end{definition}
+\begin{theorem}
+    Let $X$ be a random variable with values in $D \subseteq \R^d$ with density $f$. Let $g$ be a bijection from $D$ to $g(D)$ with a continuous derivative on $D$ and $\det{(g'(x) \neq 0)}~\forall x \in D$.\par
+    Then the random variable $Y = g(X)$ has density given by:
+    \begin{equation*}
+        f_Y(y) = f_X(x) |J|
+    \end{equation*}
+    where $x = g^{-1}(y)$ and $J$ is the Jacobian of the transform $g$.
+\end{theorem}
 \end{document}
