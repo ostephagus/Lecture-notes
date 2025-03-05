@@ -4,12 +4,12 @@
 \section{Setting up a Generic System}
 The universe consists of many particles. For this chapter, we consider a system of $N$ particles, labelled $i = 1, \cdots, N$. Each particle has a momentum:
 \begin{equation}
-    p_i = m_i \dvec{x_i}
+    \vec{p_i} = m_i \dvec{x_i}
     \label{eqnManyMomentum}
 \end{equation}
 and obey Newton's law:
 \begin{equation}
-    \dot{p}_i = \vec{F_i}
+    \dvec{p_i} = \vec{F_i}
     \label{eqnManyNewtonII}
 \end{equation}
 The force $\vec{F_i}$ on the $i$th particle can be \underline{external}, or due to the other particles. We write this:
@@ -68,10 +68,10 @@ Let:
     \label{eqnRelativePositions}
 \end{equation}
 Here $\vec{y_i}$ is the position vector of particle $i$ relative to the centre of mass.\par
-Note also that $\vec{M}\vec{R} = \sum_{i=1}^N m_i \vec{x_i}$, so $\sum_{i=1}^N m_i \vec{y_i} = 0$. Its derivative must also be zero.\par
+Note also that $M\vec{R} = \sum_{i=1}^N m_i \vec{x_i}$, so $\sum_{i=1}^N m_i \vec{y_i} = 0$. Its derivative must also be zero.\par
 Then the kinetic energy is:
 \begin{align*}
-    T &= \sum_{i=1}^N \frac{1}{2} m_i \vec{x_i} \cdot \vec{x_i} \\
+    T &= \sum_{i=1}^N \frac{1}{2} m_i \dvec{x_i} \cdot \dvec{x_i} \\
     &= \sum_{i=1}^N \frac{1}{2} m_i \left(\dvec{R}^2 + \dvec{y_i}^2 + 2\dvec{R} \cdot \dvec{y_i}\right)
 \end{align*}
 And thus:
@@ -83,7 +83,7 @@ This first term is the kinetic energy of the centre of mass, and the second term
 For a conserved energy, therefore, all forces must be conservative:
 \begin{align*}
     \vec{F_i}^\text{ext} &= -\nabla_i V_i(\vec{x_i}) \\
-    \vec{F_{ij}} &= -\nabla_i V_{ij}(|\vec{x_i} - \vec{x_j})
+    \vec{F_{ij}} &= -\nabla_i V_{ij}(|\vec{x_i} - \vec{x_j}|)
 \end{align*}
 There are a few things to note here: $\nabla_i$ means differentiation with respect to $\vec{x_i}$, $V$ is symmetric and $\vec{F}$ is antisymmetric. Then consider the energy:
 \begin{align*}
