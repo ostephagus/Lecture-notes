@@ -61,7 +61,7 @@ Clearly we have that $L(f, \dissec) \leq U(f, \dissec)$.
     \label{lemUpperSumAlwaysGreater}
 \end{lemma}
 \begin{proof}
-    Consider $\dissec = \dissec_1 \cup \dissec_2$. Then this is a refinement of both $\dissec_1$ and $\dissec_2$. Then, using lemma~\ref{lemRefinement}:
+    Consider $\dissec = \dissec_1 \cup \dissec_2$. Then this is a refinement of both $\dissec_1$ and $\dissec_2$. Using lemma~\ref{lemRefinement}:
     \begin{equation*}
         L(f, \dissec_1) \leq L(f, \dissec) \leq U(f, \dissec) \leq U(f, \dissec_2)
     \end{equation*}
@@ -127,5 +127,132 @@ Note that these are well-defined for any bounded function. We can also bound the
         \end{cases}
     \end{align*}
     $f$ is not integrable. For any $\dissec$, every upper sum gives $1$ (there is always a rational number between any two real numbers), and every lower sum gives $0$ (there is always an irrational number between two real numbers). Therefore, $I^* = 1$ and $I_* = 0$.
+\end{example}
+\section{Integrability of General Functions}
+\begin{theorem}[Riemann's Integrability Criterion]
+    A bounded function $f : [a, b] \mapsto \R$ is integrable if and only if for all $\epsilon > 0$, there exists a dissection $\dissec$ such that:
+    \begin{equation*}
+        U(f, \dissec) - L(f, \dissec) < \epsilon
+    \end{equation*}
+    \label{thmRiemannCriterion}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Assume that there exist $U(f, \dissec) - L(f, \dissec) < \epsilon$}
+        For any dissection $\dissec$, we have that:
+        \begin{equation*}
+            0 \leq I^*(f) - I_*(f) \leq U(f, \dissec) - L(f, \dissec)
+        \end{equation*}
+        Now we have the following bound:
+        \begin{equation*}
+            0 \leq I^*(f) - I_*(f) < \epsilon
+        \end{equation*}
+        And since $\epsilon$ is arbitrary, we must have that $I^*(f) = I_*(f)$, and $f$ is integrable.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume that $f$ is integrable.}
+        Then for any $\epsilon$, there exist $\dissec_1, \dissec_2$ such that:
+        \begin{align*}
+            U(f, \dissec_1) &\leq I^*(f) + \frac{\epsilon}{2} \\
+            L(f, \dissec_2) &\geq I_*(f) - \frac{\epsilon}{2}
+        \end{align*}
+        Therefore consider $\dissec = \dissec_1 \cup \dissec_2$. Therefore, by lemma~\ref{lemRefinement}
+        \begin{align*}
+            U(f, \dissec) &\leq U(f, \dissec_1) \\
+            L(f, \dissec) &\geq L(f, \dissec_2)
+        \end{align*}
+        Which implies:
+        \begin{align*}
+            0 \leq U(f, \dissec) - L(f, \dissec) &\leq U(f, \dissec_1) - L(f, \dissec_2) \\
+            &\leq I^*(f) - I_*(f) + \epsilon \\
+            &= \epsilon
+        \end{align*}
+    \end{proofdirection}
+\end{proof}
+We can use this criterion to show that all monotone and all continuous functions are integrable.
+
+\begin{remark}
+    If $f : [a, b] \mapsto \R$ is monotone then it is bounded by its values at the endpoints. If $f$ is continuous, we can use theorem~\ref{thmExtremeValue} to show that it also is bounded.
+\end{remark}
+\begin{theorem}
+    Suppose $f : [a, b] \mapsto \R$ is monotone. Then $f$ is integrable.
+\end{theorem}
+\begin{proof}
+    If $f$ is decreasing, re-label $-f$ to be $f$. Therefore assume WLOG that $f$ is increasing.
+    
+    For any given dissection $\dissec$,
+    \begin{align*}
+        \sup_{x \in [x_{j-1}, x_j]} f(x) &= f(x_j) \\
+        \inf_{x \in [x_{j-1}, x_j]} f(x) &= f(x_{j-1}) 
+    \end{align*}
+    Therefore:
+    \begin{align*}
+        U(f, \dissec) - L(f, \dissec) &= \sum_{j = 1}^n (x_j - x_{j - 1}) \sup_{x \in [x_{j-1}, x_j]} f(x) \\
+        &- \sum_{j = 1}^n (x_j - x_{j - 1}) \inf_{x \in [x_{j-1}, x_j]} f(x) \\
+        &= \sum_{j = 1}^n (x_j - x_{j - 1}) \left[f(x_j) - f(x_{j - 1})\right]
+    \end{align*}
+    Then choose the uniform dissection $\dissec_n$ into $n$ equal-length intervals. This gives:
+    \begin{align*}
+        U(f, &\dissec_n) - L(f, \dissec_n) \\
+        &= \sum_{j = 1}^n \left(\frac{b - a}{n}\right) \left[f\left(a + \frac{j(b - a)}{n}\right) - f\left(a + \frac{(j - 1)(b - a)}{n}\right)\right] \\
+        &= \frac{b - a}{n} \left[f(b) - f(a)\right] \text{ by telescoping series}
+    \end{align*}
+    Therefore, taking $n$ sufficiently large we have that this difference can be smaller than any given $\epsilon$. Therefore, by theorem~\ref{thmRiemannCriterion}, $f$ is integrable.
+\end{proof}
+\begin{theorem}
+    Suppose $f : [a, b] \mapsto \R$ is continuous. Then $f$ is integrable.
+\end{theorem}
+\begin{proof}
+    We prove the contrapositive. That is, if $f$ is not integrable then it must be discontinuous.
+
+    Suppose $f$ is not integrable. Therefore, by theorem~\ref{thmRiemannCriterion}, there must exist some $\epsilon_0 > 0$ such that for any dissection $\dissec$, we have that:
+    \begin{equation*}
+        U(f, \dissec) - L(f, \dissec) > \epsilon_0
+    \end{equation*}
+    We also know that
+    \begin{equation*}
+        U(f, \dissec) - L(f, \dissec) = \sum_{j = 1}^n (x_j - x_{j - 1})\left[\sup_{x \in [x_{j-1}, x_j]} f(x) - \inf_{x \in [x_{j-1}, x_j]} f(x)\right]
+    \end{equation*}
+    It therefore follows that for any dissection there exists a $j$ with:
+    \begin{equation*}
+        \sup_{x \in [x_{j-1}, x_j]} f(x) - \inf_{x \in [x_{j-1}, x_j]} f(x) > \frac{\epsilon_0}{b - a}
+    \end{equation*}
+    since otherwise the sum cannot be greater than $\epsilon_0$.
+
+    Now let $\dissec_n$ be the uniform dissection of $n$ equal-length intervals. And therefore we have a sub-interval with:
+    \begin{equation*}
+        \sup_{x \in [a + (j-1)(b-a)/n, a + j(b-1)/n]} f(x) - \inf_{x \in [a + (j-1)(b-a)/n, a + j(b-1)/n]} < \frac{\epsilon_0}{b - a}
+    \end{equation*}
+    And we deduce that there exist $y_n, z_n$ in the same interval (which gives $|y_n - z_n| \leq \frac{b - a}{n}$) such that:
+    \begin{equation}
+        f(y_n) - f(z_n) > \frac{\epsilon_0}{b - a}
+        \label{eqnFOfSequenceFarApart}
+    \end{equation}
+    Note also that $(y_n)$ is a bounded sequence and by theorem~\ref{thmBolzanoWeierstrass}, we can extract a convergent subsequence $y_{n_k} \to \eta$ for $\eta \in [a, b]$.
+
+    However, we also know that $|y_{n_k} - z_{n_k}| \leq \frac{b-a}{n_k} \to 0$ as $k \to \infty$, so we must also have that $z_{n_k} \to \eta$. However, the bound in equation~\ref{eqnFOfSequenceFarApart} implies that $f(y_n)$ and $f(z_n)$ do not tend to the same limit. Thus, by theorem~\ref{thmContinuitySequenceDef}, $f$ must be discontinuous at $\eta$.
+\end{proof}
+\begin{remark}
+    With monotone and continuous functions, we have that a large class of functions are integrable. However, there do exist functions outside these classes that are integrable.
+\end{remark}
+\begin{example}[Thamae's Function]
+    Define:
+    \begin{align*}
+        f : [0, 1] &\mapsto \R \\
+        x &\mapsto
+        \begin{cases}
+            \frac{1}{q} & x = \frac{p}{q} \text{ where } p, q \text{ coprime} \\
+            0 & x \notin \Q
+        \end{cases}
+    \end{align*}
+    Then we show that $f$ is integrable. Clearly for any $\dissec, L(f, \dissec) = 0$, so it is sufficient to show that we can find a $\dissec$ with $U(f, \dissec) < \epsilon$.
+
+    Given $\epsilon > 0$, choose $N \in \N$ such that $\frac{1}{N} < \frac{\epsilon}{2}$. Consider:
+    \begin{equation*}
+        P = \subsetselect{x \in [0, 1]}{f(x) \geq \frac{1}{N}} \subseteq \subsetselect{\frac{p, q}}{1 \leq p, q \leq N}
+    \end{equation*}
+    Then this is a finite set. Define $P = \{p_1, p_2, \cdots, p_m\}$ and order the $p_i$ to be increasing with $i$. Then choose a dissection $\dissec$ that satisfies the following properties:
+    \begin{enumerate}
+        \item Each $p_k$ is in some interval $(x_{j - 1}, x_j)$.
+        \item For each $k$, the unique sub-interval containing $p_k$ has length at most $\frac{\epsilon}{2m}$.
+    \end{enumerate}
 \end{example}
 \end{document}
