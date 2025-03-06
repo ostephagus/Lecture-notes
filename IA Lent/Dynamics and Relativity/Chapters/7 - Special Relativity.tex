@@ -234,4 +234,71 @@ So the new length is $L = \frac{L'}{\gamma}$. This is called Lorentz contraction
 \begin{example}[Ladder and Barn thought experiment]
     Imagine a ladder has length $2L$ and a barn has length $L$ with open doors on both sides. Suppose that the ladder moves at a speed such that $\gamma = 2$. Lorentz contraction therefore implies that, in the frame of the barn, the ladder has length $L$ and fits in the barn. However, in the frame of the ladder the barn is contracted and the ladder is four times too long.
 \end{example}
+\section{Mathematical Description of Relativity} %TODO: Reconsider this title.
+\subsection{The Invariant Interval}
+\begin{definition}{Invariant interval}
+    Consider two events $P_1$ and $P_2$ with coordinates $(ct_1, x_1)$ and $(ct_2, x_2)$ in frame $S$. Define:
+    \begin{align*}
+        \Delta t &= t_2 - t_1 \\
+        \Delta x &= x_2 - x_1
+    \end{align*}
+    Then the \underline{invariant interval} is:
+    \begin{equation}
+        (\Delta s)^2 = c^2(\Delta t)^2 - (\Delta x)^2
+        \label{eqnInvariantInterval}
+    \end{equation}
+\end{definition}
+We show that this is invariant. Consider the same points in the frame $S'$:
+\begin{align*}
+    (\Delta s')^2 &= c^2(\Delta t')^2 - (\Delta x')^2 \\
+    &= \gamma^2\left(c\Delta t - \frac{v}{c} \Delta x\right)^2 - \gamma^2 \left(\Delta x - v \Delta t\right)^2 \\
+    &= \gamma^2\left(c^2 - v^2\right)\left(\Delta t\right)^2 - \gamma^2 \left(1 - \frac{v^2}{c^2}\right)^2 \left(\Delta x\right)^2 \\
+    &= c^2 (\Delta t)^2 - (\Delta x)^2 \\
+    &= (\Delta s)^2
+\end{align*}
+So the invariant interval is indeed invariant. Note that we can also write:
+\begin{equation}
+    (\Delta s)^2 = \begin{pmatrix}c\Delta t & \Delta x\end{pmatrix} \begin{pmatrix}1 & 0 \\ 0 & -1\end{pmatrix} \begin{pmatrix} c\Delta t \\ \Delta x\end{pmatrix}
+    \label{eqnMinkowskiMetric}
+\end{equation}
+The matrix is known as the \underline{Minkowski metric}.\par
+We can also write the Lorentz Transformations in this way:
+\begin{equation}
+    \begin{pmatrix} ct' \\ x'\end{pmatrix} = \begin{pmatrix}\gamma & -\frac{\gamma v}{c} \\ -\frac{\gamma v}{c} & \gamma\end{pmatrix} \begin{pmatrix}ct \\ x\end{pmatrix}
+    \label{eqnLorentzMatrices}
+\end{equation}
+Note that the statement that $(\Delta s)^2$ is invariant is equivalent to the statement that:
+\begin{equation}
+    \begin{pmatrix}\gamma & -\frac{\gamma v}{c} \\ -\frac{\gamma v}{c} & \gamma\end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & -1\end{pmatrix}\begin{pmatrix}\gamma & -\frac{\gamma v}{c} \\ -\frac{\gamma v}{c} & \gamma\end{pmatrix} = \begin{pmatrix}1 & 0 \\ 0 & -1\end{pmatrix}
+    \label{eqnLorentzPreserveMinkowski}
+\end{equation}
+That is, Lorentz transformations preserve the Minkowski metric under conjugation. Note that the Minkowski metric is not positive-definite: 
+\begin{tabular}{c|c}
+    Sign of $(\Delta s)^2$ & Name \\
+    \hline
+    $(\Delta s)^2 > 0$ & Time-like separated \\
+    $(\Delta s)^2 < 0$ & Space-like separated \\
+    $(\Delta s)^2 = 0$ & Light-like separated \\
+\end{tabular}
+In particular, two points with $(\Delta s)^2 = 0$ are connected-by a light ray.
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \draw [->] (0, 0) -- (2.1, 0) node[right] {$x$};
+        \draw [->] (0, 0) -- (0, 2.1) node[above] {$ct$};
+
+        \draw[dashed] (0, 0) -- (2, 2);
+        \draw[dashed] (0, 2) -- (2, 0);
+
+        \fill (1, 1) circle[radius=0.3mm] node[right] {$P_1$};
+        \fill (1, 2) circle[radius=0.3mm] node[right] {$P_2$};
+        \fill (1.5, 1) circle[radius=0.3mm] node[right] {$P_3$};
+        \fill (0.5, 1.5) circle[radius=0.3mm] node[right] {$P_4$};
+
+        \node[text width=4cm] at (3.5, 1) {Here $P_1$ and $P_3$ are space-like separated, $P_1$ and $P_2$ are time-like separated and $P_1$ and $P_3$ are light-like separated. We see the light ray that connects them.};
+
+    \end{tikzpicture}
+    \caption{Spacetime diagram of different events and separations}
+    \label{figSpaceTimeSeparations}
+\end{figure}
 \end{document}
