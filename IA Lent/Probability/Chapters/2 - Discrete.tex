@@ -932,6 +932,7 @@ We have already seen the probability mass function for a random variable, the fu
     \begin{align*}
         q(z) &= E[z^{X_1 + X_2 + \cdots + X_n}] \\
         &= E[z^{X_1} \times \cdots \times z^{X_n}] \\
+        &= E[z^{X_1}] \times \cdots \times E[z^{X_n}] \text{ by independence} \\
         &= q_1(z) \times \cdots \times q_n(z)
     \end{align*}
 \end{proof}
