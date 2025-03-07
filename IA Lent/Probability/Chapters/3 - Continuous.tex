@@ -493,4 +493,165 @@ We have also the Law of Total Probability:
     \end{equation*}
     where $x = g^{-1}(y)$ and $J$ is the Jacobian of the transform $g$.
 \end{theorem}
+This theorem will be used without proof.
+\begin{example}
+    Let $X$ and $Y$ be independent random variables with standard normal distribution.\par
+    Consider now a change of variables from $(X, Y)$ to $(R, \Theta)$:
+    \begin{align*}
+        f_{R, \Theta}(r, \theta) &= f_{X, Y}(r \cos(\theta), r\sin(\theta)) |J| \\
+        &= f_{X, Y}(r \cos(\theta), r\sin(\theta)) r \\
+        &= rf_X(r\cos(\theta)) f_Y(r \cos(\theta)) \\
+        &= r\frac{1}{\sqrt{2\pi}} e^{-\frac{r^2 \cos^2(\theta)}{2}} \frac{1}{\sqrt{2\pi}} e^{-\frac{r^2 \sin^2(\theta)}{2}} \\
+        &= \frac{1}{2\pi} r e^{-\frac{r^2}{2}}
+    \end{align*}
+    Which, notably, is independent of $\theta$.\par
+    We have that:
+    \begin{equation*}
+        f_{R, \Theta} = \left(\frac{1}{2\pi}\right) \times \left(re^{-\frac{r^2}{2}}\right)
+    \end{equation*}
+    So the density function factorises into a function of $r$, the second bracket, and a ``function'' of $\theta$ (first bracket, which is independent of $\theta$).
+
+    Therefore, by theorem~\ref{thmDensityFactorising}, we can extract the individual densities:
+    \begin{align*}
+        f_R(r) &= re^{-\frac{r^2}{2}} \\
+        F_\Theta(\theta) &= \frac{1}{2\pi}
+    \end{align*}
+\end{example}
+\subsection{Order Statistics}
+Suppose $X_1, \cdots, X_n$ are identically distributed independent random variables. Suppose they have combined distribution function $F$ and combined density $f$.
+
+We consider putting them in increasing order:
+\begin{equation*}
+    X_{(1)} \leq X_{(2)} \leq \cdots \leq X_{(n)}
+\end{equation*}
+And set $Y_i = X_{(i)}$. Here $Y_i$ are called the order statistics of the random sample. We want to calculate the density of the $Y_i$:
+\begin{align*}
+    P(Y_1 \leq x) &= P(\min_{i \in \{1, \cdots, n\}} X_i \leq x) \\
+    &= 1 - P(\min_{i \in \{1, \cdots, n\}} X_i > x) \\ 
+    &= 1 - P(X_1 > x)^n \text{ since all must be greater than } x \\
+    &= 1 - (1 - F(X))^n
+\end{align*}
+So the density is:
+\begin{equation*}
+    f_{Y_1}(x) = n(1 - F(x))^{n-1} f(x)
+\end{equation*}
+by differentiation.
+
+We can also consider $Y_n$:
+\begin{align*}
+    P(Y_n \leq x) &= P(\max_{i \in \{1, \cdots, n\}} X_i \leq x) \\
+    &= P(X_1 \leq x)^n \\
+    &= (F(x))^n
+\end{align*}
+So by differentiation:
+\begin{equation*}
+    f_{Y_n}(x) = n(F(x))^{n-1} f(x)
+\end{equation*}
+Then we consider the combined density of all the $Y_i$.
+\begin{align*}
+    &P(Y_1 \leq x_1, \cdots, Y_n \leq x_n) \\
+    &= n! P(X_1 \leq x_1, \cdots, X_n \leq x_n, X_1 < X_2 < \cdots < X_n) \\
+    &= n! \int \cdots \int I_{u_1 \leq x_1, \cdots, u_n \leq x_n, u_1 \leq \cdots \leq u_n} \times \\
+    & f(u_1) f(u_2) \cdots f(u_n) du_1 \cdots du_n \\
+    &= n! \int_{u_1 = -\infty}^{x_1} \int_{u_2 = u_1}^{x_2} \cdots \int_{u_n = u_{n - 1}}^{x_n} f(u_1) \cdots f(u_n) du_1 \cdots du_n
+\end{align*}
+So by differentiating with respect to every $x_i$:
+\begin{equation*}
+    f_{Y_1, \cdots, Y_n}(x_1, \cdots, x_n) =
+    \begin{cases}
+        n! f(x_1) f(x_2) \cdots f(x_n) & \text{if } x_i \text{ are in order} \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation*}
+\begin{example}
+    Let $X \sim \text{Exp}(\lambda)$, and let $Y \sim \text{Exp}(\mu)$. Let them be independent.
+
+    Let $Z = \min\{X, Y\}$.
+    \begin{align*}
+        P(Z \leq z) = P(\min\{X, Y\} \leq z) \\
+        &= 1 - P(\min\{X, Y\} > z) \\
+        &= 1 - e^{-\lambda z} e^{-\mu z} \\
+        &= 1 - e^{-(\lambda + \mu) z}
+    \end{align*}
+    So $Z \sim \text{Exp}(\lambda + \mu)$. Applying this logic inductively, if $X_i$ are independent exponential random variables with parameters $\lambda_i$,
+    \begin{equation*}
+        \min\{X_1, \cdots, X_n\} \sim \text{Exp}\left(\sum_{i = 1}^n \lambda_i\right)
+    \end{equation*}
+\end{example}
+\begin{example}
+    Let $X_i, i \in \{1, \cdots, n\}$ be independent and identically distributed exponential random variables with parameter $\lambda$. Let $Y_i$ be their order statistics. Set $Z_1 = Y_1$, $Z_i = Y_i - Y_{i-1}, i \geq 2$. Then consider the joint density of the $Z_i$.
+
+    Define the vectors $\vec{Z}$ and $\vec{Y}$ which are related by the matrix $A$:
+    \begin{equation*}
+        \begin{pmatrix}Z_1 \\ \vdots \\ Z_n\end{pmatrix} = A \begin{pmatrix}Y_1 \\ \vdots \\ Y_n\end{pmatrix}
+    \end{equation*}
+    where $A$ is:
+    \begin{equation*}
+        A = 
+        \begin{pmatrix}
+            1&0&0&\cdots&0 \\
+            -1&1&0&\cdots&0 \\
+            0&-1&1& & \vdots \\
+            \vdots& &\ddots&\ddots&0 \\
+            0 &\cdots&0&-1&1
+        \end{pmatrix}
+    \end{equation*}
+    and has determinant 1.
+    \begin{align*}
+        f_{Z_1, \cdots, Z_n}(z_1, \cdots, z_n) &= f_{Y_1, \cdots, Y_n}(y_1, \cdots, y_n) |J| \\
+        &= n! f(y_1) \cdots f(y_n) \\
+        &= n! \lambda e^{-\lambda y_1} \cdots \lambda e^{-\lambda y_n} \\
+        &= \prod_{i = 1}^n (n - i + 1) \lambda e^{-\lambda(n - i + 1)z_i}
+    \end{align*}
+    So $Z_i$ are independent with $Z_i \sim \text{Exp}(\lambda(n - i + 1))$.
+\end{example}
+\section{Moment Generating Functions}
+\begin{definition}{Moment generating function}
+    Let $X$ be a random variable with density $f$. Then the \underline{moment generating function} is defined to be:
+    \begin{equation*}
+        m(\theta) = E[e^{\theta X}] = \int_{-\infty}^\infty e^{\theta x} f(x) dx
+    \end{equation*}
+    whenever this integral is finite. $m(0) = 1$.
+\end{definition}
+The following theorems will be used without proof:
+\begin{theorem}
+    The moment generating function uniquely determines the distribution of a random variable provided it is defined for an open interval of values of $\theta$.
+    \label{thmMGFDetermines}
+\end{theorem}
+\begin{theorem}
+    Suppose the moment generating function is defined for an open interval of values of $\theta$. Then we can get the moments of $\theta$:
+    \begin{equation*}
+        E[X^r] = m^{(r)}(0)
+    \end{equation*}
+    that is, the $r$th derivative evaluated at 0.
+\end{theorem}
+\subsection{Gamma Distribution}
+\begin{definition}{Gamma distribution}
+    A random variable $X$ has the \underline{gamma distribution} with parameter $n \in \N$ if its density function is:
+    \begin{equation*}
+        f(x) = \frac{e^{-\lambda x} \lambda^n x^{n-1}}{(n-1)!}, x > 0
+    \end{equation*}
+\end{definition}
+\begin{proposition}
+    The gamma function, as above defined, has a valid density.
+    \label{propGammaDensityValid}
+\end{proposition}
+\begin{proof}
+    Define:
+    \begin{align*}
+        I_n &= \int_0^\infty f(x) dx \\
+        &= \int_0^\infty \frac{\left(\lambda e^{-\lambda x}\right)\lambda^{x-1} x^{n-1}}{(n-1)!} \\
+        &= \int_0^\infty \frac{e^{-\lambda x}\lambda^{n-1} x^{n-2}}{(n-2)!} \text{ by integration by parts} \\
+        &= I_{n-1} = \cdots = I_1 \\
+        &= \int_0^\infty \lambda e^{-\lambda x} dx \\
+        &= 1
+    \end{align*}
+\end{proof}
+If $X$ has density $f$, $X \sim \Gamma(n, \lambda)$, we can find the moment generating function:
+\begin{align*}
+    m(\theta) &= E[e^{\theta X}] \\
+    &= \int_0^\infty e^{\theta x} e^{-\lambda x} \frac{\lambda^n x^{n-1}}{(n-1)!} \\
+    &= \int_0^\infty e^{-(\lambda - \theta)x} \frac{(\lambda - \theta)^n x^{n-1}}{(n-1)!} dx \frac{\lambda^n}{(\lambda - \theta)^n} \\
+    &= \left(\frac{\lambda}{\lambda - \theta}\right)^n
+\end{align*}
 \end{document}
