@@ -233,7 +233,7 @@ We can use this criterion to show that all monotone and all continuous functions
 \begin{remark}
     With monotone and continuous functions, we have that a large class of functions are integrable. However, there do exist functions outside these classes that are integrable.
 \end{remark}
-\begin{example}[Thamae's Function]
+\begin{example}[Thomae's Function]
     Define:
     \begin{align*}
         f : [0, 1] &\mapsto \R \\
@@ -254,5 +254,283 @@ We can use this criterion to show that all monotone and all continuous functions
         \item Each $p_k$ is in some interval $(x_{j - 1}, x_j)$.
         \item For each $k$, the unique sub-interval containing $p_k$ has length at most $\frac{\epsilon}{2m}$.
     \end{enumerate}
+    Write $I \in \dissec$ to mean $I = [x_{j-1}, x_j]$ for some $j$. Write also $|I| = (x_j - x_{j-1})$.
+
+    Then the upper sum is:
+    \begin{align*}
+        U(f, \dissec) &= \sum_{I \in \dissec} |I| \sup_{x \in I} f(x) \\
+        &= \sum_{I \in \dissec, I \cap P \neq \emptyset} |I| \sup_{x \in I} f(x) \sum_{I \in \dissec, I \cap P = \emptyset} |I| \sup_{x \in I} f(x) \\
+        &\leq \sum_{I \in \dissec, I \cap P \neq \emptyset} \frac{\epsilon}{2M} + \sum_{I \in \dissec, I \cap P \neq \emptyset} \frac{|I|}{N} \\
+        &\leq M \frac{\epsilon}{2M} + \frac{1}{N} < \epsilon
+    \end{align*}
 \end{example}
+\begin{remark}
+    We have seen that Thomae's Function is an integrable function that has discontinuities (it is continuous at every irrational, but discontinuous at every rational) and is not monotone.
+\end{remark}
+\section{Properties of the Integral}
+\subsection{Properties of Suprema and Infinima}
+\begin{propositions}{
+        Suppose that $I = [a, b]$ and $f, g : I \mapsto \R$ are bounded. Then:
+        \label{propsSupremumProps}
+    }   
+    \item If $f(x) \leq g(x)~\forall x \in I$, then
+        \begin{equation*}
+            \sup_{x \in I} f(x) \leq \sup_{x \in I} g(x) \text{ and } \inf_{x \in I} f(x) \leq \inf_{x \in I} g(x)
+        \end{equation*}
+        \label{propSupPreservesOrdering}
+    \item $\sup_{x \in I} f(x) = -\inf_{x \in I} f(x)$. \label{propSupOfNegative}
+    \item If $\lambda > 0$, then:
+        \begin{equation*}
+            \sup_{x \in I} \lambda f(x) = \lambda \sup_{x \in I} f(x) \text{ and } \sup_{x \in I} \lambda f(x) = \lambda \sup_{x \in I} f(x)
+        \end{equation*}
+        \label{propSupConstant}
+    \item Summation:
+        \begin{align*}
+            \sup_{x \in I} (f(x) + g(x)) &\leq \sup_{x \in I} f(x) + \sup_{x \in I} g(x) \\
+            \inf{x \in I} (f(x) + g(x)) &\geq \inf{x \in I} f(x) + \inf{x \in I} g(x) \\
+        \end{align*}
+        \label{propSupSum}
+    \item Taking absolute values:
+        \begin{equation*}
+            \sup_{x \in I} |f(x)| - \inf_{x \in I} |f(x)| \leq \sup_{x \in I} f(x) - \inf_{x \in I} f(x)
+        \end{equation*}
+        \label{propSupAbs}
+    \item Squaring:
+        \begin{equation*}
+            \sup_{x \in I} (f(x))^2 - \inf_{x \in I} (f(x))^2 \leq 2 \left(\sup_{x \in I} |f|\right) \left(\sup_{x \in I} f(x) - \inf_{x \in I} f(x) \right)
+        \end{equation*}
+        \label{propSupSquare}
+\end{propositions}
+\begin{proof}[of propositions~\ref{propSupSum} to \ref{propSupSquare}]
+    \begin{enumerate}
+        \setcounter{enumi}{3} % Start at 4
+        \item For any $x \in I$,
+            \begin{equation*}
+                f(x) \leq \sup_{x \in I} f(x),~g(x) \leq \sup_{x \in I} g(x)
+            \end{equation*}
+            So:
+            \begin{equation*}
+                f(x) + g(x) \leq \sup_{x \in I} f(x) + \sup_{x \in I} g(x)
+            \end{equation*}
+            But this means we can take the supremum of the LHS:
+            \begin{equation*}
+                \sup_{x \in I} (f(x) + g(x)) \leq \sup_{x \in I} f(x) + \sup_{x \in I} g(x)
+            \end{equation*}
+            And the same method is used for infima. Alternatively, we can apply proposition~\ref{propSupOfNegative} to $-(f + g)$.
+        \item We consider 3 cases:
+            \begin{case}{$f(x)$ non-negative on $I$}
+                Then $|f(x)| = f(x)$:
+                \begin{equation*}
+                    \sup_{x \in I} |f(x)| - \inf_{x \in I} |f(x)| = \sup_{x \in I} f(x) - \inf_{x \in I} f(x)
+                \end{equation*}
+            \end{case}
+            \begin{case}{$f(x)$ non-positive on $I$}
+                Then $|f(x)| = -f(x)$.
+                \begin{align*}
+                    \sup_{x \in I} |f(x)| - \inf_{x \in I} |f(x)| &= \sup_{x \in I} (-f(x)) - \inf_{x \in I} (-f(x)) \\
+                    &= -\inf_{x \in I} f(x) + \sup_{x \in I} f(x)
+               \end{align*}
+            \end{case}
+            \begin{case}{$f(x)$ takes values either side of 0}
+                That is, $\inf_{x \in I} f(x) < 0 < \sup_{x \in I} f(x)$.
+                \begin{align*}
+                    \sup_{x \in I} |f(x)| - \inf_{x \in I} |f(x)| &\leq \sup_{x \in I} |f(x)| \text{ by negativity of inf.} \\
+                    &= \max\{\sup_{x \in I} f(x), \sup_{x \in I} (-f(x))\} \\
+                    &\leq \sup_{x \in I} f(x) + \sup_{x \in I} (-f(x)) \\
+                    &= \sup_{x \in I} f(x) - \inf_{x \in I} f(x)
+                \end{align*}
+            \end{case}
+        \item Consider difference of squares:
+            \begin{align*}
+                f(x)^2 - f(y)^2 &= (f(x) + f(y))(f(x) - f(y)) \\
+                &\leq 2\sup_{x \in I} |f| \left(\sup_{x \in I} f(x) - \inf_{x \in I} f(x)\right)
+            \end{align*}
+            Then taking the supremum over $x$ and $y$ of the left-hand side gives:
+            \begin{equation*}
+                \sup_{x \in I}(f(x)^2) + \inf_{x \in I} (f(x)^2) \leq 2 \sup_{x \in I} |f| \left(\sup_{x \in I} f(x) - \inf_{x \in I} f(x)\right)
+            \end{equation*}
+    \end{enumerate}
+\end{proof}
+\subsection{Properties of Upper and Lower Sums}
+These translate directly into results for upper and lower sums:
+\begin{propositions}{
+        Consider a dissection $\dissec$ and bounded functions $f, g : [a, b] \mapsto \R$.
+        \label{propsUpperSumProps}
+    }
+    \item If $f(x) \leq g(x)$ for all $x$ in $[a, b]$ then:
+        \begin{equation*}
+            U(f, \dissec) \leq U(g, \dissec) \text{ and } L(f, \dissec) \leq L(g, \dissec)
+        \end{equation*}
+        \label{propupperSumPreservesOrdering}
+    \item $L(-f, \dissec) = -U(f, \dissec)$. \label{propUpperSumNegative}
+    \item If $\lambda \in \R, \lambda > 0$,
+        \begin{equation*}
+            U(\lambda f, \dissec) = \lambda U(f, \dissec) \text{ and } L(\lambda f, \dissec) = \lambda L(f, \dissec)
+        \end{equation*}
+        \label{propUpperSumConstant}
+    \item Summation is such that:
+        \begin{align*}
+            U(f + g, \dissec) &\leq U(f, \dissec) + U(g, \dissec) \\
+            U(f + g, \dissec) &\geq L(f, \dissec) + L(g, \dissec)
+        \end{align*}
+        \label{propUpperSumSum}
+    \item Absolute values are such that:
+        \begin{equation*}
+            U(|f|, \dissec) - L(|f|, \dissec) \leq U(f, \dissec) - L(f, \dissec)
+        \end{equation*}
+        \label{propUpperSumAbs}
+    \item Squaring is such that:
+        \begin{equation*}
+            U(f^2, \dissec) - L(f^2, \dissec) \leq 2\sup_{x \in [a, b]} |f| \left(U(f, \dissec) - L(f, \dissec)\right)
+        \end{equation*}
+        \label{propUpperSumSquare}
+\end{propositions}
+\begin{proof}
+    Recall that:
+    \begin{align*}
+        U(f, \dissec) &= \sum_{i = 1}^n \left(x_i - x_{i - 1}\right) \sup_{x \in [x_{i - 1}, x_i]} f(x) \\
+        L(f, \dissec) &= \sum_{i = 1}^n \left(x_i - x_{i - 1}\right) \inf_{x \in [x_{i - 1}, x_i]} f(x)
+    \end{align*}
+    And use the results in proposition~\ref{propsSupremumProps}, noting also that:
+    \begin{equation*}
+        \sup_{x \in [x_{i - 1}, x_i]} |f(x)| \leq \sup_{x \in [a, b]} |f(x)|
+    \end{equation*}
+    for use in the proof of \ref{propUpperSumSquare}.
+\end{proof}
+\subsection{Integral properties}
+\begin{theorem}
+    Let $f, g : [a, b] \mapsto \R$ be integrable (and therefore bounded).
+    \begin{enumerate}
+        \item If $f(x) \leq g(x)$ on $[a, b]$, then:
+	    \begin{equation*}
+		\int_a^b f(x) dx \leq \int_a^b g(x) dx
+	    \end{equation*}
+	\item If $\lambda$ is a real number then $\lambda f$ is integrable, and:
+	    \begin{equation*}
+		\int_a^b \lambda f(x) dx = \lambda \int_a^b f(x) dx
+	    \end{equation*}
+	\item $f + g$ is integrable, and:
+	    \begin{equation*}
+		\int_a^b (f(x) + g(x)) dx = \int_a^b f(x) dx + \int_a^b g(x) dx
+	    \end{equation*}
+	\item $|f|$ is integrable, and:
+	    \begin{equation*}
+		\left|\int_a^b f(x) dx\right| \leq \int_a^b |f(x)| dx
+	    \end{equation*}
+	\item The product $f(x) g(x)$ is integrable.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+    	\item For any $\dissec$ we have:
+            \begin{align*}
+                L(f, \dissec) &\leq L(g, \dissec) \text{ by proposition~\ref{propupperSumPreservesOrdering}} \\
+                &\leq I_*(g) \\
+                \therefore I_*(f) &\leq I_*(g)
+            \end{align*}
+            But since $f$ and $g$ are integrable, the lower integrals are equal to the integral, and we have the required result.
+        \item First consider $\lambda > 0$. Since $f$ is integrable, for any $\epsilon > 0$ there exists a dissection $\dissec$ with:
+            \begin{align*}
+                U(f, \dissec) &\leq \int_a^b f(x) + \epsilon \\
+                L(f, \dissec) &\geq \int_a^b f(x) - \epsilon
+            \end{align*}
+            And therefore:
+            \begin{align*}
+                \lambda \int_a^b f(x) dx - \lambda \epsilon &\leq L(\lambda f, \dissec) \text{by \ref{propUpperSumConstant}.} \\
+                &\leq I_*(f) \\
+                &\leq I^*(f) \\
+                &\leq U(\lambda f, \dissec) \\
+                &\leq \lambda \int_a^b f(x) dx + \lambda \epsilon \text{ by \ref{propUpperSumConstant}}
+            \end{align*}
+            But now, since $\epsilon$ is arbitrary:
+            \begin{equation*}
+                I_*(\lambda f) = I^*(\lambda f) = \lambda \int_a^b f(x) dx
+            \end{equation*}
+            Now we consider $\lambda = -1$ and the same dissection $\dissec$:
+            \begin{align*}
+                \int_a^b f(x) dx - \epsilon &\leq L(f, \dissec) \\
+                &= -U(-f, \dissec) \text{ by \ref{propUpperSumNegative}}
+            \end{align*}
+            And therefore:
+            \begin{equation*}
+                U(-f, \dissec) \leq -\int_a^b f(x) dx + \epsilon
+            \end{equation*}
+            And:
+            \begin{align*}
+                \int_a^b f(x) dx + \epsilon &\geq U(f, \dissec) \\
+                &= -L(-f, \dissec) \\
+                \therefore -\int_a^b f(x) dx - \epsilon &\leq L(-f, \dissec)
+            \end{align*}
+            Then combining both results:
+            \begin{equation*}
+                -\int_a^b f(x) dx - \epsilon \leq I_*(-f) \leq I^*(-f) \leq -\int_a^b f(x) dx + \epsilon
+            \end{equation*}
+            And again we have that $\epsilon$ is arbitrary and so:
+            \begin{equation*}
+                I_*(-f) = I^*(-f) = -\int_a^b f(x) dx
+            \end{equation*}
+            Combining both these results allows for negative $\lambda$ also.
+        \item Since $f$ and $g$ are integrable, for any $\epsilon > 0$ there exists dissections $\dissec_1, \dissec_2$ such that:
+            \begin{align*}
+                \int_a^b f(x) dx - \epsilon &\leq L(f, \dissec_1) \\
+                &\leq U(f, \dissec_1) \\
+                &\leq \int_a^b f(x) dx + \epsilon
+            \end{align*}
+            And the same for $g$:
+            \begin{align*}
+                \int_a^b g(x) dx - \epsilon &\leq L(g, \dissec_2) \\
+                &\leq U(g, \dissec_2) \\
+                &\leq \int_a^b g(x) dx + \epsilon
+            \end{align*}
+            Now define $\dissec = \dissec_1 \cup \dissec_2$:
+            \begin{align*}
+                \int_a^b f(x) dx + \int_a^b g(x) dx - 2\epsilon &\leq L(f, \dissec_1) + L(g, \dissec_2) \\
+                &\leq L(f, \dissec) + L(g, \dissec) \\
+                &\leq L(f + g, \dissec) \text{ by \ref{propUpperSumSum}.} \\
+                &\leq I_*(f + g)
+            \end{align*}
+            And similarly:
+            \begin{equation*}
+                \int_a^b f(x) dx + \int_a^b g(x) + 2\epsilon dx \geq I^*(f + g)
+            \end{equation*}
+            So we have shown:
+            \begin{align*}
+                \int_a^b f(x) dx &+ \int_a^b g(x) dx - 2\epsilon \leq I_*(f + g)\\
+                &\leq I^*(f + g) \leq \int_a^b f(x) dx + \int_a^b g(x) dx + 2\epsilon
+            \end{align*}
+            And since $\epsilon$ is arbitrary, $f + g$ is integrable with integral:
+            \begin{equation*}
+                \int_a^b f(x) dx + \int_a^b g(x) dx = \int_a^b (f(x) + g(x)) dx
+            \end{equation*}
+        \item Since $f$ is integrable, for any $\epsilon > 0$ there exists a dissection $\dissec$ such that:
+            \begin{align*}
+                \epsilon &> U(f, \dissec) - L(f, \dissec) \\
+                &\leq U(|f|, \dissec) - L(|f|, \dissec) \text{ by proposition~\ref{propUpperSumAbs}}
+            \end{align*}
+            And therefore $|f|$ is integrable by theorem~\ref{thmRiemannCriterion}.
+
+            Now note that:
+            \begin{align*}
+                -|f(x) &\leq f(x) \leq |f(x)|~\forall x \in [a, b] \\
+                \implies -\int_a^b |f(x)| &\leq \int_a^b f(x) dx \leq \int_a^b |f(x)| dx
+            \end{align*}
+            by parts 1 and 2 above, as required.
+        \item Observing that:
+            \begin{equation*}
+                fg = \frac{1}{2} \left[(f + g)^2 - (f - g)^2\right]
+            \end{equation*}
+            it suffices to show that $f^2$ is integrable (and therefore so is $g^2$).
+
+            Suppose $|f| \leq K$. Then given $\epsilon > 0$ we can find a dissection such that:
+            \begin{equation*}
+                U(f, \dissec) - L(f, \dissec) < \frac{\epsilon}{2K}
+            \end{equation*}
+            So by proposition~\ref{propUpperSumSquare},
+            \begin{align*}
+                U(f^2, \dissec) - L(f^2, \dissec) &\leq 2 \sup_{x \in [a, b]} |f(x)| \left(U(f, \dissec) - L(f, \dissec)\right) \\
+                &<\epsilon
+            \end{align*}
+            And therefore $f^2$ is integrable by theorem~\ref{thmRiemannCriterion}.
+    \end{enumerate}
+\end{proof}
 \end{document}
