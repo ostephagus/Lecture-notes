@@ -19,7 +19,7 @@ We write this equation as:
 Note that here $\left(\frac{d\vec{x}}{dt}\right)_S$ means the derivative of the Cartesian components of the vector in frame $S$. The difference between the two derivatives is the relative velocity of the two frames.\par
 The acceleration of the particle is given by:
 \begin{equation*}
-    \ddvec{x} = \ddot{x_i} \vec{e_i} = \ddot{x}_i' \vec{e_i}' + 2\vec{\omega} \times x_i' \vec{e_i}' + \vec{\omega} \times (\vec{\omega} \times x_i' \vec{e_i}')
+    \ddvec{x} = \ddot{x_i} \vec{e_i} = \ddot{x}_i' \vec{e_i}' + 2\vec{\omega} \times \dot{x_i}' \vec{e_i}' + \vec{\omega} \times (\vec{\omega} \times x_i' \vec{e_i}')
 \end{equation*}
 We can also write:
 \begin{equation*}
@@ -31,11 +31,11 @@ In the inertial frame, Newton's law holds:
 \end{equation*}
 So in the rotating frame:
 \begin{equation*}
-    m\left(\frac{d^2\vec{x}}{dt^2}\right)_{S'} = \vec{F} - 2m\omega \times \left(\frac{d\vec{x}}{dt}\right)_{S'} - m\dvec{\omega} \times \vec{x} - m\omega \times (\vec{\omega} \times \vec{x})
+    m\left(\frac{d^2\vec{x}}{dt^2}\right)_{S'} = \vec{F} - 2m\vec{\omega} \times \left(\frac{d\vec{x}}{dt}\right)_{S'} - m\dvec{\omega} \times \vec{x} - m\vec{\omega} \times (\vec{\omega} \times \vec{x})
 \end{equation*}
 The extra terms on the right-hand side are \underline{fictitious forces}. They all have names:
 \begin{itemize}
-    \item The term $2 m \omega \times \left(\frac{d\vec{x}}{dt}\right)_{S'}$ is the \underline{Coriolis force}
+    \item The term $2 m \vec{\omega} \times \left(\frac{d\vec{x}}{dt}\right)_{S'}$ is the \underline{Coriolis force}
     \item The term $m \dvec{\omega} \times \vec{x}$ is the \underline{Euler force}
     \item The term $m \vec{\omega} \times (\vec{\omega} \times \vec{x})$ is the \underline{centrifugal force}.
 \end{itemize}
@@ -51,7 +51,25 @@ The centrifugal force is:
 This is illustrated in figure~\ref{figCentrifugal}.
 \begin{figure}[ht]
     \centering
-    See the diagram Centrifugal force. %TODO: Tikz this.
+    \tdplotsetmaincoords{80}{5}
+    \tdplotsetrotatedcoords{90}{-90}{-90}
+    \begin{tikzpicture}[tdplot_main_coords, scale=2]
+        \draw[->] (0, 0, 0) -- (0, 0, 2) node[above] {$\vec{\omega}$};
+
+        \draw[->] (0, 0, 0) -- (1.4, 0, 1.4) 
+            node[below] {$\vec{x}$}
+            node[pos=0.5, anchor=south] {$r$};
+
+        \draw[dashed] (0, 0, 0) -- (1.4, 0, 0);
+        \draw[Bar-Bar] (0, 0, -0.2) -- (1.4, 0, -0.2)
+            node[pos=0.5, anchor=north] {$d$};
+
+        \tdplotdrawarc[tdplot_rotated_coords]{(0, 0, 0)}{0.3}{0}{45}{anchor=west}{$\theta$}
+
+        \draw[->] (1.4, 0, 1.4) -- (1.4, 1, 1.4) node[above, align=center] {(Into page) \\ $\vec{\omega} \times \vec{x}$};
+        
+        \draw[->] (1.4, 0, 1.4) -- (2.4, 0, 1.4) node[right] {$\vec{F_{cen}}$};
+    \end{tikzpicture}
     \caption{Diagram of the direction of the centrifugal force}
     \label{figCentrifugal}
 \end{figure}
@@ -229,7 +247,7 @@ The solution that is eventually reached is:
     x + iy = e^{-i\omega t \sin{\theta}} \left[a \cos{\left(\sqrt{\frac{g}{l} t}\right)} + b \sin{\left(\sqrt{\frac{g}{l} t}\right)}\right]
     \label{eqnFoucaultSolution}
 \end{equation}
-Here $a$ and $b$ are complex constants that are determined by initial conditions. This shows that the pendulum follows an ellipse in the $x-y$ plane that slowly rotates. We can determine exactly the speed of rotation:
+Here $a$ and $b$ are complex constants that are determined by initial conditions. This shows that the pendulum follows an ellipse in the $x-y$ plane that slowly rotates. We can determine exactly the period of rotation:
 \begin{equation*}
     T = \frac{24\text{ hours}}{\sin{\theta}}
 \end{equation*}
