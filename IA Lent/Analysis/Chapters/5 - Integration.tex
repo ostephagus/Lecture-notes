@@ -533,4 +533,202 @@ These translate directly into results for upper and lower sums:
             And therefore $f^2$ is integrable by theorem~\ref{thmRiemannCriterion}.
     \end{enumerate}
 \end{proof}
+\begin{theorem}
+    Suppose that $f : [a, b] \mapsto \R$ and let $c \in (a, b)$. Then $f$ is integrable if and only if $f$ is integrable on $[a, c]$ and $[c, b]$. Moreover, we can relate these integrals:
+    \begin{equation*}
+        \int_a^b f(x) dx = \int_a^c f(x) dx + \int_c^b f(x) dx
+    \end{equation*}
+    \label{thmIntegralSplitDomain}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose $f$ is integrable on $[a, b]$}
+        Fix $\epsilon > 0$. By theorem~\ref{thmRiemannCriterion} there exists a dissection $\dissec$ of $[a, b]$ such that:
+        \begin{equation*}
+            U(f, \dissec) - L(f, \dissec) < \epsilon.
+        \end{equation*}
+        If $c$ is not in $\dissec$, re-label $\dissec$ to $\dissec \cup \{c\}$. Note that this is a refinement, so the difference in upper and lower sums is still less than $\epsilon$.
+
+        Now assume $\dissec = \{x_0, x_1, \cdots, x_n\}$ and $x_l = c$.
+
+        Define:
+        \begin{equation*}
+            \dissec_L = \{x_0, x_1, \cdots, x_l\},~\dissec_R = \{x_l, x_{l + 1}, \cdots, x_n\}
+        \end{equation*}
+        Then $\dissec_L$ is a dissection of $[a, c]$ and $\dissec_R$ is a dissection of $[c, b]$.
+
+        Note also that:
+        \begin{align*}
+            L(f, \dissec) &= L(f, \dissec_L) + L(f, \dissec_R) \\
+            R(f, \dissec) &= R(f, \dissec_L) + R(f, \dissec_R)
+        \end{align*}
+        And therefore:
+        \begin{equation*}
+            \left[U(f, \dissec_L) - L(f, \dissec_L)\right] + \left[U(f, \dissec_R) - L(f, \dissec_R)\right] < \epsilon
+        \end{equation*}
+        Note that both terms in square brackets are non-negative so we must have that both are less than $\epsilon$:
+        \begin{align*}
+            U(f, \dissec_L) - L(f, \dissec_L) &< \epsilon \\
+            U(f, \dissec_R) - L(f, \dissec_R) &< \epsilon
+        \end{align*}
+        And therefore $f$ is integral on both domains.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that $f$ is integrable on $[a, c]$ and $[c, b]$}
+        Fix $\epsilon > 0$. Then by theorem~\ref{thmRiemannCriterion}, there are dissection $\dissec_L, \dissec_R$ of the respective intervals such that the following holds:
+        \begin{align*}
+            U(f, \dissec_L) - L(f, \dissec_L) &< \epsilon \\
+            U(f, \dissec_R) - L(f, \dissec_R) &< \epsilon
+        \end{align*}
+        Then considering the dissection $\dissec = \dissec_L \cup \dissec_R$:
+        \begin{equation*}
+            U(f, \dissec) - L(f, \dissec) < 2\epsilon
+        \end{equation*}
+        And by the Riemann Criterion, $f$ is integrable on the whole of $[a, b]$.
+    \end{proofdirection}
+    Finally note that, by the above,
+    \begin{align*}
+        \int_a^b f(x) dx &\geq L(f, \dissec) = L(f, \dissec_L) + L(f, \dissec_R) \\
+        &\geq \int_a^c f(x) dx + \int_c^b f(x) dx - 2\epsilon
+    \end{align*}
+    And also:
+    \begin{align*}
+        \int_a^b f(x) dx &\leq U(f, \dissec) = U(f, \dissec_L) + U(f, \dissec_R) \\
+        &\leq \int_a^c f(x) dx + \int_c^b f(x) dx + 2\epsilon
+    \end{align*}
+    And since $\epsilon$ was arbitrary, we have the required result.
+\end{proof}
+From now on, we will use the convention that:
+\begin{equation*}
+    \int_a^b f(x) dx = -\int_b^a f(x) dx
+\end{equation*}
+And also if $a - b$, then the integral is 0. With this convention, if $|f| \leq K$,
+\begin{equation*}
+    \left|\int_a^b f(x) dx\right| \leq K|b - a|
+\end{equation*}
+\section{Piecewise Continuous Functions}
+\begin{definition}{Piecewise continuity}
+    A bounded function $f : [a, b] \mapsto \R$ is \underline{piecewise continuous} if there exists a dissection $\dissec$ of $[a, b]$ such that for each $i \in \{1, \cdots, n\}$, if we define:
+    \begin{align*}
+        f_i : (x_{i - 1}, x_i) &\mapsto \R \\
+        x \mapsto f(x)
+    \end{align*}
+    Then $f_i$ is continuous and has a limit as $x \to x_{i - 1}$ or as $x \to x_i$. This means that the function $\bar{f}_i : [x_{i-1}, x_i] \mapsto \R$, defined by:
+    \begin{equation*}
+        \bar{f}_i(x) =
+        \begin{cases}
+            \lim_{x \to x_{i - 1}} f_i(x) & x = x_{i - 1} \\
+            f(x) & x \in (x_{i - 1}, x_i) \\
+            \lim_{x \to x_i} f_i(x) & x = x_i
+        \end{cases}
+    \end{equation*}
+    is continuous, and therefore integrable.
+\end{definition}
+\begin{proposition}
+    If $f : [a, b] \mapsto \R$ is integrable and $f : [a, b] \mapsto \R$ satisfies $f(x) = g(x)$ for all $x$ except a finite set of points $\{y_1, \cdots, y_n\}$, then $g$ is integrable with:
+    \begin{equation*}
+        \int_a^b f(x) dx = \int_a^b g(x) dx
+    \end{equation*}
+    \label{propChangeFinitePointsIntegrable}
+\end{proposition}
+Now by combining theorem~\ref{thmIntegralSplitDomain} with proposition~\ref{propChangeFinitePointsIntegrable}, we see that piecewise continuous function are integrable.
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \draw[->] (0, 0) -- (2.1, 0) node[right] {$x$};
+        \draw[->] (0, 0) -- (0, 1.1) node[above] {$y$};
+    \end{tikzpicture}
+    \caption{An example of a piecewise continuous function}
+    \label{figPiecewiseCTSFunc}
+\end{figure}
+\section{Fundamental Theorem of Calculus}
+Suppose $f : [a, b] \mapsto \R$ is integrable (and therefore bounded). Then define:
+\begin{equation*}
+    F(x) = \int_a^x f(t) dt
+\end{equation*}
+for any $x \in [a, b]$.
+\begin{theorem}
+    $F$, as above defined, is continuous.
+    \label{thmIntegralCTS}
+\end{theorem}
+\begin{proof}
+    Suppose $K$ is such that $|f| \leq K$, and assume $x, x+h \in [a, b]$. Then:
+    \begin{align*}
+        F(x + h) - F(x) &= \int_x^{x + h} f(x) dt \text{ by theorem~\ref{thmIntegralSplitDomain}.} \\
+        \left|F(x + h) - F(x)\right| &= \left|\int_x^{x + h} f(x) dt\right| \\
+        &\leq K|h|
+    \end{align*}
+    And as $h \to 0$, $F(x + h) - F(x)$ tends to $0$ and $F$ is continuous at all $x$.
+\end{proof}
+\begin{theorem}[First Fundamental Theorem of Calculus]
+    If, in addition, $f$ is continuous at $x$, then $F$ is differentiable at $x$ and has derivative:
+    \begin{equation*}
+        F'(x) = f(x)
+    \end{equation*}
+    \label{thmFundamentalCalculusI}
+\end{theorem}
+\begin{proof}
+    We need to estimate the difference quotient:
+    \begin{equation*}
+        \left|\frac{F(x + h) - F(x)}{h} - f(x)\right|
+    \end{equation*}
+    We want to show it tends to $0$ as $h \to 0$.
+
+    \begin{align*}
+        \left|\frac{F(x + h) - F(x)}{h} - f(x)\right| &= \frac{1}{|h|} \left|\int_x^{x + h} f(t) dt - hf(x)\right| \\
+        &= \frac{1}{|h|} \left|\int_x^{x + h} (f(t) - f(x))dt\right|
+    \end{align*}
+    Now, given $\epsilon > 0$, there exists some $\delta > 0$ such that:
+    \begin{equation*}
+        |t - x| < \delta \implies |f(t) - f(x) < \epsilon
+    \end{equation*}
+    Now suppose $|h| < \delta$, then $|f(t) - f(x)| < \epsilon$ for all $t$ between $x$ and $x + h$.
+    \begin{align*}
+        \therefore \left|\frac{F(x + h) - F(x)}{h} - f(x)\right| &\leq \frac{1}{|h|} \epsilon h \\
+        &= \epsilon
+    \end{align*}
+    And therefore the difference quotient must tend to 0.
+\end{proof}
+\begin{remark}
+    The condition that $f$ is continuous at $x$ is necessary. If we consider instead a step function:
+    \begin{equation*}
+        f(x) = 
+        \begin{cases}
+            -1 & x \in [-1, 0] \\
+            1 & x \in (0, 1] \\
+        \end{cases}
+    \end{equation*}
+    Then we can find a function $F$:
+    \begin{equation*}
+        F(x) =
+        \begin{cases}
+            -x - 1 & x \leq 0 \\
+            x - 1 & x > 0
+        \end{cases}
+    \end{equation*}
+    Then this function is not differentiable at $x = 0$, though it is continuous there.
+\end{remark}
+\begin{corollary}[Integration as inverse of differentiation]
+    If $f = g'$ and $g'$ is continuous on an interval $[a, b]$, then:
+    \begin{equation*}
+        F(x) = \int_a^x f(t) dt = g(x) - g(a)
+    \end{equation*}
+    \label{corIntegrationInverseDifferentiation}
+\end{corollary}
+\begin{proof}
+    Consider:
+    \begin{equation*}
+        \int_a^x f(t) dt - g(x) = G(x)
+    \end{equation*}
+    Then this is differentiable and $G'(x) = 0$ for all $x \in [a, b]$. So by corollary~\ref{corDerivativeSign},
+    \begin{equation*}
+        G(x) = G(a) = -g(a)
+    \end{equation*}
+    And rearranging gives the required result.
+\end{proof}
+\begin{corollary}
+    Every continuous function $f$ has a corresponding antiderivative $F$, written:
+    \begin{equation*}
+        \int f(x) dx \text{ or } \int^x f(t) dt
+    \end{equation*}
+    That is, an integral with no limits (or no lower limit). This is determined up to an additive constant.
+\end{corollary}
 \end{document}
