@@ -654,4 +654,120 @@ If $X$ has density $f$, $X \sim \Gamma(n, \lambda)$, we can find the moment gene
     &= \int_0^\infty e^{-(\lambda - \theta)x} \frac{(\lambda - \theta)^n x^{n-1}}{(n-1)!} dx \frac{\lambda^n}{(\lambda - \theta)^n} \\
     &= \left(\frac{\lambda}{\lambda - \theta}\right)^n
 \end{align*}
+\begin{proposition}
+    If $X_1, \cdots, X_n$ are independent, then:
+    \begin{equation*}
+        m(\theta) = E[e^{\theta (X_1 + \cdots + X_n)}] = \prod_{i=1}^n E[e^{\theta X_i}]
+    \end{equation*}
+    \label{propMGFFactorise}
+\end{proposition}
+Then we can consider two independent gamma distributions: $X \sim \Gamma(n, \lambda)$ and $Y \sim \Gamma(m, \lambda)$. Then the moment generating function of $X+Y$ is:
+\begin{align*}
+    E[e^{\theta X}] E[e^{\theta Y}] &= \left(\frac{\lambda}{\lambda - \theta}\right)^n \left(\frac{\lambda}{\lambda - \theta}\right)^m \\
+    &= \left(\frac{\lambda}{\lambda - \theta}\right)^{n+m}
+\end{align*}
+And therefore $X + Y \sim \Gamma(n+m, \lambda)$.
+
+Then we can consider a sum of identically distributed independent exponential random variables. Let $X_i \sim \text{Exp}(\lambda), i \in \{1, \cdots, n\}$. Note also that $\Gamma(1, \lambda)$ is the same as the exponential distribution. Therefore applying the above result for two gamma distributions inductively:
+\begin{equation*}
+    \sum_{i = 1}^n X_i \sim \Gamma(n, \lambda)
+\end{equation*}
+We can also define: $\Gamma(\alpha, \lambda)$ for any $\alpha \in \R^+$. The only problem so far with our definition is that we have a factorial in the denominator. We replace the $(n-1)!$ with:
+\begin{equation*}
+    \Gamma(\alpha) = \int_0^\infty e^{-x} x^{\alpha - 1}
+\end{equation*}
+Then the density function $\Gamma(\alpha, \lambda)$ is:
+\begin{equation*}
+    f(x) = \frac{e^{-\lambda x}\lambda^\alpha x^{\alpha - 1}}{\Gamma(\alpha)}
+\end{equation*}
+\subsection{The Normal Distribution}
+If $X \sim N(\mu, \sigma^2)$, then $X$ has density:
+\begin{equation*}
+    f(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)
+\end{equation*}
+Then $m(\theta) = E[e^{\theta X}]$ is given by:
+\begin{equation*}
+    \int_{-\infty}^\infty e^{\theta x} \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right) dx
+\end{equation*}
+Then consider the exponent:
+\begin{align*}
+    &\frac{2\sigma^2\theta x}{2\sigma^2} - \frac{x^2}{2\sigma^2} + \frac{2x\mu}{2\sigma^2} - \frac{\mu^2}{2\sigma^2} \\
+    &= \frac{1}{2\sigma^2}\left(-x^2 + 2x(\theta \sigma^2 + \mu) - \mu^2 + (\theta \sigma^2 + \mu)^2 - (\theta \sigma^2 + \mu)^2\right) \\
+    &= \frac{1}{2\sigma^2}\left(-(x - (\mu + \theta \sigma^2))^2 - \mu^2 + \theta^2 \sigma^4 + 2\theta \sigma^2 \mu + \mu^2\right)
+    &= -\frac{1}{2\sigma^2}(x - (\mu + \theta \sigma^2))^2 + \frac{\theta^2 \sigma^2}{2} + \theta \mu
+\end{align*}
+Then substituting this back into the original formula:
+\begin{align*}
+    m(\theta) &= \int_{-\infty}^\infty \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x - (\mu + \theta \sigma^2))^2}{2\sigma^2}\right)dx \\
+    &\times \exp\left(\frac{\theta^2 \sigma^2}{2} + \theta \mu\right) \\
+    &= \exp\left(\frac{\theta^2 \sigma^2}{2} + \theta \mu\right) \text{ by recognising normal dist.}
+\end{align*}
+Now we have a moment generating function, we can consider the sum of two independent normal distributions. Consider $X \sim N(\mu, \sigma^2)$ and $Y \sim N(\nu, \tau^2)$.
+\begin{align*}
+    E[e^{\theta(X + Y)}] &= E[e^{\theta X}] E[e^{\theta Y}] \\
+    &= \exp\left(\theta \mu + \frac{\theta^2 \sigma^2}{2}\right) \exp\left(\theta \nu + \frac{\theta^2 \tau^2}{2}\right) \\
+    &= \exp\left(\theta (\mu + \nu) + \frac{\theta^2 (\sigma^2 + \tau^2)}{2}\right)
+\end{align*}
+So $X + Y \sim N(\mu + \nu, \sigma^2 + \tau^2)$.
+\subsection{Cauchy Distribution}
+Define the \underline{Cauchy Distribution} with density:
+\begin{equation*}
+    f(x) = \frac{1}{\pi (1 + x^2)}
+\end{equation*}
+Then the moment generating function is given by:
+\begin{equation*}
+    m(\theta) = \int_{-\infty}^\infty \frac{e^{\theta x}}{\pi(1 + x^2)}dx
+\end{equation*}
+However, this is infinite for all non-zero $\theta$. Furthermore, $X, 2X, \cdots$ all have the same moment generating function, but they cannot have the same distribution. Therefore, this provides a counterexample to theorem~\ref{thmMGFDetermines} in the case where $m(\theta)$ is not finite on an open interval of values of $\theta$.
+\subsection{Multivariate Moment Generating Functions}
+\begin{definition}{Multivariate moment generating function}
+    Let $X = (X_1, X_2, \cdots, X_n) \in \R^n$ be a random variable. Then the \underline{moment generating function} of $X$ is defined to be:
+    \begin{align*}
+        m(\theta) &= E[e^{\theta^T X}] = E[e^{\sum_{i=1}^n \theta_i X_i}] \\
+        \theta &= (\theta_1, \cdots, \theta_n)^T
+    \end{align*}
+\end{definition}
+\begin{theorem}
+    If the moment generating function is finite for an open set of values of $\theta$, then it uniquely determines the distribution.
+
+    In this case,
+    \begin{equation*}
+        \frac{\partial^r m}{\partial \theta_i^r} \vert_{\theta = 0} = E[X_i^r]
+    \end{equation*}
+    and also:
+    \begin{equation*}
+        \frac{\partial^{r + s}m}{\partial x_i^r \partial x_j^s} \vert_{\theta = 0} = E[X_i^r X_j^s]
+    \end{equation*}
+    \label{thmMGFMultiVarDetermines}
+\end{theorem}
+\begin{proposition}
+    The moment generating function factorises:
+    \begin{equation*}
+        m(\theta) = \prod_{i = 1}^n E[e^{\theta_i X_i}]
+    \end{equation*}
+    if and only if the $X_i$ are independent.
+    \label{propMGFMultiVarFactorise}
+\end{proposition}
+\subsection{Multidimensional Normal Random Variables}
+A random variable in $R$, $X$, is called Gaussian or Normal in $\R$ if it can be written as $X = \mu + \sigma Z$, where $Z \sim N(0, 1)$.
+\begin{definition}{Gaussian Vector}
+    Let $X = (X_1, \cdots, X_n)^T$ with values in $R^n$. $X$ is a \underline{Gaussian Vector} if for all $u \in R^n$:
+    \begin{equation*}
+        u^T X = \sum_{i=1}^n u_i X_i \text{ is a Gaussian random variable in } \R.
+    \end{equation*}
+\end{definition}
+\begin{example}
+    Let $A$ be an $m \times n$ matrix and $b \in \R^m$. Then let $X = (X_1, \cdots, X_n)^T$ be a Gaussian. Then we want to show $AX + b$ is also Gaussian in $R^m$.
+
+    Let $u = (u_1, \cdots, u_m)^T$. Then:
+    \begin{equation*}
+        u^T (AX + b) = (u^T A)X + u^T b
+    \end{equation*}
+    Then set $v = A^T u$.
+    \begin{equation*}
+        u^T(AX + b) = v^T X + \sum_{i = 1}^m u_i b_i
+    \end{equation*}
+    So, since $X$ is Gaussian, so is $v^T X$ and so $AX + B$ must also be Gaussian.
+\end{example}
+Let $X = (X_1, \cdots X_n)$ in $\R^n$ be Gaussian. Set $\mu = E[X]$, which is a vector defined such that $\mu_i = E[X_i]$. Define also the variance of the vector to be $E[(X - \mu)(X - \mu)^T]$. This gives an $n \times n$ matrix, where the entry $(Var(X))_{i, j} = \Cov(X_i, X_j)$. Note that the elements on the diagonal are therefore $\Var(X_i)$, and that this matrix is symmetric.
 \end{document}
