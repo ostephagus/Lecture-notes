@@ -409,7 +409,7 @@ For example, the matrix:
 \end{equation*}
 flips the direction of time so is not in $SO^+(1, 3)$.
 From now on we will consider Lorentz transformations to be those in $SO^+(1, 3)$.
-\subsection{Relativistic Motion}
+\subsection{Proper Time}
 In order to define ideas such as Newton's Second Law, we need to create new concepts of time and velocity that transform nicely under Lorentz transformations. To do this, we need to find a concept of time $\tau$ that is invariant under Lorentz transformations. Then we would be able to define a concept of velocity:
 \begin{equation*}
     U = \frac{dX}{d\tau}
@@ -434,4 +434,101 @@ Then if we define $\vec{u} = \frac{d\vec{x}}{dt}$ to be the instantaneous 3-velo
 \begin{equation*}
     d\tau = dt\sqrt{1 - \frac{\vec{u}^2}{c^2}}
 \end{equation*}
+Now, if we let $\gamma = \left(1-\frac{u^2}{c^2}\right)^{-\frac{1}{2}}$ (note that this is the same form as for the Lorentz factor, but we use the instantaneous 3-velocity, not the velocity of a moving frame),
+\begin{equation}
+    d\tau = \frac{dt}{\gamma}
+    \label{eqnProperTime}
+\end{equation}
+Note also that $\gamma$ need not be constant, since the velocity of the particle could be changing. A clock following the worldline has $dx' = 0$, and therefore $d\tau = dt'$. That is, the proper time is the time measured by an observer following the worldline. The frame of this observer need not be inertial. To resolve the issue of a non-inertial frame, we consider instead a sequence of inertial frames, which the observer spends an infinitesimal time in. These frames follow the velocity $\vec{u}(t)$ at each instant in time.
+\subsection{4-Velocity}
+Now we have found an invariant $\tau$, and the 4-vector $X = (ct(\tau), x(\tau), y(\tau), z(\tau))$ transforms as $X' = \Lambda X$, the vector:
+\begin{equation*}
+    U = \frac{dX}{d\tau}
+\end{equation*}
+transforms as $U' = \Lambda U$. This in fact can be used to define a 4-vector: any vector that transforms in the way $V' = \Lambda V$.
+We define this to be the 4-velocity:
+\begin{definition}{4-velocity}
+    For a particle with position 4-vector $X$, the \underline{4-velocity} is given by:
+    \begin{equation*}
+        U = \frac{dX}{d\tau}
+    \end{equation*}
+\end{definition}
+We can find an explicit formula:
+\begin{align*}
+    U &= \frac{dX}{d\tau} = \begin{pmatrix}c\frac{dt}{d\tau} \\ \frac{d\vec{x}}{d\tau}\end{pmatrix} \\
+    &= \frac{dt}{d\tau} \begin{pmatrix}c \\ \frac{d\vec{x}}{dt}\end{pmatrix} \\
+    &= \gamma \begin{pmatrix}c \\ \vec{u} \end{pmatrix}
+\end{align*}
+Because $U$ is a 4-vector, its dot product must be the same in all frames:
+\begin{align*}
+    U \cdot U &= \gamma^2 c^2 - \gamma^2 \vec{u} \cdot \vec{u} \\
+    &= \gamma^2 (c^2 - \vec{u} \cdot \vec{u}) \\
+    &= \gamma^2 \frac{c^2}{\gamma^2} \\
+    &= c^2
+\end{align*}
+This means that the 4-velocity is determined by the 3-velocity $\vec{u}$. That is, given a 4-velocity, we can solve for the time component of $U$.
+\subsection{4-Momentum}
+Now we have 4-velocity, it is easy to define the 4-momentum:
+\begin{definition}{4-momentum and Relativistic Energy}
+    Given a particle of rest mass $m$ and 4-velocity $U$, the \underline{4-momentum} is the product:
+    \begin{equation*}
+        P = mU
+    \end{equation*}
+\end{definition}
+The rest mass is a scalar property of all particles.
+
+Relativistic 3-momentum $\vec{p}$ is given by $\vec{p} = m\gamma \vec{u}$.
+\begin{definition}{Relativistic energy}
+    For a particle of rest mass $m$ and instantaneous Lorentz Factor $\gamma$, the \underline{relativistic energy} $E$ is:
+    \begin{equation*}
+        E = m\gamma c^2
+    \end{equation*}
+\end{definition}
+Then the 4-momentum can be written as:
+\begin{equation*}
+    P = \begin{pmatrix}\frac{E}{c} \\ \vec{p} \end{pmatrix}
+\end{equation*}
+This 4-vector combines energy and 3-momentum in the same way that 4-velocity combined 3-velocity and proper time. In the absence of forces, the Lorentz-invariant generalisation of Newton's Second Law is:
+\begin{equation}
+    \frac{dP}{d\tau} = 0
+    \label{eqnNewtonIIRelativity}
+\end{equation}
+This equation combines both conservation of momentum and conservation of energy. This cannot be derived, it must be taken as a new postulate. However, it is the best generalisation since in the limit $v << c$ we recover Newton's Second Law.
+
+From $U \cdot U = c^2$ we get that $P \cdot P = m^2 c^2$, and we can also work out $P \cdot P$:
+\begin{align*}
+    P \cdot P &= \frac{E^2}{c^2} - \vec{p}^2 \\
+    \therefore E^2 &= \vec{p}^2 c^2 + m^2 c^4
+\end{align*}
+
+Taking the non-relativistic limit:
+\begin{align*}
+    E &= m\gamma c^2 = \frac{mc^2}{\sqrt{1 - \frac{\vec{u}^2}{c^2}}} \\
+    &\approx mc^2 \left[1 + \frac{1}{2} \frac{\vec{u}^2}{c^2} + \cdots \right] \\
+    &= mc^2 + \frac{1}{2} m\vec{u}^2
+\end{align*}
+So we have a new consequence of relativity: an extra energy exists in the form of the \underline{rest mass energy}: $E_0 = mc^2$.
+
+The quantity $\gamma m$ is sometimes called the \underline{relativistic mass}. This quantity is equal to $m$ when the object is at rest, but tends to $\infty$ as the particle reaches close to the speed of light. This can be thought of as the particle getting heavier, and needing more force to accelerate it. In particular, a finite force cannot accelerate a particle beyond the speed of light. We will see this in more detail later when forces are discussed. This also suggests that a particle with a non-zero mass must have speed less than $c$.
+\subsection{Massless Particles}
+In Galilean physics, the notion of a massless particle makes no sense because the momentum would vanish, and we could not write down Newton's Second Law. However, this idea does make sense for relativistic particles.
+
+The product $P \cdot P = m^2 c^2$, so this suggests we can write $m = 0$:
+\begin{equation}
+    P \cdot P = 0.
+    \label{eqnNullMomentum}
+\end{equation}
+That is, the 4-momentum of a massless particle is null, and lies along a light ray.
+
+The 4-velocity does not exist for a massless particle, but the 4-momentum is the fundamental quantity, and does exist. From equation~\ref{eqnNullMomentum}, a massless particle has:
+\begin{equation*}
+    P = \frac{E}{c}\begin{pmatrix}1 & \uvec{n}\end{pmatrix}
+\end{equation*}
+This obeys the required equation. Here $E$ will be the energy of the massless particle. It is not equal to $m \gamma c^2$, since this is for massive particles only. We may then define the 3-momentum $\vec{p} = \frac{E}{c} \uvec{n}$.
+
+We can interpret a 3-velocity: $\vec{u} = c\uvec{n}$, and we therefore have $\vec{u}^2 = c^2$ and so the massless particle travels at the speed of light. We then have $|\vec{u}| = 0$ is and only if the particle is massless.
+
+Along a light-ray, $d\tau = 0$ since the points are light-like separated. Therefore, no time passes in the frame of the massless particle.
+
+Only two massless particles are known. These are the photon (the exchange particle for light) and the theorised graviton (which is the exchange particle for gravity). We borrow from quantum mechanics that the energy of a photon is related to its frequency: $E = \hbar \omega = \hbar \frac{2\pi c}{\lambda}$.
 \end{document}
