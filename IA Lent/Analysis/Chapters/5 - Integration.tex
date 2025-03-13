@@ -731,4 +731,152 @@ for any $x \in [a, b]$.
     \end{equation*}
     That is, an integral with no limits (or no lower limit). This is determined up to an additive constant.
 \end{corollary}
+\begin{remark}
+    The conclusions of corollary~\ref{corIntegrationInverseDifferentiation} hold under slightly weaker assumptions. See the next theorem
+\end{remark}
+\begin{theorem}[Second Fundamental Theorem of Calculus]
+    Suppose $f : [a, b] \mapsto \R$ is continuous on $[a, b]$, differentiable on $(a, b)$ and that $f'$ is integrable. Then:
+    \begin{equation*}
+        \int_a^b f'(x) dx = f(b) - f(a)
+    \end{equation*}
+    \label{thmFundamentalCalculusII}
+\end{theorem}
+\begin{proof}
+    Let $\dissec$ be any dissection of the interval $[a, b]$. Applying the Mean Value Theorem to a sub-interval $[x_{i - 1}, x_i]$, we deduce that there exists some $\xi_i \in (x_{i - 1}, x_i)$ such that:
+    \begin{equation*}
+        f'(\xi_i)(x_i - x_{i - 1}) = f(x_i) - f(x_{i - 1})
+    \end{equation*}
+    Then summing:
+    \begin{equation*}
+        \sum_{i = 1}^n f'(\xi_i)(x_i - x_{i - 1}) = f(b) - f(a)
+    \end{equation*}
+    But:
+    \begin{align*}
+        (x_i - x_{i - 1}) \inf_{x \in [x_{i - 1}, x_i]} f'(x) &\leq \sum_{i = 1}^n f'(\xi_i) (x_i - x_{i - 1}) \\
+        &\leq \sum_{i = 1}^n (x_i - x_{i - 1}) \sup_{x \in [x_{i - 1}, x_i]} f'(x)
+    \end{align*}
+    Which means:
+    \begin{align*}
+        &L(f', \dissec) \leq f(b) - f(a) \leq U(f', \dissec) \\
+        \implies &I_*(f') \leq f(b) - f(a) \leq I^*(f')
+    \end{align*}
+    But $f'$ is integrable so $I_*(f') = I^*(f') = f(b) - f(a)$.
+\end{proof}
+\begin{remark}
+    The assumption that $f'$ is integrable is necessary. Consider:
+    \begin{align*}
+        f: [-1, 1] &\mapsto \R \\
+        x &\mapsto
+        \begin{cases}
+            |x|^{\frac{3}{2}} \sin\frac{1}{x} & x \neq 0 \\
+            0 & x = 0
+        \end{cases}
+    \end{align*}
+    $f$ is continuous on $[-1, 1]$, differentiable on $(-1, 1)$, but $f'$ is unbounded and hence not integrable.
+\end{remark}
+Another important corollary of the first fundamental theorem of calculus (theorem~\ref{thmFundamentalCalculusI}) is:
+\begin{corollary}[Integration by parts]
+    Suppose that $f'$ and $g'$ exist and are continuous on $[a, b]$. Then:
+    \begin{equation*}
+        \int_a^b f'(x) g(x) dx = f(b) g(b) - f(a) g(a) - \int_a^b f(x) g'(x) dx
+    \end{equation*}
+    \label{corIntegrationParts}
+\end{corollary}
+\begin{proof}
+    \begin{align*}
+        \int_a^b f'(x) g(x) dx &= \int_a^b ((fg)'(x) - g'(x) f(x))dx \text{ by product rule} \\
+        &= \int_a^b (fg)'(x) - \int_a^b g'(x) f(x) \text{ by linearity} \\
+        &= f(b) g(b) - f(a) g(a) - \int_a^b g'(x) f(x)\\
+        &\text{ by corollary~\ref{corIntegrationInverseDifferentiation}}
+    \end{align*}
+\end{proof}
+\begin{corollary}[Integration by Substitution]
+    Let $g : [\alpha, \beta] \mapsto [a, b]$ with $g(\alpha) = a, g(\beta) = b$. Suppose also $g'$ exists and is continuous on $[\alpha, \beta]$.
+
+    Let $f : [a, b] \mapsto \R$, and assume continuity. Then:
+    \begin{equation*}
+        \int_a^b f(x) dx = \int_\alpha^\beta f(g(t))g'(t) dt
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    Set $F(x) = \int_a^x f(t) dt$. Let $h(t) = F(g(t))$, which is well-defined as $g$ takes values in $[a, b]$.
+    \begin{align*}
+        \int_\alpha^\beta f(g(t)) g'(t) dt &= \int_\alpha^\beta F'(g(t)) g'(t) \text{ by theorem~\ref{thmFundamentalCalculusI}} \\
+        &= \int_\alpha^\beta h'(t) dt \text{ by chain rule} \\
+        &= h(\beta) - h(\alpha) \text{ by corollary~\ref{corIntegrationInverseDifferentiation}} \\
+        &= F(b) - F(a) \\
+        &= \int_a^b f(x) dx \text{ by corollary~\ref{corIntegrationInverseDifferentiation}.}
+    \end{align*}
+\end{proof}
+\begin{remark}
+    These two corollaries complete the toolbox of methods for integration.
+\end{remark}
+\section{Taylor's Theorem Revisited}
+\begin{theorem}[Taylor's theorem with integral remainder]
+    Suppose that $f$ and its first $n$ derivatives exist and are continuous for $x \in [0, h]$. Then:
+    \begin{equation*}
+        f(h) = f(0) + hf'(0) + \cdots + \frac{h^{n-1}f^{(n-1)}(0)}{(n-1)!} + R_n
+    \end{equation*}
+    where the remainder term is:
+    \begin{equation*}
+        R_n = \frac{h^n}{(n-1)!} \int_0^1 (1-t)^{n-1} f^{(n)}(th) dt
+    \end{equation*}
+    \label{thmTaylorsIII}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        f(h) &= f(0) + \int_0^h f'(u) du \\
+        &= f(0) + \int_0^h -\frac{d}{du}(h - u)f'(u) du \\
+        &= f(0) + hf'(0) + \int_0^h (h - u) f''(u) du \text{ by integration by parts} \\
+        &= f(0) + hf'(0) + \int_0^h \left(-\frac{d}{du} \frac{(h - u)^2}{2}\right)f''(u) du \\
+        &= f(0) + hf'(0) + \frac{h^2 f''(0)}{2} + \int_0^h \frac{(h - u)^2}{2} f^{(3)}(u) du
+    \end{align*}
+    And it is clear that iterating this $n$ times gives:
+    \begin{equation*}
+        f(h) = f(0) + hf'(0) + \cdots + \frac{h^{n-1} f^{(n-1)}(0)}{(n-1)!} + \int_0^h \frac{(h - u)^{n-1}}{(n-1)!}f^{(n)}(u) du
+    \end{equation*}
+    Then setting $u = th$ in the remainder term gives the required result.
+\end{proof}
+\begin{remark}
+    We assume here that the $n$th derivative is continuous. This is a stricter assumption than in previous versions (theorems \ref{thmTaylorsI} and \ref{thmTaylorsII}). However if we make this hypothesis, we can derive the other versions of Taylor's theorem from this one.
+\end{remark}
+\begin{theorem}
+    Suppose that $f, g : [a, b] \mapsto \R$ are continuous and $g(x) \neq 0~\forall x \in (a, b)$. Then $\exists c \in (a, b)$ such that:
+    \begin{equation*}
+        \int_a^b f(x) g(x) dx = f(c)\int_a^b g(x) dx 
+    \end{equation*}
+    \label{thmIntegralMeanValue}
+\end{theorem}
+\begin{remark}
+    Note that if $g(x) = 1$ then $\int_a^b f(x) dx = f(c)(b - a)$, which is that the average value (in the integrated sense) is equal a constant value $f(c)$.
+\end{remark}
+\begin{proof}
+    Apply theorem~\ref{thmCauchyMeanValue} to:
+    \begin{equation*}
+        F(x) = \int_a^x f(x) g(x) dx~,~G(x) = \int_a^b g(x) dx
+    \end{equation*}
+    to deduce that:
+    \begin{equation*}
+        (F(b) - F(a))G'(c) = F'(c)(G(b) - G(a))
+    \end{equation*}
+    And therefore:
+    \begin{equation*}
+        \left(\int_a^b f(x) g(x) dx\right)g(c) = f(c) g(c) \left(\int_a^b f(x) dx\right)
+    \end{equation*}
+    And since $g$ is non-zero, we can cancel it for the result.
+\end{proof}
+Now consider:
+\begin{equation*}
+    R_n = \frac{h^n}{(n-1)!}\int_0^1 (1 - t)^{n-1} f^{(n)}(th) dt
+\end{equation*}
+Apply theorem~\ref{thmIntegralMeanValue} with $g = 1$ to get that there exists $\theta \in (0, 1)$ such that:
+\begin{equation*}
+    R_n = \frac{h^n}{(n-1)!}(1 - \theta)^{n-1} f^{(n)}(\theta h)
+\end{equation*}
+Alternatively, split the integrand such that $g(t) = (1 - t)^{(n-1)}$. Its integral on $[0, 1]$ is $\frac{1}{n}$.
+Then the remainder becomes:
+\begin{align*}
+    R_n &= \frac{h^n}{(n-1)!}f^{(n)}(\theta h) \frac{1}{n} \\
+    &= \frac{h^n}{n!}f^{(n)}(\theta h)
+\end{align*}
 \end{document}
