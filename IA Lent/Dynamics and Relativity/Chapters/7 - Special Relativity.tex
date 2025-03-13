@@ -526,9 +526,172 @@ The 4-velocity does not exist for a massless particle, but the 4-momentum is the
 \end{equation*}
 This obeys the required equation. Here $E$ will be the energy of the massless particle. It is not equal to $m \gamma c^2$, since this is for massive particles only. We may then define the 3-momentum $\vec{p} = \frac{E}{c} \uvec{n}$.
 
-We can interpret a 3-velocity: $\vec{u} = c\uvec{n}$, and we therefore have $\vec{u}^2 = c^2$ and so the massless particle travels at the speed of light. We then have $|\vec{u}| = 0$ is and only if the particle is massless.
+We can interpret a 3-velocity: $\vec{u} = c\uvec{n}$, and we therefore have $|\vec{u}|^2 = c^2$ and so the massless particle travels at the speed of light. Then $|\vec{u}| = 0$ is and only if the particle is massless.
 
 Along a light-ray, $d\tau = 0$ since the points are light-like separated. Therefore, no time passes in the frame of the massless particle.
 
 Only two massless particles are known. These are the photon (the exchange particle for light) and the theorised graviton (which is the exchange particle for gravity). We borrow from quantum mechanics that the energy of a photon is related to its frequency: $E = \hbar \omega = \hbar \frac{2\pi c}{\lambda}$.
+\section{Particle Physics}
+Particle accelerators, such that the Large Hadron Collider at CERN, collide particles at relativistic speeds. The mathematical framework for this is Quantum Field Theory. See Part III QFT. However, a lot can be learnt from conservation of 4-momentum: it must be the same before and after collisions. We will consider two basic processes: particle decay and particle collision.
+\subsection{Particle Decay}
+Heavy particles are often unstable and decay into lighter particles. For example, the Higgs boson decays in $10^{-22}$ seconds.
+
+Such particles are detected by their decay products. For example, the Higgs boson can decay into two photons. From experiments at the Large Hadron Collider, it has been found that its rest mass energy, $m_h c^2$ is $125$ $GeV$, which is around $10,000$ times heavier than the electron.
+
+Conserving 4-momentum:
+\begin{equation*}
+    P_h = P_\gamma + P_{\gamma'}
+\end{equation*}
+Before solving this problem, we need to consider the frame to work in. There are two clear options: one is the ``lab frame'' which is stationary relative to the equipment but through which particles are moving non-trivially; the other is the ``centre of mass frame'' or ``centre of momentum frame'' in which the total 3-momentum is zero.
+In the centre of mass frame, the 4-momentum of the Higgs is:
+\begin{equation*}
+    P_h = \begin{pmatrix} m_h c \\ \vec{0}\end{pmatrix}
+\end{equation*}
+Then the momentum of each photon is:
+\begin{equation*}
+    P_\gamma = \frac{E_{\gamma}}{c} \begin{pmatrix}1 \\ \uvec{n}\end{pmatrix}~P_{\gamma'} = \frac{E_{\gamma'}}{c} \begin{pmatrix}1 \\ \uvec{n}'\end{pmatrix}
+\end{equation*}
+Then conservation of 4-momentum implies:
+\begin{align}
+    m_h c^2 &= E_{\gamma} + E_{\gamma'} \label{eqnHiggsDecayEnergy} \\
+    0 &= \frac{E_\gamma}{c} \uvec{n} + \frac{E_{\gamma'}}{c} \uvec{n}' \label{eqnHiggsDecayMomentum}
+\end{align}
+Then equation~\ref{eqnHiggsDecayMomentum} implies that:
+\begin{align*}
+    E_\gamma &= E_{\gamma'} \\
+    \uvec{n} &= -\uvec{n}'
+\end{align*}
+And then equation~\ref{eqnHiggsDecayEnergy} gives that $E_\gamma = \frac{1}{2} m_hc^2$.
+
+Now we consider what happens in the lab frame.
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \draw (0, 0) -- (1, 0)
+            node[pos=0.5, anchor=north] {$h$};
+        \draw[dashed] (1, 0) -- (2, 0);
+
+        \draw (1, 0) -- +(30:1) node[right] {$\gamma$};
+        \draw (1, 0) -- +(300:1) node[right] {$\gamma'$};
+
+        \draw (1.2, 0) arc[start angle = 0, end angle=30, radius=0.2]
+            node[pos=0.7, anchor=west] {$\theta$};
+
+        \draw ($(1, 0) + (300:0.2)$) arc[start angle = -60, end angle=0, radius=0.2]
+            node[pos=0.3, anchor=west] {$\alpha$};
+    \end{tikzpicture}
+    \caption{Motion of the Higgs particle in the lab frame}
+    \label{figHiggsLab}
+\end{figure}
+Then we want to consider the angle $\theta$ that one of the photons makes with the Higgs boson's original trajectory.
+
+To extract information about conservation of $P$, it is best to use invariants. These are the inner products of 4-vectors.
+
+\begin{equation*}
+    P_h = P_\gamma + P_{\gamma'} \implies P_{\gamma'} = P_h - P_\gamma
+\end{equation*}
+Then taking the dot product of both sides with itself:
+\begin{align*}
+    P_{\gamma'} \cdot P_{\gamma'} &= (P_h - P_\gamma) \cdot (P_h - P_\gamma) \\
+    0 &= P_h \cdot P_h - 2 P_h \cdot P_\gamma + P_\gamma \cdot P_\gamma \\
+    &= m_h^2 c^2 - 2P_h \cdot P_\gamma \\
+    \implies m_h^2 c^2 &= 2P_\gamma \cdot P_h \\
+    &= 2\left(\frac{E_\gamma}{c} \frac{E_h}{c} - \vec{p_\gamma} \cdot \vec{p_h}\right) \\
+    &= 2\left(\frac{E_\gamma}{c} \frac{E_h}{c} - \frac{E_\gamma}{c} |\vec{p_h}|\cos{\theta}\right) \\
+    &= 2\frac{E_\gamma}{c}\left(\frac{E_h}{c} - |\vec{p_h}|\cos{\theta}\right) \\
+\end{align*}
+And then we use $E_h^2 = |\vec{p_h}|^2 c^2 + m_h^2 c^4$ to eliminate $|\vec{p_h}|$.
+\subsection{Particle Collisions}
+Consider two particles of mass $m$ colliding, and in the centre of mass frame they scatter at an angle $\theta$.
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \draw[->] (-1, 0) -- (-0.1, 0)
+            node[pos=0.3, anchor=north] {1};
+        
+        \draw[->] (1, 0) -- (0.1, 0)
+            node[pos=0.3, anchor=north] {2};
+
+        \draw[->] (30:0.1) -- (30:1)
+            node[anchor=west] {3};
+
+        \draw[->] (210:0.1) -- (210:1)
+            node[anchor=east] {4};
+
+        \draw (0.3, 0) arc[start angle=0, end angle=30, radius=0.3]
+            node[pos=0.7, anchor=west] {$\theta$};
+    \end{tikzpicture}
+    \caption{Diagram of particles involved in a collision}
+    \label{figParticleCollision}
+\end{figure}
+Then we must conserve 4-momentum:
+\begin{equation}
+    P_1 + P_2 = P_3 + P_4
+    \label{eqnCollisionMomentum}
+\end{equation}
+Then we can consider 3-momenta:
+\begin{align*}
+    &\vec{p_1} + \vec{p_2} = \vec{0} = \vec{p_3} + \vec{p_4} \\
+    &|\vec{p_1}| = |\vec{p_2}|~,~|\vec{p_3}| = |\vec{p_4}|
+\end{align*}
+And energy:
+\begin{align*}
+    E_1 &= E_2 \\
+    E_3 &= E_4
+\end{align*}
+However by the time component of equation~\ref{eqnCollisionMomentum}, $E_1 + E_2 = E_3 + E_4$:
+\begin{align*}
+    &E_1 = E_2 = E_3 = E_4 \\
+    &|\vec{p_1}| = |\vec{p_2}| = |\vec{p_3}| = |\vec{p_4}|
+\end{align*}
+Any angle between the vectors 1 and 3 is allowed. All momenta are in the same plane, so we can choose, for example:
+\begin{align*}
+    \vec{p_1} &= |p_1| (1, 0, 0)^T = -\vec{p_2} \\
+    \vec{p_3} &= |p_1| (\cos(\theta), \sin(\theta), 0)^T = -\vec{p_4} \\
+\end{align*}
+
+In the lab frame,
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \draw[->] (-1, 0) -- (-0.2, 0)
+            node[pos=0.5, anchor=north] {$\vec{p_1}$};
+        
+        \fill (0, 0) circle[radius=0.2mm] node[anchor=north] {$\vec{p_2}$};
+
+        \draw[dashed] (0.1, 0) -- (1, 0);
+        \draw[->] (315:0.1) -- (315:1) node[pos=0.5, anchor=north] {$\vec{p_4}$};
+        \draw[->] (30:0.1) -- (30:1) node[pos=0.5, anchor=south] {$\vec{p_3}$};
+
+        \draw (315:0.3) arc[start angle=-45, end angle=0, radius=0.3] node[pos=0.3, anchor=west] {$\alpha$};
+        \draw (0.3, 0) arc[start angle=0, end angle=30, radius=0.3] node[pos=0.7, anchor=west] {$\phi$};
+    \end{tikzpicture}
+    \caption{Particle collision in the lab frame}
+    \label{figCollisionLab}
+\end{figure}
+
+Here particle 2 is at rest, and is hit by particle 1.
+\begin{equation*}
+    P_2 = \begin{pmatrix}mc \\ \vec{0}\end{pmatrix}
+\end{equation*}
+We can get the angle $\phi$ using invariants. We want to eliminate $P_4$:
+
+\begin{align*}
+    P_1 + P_2 &= P_3 + P_4 \\
+    \left(P_1 + P_2 - P_3\right) &= P_4^2 = m^2 c^2
+\end{align*}
+And, since $P_2$ is at rest, $\vec{p_2} = \vec{0}$:
+\begin{align*}
+    m^2 c^2 &= P_1^2 + P_2^2 + 2P_1 \cdot P_2 - 2P_1 \cdot P_3 - 2P_2 \cdot P_3 \\
+    &= 3m^2 c^2 + 2\frac{E_1}{c} mc - 2P_1 \cdot P_3 - 2\frac{E_3}{c} mc \\
+    &= 3m^2 c^2 + 2E_1m - 2P_1 \cdot P_3 - 2E_3m \\
+\end{align*}
+Then we can evaluate:
+\begin{align*}
+    2m^2 c^2 + 2m(E_1 - E_3) &= 2P_1 \cdot P_3 \\
+    &= 2\left(\frac{E_1}{c} \frac{E_3}{c} - \vec{p_1} \cdot \vec{p_3}\right) \\
+    &= 2\left(\frac{E_1}{c} \frac{E_3}{c} - |\vec{p_1}||\vec{p_3}\cos(\phi)\right) \\
+    \implies -|\vec{p_1}||\vec{p_3}| \cos{\theta} &= m^2 c^2 + m(E_1 - E_3) - \frac{E_1 E_3}{c^2}
+\end{align*}
+Then we can eliminate $|\vec{p_1}|$ and $|\vec{p_3}|$ by using $E^2 = |\vec{p}|^2 + m^2 c^4$, and then we can have a formula for $\cos{\phi}$ in terms of $E_1$ and $E_3$.
 \end{document}
