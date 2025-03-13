@@ -315,7 +315,7 @@ More generally, for any subset of the real numbers $A$,
     First note that $g^{-1} = \frac{x - b}{a}$, and that its derivative is $\frac{1}{a}$. Then $f_{Y}$ is:
     \begin{align*}
         f_Y(y) &= f_X (g^{-1}(y)) \left|\frac{d(g^{-1}(y))}{dy}\right| \\
-        &= \frac{1}{\sigma\sqrt{2\pi}} \exp{\left(-\frac{\left(\frac{y - b}{a} - \mu\right)^2}{2\sigma^2}\right)} \frac{1}{a}
+        &= \frac{1}{\sigma\sqrt{2\pi}} \exp{\left(-\frac{\left(\frac{y - b}{a} - \mu\right)^2}{2\sigma^2}\right)} \frac{1}{a} \\
         &= \frac{1}{a\sigma\sqrt{2\pi}} \exp{\left(-\frac{y - (a\mu + b)}{2(a\sigma)^2}\right)}
     \end{align*}
     Which is a distribution $N(a\mu + b, (a\sigma)^2)$.\par
@@ -492,6 +492,7 @@ We have also the Law of Total Probability:
         f_Y(y) = f_X(x) |J|
     \end{equation*}
     where $x = g^{-1}(y)$ and $J$ is the Jacobian of the transform $g$.
+    \label{thmTransformRV}
 \end{theorem}
 This theorem will be used without proof.
 \begin{example}
@@ -607,7 +608,7 @@ So by differentiating with respect to every $x_i$:
 \end{example}
 \section{Moment Generating Functions}
 \begin{definition}{Moment generating function}
-    Let $X$ be a random variable with density $f$. Then the \underline{moment generating function} is defined to be:
+    Let $X$ be a random variable with density $f$. Then the \\\underline{moment generating function} is defined to be:
     \begin{equation*}
         m(\theta) = E[e^{\theta X}] = \int_{-\infty}^\infty e^{\theta x} f(x) dx
     \end{equation*}
@@ -661,7 +662,7 @@ If $X$ has density $f$, $X \sim \Gamma(n, \lambda)$, we can find the moment gene
     \end{equation*}
     \label{propMGFFactorise}
 \end{proposition}
-Then we can consider two independent gamma distributions: $X \sim \Gamma(n, \lambda)$ and $Y \sim \Gamma(m, \lambda)$. Then the moment generating function of $X+Y$ is:
+Then we can consider two independent gamma distributions: \\$X \sim \Gamma(n, \lambda)$ and $Y \sim \Gamma(m, \lambda)$. Then the moment generating function of $X+Y$ is:
 \begin{align*}
     E[e^{\theta X}] E[e^{\theta Y}] &= \left(\frac{\lambda}{\lambda - \theta}\right)^n \left(\frac{\lambda}{\lambda - \theta}\right)^m \\
     &= \left(\frac{\lambda}{\lambda - \theta}\right)^{n+m}
@@ -693,7 +694,7 @@ Then consider the exponent:
 \begin{align*}
     &\frac{2\sigma^2\theta x}{2\sigma^2} - \frac{x^2}{2\sigma^2} + \frac{2x\mu}{2\sigma^2} - \frac{\mu^2}{2\sigma^2} \\
     &= \frac{1}{2\sigma^2}\left(-x^2 + 2x(\theta \sigma^2 + \mu) - \mu^2 + (\theta \sigma^2 + \mu)^2 - (\theta \sigma^2 + \mu)^2\right) \\
-    &= \frac{1}{2\sigma^2}\left(-(x - (\mu + \theta \sigma^2))^2 - \mu^2 + \theta^2 \sigma^4 + 2\theta \sigma^2 \mu + \mu^2\right)
+    &= \frac{1}{2\sigma^2}\left(-(x - (\mu + \theta \sigma^2))^2 - \mu^2 + \theta^2 \sigma^4 + 2\theta \sigma^2 \mu + \mu^2\right) \\
     &= -\frac{1}{2\sigma^2}(x - (\mu + \theta \sigma^2))^2 + \frac{\theta^2 \sigma^2}{2} + \theta \mu
 \end{align*}
 Then substituting this back into the original formula:
@@ -719,7 +720,7 @@ Then the moment generating function is given by:
     m(\theta) = \int_{-\infty}^\infty \frac{e^{\theta x}}{\pi(1 + x^2)}dx
 \end{equation*}
 However, this is infinite for all non-zero $\theta$. Furthermore, $X, 2X, \cdots$ all have the same moment generating function, but they cannot have the same distribution. Therefore, this provides a counterexample to theorem~\ref{thmMGFDetermines} in the case where $m(\theta)$ is not finite on an open interval of values of $\theta$.
-\subsection{Multivariate Moment Generating Functions}
+\subsection{Multivariate Moment Generating Functions} %TODO: Figure out what needs to be vector bold.
 \begin{definition}{Multivariate moment generating function}
     Let $X = (X_1, X_2, \cdots, X_n) \in \R^n$ be a random variable. Then the \underline{moment generating function} of $X$ is defined to be:
     \begin{align*}
@@ -749,25 +750,194 @@ However, this is infinite for all non-zero $\theta$. Furthermore, $X, 2X, \cdots
     \label{propMGFMultiVarFactorise}
 \end{proposition}
 \subsection{Multidimensional Normal Random Variables}
-A random variable in $R$, $X$, is called Gaussian or Normal in $\R$ if it can be written as $X = \mu + \sigma Z$, where $Z \sim N(0, 1)$.
+Recall that a random variable in $\R$, $X$, is called Gaussian or Normal in $\R$ if it can be written as $X = \mu + \sigma Z$, where $Z \sim N(0, 1)$.
 \begin{definition}{Gaussian Vector}
-    Let $X = (X_1, \cdots, X_n)^T$ with values in $R^n$. $X$ is a \underline{Gaussian Vector} if for all $u \in R^n$:
+    Let $\vec{X} = (X_1, \cdots, X_n)^T$ with values in $R^n$. $\vec{X}$ is a \underline{Gaussian Vector} if for all $\vec{u} \in \R^n$:
     \begin{equation*}
-        u^T X = \sum_{i=1}^n u_i X_i \text{ is a Gaussian random variable in } \R.
+        \vec{u}^T \vec{X} = \sum_{i=1}^n u_i X_i \text{ is a Gaussian random variable in } \R.
     \end{equation*}
 \end{definition}
-\begin{example}
-    Let $A$ be an $m \times n$ matrix and $b \in \R^m$. Then let $X = (X_1, \cdots, X_n)^T$ be a Gaussian. Then we want to show $AX + b$ is also Gaussian in $R^m$.
+\begin{proposition}
+    Let $A$ be an $m \times n$ matrix and $\vec{b} \in \R^m$. Then let $\vec{X} = (X_1, \cdots, X_n)^T$ be a Gaussian vector. Then $A\vec{X} + \vec{b}$ is a Gaussian vector in $R^m$.
+    \label{propGaussVecLinearMap}
+\end{proposition}
+\begin{proof}
+    Let $\vec{u} = (u_1, \cdots, u_m)^T$. Then:
+    \begin{equation*}
+        \vec{u}^T (AX + \vec{b}) = (\vec{u}^T A)\vec{X} + \vec{u}^T \vec{b}
+    \end{equation*}
+    Then set $\vec{v} = A^T \vec{u}$.
+    \begin{equation*}
+        \vec{u}^T(A\vec{X} + \vec{b}) = \vec{v}^T \vec{X} + \sum_{i = 1}^m u_i b_i
+    \end{equation*}
+    So, since $\vec{X}$ is Gaussian, so is $\vec{v}^T \vec{X}$ and so $A\vec{X} + \vec{b}$ must also be Gaussian.
+\end{proof}
+Let $\vec{X} = (X_1, \cdots X_n)$ in $\R^n$ be Gaussian. Set $\vec{\mu} = E[\vec{X}]$, which is a vector defined such that $\mu_i = E[X_i]$. Define also the variance of the vector to be $E[(\vec{X} - \vec{\mu})(\vec{X} - \vec{\mu})^T]$. This gives an $n \times n$ matrix, where the entry $(Var(X))_{i, j} = \Cov(X_i, X_j)$. Note that the elements on the diagonal are therefore $\Var(X_i)$, and that this matrix is symmetric.
+\begin{equation*}
+    \begin{pmatrix}
+        \Var(X_1) & \Cov(X_1, X_2) & \Cov(X_1, X_3) & \cdots & \Cov(X_1, X_n) \\
+        \Cov(X_1, X_2) & \Var(X_2) & \Cov(X_2, X_3) & \cdots & \Cov(X_2, X_n) \\
+        \Cov(X_1, X_3) & \Cov(X_2, X_3) & \Var(X_3) & & \vdots \\
+        \vdots & \vdots & & \ddots & \Cov(X_{n-1}, X_n) \\
+        \Cov(X_1, X_n) & \Cov(X_2, X_n) & \cdots & & \Var(X_n) \\
+    \end{pmatrix}
+\end{equation*}
+\begin{align*}
+    \Var(\vec{u}^T \vec{X}) &= \Var\left(\sum_{i=1}^n u_i X_i\right) \\
+    &= \sum_{i, j=1}^n u_i \Cov(X_i, X_j) x_j \\
+    &= \vec{u}^T V \vec{u}
+\end{align*}
+\begin{proposition}
+    $V = \Var(X)$ is a non-negative definite matrix. That is, for any vector $\vec{u}$, $\vec{u}^T V \vec{u} \geq 0$.
+    \label{propVarNonNegDefinite}
+\end{proposition}
+\begin{proof}
+    Simply note that variance is always non-negative, so:
+    \begin{align*}
+        \vec{u}^T V \vec{u} = \Var(\vec{u}^T \vec{X}) \geq 0
+    \end{align*}
+\end{proof}
+We can then consider the Moment Generating Function for $\vec{X}$.
 
-    Let $u = (u_1, \cdots, u_m)^T$. Then:
+\begin{align*}
+    m(\vec{\lambda}) &= E[e^{\vec{\lambda}^T \vec{X}}] \\
+    \vec{\lambda}^T \vec{X} &\sim N(\vec{\lambda}^T \vec{\mu}, \vec{\lambda}^T V \vec{\lambda}) \\
+    \therefore m(\vec{\lambda}) &= \text{exp}\left({\vec{\lambda}^T \vec{\mu} + \frac{\vec{\lambda^T} V \vec{\lambda}}{2}}\right)
+\end{align*}
+Therefore, since the moment generating function uniquely characterises the distribution, we have that the Gaussian vector must be parameterised fully by its mean vector, $\vec{\mu}$, and its variance matrix $V$.
+
+So far, we have not seen an example of a Gaussian vector. We would like to construct a Gaussian vector that is similar to the standard normal, and then we would like to transform it (as we do with the standard normal) to general Gaussian vectors.
+
+\begin{proposition}
+    Let $Z_1, \cdots, Z_n$ be independent standard normal random variables. Then $\vec{Z} = (Z_1, \cdots, Z_n)^T$ is a Gaussian vector.
+    \label{propStdVectorIsGaussian}
+\end{proposition}
+\begin{proof}
+    For any constant vector $\vec{u}$, the moment generating function of $\vec{u}^T \vec{Z}$ is:
+    \begin{align*}
+        m(\vec{\lambda}) &= E\left[e^{\vec{\lambda} \vec{u}^T \vec{Z}}\right] \\
+        &= E\left[\text{exp}\left(\vec{\lambda} \sum_{i = 1}^n u_i Z_i\right)\right] \\
+        &= \prod_{i=1}^{n} E[e^{\vec{\lambda} u_i Z_i}] \\
+        &= \prod_{i = 1}^n \text{exp}\left({\frac{|\vec{\lambda}|^2 u_i^2}{2}}\right) \\
+        &= \text{exp}\left({\frac{|\vec{\lambda}|^2 |\vec{u}|^2}{2}}\right)
+    \end{align*}
+    And therefore $\vec{u}^T \vec{Z} \sim N(0, |\vec{u}|^2)$.
+
+    Then the variance of $\vec{Z}$ is the identity matrix (since the variables $Z_i$ are independent, and all have variance 1), and so $\vec{Z} \sim N(\vec{0}, I)$ where $I$ is the $n \times n$ identity matrix.
+\end{proof}
+Now we have shown that a vector of standard normal random variables is a Gaussian vector. We would like to construct a Gaussian vector with mean $\vec{\mu}$ and variance matrix $V$.
+
+First, we need to define the square root of a matrix to be able to consider the standard deviation matrix rather than the variance matrix.
+\begin{definition}{Square root of a Matrix}
+    Given a non-negative definite real symmetric matrix $V = U^T D U$ where $U$ is an orthogonal matrix and $D$ is a diagonal matrix with all positive elements.
+
+    Then the \underline{square root} of $V$ is:
     \begin{equation*}
-        u^T (AX + b) = (u^T A)X + u^T b
+        \sqrt{V} = U^T \sqrt{D} U
     \end{equation*}
-    Then set $v = A^T u$.
+    Where $\sqrt{D}$ is the matrix formed by taking the positive square root of each element of $D$.
+\end{definition}
+\begin{theorem}
+    Let $\vec{\mu} \in \R^n$ and let $V$ be a non-negative definite matrix.
+
+    Let $\vec{Z}$ be a vector of independent standard normal random variables.
+
+    Then the vector $\vec{X} = \vec{\mu} + \sqrt{V} \vec{Z}$ is a Gaussian vector with mean $\vec{\mu}$ and variance $V$.
+    \label{thmGeneralGaussVec}
+\end{theorem}
+\begin{theorem}
+    We model the proof on the case of 1 dimension, where we defined $X = \mu + \sigma Z$. Therefore, we define $\sigma = \sqrt{V}$ and consider $\vec{X} = \vec{\mu} + \sigma \vec{Z}$.
+
+    $\vec{X}$ must be a Gaussian random variable since it is a linear transformation of the Gaussian vector $\vec{Z}$, which is a Gaussian vector by proposition~\ref{propGaussVecLinearMap}.
+
+    The mean is simply $\vec{\mu}$, since the mean of $\vec{Z}$ is $\vec{0}$. The variance is:
+    \begin{align*}
+        \Var(\vec{X}) &= E[(\vec{X} - \vec{\mu})(\vec{X} - \vec{\mu})^T] \\
+        &= E[\sigma \vec{Z} \vec{Z}^T \sigma^T] \\
+        &= \sigma E[\vec{Z} \vec{Z}^T] \sigma^T \\
+        &= \sigma I \sigma^T \\
+        &= \sigma \sigma = V
+    \end{align*}
+\end{theorem}
+Then we consider the density of $\vec{X}$. We have that in the one-dimensional case,
+\begin{equation*}
+    f_X(x) = \frac{1}{\sigma\sqrt{2\pi}} \text{exp}\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)
+\end{equation*}
+\begin{theorem}
+    For an n-dimensional Gaussian vector with mean $\vec{\mu}$ and variance matrix $V$, the density function is:
     \begin{equation*}
-        u^T(AX + b) = v^T X + \sum_{i = 1}^m u_i b_i
+        f_{\vec{X}}(\vec{x}) = \frac{1}{\sqrt{(2\pi)^n} \det{V}} \text{exp} \left(-\frac{(\vec{x} - \vec{\mu})^T V^{-1} (\vec{x} - \vec{\mu})}{2}\right)
     \end{equation*}
-    So, since $X$ is Gaussian, so is $v^T X$ and so $AX + B$ must also be Gaussian.
-\end{example}
-Let $X = (X_1, \cdots X_n)$ in $\R^n$ be Gaussian. Set $\mu = E[X]$, which is a vector defined such that $\mu_i = E[X_i]$. Define also the variance of the vector to be $E[(X - \mu)(X - \mu)^T]$. This gives an $n \times n$ matrix, where the entry $(Var(X))_{i, j} = \Cov(X_i, X_j)$. Note that the elements on the diagonal are therefore $\Var(X_i)$, and that this matrix is symmetric.
+\end{theorem}
+\begin{proof}
+    \begin{case}{$V$ is positive definite (no zero eigenvalues)}
+        We can write $\vec{X} = \vec{\mu} + \sigma \vec{Z}$, where $\vec{Z}$ was as above defined. Then consider a change of variables $f_{\vec{X}}(\vec{x}) \mapsto f_{\vec{Z}}(\vec{z})$. From theorem~\ref{thmTransformRV}, this is defined by:
+        \begin{equation*}
+            f_{\vec{X}}(\vec{x}) = F_{\vec{Z}}(\vec{z}) |J|
+        \end{equation*}
+        The Jacobian is $\det{\sigma^{-1}}$, and this is $\frac{1}{\sqrt{\det{V}}}$.
+
+        Note also that $\vec{z} = \sigma^{-1} (\vec{x} - \vec{\mu})$.
+        \begin{align*}
+            f_{\vec{X}}(\vec{x}) &= \prod_{i=1}^{n} \exp\left({-\frac{z_i^2}{2}}{\sqrt{2\pi}} \frac{1}{\sqrt{\det{V}}}\right) \\
+            &= \frac{1}{\sqrt{(2\pi)^n \det{V}}} \exp\left({-\frac{|\vec{z}|^2}{2}}\right) \\
+            &= \frac{1}{\sqrt{(2\pi)^n \det{V}}} \exp\left({-\frac{\vec{z}^T \vec{z}}{2}}\right) \\
+            &= \frac{1}{\sqrt{(2\pi)^n \det{V}}} \exp\left({-\frac{(\vec{x} - \vec{\mu})^T (\sigma^{-1})^T \sigma^{-1} (\vec{x} - \vec{\mu})}{2}}\right) \\
+            &= \frac{1}{\sqrt{(2\pi)^n \det{V}}} \exp\left({-\frac{(\vec{x} - \vec{\mu})^T (\sigma \sigma)^{-1} (\vec{x} - \vec{\mu})}{2}}\right) \\
+            &= \frac{1}{\sqrt{(2\pi)^n \det{V}}} \exp\left({-\frac{(\vec{x} - \vec{\mu})^T V^{-1} (\vec{x} - \vec{\mu})}{2}}\right)
+        \end{align*}
+    \end{case}
+    \begin{case}{$V$ has some zero eigenvalues}
+        By an orthogonal change of basis, we can assume that:
+        \begin{equation*}
+            V =
+            \begin{pmatrix}
+                U & 0 \\
+                0 & 0
+            \end{pmatrix}
+        \end{equation*}
+        Where $U$ is positive definite, and an $m \times m$ matrix.
+
+        Write also that $\vec{\mu} = \begin{pmatrix}\vec{\lambda} \\ \vec{\nu}\end{pmatrix}$ where $\vec{\lambda} \in \R^m, \vec{\nu} \in \R^{n-m}$
+
+        Then we can now write $\vec{X} = \begin{pmatrix} \vec{Y} \\ \vec{\nu}\end{pmatrix}$ where $Y \sim N(\vec{\lambda}, U)$ and $\vec{Y}$ has density:
+        \begin{equation*}
+            F_{\vec{Y}}(\vec{y}) = \frac{1}{\sqrt{(2\pi)^n} \det{U}} \exp\left(-\frac{(\vec{y} -\lambda)^T U^{-1} (\vec{y} - \vec{\lambda})}{2}\right)
+        \end{equation*}
+        by case 1.
+    \end{case}
+\end{proof}
+
+\begin{proposition}
+    If $X_1, X_2, \cdots, X_n$ are independent, then $V$ is a diagonal matrix.
+    \label{propDiagonalVariance}
+\end{proposition}
+\begin{proof}
+    Simply note that the non-diagonal elements of $V$ are covariances, which are zero if the variables are independent.
+\end{proof}
+\begin{lemma}
+    For a Gaussian vector $\vec{X}$, with positive-definite variance matrix $V$, if $V$ is diagonal then the $X_i$ are independent.
+\end{lemma}
+\begin{proof}[by factorising the density function]
+    Let $V = \text{diag}(\lambda_1, \lambda_2, \cdots, \lambda_n)$, and note that these are all positive. Then the density function is:
+    \begin{align*}
+        f_{\vec{X}}(\vec{x}) &= \frac{1}{\sqrt{(2\pi)^n} \det{V}} \text{exp} \left(-\frac{(\vec{x} - \vec{\mu})^T V^{-1} (\vec{x} - \vec{\mu})}{2}\right) \\
+        f_{\vec{X}}(\vec{x}) &= \frac{1}{\sqrt{(2\pi)^n} \det{V}} \text{exp} \left(-\frac{1}{2} \sum_{i = 1}^n \frac{(x_i - \mu_i)^2}{2\lambda_i}\right) \\
+        \prod_{i = 1}^n f_{\vec{X}}(\vec{x}) &= \frac{1}{\sqrt{(2\pi)^n} \det{V}} \text{exp} \left(-\frac{(x_i - \mu_i)^2}{4\lambda_i}\right)
+    \end{align*}
+    So the density function factorises, and we have that the individual elements are normal random variables, $X_i \sim N(\mu_i, \lambda_i)$ as expected.
+\end{proof}
+\begin{proof}[2]
+    We find the moment generating function of $\vec{X}$:
+    \begin{align*}
+        m(\vec{\theta}) &= E[\exp(\vec{\lambda}^T \vec{X})] \\
+        \vec{\theta}^T\vec{X} &\sim N(\vec{\theta}^T \mu \vec{\theta}^T V \vec{\theta}) \\
+        m(\vec{\theta}) &= \exp\left(\vec{\theta}^T \mu + \frac{\vec{\theta}^T V \vec{\theta^T}}{2}\right) \\
+        &= \exp\left(\sum_i \theta_i \mu_i + \sum_i \frac{\theta_i^2 \lambda_i}{2}\right)
+    \end{align*}
+    So $m(\vec{\theta})$ is a product of the required individual random variables.
+\end{proof}
+\begin{remark}
+    Note that this is not true for any vector of random variables. In general, a diagonal variance matrix does not imply independence, as we have seen in the 1-dimensional case with $\Cov(X, Y) = 0 \nRightarrow X \perp Y$.
+\end{remark}
 \end{document}
