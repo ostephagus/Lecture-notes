@@ -917,6 +917,7 @@ Then we consider the density of $\vec{X}$. We have that in the one-dimensional c
 \end{proof}
 \begin{lemma}
     For a Gaussian vector $\vec{X}$, with positive-definite variance matrix $V$, if $V$ is diagonal then the $X_i$ are independent.
+    \label{lemGaussVecIndepIfZeroCov}
 \end{lemma}
 \begin{proof}[by factorising the density function]
     Let $V = \text{diag}(\lambda_1, \lambda_2, \cdots, \lambda_n)$, and note that these are all positive. Then the density function is:
@@ -927,7 +928,7 @@ Then we consider the density of $\vec{X}$. We have that in the one-dimensional c
     \end{align*}
     So the density function factorises, and we have that the individual elements are normal random variables, $X_i \sim N(\mu_i, \lambda_i)$ as expected.
 \end{proof}
-\begin{proof}[2]
+\begin{proof}[by moment generating functions]
     We find the moment generating function of $\vec{X}$:
     \begin{align*}
         m(\vec{\theta}) &= E[\exp(\vec{\lambda}^T \vec{X})] \\
@@ -940,4 +941,173 @@ Then we consider the density of $\vec{X}$. We have that in the one-dimensional c
 \begin{remark}
     Note that this is not true for any vector of random variables. In general, a diagonal variance matrix does not imply independence, as we have seen in the 1-dimensional case with $\Cov(X, Y) = 0 \nRightarrow X \perp Y$.
 \end{remark}
+\begin{definition}{Correlation}
+    For two random variables $X$ and $Y$, the \underline{correlation}, $\Corr(X, Y)$, is defined to be:
+    \begin{equation*}
+        \Corr(X, Y) = \frac{\Cov(X, Y)}{\sqrt{\Var(X)\Var(Y)}}
+    \end{equation*}
+\end{definition}
+\begin{example}[Bivariate Gaussian]
+    Let $\vec{X} = (X_1, X_2)^T$ be a Gaussian vector in $\R^2$. Define $\mu_k = E[X_k]$, and $\sigma_k^2 = \Var(X_k)$
+
+    Let $\rho = \Corr(X_1, X_2)$. Then we want to show that $\rho \in [-1, 1]$. We can prove this by the Cauchy-Schwarz inequality:
+    \begin{align*}
+        \Corr(X_1, X_2) &= \frac{E[(X_1 - \mu_1)(X_2 - \mu_2)]}{\sqrt{E[(X_1 - \mu_1)^2]E[(X_2 - \mu_2)^2]}} \\
+        |\Corr(X_1, X_2)| &\leq \frac{\sqrt{E[(X_1 - \mu_1)^2] E[(X_2 - \mu_2)^2]}}{\sqrt{E[(X_1 - \mu_1)^2] E[(X_2 - \mu_2)^2]}} \\
+        &= 1
+    \end{align*}
+    Then the variance matrix is:
+    \begin{equation*}
+        V =
+        \begin{pmatrix}
+            \sigma_1^2 & \rho \sigma_1 \sigma_2 \\
+            \rho \sigma_1 \sigma_2 & \sigma_2^2
+        \end{pmatrix}
+    \end{equation*}
+    Then we shall show that for any $\sigma_1, \sigma_2 > 0$ and any $\rho \in [-1, 1]$ then the matrix $V$ as above defined is a non-negative definite matrix. It is sufficient to show that for any $\vec{u} \in \R^2$, $\vec{u}^T V \vec{u}$. Then:
+    \begin{align*}
+        \vec{u}^T V \vec{u} &= (1 - \rho)\left(\sigma_1^2 u_1^2 + \sigma_2^2 u_2^2\right) + \rho(\sigma_1 u_1 + \sigma_2 u_2)^2 \\
+        &= (1 + \rho)(\sigma_1^2 u_1^2 + \sigma_2^2 u_2^2) - \rho(\sigma_1 u_1 - \sigma_2 u_2)^2
+    \end{align*}
+    We use the correct expression for positive or negative $\rho$. If $\rho \in [-1, 0]$, we use the second equality (which is certainly non-negative), and if $\rho \in (0, 1]$ we use the first equality, which is certainly non-negative.
+
+    Note that if $\rho = 0$, then $V$ becomes a diagonal matrix.
+
+    Now consider $E[X_2 | X_1]$. Consider $a \in \R$. Write $X_2 = (X_2 - a X_1) + aX_1$
+    \begin{align*}
+        \Cov(X_2 - aX_1, X_1) &= cov(X_2, X_1) - a\Var(X_1) \\
+        &= \rho \sigma_1 \sigma_2 - a\sigma_1^2
+    \end{align*}
+    So now choose $\rho \sigma_1 \sigma_2 - a\sigma_1^2 = 0$. That is, $a = \frac{\rho \sigma_2}{\sigma_1}$.
+
+    Now let $Y = X_2 - aX_1$. Then we have shown that $\Cov(Y, X_1) = 0$ for this choice of $a$. Then we consider the vector $(X_1, Y)^T$.
+    We can write $(X_1, Y)$ as a linear map:
+    \begin{equation*}
+        \begin{pmatrix}X_1 \\ Y\end{pmatrix} = \begin{pmatrix}1 & 0 \\ -a & 1\end{pmatrix}\begin{pmatrix}X_1 \\ X_2\end{pmatrix}
+    \end{equation*}
+    and therefore this is a Gaussian vector with elementwise covariance 0. By lemma~\ref{lemGaussVecIndepIfZeroCov}, $X_1$ and $Y$ are independent.
+
+    Then now we can take the expectation:
+    \begin{align*}
+        E[X_2 | X_1] &= E[X_2 - aX_1 | X_1] + E[aX_1 | X_1] \\
+        &= E[X_2 - aX_1] + aX_1 \text{ by independence}
+    \end{align*}
+    And so we have shown:
+    \begin{equation}
+        E[X_2 | X_1] = E[X_2] + a(X_1 - E[X_1])
+        \label{eqnCondExpecGaussVars}
+    \end{equation}
+\end{example}
+\section{Convergence of Random Variables}
+\begin{definition}{Convergence in Probability}
+    A sequence of random variables $X_n, n \in \N$ \underline{converges in probability} to a random variable $X$, and we write $X_n \probconverge X$ as $n \to \infty$ if:
+    \begin{equation*}
+        P(|X_n - X| > \epsilon) \to 0 \text{ as } n \to \infty
+    \end{equation*}
+\end{definition}
+\subsection{Weak Law of Large Numbers}
+\begin{theorem}[Weak law of large numbers]
+    Let $(X_n)$ be independent and identically distributed random variables with finite mean $\mu$. Set $S_n = \sum_{i = 1}^n X_i$. Then:
+    \begin{equation*}
+        \frac{S_n}{n} \probconverge \mu \text{ as } n \to \infty
+    \end{equation*}
+    \label{thmWeakLawLargeNums}
+\end{theorem}
+\begin{proof}[assuming finite variance]
+    We need to show that given any $\epsilon > 0$,
+    \begin{equation*}
+        P\left(\left|\frac{S_n}{n} - \mu\right| > \epsilon\right) \to 0
+    \end{equation*}
+    \begin{align*}
+        P\left(\left|\frac{S_n}{n} - \mu\right| > \epsilon\right) &= P(|S_n - n \mu| > n\epsilon) \\
+        &\leq \frac{\Var(S_n)}{n^2 \epsilon^2} \text{ by Chebyshev's inequality}
+    \end{align*}
+    Then the variance of $S_n$ is $n \sigma^2$:
+    \begin{align*}
+        P\left(\left|\frac{S_n}{n} - \mu\right| > \epsilon\right) &\leq \frac{n\sigma^2}{n^2\epsilon^2} \\
+        &\to 0 \text{ as } n \to \infty \text{ since all terms are finite.}
+    \end{align*}
+\end{proof}
+\subsection{Convergence Almost Surely}
+\begin{definition}{Almost certain convergence}
+    A sequence of random variables $X_n, n \in \N$ \underline{converges almost surely} to a random variable $X$, and we write $X_n \to X$ a.s. as $n \to \infty$ if:
+    \begin{equation*}
+        P\left(\lim_{n \to \infty} X_n = X\right) = 1
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    We say \textit{almost} surely because there could exist an event in the probability space where this convergence does not hold, but it must have probability 1. If there were no such events, we could drop the \textit{almost} and say that $X_n \to X$ surely.
+\end{remark}
+\begin{lemma}
+    If $X_n \to 0$ almost surely, then $X_n \probconverge 0$.
+    \label{lemASConvergeImpliesProbCoverge}
+\end{lemma}
+\begin{proof}
+    We want to show that $\forall \epsilon > 0$, $P(|X_n| > \epsilon) \to 0$ as $n \to \infty$ or equivalently $P(|X_n| \leq \epsilon) \to 1$.
+    \begin{equation*}
+        P(|X_n| \leq \epsilon) \geq P\left(\bigcap_{m = n}^\infty {|X_m| \geq \epsilon}\right)
+    \end{equation*}
+    Then define $A_n = {|X_m| \leq \epsilon}$. Then $A_n \subseteq A_{n + 1}$, and the union is:
+    \begin{equation*}
+        \bigcup_{n = 1}^\infty = \left\{|X_m| \leq \epsilon \text{ for all } m \text{ sufficiently large}\right\}
+    \end{equation*}
+    \begin{align*}
+        \therefore \lim_{n \to \infty} P(|X_n| \leq \epsilon) &\lim_{n \to \infty} P(A_n) \\
+        &= P\left(\cup_n A_n\right) \\
+        \geq P(\forall \epsilon > 0, |X_m| \leq \epsilon \text{ for } m \text{ sufficiently large}) \\
+        &= P(\lim_{n \to \infty} X_n = 0) \\
+        &= 1 \text{ by assumption}
+    \end{align*}
+\end{proof}
+\begin{remark}
+    This shows that convergence almost surely is a stronger statement that convergence in probability.
+\end{remark}
+\begin{theorem}[Strong law of large numbers]
+    Let $(X_n)_{n \in \N}$ be and independent and identically distributed sequence of random variables, with finite mean $\mu$. Set $S_n = X_1 + \cdots + X_n$. Then
+    \begin{equation*}
+        \frac{S_n}{n} \to \mu \text{ as } n \to \infty \text{ almost surely.}
+    \end{equation*}
+    \label{thmStrongLawLargeNums}
+\end{theorem}
+\begin{proof}[Non-examinable]
+    Assume that $X_1$ has finite variance and that $E[X_1^4] < \infty$.
+
+    Set $Y_i = X_i = \mu$. Then $E[Y_i] = 0$ and:
+    \begin{equation*}
+        E[Y_i^4] = E[(X_i - \mu)^4] \leq 2^4 \left(E[X_i^4] + \mu^4\right)
+    \end{equation*}
+    Which is finite by assumption, so $E[Y_i^4] < \infty$.
+    Then re-define $S_n = \sum_{i = 1}^n Y_i$, so we need to show that this tends to $0$.
+    Consider the expression:
+    \begin{equation*}
+        \sum_{i = 1}^\infty \left(\frac{S_n}{n}\right)
+    \end{equation*}
+    We want to show it is finite with probability 1.
+    \begin{align*}
+        E[S_n^4] &= E\left[\left(\sum_{i = 1}^n Y_i\right)^4\right] \\
+        &= E\left[\sum_{i = 1}^n Y_i^4\right] + \choose{4}{2} \sum_{1 \leq i < j \leq n} E[Y_i^2 Y_j^2] + R
+    \end{align*}
+    Where $R$ is a set of terms of the forms:
+    \begin{equation*}
+        Y_i^3 Y_j,~Y_i^2 Y_j Y_k,~Y_i Y_j Y_k Y_l
+    \end{equation*}
+    Where all the indices are distinct. However, such terms include a 1st power of $Y_i$:
+    \begin{equation*}
+        E[Y_i^3 Y_j] = E[Y_i^3] E[Y_j] = 0
+    \end{equation*}
+    by independence, so we need only consider the terms external to $R$.
+    \begin{align*}
+        E[Y_i^2] E[Y_j^2] &= \left(E[Y_i^2]\right)^2 \text{ by identical distribution} \\
+        &\leq E[Y_i^4] \text{ by Jensen's Inequality.}
+    \end{align*}
+    And therefore:
+    \begin{align*}
+        E[S_n^4] &= n E[Y_i^4] + 6 \frac{n(n-1)}{2} E[Y_i^4] \\
+        &\leq 3n^2 E[Y_1^4]
+    \end{align*}
+    \begin{equation*}
+        E\left[\frac{S_n^4}{n^4}\right] \leq \frac{3}{n^2} E[Y_1^4]
+    \end{equation*}
+    Which, when summed, is finite. Therefore we have that the individual terms, $\frac{S_n}{n}$, must tend to 0 by the $n$th term test.
+\end{proof}
 \end{document}
