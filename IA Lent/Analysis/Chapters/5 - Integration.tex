@@ -630,15 +630,6 @@ And also if $a - b$, then the integral is 0. With this convention, if $|f| \leq 
     \label{propChangeFinitePointsIntegrable}
 \end{proposition}
 Now by combining theorem~\ref{thmIntegralSplitDomain} with proposition~\ref{propChangeFinitePointsIntegrable}, we see that piecewise continuous function are integrable.
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}
-        \draw[->] (0, 0) -- (2.1, 0) node[right] {$x$};
-        \draw[->] (0, 0) -- (0, 1.1) node[above] {$y$};
-    \end{tikzpicture}
-    \caption{An example of a piecewise continuous function}
-    \label{figPiecewiseCTSFunc}
-\end{figure}
 \section{Fundamental Theorem of Calculus}
 Suppose $f : [a, b] \mapsto \R$ is integrable (and therefore bounded). Then define:
 \begin{equation*}
@@ -879,4 +870,173 @@ Then the remainder becomes:
     R_n &= \frac{h^n}{(n-1)!}f^{(n)}(\theta h) \frac{1}{n} \\
     &= \frac{h^n}{n!}f^{(n)}(\theta h)
 \end{align*}
+\section{Improper Integrals}
+The theory of integration we have developed so far applies to bounded functions on a bounded interval. For a full treatment of functions whose domain or image is unbounded, see Part II Probability and Measure.
+
+The improper integral is a partial resolution to the cases of unbounded domain and unbounded image.
+\subsection{Integrals on an Infinite Domain}
+\begin{definition}{Integral on a half-line}
+    Suppose $f : [a, \infty) \mapsto \R$ is integrable on $[a, R)~\forall R > a$. Assume also that:
+    \begin{equation*}
+        \int_a^R f(x) dx \to l \text{ as } R\to \infty
+    \end{equation*}
+    Then we say $\int_a^\infty$ \underline{exists} or \underline{converges}, and we set:
+    \begin{equation*}
+        \int_a^\infty f(x) dx = l
+    \end{equation*}
+\end{definition}
+If $\int_a^R f(x) dx$ has no limit as $R \to \infty$, we say $\int_a^\infty$ \underline{diverges}. As with summation, this does not necessarily mean \textit{increases without bound}, it merely means it has no limit.
+
+A similar definition can be used for the half-line $(-\infty, a]$.
+\begin{definition}{Integral on the real line}
+    For a function $f : \R \mapsto \R$ exists, and
+    \begin{equation*}
+        \int_{-\infty}^a f(x) dx = l_1 \text{ and } \int_a^\infty f(x) dx = l_2
+    \end{equation*}
+    then we say that $\int_{-\infty}^\infty f(x) dx$ \underline{exists} or \underline{converges}, and we set:
+    \begin{equation*}
+        \int_{-\infty}^a f(x) dx + \int_a^\infty f(x) dx
+    \end{equation*}
+\end{definition}
+\subsection{Integrands With an Isolated Singularity}
+\begin{definition}{Integral over an open left limit}
+    Suppose $f : (b, c]$ is integrable on each $[b + \delta, c]~\forall \delta > 0$.
+    Then if:
+    \begin{equation*}
+        \int_{b + \delta}^c f(x) dx \to l \text{ as } \delta \to \infty
+    \end{equation*}
+    we say that $\int_b^c f(x) dx$ \underline{exists} or \underline{converges} and is equal to $l$.
+\end{definition}
+\begin{remark}
+    By theorem~\ref{propChangeFinitePointsIntegrable}, if $f : [b, c] \mapsto \R$ is integrable, the above definition gives the same answer as the proper integral.
+\end{remark}
+We define an integral over $f : [a, b) \mapsto \R$ similarly. If there exists a singularity in the middle of the integration domain, we split the integral on this singular point and use the corresponding definition for either side.
+\subsection{Examples}
+\begin{example}
+    \begin{equation*}
+        \int_1^\infty \frac{1}{x^k} dx \text{ converges if and only if } k > 1
+    \end{equation*}
+    also,
+    \begin{equation*}
+        \int_0^1 \frac{1}{x^k} dx \text{ converges if and only if } k < 1
+    \end{equation*}
+    To see this:
+    \begin{align*}
+        \int_1^R \frac{1}{x^k} dx &= \left[\frac{x^{1-k}}{1-k}\right]_1^R \\
+        &= \frac{R^{1-k}-1}{1-k}
+    \end{align*}
+    Therefore this converges as $R \to \infty$ if $1 - k < 0$, and does not converge if $1 - k > 0$. Treating the case $k = 1$ separately:
+    \begin{equation*}
+        \int_1^R \frac{1}{x} dx = \left[\log(x)\right]_1^R = \log(R)
+    \end{equation*}
+    which also does not converge.
+\end{example}
+\begin{warning}
+    We need to be careful:
+    \begin{align*}
+        \int_{-1}^{-\epsilon} \frac{1}{x} dx + \int_{\epsilon}^1 \frac{1}{x} dx &= -\int_\epsilon^1 \frac{1}{y} dy + \int_\epsilon^1 \frac{1}{x} dx \\
+        &=0
+    \end{align*}
+    by a change of variables. However, this integral does not exist! Therefore, we need to be careful when integrating over a singularity like this as we can get incorrect results by ignoring it. Similarly,
+    \begin{equation*}
+        \int_{-R}^R x dx = 0 \text{ but } \int_{-\infty}^\infty x dx \text{ diverges.}
+    \end{equation*} 
+\end{warning}
+\begin{lemma}
+    Suppose $f, g : [0, \infty) \mapsto \R$ are integrable on $[0, R]~\forall R > 0$. If:
+    \begin{equation*}
+        0 \leq f(x) \leq g(x)
+    \end{equation*}
+    and:
+    \begin{equation*}
+        \int_0^\infty g(x) dx \text{ converges,}
+    \end{equation*}
+    then so does the integral of $f$ on this range, with the following bound:
+    \begin{equation*}
+        \int_0^\infty f(x) dx \leq \int_0^\infty g(x) dx
+    \end{equation*}
+    \label{lemIntegralComparisonTest}
+\end{lemma}
+\begin{proof}
+    Since $f \geq 0$, $R \mapsto \int_0^R f(x) dx$ is increasing, and the same is true of $g$. Therefore:
+    \begin{equation*}
+        \int_0^R f(x) dx \leq \int_0^R g(x) \leq \int_0^\infty g(x) dx
+    \end{equation*}
+    Therefore the function $R \mapsto \int_0^R f(x) dx$ is increasing and bounded above. Define:
+    \begin{equation*}
+        l = \sup_{R > 0} \int_0^R f(x) dx
+    \end{equation*}
+    Then $l$ must be finite. We want to show that, in fact, it is the limit of the integral as $R$ tends to $\infty$.
+
+    To see this, let $\epsilon > 0$. Then by the definition of the supremum, there must exist $\R_0$ such that:
+    \begin{equation*}
+        \int_0^{R_0} f(x) \geq l - \epsilon
+    \end{equation*}
+    Then since this integral is increasing in $R$, 
+    \begin{equation*}
+        l - \epsilon \int_0^{R_0} f(x) dx \leq \int_0^R f(x) dx \leq l
+    \end{equation*}
+    For any $R > R_0$, as required.
+\end{proof}
+\begin{example}
+    Consider the integral:
+    \begin{equation*}
+        \int_0^{\infty} e^{-\frac{x^2}{2}} dx
+    \end{equation*}
+    Note that for $x > 1$, $\exp\left(-\frac{x^2}{2}\right) \leq \exp\left(-\frac{x}{2}\right)$.
+    Then:
+    \begin{align*}
+        \int_1^R \exp{-\frac{x}{2}} &= \left[-2 \exp\left(-\frac{x}{2}\right)\right]_1^R \\
+        &= 2e^{-\frac{1}{2}}
+    \end{align*}
+    And therefore by lemma~\ref{lemIntegralComparisonTest},
+    \begin{equation*}
+        \int_0^{\infty} e^{-\frac{x^2}{2}} dx
+    \end{equation*}
+    converges.
+\end{example}
+\begin{warning}
+    Unlike with sums,
+    \begin{equation*}
+        \int_0^\infty f(x) dx \text{ converges } \nRightarrow f(x) \to 0 \text{ as } x \to 0
+    \end{equation*}
+\end{warning}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \tikzset{
+            axishatch/.pic={
+                \draw (0, 0.1) -- (0, -0.1);
+            }
+        }
+    
+        \draw[->] (0, 0) -- (0, 1.1) node[above] {$f(x)$};
+        \draw (0, 1) pic[rotate=90] {axishatch}
+            node[anchor=east] {$1$};
+            
+        \draw[->] (0, 0) -- (3.7, 0) node[right] {$x$};
+
+        \foreach \x/\xtext in {0.5/$\frac{1}{2}$,1/$1$,1.5/$\frac{3}{2}$,2/$2$,3/$n$}
+            \draw (\x, 0) pic {axishatch}
+            node[anchor=north] {\xtext};
+
+        \draw (0, 0) -- (0.5, 0) -- (1, 1) -- (1.5, 0) -- (1.75, 0) -- (2, 1) -- (2.25, 0) -- (2.8, 0) -- (3, 1) -- (3.2, 0);
+
+        \node at (2.5, 0.6) {$\cdots$};
+
+        \draw[Bar-Bar] (2.8, -0.3) -- (3.2, -0.3)
+            node[anchor=north, pos=0.5] {$2^{1-n}$};
+        
+    \end{tikzpicture}
+    \caption{A piecewise-defined function with finite integral}
+    \label{figFiniteIntegralNotToZero}
+\end{figure}
+\begin{example}[Counterexample for the above]
+    Consider the function in figure~\ref{figFiniteIntegralNotToZero}. Then the integral looks like many areas of a triangle with height $1$ and width $2^{1-n}$.
+
+    The area then is:
+    \begin{equation*}
+        \sum_{n = 1}^\infty 2^{-n} \text{ converges } \implies \int_0^\infty f(x) dx \text{ converges.}
+    \end{equation*}
+\end{example}
 \end{document}
