@@ -346,6 +346,12 @@ An event in spacetime is given by a 4-vector:
 \end{equation*}
 We will use capital letters and no bold text for 4-vectors. We will write indices above the vector, like $X^\mu$, and again use Greek letters.
 
+Often it will make sense to show 4-vectors in the following form:
+\begin{equation*}
+    \begin{pmatrix}t \\ \vec{x}\end{pmatrix}
+\end{equation*}
+Here $t$ is the first component of the vector (which is often time), and $\vec{x}$ is a 3-vector corresponding to the last 3 elements.
+
 The invariant distance between $X$ and the origin is given by:
 \begin{align*}
     X \cdot X &= X^T \eta X \\
@@ -694,4 +700,112 @@ Then we can evaluate:
     \implies -|\vec{p_1}||\vec{p_3}| \cos{\theta} &= m^2 c^2 + m(E_1 - E_3) - \frac{E_1 E_3}{c^2}
 \end{align*}
 Then we can eliminate $|\vec{p_1}|$ and $|\vec{p_3}|$ by using $E^2 = |\vec{p}|^2 + m^2 c^4$, and then we can have a formula for $\cos{\phi}$ in terms of $E_1$ and $E_3$.
+\subsection{Particle Creation}
+If two particle collide with enough energy, some of that energy can be used to create a new particle.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        
+    \end{tikzpicture}
+    \caption{Diagram of particle creation}
+    \label{figParticleCreation}
+\end{figure}
+For example, let particles 1 and 2 have mass $m$, and let the third particle have mass $M$.
+\begin{equation*}
+    P_1 + P_2 = P_1' + P_2' + P_M
+\end{equation*}
+We choose the centre-of-mass frame, so $\vec{p_1} + \vec{p_2} = \vec{0}$, and so $\vec{p_1} = - \vec{p_2}$, and, since their masses are the same, $E_1 = E_2$.
+\begin{align*}
+    (P_1 + P_2) \cdot (P_1 + P_2) &= \begin{pmatrix}2\frac{E_1}{c} \\ \vec{0}\end{pmatrix} \cdot \begin{pmatrix}2\frac{E_1}{c} \\ \vec{0}\end{pmatrix} \\
+    &= \frac{4E_1}{c^2}
+\end{align*}
+And this must equal the total momentum after the collision:
+\begin{align*}
+    (P_1' + P_2' + P_M')^2 &= P_1^{\prime 2} + P_2^{\prime 2} + P_M^{\prime 2} + 2\left(P_1' \cdot P_2' + P_1' \cdot P_M' + P_2' \cdot P_M'\right) \\
+    &= 2m^2 c^2 + M^2 c^2 + 2\left(P_1' \cdot P_2' + P_1' \cdot P_M' + P_2' \cdot P_M'\right)
+\end{align*}
+We can find a bound for this:
+\begin{lemma}
+    \begin{equation*}
+        P_1 \cdot P_2 \geq m_1 m_2 c^2
+    \end{equation*}
+    \label{lemMomentumDotBound}
+\end{lemma}
+\begin{proof}
+    $P_1 \cdot P_2$ is invariant, so we can choose any frame. Therefore, we can choose the rest frame of $P_2$. Then:
+    \begin{equation*}
+        P_1 = \begin{pmatrix}\frac{E_1}{c} \\ \vec{p_1}\end{pmatrix},~P_2 = \begin{pmatrix}m_2 c \\ \vec{0}\end{pmatrix}
+    \end{equation*}
+    Then the dot product is simple:
+    \begin{align*}
+        P_1 \cdot P_2 &= E_1 m_2 \\
+        &= m_2 \sqrt{|\vec{p_1}|^2 c^2 + m_1^2 c^4} \\
+        &\geq m_1 m_2 c^2
+    \end{align*}
+\end{proof}
+Therefore returning to the original equation and using lemma~\ref{lemMomentumDotBound}:
+\begin{align*}
+    \frac{4E_1^2}{c^2} &\geq 2m^2 c^2 M^2 c^2 + 2m^2 c^2 + 4Mm c^2 \\
+    &= 4m^2 c^2 + M^2 c^2 + 4Mm c^2 \\
+    &= 4\left(m + \frac{1}{2} M\right)^2 c^2 \\
+    \therefore E_1 &\geq \left(m + \frac{1}{2}M\right) c^2
+\end{align*}
+Or alternatively,
+\begin{equation}
+    2\left(E_1 - mc^2\right) \geq Mc^2
+    \label{eqnParticleCreationEnergies}
+\end{equation}
+The LHS of this equation can be considered the total kinetic energy of the particles (rest mass energy subtracted from total energy). Then the equation requires that this kinetic energy be greater than the rest mass energy of the third particle.
+
+Also, if equation~\ref{eqnParticleCreationEnergies} is an equality rather than an inequality, all kinetic energy is converted into the rest mass energy of the third particle. Therefore, all 3 particles are at rest after collision (in the centre-of-mass frame).
+\section{Acceleration in Special Relativity}
+We have concepts of 4-position and 4-velocity. We may similarly define the 4-acceleration:
+\begin{equation}
+    A = \frac{dU}{d\tau}
+    \label{eqnRelativityAccel}
+\end{equation}
+\begin{remark}
+    Recall that $U \cdot U = c^2$, so taking the derivative with respect to $\tau$ we have $U \cdot A = 0$, and so $U$ and $A$ are \textit{orthogonal} in a 4-dimensional sense.
+\end{remark}
+Also consider the components of $A$:
+\begin{equation*}
+    U = \begin{pmatrix}\gamma c \\ \gamma \vec{u}\end{pmatrix}
+\end{equation*}
+And recall that: $\frac{d}{d\tau} = \frac{dt}{d\tau}\frac{d}{dt} = \gamma \frac{d}{dt}$.
+\begin{equation*}
+    A = \gamma
+    \begin{pmatrix}
+        \dot{\gamma} c \\
+        \dot{\gamma} \vec{u} + \gamma \vec{a}
+    \end{pmatrix}
+\end{equation*}
+To illustrate, consider relativistic motion due to a ``constant acceleration''. However, we need to consider which frame the acceleration should be constant in. We take an inertial frame $S'$ that, at some moment in time, is instantaneously travelling at the same speed as the particle: $\vec{u}' = \vec{0}$. This implies that $\gamma = 1$ in this frame, and also:
+\begin{align*}
+    \dot{\gamma} &= \frac{c^{-2} \vec{u}' \cdot \dvec{u}'}{\left(1 - \frac{|\vec{u}'|^2}{c^2}\right)} \\
+    &= 0
+\end{align*}
+And therefore:
+\begin{equation*}
+    A' = \begin{pmatrix} 0 \\ \vec{a}'\end{pmatrix}
+\end{equation*}
+Therefore we define constant acceleration:
+\begin{definition}{Constant acceleration}
+    For an accelerating particle, it undergoes \underline{constant acceleration} if, in a frame that is instantaneously at the same speed as it, its acceleration is constant.
+\end{definition}
+Now, in a frame $S$, the acceleration 4-vector is:
+\begin{equation*}
+    \begin{pmatrix}\gamma \frac{\vec{u} \cdot \vec{a}'}{c} \\ \gamma a'\end{pmatrix}
+\end{equation*}
+Then we match with the general formula for $A$ to get $\vec{a}$.
+\begin{align*}
+    \gamma \frac{\vec{u} \cdot \vec{a}'}{c} &= \gamma \dot{\gamma} c \\
+    \gamma \vec{a}' = \gamma \dot{\gamma} \vec{u} + \gamma^2 \vec{a}
+\end{align*}
+Solving the first equation for $\dot{\gamma}$ and substituting it into the second:
+\begin{align}
+    \vec{a}' &= \frac{|\vec{u}|^2}{c^2} \vec{a}' + \gamma \vec{a} \nonumber \\
+    \implies \vec{a} &= \left(1 - \frac{|\vec{u}|^2}{c^2}\right)^{\frac{3}{2}} \vec{a}' \label{eqnRelativityAccelDE}
+\end{align}
+Then equation~\ref{eqnRelativityAccelDE} is a differential equation in $\vec{u}$, since $\vec{a} = \dvec{u}$.
 \end{document}
