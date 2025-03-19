@@ -27,7 +27,7 @@ Assume from now on that $E$ has no isolated points, and further that $E$ is an i
 \begin{examples}{}
     \item $Id : \R \mapsto \R$ such that $Id(x) = x$. Then:
         \begin{align*}
-            \frac{Id(x + h) - Id(x)}{h} &= \frac{x + h - x}{h}
+            \frac{Id(x + h) - Id(x)}{h} &= \frac{x + h - x}{h} \\
             &= 1
         \end{align*}
     \item $f : \R \mapsto \R$ such that $f(x) = |x|$. This is differentiable for $x \neq 0$. However, we get two different values for $f'(0)$ for $h \to 0^+$ and $h \to 0^-$ which means it is not differentiable there.
@@ -40,7 +40,7 @@ Assume from now on that $E$ has no isolated points, and further that $E$ is an i
     \item If $f(x) = c$, then $f$ is differentiable with derivative 0. \label{propConstantDiffability}    
     \item If $f$ and $g$ are differentiable at $x$, then so is $f(x) + g(x)$ with derivative $f'(x) = g'(x)$ \label{propSumDiffability}
     \item If $f$ and $g$ are differentiable at $x$, then so is $f(x)g(x)$ with derivative $f'(x) g(x) = f(x) g'(x)$. \label{propProdDiffability}
-    \item If $f$ is differentiable at $x$ and $f(y) \neq 0~\forall y \in E$, then $frac{1}{f(x)}$ is differentiable with derivative $\frac{-f'(x)}{f(x)^2}$. \label{propReciprocalDiffability}
+    \item If $f$ is differentiable at $x$ and $f(y) \neq 0~\forall y \in E$, then $\frac{1}{f(x)}$ is differentiable with derivative $\frac{-f'(x)}{f(x)^2}$. \label{propReciprocalDiffability}
 \end{propositions}
 \begin{proof}
     \begin{enumerate}

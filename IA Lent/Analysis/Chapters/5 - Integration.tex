@@ -174,6 +174,7 @@ We can use this criterion to show that all monotone and all continuous functions
 \end{remark}
 \begin{theorem}
     Suppose $f : [a, b] \mapsto \R$ is monotone. Then $f$ is integrable.
+    \label{thmFMonotoneImpliesIntegrable}
 \end{theorem}
 \begin{proof}
     If $f$ is decreasing, re-label $-f$ to be $f$. Therefore assume WLOG that $f$ is increasing.
@@ -199,6 +200,7 @@ We can use this criterion to show that all monotone and all continuous functions
 \end{proof}
 \begin{theorem}
     Suppose $f : [a, b] \mapsto \R$ is continuous. Then $f$ is integrable.
+    \label{thmFCTSImpliesIntegrable}
 \end{theorem}
 \begin{proof}
     We prove the contrapositive. That is, if $f$ is not integrable then it must be discontinuous.
@@ -1039,4 +1041,133 @@ We define an integral over $f : [a, b) \mapsto \R$ similarly. If there exists a 
         \sum_{n = 1}^\infty 2^{-n} \text{ converges } \implies \int_0^\infty f(x) dx \text{ converges.}
     \end{equation*}
 \end{example}
+\section{The Integral Test for Series}
+\begin{theorem}[The integral test]
+    Suppose that $f : [1, \infty) \mapsto \R$ is positive and decreasing.
+    
+    The integral $\int_1^\infty f(x) dx$ and the sum $\sum_{n = 1}^\infty f(n)$ both converge or both diverge, and in fact:
+    \begin{equation*}
+        \sum_{r = 1}^n f(r) - \int_1^n f(x) dx \to l
+    \end{equation*}
+    for some $l$ between $0$ and $f(1)$ as $n \to \infty$.
+    \label{thmIntegralTest}
+\end{theorem}
+\begin{remark}
+    $f$ decreasing implies that $f$ is integrable by theorem~\ref{thmFMonotoneImpliesIntegrable}.
+\end{remark}
+\begin{proof}
+    If $n-1 \leq x \leq n$ then $f$ decreasing implies:
+    \begin{equation*}
+        f(n-1) \geq f(x) \geq f(n)
+    \end{equation*}
+    and since integration preserves order:
+    \begin{equation}
+        f(n-1) \geq \int_{n-1}^n f(x) dx \geq f(n)
+        \label{eqnIntegralFuncInequality}
+    \end{equation}
+    Then summing, we see that:
+    \begin{equation}
+        \sum_{r = 1}^{n-1}f(r) \geq \int_1^n f(x) dx \geq \sum_{r = 2}^n f(r)
+        \label{eqnIntegralSumInequality}
+    \end{equation}
+    Note now that both the sum and integral are monotone increasing, so if one converges then the other is bounded, and thus must converge.
+
+    Introduce the auxiliary function:
+    \begin{equation*}
+        \phi(n) = \sum_{r = 1}^n f(r) - \int_1^n f(x) dx
+    \end{equation*}
+    Then considering $\phi(n) - \phi(n-1)$:
+    \begin{align*}
+        \phi(n) - \phi(n-1) &= f(n) - \int_{n - 1}^n \\
+        &\leq 0 \text{ by equation~\ref{eqnIntegralFuncInequality}.}
+    \end{align*}
+    However, considering also the inequality in equation~\ref{eqnIntegralSumInequality}, we have that $\phi(n) \geq f(n) \geq 0$. Therefore $\phi(n)$ is decreasing and bounded below, so must converge to some $l$ with $0 \leq l \leq \phi(1) = f(1)$ as required.
+\end{proof}
+\begin{examples}{}
+    \item $\sum_{n = 1}^\infty n^{-k}$ converges if and only if $k > 1$ as seen earlier. Furthermore, we have seen that the equivalent integral $\int_1^\infty x^{-k} dx$ converges, so the integral test could have been used in place of the Cauchy Condensation Test.
+    \item Consider $\sum_{n = 2}^\infty \frac{1}{n \log(n)}$. Then we consider the corresponding integral:
+        \begin{align*}
+            \int_2^\infty \frac{1}{x \log(x)}dx &= \lim_{R \to \infty} \int_2^R \frac{1}{x \log{x}} dx \\
+            &= \lim_{R \to \infty} \left[\log(\log(x))\right]_2^\infty \\
+            &= \lim_{R \to \infty} \log(\log(R)) - \log(\log(2)) \\
+        \end{align*}
+        which diverges, and so must the sum.
+\end{examples}
+\begin{corollary}[Euler-Mascheroni Constant]
+    As $n \to \infty$, the difference:
+    \begin{equation*}
+        1 + \frac{1}{2} + \frac{1}{3} + \cdots + \frac{1}{n} - \log(n) \to \gamma
+    \end{equation*}
+    as $n \to \infty$ with $0 \leq \gamma \leq 1$.
+\end{corollary}
+The proof is immediate by the integral test.
+\begin{remark}
+    It is an open question whether $\gamma$ is rational.
+\end{remark}
+\nonexaminablesection{Lebesgue's Criterion for Riemann Integrability}
+Recall the following two functions on $[0, 1]$.
+
+The \underline{Dirichlet function}:
+\begin{equation*}
+    f(x) = 
+    \begin{cases}
+        1 & x \in \Q \\
+        0 & x \notin \Q
+    \end{cases}
+\end{equation*}
+This was not integrable, and nowhere continuous.
+
+\underline{Thomae's Function}:
+\begin{equation*}
+    f(x) =
+    \begin{cases}
+        \frac{1}{q} & x = \frac{p}{q} \text{ in its simplest form} \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation*}
+This is integrable, and continuous on all the irrational points in $[0, 1]$.
+
+Then how can we easily distinguish between such functions? We can consider the set of discontinuities, and its relative size.
+\begin{definition}{Lebesgue's Criterion for Riemann Integrability}
+    Let $f : [a, b] \mapsto \R$ be bounded. Then $f$ is \underline{Riemann Integrable by} \underline{Lebesgue's Criterion} if and only if:
+    \begin{equation*}
+        \subsetselect{x}{f \text{ discontinuous at } x}
+    \end{equation*}
+    is \underline{measure zero}.
+\end{definition}
+We therefore need to define what measure zero means.
+\begin{definition}{Measure zero}
+    For an interval $I$, let $|I|$ denote its length. A subset $A \subseteq \R$ has \underline{measure} \underline{zero} if for any $\epsilon > 0$ there exists a countable collection of open intervals $I_j$ such that:
+    \begin{equation*}
+        A \subset \bigcup_{j = 1}^\infty I_j, \text{ and } \sum_{j = 1}^\infty |I_j| < \epsilon
+    \end{equation*}
+\end{definition}
+\begin{propositions}{
+        \label{propsMeasureZero}
+    }
+    \item If $B$ has measure zero and $A \subset B$ then $A$ has measure zero. \label{propMeasureZeroSubset}
+    \item If $A_k\subseteq \R$ has measure zero for each $k \in \N$ then:
+        \begin{equation*}
+            \bigcup_{k \in \N} A_k \text{ has measure zero}.
+        \end{equation*}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item This is clear from the definition: if a set of intervals covers $B$ then it must cover any subset.
+        \item For each $k$ and any $\epsilon > 0$ choose $I_j^k$ for $j \in \N$ open intervals such that:
+            \begin{equation*}
+                A_k \subset \bigcup_{j = 1}^\infty I_j^k \text{ and } \sum_{j = 1}^\infty |I_j^k| < 2^{-k}\epsilon.
+            \end{equation*}
+            Then consider these subsets:
+            \begin{equation*}
+                \bigcup_{k \in \N} A_k \subset \bigcup_{j, k = 1}^\infty I_j^k \text{ and } \sum_{k = 1}^\infty \sum_{j = 1}^\infty |I_j^k| < \epsilon
+            \end{equation*}
+            as required.
+    \end{enumerate}
+\end{proof}
+Since the singleton set $\{x\}$ has measure zero, this implies that countable sets have measure zero.
+\begin{lemma}
+    An interval of positive length does not have measure zero.
+\end{lemma}
+This will be used without proof.
 \end{document}
