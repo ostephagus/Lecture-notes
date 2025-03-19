@@ -57,7 +57,6 @@ $F$ may not always be differentiable. However, in this course, we will assume th
 \begin{definition}{Probability density function}
     Given that, for a random variable $X$, the probability distribution function $F$ is differentiable everywhere, the \underline{probability density function} $f$ is defined to be the derivative $F'$.
 \end{definition}
-%TODO: Are these properties that can be derived or defining properties?
 \begin{propositions}{
         Consider a random variable $X$, with probability distribution function $F$ and probability density function $f$.
         \label{propsPdensFuncProps}
@@ -1247,4 +1246,90 @@ This theorem will be used without proof.
     \end{equation*}
     or, $S_n \approx N(n, n)$.
 \end{example}
+\subsection{Sampling Error via the Central Limit Theorem}
+Suppose that we hold a referendum and that every individual votes Yes with probability $p$, and No with probability $1-p$. We want to estimate $p$ using a sample of size $N$ sufficiently large. Let $X_i$ be $1$ if the vote from the $i$th individual is Yes, and $0$ otherwise.
+
+Set $S_n = \sum_{i = 1}^N X_i$. Define:
+\begin{equation*}
+    \hat{p}_n = \frac{S_n}{n} \to p \text{ almost surely}
+\end{equation*}
+We want to estimate $p$ with an accuracy of $\pm 4\%$, with probability at least $0.99$. By theorem~\ref{thmCentralLimit}, for large enough $N$ we have:
+\begin{equation*}
+    S_N \approx Np + \sqrt{Np(1-p)} Z, Z \sim N(0, 1)
+\end{equation*}
+And therefore:
+\begin{equation*}
+    \hat{p}_N = \frac{S_N}{N} \approx p + \frac{\sqrt{p(1-p)}}{\sqrt{N}} Z
+\end{equation*}
+And therefore we need $N$ large enough so that:
+\begin{equation*}
+    P\left(|\hat{p}_N - p| \geq \frac{1}{25}\right) \leq \frac{1}{100}
+\end{equation*}
+\begin{align*}
+    |\hat{p}_N - p| \approx \frac{\sqrt{p(1-p)}}{\sqrt{n}} \\
+    \therefore P(|Z| \geq z) &= 2(1 - \Phi(z))
+\end{align*}
+From tables of values we can get that $z = 2.58$ gives $P(|Z| \leq z) = 0.01$.
+
+And therefore we take $N$ such that:
+\begin{equation*}
+    \frac{0.04\sqrt{N}}{\sqrt{p(1-p)}} \geq 2.58
+\end{equation*}
+The denominator is maximised (and the fraction is minimised) when $p = 0.5$. In this case, we require:
+\begin{equation*}
+    N \geq 1040.
+\end{equation*}
+\section{Useful Results in Probability}
+\subsection{Simulation of Random Variables}
+Suppose $X$ is a random variable with probability distribution function $F$. We know how to simulate a uniform distribution, $U([0, 1])$. Therefore we want to find some transformation to simulate the random variable $X$.
+
+Let $U \sim U([0, 1])$. Assume that $F$ is a bijection. Therefore take $X = F^{-1}(U)$. Therefore:
+\begin{align*}
+    P(X \leq x) &= P(F^{-1}(U) \leq x) \\
+    &= P(U \leq F(x)) \\
+    &= F(x) \text{ since } U \text{ is uniform.}
+\end{align*}
+However, if $F$ is not a bijection we need a \underline{generalised inverse}. Define:
+\begin{equation*}
+    G(u) = \inf\subsetselect{x \in \R}{u \leq F(x)}
+\end{equation*}
+Then $G : (0, 1) \mapsto \R$. Now we need to ensure that $G(u) \leq x \Leftrightarrow u \leq F(x)$.
+
+The forward direction is true by definition of the infimum.
+
+Now consider the reverse direction. If $u \leq F(x)$, suppose $G(u) > x$. This implies $u > F(x)$, reaching a contradiction since $F$ is increasing. Therefore, define $X = G(U)$. As before, we have the required:
+\begin{equation*}
+    P(X \leq x) = P(U \leq F(x)) = F(x)
+\end{equation*}
+\subsection{Box-Muller Transform}
+We now want to generate $X, Y$ independent standard normal random variables.
+
+Earlier, we saw that transforming $X, Y$ to polar coordinates, $R$ has density $re^{-\frac{r^2}{2}}$ and $\theta \sim U([0, 2\pi])$. We then want to invert this transformation.
+
+Let $U$ and $V$ be independent random variables with distribution $U([0, 1])$. Define $\theta = 2\pi U$, which is the required $\theta$. If then we set $R = \sqrt{-2\log(V)}$ then:
+\begin{align*}
+    P(R \geq r) &= P(\sqrt{-2\log(V)} \geq r) \\
+    &= P(V \leq e^\frac{-r^2}{2})
+\end{align*}
+And therefore differentiating gives the required density for $R$. Now setting $X = R\cos(\theta)$ and $Y = R\sin(\theta)$ gives independent standard normal random variables.
+\subsection{Rejection Sampling}
+Suppose we have a random variable $X$ with density $f(x) = \frac{I_{X \in A}}{|A|}$ where $A$ is a subset of the unit cube in $n$ dimensions: $A \subseteq [0, 1]^d$.
+
+Let $(\vec{U_n})$ be independent and identically distributed $d$-dimensional uniform random variables. Define:
+\begin{equation*}
+    \left(U_{k, n}~|~k \in \{1, \cdots, d\}, n\in\N\right) \text{ to be } U([0, 1])
+\end{equation*}
+And therefore we have independent and identically distributed uniform vectors $\vec{U_n}$. Define:
+\begin{equation*}
+    N = \min\subsetselect{n}{U_n \in A} \text{ and } X = U_N
+\end{equation*}
+Let $X \in [0, 1]^d$.
+\begin{align*}
+    P(X \in B) &= P(U_n \in B) \\
+    &= \sum_{n = 1}^\infty P(U_N \in B, N = n) \\
+    &= \sum_{n = 1}^\infty P(U_n \in B, U_n \in A, U_1 \notin A, \cdots, U_{n-1} \notin A) \\
+    &= \sum_{n = 1}^\infty P(U_n \in A \cap B) \left(P(U_1 \notin A)\right)^{n-1} \\
+    &= \sum_{n = 1}^\infty |A \cap B| \left(1 - |A|\right)^{n-1} \\
+    &= \frac{|A \cap B|}{|A|}
+\end{align*}
 \end{document}
