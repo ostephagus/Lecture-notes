@@ -6,18 +6,20 @@ We are often introduced to integration as an inverse operation to differentiatio
 We first assume that $f$ is a bounded, real-valued function over the closed interval $[a, b]$. That is,
 $f : [a, b] \mapsto \R$ and there exists some bound $K$ such that $|f(x)| \leq K$ for all $x$ in $[a, b]$.
 \begin{definition}{Dissection}
-    A \underline{Dissection}, $\dissec$, of $[a, b]$ is a finite subset of $[a, b]$ containing the endpoints $a, b$. We write $\dissec = \{x_0, x_1, \cdots, x_n\}$ with $a = x_0 < x_1 < \cdots < x_n < b$.
+    A \underline{Dissection}, $\dissec$, of $[a, b]$ is a finite subset of $[a, b]$ containing the endpoints $a, b$. We write $\dissec = \{x_0, x_1, \cdots, x_n\}$ with $a = x_0 < x_1 < \cdots < x_{n-1} < x_n = b$.
 \end{definition}
+Write also the intervals between points of a dissection: $X_i = [x_{i - 1}, x_i]$
 Associated to such a dissection are the upper and lower sums given by:
 \begin{equation}
-    U(f, \dissec) = \sum_{j = 1}^n (x_j - x_{j - 1}) \sup_{x \in [x_{j-1}, x_j]} f(x)
+    U(f, \dissec) = \sum_{j = 1}^n (x_j - x_{j - 1}) \sup_{x \in X_j} f(x)
     \label{eqnUpperSum}
 \end{equation}
 \begin{equation}
-    L(f, \dissec) = \sum_{j = 1}^n (x_j - x_{j - 1}) \inf_{x \in [x_{j-1}, x_j]} f(x)
+    L(f, \dissec) = \sum_{j = 1}^n (x_j - x_{j - 1}) \inf_{x \in X_j} f(x)
     \label{eqnLowerSum}
 \end{equation}
-Note that the suprema and infinima are defined here, since $f$ is bounded.\par
+Note that the suprema and infima are defined here, since $f$ is bounded.
+
 Clearly we have that $L(f, \dissec) \leq U(f, \dissec)$.
 \begin{lemma}
     Suppose that $\dissec$ and $\dissec'$ are dissections. Suppose that $\dissec \subseteq \dissec'$. Then:
@@ -27,25 +29,27 @@ Clearly we have that $L(f, \dissec) \leq U(f, \dissec)$.
     \label{lemRefinement}
 \end{lemma}
 \begin{remark}
-    In this case, where $\dissec \leq \dissec'$, we say that $\dissec'$ is a \underline{refinement} of $\dissec$.
+    In this case, where $\dissec \subseteq \dissec'$, we say that $\dissec'$ is a \underline{refinement} of $\dissec$.
 \end{remark}
 \begin{proof}
     Let $\dissec = \{x_0, \cdots, x_n\}$. First consider $\dissec' = \dissec \cup \{y\}$, where $y \notin\dissec$.\par
-    Then $y \in (x_{r - 1}, x_r)$ for some $r \in \{1, \cdots, n\}$.\par
+    Then $y \in X_r$ for some $r \in \{1, \cdots, n\}$.
+
     We must have that:
     \begin{equation*}
-        \sup_{x \in [x_{r - 1}, y]} f(x), \sum_{x \in [y, x_r]} f(x) \leq \sup_{x \in [x_{r - 1}, x_r]} f(x)
+        \sup_{x \in [x_{r - 1}, y]} f(x), \sup_{x \in [y, x_r]} f(x) \leq \sup_{x \in X_r} f(x)
     \end{equation*}
     Therefore:
     \begin{align*}
         &(y - x_{r - 1}) \sup_{x \in [x_{r - 1}, y]}f(x) + (x_r - y) \sup_{x \in [y, x_r]} f(x) \\
-        &\leq (y - x_{r - 1}) \sup_{x \in [x_{r - 1}, x_r]}f(x) + (x_r - y) \sup_{x \in [x_{r - 1}, x_r]} f(x) \\
-        &\leq (x_r - x_{r - 1}) \sup_{x \in [x_{r - 1}, x_r]}f(x) \\
+        &\leq (y - x_{r - 1}) \sup_{x \in X_r}f(x) + (x_r - y) \sup_{x \in X_r} f(x) \\
+        &\leq (x_r - x_{r - 1}) \sup_{x \in X_r}f(x)
     \end{align*}
-    That is, $U(f, \dissec') \leq U(f, \dissec)$.\par
+    That is, $U(f, \dissec') \leq U(f, \dissec)$.
+
     Similarly, we know that:
     \begin{equation*}
-        \inf_{x \in [x_{r - 1}, y]} f(x), \inf_{x \in [y, x_r]} f(x) \geq \inf_{x \in [x_{r - 1}, x_r]} f(x)
+        \inf_{x \in [x_{r - 1}, y]} f(x), \inf_{x \in [y, x_r]} f(x) \geq \inf_{x \in X_r} f(x)
     \end{equation*}
     and we can use the above idea to show that:
     \begin{equation*}
@@ -181,13 +185,13 @@ We can use this criterion to show that all monotone and all continuous functions
     
     For any given dissection $\dissec$,
     \begin{align*}
-        \sup_{x \in [x_{j-1}, x_j]} f(x) &= f(x_j) \\
-        \inf_{x \in [x_{j-1}, x_j]} f(x) &= f(x_{j-1}) 
+        \sup_{x \in X_j} f(x) &= f(x_j) \\
+        \inf_{x \in X_j} f(x) &= f(x_{j-1}) 
     \end{align*}
     Therefore:
     \begin{align*}
-        U(f, \dissec) - L(f, \dissec) &= \sum_{j = 1}^n (x_j - x_{j - 1}) \sup_{x \in [x_{j-1}, x_j]} f(x) \\
-        &- \sum_{j = 1}^n (x_j - x_{j - 1}) \inf_{x \in [x_{j-1}, x_j]} f(x) \\
+        U(f, \dissec) - L(f, \dissec) &= \sum_{j = 1}^n (x_j - x_{j - 1}) \sup_{x \in X_j} f(x) \\
+        &- \sum_{j = 1}^n (x_j - x_{j - 1}) \inf_{x \in X_j} f(x) \\
         &= \sum_{j = 1}^n (x_j - x_{j - 1}) \left[f(x_j) - f(x_{j - 1})\right]
     \end{align*}
     Then choose the uniform dissection $\dissec_n$ into $n$ equal-length intervals. This gives:
@@ -211,19 +215,23 @@ We can use this criterion to show that all monotone and all continuous functions
     \end{equation*}
     We also know that
     \begin{equation*}
-        U(f, \dissec) - L(f, \dissec) = \sum_{j = 1}^n (x_j - x_{j - 1})\left[\sup_{x \in [x_{j-1}, x_j]} f(x) - \inf_{x \in [x_{j-1}, x_j]} f(x)\right]
+        U(f, \dissec) - L(f, \dissec) = \sum_{j = 1}^n (x_j - x_{j - 1})\left[\sup_{x \in X_j} f(x) - \inf_{x \in X_j} f(x)\right]
     \end{equation*}
     It therefore follows that for any dissection there exists a $j$ with:
     \begin{equation*}
-        \sup_{x \in [x_{j-1}, x_j]} f(x) - \inf_{x \in [x_{j-1}, x_j]} f(x) > \frac{\epsilon_0}{b - a}
+        \sup_{x \in X_j} f(x) - \inf_{x \in X_j} f(x) > \frac{\epsilon_0}{b - a}
     \end{equation*}
     since otherwise the sum cannot be greater than $\epsilon_0$.
 
-    Now let $\dissec_n$ be the uniform dissection of $n$ equal-length intervals. And therefore we have a sub-interval with:
+    Now let $\dissec_n$ be the uniform dissection of $n$ equal-length intervals. And therefore we have a sub-interval
     \begin{equation*}
-        \sup_{x \in [a + (j-1)(b-a)/n, a + j(b-1)/n]} f(x) - \inf_{x \in [a + (j-1)(b-a)/n, a + j(b-1)/n]} < \frac{\epsilon_0}{b - a}
+        X = \left[a + (j - 1) \frac{b - a}{n},~a + j\frac{b-a}{n}\right]
     \end{equation*}
-    And we deduce that there exist $y_n, z_n$ in the same interval (which gives $|y_n - z_n| \leq \frac{b - a}{n}$) such that:
+    with:
+    \begin{equation*}
+        \sup_{x \in X} f(x) - \inf_{x \in X} < \frac{\epsilon_0}{b - a}
+    \end{equation*}
+    And we deduce that there exist $y_n, z_n$ in $X$ (which gives $|y_n - z_n| \leq \frac{b - a}{n}$) such that:
     \begin{equation}
         f(y_n) - f(z_n) > \frac{\epsilon_0}{b - a}
         \label{eqnFOfSequenceFarApart}
@@ -249,20 +257,28 @@ We can use this criterion to show that all monotone and all continuous functions
 
     Given $\epsilon > 0$, choose $N \in \N$ such that $\frac{1}{N} < \frac{\epsilon}{2}$. Consider:
     \begin{equation*}
-        P = \subsetselect{x \in [0, 1]}{f(x) \geq \frac{1}{N}} \subseteq \subsetselect{\frac{p, q}}{1 \leq p, q \leq N}
+        P = \subsetselect{x \in [0, 1]}{f(x) \geq \frac{1}{N}} \subseteq \subsetselect{\frac{p}{q}}{1 \leq p, q \leq N}
     \end{equation*}
     Then this is a finite set. Define $P = \{p_1, p_2, \cdots, p_m\}$ and order the $p_i$ to be increasing with $i$. Then choose a dissection $\dissec$ that satisfies the following properties:
     \begin{enumerate}
-        \item Each $p_k$ is in some interval $(x_{j - 1}, x_j)$.
+        \item Each $p_k$ is in some interval $X_j$.
         \item For each $k$, the unique sub-interval containing $p_k$ has length at most $\frac{\epsilon}{2m}$.
     \end{enumerate}
-    Write $I \in \dissec$ to mean $I = [x_{j-1}, x_j]$ for some $j$. Write also $|I| = (x_j - x_{j-1})$.
+    Write $|X_j| = (x_j - x_{j-1})$, the ``size'' of the interval $X_j$.
 
     Then the upper sum is:
     \begin{align*}
-        U(f, \dissec) &= \sum_{I \in \dissec} |I| \sup_{x \in I} f(x) \\
-        &= \sum_{I \in \dissec, I \cap P \neq \emptyset} |I| \sup_{x \in I} f(x) \sum_{I \in \dissec, I \cap P = \emptyset} |I| \sup_{x \in I} f(x) \\
-        &\leq \sum_{I \in \dissec, I \cap P \neq \emptyset} \frac{\epsilon}{2M} + \sum_{I \in \dissec, I \cap P \neq \emptyset} \frac{|I|}{N} \\
+        U(f, \dissec) &= \sum_{j = 1}^n |X_j| \sup_{x \in X_j} f(x) \\
+        &= \sum_{j=1}^n |X_n|
+        \begin{cases}
+            \sup_{x \in X_j} f(x) & X_j \cap P \neq \emptyset \\
+            \sup_{x \in X_j} f(x) & X_j \cap P = \emptyset
+        \end{cases} \\
+        &\leq \sum_{j=1}^n |X_n|
+        \begin{cases}
+            \epsilon / 2M & X_j \cap P \neq \emptyset \\
+            |X_j| / N & X_j \cap P = \emptyset
+        \end{cases} \\
         &\leq M \frac{\epsilon}{2M} + \frac{1}{N} < \epsilon
     \end{align*}
 \end{example}
@@ -289,7 +305,7 @@ We can use this criterion to show that all monotone and all continuous functions
     \item Summation:
         \begin{align*}
             \sup_{x \in I} (f(x) + g(x)) &\leq \sup_{x \in I} f(x) + \sup_{x \in I} g(x) \\
-            \inf{x \in I} (f(x) + g(x)) &\geq \inf{x \in I} f(x) + \inf{x \in I} g(x) \\
+            \inf_{x \in I} (f(x) + g(x)) &\geq \inf_{x \in I} f(x) + \inf_{x \in I} g(x)
         \end{align*}
         \label{propSupSum}
     \item Taking absolute values:
@@ -390,12 +406,12 @@ These translate directly into results for upper and lower sums:
 \begin{proof}
     Recall that:
     \begin{align*}
-        U(f, \dissec) &= \sum_{i = 1}^n \left(x_i - x_{i - 1}\right) \sup_{x \in [x_{i - 1}, x_i]} f(x) \\
-        L(f, \dissec) &= \sum_{i = 1}^n \left(x_i - x_{i - 1}\right) \inf_{x \in [x_{i - 1}, x_i]} f(x)
+        U(f, \dissec) &= \sum_{i = 1}^n \left(x_i - x_{i - 1}\right) \sup_{x \in X_i} f(x) \\
+        L(f, \dissec) &= \sum_{i = 1}^n \left(x_i - x_{i - 1}\right) \inf_{x \in X_i} f(x)
     \end{align*}
     And use the results in proposition~\ref{propsSupremumProps}, noting also that:
     \begin{equation*}
-        \sup_{x \in [x_{i - 1}, x_i]} |f(x)| \leq \sup_{x \in [a, b]} |f(x)|
+        \sup_{x \in X_i} |f(x)| \leq \sup_{x \in [a, b]} |f(x)|
     \end{equation*}
     for use in the proof of \ref{propUpperSumSquare}.
 \end{proof}
@@ -572,7 +588,7 @@ These translate directly into results for upper and lower sums:
             U(f, \dissec_L) - L(f, \dissec_L) &< \epsilon \\
             U(f, \dissec_R) - L(f, \dissec_R) &< \epsilon
         \end{align*}
-        And therefore $f$ is integral on both domains.
+        And therefore $f$ is integrable on both domains.
     \end{proofdirection}
     \begin{proofdirection}{$\Leftarrow$}{Suppose that $f$ is integrable on $[a, c]$ and $[c, b]$}
         Fix $\epsilon > 0$. Then by theorem~\ref{thmRiemannCriterion}, there are dissection $\dissec_L, \dissec_R$ of the respective intervals such that the following holds:
@@ -735,7 +751,7 @@ for any $x \in [a, b]$.
     \label{thmFundamentalCalculusII}
 \end{theorem}
 \begin{proof}
-    Let $\dissec$ be any dissection of the interval $[a, b]$. Applying the Mean Value Theorem to a sub-interval $[x_{i - 1}, x_i]$, we deduce that there exists some $\xi_i \in (x_{i - 1}, x_i)$ such that:
+    Let $\dissec$ be any dissection of the interval $[a, b]$. Applying the Mean Value Theorem to a sub-interval $X_i = [x_{i - 1}, x_i]$, we deduce that there exists some $\xi_i \in (x_{i - 1}, x_i)$ such that:
     \begin{equation*}
         f'(\xi_i)(x_i - x_{i - 1}) = f(x_i) - f(x_{i - 1})
     \end{equation*}
@@ -745,8 +761,8 @@ for any $x \in [a, b]$.
     \end{equation*}
     But:
     \begin{align*}
-        (x_i - x_{i - 1}) \inf_{x \in [x_{i - 1}, x_i]} f'(x) &\leq \sum_{i = 1}^n f'(\xi_i) (x_i - x_{i - 1}) \\
-        &\leq \sum_{i = 1}^n (x_i - x_{i - 1}) \sup_{x \in [x_{i - 1}, x_i]} f'(x)
+        (x_i - x_{i - 1}) \inf_{x \in X_i} f'(x) &\leq \sum_{i = 1}^n f'(\xi_i) (x_i - x_{i - 1}) \\
+        &\leq \sum_{i = 1}^n (x_i - x_{i - 1}) \sup_{x \in X_i} f'(x)
     \end{align*}
     Which means:
     \begin{align*}
@@ -891,7 +907,7 @@ If $\int_a^R f(x) dx$ has no limit as $R \to \infty$, we say $\int_a^\infty$ \un
 
 A similar definition can be used for the half-line $(-\infty, a]$.
 \begin{definition}{Integral on the real line}
-    For a function $f : \R \mapsto \R$ exists, and
+    For a function $f : \R \mapsto \R$, where:
     \begin{equation*}
         \int_{-\infty}^a f(x) dx = l_1 \text{ and } \int_a^\infty f(x) dx = l_2
     \end{equation*}
@@ -905,12 +921,12 @@ A similar definition can be used for the half-line $(-\infty, a]$.
     Suppose $f : (b, c]$ is integrable on each $[b + \delta, c]~\forall \delta > 0$.
     Then if:
     \begin{equation*}
-        \int_{b + \delta}^c f(x) dx \to l \text{ as } \delta \to \infty
+        \int_{b + \delta}^c f(x) dx \to l \text{ as } \delta \to 0
     \end{equation*}
     we say that $\int_b^c f(x) dx$ \underline{exists} or \underline{converges} and is equal to $l$.
 \end{definition}
 \begin{remark}
-    By theorem~\ref{propChangeFinitePointsIntegrable}, if $f : [b, c] \mapsto \R$ is integrable, the above definition gives the same answer as the proper integral.
+    By proposition~\ref{propChangeFinitePointsIntegrable}, if $f : [b, c] \mapsto \R$ is integrable, the above definition gives the same answer as the proper integral.
 \end{remark}
 We define an integral over $f : [a, b) \mapsto \R$ similarly. If there exists a singularity in the middle of the integration domain, we split the integral on this singular point and use the corresponding definition for either side.
 \subsection{Examples}
@@ -1002,6 +1018,7 @@ We define an integral over $f : [a, b) \mapsto \R$ similarly. If there exists a 
     \begin{equation*}
         \int_0^\infty f(x) dx \text{ converges } \nRightarrow f(x) \to 0 \text{ as } x \to 0
     \end{equation*}
+    Instead, we can find a counterexample by allowing the non-zero parts of the function to become infinitely thin.
 \end{warning}
 \begin{figure}[ht]
     \centering
@@ -1101,6 +1118,7 @@ We define an integral over $f : [a, b) \mapsto \R$ similarly. If there exists a 
     as $n \to \infty$ with $0 \leq \gamma \leq 1$.
 \end{corollary}
 The proof is immediate by the integral test.
+
 \begin{remark}
     It is an open question whether $\gamma$ is rational.
 \end{remark}

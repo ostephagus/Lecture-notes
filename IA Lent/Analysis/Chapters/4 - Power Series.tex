@@ -22,7 +22,7 @@ This series may not converge for all $z \in \C$. The first task, therefore, is t
     Therefore $\exists K > 0$ such that $|a_n z^n| \leq K$ for all $n$.\par
     Now consider, for $z \neq 0$ (note that the case $z = 0$ is trivial),
     \begin{align*}
-        |a_n w^n| &= |a_n z^n| \left|\frac{w}{z}\right| \\
+        |a_n w^n| &= |a_n z^n| \left|\frac{w}{z}\right|^n \\
         &\leq K\rho^n
     \end{align*}
     where $\rho = \frac{|w|}{|z|}$, and is less than $1$ by assumption. Therefore, by the comparison to the sum $\sum_{n=0}^\infty K\rho^n$, the required power series converges.
@@ -35,17 +35,19 @@ This series may not converge for all $z \in \C$. The first task, therefore, is t
     \label{thmRadiusOfConvergence}
 \end{theorem}
 \begin{proof}
-    Let $A = \subsetselect{r \geq 0}{\exists z \in \C, |z| = r, \sum_{n=0}^\infty a_n z^n \text{ converges}}$\par
-    Clearly $0 \in A$, so $A$ is non-empty. Let $R = \sup{A}$. If $A$ is not bounded above, define $R = \infty$.\par
-    From the definition of $A$, $\sum_{n=0}^\infty a_n z^n$ diverges for $|z| > R$.\par
+    Let $A = \subsetselect{r \geq 0}{\exists z \in \C, |z| = r, \sum_{n=0}^\infty a_n z^n \text{ converges}}$. That is, the set of radii of points where the sequence converges.
+
+    Clearly $0 \in A$, so $A$ is non-empty. If $A$ is not bounded above, define $R = \infty$. If not, $A$ is bounded above and non-empty and so has a supremum. In this case, define $R = \sup A$.
+
+    From the definition of $R$, $\sum_{n=0}^\infty a_n z^n$ diverges for $|z| > R$.\par
     Consider now $w \in \C$ with $|w| < R$. Then there exists $r \in A$ with $|w| < r$. This means there exists $z \in \C$ with $|z| = r$ and $\sum_{n=0}^\infty a_n z^n$ convergent. Then by Lemma~\ref{lemConvergenceRegionIsDisc}, $\sum_{n=0}^\infty a_n w^n$ converges absolutely.
 \end{proof}
 \begin{remarks}
     \item If $R = 0$, then the sum converges only for $z = 0$.
     \item If $R = \infty$, then the sum converges for any $z \in \C$.
-    \item If $R \in \R^+ \backslash \{0\}$, the theorem gives no information about $|z| = R$. In this case, we can have any possible subset of this circle convergent.
+    \item If neither of the above are true, the theorem gives no information about $|z| = R$. In this case, we can have any possible subset of this circle convergent.
 \end{remarks}
-We can get a useful way to find $R$.
+Using ideas from the section on Series, we can get useful ways to find the radius of convergence.
 \begin{lemma}
     If $\left|\frac{a_{n+1}}{a_n}\right| \to l$ as $n \to \infty$, then $R = \frac{1}{l}$. If $l = \infty$, then $R = 0$ and if $l = 0$ then $R = \infty$.
     \label{lemRatioReciprocalRadius}
@@ -55,14 +57,23 @@ We can get a useful way to find $R$.
     \begin{align*}
 	\lim_{n \to \infty} \left|\frac{a_{n+1} z^{n+1}}{a_n z^n}\right| = \lim_{n \to \infty} \left|\frac{a_{n+1}}{a_n}\right| |z| = l|z|
     \end{align*}
-    Therefore by the ratio test, if $l|z| < 1$ the power series converges absolutely, and if $l|z| > 1$ then the power series diverges.\par
-    The cases where $l = \infty$ and $l = 0$ are similar.
+    Therefore by the ratio test, if $l|z| < 1$ the power series converges absolutely, and if $l|z| > 1$ then the power series diverges.
+
+    If $l = \infty$, then $l|z|$ is always greater than $1$ for positive $|z|$, and thus the series diverges for all $z \neq 0$.
+
+    If $l = 0$, any finite $z$ has $l|z| = 0$ and thus the power series converges on all $\C$, $R = \infty$.
 \end{proof}
 \begin{lemma}
     If $|a_n|^\frac{1}{n} \to l$ then $R = \frac{1}{l}$.
     \label{lemRootReciprocalRadius}
 \end{lemma}
-The proof of this lemma is identical to that of lemma~\ref{lemRatioReciprocalRadius}, using the root test instead of the ratio test.
+\begin{proof}
+    Consider:
+    \begin{equation*}
+        \lim_{n \to \infty} \left(a_n z^n\right)^{\frac{1}{n}} = \lim_{n \to \infty} z (a_n)^{\frac{1}{n}}
+    \end{equation*}
+    The proof then proceeds as before.
+\end{proof}
 \begin{examples}{}
     \item $\sum_{n=0}^\infty \frac{z^n}{n!}$ has ratio of terms going to $0$, so the radius of convergence is $\infty$ and the series converges on the whole of $\C$.
     \item $\sum_{n=0}^\infty n! z^n$ has ratio of terms going to $\infty$, so the radius of convergence is $0$, and the series diverges everywhere except $z = 0$.
@@ -91,7 +102,7 @@ We can show that inside the disc, power series are well-behaved.
     \label{thmPowerSeriesDerivative}
 \end{theorem}
 \begin{remark}
-    This theorem can be iterated, since the result of a differentiation is a power series, so power series are infinitely differentiable inside their radius of convergence.
+    This theorem can be iterated, since the result of a differentiation is a power series, so power series are infinitely differentiable inside their radii of convergence.
 \end{remark}
 The rest of this subsection is \textbf{non-examinable}.\par
 We need some lemmas in order to prove theorem~\ref{thmPowerSeriesDerivative}.
@@ -184,6 +195,8 @@ We saw previously that the sum:
 \begin{equation*}
     \sum_{n = 0}^\infty \frac{z^n}{n!}
 \end{equation*}
+converges for all $z \in \C$.
+
 We define initially a function $e$:
 \begin{align*}
     e : \C &\mapsto \C \\
@@ -199,7 +212,7 @@ We immediately have that $e$ is differentiable, and also that its derivative is 
 \begin{proof}
     To show this, we need the following fact:\par
     \begin{subproof}{If $F : \C \mapsto \C$ satisfies $F'(z) = 0~\forall z \in \C$, then $F$ is constant.}
-        Consider $g : \R \mapsto \C$ such that $g(t) = F(tz)$. By the chain rule, $g'(t) = zF'(tz) = 0$.\par
+        For each $z \in \C$, consider $g : \R \mapsto \C$ such that $g(t) = F(tz)$. By the chain rule, $g'(t) = zF'(tz) = 0$.\par
         Then, if we write $g(t) = u(t) + iv(t)$ for real functions $u$ and $v$, we must have that $g'(t) = u'(t) + iv'(t)$, both of which must be 0. Now we must have that $u$ and $v$ are constant, and therefore $g$ is constant, and so is $F$ by corollary~\ref{corDerivativeSign}.
     \end{subproof}
     Now for any $a, b$ consider $F(z) = e(a + b - z) e(z)$. This is differentiable on all $\C$ with derivative:
@@ -224,16 +237,23 @@ We can also consider the function $e$ with real inputs. There are no complex coe
     \item $e(x)$ is strictly positive \label{propExpPositive}
     \item $e$ is strictly increasing \label{propExpIncreasing}
     \item $e(x) \to \infty$ as $x \to \infty$, and $e(x) \to 0$ as $x \to -\infty$ \label{propExpLimits}
-    \item $e : R \mapsto (0, \infty)$ is a bijection. \label{propExpBijection}
+    \item $e : \R \mapsto (0, \infty)$ is a bijection. \label{propExpBijection}
 \end{propositions}
 \begin{proof}
     The first two claims are already proven.
     \begin{enumerate}
         \setcounter{enumi}{2} %Start at 3
-        \item If $x > 0$ then clearly $e(x) = \sum_{n = 0}^\infty \frac{x^n}{n!} > 0$.
+        \item If $x > 0$ then clearly $e(x) = \sum_{n = 0}^\infty \frac{x^n}{n!} > 0$ since all coefficients are positive.
+        
             If $x = 0$, $e(0) = 1$ and if $e < 0$, note that $e(x - x) = e(x) e(-x) = 1$, so $e(x)$ must be positive since $e(-x)$ is positive by the first case.
         \item $e'(x) = e(x) > 0$ so $e$ is strictly increasing for all $x$.
-        \item For $x \geq 0$, $e(x) = \sum_{n = 0}^\infty \frac{x^n}{n!} > 1 + x$, so if $x \to \infty$, $e(x) \to \infty$. For $x \leq 0$, we use the identity that $e(x) = \frac{1}{e(-x)}$ so if $e(-x) \to \infty$, then $e(x) \to 0$.
+        \item For $x > 0$, all terms are positive so we can bound below by the first two:
+            \begin{equation*}
+                e(x) > 1 + x 
+            \end{equation*}
+            And therefore as $x \to \infty$, $1 + x \to \infty$, so $e(x) \to \infty$.
+
+            For the case $x < 0$, recall that $e(x) = (e(-x))^{-1}$. Therefore, as $x \to -\infty$, $-x \to \infty$ and we must have $e(x) \to 0$.
         \item Consider the map $e : \R \mapsto (0, \infty)$.
             Injectivity is immediate since $e$ is increasing (see the proof of theorem~\ref{thmInverseFunctionII}). For surjectivity, suppose that $y \in (0, \infty)$. Then due to the limits of $e(x)$ as $x$ tends to positive or negative infinity, there must exist $a$ and $b$ such that:
             \begin{equation*}
@@ -282,7 +302,12 @@ Define, for any $\alpha \in \R$, and for $x \in (0, \infty)$:
 \begin{proof}
     All proofs using the properties already established about $e$ and $l$.
 \end{proof}
-Now suppose that $p$ and $q$ are positive. Consider $r_p(x)$. We can write this as $r_{\sum_{k=1}^p 1}$, and we can iterate proposition~\ref{propPwrSum} to get $\prod_{k = 1}^p r_1(x) = x^p$ as required.\par
+Now suppose that $p$ and $q$ are positive. Consider $r_p(x)$. We can write this as:
+\begin{equation*}
+    r_{\sum_{k=1}^p 1}
+\end{equation*}
+and we can iterate proposition~\ref{propPwrSum} to get $\prod_{k = 1}^p r_1(x) = x^p$ as required.
+
 Now consider $r_{1/q}(x)$:
 \begin{align*}
     \left(r_{1/q}(x)\right)^q &= \prod_{k = 1}^q r_{1/q}(x) \\
@@ -324,9 +349,9 @@ Or, differentiating with respect to the exponent:
             \begin{equation*}
                 e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots > \frac{x^n}{n!}
             \end{equation*}
-            for any $n \in \N$. Choose $n$ such that $n - r > 0$. Then:
+            for any $n \in \N$. Choose $n$ such that $n > r$. Then:
             \begin{equation*}
-                0 \leq \frac{x^r}{e^x} \leq \frac{n!}{x^{n-r}}
+                0 \leq \frac{x^r}{e^x} \leq x^r \frac{n!}{x^n} = \frac{n!}{x^{n-r}}
             \end{equation*}
             And thus as $x \to \infty$, the upper bound goes to $0$, so $x^r e^{-x} \to 0$.
         \item Choose $m$ such that $m \geq \frac{2}{r}$.
@@ -335,11 +360,11 @@ Or, differentiating with respect to the exponent:
             \end{equation*}
             Then for $y$ sufficiently large, let $x = \log(y)$.
             \begin{equation*}
-                0 \leq \frac{(\log(y))^\frac{1}{r}}{y} \leq \frac{m!}{(\log(y)^\frac{1}{r})}
+                0 \leq \frac{(\log(y))^\frac{1}{r}}{y} \leq \frac{m!}{(\log(y))^\frac{1}{r}}
             \end{equation*}
             Then since raising to a positive power preserves inequalities:
             \begin{equation*}
-                0 \leq \frac{log(y)}{y^r} \leq \frac{m!}{\log(y)}
+                0 \leq \frac{\log(y)}{y^r} \leq \frac{m!}{\log(y)}
             \end{equation*}
             The upper bound goes to $0$ as $y \to \infty$, so $y^{-r} \log(y)$ must go to $0$.
         \item Let $z = y^{-1}$. Then from above:
@@ -429,11 +454,11 @@ Further, if $x$ is a real number then so are its sine and cosine (by considering
 \end{proof}
 \begin{corollary}
     \begin{equation*}
-        \sin\left(\frac{\omega}{2}\right)
+        \sin\left(\frac{\omega}{2}\right) = 1
     \end{equation*}
 \end{corollary}
 \begin{proof}
-    We have that $\cos\left(\frac{\omega}{2}\right) = 0$, so $\sin\frac{omega}{2} = \pm 1$ by equation~\ref{eqnSquareTrig}. In the proof of lemma~\ref{lemRootOfCos}, it was shown that $\sin$ is positive on this interval, so $\sin\frac{\omega}{2} = 1$.
+    We have that $\cos\left(\frac{\omega}{2}\right) = 0$, so $\sin\frac{\omega}{2} = \pm 1$ by equation~\ref{eqnSquareTrig}. In the proof of lemma~\ref{lemRootOfCos}, it was shown that $\sin$ is positive on this interval, so $\sin\frac{\omega}{2} = 1$.
 \end{proof}
 We will now define $\pi$ to be $\omega$
 \begin{theorem}
@@ -441,7 +466,7 @@ We will now define $\pi$ to be $\omega$
     \begin{align*}
         \sin\left(z + \frac{\pi}{2}\right) &= \cos(z) \\
         \sin\left(z + \pi\right) &= -\sin(z) \\
-        \sin\left(z + 2\pi\right) &= \sin(z) \\
+        \sin\left(z + 2\pi\right) &= \sin(z)
     \end{align*}
     \label{thmTrigPeriodicity}
 \end{theorem}
