@@ -1,0 +1,291 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Convergence in Probability}
+\subsection{Definition}
+\begin{definition}{Convergence in Probability}
+    A sequence of random variables $X_n, n \in \N$ \underline{converges in probability} to a random variable $X$, and we write $X_n \probconverge X$ as $n \to \infty$ if:
+    \begin{equation*}
+        P(|X_n - X| > \epsilon) \to 0 \text{ as } n \to \infty
+    \end{equation*}
+\end{definition}
+\subsection{Weak Law of Large Numbers}
+\begin{theorem}[Weak law of large numbers]
+    Let $(X_n)$ be independent and identically distributed random variables with finite mean $\mu$. Set $S_n = \sum_{i = 1}^n X_i$. Then:
+    \begin{equation*}
+        \frac{S_n}{n} \probconverge \mu \text{ as } n \to \infty
+    \end{equation*}
+    \label{thmWeakLawLargeNums}
+\end{theorem}
+\begin{proof}[assuming finite variance]
+    We need to show that given any $\epsilon > 0$,
+    \begin{equation*}
+        P\left(\left|\frac{S_n}{n} - \mu\right| > \epsilon\right) \to 0
+    \end{equation*}
+    \begin{align*}
+        P\left(\left|\frac{S_n}{n} - \mu\right| > \epsilon\right) &= P(|S_n - n \mu| > n\epsilon) \\
+        &\leq \frac{\Var(S_n)}{n^2 \epsilon^2} \text{ by Chebyshev's inequality}
+    \end{align*}
+    Then the variance of $S_n$ is $n \sigma^2$:
+    \begin{align*}
+        P\left(\left|\frac{S_n}{n} - \mu\right| > \epsilon\right) &\leq \frac{n\sigma^2}{n^2\epsilon^2} \\
+        &\to 0 \text{ as } n \to \infty \text{ since all terms are finite.}
+    \end{align*}
+\end{proof}
+\section{Convergence Almost Surely}
+\subsection{Definitions}
+\begin{definition}{Almost sure convergence}
+    A sequence of random variables $X_n, n \in \N$ \underline{converges almost surely} to a random variable $X$, and we write $X_n \to X$ a.s. as $n \to \infty$ if:
+    \begin{equation*}
+        P\left(\lim_{n \to \infty} X_n = X\right) = 1
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    We say \textit{almost} surely because there could exist an event in the probability space where this convergence does not hold, but such an event must have probability 0. If there were no such events, we could drop the \textit{almost} and say that $X_n \to X$ surely.
+\end{remark}
+\begin{lemma}
+    If $X_n \to 0$ almost surely, then $X_n \probconverge 0$.
+    \label{lemASConvergeImpliesProbCoverge}
+\end{lemma}
+\begin{proof}
+    We want to show that $\forall \epsilon > 0$, $P(|X_n| > \epsilon) \to 0$ as $n \to \infty$ or equivalently $P(|X_n| \leq \epsilon) \to 1$.
+    \begin{equation*}
+        P(|X_n| \leq \epsilon) \geq P\left(\bigcap_{m = n}^\infty {|X_m| \geq \epsilon}\right)
+    \end{equation*}
+    Then define $A_n = {|X_m| \leq \epsilon}$. Then $A_n \subseteq A_{n + 1}$, and the union is:
+    \begin{equation*}
+        \bigcup_{n = 1}^\infty = \left\{|X_m| \leq \epsilon \text{ for all } m \text{ sufficiently large}\right\}
+    \end{equation*}
+    \begin{align*}
+        \therefore \lim_{n \to \infty} P(|X_n| \leq \epsilon) &\lim_{n \to \infty} P(A_n) \\
+        &= P\left(\cup_n A_n\right) \\
+        \geq P(\forall \epsilon > 0, |X_m| \leq \epsilon \text{ for } m \text{ sufficiently large}) \\
+        &= P(\lim_{n \to \infty} X_n = 0) \\
+        &= 1 \text{ by assumption}
+    \end{align*}
+\end{proof}
+\begin{remark}
+    This shows that convergence almost surely is a stronger statement that convergence in probability.
+\end{remark}
+\subsection{Strong Law of Large Numbers}
+\begin{theorem}[Strong law of large numbers]
+    Let $(X_n)_{n \in \N}$ be and independent and identically distributed sequence of random variables, with finite mean $\mu$. Set $S_n = X_1 + \cdots + X_n$. Then
+    \begin{equation*}
+        \frac{S_n}{n} \to \mu \text{ as } n \to \infty \text{ almost surely.}
+    \end{equation*}
+    \label{thmStrongLawLargeNums}
+\end{theorem}
+\begin{proof}[Non-examinable]
+    Assume that $X_1$ has finite variance and that $E[X_1^4] < \infty$.
+
+    Set $Y_i = X_i = \mu$. Then $E[Y_i] = 0$ and:
+    \begin{equation*}
+        E[Y_i^4] = E[(X_i - \mu)^4] \leq 2^4 \left(E[X_i^4] + \mu^4\right)
+    \end{equation*}
+    Which is finite by assumption, so $E[Y_i^4] < \infty$.
+    Then re-define $S_n = \sum_{i = 1}^n Y_i$, so we need to show that this tends to $0$.
+    Consider the expression:
+    \begin{equation*}
+        \sum_{i = 1}^\infty \left(\frac{S_n}{n}\right)
+    \end{equation*}
+    We want to show it is finite with probability 1.
+    \begin{align*}
+        E[S_n^4] &= E\left[\left(\sum_{i = 1}^n Y_i\right)^4\right] \\
+        &= E\left[\sum_{i = 1}^n Y_i^4\right] + \choose{4}{2} \sum_{1 \leq i < j \leq n} E[Y_i^2 Y_j^2] + R
+    \end{align*}
+    Where $R$ is a set of terms of the forms:
+    \begin{equation*}
+        Y_i^3 Y_j,~Y_i^2 Y_j Y_k,~Y_i Y_j Y_k Y_l
+    \end{equation*}
+    Where all the indices are distinct. However, such terms include a 1st power of $Y_i$:
+    \begin{equation*}
+        E[Y_i^3 Y_j] = E[Y_i^3] E[Y_j] = 0
+    \end{equation*}
+    by independence, so we need only consider the terms external to $R$.
+    \begin{align*}
+        E[Y_i^2] E[Y_j^2] &= \left(E[Y_i^2]\right)^2 \text{ by identical distribution} \\
+        &\leq E[Y_i^4] \text{ by Jensen's Inequality.}
+    \end{align*}
+    And therefore:
+    \begin{align*}
+        E[S_n^4] &= n E[Y_i^4] + 6 \frac{n(n-1)}{2} E[Y_i^4] \\
+        &\leq 3n^2 E[Y_1^4]
+    \end{align*}
+    \begin{equation*}
+        E\left[\frac{S_n^4}{n^4}\right] \leq \frac{3}{n^2} E[Y_1^4]
+    \end{equation*}
+    Which, when summed, is finite. Therefore we have that the individual terms, $\frac{S_n}{n}$, must tend to 0 by the $n$th term test.
+\end{proof}
+\begin{remark}
+    This statement can be intuitively considered as the fact that we can estimate the outcome of the first $n$ random variables: $S_n \approx n\mu$.
+\end{remark}
+\section{Central Limit Theorem}
+\subsection{Convergence in Distribution}
+The Central Limit Theorem provides an answer to the question of how $S_n$ fluctuates around $n\mu$.
+\begin{align*}
+    \Var\left(\frac{S_n}{n} - \mu\right) &= \Var\left(\frac{S_n}{n}\right) \\
+    &= \frac{\sigma^2}{n}
+\end{align*}
+And therefore the random variable:
+\begin{equation*}
+    \frac{S_n - n\mu}{\sigma\sqrt{n}}
+\end{equation*}
+has variance 1 and mean 0.
+
+Initially, suppose that $X_i$ are independent and identically distributed with $X_i \sim N(\mu, \sigma^2)$.
+Therefore the new random variable in this case has standard normal distribution:
+\begin{equation}
+    \frac{S_n - n\mu}{\sigma\sqrt{n}} \sim N(0, 1).
+    \label{eqnSnIsStdNormal}
+\end{equation}
+We will show that, in fact, $N(0, 1)$ is universal, in the sense that no matter what the distribution of $X_i$ is, for $n$ sufficiently large, equation~\ref{eqnSnIsStdNormal} will hold.
+For this, we need to define a new notion of convergence:
+\begin{definition}{Convergence in Distribution}
+    A sequence of random variables $(X_n)_{n \in \N}$ \underline{converges in distribution} to a random variable $X$ as $n \to \infty$, and we write $X_n \distconverge X$ as $n \to \infty$, if:
+    \begin{equation*}
+        F_{X_n}(x) \to F_X(x)~\forall x \in \R \text{ that are continuity points of } F_X
+    \end{equation*}
+    as $n \to \infty$.
+\end{definition}
+\begin{theorem}[Continuity property of moment generating functions]
+    Suppose that $(X_n)$ are random variables with moment generating functions $m_n(\theta)$; suppose also that $X$ is a random variable with moment generating function $m(\theta)$. Assume that $m(\theta)$ is finite for some $\theta \neq 0$. Then if $m_n(\theta) \to m(\theta)$ as $n \to \infty$, for all $\theta \in \R$, then:
+    \begin{equation*}
+        X_n \distconverge X \text{ as } n \to \infty
+    \end{equation*}
+    \label{thmMGFContinuity}
+\end{theorem}
+This theorem will be used without proof.
+\subsection{The Theorem and a Proof}
+\begin{theorem}[Central Limit Theorem]
+    Suppose that $(X_n)_{n \in \N}$ are independent and identically distributed random variables with finite mean $\mu$ and finite variance $\sigma^2$. Define $S_n = X_1 + \cdots + X_n$. Then:
+    \begin{equation*}
+        \frac{S_n - n\mu}{\sigma\sqrt{n}} \distconverge Z
+    \end{equation*}
+    as $n \to \infty$ where $Z \sim N(0, 1)$.
+
+    In other words, for all real $x$,
+    \begin{equation*}
+        P\left(\frac{S_n - n\mu}{\sigma\sqrt{n}}\leq x\right) \to \int_{-\infty}^\infty \frac{e^\frac{-y^2}{2}}{\sqrt{2\pi}} dy = \Phi(x)
+    \end{equation*}
+    \label{thmCentralLimit}
+\end{theorem}
+\begin{proof}
+    Consider $Y_i = \frac{X_i - \mu}{\sigma}$. Then $E[Y_i] = 0$ and $\Var(Y_i) = 1$. Therefore it suffices to prove the theorem for the case $X_i$ has mean 0 and variance 1.
+    In this case, we are required to prove that:
+    \begin{equation*}
+        \frac{S_n}{\sqrt{n}} \distconverge Z \sim N(0, 1)
+    \end{equation*}
+    Also assume that $\exists \delta > 0$ such that $E[e^{\delta X_i}]$ and $E[e^{-\delta X_i}]$ are finite, and that the moment generating function is defined.
+    
+    Let $m(\theta) = E[e^{\theta X_i}]$ be the moment generating function of $X_i$. Therefore, using theorem~\ref{thmMGFContinuity}, it suffices to show that:
+    \begin{equation*}
+        E\left[\exp\left(\theta \frac{S_n}{\sqrt{n}}\right)\right] \to E\left[e^{\theta Z}\right] = \exp\left(\frac{\theta^2}{2}\right)
+    \end{equation*}
+    Therefore:
+    \begin{align*}
+        E\left[\exp\left(\theta\frac{S_n}{\sqrt{n}}\right)\right] &= \left(E\left[\exp\left(\theta \frac{X_i}{\sqrt{n}}\right)\right]\right)^n \\
+        &= \left(m\left(\frac{\theta}{\sqrt{n}}\right)\right)^n
+    \end{align*}
+    So we want to show that:
+    \begin{equation*}
+        \left(m\left(\frac{\theta}{\sqrt{n}}\right)\right) \to e^\frac{\theta^2}{2}
+    \end{equation*}
+    as $n \to \infty$.
+    \begin{align*}
+        m\left(\frac{\theta}{\sqrt{n}}\right) &= E\left[\exp\left(\frac{\theta X_i}{\sqrt{n}}\right)\right] \\
+        &= E\left[1 + \frac{\theta^2X_i^2}{2n} + \sum_{k \geq 3} \frac{\theta^k X_i^k}{\left(\sqrt{n}\right)^k k!}\right] \\
+        &= 1 + \frac{\theta^2}{2n} + E\left[\sum_{k \geq 3} \frac{\theta^k X_i^k}{\left(\sqrt{n}\right)^k k!}\right]
+    \end{align*}
+    \begin{subproof}{$\left|E\left[\sum_{k \geq 3} \sigma^k X_i^k / (k!)\right]\right| = o(|\theta|^2)$ as $\theta \to 0$.}
+        Let $|\theta| \leq \frac{\delta}{2}$.
+        \begin{align*}
+            \left|E\left[\sum_{k \geq 3} \frac{\theta^k X_i^k}{k!}\right]\right| &\leq E\left[\sum_{k \geq 3} \frac{|\theta^k X_i^k|}{k!}\right] \\
+            &= E\left[|\theta X_i|^3 \sum_{k \geq 0} \frac{|\theta X_i|^k}{(k + 3)!}\right] \\
+            &\leq E\left[|\theta X_i|^3 \sum_{k \geq 0} \frac{|\theta X_i|^k}{k!}\right] \\
+            &= E\left[|\theta X_i|^3 \exp\left(|\theta X_i|\right)\right] \\
+            &= E\left[|\theta X_i|^3 \exp\left(\frac{\delta}{2}|X_i|\right)\right] \\
+        \end{align*}
+        Now note that:
+        \begin{align*}
+            |\theta X_1|^3 &= |\theta|^3 \frac{|\frac{\delta}{2} X_i|^3}{3!} \left(\frac{2}{\delta}\right)^3 \times 3! \\
+            &\leq 3! \left(\frac{2}{\delta}\right)^3 |\theta|^3 e^{\frac{\delta}{2}|X_i|}
+        \end{align*}
+        Then substituting back, and setting $C$ to be the constant on the left of this expression:
+        \begin{align*}
+            E\left[|\theta X_i|^3 \exp\left(\frac{\delta}{2}|X_i|\right)\right] &= C\times E\left[|\theta|^3 e^{\delta |X_1|}\right] \\
+            &= C |\theta|^3 E[E^{\delta |X_1|}] \\
+            &\leq C |\theta|^3 \left(E[E^{\delta X_1}] + E[E^{-\delta X_1}]\right) \\
+        \end{align*}
+        which is finite by assumption. Therefore, we have the required result.
+    \end{subproof}
+    Now we are done, because $m\left(\frac{\theta}{\sqrt{n}}\right) = 1 + \frac{\theta}{2n} + o\left(\frac{\theta^2}{n}\right)$ as $n \to \infty$, so:
+    \begin{equation*}
+        \left(m\left(\frac{\theta}{\sqrt{n}}\right)\right) \to e^{\theta^2}{2}
+    \end{equation*}
+    as $n \to \infty$.
+\end{proof}
+\begin{remark}
+    We can rearrange the result to get that:
+    \begin{equation*}
+        S_n \approx n\mu + \sigma \sqrt{n} Z \sim N(\mu n, \sigma^2 n)
+    \end{equation*}
+\end{remark}
+\begin{example}
+    Suppose that $S_n \sim B(n, p)$. Therefore, the $X_i$ are Bernoulli random variables with parameter $p$.
+
+    By theorem~\ref{thmCentralLimit}, we must have that:
+    \begin{equation*}
+        \frac{S_n - np}{\sqrt{np(1-p)}} \to N(0, 1)
+    \end{equation*}
+    Therefore in the limit:
+    \begin{equation*}
+        S_n \sim N(np, np(1-p))
+    \end{equation*}
+\end{example}
+\begin{example}
+    Now suppose that $S_n \sim B\left(n, \frac{\lambda}{n}\right)$. Then this converges to a Poisson distribution $Po(\lambda)$ as proven earlier. This is an example of a case where theorem~\ref{thmCentralLimit} does not apply, because the variance is a function of $n$. However, we can apply the central limit theorem to a Poisson random variable:
+    
+    \begin{align*}
+        S_n &\sim Po(\lambda) \\
+        &= X_1 + X_2 + \cdots + X_n, X_i \sim Po(1)
+    \end{align*}
+    And therefore:
+    \begin{equation*}
+        \frac{S_n - n}{\sqrt{n}} \to N(0, 1)
+    \end{equation*}
+    or, $S_n \approx N(n, n)$.
+\end{example}
+\subsection{Sampling Error via the Central Limit Theorem}
+Suppose that we hold a referendum and that every individual votes Yes with probability $p$, and No with probability $1-p$. We want to estimate $p$ using a sample of size $N$ sufficiently large. Let $X_i$ be $1$ if the vote from the $i$th individual is Yes, and $0$ otherwise.
+
+Set $S_n = \sum_{i = 1}^N X_i$. Define:
+\begin{equation*}
+    \hat{p}_n = \frac{S_n}{n} \to p \text{ almost surely}
+\end{equation*}
+We want to estimate $p$ with an accuracy of $\pm 4\%$, with probability at least $0.99$. By theorem~\ref{thmCentralLimit}, for large enough $N$ we have:
+\begin{equation*}
+    S_N \approx Np + \sqrt{Np(1-p)} Z, Z \sim N(0, 1)
+\end{equation*}
+And therefore:
+\begin{equation*}
+    \hat{p}_N = \frac{S_N}{N} \approx p + \frac{\sqrt{p(1-p)}}{\sqrt{N}} Z
+\end{equation*}
+And therefore we need $N$ large enough so that:
+\begin{equation*}
+    P\left(|\hat{p}_N - p| \geq \frac{1}{25}\right) \leq \frac{1}{100}
+\end{equation*}
+\begin{align*}
+    |\hat{p}_N - p| \approx \frac{\sqrt{p(1-p)}}{\sqrt{n}} \\
+    \therefore P(|Z| \geq z) &= 2(1 - \Phi(z))
+\end{align*}
+From tables of values we can get that $z = 2.58$ gives $P(|Z| \leq z) = 0.01$.
+
+And therefore we take $N$ such that:
+\begin{equation*}
+    \frac{0.04\sqrt{N}}{\sqrt{p(1-p)}} \geq 2.58
+\end{equation*}
+The denominator is maximised (and the fraction is minimised) when $p = 0.5$. In this case, we require:
+\begin{equation*}
+    N \geq 1040.
+\end{equation*}
+\end{document}

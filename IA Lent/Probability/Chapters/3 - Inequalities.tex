@@ -1,0 +1,212 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Markov's Inequality and Corollaries}
+\begin{theorem}[Markov's Inequality]
+    Let $X$ be a non-negative random variable. Let $a > 0$.\par
+    \begin{equation*}
+        P(X \geq a) \leq \frac{E[X]}{a}
+    \end{equation*}
+    \label{thmMarkovInequality}
+\end{theorem}
+\begin{proof}
+    For any $a > 0$, $X \geq a I_{X \geq a}$. Then taking expectations:
+    \begin{equation*}
+        E[X] \geq a P(X \geq a)
+    \end{equation*}
+    And rearranging gives the result.
+\end{proof}
+\begin{lemma}[Chebyshev's Inequality]
+    Let $X$ be a random variable with finite expectation and variance. Then for any $a > 0$,
+    \begin{equation*}
+        P(|X - E[X]| \geq a) \leq \frac{\Var{(X)}}{a^2}
+    \end{equation*}
+    \label{lemChebyshevInequality}
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        P(|X - E[x]|^2 \geq a^2) &\leq \frac{E[(X - E[X]^2)]}{a^2} \\
+        &= \frac{\Var{(X)}}{a^2}
+    \end{align*}
+\end{proof}
+\begin{theorem}[Cauchy-Schwarz Inequality]
+    Let $X$ and $Y$ be random variables. Then:
+    \begin{equation*}
+        E[|XY|] \leq \sqrt{E[X^2]E[Y^2]}
+    \end{equation*}
+    \label{thmCauchySchwarz}
+\end{theorem}
+\begin{proof}
+    Assume that $E[X^2]$ and $E[Y^2]$ are finite, otherwise the statement is trivial.
+    \begin{equation*}
+        |XY| \leq \frac{1}{2} \left(X^2 + Y^2\right)
+    \end{equation*}
+    and then taking expectations,
+    \begin{equation*}
+        E[|XY|] \leq \frac{1}{2}\left(E[X^2] + E[Y^2]\right)
+    \end{equation*}
+    Re-label $X$ to be $|X|$ and $Y$ to be $Y$, so now $X$ and $Y$ are non-negative. Let $t \in \R$:
+    \begin{align*}
+        0 &\leq E\left[(X - tY)^2\right] \\
+        &= E[X^2] - 2tE[XY] + t^2 E[Y^2]
+    \end{align*}
+    Then considering this as a quadratic, we require $b^2 - 4ac \leq 0$:
+    \begin{align*}
+        0 &\geq 4E[XY]^2 - 4E[X^2] E[Y^2] \\
+        0 &\geq E[XY]^2 - E[X^2] E[Y^2] \\
+        E[XY] &\leq \sqrt{E[X^2]E[Y^2]}
+    \end{align*}
+\end{proof}
+\begin{remark}
+    As in IA Vectors and Matrices, the case for equality is that one random variable is a multiple of the other (or that one is zero).
+\end{remark}
+\section{Jensen's Inequality and Corollaries}
+\subsection{Convex Functions}
+\begin{definition}{Convex function}
+    A function $f : \R \mapsto \R$ is \underline{convex} if for any $x$ and $y$, and $t \in [0, 1]$,
+    \begin{equation*}
+        f(tx + (1-t)y) \leq tf(x) + (1-t) f(y)
+    \end{equation*}
+    That is, $f$ is below any chord that joins $x$ and $y$, where $t$ parameterises the chord. See figure~\ref{figConvexCurve}.
+\end{definition}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \draw[domain=0:2] plot (\x, \x * \x * \x * \x -4 * \x * \x * \x +6 * \x * \x -11/3 * \x +1) node[right] {$f(x)$};
+        \coordinate (X) at (0.3, 0.34);
+        \coordinate (Y) at (1.4, 0.492);
+        \draw[fill] (X) circle[radius=0.5mm] node[below left] {$(x, f(x))$};
+        \draw[fill] (Y) circle[radius=0.5mm] node[below right] {$(y, f(y))$};
+        \draw (X) -- (Y);
+        \draw[->] (0.5, -0.5) node[below, align=center] {Curve below \\ chord}
+            -- ($(X) + (0.5, 0)$);
+    \end{tikzpicture}
+    \caption{Diagram of a convex function and a chord}
+    \label{figConvexCurve}
+\end{figure}
+\begin{lemma}
+    Let $f$ be a convex function. Then $f$ is the supremum of all the lines lying below it. In other words, for any $m$ there exist real numbers $a$ and $b$ such that $f(m) = am+b$ and $f(x) \geq ax + b~\forall x$.
+    \label{lemTangentBelowConvex}
+\end{lemma}
+This means that for a point and corresponding tangent line, $f(x)$ is above this tangent line everywhere other than the point where they touch.
+\begin{proof}
+    Let $m \in \R$ and $x < m < y$. Then:
+    \begin{equation}
+        m = tx + (1-t)y
+        \label{eqnInterpolation}
+    \end{equation}
+    for some $t \in [0, 1]$.\par
+    $f(m) = f(tx + (1-t)y) \leq tf(x) + (1-t)f(y)$ from the definition.
+    \begin{align*}
+        \implies f(m) &\leq  tf(x) + (1-t)f(y) \\
+        (1 - t) f(m) + tf(m) &\leq tf(x) + (1-t)f(y) \\
+        t(f(m) - f(x)) &\leq (1-t)(f(y)-f(m))
+    \end{align*}
+    Then rearranging equation~\ref{eqnInterpolation}, $t = \frac{y - m}{y - x}$ and $1 - t = \frac{m - x}{y - x}$. Substituting this in the inequality gives:
+    \begin{equation}
+        \frac{f(m) - f(x)}{m - x} \leq \frac{f(y) - f(m)}{y-m}
+        \label{eqnRatioInequality}
+    \end{equation}
+    Now define $a = \sup_{x < m} \frac{f(m) - f(x)}{m - x}$. Therefore, for all $x < m < y$, equation~\ref{eqnRatioInequality} gives:
+    \begin{equation}
+        \frac{f(m) - f(x)}{m - x} \leq a \leq \frac{f(y) - f(m)}{y - m}
+        \label{eqnSupremumBounds}
+    \end{equation}
+    Then rearranging this inequality, for any $z$ in range:
+    \begin{equation*}
+        f(z) \geq a(z - m) + f(m)
+    \end{equation*}
+    As required. This is from the LHS of equation~\ref{eqnSupremumBounds} if $z < m$, and the RHS if $z > m$.
+\end{proof}
+\subsection{Jensen's Inequality}
+\begin{theorem}[Jensen's Inequality]
+    Let $f$ be convex and $X$ a random variable.\par
+    Then $E[f(x)] \geq f(E[X])$.
+    \label{thmJensenInequality}
+\end{theorem}
+\begin{proof}
+    Let $m = E[X]$. By proposition~\ref{lemTangentBelowConvex}, there exist $a$ and $b$ such that
+    \begin{equation*}
+        f(m) = am + b, f(x) \geq ax + b~\forall x
+    \end{equation*}
+    Then $f(X) \geq aX + b$. Taking expectations:
+    \begin{align*}
+        E[f(X)] &\geq aE[X] + b \\
+        &= am + b = f(m) \\
+        &= f(E[X])
+    \end{align*}
+\end{proof}
+\begin{corollary}[Equality in Jensen's Inequality]
+    Let $X$ be a random variable and $f$ a convex function with the property that for $m = E[X]$ there exist $a$ and $b$ such that $f(m) = am + b$ and $f(x) > ax + b$ for any $x \neq m$.\par
+    Then $f(E[X]) = E[f(X)]$ only if $X$ is constant.
+    \label{corJensenEquality}
+\end{corollary}
+\begin{remark}
+    This final statement can be extended to an \textit{if and only if} statement, since if $X$ is constant, then $X = E[X]$ and equality is trivially true since $f(X)$ is also constant.
+\end{remark}
+\begin{proof}
+    We then consider what properties of $X$ give $E[f(X)] = f(E[X])$.\par
+    We have that $f(X) \geq aX + b$, which means $f(X) - (aX + b) \geq 0$. Taking expectations,
+    \begin{equation*}
+        E[f(X)] \geq a E[X] + b = am + b = f(m) = f(E[X])
+    \end{equation*}
+    And for equality,
+    \begin{align*}
+        E[f(X)] &= f(E[X]) \\
+        E[f(X) - (aX + b)] &= 0
+    \end{align*}
+    However, since $f(X) - (aX + b)$ is greater than or equal to zero, for it to have zero expectation it must be zero everywhere. That is, $P(f(X) = aX + b) = 1 \implies P(X = m) = 1$. That is, $X$ is constant.
+\end{proof}
+\subsection{Useful Corollaries}
+\begin{corollary}
+    Let $f$ be a convex function and $x_1, \cdots, x_n$ be real numbers. Then:
+    \begin{equation*}
+        \frac{1}{n} \sum_{k=1}^n f(x_k) \geq f\left(\frac{1}{n}\sum_{k=1}^n x_k\right)
+    \end{equation*}
+    \label{corGenericAMGM}
+\end{corollary}
+\begin{proof}
+    Let $X$ be a random variable taking values $x_1, \cdots, x_n$. Let $P(X = x_i) = \frac{1}{n}$
+    \begin{align*}
+        \frac{1}{n} \sum_{k=1}^n f(x_k) &= \sum_{k=1}^n P(X = x_k) f(x_k) \\
+        &= E[f(X)]
+    \end{align*}
+    Note also that $E[X] = \frac{1}{n} \sum_{k=1}^n x_n$.
+    Then apply Jensen's Inequality:
+    \begin{align*}
+        E[f(X)] &\geq f(E[X]) \\
+        \frac{1}{n} \sum_{k=1}^n f(x_k) & \geq f\left(\frac{1}{n} \sum_{k=1}^n x_k\right)
+    \end{align*}
+\end{proof}
+\begin{corollary}[AM-GM Inequality]
+    Let $f(x) = -\log{(x)}$. This is a convex function.\par
+    \begin{align*}
+        -\frac{1}{n} \sum_{k=1}^n \log{x_k} & \geq -\log{(\frac{1}{n}\sum_{k=1}^n x_k)} \\
+       \implies \left(\prod_{k=1}^n x_k\right)^{\frac{1}{n}} &\geq \frac{1}{n} \sum_{k=1}^n x_k \text{ by exponentiation}
+    \end{align*}
+    \label{corAMGM}
+\end{corollary}
+\section{Summary of Inequalities}
+We have shown the following inequalities:
+\begin{enumerate}
+    \item \underline{Markov's Inequality} (theorem~\ref{thmMarkovInequality}):
+        \begin{equation*}
+            P(X \geq a) \leq \frac{E[X]}{a}
+        \end{equation*}
+        This is proved by taking expectations of the fact $X \geq aI_{X \geq a}$.
+    \item \underline{Chebyshev's Inequality} (lemma~\ref{lemChebyshevInequality}):
+        \begin{equation*}
+            P(|X - E[X]| \geq a) \leq \frac{\Var(X)}{a^2}
+        \end{equation*}
+        This is proved by using Markov's Inequality on $(X - E[X])^2$.
+    \item \underline{Cauchy-Schwarz Inequality} (theorem~\ref{thmCauchySchwarz}):
+        \begin{equation*}
+            E[XY] \leq \sqrt{E[X^2] E[Y^2]}
+        \end{equation*}
+    \item \underline{Jensen's Inequality} (theorem~\ref{thmJensenInequality}):
+        \begin{equation*}
+            E[f(X)] \geq f(E[X])
+        \end{equation*}
+        for $f$ any convex function. Equality holds only if $X$ is constant. This can be used to obtain other inequalities such as the AM-GM inequality.
+\end{enumerate}
+\end{document}
