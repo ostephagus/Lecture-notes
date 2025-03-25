@@ -73,7 +73,7 @@ Our equations \ref{eqnRelativePosGamma} and \ref{eqnRelativeTimeGamma} then beco
     x' &= \gamma (x - vt) \label{eqnRelativePos} \\
     t' &= \gamma \left(t - \frac{v}{c^2}x\right) \label{eqnRelativeTime}
 \end{align}
-We can also check that in the case $v << c$ we recover Galilean Transformations: here we have $\gamma \approx 1$ and $\frac{v}{c} \approx 0$, and we do indeed get $x' = x - vt, t' = t$.
+We can also check that in the case $v \ll c$ we recover Galilean Transformations: here we have $\gamma \approx 1$ and $\frac{v}{c} \approx 0$, and we do indeed get $x' = x - vt, t' = t$.
 \subsection{Addition of Velocities}
 We consider a particle moving with speed $u'$ in a frame $S'$, which in turn moves at speed $v$ in a frame $S$. We therefore consider what speed the particle moves in frame $S$.
 \begin{equation*}
@@ -86,7 +86,7 @@ We require the inverse Lorentz transformations. We have already argued that thes
 \end{align*}
 \begin{align*}
     u &= \frac{x}{t} = \frac{\gamma(x' + vt')}{\gamma(t' + \frac{v}{c^2}x')} \\
-    &= \frac{\frac{x'}{t'} + v}{1 + \frac{v}{c^2}\frac{x'}{t'}} \\
+    &= \frac{\frac{x'}{t'} + v}{1 + \frac{v}{c^2}\frac{x'}{t'}}
 \end{align*}
 \begin{equation}
     u = \frac{u' + v}{1 + \frac{vu'}{c^2}}
@@ -121,7 +121,7 @@ We introduce spacetime diagrams, an example of which is in figure~\ref{figSpacet
         \draw[dashed] (225:2) -- (45:2) node[anchor=west] {Light ray};
         \draw[dashed] (135:2) -- (315:2);
         
-        \draw (285:2) node[anchor=north west] {Worldline}
+        \draw (285:2) node[anchor=north] {Worldline}
             -- (105:2);
     \end{tikzpicture}
     \caption{An example spacetime diagram}
@@ -208,17 +208,44 @@ Therefore, the period between ticks in frame $S$ is $T = \gamma T'$. Recall that
     \label{figTwinParadox}
 \end{figure}
 \subsection{Length Contraction}
-Consider a rod that has length $L'$, at rest in a frame $S'$.
+Consider a rod that has length $L'$, at rest in a frame $S'$. This is shown in figure~\ref{figLengthAtRest}
 \begin{figure}[ht]
     \centering
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=2]
         \draw (0, 0) -- (2.1, 0) node[right] {$x'$};
         \draw (0, 0) -- (0, 2.1) node[above] {$ct'$};
+
+        \draw[fill] (0, 0) circle[radius=0.5mm] node[anchor=south east] {$P_1$}
+            -- (0.5, 0) circle[radius=0.5mm]
+            node[anchor=south west] {$P_2$}
+            node[pos=0.5, anchor=south] {$L'$};
+        
+        \draw (0.5, 0) -- (0.5, 2);
+    \end{tikzpicture}
+    \caption{Spacetime diagram for a rod at rest}
+    \label{figLengthAtRest}
+\end{figure}
+We define length to be the distance between endpoints at equal times.\par
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \draw (-0.3, 0) -- (3.1, 0) node[right] {$x$};
+        \draw (0, -0.3) -- (0, 2.1) node[above] {$ct$};
+        
+        \draw[fill] (0, 0) circle[radius=0.5mm] node[anchor=south east] {$P_1$}
+            -- (0.5, 0) circle[radius=0.5mm]
+            node[anchor=north west] {$P_3$}
+            node[pos=0.5, anchor=north] {$L'$};
+        
+        \draw (0, 0) -- (60:2.3);
+        \draw (0.5, 0) -- +(60:2.3);
+
+        \draw[dashed, ->] (0, 0) -- (20:3.2) node[right] {$x'$};
+        \fill (20:0.68) circle[radius=0.5mm] node[anchor=south east] {$P_2$};
     \end{tikzpicture}
     \caption{Spacetime diagram for length contraction}
     \label{figLengthContraction}
 \end{figure}
-We define length to be the distance between endpoints at equal times.\par
 Then in a frame $S$, the rod has length $L$. Then, as seen in figure~\ref{figLengthContraction}, the events of the two ends of the rod at time $t' = 0$ are not simultaneous in $S$. In fact, we have that:
 \begin{align*}
     P_1 &= (0, 0) \text{ in both frames} \\
@@ -232,7 +259,7 @@ Now note that $S'$ is moving at speed $v$ relative to $S$, so $P_3$ has x-coordi
     &= \gamma(1 - \frac{v^2}{c^2}) L' \\
     &= \frac{L'}{\gamma}
 \end{align*}
-So the new length is $L = \frac{L'}{\gamma}$. This is called Lorentz contraction
+So the new length is $L = \frac{L'}{\gamma}$. This is called Lorentz contraction.
 \begin{example}[Ladder and Barn thought experiment]
     Imagine a ladder has length $2L$ and a barn has length $L$ with open doors on both sides. Suppose that the ladder moves at a speed such that $\gamma = 2$. Lorentz contraction therefore implies that, in the frame of the barn, the ladder has length $L$ and fits in the barn. However, in the frame of the ladder the barn is contracted and the ladder is four times too long.
 \end{example}
@@ -501,7 +528,7 @@ This 4-vector combines energy and 3-momentum in the same way that 4-velocity com
     \frac{dP}{d\tau} = 0
     \label{eqnNewtonIRelativity}
 \end{equation}
-This equation combines both conservation of momentum and conservation of energy. This cannot be derived, it must be taken as a new postulate. However, it is the best generalisation since in the limit $v << c$ we recover Newton's Second Law.
+This equation combines both conservation of momentum and conservation of energy. This cannot be derived, it must be taken as a new postulate. However, it is the best generalisation since in the limit $v \ll c$ we recover Newton's Second Law.
 
 From $U \cdot U = c^2$ we get that $P \cdot P = m^2 c^2$, and we can also work out $P \cdot P$:
 \begin{align*}
