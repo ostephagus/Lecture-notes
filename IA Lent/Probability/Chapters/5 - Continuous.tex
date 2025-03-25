@@ -2,7 +2,10 @@
 
 \begin{document}
 \section{Defining Continuous Probability}
-Previously we defined the probability space $\left(\Omega, \sigalg, P\right)$, where $X$ is a random variable $X : \Omega \mapsto \R$ with a notion of order: $\forall x \in \R \{X \leq x\} = \subsetselect{\omega}{X(\omega) \leq x} \in \sigalg$.
+Previously we defined the probability space $\left(\Omega, \sigalg, P\right)$, where $X$ is a random variable $X : \Omega \mapsto \R$, and stipulated that we can define a notion of ordering:
+\begin{equation*}
+    \forall x \in \R,~\{X \leq x\} = \subsetselect{\omega}{X(\omega) \leq x} \in \sigalg
+\end{equation*}
 \begin{definition}{Probability distribution function}
     The \underline{probability distribution function} is defined to be:
     \begin{align*}
@@ -182,7 +185,7 @@ More generally, for any subset of the real numbers $A$,
     \begin{align*}
         E[X] &= \int_0^\infty x f(x) dx \\
         &= \int_0^\infty \left(\int_0^x 1 dy\right)f(x) dx \\
-        &= \int_0^\infty \left(\int_0^y f(x) dx\right) dy \\
+        &= \int_0^\infty \left(\int_0^y f(x) dx\right) dy \\ %TODO: Check.
         &= \int_0^\infty P(X \geq y) dy
     \end{align*}
 \end{proof}
@@ -208,7 +211,7 @@ More generally, for any subset of the real numbers $A$,
     The variance of a uniform distribution is $\frac{1}{12}(b - a)^2$.
 \end{example}
 \begin{example}[Expectation and variance of exponential distribution]
-    Let $X \sim Exp(\lambda)$. Then its expectation is:
+    Let $X \sim \text{Exp}(\lambda)$. Then its expectation is:
     \begin{align*}
         E[X] &= \int_0^\infty xf(x) \\
         &= \int_0^\infty x \lambda e^{-\lambda x} \\
@@ -282,7 +285,7 @@ More generally, for any subset of the real numbers $A$,
     Let $X$ have density $f$. Let $g$ be a continuous function which is strictly monotone and has inverse $g^{-1}$ which is differentiable.\par
     Then $g(X)$ has a density given by:
     \begin{equation*}
-        f(g^{-1}(x)) \left|\frac{d(g^{-1})}{dx}\right|
+        f(g^{-1}(x)) \left|\frac{d(g^{-1}(x))}{dx}\right|
     \end{equation*}
 \end{theorem}
 \begin{proof}
@@ -290,7 +293,7 @@ More generally, for any subset of the real numbers $A$,
         \begin{align*}
             P(g(X) \geq x) &= P(X \leq g^{-1}(x)) \\
             &= F(g^{-1}(x))
-        \end{align*}
+        \end{align*} %TODO: Check
         Then denote by $f_{g(X)}$ the density function of $g(X)$.
         \begin{align*}
             f_{g(X)} &= \frac{d}{dx} P(g(X) \leq x) \\
@@ -311,7 +314,7 @@ More generally, for any subset of the real numbers $A$,
 \end{proof}
 \begin{example}[Transforming the normal distribution]
     Suppose $X \sim N(\mu, \sigma^2)$. Let $a, b$ be real numbers and $a \neq 0$. Define $g(x) = ax + b$, and $g(X) = Y$. Then we consider the density function of $Y$.\par
-    First note that $g^{-1} = \frac{x - b}{a}$, and that its derivative is $\frac{1}{a}$. Then $f_{Y}$ is:
+    First note that $g^{-1}(x) = \frac{x - b}{a}$, and that its derivative is $\frac{1}{a}$. Then $f_{Y}$ is:
     \begin{align*}
         f_Y(y) &= f_X (g^{-1}(y)) \left|\frac{d(g^{-1}(y))}{dy}\right| \\
         &= \frac{1}{\sigma\sqrt{2\pi}} \exp{\left(-\frac{\left(\frac{y - b}{a} - \mu\right)^2}{2\sigma^2}\right)} \frac{1}{a} \\
