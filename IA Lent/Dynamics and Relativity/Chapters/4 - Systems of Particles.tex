@@ -118,14 +118,17 @@ If one mass is much bigger than the other, $m_1 >> m_2$, then $\mu \approx m_2$ 
 \section{Variable Mass and the Rocket Equation}
 The relation $\dvec{P} = \vec{F}^\text{ext}$ for the total momentum $\vec{P}$ is useful for cases where the internal forces may be complicated, such as the engine of a rocket.\par
 Consider a rocket that ejects fuel with speed $u$ relative to the rocket.\par
-The rocket has mass that depends on time, and the mass lost by the rocket is equal to the mass of fuel it releases.\par
-Assume that the rocket moves vertically. Then consider the 1-dimensional problem in this vertical direction:
+The rocket has mass that depends on time, and the mass lost by the rocket is equal to the mass of fuel it releases.
+
+Assume that the rocket moves vertically. Then consider the problem only in the vertical direction.
 \begin{equation*}
     \dot{p} = \frac{p(t + \delta t) - p(t)}{\delta t} = F^\text{ext}
 \end{equation*}
 \begin{align*}
     p(t) &= m(t) v(t) \\
     p(t + \delta t) &= m(t + \delta t) v(t + \delta t) + (m(t) - m(t + \delta t))(v(t) - u) \\
+    &= m(t)v(t) + m(t)[v(t + \delta t) - v(t)] + v(t+ \delta t)[m(t + \delta t)\\
+    &- m(t)] + [m(t) - m(t + \delta t)](v(t) - u) \\
     p(t + dt) &= m(t) v(t) + m(t) v'(t)dt + m'(t) v(t) dt - m'(t) dt (v(t) - u) \\
     &= m(t) v(t) + m(t) v'(t) dt - u m'(t) dt
 \end{align*}
