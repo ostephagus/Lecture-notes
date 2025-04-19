@@ -229,7 +229,7 @@ We can use this criterion to show that all monotone and all continuous functions
     \end{equation*}
     with:
     \begin{equation*}
-        \sup_{x \in X} f(x) - \inf_{x \in X} < \frac{\epsilon_0}{b - a}
+        \sup_{x \in X} f(x) - \inf_{x \in X} f(x) > \frac{\epsilon_0}{b - a}
     \end{equation*}
     And we deduce that there exist $y_n, z_n$ in $X$ (which gives $|y_n - z_n| \leq \frac{b - a}{n}$) such that:
     \begin{equation}
@@ -618,7 +618,7 @@ From now on, we will use the convention that:
 \begin{equation*}
     \int_a^b f(x) dx = -\int_b^a f(x) dx
 \end{equation*}
-And also if $a - b$, then the integral is 0. With this convention, if $|f| \leq K$,
+And also if $a = b$, then the integral is 0. With this convention, if $|f| \leq K$,
 \begin{equation*}
     \left|\int_a^b f(x) dx\right| \leq K|b - a|
 \end{equation*}
@@ -1095,7 +1095,7 @@ We define an integral over $f : [a, b) \mapsto \R$ similarly. If there exists a 
     \end{equation*}
     Then considering $\phi(n) - \phi(n-1)$:
     \begin{align*}
-        \phi(n) - \phi(n-1) &= f(n) - \int_{n - 1}^n \\
+        \phi(n) - \phi(n-1) &= f(n) - \int_{n - 1}^n f(x) dx \\
         &\leq 0 \text{ by equation~\ref{eqnIntegralFuncInequality}.}
     \end{align*}
     However, considering also the inequality in equation~\ref{eqnIntegralSumInequality}, we have that $\phi(n) \geq f(n) \geq 0$. Therefore $\phi(n)$ is decreasing and bounded below, so must converge to some $l$ with $0 \leq l \leq \phi(1) = f(1)$ as required.

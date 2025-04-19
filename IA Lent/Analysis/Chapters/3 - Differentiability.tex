@@ -38,8 +38,8 @@ Assume from now on that $E$ has no isolated points, and further that $E$ is an i
         \label{propsDiffProperties}
     }
     \item If $f(x) = c$, then $f$ is differentiable with derivative 0. \label{propConstantDiffability}    
-    \item If $f$ and $g$ are differentiable at $x$, then so is $f(x) + g(x)$ with derivative $f'(x) = g'(x)$ \label{propSumDiffability}
-    \item If $f$ and $g$ are differentiable at $x$, then so is $f(x)g(x)$ with derivative $f'(x) g(x) = f(x) g'(x)$. \label{propProdDiffability}
+    \item If $f$ and $g$ are differentiable at $x$, then so is $f(x) + g(x)$ with derivative $f'(x) + g'(x)$ \label{propSumDiffability}
+    \item If $f$ and $g$ are differentiable at $x$, then so is $f(x)g(x)$ with derivative $f'(x) g(x) + f(x) g'(x)$. \label{propProdDiffability}
     \item If $f$ is differentiable at $x$ and $f(y) \neq 0~\forall y \in E$, then $\frac{1}{f(x)}$ is differentiable with derivative $\frac{-f'(x)}{f(x)^2}$. \label{propReciprocalDiffability}
 \end{propositions}
 \begin{proof}
@@ -141,7 +141,7 @@ Note that this logic can be applied to the complex plane to get that these resul
             \lim_{t \to 0} \frac{f(t) - f(0)}{t} = \lim_{t \to 0} \sin{\frac{1}{t}}
         \end{equation*}
         So this function is not differentiable at $x = 0$, despite being continuous (see example~\ref{exXSinOneOverXContinuity})
-    \item $f(x) - x^2 \sin{\left(\frac{1}{x}\right)}$ for $x$ non-zero, and $f(0) = 0$. This is again differentiable for $x$ non-zero. Consider differentiability at $x = 0$:
+    \item $f(x) = x^2 \sin{\left(\frac{1}{x}\right)}$ for $x$ non-zero, and $f(0) = 0$. This is again differentiable for $x$ non-zero. Consider differentiability at $x = 0$:
         \begin{equation*}
             \lim_{t \to 0} \frac{f(t) - f(0)}{t} = \lim_{t \to 0}  t \sin{\left(\frac{1}{t}\right)}
         \end{equation*}
@@ -270,11 +270,13 @@ The proof is by theorem~\ref{thmMeanValue}, setting $b = a + h$.
             \frac{f^{-1}(y + h) - f^{-1}(y)}{h} &= \frac{k + x - x}{f(x + k) - y} \\
             &= \frac{k}{f(x + k) - f(x)}
         \end{align*}
-        Now for any $\epsilon > 0$, there exists $\delta$ such that $0 < |k| < \delta$:
+        Now for any $\epsilon > 0$, there exists $\delta$ such that for all $0 < |k| < \delta$,
         \begin{equation*}
             \left|\frac{k}{f(x + k) - f(x) - \frac{1}{f'(x)}}\right| < \epsilon
         \end{equation*}
-        And also note that since $f^{-1}$ is continuous, there exists $\delta' > 0$ such that:
+        since $f$ is differentiable, and we can take the reciprocal of the limit since $f' > 0$.
+
+        Also note that since $f^{-1}$ is continuous, there exists $\delta' > 0$ such that:
         \begin{equation*}
             0 < |h| < \delta' \implies 0 < |k| < \delta
         \end{equation*}

@@ -239,7 +239,7 @@ More surprising and more useful is the converse:
         |a_n - a| &= |a_n - a_{n_j} + a_{n_j} - a| \nonumber \\
         &\leq |a_n - a_{n_j}| + |a_{n_j} - a| \label{eqnSumOfModTerms}
     \end{align}
-    Then fix $\epsilon > 0$, and since $a_n$ is Cauchy there exists $N_1(\epsilon)$ such that $n, n_j \geq N_1(\epsilon)$, $|a_n - a_{n_j}$.\par
+    Then fix $\epsilon > 0$, and since $a_n$ is Cauchy there exists $N_1(\epsilon)$ such that $n, n_j \geq N_1(\epsilon)$, $|a_n - a_{n_j}| < \epsilon$.\par
     Also, since $a_{n_j} \to a$, there exists $N_2(\epsilon)$ such that if $j \geq N_2$ then $|a_{n_j} - a| < \epsilon$.\par
     Then choose $j$ such that $j \geq N_2(\epsilon)$ and $n_j \geq N_1(\epsilon)$. Now we have the two properties above we can say that, from equation~\ref{eqnSumOfModTerms},
     \begin{equation*}
@@ -288,7 +288,7 @@ Note that this definition also works if the numbers are all complex.
     and also
     \begin{align*}
         S_n &= \sum_{j=1}^n b_j = \sum_{j=1}^{N-1}b_j + \sum_{j=N}^{n} b_j \\
-        &= S_n + \left(\sum_{j=1}^{N-1} b_j - \sum{j=1}^{N-1} a_j\right) \\
+        &= S_n + \left(\sum_{j=1}^{N-1} b_j - \sum_{j=1}^{N-1} a_j\right) \\
         &= S_n + k
     \end{align*}
     Where $k$ does not depend on $n$.
@@ -451,6 +451,7 @@ A simple, but useful, result is the $n$th term test:
     \begin{equation*}
         \sum_{n=1}^\infty 2^n a_{2^n}
     \end{equation*}
+    converges.
     \label{thmCauchyCondensation}
 \end{theorem}
 \begin{proof}
@@ -603,7 +604,8 @@ Such series exhibit unusual behaviour: for example rearranging the terms can cha
     \begin{equation*}
         \sum_{n=N+1}^\infty |a_n| < \epsilon
     \end{equation*}
-    Then choose $M(\epsilon)$ such that $\sigma^{-1}(k) < M$ for $k \in \{1, \cdots, N\}$.\par
+    Then choose $M(\epsilon)$ such that $M > \max\subsetselect{\sigma^{-1}(k)}{k \in \{1, \cdots, N\}}$.
+
     Then if $m \geq M$,
     \begin{equation*}
         \sum_{n=1}^\infty a_n - \sum_{n=1}^M a_{\sigma(n)} = \sum_{n \in K_m} a_n
