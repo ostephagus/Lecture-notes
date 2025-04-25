@@ -135,23 +135,25 @@ More generally, for any subset of the real numbers $A$,
     \end{align*}
 \end{proof}
 \begin{theorem}[Memoryless property unique to exponentials]
-    Let $T$ be a positive random variable with a density $g$, not identically equal to $0$ or $\infty$. Then $T$ has the memoryless property only if $T$ is an exponential random variable.
+    Let $T$ be a positive random variable with a density not identically equal to $0$ or $\infty$. Then $T$ has the memoryless property only if $T$ is an exponential random variable.
     \label{thmExpMemorylessUnique}
 \end{theorem}
 \begin{proof}
-    $T$ has the memoryless property, so $g(t + s) = g(t) g(s)$.\par
+    Set $g(t) = P(T \geq t)$. $T$ has the memoryless property, so $g(t + s) = g(t) g(s)$.\par
     If $t > 0$ and $m \in \N$,
     \begin{equation*}
         g(mt) = \left(g(t)\right)^m
     \end{equation*}
-    Then setting $m = 1$ gives $g(m) = g(1)^m$.\par
+    Then setting $t = 1$ gives $g(m) = g(1)^m$.\par
     Now set $\lambda = -\log(P(T \geq 1))$, so $P(T \geq 1) = e^{-\lambda}$.\par
     Therefore, for any $m \in \N$, $g(m) = e^{-\lambda m}$. Let also $n \in \N$:
     \begin{equation*}
-        g(\frac{m}{n}) = e^{-\lambda \frac{m}{n}}
+        g(\frac{m}{n})^n = g(m) = e^{-\lambda m}
     \end{equation*}
-    Therefore we have the property that $g(r) = r^{-\lambda r}$ for any $r \in \Q_+$.\par
-    Let $t$ be a positive real number. Then let $s$ and $r \in \Q_+$ such that $s < t < r$ and $|s - r| \leq \epsilon$. Since $g$ is a decreasing function,
+    And therefore $g(\frac{m}{n}) = e^{-\lambda \frac{m}{n}}$.
+
+    Therefore we have the property that $g(r) = e^{-\lambda r}$ for any $r \in \Q_+$.\par
+    Let $t$ be a positive real number. Then let $r,s \in \Q_+$ such that $s < t < r$ and $|s - r| \leq \epsilon$. Since $g$ is a decreasing function,
     \begin{equation*}
         g(r) \leq g(t) \leq g(s) \implies e^{-\lambda r} \leq g(t) \leq e^{-\lambda s}
     \end{equation*}

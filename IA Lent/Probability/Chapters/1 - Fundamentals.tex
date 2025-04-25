@@ -105,7 +105,7 @@ This can be extended to $n$ different events.
 \begin{theorem}[Inclusion-Exclusion formula]
     Let $A_1, \cdots, A_n$ be events. Then
     \begin{align*}
-        P\left(\cup_{i = 1}^n A_i\right) &= \sum_{i = 1}^n P(A) - \sum_{i \leq i_1 < i_2 \leq n} P(A_{i_1} \cap P(A_{i_2})) \cdots \\
+        P\left(\cup_{i = 1}^n A_i\right) &= \sum_{i = 1}^n P(A_i) - \sum_{i \leq i_1 < i_2 \leq n} P(A_{i_1} \cap A_{i_2}) \cdots \\
         &+ (-1)^{n+1} P(A_1 \cap \cdots \cap A_n) 
     \end{align*}
     Or,
@@ -117,9 +117,20 @@ This can be extended to $n$ different events.
 \end{theorem}
 \begin{proof}
     \induction{$n=2$}{In this case the statement is identical to the starting formula.}
-    {$n = k - 1$}{}
+    {$n = k - 1$}{
+        That is,
+        \begin{equation*}
+            P\left(\bigcup_{i=1}^{n-1} A_i\right) =\sum_{k=1}^{n-1} (-1)^{k+1} \sum_{1 \leq i_1 \leq \cdots \leq i_k \leq n-1} P(A_{i_1} \cap \cdots \cap A_{i_k})
+        \end{equation*}
+    }
     {$n = k$}{
-        %TODO: finish.
+        \begin{align*}
+            P\left(\bigcup_{i=1}^n A_i\right) &= P\left(\bigcup_{i=1}^{n-1} A_i\right) + P(A_n) - P\left(\left(\bigcup_{i=1}^{n-1} A_i\right) \cap A_n\right) \\
+            &= \sum_{k=1}^{n-1} (-1)^{k+1} \sum_{1 \leq i_1 \leq \cdots \leq i_k \leq n-1} P(A_{i_1} \cap \cdots \cap A_{i_k}) \\
+            &+ P(A_n) \\
+            &+ \sum_{k=1}^{n-1} (-1)^{k+1} \sum_{1 \leq i_1 \leq \cdots \leq i_k \leq n-1} P(A_{i_1} \cap \cdots \cap A_{i_k} \cap A_n) \\
+            &= \sum_{k=1}^{n} (-1)^{k+1} \sum_{1 \leq i_1 < \cdots < i_k \leq n} P(A_{i_1} \cap \cdots \cap A_{i_k})
+        \end{align*}
     }
 \end{proof}
 \begin{propositions}[Bonferroni inequalities]{
@@ -172,7 +183,7 @@ Then using the inclusion-exclusion formula:
 \begin{example}[Picking balls from a bag]
     Suppose we have $n$ balls labelled $1$ to $n$ in a bag indistinguishable when in the bag. Pick $k$ balls at random, without replacement.\par
     Then $\Omega = \subsetselect{A \in \{1, \cdots, n\}}{|A| = k}$.\par
-    Then $|Omega| = \begin{pmatrix}n \\ k\end{pmatrix}$.\par
+    Then $|\Omega| = \begin{pmatrix}n \\ k\end{pmatrix}$.\par
     $P(\omega) = \frac{1}{nCk}$.
 \end{example}
 \begin{example}[Deck of cards]
@@ -548,7 +559,7 @@ Bayes' Formula also tells us how to include extra knowledge:
 \end{example}
 \subsection{Simpson's Paradox: Extended Example}
 Suppose all 100 Cambridge applicants to a course come from either the North or the South. Suppose also that they were educated at either a state school or an independent school.\par
-Then consider the date in figure~\ref{figApplicationData}.\par
+Then consider the data in figure~\ref{figApplicationData}.\par
 \begin{figure}[ht]
     \centering
     \begin{tabular}{c|c|c|c}
