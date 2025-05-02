@@ -1,0 +1,117 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Introduction to Minimisation}
+Consider a generic problem:
+
+Minimise $f(x)$ such that $h(x) = b$, $x \in \Xset$.
+
+We define $f$ as the \underline{objective function} $f : \R^n \mapsto \R$. The constraint $h(x) = b$ is a \underline{functional constraint}. The constraint $x \in \Xset$ is a \underline{regional constraint}.
+
+The set of values that satisfy the constraints on $x$ is called the \underline{feasible set}:
+\begin{equation}
+    \Xset(b) = \subsetselect{x \in \R^n}{h(x) = b, x \in \Xset}
+    \label{eqnFeasibleSet}
+\end{equation}
+\begin{definition}{Optimal value}
+    If $x* \in \Xset(b)$ and $x*$ minimises the objective function $f$, then $x*$ is the \underline{optimal value}
+\end{definition}
+\section{Defining Convexity}
+\begin{definition}{Convex set}
+    A set $S \in \R^n$ is \underline{convex} if for all $x, y \in S$ and every $\lambda \in [0, 1]$,
+    \begin{equation*}
+        \lambda x + (1 - \lambda) y \in S
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    An intuition for this, in $\R^n$, is that a convex set contains all lines between two points within it.
+\end{remark}
+\begin{definition}{Convex function}
+    A function $f : S \mapsto \R$ is a \underline{convex function} if $S$ is convex, and $\forall x, y \in S$ and $\lambda \in [0, 1]$, we have:
+    \begin{equation*}
+        f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1 - \lambda) f(y)
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item A convex function is a function where any chord between two points $f(x)$ and $f(y)$ lies above the graph of the function.
+    \item A \underline{concave} function is one that obeys the oppose inequality. If $f$ is convex function, $-f$ is concave.
+    \item Convex functions are an ideal first candidate for minimisation, since (as we will see) any local minimum is a global minimum.
+\end{remarks}
+\subsection{Convexity and Derivatives}
+\begin{theorem}{First-order condition for convexity}
+    A differentiable function $f : \R^n \mapsto \R$ is convex if and only if for all $x, y \in \R^n$:
+    \begin{equation}
+        f(y) \geq f(x) + \left[\nabla f(x)\right]^T(y - x)
+        \label{eqnFirstOrderCondition}
+    \end{equation}
+    \label{thmFirstOrderCondition}
+\end{theorem}
+\begin{remark}
+    If $\nabla f(x) = 0$ for some $x$, $f(y) \geq f(x)$ for all $y \in \R^n$, and $x$ must be the optimal point $x*$.
+\end{remark}
+\begin{proof}
+    We consider the restricted function:
+    \begin{equation*}
+        f((1-t)x + ty), t \in [0, 1]
+    \end{equation*}
+    that is, the function $f$ on the line joining $x$ and $y$.
+    \begin{proofdirection}{$\Rightarrow$}{Assume that $f$ is convex.}
+        We know that $f((1-t)x + ty) \leq (1-t)f(x) + tf(y)$. This means:
+        \begin{equation*}
+            f(y) \geq f(x) + \frac{f(x + t(y-x)) - f(x)}{t}
+        \end{equation*}
+        Then we can consider the limit as $t \to 0$. Only the right-hand side depends on $t$, and is in fact the directional derivative of $f$:
+        \begin{equation*}
+            f(y) \geq f(x) + (y - x)^T \nabla f(x)
+        \end{equation*}
+        as required.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume $f$ satisfies equation~\ref{eqnFirstOrderCondition}.}
+        Let $x_t = (1 - t)x + ty$. THen we have:
+        \begin{align}
+            f(y) &\geq f(x_t) + \left[\nabla f(x_t)\right]^T (y - x_t) \label{eqnFirstOrder1} \\
+            f(x) &\geq f(x_t) + \left[\nabla f(x_t)\right]^T (x - x_t) \label{eqnFirstOrder2} \\
+        \end{align}
+        Then consider $t$ times equation~\ref{eqnFirstOrder1} and $(1-t)$ times equation~\ref{eqnFirstOrder2}:
+        \begin{align*}
+            tf(y) + (1-t)f(x) &\geq f(x_t) + \left[\nabla f(x_t)\right]^T (y - x_t) \times t \\
+            &+ \left[\nabla f(x_t)\right]^T (x - x_t) \times (1-t) \\
+            &= f(x_t) + \left[\nabla f(x_t)\right]^T t(1-t)(y - x + x - y) \\
+            &= f(x_t)
+        \end{align*}
+        Then expanding out $x_t$ gives the required result.
+    \end{proofdirection}
+\end{proof}
+We also define the Hessian matrix:
+\begin{equation}
+    \left[\nabla^2 f(x)\right]_{ij} = \frac{\partial^2 f(x)}{\partial x_i \partial x_j}
+    \label{eqnHessian}
+\end{equation}
+Note that it is symmetric.
+\begin{definition}{Positive semi-definiteness}
+    A matrix $A$ is \underline{positive semi-definite} if, for any $x \in \R^n$,
+    \begin{equation}
+        x^T A x \geq 0
+        \label{eqnPositiveSemiDefinite}
+    \end{equation}
+    or, equivalently, it has all eigenvalues non-negative. If so, we write:
+    \begin{equation*}
+        A \succeq 0 
+    \end{equation*}
+\end{definition}
+\begin{theorem}{Second-order condition for convexity}
+    A twice differentiable function $f : \R^n \mapsto \R$ is convex if and only if, at every point $x \in \R^n$,
+    \begin{equation}
+        \nabla^2 f(x) \succeq 0
+        \label{eqnSecondOrderCondition}
+    \end{equation}
+    \label{thmSecondOrderCondition}
+\end{theorem}
+\begin{proof}[of the if relation]
+    Recall the multivariate Taylor series of the function $f$ on the line joining some points $x$ and $y$:
+    \begin{equation*}
+        f(y) = f(x) + [\nabla f(x)]^T (y - x) + \frac{(y - x)^T \nabla^2 f(z) (y-x)}{2}
+    \end{equation*}
+    for some point $z$ on the line between $x$ and $y$. But now we have that the second-order term must be non-negative, which gives the first-order condition. This implies convexity by theorem~\ref{thmFirstOrderCondition}.
+\end{proof}
+\end{document}
