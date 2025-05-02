@@ -1,0 +1,78 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Motivational Problem}
+How do we find the shortest path between two points...
+\begin{enumerate}
+    \item ...in Euclidean space?
+    \item ...on the surface of a sphere?
+    \item ...on a general curved surface?
+\end{enumerate}
+For the first question, we may have a path $y(x)$ where $a \leq x \leq b$. Then the length is given by:
+\begin{equation*}
+    L = \int_a^b \sqrt{1 + y^{\prime 2}}dx
+\end{equation*}
+Then we want to find the function $y(x)$ that minimises the quantity $L$. This quantity $L$ is a \underline{functional}.
+\begin{definition}{Functional}
+    A \underline{functional} is a map $(\R^n \mapsto \R) \mapsto \R$, that takes functions $\R^n \mapsto \R$ and assigns a real number to each.
+\end{definition}
+In this course, we will be concerned mostly with minimising and maximising functionals.
+\section{A Review of Calculus in Euclidean Space}
+Consider $f : \R^n \mapsto \R$. Write $(x_1, x_2, \cdots, x_n)$ as $\vec{x}$, and assume that $f$ is sufficiently differentiable (at least twice differentiable, with continuous second derivative).
+\begin{definition}{Stationary point}
+    A point $\vec{a} \in \R^n$ is a \underline{stationary point} if
+    \begin{equation*}
+        (\nabla f)(\vec{a}) = \vec{0}
+    \end{equation*}
+\end{definition}
+We can consider the Taylor expansion about such a stationary point:
+\begin{equation*}
+    f(\vec{x}) = f(\vec{a}) + \frac{(\vec{x} - \vec{a})^T H(\vec{a}) (\vec{x} - \vec{a})}{2} + O(|\vec{x} - \vec{a}|^3)
+\end{equation*}
+where $H$ is the matrix such that $H_{ij} = \frac{\partial^2f}{\partial x_i \partial x_j}$. By our assumptions on $f$, we have that $H$ is symmetric.
+
+By translation of the coordinate system, assume instead that $\vec{a}$ is at the origin.
+\begin{equation*}
+    f(\vec{x}) = f(\vec{0}) + \frac{1}{2} \vec{x}^T H \vec{x}
+\end{equation*}
+$H$ is symmetric so we can diagonalise it and obtain a real diagonal matrix in some basis. For some orthogonal matrix $R$, $H' = R^T H R$ and $H'$ is diagonal.
+
+If we have a positive-definite matrix, where all eigenvalues are positive, we have that $\vec{x}$ is a local maximum. If instead the matrix is negative-definite, $\vec{x}$ is a local minimum. If we have different sign eigenvalues (but all non-zero), we have a saddle point. If there are some zero eigenvalues, we cannot deduce the nature of the stationary point from the second-order term alone.
+
+In $\R^2$, we can consider only the determinant and trace of $H$.
+\begin{itemize}
+    \item $\det{H} > 0, Tr(H) > 0$ is a local minimum.
+    \item $\det{H} > 0, Tr(H) < 0$ is a local maximum.
+    \item $\det{H} < 0$ is a saddle point.
+    \item $\det{H} = 0$ is a degenerate case where we need more terms.
+\end{itemize}
+\begin{remark}
+    A local minimum is not necessarily a global minimum. The global minimum could be a different local minimum, or could occur on the boundary of the domain (if the domain is not $\R^n$). The function also may not have a global minimum. The same can be said for maxima.
+\end{remark}
+\section{Convex Functions}
+\begin{definition}{Convex set}
+    A set $S \in \R^n$ is \underline{convex} if for all $x, y \in S$ and every $\lambda \in [0, 1]$,
+    \begin{equation*}
+        \lambda x + (1 - \lambda) y \in S
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    An intuition for this, in $\R^n$, is that a convex set contains all lines between two points within it.
+\end{remark}
+\begin{definition}{Graph of a function}
+    For a function with domain $D(f) \subseteq \R^n$, $f : D(f) \mapsto \R$, the \underline{graph} of $f$ is the $n$-dimensional surface embedded into $\R^{n+1}$, $z = f(\vec{x})$ where $\R^{n+1}$ has coordinates $(\vec{x}, z)$.
+\end{definition}
+\begin{definition}{Convex function}
+    A function $f : S \mapsto \R$ is a \underline{convex function} if $S$ is convex, and $\forall x, y \in S$ and $\lambda \in [0, 1]$, we have:
+    \begin{equation}
+        f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1 - \lambda) f(y)
+        \label{eqnConvexityDef}
+    \end{equation}
+\end{definition}
+\begin{remark}
+    This is equivalent to saying that the graph of $f$ is a convex set.
+\end{remark}
+\begin{definition}{Strictly convex function}
+    If $f : D(f) \subseteq \R^n \mapsto \R$ obeys the strict version of inequality~\ref{eqnConvexityDef}, for $x \neq y$, then $f$ is \underline{strictly convex}.
+\end{definition}
+\end{document}
