@@ -1,7 +1,7 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-\section{Introduction to Minimisation}
+\section{Introduction to Minimisation} % TODO: Make things vectors.
 Consider a generic problem:
 
 Minimise $f(x)$ such that $h(x) = b$, $x \in \Xset$.
@@ -17,6 +17,7 @@ The set of values that satisfy the constraints on $x$ is called the \underline{f
     If $x* \in \Xset(b)$ and $x*$ minimises the objective function $f$, then $x*$ is the \underline{optimal value}
 \end{definition}
 \section{Defining Convexity}
+\subsection{Definitions}
 \begin{definition}{Convex set}
     A set $S \in \R^n$ is \underline{convex} if for all $x, y \in S$ and every $\lambda \in [0, 1]$,
     \begin{equation*}
@@ -67,10 +68,10 @@ The set of values that satisfy the constraints on $x$ is called the \underline{f
         as required.
     \end{proofdirection}
     \begin{proofdirection}{$\Leftarrow$}{Assume $f$ satisfies equation~\ref{eqnFirstOrderCondition}.}
-        Let $x_t = (1 - t)x + ty$. THen we have:
+        Let $x_t = (1 - t)x + ty$. Then we have:
         \begin{align}
             f(y) &\geq f(x_t) + \left[\nabla f(x_t)\right]^T (y - x_t) \label{eqnFirstOrder1} \\
-            f(x) &\geq f(x_t) + \left[\nabla f(x_t)\right]^T (x - x_t) \label{eqnFirstOrder2} \\
+            f(x) &\geq f(x_t) + \left[\nabla f(x_t)\right]^T (x - x_t) \label{eqnFirstOrder2}
         \end{align}
         Then consider $t$ times equation~\ref{eqnFirstOrder1} and $(1-t)$ times equation~\ref{eqnFirstOrder2}:
         \begin{align*}
@@ -113,5 +114,121 @@ Note that it is symmetric.
         f(y) = f(x) + [\nabla f(x)]^T (y - x) + \frac{(y - x)^T \nabla^2 f(z) (y-x)}{2}
     \end{equation*}
     for some point $z$ on the line between $x$ and $y$. But now we have that the second-order term must be non-negative, which gives the first-order condition. This implies convexity by theorem~\ref{thmFirstOrderCondition}.
+\end{proof}
+\section{Gradient Descent}
+Let $f$ be a convex function. Start at some point $\vec{x}$. We then consider a pertubation $\vec{x} - \nabla f(\vec{x} \epsilon)$ for some small $\epsilon > 0$. This new point has value approximately:
+\begin{equation*}
+    f(\vec{x}) \approx ||\nabla f(\vec{x})||^2 \epsilon
+\end{equation*}
+Note that this is a decrease in the value of $\vec{f}$ as long as the approximation is valid ($\epsilon$ must be small). Repeating this will decrease the value of $f$ until $\nabla f = 0$, or is close enough to $0$ to be satisfactory, and given that $f$ is convex this will be equal to (or close enough to) the minimum of $f$.
+
+However, we have a few problems to deal with when using this algorithm:
+\begin{itemize}
+    \item Step size: depending on how \textit{curved} the function is, the step size may need to be modified. For very curved functions, a small step size is required. For a very flat function, a large step size is required.
+    \item Descent direction: if the problem is constrained, such as the value $\vec{x}$ must lie in some subset of $\R^n$, the direction of the negative gradient may not be appropriate if it takes the point outside the subset. Instead, we may have to redefine the direction of the pertubation.
+    \item Time limit: we may impose some limit on the number of steps the algorithm is allowed to take before we stop it
+    \item Stop condition: the condition of small enough $\nabla f$ may give vastly different results for different functions. The results are similar to changing the step size.
+\end{itemize}
+\subsection{Types of Convexity}
+\begin{definition}{$\beta$-smoothness}
+    A twice-differentiable function $f : \R^n \mapsto \R$ is \underline{$\beta$-smooth} for $\beta > 0$ if $\nabla^2 f(\vec{x}) \preceq \beta I$ for all $\vec{x} \in \R^n$.
+\end{definition}
+\begin{definition}{$\alpha$-strong convexity}
+    A twice-differentiable function $\vec{f} : \R^n \mapsto \R$ is \underline{$\alpha$-strongly convex} for $\alpha > 0$ if $\nabla^2 f(\vec{x}) \succeq \alpha I$ for all $\vec{x} \in \R^n$.
+\end{definition}
+We also define $A \preceq B$ if $B - A \succeq 0$, $B - A$ is positive semi-definite. Therefore we have that a function is $\alpha$-strongly convex and $\beta$-smooth if:
+\begin{equation*}
+    \alpha I \preceq \nabla^2 f(\vec{x}) \preceq \beta I
+\end{equation*}
+We can then use these notions to get better choices for the parameters in the gradient descent algorithm.
+\begin{theorem}
+    If $f$ is $\beta$-smooth then:
+    \begin{equation}
+        f(\vec{y}) \leq f(\vec{x}) + \nabla f(\vec{x})^T (\vec{y} - \vec{x}) + \frac{\beta}{2} ||\vec{x} - \vec{y}||^2
+        \label{eqnBetaSmoothBound}
+    \end{equation}
+    and if $f$ is $\alpha$-strongly convex then:
+    \begin{equation}
+        f(\vec{y}) \geq f(\vec{x}) + \nabla f(\vec{x})^T (\vec{y} - \vec{x}) + \frac{\alpha}{2} ||\vec{x} - \vec{y}||^2
+        \label{eqnAlphaStrongBound}
+    \end{equation}
+    \label{thmConvexityBounds}
+\end{theorem}
+\begin{proof}
+    Considering the Taylor series of $f$:
+    \begin{align*}
+        f(\vec{y}) &= f(\vec{x}) + \nabla f(\vec{x})^T (\vec{y} - \vec{x}) \\
+        &+ \frac{1}{2} (\vec{y} - \vec{x})^T \nabla^2 f(\vec{z}) (\vec{y} - \vec{x})
+    \end{align*}
+    Then we recall that if $A \preceq B$ then:
+    \begin{equation*}
+        \vec{x}^T A \vec{x} \leq \vec{x}^T B \vec{x}~~\forall \vec{x} \in \R^n
+    \end{equation*}
+    Then using the various bounds for the Hessian and using the above property, we get the required results.
+\end{proof}
+\begin{corollary}
+    For a function $f$ with $\alpha$-strong convexity and $\beta$ smoothness:
+    \begin{equation}
+        f\left(\vec{x} - \frac{1}{\beta} \nabla f(\vec{x})\right) \leq f(\vec{x}) - \frac{1}{2\beta} ||\nabla f(\vec{x})||^2
+        \label{eqnStepSizeBound}
+    \end{equation}
+    \label{corStepSizeBound}
+\end{corollary}
+\begin{proof}
+    Substitute $\vec{y} = \vec{x} - \frac{1}{\beta} \nabla f(\vec{x})$ into theorem~\ref{thmConvexityBounds}
+\end{proof}
+\begin{remark}
+    This gives us a step size to use in the gradient descent algorithm
+\end{remark}
+\begin{corollary}
+    Let $p*$ be the minimum value of $f(\vec{x})$. Then for any $\vec{x} \in \R^n$:
+    \begin{equation}
+        p* \geq f(\vec{x}) - \frac{||\nabla f(\vec{x})||^2}{2\alpha}
+        \label{eqnStopCriterionBound}
+    \end{equation}
+    \label{corStopCriterionBound}
+\end{corollary}
+\begin{remark}
+    If $||\nabla f(\vec{x})|| \leq \sqrt{2\alpha \epsilon}$, then we have that $f(\vec{x})$ is within $\epsilon$ of $p*$. This gives us a stopping condition for the gradient descent algorithm.
+\end{remark}
+\begin{proof}
+    By $\alpha$-strong convexity:
+    \begin{equation*}
+        p* \geq \min_{\vec{y}} f(\vec{x}) + \nabla f(\vec{x})^T (\vec{y} - \vec{x}) + \frac{\alpha}{2} ||\vec{x} - \vec{y}||^2
+    \end{equation*}
+    Taking the gradient with respect to $\vec{y}$:
+    \begin{equation*}
+        \nabla f(\vec{x}) + \alpha (\vec{y} - \vec{x}) = 0
+    \end{equation*}
+    which gives:
+    \begin{equation*}
+        \vec{y} = \vec{x} - \frac{1}{\alpha} \nabla f(\vec{x})
+    \end{equation*}
+    Substituting into the RHS gives the required result.
+\end{proof}
+\subsection{Convergence of Gradient Descent}
+\begin{theorem}
+    Let $\alpha, \beta > 0$ be real numbers. Let a function $f : \R^n \mapsto \R$ be $\alpha$-strongly convex and $\beta$-smooth. Then a gradient descent algorithm with step size $\frac{1}{\beta}$ satisfies, at iteration $T$:
+    \begin{align}
+        f(\vec{x_T}) - f(\vec{x}^*) &\leq \left(1 - \frac{\alpha}{\beta}\right)^T (f(\vec{x_0}) - f(\vec{x}^*)) \label{eqnGradDescConvergence} \\
+        &\leq e^{-\frac{T\alpha}{\beta}} \left(f(\vec{x_0}) - f(\vec{x}^*)\right) \nonumber
+    \end{align}
+    where here $\vec{x}^*$ is the optimal point $\vec{x}$, and $\vec{x_0}$ is the point where the gradient descent starts.
+\end{theorem}
+\begin{remark}
+    This gives a number of step sizes that is sufficient to be within a given error of the minimum value.
+\end{remark}
+\begin{proof}
+    We have that $\vec{x_{t + 1}} = \vec{x_t} - \frac{1}{\beta} \nabla f(\vec{x_t})$. By corollary~\ref{corStepSizeBound}, we have that:
+    \begin{align*}
+        f(\vec{x_{t+1}}) &\leq f(\vec{x_t}) - \frac{1}{2\beta} ||\nabla f(\vec{x_t})||^2 \\
+        f(\vec{x_{t+1}}) - f(\vec{x}^*) &\leq f(\vec{x_t}) - f(\vec{x}^*) - \frac{1}{2\beta} ||\nabla f(\vec{x_t})||^2
+    \end{align*}
+    Then by corollary~\ref{corStopCriterionBound}:
+    \begin{align*}
+        f(\vec{x_{t+1}}) - f(\vec{x}^*) &\leq f(\vec{x_t}) - f(\vec{x}^*) = \frac{\alpha}{\beta} (f(\vec{x_t}-f(\vec{x}^*))) \\
+        &= \left(1-\frac{\alpha}{\beta}\right) (f(\vec{x_t}) - f(\vec{x}^*))
+    \end{align*}
+    Then iterating this back to 0 gives the result. We can also use well-known bounds on $(1 - \alpha / \beta)^T$ to get the other result.
 \end{proof}
 \end{document}
