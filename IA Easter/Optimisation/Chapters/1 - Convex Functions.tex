@@ -214,6 +214,7 @@ We can then use these notions to get better choices for the parameters in the gr
         &\leq e^{-\frac{T\alpha}{\beta}} \left(f(\vec{x_0}) - f(\vec{x}^*)\right) \nonumber
     \end{align}
     where here $\vec{x}^*$ is the optimal point $\vec{x}$, and $\vec{x_0}$ is the point where the gradient descent starts.
+    \label{thmGradDescConvergence}
 \end{theorem}
 \begin{remark}
     This gives a number of step sizes that is sufficient to be within a given error of the minimum value.
@@ -231,4 +232,72 @@ We can then use these notions to get better choices for the parameters in the gr
     \end{align*}
     Then iterating this back to 0 gives the result. We can also use well-known bounds on $(1 - \alpha / \beta)^T$ to get the other result.
 \end{proof}
+\section{Second-Order Methods}
+We consider the Taylor series approximation to second order:
+\begin{equation*}
+    f(\vec{y}) \approx f(\vec{x}) + \nabla f(\vec{x})^T (\vec{y} - \vec{x}) + \frac{1}{2} (\vec{y} - \vec{x})^T \nabla^2 f(\vec{x}) (\vec{y} - \vec{x})
+\end{equation*}
+Then this is a quadratic function. Note that it is convex in every direction because the hessian is positive-definite, so the square term is always positive. It is much easier to minimise a quadratic function - we consider only the derivative equal to 0.
+\begin{align*}
+    \nabla f(\vec{y}) &\approx \nabla f(\vec{x}) + \nabla^2 f(\vec{x}) (\vec{y} - \vec{x}) = 0 \\
+    -\nabla f(\vec{x}) &= \nabla^2 f(\vec{x}) (\vec{y} - \vec{x}) \\
+    y - x &= -\left(\nabla^2 f(\vec{x})\right)^{-1} \nabla f(\vec{x})
+    y &= \vec{x} - \left(\nabla^2 f(\vec{x})\right)^{-1} \nabla f(\vec{x})
+\end{align*}
+We can use this idea to create an algorithm.
+\subsection{Newton's Method}
+We define Newton's Method by the above idea:
+\begin{equation*}
+    \vec{x_{t+1}} = \vec{x_t} - \left(\nabla^2 f(\vec{x})\right)^{-1} \nabla f(\vec{x})
+\end{equation*}
+from the above formula. We use the 1-dimensional case to illustrate. Then:
+\begin{equation*}
+    x_{t+1} = x_t - \frac{f'(x_t)}{f''(x_t)}
+\end{equation*}
+Then we want to find the point $x$ where $f'(x) = 0$. Note that the formula above is equivalent to applying the Newton-Raphson method to $g'(x)$ to find its root.
+\begin{definition}{Matrix norm}
+    For a matrix $A \in \R^{n \times n}$, the matrix norm $||A||$ is the smallest $a > 0$ such that $||A\vec{z}|| \leq a ||z||$ for all $\vec{z} \in \R^n$. For positive semi-definite matrices, this is the largest eigenvalue.
+\end{definition}
+\begin{remark}
+    We can understand this notion of norm or distance by how much the linear map represented by this matrix stretches the underlying space.
+\end{remark}
+\begin{theorem}
+    Suppose $f$ is a twice-differentiable function that is $\alpha$-strongly convex. Suppose further that its hessian $\nabla^2 f(\vec{x})$ is $l$-Lipschitz, that is, for all $\vec{x}$ and $\vec{y}$,
+    \begin{equation*}
+        ||\nabla^2 f(\vec{x}) - \nabla^2 f(\vec{y})|| \leq l||\vec{x} - \vec{y}||
+    \end{equation*}
+    Then Newton's method satisfies:
+    \begin{equation*}
+        f(\vec{x_t}) - f(\vec{x}^*) \leq \frac{2\alpha^3}{l^2} \left(\frac{l}{2\alpha^2} ||\nabla f(\vec{x_0})||\right)^{2^{k+1}}
+    \end{equation*}
+\end{theorem}
+\begin{remarks}
+    \item The $l$-Lipschitz condition replaces the $\beta$-smoothness condition in theorem~\ref{thmGradDescConvergence}.
+    \item If the term in the large brackets is less than 1, equivalent to\\$||\nabla f(\vec{x_0})|| < \frac{2\alpha^2}{l}$. This means we need a sufficiently good starting point. There are situations where a poorly-chosen starting point can mean that Newton's method does not converge. Instead, running a few steps of gradient descent can get to this starting point.
+    \item The new exponent shows that Newton's method can be understood to be exponentially more powerful than gradient descent.
+    \item The proof of this theorem is non-examinable.
+\end{remarks}
+\subsection{Barrier Method}
+We have so far considered an unconstrained problem, where we consider the minimum over all $\R^n$. If we instead want to find the minimum in a particular subset of $\R^n$, the above methods may fail in the case that the actual minimum of $f$ is outside of the subset. For example, consider:
+
+Minimise $f(\vec{x})$ such that:
+\begin{equation*}
+    \vec{a_i}^T \vec{x} - \vec{b_i} \leq 0 \text{ for } i \in \{1, \cdots, m\}
+\end{equation*}
+We then consider a new function:
+\begin{equation*}
+    \Phi(\vec{x}) = -\sum_{i=1}^m \log\left(-\left(\vec{a_i}^T \vec{x} - \vec{b_i}\right)\right)
+\end{equation*}
+This function is then small inside the feasible region, and blows up to infinity outside it.
+
+We consider minimising the function $tf(\vec{x}) + \Phi(\vec{x})$. We could start with setting $t$ to be small, and finding a minimum inside the boundary using Newton's method or gradient descent. We then increase $t$ slowly and use Newton's Method each time with the last minimum as start point to find the new minimum, noting that Newton's method will converge very quickly since we are close to the real minimum. More explicitly, this is:
+\begin{enumerate}
+    \item Find a strictly feasible $\vec{x}$, set $t > 0$ and $s > 1$.
+    \item Repeat the following:
+    \begin{enumerate}
+        \item Compute $\vec{x}^*(t)$ by minimising $tf(\vec{x}) + \Phi(\vec{x})$, using Newton's method with $\vec{x}$ as the starting point.
+        \item Update $\vec{x} = \vec{x}^*(t)$, and set $t = st$.
+        \item Stop when $t$ is large enough.
+    \end{enumerate}
+\end{enumerate}
 \end{document}
