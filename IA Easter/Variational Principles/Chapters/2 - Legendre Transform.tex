@@ -1,0 +1,33 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\begin{definition}{Legendre transform}
+    The \underline{Legendre transform} (LT) of $f : D(f) \mapsto \R$ is:
+    \begin{equation}
+        f^*(\vec{p}) = \sup_{\vec{x} \in \D(f)} \left[\vec{p} \cdot \vec{x} - f(\vec{x})\right]
+        \label{eqnLT}
+    \end{equation}
+\end{definition}
+\begin{proposition}
+    The LT is always convex.
+    \label{propLTConvex}
+\end{proposition}
+\begin{proof}
+    Let $\vec{p}, \vec{q} \in D(f^*)$, let $t \in (0, 1)$. Then we need to show that:
+    \begin{align*}
+        &\sup_{x \in D(f)} \left\{\left[(1 - t)\vec{p} + t\vec{q}\right] \cdot \vec{x} - f(\vec{x})\right\} \\
+        &= \sup_{x \in D(f)} \left\{(1-t)\left[\vec{p} \cdot \vec{x} - f(\vec{x})\right] + t \left[\vec{q} \cdot \vec{x} - f(\vec{x})\right]\right\} \\
+        &\leq (1-t) \sup_{x \in D(f)} \left[\vec{p} \cdot \vec{x} - f(\vec{x})\right] + t \sup_{x \in D(f)} \left[\vec{q} \cdot \vec{x} - f(\vec{x})\right]
+    \end{align*}
+    And so since the RHS is finite then the LHS is finite and $(1-t)\vec{p} + t\vec{q} \in D(f)$. We have therefore that the domain is oonvex and equation~\ref{eqnConvexityDef} holds, so the LT is convex.
+\end{proof}
+\begin{proposition}
+    If $f$ is convex then so is $F_\vec{p}(\vec{x}) = f(\vec{x}) - \vec{p} \cdot \vec{x}$.
+\end{proposition}
+\begin{proof}
+    Left as an exercise.
+\end{proof}
+\begin{corollary}
+    If $f$ is convex and differentiable then any stationary point of $\vec{p} \cdot \vec{x} - f(\vec{x})$ is a global maximum occurring at $\vec{x}(\vec{p})$ given by solving $\nabla f(\vec{x}) = \vec{p}$.
+\end{corollary}
+\end{document}

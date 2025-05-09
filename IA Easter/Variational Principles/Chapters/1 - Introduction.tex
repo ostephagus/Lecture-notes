@@ -51,9 +51,9 @@ In $\R^2$, we can consider only the determinant and trace of $H$.
 \end{remark}
 \section{Convex Functions}
 \begin{definition}{Convex set}
-    A set $S \in \R^n$ is \underline{convex} if for all $x, y \in S$ and every $\lambda \in [0, 1]$,
+    A set $S \in \R^n$ is \underline{convex} if for all $\vec{x}, \vec{y} \in S$ and every $\lambda \in [0, 1]$,
     \begin{equation*}
-        \lambda x + (1 - \lambda) y \in S
+        \lambda \vec{x} + (1 - \lambda) \vec{y} \in S
     \end{equation*}
 \end{definition}
 \begin{remark}
@@ -63,16 +63,122 @@ In $\R^2$, we can consider only the determinant and trace of $H$.
     For a function with domain $D(f) \subseteq \R^n$, $f : D(f) \mapsto \R$, the \underline{graph} of $f$ is the $n$-dimensional surface embedded into $\R^{n+1}$, $z = f(\vec{x})$ where $\R^{n+1}$ has coordinates $(\vec{x}, z)$.
 \end{definition}
 \begin{definition}{Convex function}
-    A function $f : S \mapsto \R$ is a \underline{convex function} if $S$ is convex, and $\forall x, y \in S$ and $\lambda \in [0, 1]$, we have:
+    A function $f : S \mapsto \R$ is a \underline{convex function} if $S$ is convex, and $\forall \vec{x}, \vec{y} \in S$ and $\lambda \in [0, 1]$, we have:
     \begin{equation}
-        f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1 - \lambda) f(y)
+        f(\lambda \vec{x} + (1-\lambda)\vec{y}) \leq \lambda f(\vec{x}) + (1 - \lambda) f(\vec{y})
         \label{eqnConvexityDef}
     \end{equation}
 \end{definition}
 \begin{remark}
-    This is equivalent to saying that the graph of $f$ is a convex set.
+    This is equivalent to saying that the domain of $f$ is a convex set.
 \end{remark}
 \begin{definition}{Strictly convex function}
-    If $f : D(f) \subseteq \R^n \mapsto \R$ obeys the strict version of inequality~\ref{eqnConvexityDef}, for $x \neq y$, then $f$ is \underline{strictly convex}.
+    If $f : D(f) \subseteq \R^n \mapsto \R$ obeys the strict version of inequality~\ref{eqnConvexityDef}, for $\vec{x} \neq \vec{y}$, then $f$ is \underline{strictly convex}.
 \end{definition}
+\begin{theorem}[First-order condition for convexity]
+    A differentiable function $f : \R^n \mapsto \R$ is convex if and only if for all $\vec{x}, \vec{y} \in \R^n$:
+    \begin{equation}
+        f(\vec{y}) \geq f(\vec{x}) + \left[\nabla f(\vec{x})\right]^T(\vec{y} - \vec{x})
+        \label{eqnFirstOrderCondition}
+    \end{equation}
+    \label{thmFirstOrderCondition}
+\end{theorem}
+\begin{proof}
+    We consider the restricted function:
+    \begin{equation*}
+        f((1-t)\vec{x} + t\vec{y}), t \in [0, 1]
+    \end{equation*}
+    that is, the function $f$ on the line joining $\vec{x}$ and $\vec{y}$.
+    \begin{proofdirection}{$\Rightarrow$}{Assume that $f$ is convex.}
+        We know that $f((1-t)\vec{x} + t\vec{y}) \leq (1-t)f(\vec{x}) + tf(\vec{y})$. This means:
+        \begin{equation*}
+            f(\vec{y}) \geq f(\vec{x}) + \frac{f(\vec{x} + t(\vec{y}-\vec{x})) - f(\vec{x})}{t}
+        \end{equation*}
+        Then we can consider the limit as $t \to 0$. Only the right-hand side depends on $t$, and is in fact the directional derivative of $f$:
+        \begin{equation*}
+            f(\vec{y}) \geq f(\vec{x}) + (\vec{y} - \vec{x})^T \nabla f(\vec{x})
+        \end{equation*}
+        as required.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume $f$ satisfies equation~\ref{eqnFirstOrderCondition}.}
+        Let $\vec{x_t} = (1 - t)\vec{x} + t\vec{y}$. Then we have:
+        \begin{align}
+            f(\vec{y}) &\geq f(\vec{x_t}) + \left[\nabla f(\vec{x_t})\right]^T (\vec{y} - \vec{x_t}) \label{eqnFirstOrder1} \\
+            f(\vec{x}) &\geq f(\vec{x_t}) + \left[\nabla f(\vec{x_t})\right]^T (\vec{x} - \vec{x_t}) \label{eqnFirstOrder2}
+        \end{align}
+        Then consider $t$ times equation~\ref{eqnFirstOrder1} and $(1-t)$ times equation~\ref{eqnFirstOrder2}:
+        \begin{align*}
+            tf(\vec{y}) &+ (1-t)f(\vec{x}) \geq f(\vec{x_t}) + \left[\nabla f(\vec{x_t})\right]^T (\vec{y} - \vec{x_t}) \times t \\
+            &+ \left[\nabla f(\vec{x_t})\right]^T (\vec{x} - \vec{x_t}) \times (1-t) \\
+            &= f(\vec{x_t}) + \left[\nabla f(\vec{x_t})\right]^T t(1-t)(\vec{y} - \vec{x} + \vec{x} - \vec{y}) \\
+            &= f(\vec{x_t})
+        \end{align*}
+        Then expanding out $\vec{x_t}$ gives the required result.
+    \end{proofdirection}
+\end{proof}
+\begin{corollary}
+    If $f$ is convex and differentiable then any stationary point of $f$ is a global minimum.
+    \label{corConvexMinimum}
+\end{corollary}
+\begin{proof}
+    If $\vec{a}$ is a stationary point then $\nabla f(\vec{a}) = 0$ and equation~\ref{eqnFirstOrderCondition} becomes $f(\vec{y}) \geq f(\vec{x})$.
+\end{proof}
+\begin{proposition}[Alternative first-order condition]
+    Equation~\ref{eqnFirstOrderCondition} is equivalent to:
+    \begin{equation}
+        (\vec{y} - \vec{x}) \cdot \left[\nabla f(\vec{y}) - \nabla f(\vec{x})\right] \geq 0
+        \label{eqnAltFirstOrderCondition}
+    \end{equation}
+    for any $\vec{x}, \vec{y}$ in the domain of $f$.
+    \label{propAltFirstOrderCondition}
+\end{proposition}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Assume equation~\ref{eqnFirstOrderCondition} holds.}
+        Then:
+        \begin{align*}
+            f(\vec{y}) \geq f(\vec{x}) + (\vec{y} - \vec{x}) \cdot \nabla f(\vec{x})
+            f(\vec{x}) \geq f(\vec{y}) + (\vec{x} - \vec{y}) \cdot \nabla f(\vec{y})
+        \end{align*}
+        Then summing these equations gives equation~\ref{eqnAltFirstOrderCondition}.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume equation~\ref{eqnAltFirstOrderCondition} holds.}
+        Now consider $\vec{z} = (1 - t) \vec{x} + t \vec{y}$.
+        \begin{align*}
+            f(\vec{y}) - f(\vec{x}) = \left[f(\vec{z})\right]_{t=0}^{t=1} \\
+            &= \int_0^1 \frac{d}{dt} f(\vec{z}) dt \\
+            &= \int_0^1 (\vec{y} - \vec{x}) \cdot \nabla f(\vec{z}) dt
+        \end{align*}
+        and subtracting the required term:
+        \begin{align*}
+            f(\vec{y}) - f(\vec{x}) - (\vec{y} - \vec{x}) \cdot &\nabla f(\vec{x}) \\
+            &= \int_0^1 \left(\vec{y} - \vec{x} \cdot \left[\nabla f(\vec{z}) - \nabla f(\vec{x})\right]\right)dt
+        \end{align*}
+        And this is non-negative by replacing $\vec{y}$ for $\vec{z}$ in equation~\ref{eqnAltFirstOrderCondition}
+    \end{proofdirection}
+\end{proof}
+\begin{theorem}{Second-order condition for convexity}
+    A twice differentiable function $f : \R^n \mapsto \R$ is convex if and only if, at every point $x \in \R^n$, $H(\vec{x})$ has no negative eigenvalues, or equivalently $H(\vec{x})$ is positive semi-definite.
+    \label{thmSecondOrderCondition}
+\end{theorem}
+\begin{proof}[of the if relation]
+    Recall the multivariate Taylor series of the function $f$ on the line joining some points $x$ and $y$:
+    \begin{equation*}
+        f(y) = f(x) + [\nabla f(x)]^T (y - x) + \frac{(y - x)^T \nabla^2 f(z) (y-x)}{2}
+    \end{equation*}
+    for some point $z$ on the line between $x$ and $y$. But now we have that the second-order term must be non-negative, which gives the first-order condition. This implies convexity by theorem~\ref{thmFirstOrderCondition}.
+\end{proof}
+\begin{example}
+    Consider $f(x, y) = \frac{1}{xy}$. We have a singularity if $x = y = 0$, so let the domain be $D(f) = \{x > 0, x > 0\}$.
+    We can calculate the Hessian:
+    \begin{equation*}
+        H(x, y) = \frac{1}{xy}
+        \begin{pmatrix}
+        \frac{2}{x^2} & \frac{1}{xy} \\
+        \frac{1}{xy} & \frac{1}{y^2}
+        \end{pmatrix}
+    \end{equation*}
+    And therefore we can find that the determinant is $\frac{3}{x^4}{y^4}$ which is strictly positive, and the trace is $\frac{2}{xy} \left(\frac{1}{x^2} + \frac{1}{y^2}\right)$. Therefore the Hessian is positive-definite in the defined domain, and so $f$ is strictly convex there.
+
+    If we instead took the domain to be $D(f) = \subsetselect{(x, y) \in \R^2}{xy > 0}$ then $f$ is not convex because the domain is not a convex set.
+\end{example}
 \end{document}
