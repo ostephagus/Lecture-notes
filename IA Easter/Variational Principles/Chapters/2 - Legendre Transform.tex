@@ -1,10 +1,11 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
+\section{Definition and Basic Properties}
 \begin{definition}{Legendre transform}
     The \underline{Legendre transform} (LT) of $f : D(f) \mapsto \R$ is:
     \begin{equation}
-        f^*(\vec{p}) = \sup_{\vec{x} \in \D(f)} \left[\vec{p} \cdot \vec{x} - f(\vec{x})\right]
+        f^*(\vec{p}) = \sup_{\vec{x} \in D(f)} \left[\vec{p} \cdot \vec{x} - f(\vec{x})\right]
         \label{eqnLT}
     \end{equation}
 \end{definition}
@@ -22,12 +23,102 @@
     And so since the RHS is finite then the LHS is finite and $(1-t)\vec{p} + t\vec{q} \in D(f)$. We have therefore that the domain is oonvex and equation~\ref{eqnConvexityDef} holds, so the LT is convex.
 \end{proof}
 \begin{proposition}
-    If $f$ is convex then so is $F_\vec{p}(\vec{x}) = f(\vec{x}) - \vec{p} \cdot \vec{x}$.
+    If $f$ is convex then so is $F_{\vec{p}}(\vec{x}) = f(\vec{x}) - \vec{p} \cdot \vec{x}$.
 \end{proposition}
 \begin{proof}
     Left as an exercise.
 \end{proof}
 \begin{corollary}
-    If $f$ is convex and differentiable then any stationary point of $\vec{p} \cdot \vec{x} - f(\vec{x})$ is a global maximum occurring at $\vec{x}(\vec{p})$ given by solving $\nabla f(\vec{x}) = \vec{p}$.
+    If $f$ is convex and differentiable then any stationary point of $\vec{p} \cdot \vec{x} - f(\vec{x})$ is a global maximum occurring at $\vec{x}(\vec{p})$ given by solving:
+    \begin{equation}
+        \nabla f(\vec{x}) = \vec{p}
+        \label{eqnLegendreMax}
+    \end{equation}
+
+    The Legendre Transform is then $f^*(\vec{p}) = \vec{p} \cdot \vec{x}(\vec{p}) = f(\vec{x}(\vec{p}))$.
 \end{corollary}
+\begin{remark}
+    If $f$ is strictly convex, then the solution of equation~\ref{eqnLegendreMax} is unique.
+\end{remark}
+\begin{examples}{
+        Consider functions of a single variable.
+    }
+    \item $f(x) = \frac{1}{2} ax^2$, where $a > 0$. Then this is strictly convex, and solving equation~\ref{eqnLegendreMax} gives $ax = p$. Then the Legendre transform is:
+        \begin{equation*}
+            f^*(p) = \frac{p^2}{a} - \frac{p^2}{2a} = \frac{p^2}{2a}
+        \end{equation*}
+        here the domain of $f^*$ is $\R$.
+    \item Let $f(v) = -\sqrt{1 - v^2}$. The domain is $v \in (-1, 1)$. This is convex. Then solving equation~\ref{eqnLegendreMax} gives $v = \frac{p}{\sqrt{1 + p^2}}$. This is defined for any $p \in \R$. The Legendre transform is:
+        \begin{equation*}
+            f^*(p) = \frac{p^2}{\sqrt{1 + p^2}} + \frac{1}{\sqrt{1 + p^2}} = \sqrt{1 + p^2}
+        \end{equation*}
+    \item $f(x) = cx, c > 0$. Note that this function is convex, but not strictly convex. Then we cannot take the required supremum if $p \neq c$. Therefore the domain of $f^*$ is $\{c\}$, where $f^*(c) = 0$. \label{exLineLT}
+\end{examples}
+\begin{theorem}
+    If $f$ is convex and twice continuously-differentiable then $f^{**}(x) = f(x)$. For this class of functions, the LT is self-inverse.
+\end{theorem}
+\begin{proof}
+    To determine $f^{**}$ we must consider:
+    \begin{equation*}
+        \vec{p}(\vec{x}) \text{ such that } \nabla f^*(\vec{p}(\vec{x})) = \vec{x}
+    \end{equation*}
+    Note that $f^*(\vec{p}) = \vec{p} \cdot \vec{x}(\vec{p}) - f(\vec{x}(\vec{p}))$, differentiating with respect to $\vec{p}$ gives:
+    \begin{align*}
+        \frac{\partial f^*}{\partial p_i} &= x_i + p_j \frac{\partial x_j}{\partial p_i} - \frac{\partial f}{\partial x_j} \frac{\partial x_j}{\partial p_i} \\
+        &= x_i + \left(p_j - \nabla_i f\right) \frac{\partial x_j}{\partial p_i}
+    \end{align*}
+    Note that, by equation~\ref{eqnLegendreMax}, the bracketed term is zero and so $\nabla f^*(\vec{p}) = \vec{x}(\vec{p})$. Then calculating the second Legendre transform:
+    \begin{align*}
+        f^{**}(\vec{x}) &= \vec{x} \cdot \vec{p}(\vec{x}) - f^*(\vec{p}(\vec{x})) \\
+        &= \vec{x} \cdot \vec{p}(\vec{x}) - \left[f(\vec{x}) \cdot \vec{x} - f(\vec{x}(\vec{p}(\vec{x})))\right] \\
+        &= f(\vec{x}(\vec{p}(\vec{x}))) = f(\vec{x})
+    \end{align*}
+\end{proof}
+\begin{remark}
+    Convexity is essential, since we need equation~\ref{eqnLegendreMax} to hold. The differentiability assumptions are stronger than is actually needed.
+\end{remark}
+\begin{example}[Revisiting example~\ref{exLineLT}]
+    Calculating $f^{**}(x) = \sup_{p \in \{c\}} \left(xp - f^*(p)\right) = cx$, as required.
+\end{example}
+\section{An Application in Thermodynamics}
+Consider a system of many molecules. We consider the macroscopic dynamics (length scales large compared to the separation of the molecules). In thermal equilibrium, macroscopic dynamics are described by a few quantities: total energy ($E$), the volume of the system ($V$), temperature of the system ($T$) and pressure ($P$). An \textit{isolated system} is one that is not interacting with anything else.
+
+In equilibrium, the macroscopic dynamics of an isolated system is fully specified by $E$ and $V$. However, there exists some enormous number $\Omega(E, V)$ of microscopic configurations of the individual molecules that appear the same on macroscopic scales. Define the entropy of the system $S(E, V) = h_B \log{\Omega(E, V)}$, where $h_B$ is the Boltzmann constant.
+
+If the energy increases, while the volume is unchanged, the the entropy will increase. This is because there are more ways to partition the energy amongst the various molecules. Therefore $S$ is strictly increaseing with $E$, so can be inverted to define $E(S, V)$. Now we have the temperature and pressure:
+\begin{align}
+    T &= \left(\frac{\partial E}{\partial S}\right)_v > 0 \label{eqnTempDef} \\
+    P &= -\left(\frac{\partial E}{\partial V}\right)_S \label{eqnPressDef}
+\end{align}
+We also have the relation:
+\begin{equation}
+    dE = T~dS - P~dV
+    \label{eqnThermoRelation}
+\end{equation}
+We can use the Legendre transform to derive equation~\ref{eqnTempDef}. Consider a LT of $E(S, V)$ with respect to $S$ at fixed $V$ with parameter $T$. Let this be $-F$:
+\begin{equation*}
+    -F(T, V) = \sup_S \left\{TS - E(S, V)\right\}
+\end{equation*}
+Note that, for a stable system, $E$ is convex and so we can use equation~\ref{eqnLegendreMax}. This recovers equation~\ref{eqnTempDef}. We have also that:
+\begin{equation}
+    F(T, V) = E - TS
+    \label{eqnHFreeEnergy}
+\end{equation}
+and this $F$ is the \underline{Helmholtz free energy}. We can also write:
+\begin{equation*}
+    dF = -S~dT - P~dV
+\end{equation*}
+Taking instead the LT with respect to $T$ and keep $S$ fixed, with parameter $-P$, we derive equation~\ref{eqnPressDef}:
+\begin{equation*}
+    -H(S, P) = \sup_V \left\{-PV - E(S, V)\right\}
+\end{equation*}
+Then $E$ is convex as a function of $V$ for stable systems, so equation~\ref{eqnLegendreMax} gives equation~\ref{eqnPressDef} as well as:
+\begin{equation*}
+    H(S, P) = PV + E
+\end{equation*}
+Then $H$ is the \underline{enthalpy} of the system. We obtain:
+\begin{equation}
+    dH = T~dS + V~dP 
+    \label{eqnEnthalphyDiff}
+\end{equation}
 \end{document}
