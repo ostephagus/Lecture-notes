@@ -1,0 +1,107 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+We now consider constrained optimisation for arbitrary functions, that are not necessarily convex. This makes the problem much harder, so we introduce Lagrange's Method as a final hope for solving such a problem.
+\section{Setting Up the Method}
+Suppose we have the following problem:
+
+Minimise $f(\vec{x})$, subject to:
+\begin{align*}
+    h(\vec{x}) &= \vec{b} \\
+    \vec{x} &\in \Xset
+\end{align*}
+where $h : \R^n \mapsto \R^m$, and so $\vec{b} \in \R^m$.
+
+We define the \underline{Lagrangian} as:
+\begin{equation*}
+    L(\vec{x}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^T (h(\vec{x}) - \vec{b})
+\end{equation*}
+where $\lambda \in \R^m$ is some vector. Instead of solving the original problem, we now solve:
+
+Minimise $L(\vec{x}, \vec{\lambda})$ such that $\vec{x} \in \Xset$.
+\begin{theorem}[Lagrange Sufficiency Theorem]
+    Let $\vec{x}^* \in \Xset$ and $h(\vec{x}^*) = \vec{b}$.
+
+    Let $\vec{\lambda^*} \in \R^m$ such that:
+    \begin{equation*}
+        L(\vec{x}^*, \vec{\lambda}^*) = \min_{\vec{x} \in \Xset} L(\vec{x}, \vec{\lambda^*})
+    \end{equation*}
+    Then $\vec{x}^*$ is an optimal solution of the original problem.
+\end{theorem}
+\begin{proof}
+    Define $\Xset(\vec{b}) = \subsetselect{\vec{x} \in \Xset}{h(\vec{x}) = b}$.
+
+    We have that $f(\vec{x}^*) \geq \min_{\vec{x} \in \Xset(\vec{b})} f(\vec{x})$. It is then sufficient to show that $f(\vec{x}^*)$ is less than or equal to this quantity.
+
+    Observe that:
+    \begin{align*}
+        \min_{\vec{x} \in \Xset(\vec{b})} &= \min_{\vec{x} \in \Xset(\vec{b})} f(\vec{x}) - \vec{\lambda^*} \cdot \left(h(\vec{x}) - \vec{b}\right) \\
+        &\geq \min_{\vec{x} \in \Xset} f(\vec{x}) - \vec{\lambda^*} \cdot \left(h(\vec{x}) - \vec{b}\right) \\
+        &= f(\vec{x}^*) - \vec{\lambda}^* \cdot \left(h(\vec{x}^*) - \vec{b}\right) \\
+        &= f(\vec{x}^*)
+    \end{align*}
+\end{proof}
+\section{The Algorithm}
+Consider a problem:
+
+Minimise $f(\vec{x})$ subject to:
+\begin{align*}
+    h(\vec{x}) &\leq b \\
+    \vec{x} &\in \Xset
+\end{align*}
+
+We perform the following steps:
+\begin{enumerate}
+    \item Add a slack variable $\vec{s}$, and consider a new formulation:
+        Minimise $f(\vec{x})$ subject to:
+        \begin{align*}
+            h(\vec{x}) &+ \vec{s} = b \\
+            x &\in \Xset, \vec{s} \geq 0
+        \end{align*}
+    \item Set the Lagrangian:
+        \begin{align*}
+            L(\vec{x}, \vec{s}, \vec{\lambda}) &= f(\vec{x}) - \vec{\lambda} \cdot (h(\vec{x}) + \vec{s} - \vec{b}) \\
+            &= f(\vec{x}) - \vec{\lambda} \cdot (h(\vec{x}) - \vec{b}) - \vec{\lambda} \cdot \vec{s}
+        \end{align*}
+    \item Define the set:
+        \begin{equation*}
+            \Lambda = \subsetselect{\vec{\lambda} \in \R^m}{\min_{x \in \Xset(\vec{s})} L(\vec{x}, \vec{s}, \vec{\lambda} > -\infty)}
+        \end{equation*}
+    \item For each $\vec{\lambda} \in \Lambda$, find $\vec{x}^*(\vec{\lambda})$ and $\vec{s}^*(\vec{\lambda})$ such that the Lagrangian is minimal.
+    \item Find $\vec{\lambda}^* \in \Lambda$ such that $(\vec{x}^*(\vec{\lambda}^*), \vec{s}^*(\vec{\lambda}^*))$ is feasible.
+\end{enumerate}
+\begin{remarks}
+    \item Note that the Lagrangian, as defined in step 2, is separable in $\vec{x}$ and $\vec{s}$. Therefore, we minimise with respect to each in turn.
+    \item We observe that any component of $\vec{\lambda}$ must be non-positive, since any positive value would require that component of $\vec{s}$ is infinite.
+    \item For any $i$, $\lambda_i s_i = 0$. This is \underline{complementary slackness}.
+\end{remarks}
+\begin{example}
+    Minimise $f(\vec{x}) = -x_1 - x_2 + x_3$, subject to:
+    \begin{align*}
+        x_1^2 + x_2^2 &= 4 \\
+        x_1 + x_2 + x_3 &= 1
+    \end{align*}
+    Geometrically, this is a cylinder intersected with a plane, which means that the feasible set is \textit{nice}, and we will be able to find a minimum.
+
+    Then the lagrangian is:
+    \begin{align*}
+        L(x_1, x_2, x_3, \lambda_1, \lambda_2) &= -x_1 - x_2 + x_3 - \lambda_1(x_1^2 + x_2^2 - 4) \\
+        &- \lambda_2(x_1 + x_2 + x_3 - 1) \\
+        &= (-x_1 - \lambda_1 x_1^2 - \lambda_2 x_1) + (-x_2 - \lambda_1 x_2^2 - \lambda_2 x_2) \\
+        &+(x_3 - \lambda_2 x_3) + 4\lambda_1 + \lambda_2 \\
+        &= \left(-(1 + \lambda_2) x_1 - \lambda_1 x_1^2\right) + \left(-(1 + \lambda_2)x_2 - \lambda_1 x_2^2\right)\\
+        &+ \left(1 - \lambda_2\right)x_3 + 4\lambda_1 + \lambda_2
+    \end{align*}
+    Then we note that the minimum over $\vec{x}$ of the Lagrangian must not be negative infinity, so we require $\lambda_2 = 1$ and $\lambda_1 < 0$ (by considering the specific problem).
+    
+    Therefore the set $\Lambda = \subsetselect{(\lambda_1, \lambda_2) \in \R^2}{\lambda_1 < 0, \lambda_2 = 1}$.
+    Given any $\vec{\lambda}$ in this set, we find that the minimum is:
+    \begin{equation*}
+        x_1^*(\vec{\lambda}) = -\frac{1}{\lambda_1}, x_2^*(\vec{\lambda}) = -\frac{1}{\lambda_1}
+    \end{equation*}
+    Now we need to find a choice of $\vec{\lambda}$ such that $\vec{x}^*$ is feasible. The correct choice is $\lambda_1 = -\frac{1}{\sqrt{2}}$, and:
+    \begin{equation*}
+        x_1^* = \sqrt{2}, x_2^* = \sqrt{2}, x_3^* = 1 - 2\sqrt{2}
+    \end{equation*}
+\end{example}
+\end{document}
