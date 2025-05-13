@@ -1,0 +1,62 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Motivational example}
+Consider a smooth surface $S \subseteq \R^3$. If $f : \R^3 \mapsto \R$, how can we determine the maximum and minimum values on the surface $S$.
+
+For example, $S$ might represent a hill in the real world and $f$ the air temperature. Then we want to find the hottest and coldest point on the hill.
+\section{Setting up the Problem}
+We let $(u, v)$ be a parameterisation of the surface. We need to extremise $f(\vec{x}(u, v))$. Consider a stationary point:
+\begin{align*}
+    0 &= \frac{\partial}{\partial u} f(\vec{x}(u, v)) = \nabla f \cdot \left(\frac{\partial \vec{x}}{\partial u}\right) \\
+    0 &= \frac{\partial}{\partial v} f(\vec{x}(u, v)) = \nabla f \cdot \left(\frac{\partial \vec{x}}{\partial v}\right)
+\end{align*}
+However, $\frac{\partial \vec{x}}{\partial u}$ and $\frac{\partial \vec{x}}{\partial \vec{v}}$ are linearly independent vectors tangent to $S$. Therefore:
+\begin{equation}
+    \vec{x_0} \in S \text{ is a stationary point } \Leftrightarrow \nabla f(\vec{x_0}) \text{ is normal to } S
+    \label{eqnStationaryOnExplSurface}
+\end{equation}
+However, often we do not have an explicit parameterisation $(u, v)$. Instead it is common to find that the surface $S$ is defined by the set of points that satisfy $g(\vec{x}) = 0$. From this perspective, the problem is now to extremise $f$ subject to the \underline{constraint} $g(\vec{x}) = 0$. Recall from IA Vector Calculus that $\nabla g$ is normal to $S$. Therefore the relation in equation~\ref{eqnStationaryOnExplSurface} can be rephrased:
+\begin{equation}
+    \vec{x_0} \in S \text{ is a stationary point } \Leftrightarrow \nabla f(\vec{x_0}) = \lambda \nabla g(\vec{x_0}),~\lambda \in \R
+    \label{eqnStationaryOnImplSurface}
+\end{equation}
+Then this equation has to be solved together with $g(\vec{x_0}) = 0$ to find $\vec{x_0}$ and $\lambda$. We can find a simpler form by considering unconstrained stationary points of a new function:
+\begin{align*}
+    \phi : \R^4 &\mapsto \R \\
+    (\vec{x}, \lambda) &\mapsto f(\vec{x}) - \lambda g(\vec{x})
+\end{align*}
+Here $\lambda$ is called the \underline{Lagrange multiplier}.
+\section{Examples}
+\begin{example}
+    Consider a box with no lid. Let the side lengths be $x, y, z$. We consider the values $x, y, z$ that minimise its surface area subject to the constraint that the volume is $V$. Let $V = \frac{L^3}{2}$ (which will tidy up the algebra later). Formulating the problem:
+    \begin{align*}
+        \text{Minimise } A &= 2z(x + y) + xy \\
+        \text{Subject to } xyz &= \frac{L^3}{2}
+    \end{align*}
+    Since this example is fairly simple, we can simply solve the constraint: $z = \frac{L^3}{2xy}$. Now:
+    \begin{align*}
+        A &= \frac{L^3}{x} + \frac{L^3}{y} + xy \\
+        \frac{\partial A}{\partial x} &= -\frac{L^3}{x^2} + y = 0 \\
+        \implies x^2y &= L^3 \\
+        \frac{\partial A}{\partial y} &= -\frac{L^3}{y^2} + x = 0 \\
+        \implies xy^2 &= L^3
+    \end{align*}
+    Then this gives $x = y = L$, and $z = \frac{L}{2}$. Considering the Hessian shows that this is a minimum.
+
+    Instead, we can use the Lagrange multiplier method.
+    \begin{equation*}
+        \phi(x, y, z, \lambda) = A(x, y, z) = \lambda(xyz - \frac{L^3}{2})
+    \end{equation*}
+    Then extremising $\phi$:
+    \begin{align*}
+        0 &= \frac{\partial \phi}{\partial z} = 2(x + y) - \lambda xy \implies \lambda = \frac{2(x + y)}{xy} \\
+        0 &= \frac{\partial \phi}{\partial x} = 2z + y - \lambda yz = \frac{y}{x}(x - 2z) \implies x = 2z \\
+        0 &= \frac{\partial \phi}{\partial y} = 2z + x - \lambda xz \implies y = 2z \text{ like above} \\
+        0 &= \frac{\partial \phi}{\partial \lambda} = xyz - \frac{L^3}{2} \implies z = \frac{L}{2}, x = y = L
+    \end{align*}
+\end{example}
+There is a disadvantage of the Lagrange multiplier method, in that there is no simple method to check the nature of the stationary point, unlike the direct method where the Hessian can be calculated. The Hessian of $\phi$ is always a saddle point because the second derivative of $\phi$ is always 0, and the Hessian is indefinite.
+
+However, often when the constraint is too complicated to solve explicitly this method is superior.
+\end{document}

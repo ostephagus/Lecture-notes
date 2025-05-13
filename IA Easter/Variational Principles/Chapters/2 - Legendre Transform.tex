@@ -121,4 +121,19 @@ Then $H$ is the \underline{enthalpy} of the system. We obtain:
     dH = T~dS + V~dP 
     \label{eqnEnthalphyDiff}
 \end{equation}
+Finally, taking the Legendre transform with respect to both $S$ and $V$ with parameters $T, -P$ gives the function $-G(T, P)$ defined by:
+\begin{equation*}
+    G(T, P) = E - TS + PV
+\end{equation*}
+This function is called the \underline{Gibbs free energy}. 
+The differential is, using equation~\ref{eqnThermoRelation},
+\begin{equation*}
+    dG = -S~dT + V~dP
+\end{equation*}
+The functions $E, F, G, H$ are known as \underline{thermodynamic potentials}. Consider, for example, $E$:
+\begin{align*}
+    \frac{\partial^2 E}{\partial S \partial V} &= \frac{\partial^2 E}{\partial V \partial S} \\
+    -\left(\frac{\partial P}{\partial S}\right)_V = \left(\frac{\partial T}{\partial V}\right)_S
+\end{align*}
+by using equations \ref{eqnTempDef} and \ref{eqnPressDef}. We can get similar relations by considering second derivatives of the other potentials. These are known together as the \underline{Maxwell Relations}.
 \end{document}
