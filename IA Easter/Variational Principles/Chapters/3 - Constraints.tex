@@ -59,4 +59,25 @@ Here $\lambda$ is called the \underline{Lagrange multiplier}.
 There is a disadvantage of the Lagrange multiplier method, in that there is no simple method to check the nature of the stationary point, unlike the direct method where the Hessian can be calculated. The Hessian of $\phi$ is always a saddle point because the second derivative of $\phi$ is always 0, and the Hessian is indefinite.
 
 However, often when the constraint is too complicated to solve explicitly this method is superior.
+\begin{example}
+    What probability distribution $\{p_1, p_2, \cdots, p_n\}$ satisfying $\sum_{i = 1}^n p_i = 1$ maximises the \textit{information entropy}:
+    \begin{equation*}
+        S = -\sum_{i = 1}^n p_i \log_2(p_i)
+    \end{equation*}
+    Then set the function $\phi$:
+    \begin{equation*}
+        \phi(p_1, p_2, \cdots, p_n, \lambda) = -\sum_{i = 1}^n p_i \log_2(p_i) - \lambda\left(\sum_{i = 1}^n p_i - 1\right)
+    \end{equation*}
+    Then differentiating:
+    \begin{align*}
+        0 &= \frac{\partial \phi}{\partial p_i} = -\log_2(p_i) - \frac{1}{\log(2)} - \lambda \\
+        0 &= \frac{\partial \phi}{\partial \lambda} = \sum_{i = 1}^n p_i = 1 
+    \end{align*}
+    Therefore all $p_i$ are the same, and $p_i = \frac{1}{n}$.
+\end{example}
+\subsection{Multiple constraints}
+To find stationary points of $f : \R^n \mapsto \R$ subject to $m < n$ constraints $g_k(\vec{x}) = 0$, for $1 \leq k \leq m$, introduce $m$ lagrange multipliers $\lambda_k$ are extremise:
+\begin{equation*}
+    \phi(\vec{x}, \vec{\phi}) = f(\vec{x}) - \sum_{k = 1}^m \lambda_k g_k(\vec{x})
+\end{equation*}
 \end{document}

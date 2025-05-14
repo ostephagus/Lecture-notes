@@ -1,0 +1,98 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definitions}
+For $\Omega \subseteq \R^n$,
+\begin{align*}
+    C^k(\Omega) &= \subsetselect{y : \Omega \mapsto \R}{y \text{ is } k \text{ times differentiable}} \\
+    C^\infty(\Omega) &= \subsetselect{y : \Omega \mapsto \R}{y \text{ is smooth}}
+\end{align*}
+Let $\funcset$ be a set of functions, such as $C^\infty(\Omega)$. Recall that a \underline{functional} is a map:
+\begin{align*}
+    F : \funcset &\mapsto \R \\
+    y &\mapsto F[y]
+\end{align*}
+More generally, a functional can map several functions to a number.
+\section{Variation}
+\subsection{Single argument}
+An important case is when $\Omega = [\alpha, \beta]$, $\funcset = C^\infty$, and the functional is defined:
+\begin{equation*}
+    F[y] = \int_\alpha^\beta f(y(x), y'(x), x) dx
+\end{equation*}
+Then we consider what extremises this function. Consider varying $y$ to $y + \delta y \in \funcset$.
+\begin{align*}
+    \delta F[y] &= F[y + \delta y] - F[y] = \int_\alpha^\beta \left[f(y + \delta y, y' + \delta y', x) - f(y, y', x)\right]dx \\
+    &= \int_\alpha^\beta \left(\delta y \frac{\partial f}{\partial y} + \delta y' \frac{\partial f}{\partial y'}\right)dx + \cdots \\
+    &= \int_\alpha^\beta \delta y(x) \left(\frac{\partial f}{\partial y} - \frac{d}{dx} \frac{\partial f}{\partial y'}\right)dx + \left[\delta y \frac{\partial f}{\partial y'}\right]_\alpha^\beta + \cdots
+\end{align*}
+Then we can assume that the definition of $\funcset$ includes boundary conditions that ensure that the last term is zero. For example, 
+\begin{itemize}
+    \item $y(\alpha) = \alpha, y(\beta) = \beta$ \\
+    \item $\frac{\partial f}{\partial y'} = 0$ at $x \in \{\alpha, \beta\}$.
+\end{itemize}
+Therefore:
+\begin{equation*}
+    \delta F[y] = \int_\alpha^\beta \delta y(x) \frac{\delta F[y]}{\delta y(x)} dx + \cdots
+\end{equation*}
+where we define the \underline{functional derivative}:
+\begin{equation*}
+    \frac{\delta F[y]}{\delta y(x)} \equiv \frac{\partial f}{\partial y} - \frac{d}{dx} \frac{\partial f}{\partial y'}
+\end{equation*}
+Then $\delta F[y]$ vanishes to first order for arbitrary $\delta y(x)$ if and only if $y(x)$ satisfies the \underline{Euler-Lagrange equation}:
+\begin{equation}
+    \frac{\partial f}{\partial y} - \frac{d}{dx} \frac{\partial f}{\partial y'} = 0
+    \label{eqnEulerLagrange}
+\end{equation}
+Then this is a second-order differential equation for $y$, and solving gives the extremum of the functional $F$.
+\subsection{Multivariate generalisation}
+Then we can generalise this. Consider $\vec{y}(x) = (y_1(x), \cdots, y_n(x)), x \in [\alpha, \beta]$. Therefore now $\vec{y} : [\alpha, \beta] \mapsto \R^n$. Now define:
+\begin{equation*}
+    F[\vec{y}] = \int_\alpha^\beta f(\vec{y}, \vec{y}', x) dx
+\end{equation*}
+Then, with suitable boundary conditions as seen above, we have $n$ Euler-Lagrange equations:
+\begin{equation}
+    \frac{\partial f}{\partial y_i} - \frac{d}{dx} \frac{\partial f}{\partial y'_i} = 0
+    \label{eqnMultivariateEulerLagrange}
+\end{equation}
+\section{Examples}
+\subsection{Geodesics for the Euclidean Plane}
+What is the shortest curve between two points $A$, $B$ of Euclidean space? We define the length to be a functional:
+\begin{equation*}
+    L[y] = \int_C \sqrt{dx^2 + dy^2} = \int_C dl
+\end{equation*}
+for any curve $C$ defined by a function $y(x)$.
+Then we have that $L[y] = \int_\alpha^\beta \sqrt{1 + y^{\prime 2}}dx$. The Euler-Lagrange equation becomes:
+\begin{equation*}
+    -\frac{d}{dx} \frac{\partial f}{\partial y'}
+\end{equation*}
+Integrating once with respect to $x$:
+\begin{equation*}
+    \frac{\partial f}{\partial y'} = c
+\end{equation*}
+Which, after solving, gives that $y'$ is fixed and $y = mx + c$. We fix these constants by the boundary condition that the line must go through the points.
+
+However, using $y$ as a function of $x$ excludes some curves. Instead we could have that the curve is parameterised by $t \in [0, 1]$, $y$ and $x$ are functions of $t$. Ensure that $t = 0$ at $A$ and $t = 1$ at $B$.
+
+\begin{equation*}
+    L[\vec{x}] = \int_0^1 \sqrt{\dot{x}^2 + \dot{y}^2} dt
+\end{equation*}
+Then the Euler-Lagrange equation gives:
+\begin{equation*}
+    -\frac{d}{dx} \frac{\partial f}{\partial \dot{\vec{x}}} = 0
+\end{equation*}
+This then gives:
+\begin{align*}
+    \frac{\dot{x}}{\sqrt{\dot{x}^2 + \dot{y}^2}} &= c \\
+    \frac{\dot{y}}{\sqrt{\dot{x}^2 + \dot{y}^2}} &= s \\
+\end{align*}
+Then we have that $c^2 + s^2 = 1$, so it is convenient to let $c = cos(\theta), s = \sin(\theta)$.
+This is as far as we can get with a general parameter $t$. We can then instead use arc length $l$ as the parameter:
+\begin{equation*}
+    \frac{dl}{dt} = \sqrt{\dot{x}^2 + \dot{y}^2}
+\end{equation*}
+Then results in the equations:
+\begin{equation*}
+    x = x_A + l \cos{\theta},~~y = y_A + l\sin{\theta}
+\end{equation*}
+Note that $\theta$ is fixed by ensuring the curve passes through $B$. We could not use $l$ as a parameter initially because in deriving the Euler-Lagrange equation we assume that the limits of integration are fixed, which is not the case for an arc length parameter.
+\end{document}
