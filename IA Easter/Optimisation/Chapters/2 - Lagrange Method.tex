@@ -104,4 +104,133 @@ We perform the following steps:
         x_1^* = \sqrt{2}, x_2^* = \sqrt{2}, x_3^* = 1 - 2\sqrt{2}
     \end{equation*}
 \end{example}
+\section{Duality}
+\subsection{Defining the Problem}
+Consider:
+\begin{align}
+    \text{Minimise } &f(\vec{x}) \nonumber\\
+    \text{Such that } &h(\vec{x}) = \vec{b} \label{eqnPrimalProb} \\
+    &x \in \Xset \nonumber
+\end{align}
+The problem in \ref{eqnPrimalProb} known as the \underline{primal problem}.
+\begin{definition}{Dual objective function}
+    Given a primal problem such as \ref{eqnPrimalProb}, let $L(\vec{x}, \vec{\lambda})$ be the lagrangian and:
+    \begin{equation*}
+        \Lambda = \subsetselect{\vec{\lambda}}{\min_{\vec{x} \in \Xset} L(\vec{x}, \vec{\lambda})}
+    \end{equation*}
+    define the \underline{dual objective function}:
+    \begin{align*}
+        g : \Lambda &\mapsto \R \\
+        \vec{\lambda} &\mapsto \min_{\vec{x} \in \Xset} L(\vec{x}, \vec{\lambda})
+    \end{align*}
+\end{definition}
+Then, given this definition, the \underline{dual problem} is:
+\begin{align}
+    \text{Maximise } &g(\vec{\lambda}) \nonumber\\
+    \text{Subject to } &\vec{\lambda} \in \Lambda \label{eqnDualProb}
+\end{align}
+From the example sheet, the maximum of a set of convex functions is also a convex function.
+\subsection{Properties of Duality}
+\begin{theorem}[Weak duality]
+    If $\vec{x} \in \Xset(\vec{b})$, $\vec{\lambda} \in \Lambda$, then:
+    \begin{equation*}
+        f(\vec{x}) \geq g(\vec{\lambda})
+    \end{equation*}
+    and in particular:
+    \begin{equation*}
+        \min_{\vec{x} \in \Xset} f(\vec{x}) \geq \max_{\vec{\lambda} \in \Lambda} g(\vec{\lambda})
+    \end{equation*}
+\end{theorem}
+\begin{remarks}
+    \item Solving the dual problem gives a lower bound for the optimal solution of the minimisation problem.
+    \item If we have equality in the final equation, we say that strong duality holds.
+\end{remarks}
+\begin{proof}
+    For any $\vec{\lambda} \in \Lambda$ and $\vec{x} \in \Xset(\vec{b})$,
+    \begin{align*}
+        f(\vec{x}) &\geq \min_{\vec{x}' \in \Xset(\vec{b})} f(\vec{x}') \\
+        &= \min_{\vec{x}' \in \Xset(\vec{b})} f(\vec{x}') - \vec{\lambda}^T (h(\vec{x}') - \vec{b}) \\
+        &\geq \min_{\vec{x}' \in \Xset} f(\vec{x}') - \vec{\lambda}^T (h(\vec{x}') - \vec{b}) \\
+        &= g(\vec{\lambda})
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    The two following statements are equivalent:
+    \begin{itemize}
+        \item Strong duality holds
+        \item The Lagrange method works
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose the Lagrange method works}
+        Then we can find $\vec{\lambda}^*$ and $\vec{x}^*$ such that:
+        \begin{align*}
+            g(\vec{\lambda}^*) &= L(\vec{x}^*, \vec{\lambda}^*) \\
+            &= f(\vec{x}^*)
+        \end{align*}
+        and we have strong duality.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose strong duality holds}
+        Then we can find $\vec{x}^*$ and $\vec{\lambda}^*$ such that:
+        \begin{equation*}
+            f(\vec{x}^*) = g(\vec{\lambda}^*) \\
+        \end{equation*}
+        then using $\vec{\lambda}^*$ in Lagrange's method will work.
+    \end{proofdirection}
+\end{proof}
+\subsection{Conditions for the Lagrange Method}
+We then want to find the class of problems for which strong duality holds, and the Lagrange method works.
+\begin{definition}{Supporting hyperplane}
+    A function $\phi : \R^m \mapsto \R$ has a \underline{supporting hyperplane} at $\vec{b} \in \R^m$ if there exists $\lambda \in \R^m$ such that:'
+    \begin{equation}
+        \phi(\vec{c}) \geq \phi(\vec{b}) + \vec{\lambda}^T (\vec{c} - \vec{b})
+        \label{eqnSupportHyperPln}
+    \end{equation}
+    for all $\vec{c} \in \R^m$.
+\end{definition}
+\begin{remarks}
+    \item If $\phi$ is differentiable at $\vec{b}$ and admits a supporting hyperplane, then the slope of the hyperplane then $\vec{\lambda} = \nabla \phi(\vec{b})$.
+    \item Convex functions have supporting hyperplanes at all points by the first-order condition for convexity.
+\end{remarks}
+\begin{definition}{Value function}
+    Given a primal problem of the form in \ref{eqnPrimalProb}, define the \underline{value function} $\phi : \R^m \mapsto \R$ by:
+    \begin{equation*}
+        \phi(\vec{c}) = \min_{h(\vec{x}) = \vec{c}, x \in \Xset} f(\vec{x})
+    \end{equation*}
+    or alternatively the minimum of $f(\vec{x})$ over $\vec{x} \in \Xset(\vec{c})$.
+\end{definition}
+\begin{theorem}
+    The primal problem in \ref{eqnPrimalProb} satisfies strong duality if its value function $\phi$ has a supporting hyperplane at $\vec{b}$.
+
+    Moreover, if strong duality holds, so for some $\vec{\lambda}$ we have $g(\vec{\lambda}) = \phi(\vec{b})$, then there exists a supporting hyperplane to $\phi$ at $\vec{b}$ with slope $\vec{\lambda}$.
+\end{theorem}
+\begin{remarks}
+    \item We now have 3 equivalences: Lagrange method works, strong duality holds, supporting hyperplane exists.
+    \item If we have a series of function $f, f_1, f_2, \cdots, f_m$, all of which are convex, and the problem is to minimise $f(\vec{x})$ subject to $f_i(\vec{x}) \leq b_i$, then $\phi(\vec{b})$ is convex. Therefore, we have that the Lagrange method will work for these types of problems (convex objective, convex constraints). This also applies to linear programming.
+\end{remarks}
+\begin{proof}
+    Suppose that a supporting hyperplane to $\phi$ exists at $\vec{b}$ with slope $\vec{\lambda}$:
+    \begin{equation*}
+        \phi(\vec{c}) \geq \phi(\vec{b}) + \vec{\lambda}^T (\vec{c} - \vec{b})
+    \end{equation*}
+    then:
+    \begin{align*}
+        g(\vec{\lambda}) &= \min_{\vec{x} \in \Xset} f(\vec{x}) - \vec{\lambda}^T (h(\vec{x}) - \vec{b}) \\
+        &= \min_{\vec{c}} \min_{\vec{x} \in \Xset(\vec{c})} f(\vec{x}) - \lambda^T (h(\vec{x}) - \vec{c}) - \lambda^T (\vec{c} - \vec{b}) \\
+        &= \min_{\vec{c}} \phi(\vec{c}) - \vec{\lambda}^T (\vec{c} - \vec{b}) \\
+        \geq \phi(\vec{b})
+    \end{align*}
+    However, by weak duality, $g(\vec{\lambda}) \leq \phi(\vec{b})$, so they must be equal and strong duality exists.
+
+    Now, for the converse, suppose strong duality holds. That is,
+    \begin{equation*}
+        \exists \vec{\lambda} \in \R^m \text{ such that } g(\vec{\lambda}) = \phi(\vec{b})
+    \end{equation*}
+    Then:
+    \begin{align*}
+        \phi(\vec{b}) &= g(\vec{\lambda}) = \min_{x \in \Xset} f(\vec{x}) - \vec{\lambda}^T (h(\vec{x}) - \vec{b}) \\
+        &= \min_{\vec{x} \in \Xset} f(\vec{x}) - \vec{\lambda}^T (h(\vec{x}) - \vec{c}) - \lambda^T (\vec{c} - \vec{b}) \\
+        &\leq \phi(\vec{c}) - \vec{\lambda}^T (\vec{c} - \vec{b})
+    \end{align*}
+\end{proof}
 \end{document}
