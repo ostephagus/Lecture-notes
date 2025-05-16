@@ -218,7 +218,7 @@ We then want to find the class of problems for which strong duality holds, and t
         g(\vec{\lambda}) &= \min_{\vec{x} \in \Xset} f(\vec{x}) - \vec{\lambda}^T (h(\vec{x}) - \vec{b}) \\
         &= \min_{\vec{c}} \min_{\vec{x} \in \Xset(\vec{c})} f(\vec{x}) - \lambda^T (h(\vec{x}) - \vec{c}) - \lambda^T (\vec{c} - \vec{b}) \\
         &= \min_{\vec{c}} \phi(\vec{c}) - \vec{\lambda}^T (\vec{c} - \vec{b}) \\
-        \geq \phi(\vec{b})
+        &\geq \phi(\vec{b})
     \end{align*}
     However, by weak duality, $g(\vec{\lambda}) \leq \phi(\vec{b})$, so they must be equal and strong duality exists.
 
@@ -233,4 +233,13 @@ We then want to find the class of problems for which strong duality holds, and t
         &\leq \phi(\vec{c}) - \vec{\lambda}^T (\vec{c} - \vec{b})
     \end{align*}
 \end{proof}
+\begin{example}[Shadow prices]
+    %TODO: Finish
+\end{example}
+\begin{theorem}
+    If $\phi$ is differentiable at $\vec{b}$ and has a supporting hyperplane with slope $\vec{\lambda}$, then:
+    \begin{equation*}
+        \vec{\lambda} = \nabla \phi(\vec{b})
+    \end{equation*}
+\end{theorem}
 \end{document}

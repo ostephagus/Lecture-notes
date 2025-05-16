@@ -1,0 +1,46 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Formulating a Linear Program}
+\begin{definition}{Linear program}
+    A \underline{linear program} is an optimisation problem where the objective function and all constraints are linear in $\vec{x}$.
+\end{definition}
+The most general form is:
+\begin{align*}
+    \text{Minimise } &\vec{c}^T\vec{x} \\
+    \text{Subject to} &\vec{a_i}^T \geq \vec{b_i},~i \in \M_1 \\
+    &\vec{a_i}^T \leq \vec{b_i},~i \in \M_2 \\
+    &\vec{a_i}^T = \vec{b_i},~i \in \M_3 \\
+    &x_j \geq 0,~j \in N_1 \\
+    &x_j \leq 0,~j \in N_1 \\
+\end{align*}
+However, it can be shown that any such set of constraints can be written as: $A\vec{x} \leq \vec{b}$ for some matrix $A$ formed form the constraints above. This is the \underline{general form}.
+
+The \underline{standard form} of a linear program has constraints $A\vec{x} = \vec{b}$, $\vec{x} \geq 0$. Any program in standard form can trivially be expressed in the general form, but also any program in the general form can be written in standard form by expressing each component as $x_j = x_j^+ - x_j^-$.
+
+The general form is easier to prove results about, whereas the standard form is often easier to solve.
+\section{Extreme Points}
+\subsection{Maxima of Convex Functions}
+Consider a problem:
+\begin{align*}
+    \text{Maximise } &f(\vec{x}) \\
+    \text{Subject to } &x \in \Xset
+\end{align*}
+where $f$ and $\Xset$ are convex.
+\begin{definition}{Extreme point}
+    Let $\Xset$ be a convex set. A point $\vec{x} \in \Xset$ is an \underline{extreme point} if $\vec{x}$ cannot be written as:
+    \begin{equation*}
+        \vec{x} = \lambda \vec{y} + (1-\lambda) \vec{z},~\lambda \in (0, 1)
+    \end{equation*}
+    where $\vec{x}, \vec{y}$ and $\vec{z}$ are distinct.
+\end{definition}
+\begin{theorem}
+    The maximum of a convex function constrained to a convex set is realised at an extreme point.
+\end{theorem}
+\begin{proof}
+    Suppose $\vec{z}$ can be written as a convex combination of points $\vec{x}$ and $\vec{y}$. Then we can show that $f(\vec{z}) \leq \max\{f(\vec{x}), f(\vec{y})\}$.
+\end{proof}
+\subsection{Algebraic Description of Extreme Points}
+In low-dimensional space, we can easily find the extreme points of a polygon by considering vertices. However, for a higher-dimensional space we need an algebraic description of extreme points.
+
+\end{document}
