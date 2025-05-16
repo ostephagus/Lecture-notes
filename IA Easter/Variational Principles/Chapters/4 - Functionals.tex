@@ -54,8 +54,7 @@ Then, with suitable boundary conditions as seen above, we have $n$ Euler-Lagrang
     \frac{\partial f}{\partial y_i} - \frac{d}{dx} \frac{\partial f}{\partial y'_i} = 0
     \label{eqnMultivariateEulerLagrange}
 \end{equation}
-\section{Examples}
-\subsection{Geodesics for the Euclidean Plane}
+\section{Geodesics for the Euclidean Plane}
 What is the shortest curve between two points $A$, $B$ of Euclidean space? We define the length to be a functional:
 \begin{equation*}
     L[y] = \int_C \sqrt{dx^2 + dy^2} = \int_C dl
@@ -95,4 +94,142 @@ Then results in the equations:
     x = x_A + l \cos{\theta},~~y = y_A + l\sin{\theta}
 \end{equation*}
 Note that $\theta$ is fixed by ensuring the curve passes through $B$. We could not use $l$ as a parameter initially because in deriving the Euler-Lagrange equation we assume that the limits of integration are fixed, which is not the case for an arc length parameter.
+\section{First Integrals and Fermat's Principle}
+\subsection{First Integrals}
+In general, if $\frac{\partial f}{\partial y} = 0$, then equation~\ref{eqnEulerLagrange} can be immediately integrated to give that:
+\begin{equation}
+    \frac{\partial f}{\partial y'} = \text{ const}
+    \label{eqnFirstIntegral}
+\end{equation}
+This is a first-order differential equation, which is easier to solve than the Euler-Lagrange equation (which is second-order)
+
+Another case where there is a first integral is when $f$ has no $x$ dependence:
+\begin{proposition}
+    If $\frac{\partial f}{\partial x} = 0$. Then:
+    \begin{equation}
+        f - y' \frac{\partial f}{\partial y'} = 0
+        \label{eqnFirstIntegral2}
+    \end{equation}
+    for any solution $y$ of the Euler-Lagrange equation
+    \label{propFirstIntegral}
+\end{proposition}
+\begin{remark}
+    Note that there is still implicit dependence on $x$ in this case through $y(x)$. However, the explicit dependence is absent.
+\end{remark}
+\begin{proof}
+    \begin{align*}
+        \frac{df}{dx} &= \frac{d}{dx} f(y(x), y'(x), x) \\
+        &= \frac{\partial f}{\partial x} + \frac{\partial f}{\partial y}y' + \frac{\partial f}{\partial y'} y'' \\
+        &= \frac{\partial f}{\partial x} + y'\left[\frac{\partial f}{\partial y} - \frac{d}{dx} \frac{\partial f}{\partial y'}\right] + \frac{d}{dx} \left(y' \frac{\partial f}{\partial y'}\right) \\
+        &= \frac{\partial f}{\partial x} + \frac{d}{dx} \left(y' \frac{\partial f}{\partial y'}\right) \text{ by Euler-Lagrange}
+    \end{align*}
+    Then if $\frac{df}{dx} = 0$, we have the required form after integrating once.
+\end{proof}
+\subsection{Fermat's Principle}
+Consider light propogating in a medium. Let $c(\vec{x})$ be the speed of light in a medium. Let $c$ be the speed of light in a vacuum. The refractive index is:
+\begin{equation*}
+    n(\vec{x}) = \frac{c}{c(\vec{x})}
+\end{equation*}
+Then the time taken for light to travel along a path $C$ from $A$ to $B$ is:
+\begin{equation*}
+    T[C] = \int_C \frac{dl}{c(\vec{x})}
+\end{equation*}
+and it is convention to define the \textit{optical path length}
+\begin{equation*}
+    P[C] = cT[C] = \int_c n(\vec{x}) dl
+\end{equation*}
+Then \underline{Fermat's Principle} is that light travels from $A$ to $B$ along a path that (locally) minimises $P$ (or equivalently $T$).
+\begin{example}
+    Find the path of a light ray in the $x, z$ plane through a medium with refractive index $n(z) = \sqrt{a - bz}$.
+    Consider a path parameterised by $x$. Let $x \in [\alpha, \beta]$.
+    \begin{align}
+        P[z] = \int_\alpha^\beta n(z) \sqrt{1 + z'} dx = \int_\alpha^\beta f(z, z')
+    \end{align}
+    Note that there is no explicit $x$ dependence, so we can use the first integral in equation~\ref{eqnFirstIntegral2}:
+    \begin{align*}
+        k &= f - z'\frac{\partial f}{\partial z'} \\
+        &= \frac{n(z)}{\sqrt{1 + z^{\prime 2}}} \\
+        &= \sqrt{\frac{a - bz}{1 + z^{\prime 2}}}
+    \end{align*}
+    Then our differential equation looks like:
+    \begin{equation*}
+        z' = \pm \sqrt{\frac{b}{k^2}(z_0 - z)} \\
+    \end{equation*}
+    Which, after integrating, gives:
+    \begin{equation*}
+        z = z_0 - \frac{b}{4k^2}(x - x_0)^2
+    \end{equation*}
+    where $z_0 = \frac{a - k^2}{b}$.
+\end{example}
+\begin{example}[Brachistochrone curve]
+    Consider a bead that slides on a frictionless wire in a vertical plane. The problem is to find the shape that will minimise the time taken for the bead to fall from rest at $A$ to a lower point $B$.
+
+    Choose axes such that $A$ is at the origin. Consider conservation of energy:
+    \begin{equation*}
+        \frac{1}{2} mv^2 + mgy = 0
+    \end{equation*}
+    We can rearrange to determine the speed at any point:
+    \begin{equation*}
+        |v| = \sqrt{2gy}
+    \end{equation*}
+    Then we consider the time taken for the bead to travel along a path $C$:
+    \begin{align*}
+        T[C] &= \int_C \frac{dl}{v} = \frac{1}{\sqrt{2g}} \int_C \frac{dx^2 + dy^2}{\sqrt{-y}} \\
+        &\propto \int_0^{x_B} \frac{1 + y^{\prime 2}}{\sqrt{-y}} \\
+        &= \int_0^{x_B} f(y, y') dx
+    \end{align*}
+    where $f = \sqrt{\frac{1 + y^{\prime 2}}{-y}}$. Again there is no explicit $x$ dependence, so we have a first-order equation:
+    \begin{align*}
+        \text{const } &= f - y' \frac{\partial f}{\partial y'} = \frac{1}{\sqrt{(-y)(1 + y^{\prime 2})}} \\
+        \implies 2c &= (-y)(1 + y^{\prime 2})
+    \end{align*}
+    Then we can solve tihs by substituting $y = -c(1 - \cos{\theta})$ and obtain (eventually):
+    \begin{equation*}
+        x = c(\theta - \sin{\theta})
+    \end{equation*}
+    which defines an (inverted) cycloid, the fastest path for a bead to fall along to get to $B$. $c$ is fixed by ensuring that the curve passes through $B$.
+\end{example}
+\section{Constraints}
+We can also extremise a functional subject to some constriaints. Consider the problem to extremise $F[y]$ subject to a functional constraint $P[y] = c$. We introduce a Lagrange multiplier:
+\begin{equation*}
+    \Phi_\lambda[y] = F[y] - \lambda (P[y] - c)
+\end{equation*}
+Then extremising this with respect to $y$ means that:
+\begin{equation}
+    \frac{\delta F}{\delta y(x)} - \lambda \frac{\delta P}{\delta y(x)} = 0
+    \label{eqnEulerLagrangeConstraint}
+\end{equation}
+and we need to extremise with respect to $\lambda$ which recovers the constraint.
+
+\begin{example}
+    Determine the $y(x)$ that minimises:
+    \begin{equation*}
+        \int_0^1 \frac{1}{2} y^{\prime 2} dx 
+    \end{equation*}
+    subject to a constraint:
+    \begin{equation*}
+        \int_0^1 y dx = 1
+    \end{equation*}
+    over the class of smooth functions on $[0, 1]$ with boundary condition $y(0) = y(1) = 0$.
+
+    Therefore, we formulate $\Phi$:
+    \begin{align*}
+        \Phi_\lambda[y] &= \int_0^1 \frac{1}{2} y^{\prime 2} dx - \lambda \int_0^1 y dx + \lambda \\
+        &= \int_0^1 \left(\frac{1}{2} y^{\prime 2} - \lambda y\right)dx + \lambda
+    \end{align*}
+    setting $f$ to be the bracketed term in the integral.
+
+    Then equation~\ref{eqnEulerLagrangeConstraint} gives:
+    \begin{equation*}
+        -\lambda - y'' = 0
+    \end{equation*}
+    and solving this gives:
+    \begin{equation*}
+        y = -\frac{1}{2} \lambda x^2 + Ax + B
+    \end{equation*}
+    Then substituting in the boundary conditions and constraint gives:
+    \begin{equation*}
+        y = 6x(1 - x)
+    \end{equation*}
+\end{example}
 \end{document}
