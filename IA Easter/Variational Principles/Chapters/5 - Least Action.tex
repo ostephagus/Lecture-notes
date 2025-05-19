@@ -1,0 +1,27 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{General Coordinate Systems}
+Consider a system of $N$ particles in $3$ dimensions. Use the conventions from IA Dynamics and Relativity.
+
+Rather than considering the positions of the individual particles, we can combine them into a $3n$-dimensional vector. This is known as the \underline{configuration space} of the system.
+
+It may also be convenient to use non-cartesian coordinates $\vec{q} = (q_1, q_2, \cdots, q_N)^T$. There is a simple way to determine the equations of motion if we know the kinetic energy $T$ and potential energy $V$ in terms of the position in configuration space $\vec{q}(t)$ and its time derivative $\dot{\vec{q}}(t)$.
+
+Define the \underline{Lagrangian}:
+\begin{equation}
+    L(\vec{q}, \dot{\vec{q}}, t) = T - V
+    \label{eqnLagrangian}
+\end{equation}
+Then also define the \underline{action} of a path $\vec{q}(t)$ in configuration space:
+\begin{equation}
+    I[\vec{q}] = \int_{t_A}^{t_B} L(\vec{q}(t), \dot{\vec{q}}(t), t)dt
+\end{equation}
+Then by dimensional analysis this has dimension $ML^2T^{-1}$, which is notably the same as Planck's constant in quantum mechanics.
+Then the \underline{Principle of Least Action} states that the actual path from the start point $\vec{q_A}$ to the end point $\vec{q_B}$ in configuration space extremises the action.
+
+Since $\vec{q_A}$ and $\vec{q_B}$ are fixed, we have the Euler-Lagrange equations:
+\begin{equation*}
+    \frac{\partial L}{\partial q_i} - \frac{d}{dt} \frac{\partial L}{\partial \dot{q}_i} = 0.
+\end{equation*}
+\end{document}

@@ -232,4 +232,89 @@ and we need to extremise with respect to $\lambda$ which recovers the constraint
         y = 6x(1 - x)
     \end{equation*}
 \end{example}
+\subsection{Sturm-Liouville Problem}
+Let the set of functions be:
+\begin{equation*}
+    \funcset = \subsetselect{y : [\alpha, \beta] \mapsto \R}{y \text{ is twice continuously differentiable}, y(\alpha) = y(\beta) = 0}
+\end{equation*}
+Then let:
+\begin{align*}
+    F[y] &= \int_\alpha^\beta [\rho(x) y'(x)^2 + \sigma(x) y(x)^2] dx \\
+    G[y] &= \int_\alpha^\beta w(x) y(x)^2 dx
+\end{align*}
+where $\rho(x), w(x) > 0$ on $[\alpha, \beta]$.
+
+The problem is then to minimise $F[y]$ in $\funcset$ subject to $G[y] = 1$. First extremise:
+\begin{equation*}
+    \Phi_\lambda[y] = F[y] - \lambda\left(G[y] - 1\right)
+\end{equation*}
+\begin{equation}
+    \frac{\delta F[y]}{\delta y(x)} - \lambda \frac{\delta G[y]}{\delta y(x)} = 0
+    \label{eqnSLProbEulerLagrange}
+\end{equation}
+Evaluating these functional derivatives:
+\begin{equation*}
+    \frac{\delta F[y]}{\delta y(x)} = 2\sigma y - \frac{d}{dx} (2 \rho y') = 2Ly
+\end{equation*}
+where $L$ is an operator, $L = -\frac{d}{dx} (\rho \frac{d}{dx}) + \sigma$.
+\begin{equation*}
+    \frac{\delta G[y]}{\delta y(x)} = 2wy
+\end{equation*}
+and therefore equation~\ref{eqnSLProbEulerLagrange} becomes:
+\begin{equation}
+    Ly = \lambda w y
+    \label{eqnSLProbEFuncs}
+\end{equation}
+Then equation~\ref{eqnSLProbEFuncs} with boundary conditions from earlier is an \underline{eigenvalue problem}, only for discrete values of $\lambda$ does there exist a non-trivial solution (eigenfunction) $y(x)$. This is a \textit{Sturm-Liouville problem}, which will be discussed further in the course IB Methods. $w(x)$ is a \underline{weight function}. If $y(x)$ solves the equation then so does any multiple of it. The constraint $G[y] = 1$ fixes a normalisation of $y$.
+
+Integrating by parts:
+\begin{align*}
+    F[y] &= \int_\alpha^\beta y Ly dx + \left[\rho y y'\right]_\alpha^\beta \\
+    &= \int_\alpha^\beta \lambda w y^2 dx \text{ by equation~\ref{eqnSLProbEFuncs}} \\
+    &= \lambda G[y] = \lambda
+\end{align*}
+so the solution is the smallest eigenvalue $\lambda_0$.
+
+As we have done before, we can consider the ratio of the functionals:
+\begin{equation*}
+    \Lambda[y] = \frac{F[y]}{G[y]}
+\end{equation*}
+and look for the unconstrained extremum of $\Lambda$. The functional derivative is:
+\begin{equation*}
+    \frac{\delta \Lambda}{\delta y(x)} = \frac{1}{G} \left(\frac{\delta F}{\delta y(x)} - \frac{F}{G} \frac{\delta G}{\delta y(x)}\right) = 0
+\end{equation*}
+And we can derive:
+\begin{equation*}
+    0 = \frac{2}{G} \left(Ly - \lambda w y\right)
+\end{equation*}
+which is the same as we had before.
+\subsection{Geodesics and function constraints}
+Consider a surface $S$ in Euclidean space with defining equation $g(\vec{x}) = 0$. Then let $A, B \in S$. We want to find the shortest curve on $S$ between $A$ and $B$.
+
+Let $\vec{x}(t)$ be a curve on $S$ between $A$ and $B$. Let $t = 0$ give the point $A$ and $t = 1$ give the point $B$.
+
+We want to extremise the length functional:
+\begin{equation*}
+    L[\vec{x}] = \int_0^1 \sqrt{\dot{\vec{x}}^2} dt
+\end{equation*}
+subject to the constraint that $g(\vec{x}(t)) = 0$. We again use a Lagrange multiplier method, but using this function constraint rather than the functional constraint. Define $\lambda(t)$ to be this lagrange multiplier. Then:
+\begin{equation*}
+    \Phi[\vec{x}, \lambda] = L[\vec{x}] - \int_0^1 \lambda(t) g(\vec{x}(t)) dt
+\end{equation*}
+Extremising with respect to $\lambda$ recovers the constraint, and extremising with respect to $x_i$ gives:
+\begin{equation*}
+    0 = \frac{\delta \Phi}{\delta x_i(t)} = -\lambda \left[\nabla g(\vec{x}(t))\right]_i -\frac{d}{dx} \left(\frac{x_i}{\sqrt{\dot{\vec{x}}^2}}\right)
+\end{equation*}
+Then we can eliminate $\lambda$. Eventually,
+\begin{equation*}
+    \lambda(t) = \frac{\dot{x}_i \dot{x}_j \frac{\partial^2 g}{\partial x_i \partial x_j}}{(\nabla g)^2 \sqrt{\dot{\vec{x}}^2}}
+\end{equation*}
+and then we arrive at:
+\begin{equation*}
+    \frac{1}{\sqrt{\dot{\vec{x}}^2}} \frac{d}{dt}\left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}}^2}}\right) + \frac{\dot{x}_j \dot{x}_k \frac{\partial^2 g}{\partial x_j \partial x_k}}{(\nabla g)^2 \dot{\vec{x}}^2} [\nabla g]_i
+\end{equation*}
+If then we parameterise with arc length rather than $t$, and reintroduce the Hessian matrix for $g$:
+\begin{equation*}
+    \frac{d^2 x_i}{dl^2} + \frac{1}{(\nabla g)^2}\frac{dx_j}{dl} \frac{dx_k}{dl} H_{jk} [\nabla g]_i
+\end{equation*}
 \end{document}
