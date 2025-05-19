@@ -8,9 +8,9 @@
 The most general form is:
 \begin{align*}
     \text{Minimise } &\vec{c}^T\vec{x} \\
-    \text{Subject to} &\vec{a_i}^T \geq \vec{b_i},~i \in \M_1 \\
-    &\vec{a_i}^T \leq \vec{b_i},~i \in \M_2 \\
-    &\vec{a_i}^T = \vec{b_i},~i \in \M_3 \\
+    \text{Subject to} &\vec{a_i}^T \geq \vec{b_i},~i \in M_1 \\
+    &\vec{a_i}^T \leq \vec{b_i},~i \in M_2 \\
+    &\vec{a_i}^T = \vec{b_i},~i \in M_3 \\
     &x_j \geq 0,~j \in N_1 \\
     &x_j \leq 0,~j \in N_1 \\
 \end{align*}
@@ -43,4 +43,136 @@ where $f$ and $\Xset$ are convex.
 \subsection{Algebraic Description of Extreme Points}
 In low-dimensional space, we can easily find the extreme points of a polygon by considering vertices. However, for a higher-dimensional space we need an algebraic description of extreme points.
 
+%TODO: Get the missing section of content
+
+\begin{theorem}[Basic feasible solutions are extreme points of $\Xset(\vec{b})$]
+    A point $\vec{x}$ is a basic feasible solution if and only if it is an extreme point of the feasible set:
+    \begin{equation*}
+        \Xset(\vec{b}) = \subsetselect{x}{Ax = b, x \geq 0}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Assume $\vec{x}$ is a basic feasible solution}
+        Assume that $\vec{x}$ can be written as $\vec{x} = \lambda \vec{y} + (1-\lambda) \vec{z}$ for some points $\vec{y}$ and $\vec{z}$ in $\Xset(\vec{b})$ and scalar $\lambda \in [0, 1]$.
+
+        Note that, since $\vec{y}$ and $\vec{z}$ are feasible, their elements must be non-negative. Therefore, if an element of $\vec{x}$ is zero, the corresponding elements of $\vec{y}$ and $\vec{z}$ must be zero. Then the constraint that $\vec{y}$ and $\vec{z}$ are feasible then we can use the above process to fix $\vec{y}$ and $\vec{z}$, which means $\vec{x} = \vec{y} = \vec{z}$.
+
+        Therefore $\vec{x}$ must be an extreme point, and cannot be written as a convex combination of distinct feasible solutions.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Assume $\vec{x}$ is not a basic feasible solution}
+        This means $\vec{x}$ must have more than $m$ non-zero entries. Let $i_1, i_2, \cdots, i_r$ be the non-zero indices, where $r > m$. Since the column rank is $m$, the columns $\vec{A_{i_1}}, \cdots, \vec{A_{i_r}}$ are linearly depedent, so we can find a non-zero linear combination:
+        \begin{equation*}
+            w_{i_1} \vec{A_{i_1}} + \cdots + w_{i_r} \vec{A_{i_r}} = 0
+        \end{equation*}
+        Then set $\vec{w}$ to be the vector with component $w_{i_k}$ in column $i_k$, zero elsewhere. Observe that, for any $\epsilon > 0$,
+        \begin{align*}
+            A(\vec{x} + \epsilon \vec{w}) &= A\vec{x} + \epsilon A \vec{w} \\
+            &= \vec{b} + \vec{0} = \vec{b}
+        \end{align*}
+        Then if $\epsilon$ is sufficiently small, $\vec{x} \pm \epsilon \vec{w} \geq 0$, and these are feasible.
+
+        Thus we have found a convex combination:
+        \begin{equation*}
+            \vec{x} = \frac{1}{2} \left(\vec{x} + \epsilon \vec{w}\right) + \frac{1}{2} \left(\vec{x} - \epsilon \vec{w}\right)
+        \end{equation*}
+        and so $\vec{x}$ is not an extreme point.
+    \end{proofdirection}
+\end{proof}
+\subsection{Simple Point-Testing Algorithm}
+We can now construct an algorithm:
+\begin{enumerate}
+    \item Try all $\begin{pmatrix} n \\ m \end{pmatrix}$ basis matrices.
+    \item List all basic solutions, filter out the basic feasible solutions.
+    \item Choose the basic feasible solution that minimises $\vec{c}^T \vec{x}$.
+\end{enumerate}
+\begin{remarks}
+    \item This is not a good algorithm, especially in higer-dimensional space.
+    \item We could construct a better algorithm if we could identify a minimum point when we find it, like $\nabla f = \vec{0}$ for convex optimisation.
+\end{remarks}
+\section{Duality in Linear Programs}
+\begin{theorem}
+    If a linear program is feasible and bounded then it satisfies strong duality.
+\end{theorem}
+\begin{remark}
+    This is very similar to theorem~\ref{thmSupportPlane}, so the proof is similar with only slight modification.
+\end{remark}
+Now consider the standard form:
+\begin{align*}
+    \text{Minimise } &\vec{c}^T \vec{x} \\
+    \text{Subject to } &A\vec{x} = \vec{b} \\
+    &\vec{x} \geq \vec{0}
+\end{align*}
+Then we consider the lagrangian:
+\begin{align*}
+    L(\vec{x}, \vec{\lambda}) &= \vec{c}^T \vec{x} - \lambda^T (A\vec{x} - \vec{b}) \\
+    &= (\vec{c}^T - \vec{\lambda^T} A)\vec{x} + \vec{\lambda}^T \vec{b}
+\end{align*}
+Then $\Lambda = \subsetselect{\vec{\lambda} \in \R^m}{\vec{c}^T - \vec{\lambda}^T A \geq 0}$. However, we can consider the dual problem:
+\begin{align*}
+    g(\vec{\lambda}) &= \min_{\vec{x} \geq 0, \vec{\lambda} \in \Lambda} L(\vec{x}, \vec{\lambda}) \\
+    &= \vec{\lambda}^T \vec{b} = \vec{b} \cdot \vec{\lambda}
+\end{align*}
+Therefore we formulate the dual problem:
+\begin{align*}
+    \text{Maximise } &\vec{b}^T \vec{\lambda} \\
+    \text{Subject to } &A^T \vec{\lambda} \leq \vec{c}
+\end{align*}
+which, we note, is also a linear program.
+
+Therefore given the most general primal problem:
+\begin{align*}
+    \text{Minimise } &\vec{c}^T\vec{x} \\
+    \text{Subject to } &\vec{a_i}^T \geq \vec{b_i},~i \in M_1 \\
+    &\vec{a_i}^T \leq \vec{b_i},~i \in M_2 \\
+    &\vec{a_i}^T = \vec{b_i},~i \in M_3 \\
+    &x_j \geq 0,~j \in N_1 \\
+    &x_j \leq 0,~j \in N_2 \\
+    &x_j \text{ free},~j \in N_3
+\end{align*}
+we can formulate the dual problem:
+\begin{align*}
+    \text{Maximise } &\vec{b}^T\vec{\lambda} \\
+    \text{Subject to } &\vec{\lambda_i}^T \geq 0,~i \in M_1 \\
+    &\vec{\lambda_i}^T \leq 0,~i \in M_2 \\
+    &\vec{\lambda_i}^T \text{ free},~i \in M_3 \\
+    &\vec{\lambda}^T \vec{A_j} \leq c_j,~j \in N_1 \\
+    &\vec{\lambda}^T \vec{A_j} \geq c_j,~j \in N_2 \\
+    &\vec{\lambda}^T \vec{A_j} = c_j,~j \in N_3
+\end{align*}
+\subsection{Optimality Conditions}
+\begin{theorem}
+    Let $\vec{x}$ and $\vec{\lambda}$ be feasible points in the primal and dual problems. Then $\vec{x}$ and $\vec{\lambda}$ are optimal if and only if:
+    \begin{align*}
+        \lambda_i \left(\vec{a_i}^T \vec{x} - b_i\right) &= 0~\forall i \\
+        \left(c_i - \vec{\lambda}^T \vec{A_j}\right)x_j &= 0~\forall j
+    \end{align*}
+\end{theorem}
+\begin{remark}
+    This is saying that the conditions for optimality are:
+    \begin{itemize}
+        \item $\vec{x}$ is feasible for the primal problem.
+        \item $\vec{\lambda}$ is feasible for the dual problem.
+        \item Complementary slackness holds
+    \end{itemize}
+    and this is special to linear programs: complementary slackness is not usually sufficient, only necessary.
+\end{remark}
+\begin{proof}
+    Define:
+    \begin{align*}
+        u_i &= \lambda_i \left(\vec{a_i}^T \vec{x} - b_i\right) \\
+        v_j &= \left(c_j = \vec{\lambda}^T \vec{A_j}\right)x_j
+    \end{align*}
+    and note that these are non-negative. Their sums are:
+    \begin{align*}
+        \sum_i u_i &= \vec{\lambda}^T A \vec{x} - \vec{\lambda}^T \vec{b} \\
+        \sum_j v_j &= \vec{c}^T \vec{x} - \vec{\lambda}^T A \vec{x} \\
+    \end{align*}
+    and summing these gives:
+    \begin{equation*}
+        \sum_i u_i + \sum_j v_j = \vec{c}^T \vec{x} - \vec{\lambda}^T \vec{b}
+    \end{equation*}
+    If complementary slackness holds, then $\vec{c}^T \vec{x} = \vec{\lambda}^T \vec{b}$ because all the $u_i$ and $v_j$ are zero. Therefore by weak duality we have that $\vec{x}$ and $\vec{\lambda}$ are optimal.
+
+    Conversely, if $\vec{x}$ and $\vec{\lambda}$ are optimal, then the sum of all $u_i$ and $v_j$ is zero. Since these are non-negative variables, this means they are all zero and therefore complementary slackness holds.
+\end{proof}
 \end{document}
