@@ -1,13 +1,15 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-\section{General Coordinate Systems}
+\section{Configuration Space}
 Consider a system of $N$ particles in $3$ dimensions. Use the conventions from IA Dynamics and Relativity.
 
 Rather than considering the positions of the individual particles, we can combine them into a $3n$-dimensional vector. This is known as the \underline{configuration space} of the system.
 
-It may also be convenient to use non-cartesian coordinates $\vec{q} = (q_1, q_2, \cdots, q_N)^T$. There is a simple way to determine the equations of motion if we know the kinetic energy $T$ and potential energy $V$ in terms of the position in configuration space $\vec{q}(t)$ and its time derivative $\dot{\vec{q}}(t)$.
+It may also be convenient to use non-cartesian coordinates\\$\vec{q} = (q_1, q_2, \cdots, q_N)^T$. There is a simple way to determine the equations of motion if we know the kinetic energy $T$ and potential energy $V$ in terms of the position in configuration space $\vec{q}(t)$ and its time derivative $\dot{\vec{q}}(t)$.
 
+\section{The Lagrangian}
+\subsection{In General Coordinates}
 Define the \underline{Lagrangian}:
 \begin{equation}
     L(\vec{q}, \dot{\vec{q}}, t) = T - V
@@ -16,12 +18,98 @@ Define the \underline{Lagrangian}:
 Then also define the \underline{action} of a path $\vec{q}(t)$ in configuration space:
 \begin{equation}
     I[\vec{q}] = \int_{t_A}^{t_B} L(\vec{q}(t), \dot{\vec{q}}(t), t)dt
+    \label{eqnAction}
 \end{equation}
 Then by dimensional analysis this has dimension $ML^2T^{-1}$, which is notably the same as Planck's constant in quantum mechanics.
+
 Then the \underline{Principle of Least Action} states that the actual path from the start point $\vec{q_A}$ to the end point $\vec{q_B}$ in configuration space extremises the action.
 
 Since $\vec{q_A}$ and $\vec{q_B}$ are fixed, we have the Euler-Lagrange equations:
 \begin{equation*}
     \frac{\partial L}{\partial q_i} - \frac{d}{dt} \frac{\partial L}{\partial \dot{q}_i} = 0.
 \end{equation*}
+Then if $L$ has no explicit dependence on $t$ (i.e. the corresponding derivative is zero), then there exists a first integral:
+\begin{equation*}
+    L = \sum_{i = 1}^{3N} \dot{q}_i \frac{\partial L}{\partial \dot{q}_i} = -E
+\end{equation*}
+where $E$ is a constant. In fact, we see that $E$ is the total energy of the system.
+\subsection{Example: In Polar Coordinates}
+Consider a particle in 2 dimensions, and use polar coordinates $(r, \phi)$. We have that the kinetic energy is:
+\begin{equation*}
+    T = \frac{1}{2} m \dot{x}^2 = \frac{1}{2} m (\dot{r}^2 + r^2 \dot(\phi)^2)
+\end{equation*}
+and assume that the potential depends only on $r$: $V = V(r)$.
+
+The Lagrangian becomes $L = \frac{1}{2} m (\dot{r}^2 + r^2 \dot{\phi}^2) - V(r)$. Then Euler-Lagrange equation for $\phi(t)$ is:
+\begin{equation*}
+    \frac{\partial L}{\partial \phi} - \frac{d}{dt} \frac{\partial L}{\partial \dot{\phi}} = 0
+\end{equation*}
+Then note that $L$ has no explicit $\phi$ dependence, and the first integral gives that $\frac{\partial L}{\partial \dot{\phi}}$ is constant, and note that $m r^2 \dot{\phi}$ is constant, and this is angular momentum.
+
+$L$ also has no explicit $t$ dependence, so using the above we have a first integral:
+\begin{equation*}
+    E = \dot{r} \frac{\partial L}{\partial \dot{r}} + \dot{\phi} \frac{\partial L}{\partial \dot{\phi}} - L = T + V
+\end{equation*}
+\section{The Hamiltonian}
+\subsection{In General Coordinates}
+\begin{definition}{Hamiltonian}
+    Assume that the Lagrangian is a convex function of $\dot{\vec{q}}$. Then the \underline{Hamiltonian} is the Legendre transform with respect to $\dot{\vec{q}}$.
+\end{definition}
+Taking this Legendre Transform:
+\begin{align*}
+    H(\vec{q}, \vec{p}, t) &= \sup_{\dot{\vec{q}}} \left[\vec{p} \cdot \dot{\vec{q}} - L(\vec{q}, \dot{\vec{q}}, t)\right] \\
+    &= \left[\vec{p} \cdot \dot{\vec{q}} - L(\vec{q}, \dot{\vec{q}}, t)\right]_{\dot{\vec{q}} = \dot{\vec{q}}(\vec{q}, \vec{p}, t)}
+\end{align*}
+where $\dot{\vec{q}}(\vec{q}, \vec{p}, t)$ is determined by WHAT?? We also have that the $p_i$ are: %TODO: Understand
+\begin{equation*}
+    p_i = \frac{\partial L}{\partial \dot{q}_i}
+\end{equation*}
+By considering only a single particle, we note that the Hamiltonian can be understood as the total energy of the system. In general, $p_i$ is called the \underline{conjugate momentum} to $q_i$. In polar coordinates, for example, $p_i$ is the angular momentum.
+
+Given that $H$ is equal to the total energy, $H$ will be conserved if $\frac{\partial L}{\partial t} = 0$ (as seen earlier).
+\subsection{Hamiltonian Equations of Motion}
+Consider:
+\begin{align*}
+    \left(\frac{\partial H}{\partial p_i}\right)_{\vec{q}, t} &= \dot{q}_i + \sum_j p_j \frac{\partial \dot{q}_i}{\partial p_i} - \sum_j \frac{\partial L}{\partial \dot{q}_i} \frac{\partial \dot{q}_i}{\partial p_i} \\
+    &= \dot{q}_i \text{ by equation~\ref{findthereference}}
+\end{align*}
+\begin{align*}
+    \left(\frac{\partial H}{\partial q_i}\right)_{\vec{p}, t} &= \sum_j p_j \frac{\partial \dot{q}_j}{\partial q_i} - \frac{\partial L}{\partial q_i} - \sum_j \frac{\partial L}{\partial \dot{q}_j} \frac{\partial \dot{q_j}}{\partial q_i} \\
+    &= -\frac{\partial L}{\partial q_i} = -\frac{d}{dt} \frac{\partial L}{\partial q_i} \\
+    &= -\dot{p}_i
+\end{align*}
+and now the Euler-Lagrange equations imply:
+\begin{align}
+    \dot{q}_i &= \frac{\partial H}{\partial p_i} \label{eqnHamilton1} \\
+    \dot{p}_i &= -\frac{\partial H}{\partial q_i} \label{eqnHamilton2}
+\end{align}
+and these are known as \underline{Hamilton's Equations}. These are first-order equations in $6N$-dimensional phase space with coordinates $(\vec{q}, \vec{p})$.
+
+%TODO: Something about action and boundary conditions??
+
+The time derivative of the Hamiltonian is:
+\begin{align*}
+    \frac{\partial H}{\partial t} &= \frac{d}{dt} H(\vec{q}(t), \vec{p}(t), t) \\
+    &= \sum_i \left(\frac{\partial H}{\partial q_i} \dot{q}_i + \frac{\partial H}{\partial p_i} \dot{p}_i\right) + \frac{\partial H}{\partial t} \\
+    &= \frac{\partial H}{\partial t}
+\end{align*}
+Therefore if there is no explicit dependence on $t$ in the Hamiltonian, then it must be constant (despite implicit $t$ dependence from $\vec{p}$ and $\vec{q}$).
+\section{Symmetry and Noether's Theorem}
+We would like to show that continuous symmetries of the action are equivalent to first-integrals of the Euler-Lagrange equations (which also leads to conserved quantities).
+\subsection{General Symmetries of the Action}
+Consider a curve $\vec{q}(t)$ in configuration space, where $t \in [t_A, t_B]$, and at the endpoints $\vec{q}(t_A) = \vec{q_A}$, and $\vec{q}(t_B) = \vec{q_B}$.
+
+Define a change of variables in configuration space:
+\begin{align*}
+    \vec{q}^* = \vec{Q}(\vec{q}(t), \dot{\vec{q}}(t), t) \\
+    t^* = T(\vec{q}(t), \dot{\vec{q}}(t), t)
+\end{align*}
+and require that $t \mapsto t^*$ is invertible. Then we can define a new curve $\vec{q}^*(t^*)$ in phase space, where $t^* \in [t_A^*, t_B^*]$ and at the endpoints $\vec{q}^*(t_A^*) = \vec{q_A}^*, \vec{q}^*(t_B^*) = \vec{q_B}^* $. We say that such a map is a \underline{symmetry of the action} if, for all curves in configuration space:
+\begin{equation}
+    \int_{t_A^*}^{t_B^*} L(\vec{q}^*(t^*), \frac{d\vec{q}^*}{dt^*}(t^*), t^*) dt^* = \int_{t_A}^{t_B} L(\vec{q}(t), \frac{d\vec{q}}{dt}(t), t) dt
+    \label{eqnActionSymmetry}
+\end{equation}
+\subsection{Time Translational Symmetry}
+Consider a Lagrangian with no explicit $t$ dependence.
+%TODO: get the algebra down.
 \end{document}
