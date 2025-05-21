@@ -10,6 +10,10 @@
 
 \newcommand{\Xset}{\mathcal{X}}
 
+\newcommand{\bvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \boldsymbol{\bar{\firstpart}}_{\secondpart}
+}
 \begin{document}
 \maketitle
 \tableofcontents

@@ -90,6 +90,7 @@ We can now construct an algorithm:
     \item We could construct a better algorithm if we could identify a minimum point when we find it, like $\nabla f = \vec{0}$ for convex optimisation.
 \end{remarks}
 \section{Duality in Linear Programs}
+\subsection{Strong Duality}
 \begin{theorem}
     If a linear program is feasible and bounded then it satisfies strong duality.
 \end{theorem}
@@ -146,6 +147,7 @@ we can formulate the dual problem:
         \lambda_i \left(\vec{a_i}^T \vec{x} - b_i\right) &= 0~\forall i \\
         \left(c_i - \vec{\lambda}^T \vec{A_j}\right)x_j &= 0~\forall j
     \end{align*}
+    \label{thmLinearOptimality}
 \end{theorem}
 \begin{remark}
     This is saying that the conditions for optimality are:
@@ -175,4 +177,64 @@ we can formulate the dual problem:
 
     Conversely, if $\vec{x}$ and $\vec{\lambda}$ are optimal, then the sum of all $u_i$ and $v_j$ is zero. Since these are non-negative variables, this means they are all zero and therefore complementary slackness holds.
 \end{proof}
+Consider a basic feasible solution with non-zero indices $B(1), \cdots, B(n)$. We want to find the corresponding $\vec{\lambda}$. Therefore, by theorem~\ref{thmLinearOptimality},
+\begin{equation*}
+    x_{B(i)} (\vec{c} - A^T \vec{\lambda})_{B(i)} = 0
+\end{equation*}
+and solving this for each $B(i)$ gives:
+\begin{equation*}
+    \vec{\lambda} = (B^T)^{-1} \vec{c_B} % TODO: What is this B matrix?
+\end{equation*}
+and we note that this $\vec{\lambda}$ is feasible:
+\begin{align*}
+    A^T (B^T)^{-1} \vec{c_B} &\leq \vec{c} \\
+    \vec{c_B}^T B^{-1} A \leq \vec{c}^T
+\end{align*}
+so $\vec{\lambda}$ is feasible. 
+\begin{definition}{Reduced cost vector}
+    The \underline{reduced cost vector} $\bvec{c}$ is defined by:
+    \begin{equation*}
+        \bar{c}_j = c_j - \vec{c_B}^T B^{-1} \vec{A_j}
+    \end{equation*}
+\end{definition}
+Then a basic feasible solution $\vec{x}$ is optimal if and only if $\bvec{c} \geq 0$.
+\section{Simplex Algorithm}
+The Simplex algorithm uses a Simplex Tableau:
+
+\begin{tabular}{c|c|c|c|c}
+    $-\vec{c_B}^T \vec{x_B}$ & $\bar{c_1}$ & $\bar{c_2}$ & $\cdots$ & $\bar{c_n}$ \\
+    \hline
+    $x_{B(1)}$ & $\vdots$ & $\vdots$ & & $\vdots$ \\
+    $\vdots$ & $B^{-1} \vec{A_1}$ & $B^{-1} \vec{A_2}$ & $\cdots$ & $B^{-1} \vec{A_n}$ \\
+    $x_{B(n)}$ & $\vdots$ & $\vdots$ & & $\vdots$
+\end{tabular}
+
+The steps of the Simplex algorithm are as follows:
+\begin{enumerate}
+    \item Convert the general form problem to a standard form problem using slack variables:
+    \begin{enumerate}
+        \item Add a positive slack variable for $\leq$, and add as a component of $\vec{x}$
+        \item Add a negative slack variable for $\geq$, add it as a component of $\vec{x}$.
+    \end{enumerate}
+    \item Convert the problem into the vectors/matrices $A$, $\vec{b}$, $B$, $\vec{c}$:
+    \begin{enumerate}
+        \item $A$ is the matrix of coefficients of variables in the constraints
+        \item $\vec{b}$ is the vector that $A\vec{x}$ must be equal to (in the constraints)
+        \item $\vec{c}$ is the vector of coefficients of the variables in the objective function
+    \end{enumerate}
+    \item Start the simplex method with a basic feasible solution setting all initial variables to $0$ and all slack variables equal to the $b_i$ in the corresponding constraint. This only works for $\vec{b} \geq 0$. Then $B$ is the matrix from the last columns, corresponding only to slack variables. For the first step, it will be $I$.
+    \item Fill in the Simplex Tableau \label{splxStepRptStart}
+    \item Identify the direction to move in:
+    \begin{enumerate}
+        \item If all entries in the top row are non-negative, $\bvec{c} \geq 0$ and we are done.
+        \item If not, select the column corresponding to the smallest positive entry in the top row. If there are more than one, pick any. Let this column be the $j$th
+        \item For each value in the $j$th column, divide the element in the leftmost column and same row by it. Choose the row corresponding to the minimal ratio. Let this row be the $i$th.
+    \end{enumerate}
+    \item Perform row operations:
+    \begin{enumerate}
+        \item We need the $j$th column to be the identity column.
+        \item Therefore, scale the $i$th row and add it to the other rows such that the entry $(i, j)$ is $1$ and all other entries in column $i$ are zero.
+    \end{enumerate}
+    \item Go back to step~\ref{splxStepRptStart} and continue the algorithm with this new tableau.
+\end{enumerate}
 \end{document}
