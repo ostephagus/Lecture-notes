@@ -11,7 +11,10 @@
 
 \newcommand{\funcset}{\mathscr{C}}
 
-
+\newcommand{\dvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \dot{\boldsymbol{\firstpart}}_{\secondpart}
+}
 
 \begin{document}
 \maketitle

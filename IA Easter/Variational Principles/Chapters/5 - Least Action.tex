@@ -112,4 +112,87 @@ and require that $t \mapsto t^*$ is invertible. Then we can define a new curve $
 \subsection{Time Translational Symmetry}
 Consider a Lagrangian with no explicit $t$ dependence.
 %TODO: get the algebra down.
+\subsection{Parameterised Transformations of the Action (*)}
+Some of the content of this subsection is \textbf{non-examiable}.
+
+Now we let $\vec{q}^* = \vec{Q}(\vec{q}, \dvec{q}, t, s)$ where $s$ is some parameter. Also $t^* = T(\vec{q}, \dvec{q}, t, s)$ and let $s = 0$ give the identity transform on $\vec{q}^*$ and $t^*$. For small $s$ this gives:
+\begin{align*}
+    \vec{q}^* &= \vec{q} + s \left(\frac{\partial \vec{Q}}{\partial s}\right)_{s = 0} + \cdots \\
+    t^* &= t + s \left(\frac{\partial T}{\partial s}\right)_{s = 0} + \cdots \\
+\end{align*}
+This statement and its proof are \textbf{non-examinable}.
+\begin{theorem}{Noether's Theorem}
+    If the action has a 1-parameter family of symmetries then any solution of the Euler-Lagrange equations has a conserved quantity:
+    \begin{equation}
+        \sum_{i = 1}^{3N} \frac{\partial L}{\partial \dot{q}_i} \left(\frac{\partial Q_i}{\partial s}\right)_{s = 0} + \left(L - \sum_{i = 1}^{3N} \dot{q}_i \frac{\partial L}{\partial \dot{q}_i}\right) \left(\frac{\partial T}{\partial s}\right)_{s = 0} = \text{ const}
+        \label{eqnNoetherThmConservedQ}
+    \end{equation}
+    \label{thmNoether}
+\end{theorem}
+\begin{proof}
+    \begin{equation*}
+        \frac{d t^*}{dt} = 1 + s \frac{d}{dt}\left(\frac{\partial T}{\partial S}\right)_{s = 0} + O(s^2)
+    \end{equation*}
+    \begin{align*}
+        0 &= \int_{t_A^*}^{t_B^*} L(\vec{q}^*(t^*), \frac{d \vec{q}^*}{dt^*} (t^*), t^*) dt^* - \int_{t_A}^{t_B} L(\vec{q}(t), \frac{d \vec{q}}{dt} (t), t) dt \\
+        &= I^* - I
+    \end{align*}
+    Then change variables in $I^*$:
+    \begin{align*}
+        I^* &= \int_{t_A}^{t_B} L\left(\vec{q}^*(t^*(t)), \left(\frac{dt^*}{dt}\right)^{-1} \frac{d}{dt} \left[\vec{q}^*(t^*(t))\right], t^*(t)\right) \frac{dt^*}{dt} dt \\
+    \end{align*}
+    %TODO: Algebra
+\end{proof}
+\begin{example}[Time translational symmetry by theorem~\ref{thmNoether}]
+    Assume again that $L$ has no explicit $t$ dependence, and use the same form of time translations as above. Then Noether's Theorem gives:
+    \begin{equation*}
+        L - \dot{q}_i \frac{\partial L}{\partial \dot{q}_i} = -E
+    \end{equation*}
+    is constant. Therefore the invariance of the laws of physics under time translations imply conservation of energy.
+\end{example}
+\begin{example}[Space translational symmetry in one coordinate]
+    Suppose that $L$ does not depend on a coordinate $q_1$. Define a translation:
+    \begin{align*}
+        \vec{q}^* &= (q_1 + s, q_2, \cdots, q_{3N})^T \\
+        t^* &= t
+    \end{align*}
+    where $s$ is a parameter. Then by theorem~\ref{thmNoether}:
+    \begin{equation*}
+        \left(\frac{\partial Q_1}{\partial s}\right)_{s = 0} \frac{\partial L}{\partial \dot{q}_i} = \frac{\partial L}{\partial \dot{q}_1} = p_1
+    \end{equation*}
+    so spatial translation symmetry gives rise to conservation of conjugate momentum.
+\end{example}
+\begin{example}[Space translational symmetry in Euclidean space]
+    Assume $L$ depends only on the relative position between particles. Consider Euclidean space, and define a transformation, for some constant vector $\vec{a}$ and parameter $s$:
+    \begin{align*}
+        \vec{q}^* &= (\vec{x_1} + s\vec{a}, \vec{x_2} + s\vec{a}, \cdots, \vec{x_N} + s\vec{a})^T
+        t^* &= t
+    \end{align*}
+    then Noether's theorem gives:
+    \begin{equation*}
+        \sum_{i=1}^{3N} \frac{\partial L}{\partial \dot{q}_i} \left(\frac{\partial Q_i}{\partial s}\right)_{s = 0} = \vec{a} \cdot \vec{P}
+    \end{equation*}
+    is conserved. But since $\vec{a}$ was arbitrary, we must have that $\vec{P}$ is conserved.
+
+    Therefore, symmetry of the laws of physics under spatial translation gives rise to conservation of momentum.
+\end{example}
+\begin{example}[Rotational symmetry of Cartesian coordinates]
+    In Euclidean space, consider a rotation $R$:
+    \begin{align*}
+        \vec{q}^* &= (R\vec{x_1}, R\vec{x_2}, \cdots, R\vec{x_N})^T
+        t^* &= t
+    \end{align*}
+    And let $s$ be the angle of rotation. Assume that $L$ is invariant under rotations.
+
+    Eventually, this gives that angular momentum must be conserved. So, the invariance of the laws of physics under rotation gives rise to conservation of angular momentum.
+\end{example}
+\begin{remark}
+    The following forms of Noether's Theorem are required for the exam. The more general statement is not.
+\end{remark}
+\begin{theorem}[Noether's Theorem for trivial $T$]
+    %TODO: Write out the less general forms
+\end{theorem}
+\begin{theorem}[Noether's Theorem for trivial $Q$]
+    
+\end{theorem}
 \end{document}
