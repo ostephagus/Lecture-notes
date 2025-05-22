@@ -1,0 +1,128 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Game Theory}
+\subsection{Mathematical Description of Games}
+Consider a \textit{game} with 2 players where eac player can choose from a number of actions. Let player 1's set of allowed actions be $\{1, 2, \cdots, m\}$ and player 2's set of allowed actions $\{1, 2, \cdots, n\}$.
+
+\begin{definition}{Payoff matrix}
+    For each player, that player's \underline{payoff matrix} is a $m \times n$ matrix with entries $A_{ij}$, where $A_{ij}$ is the score attained by player $1$ given that they play action $i$ and player 2 plays action $j$.
+\end{definition}
+\begin{example}{Rock-paper-scissors}
+    Each player (1 and 2) can play one of rock, paper, scissors. Then if rock is assigned $1$, paper is assigned $2$ and scissors is assigned $3$, the payoff matrix for player 1 is:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            0 & -1 & 1 \\
+            1 & 0 & -1 \\
+            -1 & 1 & 0
+        \end{pmatrix}
+    \end{equation*}
+\end{example}
+\begin{definition}{Zero-sum game}
+    A game is called \underline{zero-sum} if after each round of the game the total payoff is zero.
+\end{definition}
+Then the \underline{conservative approach} seeks to choose %TODO: WHAT?
+For player 1, this is:
+\begin{equation*}
+    \max_{i \in \{1, \cdots, m\}} \min_{j \in \{1, \cdots, n\}} a_{ij}
+\end{equation*}
+\begin{example}
+    Consider a matrix $A$:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            1 & 2 \\
+            3 & 4
+        \end{pmatrix}
+    \end{equation*}
+    then in this case, player 1 thinks they should play $i = 1$, and player 2 thinks they should play $j = 1$, so both converge on the cell $A_{21} = 3$.
+\end{example}
+\begin{example}
+    Now consider a payoff matrix:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            4 & 2 \\
+            1 & 3
+        \end{pmatrix} 
+    \end{equation*}
+    Then in this case the choice of player 1 depends on the choice of player 2, and the choice of player 2 depends on the choice of player 1, so they get stuck in an infinite loop.
+\end{example}
+\begin{definition}{Strategy}
+    A \underline{strategy} is the probability distribution of actions that a player picks.
+\end{definition}
+\begin{definition}{Pure strategy}
+    A \underline{pure strategy} is a strategy where one action has probability 1.
+\end{definition}
+\begin{definition}{Mixed strategy}
+    A \underline{mixed strategy} is a strategy where no one action has probability 1.
+\end{definition}
+Let player 1 pick action $i$ with probability $p_i$. Let player 2 pick action $j$ with probability $q_j$.
+
+Then player 1 must choose their strategy based on:
+\begin{equation*}
+    \max_{\vec{p} \in P} \left(\min_{j \in \{1, \cdots, n\}} \sum_{i = 1}^m p_i a_{ij}\right)
+\end{equation*}
+where $P$ is the set of probability distributions on $\{1, \cdots, m\}$.
+\subsection{Linear Programming for Strategies}
+We can re-write player 1's problem using the vector $\vec{e}$ which contains $m$ entries all $1$.
+
+\begin{align*}
+    \text{Maximise } &v \\
+    \text{Subject to } &A^T \vec{p} \geq v\vec{e} \\
+    &\vec{e}^T \vec{p} = 1 \\
+    \vec{p} \geq 0
+\end{align*}
+Where here $\vec{p}$ is the vector of probabilities.
+
+We can also re-formulate player 2's problem, using $\vec{e}$ to be $n$-dimensional:
+\begin{align*}
+    \text{Minimise } &w \\
+    \text{Subject to } &A\vec{q} \leq w\vec{e} \\
+    &\vec{e}^T \vec{q} = 1 \\
+    &\vec{q} \geq 0
+\end{align*}
+And we can prove that these two problems are duals.
+
+Consider a Lagrangian for player 2's problem:
+\begin{equation*}
+    L(w, \vec{q}, \vec{s}, \vec{\lambda_1}, \lambda_2) = w + \vec{\lambda_1}^T \left(A\vec{q} + \vec{s} - w\vec{e}\right) - \lambda_2\left(\vec{e}^T\vec{q} - 1\right)
+\end{equation*}
+Then $\Lambda$ is the set of $\vec{\lambda}$ such that the minimum of the Lagrangian is bounded, and we formulate the dual problem:
+\begin{align*}
+    \text{Maximise } &\lambda_2 \\
+    \text{Subject to } &\vec{\lambda_1}^T \vec{e} = 1 \\
+    &\vec{\lambda_1} \geq 0 \\
+    &A^T \vec{\lambda_1} \geq \lambda_2\vec{e}
+\end{align*}
+Then this is also player 1's problem.
+
+\begin{definition}{Nash equilibrium}
+    The pair $(\vec{p}, \vec{q})$ that solves the above primal and dual problems is called the \underline{Nash equilibrium}.
+\end{definition}
+
+\begin{theorem}
+    A strategy $\vec{p}$ is optimal for player 1 if and only if there exists $\vec{q}$ and $v$ such that:
+    \begin{enumerate}
+        \item The primal is feasible: $A^T\vec{p} \geq v\vec{e}, \vec{e}^T \vec{p} = 1, \vec{p} \geq 0$,
+        \item The dual is feasible: $A\vec{q} \leq v\vec{e}, \vec{e}^T\vec{q}, \vec{q} \geq 0$,
+        \item Complementary slackness holds: $v = \vec{p}^T A \vec{q}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    If $(\vec{p}, v)$ and $(\vec{q}, w)$ are optimal, then by complementary slackness:
+    \begin{align*}
+        (A\vec{q} - w\vec{e})^T \vec{p} &= 0 \\
+        (\vec{q}^T A^T\vec{p} - v\vec{e}) = 0
+    \end{align*}
+    and these are equivalent to $v = w = \vec{p}^T A \vec{q}$.
+\end{proof}
+\subsection{Finding optimal strategies}
+We have some different steps for finding strategies.
+\begin{enumerate}
+    \item Look for saddle points, in which case a pure strategy is optimal.
+    \item Look for \textit{dominating actions}, where each payoff is greater for one action than another no matter the action of the other player. In the payoff matrix, this corresponds to every entry of a row being greater than that of another row. In this case, the action that is dominated can be removed from the space of actions.
+    \item After trying the above, formulate and solve the resulting linear program.
+\end{enumerate}
+\end{document}
