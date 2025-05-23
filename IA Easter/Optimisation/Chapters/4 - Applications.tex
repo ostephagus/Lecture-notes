@@ -125,4 +125,92 @@ We have some different steps for finding strategies.
     \item Look for \textit{dominating actions}, where each payoff is greater for one action than another no matter the action of the other player. In the payoff matrix, this corresponds to every entry of a row being greater than that of another row. In this case, the action that is dominated can be removed from the space of actions.
     \item After trying the above, formulate and solve the resulting linear program.
 \end{enumerate}
+\section{Transport Problems}
+\subsection{Network Flow Problems}
+\begin{definition}{Directed graph}
+    A \underline{directed graph} $G = (V, E)$ consists of a set of vertices $V$ and a set of edges $E \subseteq V \times V$.
+\end{definition}
+Consider a graph with $n$ vertices. Let the vector $\vec{b} \in \R^n$ represent the amount of a good produced or consumed at a vertex. If this quantity is positive, the vertex is a \subsection{source} of the good. If the quantity is negative, the vertex is a \underline{sink}. If we assume that all of the good produced is consumed,
+\begin{equation*}
+    \sum_{i = 1}^n b_i = 0
+\end{equation*}
+Consider also an $n \times n$ matrix $C$ such that $C_{ij}$ is the \underline{cost per unit flow} to transport the goods along the edge $(i, j)$.
+
+We also have $n \times n$ matrices $\underbar{M}, \overline{M}$ such that the flow $x_{ij}$ along edge $(i, j)$ is bounded by:
+\begin{equation*}
+    \underbar{M}_{ij} \leq x_{ij} \leq \overline{M}_{ij}
+\end{equation*}
+\begin{definition}{Network flow problem}
+    The minimum cost flow is a linear program given by:
+    \begin{align*}
+        \text{Minimise } &\sum_{(i, j) \in E} x_{ij} C_{ij} \\
+        \text{Subject to } &b_i + \sum_{j : (j,i) \in E} x_{ji} = \sum_{j : (i, j) \in E} x_{ij} \\
+        & \underbar{M}_{ij} \leq x_{ij} \leq \overline{M}_{ij}
+    \end{align*}
+\end{definition}
+\subsection{Defining a Transport Problem}
+A transport problem is a special case of of a network flow problem where there are no intermediate vertices.
+
+Consider $n$ suppliers and $m$ consumers. Let supplier $i$ produce $s_i$ goods, and consumer $j$ demand $d_i$ goods. Require that these demands are met:
+\begin{equation*}
+    \sum_{i = 1}^n s_i = \sum_{j = 1}^m d_j
+\end{equation*}
+Let the cost per unit flow be $c_{ij}$.
+
+\begin{definition}{Tranport problem}
+    The \underline{transport problem} is:
+    \begin{align*}
+        \text{Minimise } &\sum_{(i, j)} x_{ij} \\
+        \text{Subject to } &\sum_{j = 1}^m  x_{ij} = s_i~\forall i \in \{1, \cdots, n\} \\
+        &\sum_{i = 1}^n x_{ij} = d_j~\forall j \in \{1, \cdots, m\}
+    \end{align*}
+\end{definition}
+\begin{theorem}{Network flow equivalent to transport problem}
+    Every minimum cost network flow problem with finite capacities ($\overline{M}$ is finite) or non-negative costs can be re-cast as an equivalent transport problem
+    \label{thmFlowTransportEquiv}
+\end{theorem}
+\begin{remark}
+    By this theorem, any algorithm to solve transport problems solves any network flow problem.
+\end{remark}
+\begin{proof}
+    Given $\vec{b}, C, \underbar{M}, \overline{M}$, observe that $\underbar{M}$ can be set to be $0$ by considering $\tilde{x}_{ij} = x_{ij} - \underbar{M}_{ij}$.
+
+    Now the conditions for $\tilde{x}$ are:
+    \begin{align*}
+        &0 \leq \tilde{x}_{ij} \leq \overline{M}_{ij} - \underbar{M}_{ij} \\
+        &\tilde{b}_i + \sum_{i, j} \tilde{x}_{ij} = \sum_{i, j} \tilde{x}_{ij} \\
+        &\text{Where } \tilde{b}_i = \sum_{(i, j) \in E} \underbar{M}_{ij} = \sum_{(i, j) \in E} \overline{M}_{ij} + b_i
+    \end{align*}
+    Note also that we can can replace any infinite-capacity edge with one with capacity:
+    \begin{equation*}
+        \overline{M}_{ij} = \sum_i |b_i|
+    \end{equation*}
+    which can never be exceeded.
+
+    For every $(i, j) \in E$, construct a supplier $(i, j)$, and for every $i \in V$, construct a consumer. Then we have created a bipartite graph with $|E|$ suppliers and $|V|$ consumers. Now, let the supply from supplier $(i, j)$ be $\overline{M}_{ij}$. Let the cost to transport from this supplier to consumer $i$ be 0, and the cost to transport to $j$ be $c_{ij}$. These are the only possible routes for goods from supplier $(i, j)$.
+    
+    Let the amount of goods consumed by consumer $i$ be:
+    \begin{equation*}
+        \sum_{k : (i, k) \in E} \overline{M}_{ik} - b_i
+    \end{equation*}
+    and of consumer $j$ be:
+    \begin{equation*}
+        \sum_{k : (k, j) \in E} \overline{M}_{jk} - b_j
+    \end{equation*}
+
+    Now suppose we send a flow $x_{ij}$ from producer $(i, j)$ to consumer $j$. Then the flow from this producer to consumer $i$ must be $\overline{M}_{ij} - x_{ij}$. The cost of transport is:
+    \begin{equation*}
+        \sum_{(i, j) \in E} c_{ij} x_{ij}
+    \end{equation*}
+    Then the constraints on this transport problem are:
+    For consumer $i$:
+    \begin{equation*}
+        \sum_{k : (i, k) \in E} \overline{M}_{ik} - b_i = \sum_{k : (i, k) \in E} (\overline{M}_{ik} - x_{ik}) + \sum_{k : (k, i) \in E} x_{ki}
+    \end{equation*}
+    and simplifying this:
+    \begin{equation*}
+        b_i + \sum_{k : (k, i) \in E} x_{ki} = \sum_{k : (i, k) \in E} x_{ik}
+    \end{equation*}
+    which we note is the same as the original flow problem. Therefore, the problems have the same feasible set. We have already seen that the cost functions are the same, so the problems are equivalent.
+\end{proof}
 \end{document}
