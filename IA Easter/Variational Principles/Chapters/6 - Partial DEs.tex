@@ -1,0 +1,86 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{General multivariate functionals}
+Consider functions $\vec{y} : \R^m \mapsto \R^n$, and a functional of the form:
+\begin{equation*}
+    F[\vec{y}] = \int_V f(\vec{y}(\vec{x}), \nabla \vec{y} (\vec{x}), \vec{x})d^m \vec{x}
+\end{equation*}
+where $V$ is some region of $\R^m$.
+
+By varying $\vec{y}$, considering $\delta F = F[\vec{y} + \delta \vec{y}] - F[\vec{y}]$, we use the Divergence theorem as an analogue to integration by parts and obtain a PDE generalistion of the Euler-Lagrange equation. Note that this still requires appropriate boundary conditions.
+\section{Minimal Surfaces}
+\subsection{Defining a Surface}
+Consider a closed curve $C$ in $\R^3$. Then for all the surfaces that span it, consider that with the least area.
+
+Restrict to surfaces that are graphs of functions $\R^2 \mapsto \R$, $z = h(x, y)$. Require also that $C$ has equation $z = h(x, y)$ for $(x, y) \in \partial D$ where $D$ is the domain of $h$ in $\R^2$. This gives that $h$ has a fixed boundary condition.
+
+Now, parameterise the surface using $(x, y)$, so $\vec{x}(x, y) = (x, y, h(x, y))^T$.
+\begin{align*}
+    \frac{\partial \vec{x}}{\partial x} &= (1, 0, h_x)^T \\
+    \frac{\partial \vec{x}}{\partial y} &= (0, 1, h_y)^T
+\end{align*}
+And so the area element $dA$ = $|d\vec{S}|$ is:
+\begin{align*}
+    dA &= \left|\frac{\partial \vec{x}}{\partial x} \times \frac{\partial \vec{x}}{\partial y} \right| \\
+    &= \sqrt{1 + h_x^2 + h_y^2}
+\end{align*}
+and so the functional for the area is:
+\begin{equation*}
+    A[h] = \int_D \sqrt{1 + h_x^2 + h_y^2} dx dy
+\end{equation*}
+\subsection{Deriving the Minimal Surface Equation}
+Now consider $h + \delta h$, so:
+\begin{align*}
+    \delta A &= \int_D \frac{h_x (\delta h)_x + h_y (\delta h)_y}{\sqrt{1 + h_x^2 + h_y^2}} dx dy
+\end{align*}
+%TODO: Algebra
+
+Then we find an equivalent to the Euler-Lagrange equation:
+\begin{equation}
+    (1 + h_y^2)h_{xx} + (1 + h_x^2) h_{yy} - 2h_x h_y h_{xy} = 0
+    \label{eqnMinimalSurface}
+\end{equation}
+which is the \underline{minimal surface equation}, it is a second-order non-linear PDE for $h$.
+\subsection{Solutions to the Minimal Surface Equation}
+If $h_x$ and $h_y$ are small and positive, equation~\ref{eqnMinimalSurface} becomes $h_{xx} + h_{yy} = 0$, the Laplace equation.
+
+One solution of equation~\ref{eqnMinimalSurface} is that $h$ is linear in $x$ and $y$, $h = Ax + By + C$ which is a plane. However, this only satisfies the boundary conditions if the curve $C$ lies in one plane.
+
+We can also find solutions in the case that $h$ depends only on the distance from some origin, $h = h(r)$.
+%TODO: Algebra
+
+We then obtain: $r = r_0 \cosh{\frac{z - z_0}{r_0}}$, a Catenoid.
+\section{Vibrating string}
+Consider a string with fixed endpoints $(0, 0)$ and $(a, 0)$. Let the $y$ coordinate be a function of time, $t$ and $x$: $y = y(t, x)$.
+
+Now let the string have tension $T$ and mass per unit length $\rho$. It has energies:
+\begin{align*}
+    KE &= \frac{1}{2} \int_0^a \dot{y}(t, x) dx \\
+    PE &= \frac{1}{2} T \int_0^a [y' (t, x)]^2 dx \\
+\end{align*}
+where the prime denotes a derivative with respect to $x$, and the dot with respect to $t$ as usual.
+
+The action is:
+\begin{equation*}
+    I[y] = \frac{1}{2} \int_{t = t_0}^{t_a} \int_{x = 0}^a \left[\rho \dot{y}^2 - T y^{\prime 2}\right] dx dt
+\end{equation*}
+%TODO: algebra
+\section{Actions and Maxwell's Equations}
+Consider electric and magnetic fields $\vec{E}(t, \vec{x}), \vec{B}(t, \vec{x})$ and:
+\begin{align*}
+    \nabla \cdot \vec{B} &= 0 \\
+    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t}
+\end{align*}
+Then we can find a vector potential $\vec{B} = \nabla \times \vec{A}$, and substituting this into the second Maxwell equation gives:
+\begin{equation*}
+    \nabla \times (\vec{E} + \frac{\partial \vec{A}}{\partial t}) = 0 \implies E = -\nabla \phi - \frac{\partial \vec{A}}{\partial t}
+\end{equation*}
+And then the action is a function of $\vec{A}$ and $\phi$:
+\begin{equation*}
+    I[\vec{A}, \phi] = \int_D \left(\frac{|\vec{E}|^2}{2\epsilon_0} _ \frac{\mu_0}{2}|\vec{B}|^2 + \vec{A} \cdot \vec{j} - \phi \rho\right) d^3\vec{x} dt
+\end{equation*}
+Then we vary this with respect to $\vec{A}$ and $\phi$.
+
+%TODO: Algebra
+\end{document}
