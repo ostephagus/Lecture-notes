@@ -130,7 +130,7 @@ We have some different steps for finding strategies.
 \begin{definition}{Directed graph}
     A \underline{directed graph} $G = (V, E)$ consists of a set of vertices $V$ and a set of edges $E \subseteq V \times V$.
 \end{definition}
-Consider a graph with $n$ vertices. Let the vector $\vec{b} \in \R^n$ represent the amount of a good produced or consumed at a vertex. If this quantity is positive, the vertex is a \subsection{source} of the good. If the quantity is negative, the vertex is a \underline{sink}. If we assume that all of the good produced is consumed,
+Consider a graph with $n$ vertices. Let the vector $\vec{b} \in \R^n$ represent the amount of a good produced or consumed at a vertex. If this quantity is positive, the vertex is a \underline{source} of the good. If the quantity is negative, the vertex is a \underline{sink}. If we assume that all of the good produced is consumed,
 \begin{equation*}
     \sum_{i = 1}^n b_i = 0
 \end{equation*}
@@ -213,4 +213,85 @@ Let the cost per unit flow be $c_{ij}$.
     \end{equation*}
     which we note is the same as the original flow problem. Therefore, the problems have the same feasible set. We have already seen that the cost functions are the same, so the problems are equivalent.
 \end{proof}
+\subsection{The Transport Algorithm}
+We can consider an algorithm that optimises the Simplex algorithm for transport problems. 
+\begin{theorem}[Optimality conditions for the transport problem]
+    If, for some feasible transport plan $x$, we have a $\vec{\lambda} \in \R^n$ (with $\lambda_i$ for each supplier $i$), and a $\vec{\mu} \in \R^m$ (with $\mu_j$ for each consumer $j$) such that, for all $i$ and $j$:
+    \begin{align*}
+        c_{ij} &\geq \lambda_i + \mu_j \\
+        0 &= (c_{ij} - (\lambda_i + \mu_j)) x_{ij}
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    We find the Lagrangian:
+    \begin{align*}
+        L(x, \vec{\lambda}, \vec{\mu}) &= \sum_{i = 1}^n \sum_{j = 1}^m c_{ij} x_{ij} - \sum_{i = 1}^n \lambda_i \left(\sum_{j = 1}^m x_{ij} - s_i\right)\\
+        &- \sum_{j = 1}^m \mu_j \left(\sum_{i = 1}^n x_{ij} - d_i\right) \\
+        &= \sum_{i = 1}^n \sum_{j = 1}^m (c_{ij} - \lambda_i - \mu_j) x_{ij} + \sum_{i = 1}^n \lambda_i s_i + \sum_{j = 1}^m \mu_j d_j
+    \end{align*}
+    and a pair $(\vec{\lambda}, \vec{\mu})$ is dual feasible if and only if $\lambda_i + \mu_i \leq c_{ij}$ for all $i$ and $j$. Thus the $(\vec{\lambda}, \vec{\mu})$ pair given by the theorem is dual feasible and satisfies complementary slackness, so $x$ must be optimal.
+\end{proof}
+Similar to Simplex, we perform the algorithm on a tableau that represents the current state of the algorithm. The table has $n$ rows and $m$ columns:
+
+\begin{tabular}{c|c|c|c|c|c}
+     & $\mu_1$ & $\mu_2$ & & $\mu_m$ & \\
+    \hline
+    $\lambda_1$ & \transportcell{$\lambda_1 + \mu_1$}{$x_{11}$}{$c_{11}$} & \transportcell{$\lambda_1 + \mu_2$}{$x_{12}$}{$c_{12}$} & $\cdots$ & \transportcell{$\lambda_1 + \mu_m$}{$x_{1m}$}{$c_{1m}$}
+    %TODO: Finish table
+\end{tabular}
+
+We consider an example to illustrate, with 3 suppliers and 4 consumers. We first need to come up with any feasible solution. The \underline{north-west corner rule} gives as much supply as possible to the first consumer starting with the first producer, then as much as possible to the second starting with the first producer, and so forth. See figure~\ref{figNWCorner} for this specific case.
+\begin{theorem}
+    Let $x$ be a basic feasible solution obtained by the north-west corner rule. Then the undirected graph corresponding to the edges with non-zero flow is a spanning tree.
+\end{theorem}
+\begin{figure}[ht]
+    \begin{tikzpicture}
+        %TODO: Make this graph.
+    \end{tikzpicture}
+    \caption{Flow diagram of the north-west corner rule}
+    \label{figNWCorner}
+\end{figure}
+Let the cost matrix be:
+\begin{equation*}
+    c =
+    \begin{pmatrix}
+        5 & 3 & 4 & 6 \\
+        2 & 7 & 4 & 1 \\
+        5 & 6 & 2 & 4
+    \end{pmatrix}
+\end{equation*}
+We then need to consider the values of $\vec{\lambda}$ and $\vec{\mu}$. We have 6 complementary slackness equations (one for each non-zero $x_{ij}$). Therefore, fix $\lambda_1 = 0$ WLOG and then the other equations give:
+\begin{equation*}
+    \vec{\lambda} = \begin{pmatrix}0 \\ 4 \\ 2\end{pmatrix},~~\vec{\mu} = \begin{pmatrix} 5 \\ 3 \\ 0 \\ 2\end{pmatrix}
+\end{equation*}
+so then the transport tableau is:
+
+\begin{tabular}{c|c|c|c|c|c}
+     & 5 & 3 & 0 & 2 & \\
+    \hline
+    0 & \transportcell{5}{12}{5} & \transportcell{3}{2}{3} & \transportcell{0}{0}{4} & \transportcell{2}{0}{6} & 14 \\
+    \hline
+    4 & \transportcell{9}{0}{2} & \transportcell{7}{3}{7} & \transportcell{4}{7}{4} & \transportcell{6}{0}{1} & 10 \\
+    \hline
+    2 & \transportcell{7}{0}{5} & \transportcell{5}{0}{6} & \transportcell{2}{1}{2} & \transportcell{4}{8}{4} & 9 \\
+    \hline
+     & 12 & 5 & 8 & 8 
+\end{tabular}
+
+So now we find the largest difference between $\lambda_i + \mu_j$ and $c_{ij}$
+
+%TODO: Get the next bit.
+
+\begin{tabular}{c|c|c|c|c|c}
+     & 5 & 3 & 7 & 9 & \\
+    \hline
+    0 & \transportcell{5}{9}{5} & \transportcell{3}{5}{3} & \transportcell{7}{0}{4} & \transportcell{9}{0}{6} & 14 \\
+    \hline
+    -3 & \transportcell{2}{3}{2} & \transportcell{0}{0}{7} & \transportcell{4}{7}{4} & \transportcell{6}{0}{1} & 10 \\
+    \hline
+    -5 & \transportcell{0}{0}{5} & \transportcell{-2}{0}{6} & \transportcell{2}{1}{2} & \transportcell{4}{8}{4} & 9 \\
+    \hline
+     & 12 & 5 & 8 & 8 
+\end{tabular}
+Then we choose any cell where $\lambda_i + \mu_j > c_{ij}$. In this case choose $(2, 4)$.
 \end{document}

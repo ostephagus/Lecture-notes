@@ -14,6 +14,14 @@
     \StrCut{#1}{_}\firstpart\secondpart
     \boldsymbol{\bar{\firstpart}}_{\secondpart}
 }
+
+\newcommand{\transportcell}[3]{
+    \begin{tabular}{c}
+        #1 \\
+        #2~~~#3
+    \end{tabular}
+}
+
 \begin{document}
 \maketitle
 \tableofcontents
