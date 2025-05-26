@@ -1,0 +1,73 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Calculating the Second Variation}
+For a function $f$,
+\begin{equation*}
+    f(\vec{x} + \epsilon \vec{\xi}) - f(\vec{x}) = \epsilon \vec{\xi} \cdot \nabla f(\vec{x}) + \frac{1}{2} \epsilon^2 \xi_i \xi_j H_{ij}(\vec{x}) + O(\epsilon^3)
+\end{equation*}
+so a stationary point $\vec{x} = \vec{a}$ is a local minimum of $H_{ij}(\vec{a})$ is positive definite.
+
+Then we consider this for a functional:
+\begin{equation*}
+    F[y] = \int_\alpha^\beta f(y, y', x) dx
+\end{equation*}
+with $y \in \funcset$, $\funcset = \subsetselect{y : [\alpha, \beta] \mapsto \R}{y(\alpha) = a, y(\beta) = b, \text{ y continuously twice-differentiable}}$.
+Then we consider a pertubation $y + \epsilon \xi \in \funcset$, and $\xi(\alpha) = \xi(\beta) = 0$.
+For small $\epsilon$,
+\begin{align*}
+    f(y + \epsilon \xi, y' + \epsilon \xi', x) &= f(y, y', x) + \epsilon \xi \left[\frac{\partial f}{\partial y} - \frac{d}{dx} \frac{\partial f}{\partial y'}\right] + \epsilon \frac{d}{dx}\left(\xi \frac{\partial f}{\partial y'}\right) \\
+    &+ \frac{1}{2} \epsilon^2 \left[\xi^2 \frac{\partial^2 f}{\partial y^2} + 2\xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + \xi^{\prime 2} \frac{\partial^2 f}{\partial \xi^{\prime 2}}\right] + O(\epsilon^3)
+\end{align*}
+And substituting this back in:
+\begin{align*}
+    F[y + \epsilon \xi] - F[y] &= \epsilon \int_\alpha^\beta \xi(x) \frac{\delta F}{\delta y(x)}dx + \epsilon^2 \delta^2 F[y, \xi] + O(\epsilon^3) \\
+    \delta^2 F[y, \xi] &= \frac{1}{2} \int_\alpha^\beta \left[\xi^2 \frac{\partial f}{\partial y^2} + 2\xi\xi' \frac{\partial^2 f}{\partial y \partial y'} + \xi^{\prime 2} \frac{\partial^2 f}{\partial \xi^{\prime 2}}\right]dx
+    &= \int_\alpha^\beta \left[\xi^2 \left(\frac{\partial f}{\partial y^2} - \frac{d}{dx} \frac{\partial^2 f}{\partial y \partial y'}\right) + \xi^{\prime 2} \frac{\partial f}{\partial y^{\prime 2}}\right]dx
+    %TODO: Check
+\end{align*}
+Recall that if $H(\vec{x})$ is positive semi-definite for all $\vec{x}$ then $f(\vec{x})$ is convex so any stationaru point is a global minimum. We can make a similar statement for functionals:
+\begin{theorem}
+    If $\delta^2 F[y, \xi] \geq 0$ for all $y \in \funcset$, and all allowed $\xi(x)$, then $y = y_0$ is a global minimum of $F$ in $\funcset$ if it satiesfies the Euler-Lagrange equation.
+\end{theorem}
+\begin{remark}
+    In general, we rarely have that the second variation is non-negative for all functions in $\funcset$.
+\end{remark}
+\begin{example}[Geodesics in the Euclidean plane]
+    Geodesics in the Euclidean plane is a rare case in which the above theorem holds.
+\end{example}
+\section{Classifying Optimal Solutions}
+In general, we want to classify a solution of the Euler-Lagrange equations. Suppose $y_0 \in \funcset$ is a solution of the Euler-Lagrange equations.
+\begin{itemize}
+    \item If $\delta^2 F[y_0, \xi] > 0$ for all allowed and non-constant $\xi$, then $y_0$ is a local minimum. Conversely, if we can find allowed $\xi(x)$ such that $F[y_0, \xi] < 0$, then $y_0$ cannot be a local minimum.
+    \item If $\delta^2 F[y_0, \xi] > 0$ for all allowed and non-constant $\xi$, then $y_0$ is a local maximum. Conversely, if we can find allowed $\xi(x)$ such that $F[y_0, \xi] > 0$, then $y_0$ cannot be a local maximum.
+\end{itemize}
+Note that in the formula for $\delta^2 F$, there is a second term in $\xi^{\prime 2}$. If this is negative for some $y$ at any point on the interval, then we can easily find a $\xi$ that is small but changes rapidly around the specific point so that $\delta^2 F[y, \xi] < 0$. Therefore a necessary condition is:
+\begin{definition}{Legendre condition}
+    Given a function $y \in \funcset$, a necessary condition for $y$ to be a local minimum is the \underline{Legendre condition}:
+    \begin{equation*}
+        \frac{\partial^2 f}{\partial y^{\prime 2}} > 0
+    \end{equation*}
+\end{definition}
+As some short-hand notation, define:
+\begin{equation*}
+    \rho = \frac{\partial^2 f}{\partial y^{\prime 2}},~~\sigma = \left[\frac{\partial^2 f}{\partial y^2} - \frac{d}{dx} \frac{\partial^2f}{\partial y \partial y'}\right]
+\end{equation*}
+and so:
+\begin{equation*}
+    \delta^2 F[y, \xi] = \frac{1}{2} \int_\alpha^\beta \left[\rho(x) \xi^{\prime 2} + \sigma(x) \xi^2\right]dx
+\end{equation*}
+And so the Legendre condition is $\rho \geq 0$. A sufficient condition is $\rho > 0, \sigma \geq 0$, however this is not necessary.
+
+In general, we can integrate %WHAT EQUATION?
+\begin{align*}
+    \delta^2 F[y_0, \xi] &= \frac{1}{2} \int_\alpha^\beta = \xi(x) L\xi(x) dx + \frac{1}{2} \left[\rho \xi \xi'\right]_\alpha^\beta \\
+    &= \frac{1}{2} \int_\alpha^\beta = \xi(x) L\xi(x) dx \\
+    L\xi = -\frac{d}{dx} \left(\rho \frac{d\xi}{dx}\right) + \sigma \xi
+\end{align*}
+and so consider the Sturm-Liouville problem, and assume we can find a solution $\eta(x)$ such that:
+\begin{equation*}
+    L\eta = \lambda w(x) \eta,~~\eta(\alpha) = \eta(\beta) = 0, w(x) > 0
+\end{equation*}
+Then if this problem admits a negative eigenvalue $\lambda$ then $y_0$ is not a local minimum of $F$.
+\end{document}
