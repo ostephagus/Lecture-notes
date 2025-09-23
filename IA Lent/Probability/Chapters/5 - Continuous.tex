@@ -65,8 +65,8 @@ $F$ may not always be differentiable. However, in this course, we will assume th
         \label{propsPdensFuncProps}
     }
     \item $f(x) \geq 0$. \label{propPdensFuncNonNegative}
-    \item $\int_{-\infty}^\infty f(x) dx = 1$ \label{propPdensFuncIntegralOne}
-    \item $F(x) = \int_{-\infty}^x f(y) dy$. \label{propPdensFuncIntegratePDF}
+    \item $\int_{-\infty}^{\infty} f(x) dx = 1$ \label{propPdensFuncIntegralOne}
+    \item $F(x) = \int_{-\infty}^{x} f(y) dy$. \label{propPdensFuncIntegratePDF}
 \end{propositions}
 More generally, for any subset of the real numbers $A$,
 \begin{equation*}
@@ -120,11 +120,11 @@ More generally, for any subset of the real numbers $A$,
     Therefore $\frac{T_n}{n} \to T$ as $n \to \infty$.
 \end{proof}
 \begin{proposition}[Memoryless property]
-    If $T$ is an exponential random variable with parameter $\lambda$,
+    If $T$ si an exponential random variable with parameter $\lambda$,
     \begin{equation*}
         P(T \geq t + s | T \geq s) = P(T \geq t)
     \end{equation*}
-    \label{propExpMemoryless}
+\label{propMemoryless}
 \end{proposition}
 \begin{proof}
     \begin{align*}
