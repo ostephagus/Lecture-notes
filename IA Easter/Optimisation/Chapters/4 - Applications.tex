@@ -3,10 +3,10 @@
 \begin{document}
 \section{Game Theory}
 \subsection{Mathematical Description of Games}
-Consider a \textit{game} with 2 players where eac player can choose from a number of actions. Let player 1's set of allowed actions be $\{1, 2, \cdots, m\}$ and player 2's set of allowed actions $\{1, 2, \cdots, n\}$.
+Consider a \textit{game} with 2 players where each player can choose from a number of actions. Let player 1's set of allowed actions be $\{1, 2, \cdots, m\}$ and player 2's set of allowed actions $\{1, 2, \cdots, n\}$.
 
 \begin{definition}{Payoff matrix}
-    For each player, that player's \underline{payoff matrix} is a $m \times n$ matrix with entries $A_{ij}$, where $A_{ij}$ is the score attained by player $1$ given that they play action $i$ and player 2 plays action $j$.
+    For each player, that player's \underline{payoff matrix} is an $m \times n$ matrix with entries $A_{ij}$, where $A_{ij}$ is the score attained by player $1$ given that they play action $i$ and player 2 plays action $j$.
 \end{definition}
 \begin{example}{Rock-paper-scissors}
     Each player (1 and 2) can play one of rock, paper, scissors. Then if rock is assigned $1$, paper is assigned $2$ and scissors is assigned $3$, the payoff matrix for player 1 is:
@@ -22,8 +22,10 @@ Consider a \textit{game} with 2 players where eac player can choose from a numbe
 \begin{definition}{Zero-sum game}
     A game is called \underline{zero-sum} if after each round of the game the total payoff is zero.
 \end{definition}
-Then the \underline{conservative approach} seeks to choose %TODO: WHAT?
-For player 1, this is:
+In this case, the payoff matrix for player 2 is $-A$.
+
+From player 1's perspective, they assume player 2 will play the action that will gain them the most points. This is $\min_{j \in \{1, \cdots, n\}} a_{ij}$.
+Then the \underline{conservative approach} is for player 1 to choose the action that minimises the damage given player 2's optimal choice. This is:
 \begin{equation*}
     \max_{i \in \{1, \cdots, m\}} \min_{j \in \{1, \cdots, n\}} a_{ij}
 \end{equation*}
@@ -47,8 +49,9 @@ For player 1, this is:
             1 & 3
         \end{pmatrix} 
     \end{equation*}
-    Then in this case the choice of player 1 depends on the choice of player 2, and the choice of player 2 depends on the choice of player 1, so they get stuck in an infinite loop.
+    Then player 1 will choose column $i = 2$, and will then expect player 2 to choose row $j = 1$. However, player 2 will choose row $j = 2$ and expect player 1 to choose column $i = 2$. Unlike the last case, the players do not converge on a single value. We note that in a game where the players take turns, this is fine. In a case such as rock, paper, scissors, where the players choose at the same time, this introduces a problem.
 \end{example}
+To resolve this, we can introduce an element of probability to the actions each player chooses.
 \begin{definition}{Strategy}
     A \underline{strategy} is the probability distribution of actions that a player picks.
 \end{definition}
@@ -62,9 +65,9 @@ Let player 1 pick action $i$ with probability $p_i$. Let player 2 pick action $j
 
 Then player 1 must choose their strategy based on:
 \begin{equation*}
-    \max_{\vec{p} \in P} \left(\min_{j \in \{1, \cdots, n\}} \sum_{i = 1}^m p_i a_{ij}\right)
+    \max_{\vec{p} \in P_m} \left(\min_{j \in \{1, \cdots, n\}} \sum_{i = 1}^m p_i a_{ij}\right)
 \end{equation*}
-where $P$ is the set of probability distributions on $\{1, \cdots, m\}$.
+where $P_m$ is the set of probability distributions on $\{1, \cdots, m\}$.
 \subsection{Linear Programming for Strategies}
 We can re-write player 1's problem using the vector $\vec{e}$ which contains $m$ entries all $1$.
 
@@ -74,9 +77,9 @@ We can re-write player 1's problem using the vector $\vec{e}$ which contains $m$
     &\vec{e}^T \vec{p} = 1 \\
     \vec{p} \geq 0
 \end{align*}
-Where here $\vec{p}$ is the vector of probabilities.
+Where here $\vec{p}$ is the vector of probabilities, and $v$ is the maximum value for player 1.
 
-We can also re-formulate player 2's problem, using $\vec{e}$ to be $n$-dimensional:
+We can also re-formulate player 2's problem to find a probability distribution $\vec{q}$, using $\vec{e}$ to be $n$-dimensional:
 \begin{align*}
     \text{Minimise } &w \\
     \text{Subject to } &A\vec{q} \leq w\vec{e} \\
@@ -102,6 +105,8 @@ Then this is also player 1's problem.
     The pair $(\vec{p}, \vec{q})$ that solves the above primal and dual problems is called the \underline{Nash equilibrium}.
 \end{definition}
 
+Note that, by \ref{thmLinearProgStrongDual}, the Nash Equilibrium exists for a well-defined problem (feasible and bounded).
+
 \begin{theorem}
     A strategy $\vec{p}$ is optimal for player 1 if and only if there exists $\vec{q}$ and $v$ such that:
     \begin{enumerate}
@@ -123,14 +128,24 @@ We have some different steps for finding strategies.
 \begin{enumerate}
     \item Look for saddle points, in which case a pure strategy is optimal.
     \item Look for \textit{dominating actions}, where each payoff is greater for one action than another no matter the action of the other player. In the payoff matrix, this corresponds to every entry of a row being greater than that of another row. In this case, the action that is dominated can be removed from the space of actions.
-    \item After trying the above, formulate and solve the resulting linear program.
+    \item After trying the above, formulate and solve the resulting linear program. 
 \end{enumerate}
+We consider an example for step 2:
+\begin{equation*}
+    \begin{pmatrix}
+        2 & 3 & 4 \\
+        3 & 1 & \frac{1}{2} \\
+        1 & 3 & 2
+    \end{pmatrix}
+\end{equation*}
+Then we see that for player 2, playing row 1 is always better than playing row 3. Therefore, we can remove the row and reduce the size of the matrix.
+%TODO: Continue reviewing lectures.
 \section{Transport Problems}
 \subsection{Network Flow Problems}
 \begin{definition}{Directed graph}
     A \underline{directed graph} $G = (V, E)$ consists of a set of vertices $V$ and a set of edges $E \subseteq V \times V$.
 \end{definition}
-Consider a graph with $n$ vertices. Let the vector $\vec{b} \in \R^n$ represent the amount of a good produced or consumed at a vertex. If this quantity is positive, the vertex is a \underline{source} of the good. If the quantity is negative, the vertex is a \underline{sink}. If we assume that all of the good produced is consumed,
+Consider a graph with $n$ vertices. Let the vector $\vec{b} \in \R^n$ represent the amount of a good produced or consumed at a vertex. If this quantity is positive, the vertex is a \underline{source} of the good. Instead, if the quantity is negative, the vertex is a \underline{sink}. If we assume that all the good that is produced is consumed,
 \begin{equation*}
     \sum_{i = 1}^n b_i = 0
 \end{equation*}
@@ -149,7 +164,7 @@ We also have $n \times n$ matrices $\underbar{M}, \overline{M}$ such that the fl
     \end{align*}
 \end{definition}
 \subsection{Defining a Transport Problem}
-A transport problem is a special case of of a network flow problem where there are no intermediate vertices.
+A transport problem is a special case of a network flow problem where there are no intermediate vertices.
 
 Consider $n$ suppliers and $m$ consumers. Let supplier $i$ produce $s_i$ goods, and consumer $j$ demand $d_i$ goods. Require that these demands are met:
 \begin{equation*}
@@ -181,13 +196,13 @@ Let the cost per unit flow be $c_{ij}$.
         &\tilde{b}_i + \sum_{i, j} \tilde{x}_{ij} = \sum_{i, j} \tilde{x}_{ij} \\
         &\text{Where } \tilde{b}_i = \sum_{(i, j) \in E} \underbar{M}_{ij} = \sum_{(i, j) \in E} \overline{M}_{ij} + b_i
     \end{align*}
-    Note also that we can can replace any infinite-capacity edge with one with capacity:
+    Note also that we can replace any infinite-capacity edge with one with capacity:
     \begin{equation*}
         \overline{M}_{ij} = \sum_i |b_i|
     \end{equation*}
     which can never be exceeded.
 
-    For every $(i, j) \in E$, construct a supplier $(i, j)$, and for every $i \in V$, construct a consumer. Then we have created a bipartite graph with $|E|$ suppliers and $|V|$ consumers. Now, let the supply from supplier $(i, j)$ be $\overline{M}_{ij}$. Let the cost to transport from this supplier to consumer $i$ be 0, and the cost to transport to $j$ be $c_{ij}$. These are the only possible routes for goods from supplier $(i, j)$.
+    For every $(i, j) \in E$, construct a supplier $(i, j)$, and for every $i \in V$, construct a consumer. Then we have created a bipartite graph with $|E|$ suppliers and $|V|$ consumers. Now, let the supply from supplier $(i, j)$ be $\overline{M}_{ij}$. Let the cost of transport from this supplier to consumer $i$ be 0, and the cost to transport to $j$ be $c_{ij}$. These are the only possible routes for goods from supplier $(i, j)$.
     
     Let the amount of goods consumed by consumer $i$ be:
     \begin{equation*}
@@ -229,7 +244,7 @@ We can consider an algorithm that optimises the Simplex algorithm for transport 
         &- \sum_{j = 1}^m \mu_j \left(\sum_{i = 1}^n x_{ij} - d_i\right) \\
         &= \sum_{i = 1}^n \sum_{j = 1}^m (c_{ij} - \lambda_i - \mu_j) x_{ij} + \sum_{i = 1}^n \lambda_i s_i + \sum_{j = 1}^m \mu_j d_j
     \end{align*}
-    and a pair $(\vec{\lambda}, \vec{\mu})$ is dual feasible if and only if $\lambda_i + \mu_i \leq c_{ij}$ for all $i$ and $j$. Thus the $(\vec{\lambda}, \vec{\mu})$ pair given by the theorem is dual feasible and satisfies complementary slackness, so $x$ must be optimal.
+    and a pair $(\vec{\lambda}, \vec{\mu})$ is dual feasible if and only if $\lambda_i + \mu_i \leq c_{ij}$ for all $i$ and $j$. Thus, the $(\vec{\lambda}, \vec{\mu})$ pair given by the theorem is dual feasible and satisfies complementary slackness, so $x$ must be optimal.
 \end{proof}
 Similar to Simplex, we perform the algorithm on a tableau that represents the current state of the algorithm. The table has $n$ rows and $m$ columns:
 

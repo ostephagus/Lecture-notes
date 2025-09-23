@@ -8,13 +8,13 @@
 The most general form is:
 \begin{align*}
     \text{Minimise } &\vec{c}^T\vec{x} \\
-    \text{Subject to} &\vec{a_i}^T \geq \vec{b_i},~i \in M_1 \\
-    &\vec{a_i}^T \leq \vec{b_i},~i \in M_2 \\
-    &\vec{a_i}^T = \vec{b_i},~i \in M_3 \\
+    \text{Subject to } &\vec{a_i}^T \vec{x} \geq \vec{b_i},~i \in M_1 \\
+    &\vec{a_i}^T \vec{x}\leq \vec{b_i},~i \in M_2 \\
+    &\vec{a_i}^T \vec{x}= \vec{b_i},~i \in M_3 \\
     &x_j \geq 0,~j \in N_1 \\
     &x_j \leq 0,~j \in N_1 \\
 \end{align*}
-However, it can be shown that any such set of constraints can be written as: $A\vec{x} \leq \vec{b}$ for some matrix $A$ formed form the constraints above. This is the \underline{general form}.
+However, it can be shown that any such set of constraints can be written as: $A\vec{x} \leq \vec{b}$ for some matrix $A$ formed from the constraints above. This is the \underline{general form}.
 
 The \underline{standard form} of a linear program has constraints $A\vec{x} = \vec{b}$, $\vec{x} \geq 0$. Any program in standard form can trivially be expressed in the general form, but also any program in the general form can be written in standard form by expressing each component as $x_j = x_j^+ - x_j^-$.
 
@@ -43,7 +43,43 @@ where $f$ and $\Xset$ are convex.
 \subsection{Algebraic Description of Extreme Points}
 In low-dimensional space, we can easily find the extreme points of a polygon by considering vertices. However, for a higher-dimensional space we need an algebraic description of extreme points.
 
-%TODO: Get the missing section of content
+Consider the problem:
+\begin{align*}
+    \text{Minimise }& \vec{c} \cdot \vec{x} \\
+    \text{Subject to }& A\vec{x} = \vec{b} \\
+    & \vec{x} \geq 0
+\end{align*}
+Then $A$ is an $m \times n$ matrix, it has $m$ rows and $n$ columns. Represent a row by $a_1^T, a_2^T, \cdots, a_m^T$ and a column by $A_1, A_2, \cdots, A_n$. We will make 3 assumptions to simplify the problem.
+\begin{enumerate}
+    \item The rows $a_1^T \cdots a_m^T$ are linearly independent, and so the rank of the matrix is $m$. If this is not the case, we can reduce the number of constraints because some must be redundant.
+    \item Every set of $m$ columns is linearly independent. This assumption is not made without loss of generality.
+\end{enumerate}
+
+\begin{definition}{Basic solution}
+    A point $\vec{x}$ that satisfies $A\vec{x} = \vec{b}$ and has at most $m$ non-zero indices is a \underline{basic solution} to the above problem.
+\end{definition}
+\begin{definition}{Basic feasible solution}
+    A basic solution $\vec{x}$ that satisfies $\vec{x} \geq \vec{0}$ is a \underline{basic feasible solution}.
+\end{definition}
+
+We can now define our third assumption:
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item Every basic feasible solution is non-degenerate.
+\end{enumerate}
+Here a \textit{non-degenerate} solution is one that has exactly $m$ non-zero entries.
+
+We can also detail a simple algorithm to find basic feasible solutions.
+\begin{enumerate}
+    \item Select some indices $B(1), \cdots, B(m) \in \{1, \cdots, m\}$.
+    \item For each index $B(i)$, set the $i$th column of a matrix $B$ to be $A_{B(i)}$.
+    \item For each index $B(i)$, set this index in a basic solution vector $\vec{x}$ to be:
+        \begin{equation*}
+            x_{B(i)} = \left[B^{-1} b\right]_i
+        \end{equation*}
+    \item Set the other entries in $\vec{x}$ to zero.
+\end{enumerate}
+This in fact finds all basic solutions, and we can check each to find basic \textit{feasible} solutions.
 
 \begin{theorem}[Basic feasible solutions are extreme points of $\Xset(\vec{b})$]
     A point $\vec{x}$ is a basic feasible solution if and only if it is an extreme point of the feasible set:
@@ -93,6 +129,7 @@ We can now construct an algorithm:
 \subsection{Strong Duality}
 \begin{theorem}
     If a linear program is feasible and bounded then it satisfies strong duality.
+    \label{thmLinearProgStrongDual}
 \end{theorem}
 \begin{remark}
     This is very similar to theorem~\ref{thmSupportPlane}, so the proof is similar with only slight modification.
@@ -123,9 +160,9 @@ which, we note, is also a linear program.
 Therefore given the most general primal problem:
 \begin{align*}
     \text{Minimise } &\vec{c}^T\vec{x} \\
-    \text{Subject to } &\vec{a_i}^T \geq \vec{b_i},~i \in M_1 \\
-    &\vec{a_i}^T \leq \vec{b_i},~i \in M_2 \\
-    &\vec{a_i}^T = \vec{b_i},~i \in M_3 \\
+    \text{Subject to } &\vec{a_i}^T \vec{x} \geq \vec{b_i},~i \in M_1 \\
+    &\vec{a_i}^T \vec{x} \leq \vec{b_i},~i \in M_2 \\
+    &\vec{a_i}^T \vec{x} = \vec{b_i},~i \in M_3 \\
     &x_j \geq 0,~j \in N_1 \\
     &x_j \leq 0,~j \in N_2 \\
     &x_j \text{ free},~j \in N_3
@@ -227,7 +264,7 @@ The steps of the Simplex algorithm are as follows:
     \item Identify the direction to move in:
     \begin{enumerate}
         \item If all entries in the top row are non-negative, $\bvec{c} \geq 0$ and we are done.
-        \item If not, select the column corresponding to the smallest positive entry in the top row. If there are more than one, pick any. Let this column be the $j$th
+        \item If not, select the column corresponding to the smallest negative entry in the top row. If there are more than one, pick any. Let this column be the $j$th
         \item For each value in the $j$th column, divide the element in the leftmost column and same row by it. Choose the row corresponding to the minimal ratio. Let this row be the $i$th.
     \end{enumerate}
     \item Perform row operations:
