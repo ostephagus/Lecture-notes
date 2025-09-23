@@ -65,15 +65,15 @@ We perform the following steps:
         \end{align*}
     \item Define the set:
         \begin{equation*}
-            \Lambda = \subsetselect{\vec{\lambda} \in \R^m}{\min_{x \in \Xset(\vec{s})} L(\vec{x}, \vec{s}, \vec{\lambda} > -\infty)}
+            \Lambda = \subsetselect{\vec{\lambda} \in \R^m}{\min_{x \in \Xset(\vec{s})} L(\vec{x}, \vec{s}, \vec{\lambda}) > -\infty}
         \end{equation*}
     \item For each $\vec{\lambda} \in \Lambda$, find $\vec{x}^*(\vec{\lambda})$ and $\vec{s}^*(\vec{\lambda})$ such that the Lagrangian is minimal.
     \item Find $\vec{\lambda}^* \in \Lambda$ such that $(\vec{x}^*(\vec{\lambda}^*), \vec{s}^*(\vec{\lambda}^*))$ is feasible.
 \end{enumerate}
 \begin{remarks}
     \item Note that the Lagrangian, as defined in step 2, is separable in $\vec{x}$ and $\vec{s}$. Therefore, we minimise with respect to each in turn.
-    \item We observe that any component of $\vec{\lambda}$ must be non-positive, since any positive value would require that component of $\vec{s}$ is infinite.
-    \item For any $i$, $\lambda_i s_i = 0$. This is \underline{complementary slackness}.
+    \item By considering the term $\vec{\lambda}^T \vec{s}$, we observe that if any component of $\vec{\lambda}$ is positive, it would immediately be excluded from the set $\Lambda$, because a minimum can be found by taking the corresponding slack variable to infinity.
+    \item The minimum value of $\vec{\lambda} \cdot \vec{s}$ is 0, so any set $\{\lambda_i, s_i\}$ of corresponding multiplier and slack variable must contain at least one value $0$. This is \underline{complementary slackness}.
 \end{remarks}
 \begin{example}
     Minimise $f(\vec{x}) = -x_1 - x_2 + x_3$, subject to:
@@ -234,8 +234,32 @@ We then want to find the class of problems for which strong duality holds, and t
         &\leq \phi(\vec{c}) - \vec{\lambda}^T (\vec{c} - \vec{b})
     \end{align*}
 \end{proof}
-\begin{example}[Shadow prices]
-    %TODO: Finish
+\begin{example}[Shadow prices I]
+    Consider a scenario where a factory, owned by the factory owner, takes some raw materials to produce some products. Define the vector $\vec{x}$, where $x_i$ is the number of items of type $i$ produced.
+
+    Then the numbers of products are constrained by the supply of raw materials needed to produce them:
+    \begin{align*}
+        h_1(\vec{x}) &\leq b_1 \\
+        h_2(\vec{x}) &\leq b_2 \\
+        &\vdots \\
+        h_m(\vec{x}) &\leq b_m
+    \end{align*}
+
+    Then suppose the profit is $f(\vec{x})$. The problem for the factory owner is then:
+    \begin{align*}
+        \text{Maximise } &f(\vec{x}) \\
+        \text{Subject to } &\vec{h}(\vec{x}) \leq \vec{b} \\
+        &\vec{x} \geq \vec{0}
+    \end{align*}
+
+    Now consider a seller of raw materials who offers a small amount $\vec{\epsilon}$ of different raw materials. What price should the factory owner pay for this?
+
+    Suppose that $\phi(\vec{b})$ gives the optimal value of $\vec{x}$ for each $\vec{b}$. Then:
+    \begin{equation*}
+        \phi(\vec{b} + \vec{\epsilon}) - \phi(\vec{b}) \approx \vec{\epsilon} \cdot \nabla \phi
+    \end{equation*}
+
+    We can then interpret $[\nabla \phi]_i$ as the price per unit of item $i$ that the owner is willing to pay. This is known as the \underline{shadow price} of item $i$. The vector of shadow prices is simply $\nabla \phi$.
 \end{example}
 \begin{theorem}
     If $\phi$ is differentiable at $\vec{b}$ and has a supporting hyperplane with slope $\vec{\lambda}$, then:
@@ -243,4 +267,20 @@ We then want to find the class of problems for which strong duality holds, and t
         \vec{\lambda} = \nabla \phi(\vec{b})
     \end{equation*}
 \end{theorem}
+\begin{example}[Shadow prices II]
+    Suppose now that the raw material seller sets prices $\vec{\lambda}$, such that item $i$ costs $\lambda_i$ per unit. Now the profit function is:
+    \begin{equation*}
+        f(\vec{x}) - \vec{\lambda} \cdot (\vec{h}(\vec{x} - \vec{b}))
+    \end{equation*}
+    Now suppose that the raw material seller buys back any finished product and any leftover raw materials. From the point of view of the seller, the profit is:
+
+    \begin{equation*}
+        \vec{\lambda} \cdot (\vec{h}(\vec{x} - \vec{b})) - f(\vec{x})
+    \end{equation*}
+    The seller knows that if they set a price $\vec{\lambda}$, the factory owner's amount produced $\vec{x}$ will be:
+    \begin{equation*}
+        \min_{\vec{x} \geq \vec{0}} \vec{\lambda} \cdot (\vec{h}(\vec{x}) - \vec{b}) - f(\vec{x})
+    \end{equation*}
+    And so the raw material producer's problem to solve is exactly the dual problem. We have therefore found an economics interpretation of the primal and dual problem. We relax the hard constraint (an exact amount of raw material) to a soft constraint (the ability to purchase more raw material at an extra cost). Then the raw material seller will set a $\vec{\lambda}$ such that the profit is minimised (since their profit is the inverse of that of the factory owner), and in turn the factory owner will set an $\vec{x}$ such that their profit is in turn maximised.
+\end{example}
 \end{document}

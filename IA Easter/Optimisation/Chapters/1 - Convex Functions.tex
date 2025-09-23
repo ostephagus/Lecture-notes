@@ -268,17 +268,17 @@ Then we want to find the point $x$ where $f'(x) = 0$. Note that the formula abov
     \end{equation*}
     Then Newton's method satisfies:
     \begin{equation*}
-        f(\vec{x_t}) - f(\vec{x}^*) \leq \frac{2\alpha^3}{l^2} \left(\frac{l}{2\alpha^2} ||\nabla f(\vec{x_0})||\right)^{2^{k+1}}
+        f(\vec{x_t}) - f(\vec{x}^*) \leq \frac{2\alpha^3}{l^2} \left(\frac{l}{2\alpha^2} ||\nabla f(\vec{x_0})||\right)^{2^{t+1}}
     \end{equation*}
 \end{theorem}
 \begin{remarks}
     \item The $l$-Lipschitz condition replaces the $\beta$-smoothness condition in theorem~\ref{thmGradDescConvergence}.
-    \item If the term in the large brackets is less than 1, equivalent to\\$||\nabla f(\vec{x_0})|| < \frac{2\alpha^2}{l}$. This means we need a sufficiently good starting point. There are situations where a poorly-chosen starting point can mean that Newton's method does not converge. Instead, running a few steps of gradient descent can get to this starting point.
+    \item We only get information about the convergence if the term in the large brackets is less than 1, equivalent to $||\nabla f(\vec{x_0})|| < \frac{2\alpha^2}{l}$. This means we need a sufficiently good starting point. There are situations where a poorly-chosen starting point can mean that Newton's method does not converge. Instead, running a few steps of gradient descent can get to within this bound.
     \item The new exponent shows that Newton's method can be understood to be exponentially more powerful than gradient descent.
     \item The proof of this theorem is non-examinable.
 \end{remarks}
 \subsection{Barrier Method}
-We have so far considered an unconstrained problem, where we consider the minimum over all $\R^n$. If we instead want to find the minimum in a particular subset of $\R^n$, the above methods may fail in the case that the actual minimum of $f$ is outside of the subset. For example, consider:
+We have so far considered an unconstrained problem, where we consider the minimum over all $\R^n$. If we instead want to find the minimum in a particular subset of $\R^n$, the above methods may fail in the case that the actual minimum of $f$ is outside the subset. For example, consider:
 
 Minimise $f(\vec{x})$ such that:
 \begin{equation*}
