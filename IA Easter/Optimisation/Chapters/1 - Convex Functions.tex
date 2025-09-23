@@ -4,83 +4,83 @@
 \section{Introduction to Minimisation} % TODO: Make things vectors.
 Consider a generic problem:
 
-Minimise $f(x)$ such that $h(x) = b$, $x \in \Xset$.
+Minimise $f(\vec{x})$ such that $\vec{h}(\vec{x}) = \vec{b}$, $\vec{x} \in \Xset$.
 
-We define $f$ as the \underline{objective function} $f : \R^n \mapsto \R$. The constraint $h(x) = b$ is a \underline{functional constraint}. The constraint $x \in \Xset$ is a \underline{regional constraint}.
+We define $f$ as the \underline{objective function} $f : \R^n \mapsto \R$. The constraint $\vec{h}(\vec{x}) = \vec{b}$ is a \underline{functional constraint}. The constraint $\vec{x} \in \Xset$ is a \underline{regional}\\\underline{constraint}.
 
-The set of values that satisfy the constraints on $x$ is called the \underline{feasible set}:
+The set of values that satisfy the constraints on $\vec{x}$ is called the \underline{feasible}\\\underline{set}:
 \begin{equation}
-    \Xset(b) = \subsetselect{x \in \R^n}{h(x) = b, x \in \Xset}
+    \Xset(\vec{b}) = \subsetselect{\vec{x} \in \R^n}{\vec{h}(\vec{x}) = \vec{b}, \vec{x} \in \Xset}
     \label{eqnFeasibleSet}
 \end{equation}
 \begin{definition}{Optimal value}
-    If $x* \in \Xset(b)$ and $x*$ minimises the objective function $f$, then $x*$ is the \underline{optimal value}
+    If $\vec{x}* \in \Xset(b)$ and $\vec{x}*$ minimises the objective function $f$, then $\vec{x}*$ is the \underline{optimal value}
 \end{definition}
 \section{Defining Convexity}
 \subsection{Definitions}
 \begin{definition}{Convex set}
-    A set $S \in \R^n$ is \underline{convex} if for all $x, y \in S$ and every $\lambda \in [0, 1]$,
+    A set $S \subseteq \R^n$ is \underline{convex} if for all $\vec{x}, \vec{y} \in S$ and every $\lambda \in [0, 1]$,
     \begin{equation*}
-        \lambda x + (1 - \lambda) y \in S
+        \lambda \vec{x} + (1 - \lambda) \vec{y} \in S
     \end{equation*}
 \end{definition}
 \begin{remark}
     An intuition for this, in $\R^n$, is that a convex set contains all lines between two points within it.
 \end{remark}
 \begin{definition}{Convex function}
-    A function $f : S \mapsto \R$ is a \underline{convex function} if $S$ is convex, and $\forall x, y \in S$ and $\lambda \in [0, 1]$, we have:
+    A function $f : S \mapsto \R$ is a \underline{convex function} if $S$ is convex, and $\forall \vec{x}, \vec{y} \in S$ and $\lambda \in [0, 1]$, we have:
     \begin{equation*}
-        f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1 - \lambda) f(y)
+        f(\lambda \vec{x} + (1-\lambda)\vec{y}) \leq \lambda f(\vec{x}) + (1 - \lambda) f(\vec{y})
     \end{equation*}
 \end{definition}
 \begin{remarks}
-    \item A convex function is a function where any chord between two points $f(x)$ and $f(y)$ lies above the graph of the function.
-    \item A \underline{concave} function is one that obeys the oppose inequality. If $f$ is convex function, $-f$ is concave.
+    \item A convex function is a function where any chord between two points $f(\vec{x})$ and $f(\vec{y})$ lies above the graph of the function.
+    \item A \underline{concave} function is one that obeys the opposite inequality. If $f$ is convex function, $-f$ is concave.
     \item Convex functions are an ideal first candidate for minimisation, since (as we will see) any local minimum is a global minimum.
 \end{remarks}
 \subsection{Convexity and Derivatives}
-\begin{theorem}{First-order condition for convexity}
-    A differentiable function $f : \R^n \mapsto \R$ is convex if and only if for all $x, y \in \R^n$:
+\begin{theorem}[First-order condition for convexity]
+    A differentiable function $f : \R^n \mapsto \R$ is convex if and only if for all $\vec{x}, \vec{y} \in \R^n$:
     \begin{equation}
-        f(y) \geq f(x) + \left[\nabla f(x)\right]^T(y - x)
+        f(\vec{y}) \geq f(\vec{x}) + \left[\nabla f(\vec{x})\right]^T(\vec{y} - \vec{x})
         \label{eqnFirstOrderCondition}
     \end{equation}
     \label{thmFirstOrderCondition}
 \end{theorem}
 \begin{remark}
-    If $\nabla f(x) = 0$ for some $x$, $f(y) \geq f(x)$ for all $y \in \R^n$, and $x$ must be the optimal point $x*$.
+    If $\nabla f(\vec{x}) = 0$ for some $\vec{x}$, $f(\vec{y}) \geq f(\vec{x})$ for all $\vec{y} \in \R^n$, and $\vec{x}$ must be the optimal point $\vec{x}*$.
 \end{remark}
 \begin{proof}
     We consider the restricted function:
     \begin{equation*}
-        f((1-t)x + ty), t \in [0, 1]
+        f((1-t)\vec{x} + t\vec{y}), t \in [0, 1]
     \end{equation*}
-    that is, the function $f$ on the line joining $x$ and $y$.
+    that is, the function $f$ on the line joining $\vec{x}$ and $\vec{y}$.
     \begin{proofdirection}{$\Rightarrow$}{Assume that $f$ is convex.}
-        We know that $f((1-t)x + ty) \leq (1-t)f(x) + tf(y)$. This means:
+        We know that $f((1-t)\vec{x} + t\vec{y}) \leq (1-t)f(\vec{x}) + tf(\vec{y})$. This means:
         \begin{equation*}
-            f(y) \geq f(x) + \frac{f(x + t(y-x)) - f(x)}{t}
+            f(\vec{y}) \geq f(\vec{x}) + \frac{f(\vec{x} + t(\vec{y}-\vec{x})) - f(\vec{x})}{t}
         \end{equation*}
         Then we can consider the limit as $t \to 0$. Only the right-hand side depends on $t$, and is in fact the directional derivative of $f$:
         \begin{equation*}
-            f(y) \geq f(x) + (y - x)^T \nabla f(x)
+            f(\vec{y}) \geq f(\vec{x}) + (\vec{y} - \vec{x})^T \nabla f(\vec{x})
         \end{equation*}
         as required.
     \end{proofdirection}
     \begin{proofdirection}{$\Leftarrow$}{Assume $f$ satisfies equation~\ref{eqnFirstOrderCondition}.}
-        Let $x_t = (1 - t)x + ty$. Then we have:
+        Let $\vec{x_t} = (1 - t)\vec{x} + t\vec{y}$. Then we have:
         \begin{align}
-            f(y) &\geq f(x_t) + \left[\nabla f(x_t)\right]^T (y - x_t) \label{eqnFirstOrder1} \\
-            f(x) &\geq f(x_t) + \left[\nabla f(x_t)\right]^T (x - x_t) \label{eqnFirstOrder2}
+            f(\vec{y}) &\geq f(\vec{x_t}) + \left[\nabla f(\vec{x_t})\right]^T (\vec{y} - \vec{x_t}) \label{eqnFirstOrder1} \\
+            f(\vec{x}) &\geq f(\vec{x_t}) + \left[\nabla f(\vec{x_t})\right]^T (\vec{x} - \vec{x_t}) \label{eqnFirstOrder2}
         \end{align}
         Then consider $t$ times equation~\ref{eqnFirstOrder1} and $(1-t)$ times equation~\ref{eqnFirstOrder2}:
         \begin{align*}
-            tf(y) + (1-t)f(x) &\geq f(x_t) + \left[\nabla f(x_t)\right]^T (y - x_t) \times t \\
-            &+ \left[\nabla f(x_t)\right]^T (x - x_t) \times (1-t) \\
-            &= f(x_t) + \left[\nabla f(x_t)\right]^T t(1-t)(y - x + x - y) \\
-            &= f(x_t)
+            tf(\vec{y}) + (1-t)f(\vec{x}) &\geq f(\vec{x_t}) + \left[\nabla f(\vec{x_t})\right]^T (\vec{y} - \vec{x_t}) \times t \\
+            &+ \left[\nabla f(\vec{x_t})\right]^T (\vec{x} - \vec{x_t}) \times (1-t) \\
+            &= f(\vec{x_t}) + \left[\nabla f(\vec{x_t})\right]^T t(1-t)(\vec{y} - \vec{x} + \vec{x} - \vec{y}) \\
+            &= f(\vec{x_t})
         \end{align*}
-        Then expanding out $x_t$ gives the required result.
+        Then expanding out $\vec{x_t}$ gives the required result.
     \end{proofdirection}
 \end{proof}
 We also define the Hessian matrix:
@@ -100,10 +100,10 @@ Note that it is symmetric.
         A \succeq 0 
     \end{equation*}
 \end{definition}
-\begin{theorem}{Second-order condition for convexity}
-    A twice differentiable function $f : \R^n \mapsto \R$ is convex if and only if, at every point $x \in \R^n$,
+\begin{theorem}[Second-order condition for convexity]
+    A twice differentiable function $f : \R^n \mapsto \R$ is convex if and only if, at every point $\vec{x} \in \R^n$,
     \begin{equation}
-        \nabla^2 f(x) \succeq 0
+        \nabla^2 f(\vec{x}) \succeq 0
         \label{eqnSecondOrderCondition}
     \end{equation}
     \label{thmSecondOrderCondition}
@@ -111,12 +111,12 @@ Note that it is symmetric.
 \begin{proof}[of the if relation]
     Recall the multivariate Taylor series of the function $f$ on the line joining some points $x$ and $y$:
     \begin{equation*}
-        f(y) = f(x) + [\nabla f(x)]^T (y - x) + \frac{(y - x)^T \nabla^2 f(z) (y-x)}{2}
+        f(\vec{y}) = f(\vec{x}) + [\nabla f(\vec{x})]^T (\vec{y} - \vec{x}) + \frac{(\vec{y} - \vec{x})^T \nabla^2 f(z) (\vec{y}-\vec{x})}{2}
     \end{equation*}
-    for some point $z$ on the line between $x$ and $y$. But now we have that the second-order term must be non-negative, which gives the first-order condition. This implies convexity by theorem~\ref{thmFirstOrderCondition}.
+    for some point $\vec{z}$ on the line between $\vec{x}$ and $\vec{y}$. But now we have that the second-order term must be non-negative, which gives the first-order condition. This implies convexity by theorem~\ref{thmFirstOrderCondition}.
 \end{proof}
 \section{Gradient Descent}
-Let $f$ be a convex function. Start at some point $\vec{x}$. We then consider a pertubation $\vec{x} - \nabla f(\vec{x} \epsilon)$ for some small $\epsilon > 0$. This new point has value approximately:
+Let $f$ be a convex function. Start at some point $\vec{x}$. We then consider a perturbation $\vec{x} - \nabla f(\vec{x} \epsilon)$ for some small $\epsilon > 0$. This new point has value approximately:
 \begin{equation*}
     f(\vec{x}) \approx ||\nabla f(\vec{x})||^2 \epsilon
 \end{equation*}
@@ -125,7 +125,7 @@ Note that this is a decrease in the value of $\vec{f}$ as long as the approximat
 However, we have a few problems to deal with when using this algorithm:
 \begin{itemize}
     \item Step size: depending on how \textit{curved} the function is, the step size may need to be modified. For very curved functions, a small step size is required. For a very flat function, a large step size is required.
-    \item Descent direction: if the problem is constrained, such as the value $\vec{x}$ must lie in some subset of $\R^n$, the direction of the negative gradient may not be appropriate if it takes the point outside the subset. Instead, we may have to redefine the direction of the pertubation.
+    \item Descent direction: if the problem is constrained, such as the value $\vec{x}$ must lie in some subset of $\R^n$, the direction of the negative gradient may not be appropriate if it takes the point outside the subset. Instead, we may have to redefine the direction of the perturbation.
     \item Time limit: we may impose some limit on the number of steps the algorithm is allowed to take before we stop it
     \item Stop condition: the condition of small enough $\nabla f$ may give vastly different results for different functions. The results are similar to changing the step size.
 \end{itemize}
@@ -241,7 +241,7 @@ Then this is a quadratic function. Note that it is convex in every direction bec
 \begin{align*}
     \nabla f(\vec{y}) &\approx \nabla f(\vec{x}) + \nabla^2 f(\vec{x}) (\vec{y} - \vec{x}) = 0 \\
     -\nabla f(\vec{x}) &= \nabla^2 f(\vec{x}) (\vec{y} - \vec{x}) \\
-    y - x &= -\left(\nabla^2 f(\vec{x})\right)^{-1} \nabla f(\vec{x})
+    y - x &= -\left(\nabla^2 f(\vec{x})\right)^{-1} \nabla f(\vec{x}) \\
     y &= \vec{x} - \left(\nabla^2 f(\vec{x})\right)^{-1} \nabla f(\vec{x})
 \end{align*}
 We can use this idea to create an algorithm.

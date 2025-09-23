@@ -16,7 +16,7 @@ We define the \underline{Lagrangian} as:
 \begin{equation*}
     L(\vec{x}, \vec{\lambda}) = f(\vec{x}) - \vec{\lambda}^T (h(\vec{x}) - \vec{b})
 \end{equation*}
-where $\lambda \in \R^m$ is some vector. Instead of solving the original problem, we now solve:
+where $\vec{\lambda} \in \R^m$ is some vector. Instead of solving the original problem, we now solve:
 
 Minimise $L(\vec{x}, \vec{\lambda})$ such that $\vec{x} \in \Xset$.
 \begin{theorem}[Lagrange Sufficiency Theorem]
@@ -83,7 +83,7 @@ We perform the following steps:
     \end{align*}
     Geometrically, this is a cylinder intersected with a plane, which means that the feasible set is \textit{nice}, and we will be able to find a minimum.
 
-    Then the lagrangian is:
+    Then the Lagrangian is:
     \begin{align*}
         L(x_1, x_2, x_3, \lambda_1, \lambda_2) &= -x_1 - x_2 + x_3 - \lambda_1(x_1^2 + x_2^2 - 4) \\
         &- \lambda_2(x_1 + x_2 + x_3 - 1) \\
@@ -114,9 +114,9 @@ Consider:
 \end{align}
 The problem in \ref{eqnPrimalProb} known as the \underline{primal problem}.
 \begin{definition}{Dual objective function}
-    Given a primal problem such as \ref{eqnPrimalProb}, let $L(\vec{x}, \vec{\lambda})$ be the lagrangian and:
+    Given a primal problem such as \ref{eqnPrimalProb}, let $L(\vec{x}, \vec{\lambda})$ be the Lagrangian and:
     \begin{equation*}
-        \Lambda = \subsetselect{\vec{\lambda}}{\min_{\vec{x} \in \Xset} L(\vec{x}, \vec{\lambda})}
+        \Lambda = \subsetselect{\vec{\lambda}}{\min_{\vec{x} \in \Xset} L(\vec{x}, \vec{\lambda}) > -\infty}
     \end{equation*}
     define the \underline{dual objective function}:
     \begin{align*}
@@ -181,7 +181,7 @@ From the example sheet, the maximum of a set of convex functions is also a conve
 \subsection{Conditions for the Lagrange Method}
 We then want to find the class of problems for which strong duality holds, and the Lagrange method works.
 \begin{definition}{Supporting hyperplane}
-    A function $\phi : \R^m \mapsto \R$ has a \underline{supporting hyperplane} at $\vec{b} \in \R^m$ if there exists $\lambda \in \R^m$ such that:'
+    A function $\phi : \R^m \mapsto \R$ has a \underline{supporting hyperplane} at $\vec{b} \in \R^m$ if there exists $\lambda \in \R^m$ such that:
     \begin{equation}
         \phi(\vec{c}) \geq \phi(\vec{b}) + \vec{\lambda}^T (\vec{c} - \vec{b})
         \label{eqnSupportHyperPln}
