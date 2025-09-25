@@ -64,11 +64,18 @@ Then we have that $L[y] = \int_\alpha^\beta \sqrt{1 + y^{\prime 2}}dx$. The Eule
 \begin{equation*}
     -\frac{d}{dx} \frac{\partial f}{\partial y'}
 \end{equation*}
-Integrating once with respect to $x$:
+because the function does not depend on $y$, only its derivative. Integrating once with respect to $x$:
 \begin{equation*}
     \frac{\partial f}{\partial y'} = c
 \end{equation*}
-Which, after solving, gives that $y'$ is fixed and $y = mx + c$. We fix these constants by the boundary condition that the line must go through the points.
+We solve this:
+\begin{align*}
+    \frac{\partial^{1}f}{\partial y'} &= \frac{y'}{\sqrt{1 + y^{\prime 2}}} \\
+    &= c \\
+    \therefore y' &\text{ const.} \\
+    \therefore y &= mx + c \\
+\end{align*}
+where $m$ and $c$ are fixed by the boundary conditions.
 
 However, using $y$ as a function of $x$ excludes some curves. Instead we could have that the curve is parameterised by $t \in [0, 1]$, $y$ and $x$ are functions of $t$. Ensure that $t = 0$ at $A$ and $t = 1$ at $B$.
 
@@ -107,7 +114,7 @@ Another case where there is a first integral is when $f$ has no $x$ dependence:
 \begin{proposition}
     If $\frac{\partial f}{\partial x} = 0$. Then:
     \begin{equation}
-        f - y' \frac{\partial f}{\partial y'} = 0
+        f - y' \frac{\partial f}{\partial y'} \text{ is constant.}
         \label{eqnFirstIntegral2}
     \end{equation}
     for any solution $y$ of the Euler-Lagrange equation
