@@ -251,11 +251,19 @@ Similar to Simplex, we perform the algorithm on a tableau that represents the cu
 \begin{tabular}{c|c|c|c|c|c}
      & $\mu_1$ & $\mu_2$ & & $\mu_m$ & \\
     \hline
-    $\lambda_1$ & \transportcell{$\lambda_1 + \mu_1$}{$x_{11}$}{$c_{11}$} & \transportcell{$\lambda_1 + \mu_2$}{$x_{12}$}{$c_{12}$} & $\cdots$ & \transportcell{$\lambda_1 + \mu_m$}{$x_{1m}$}{$c_{1m}$}
-    %TODO: Finish table
+    $\lambda_1$ & \transportcell{$\lambda_1 + \mu_1$}{$x_{11}$}{$c_{11}$} & \transportcell{$\lambda_1 + \mu_2$}{$x_{12}$}{$c_{12}$} & $\cdots$ & \transportcell{$\lambda_1 + \mu_m$}{$x_{1m}$}{$c_{1m}$} & $s_1$ \\
+    \hline
+    $\lambda_2$ & \transportcell{$\lambda_2 + \mu_1$}{$x_{21}$}{$c_{21}$} & \transportcell{$\lambda_2 + \mu_2$}{$x_{22}$}{$c_{22}$} & $\cdots$ & \transportcell{$\lambda_2 + \mu_m$}{$x_{2m}$}{$c_{2m}$} & $s_2$ \\
+    \hline
+    $\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$ & $\vdots$ \\
+    \hline
+    $\lambda_n$ & \transportcell{$\lambda_n + \mu_1$}{$x_{n1}$}{$c_{n1}$} & \transportcell{$\lambda_n + \mu_2$}{$x_{n2}$}{$c_{n2}$} & $\cdots$ & \transportcell{$\lambda_n + \mu_m$}{$x_{nm}$}{$c_{nm}$} & $s_n$ \\
+    \hline
+     & $d_1$ & $d_2$ & $\cdots$ & $d_m$
+
 \end{tabular}
 
-We consider an example to illustrate, with 3 suppliers and 4 consumers. We first need to come up with any feasible solution. The \underline{north-west corner rule} gives as much supply as possible to the first consumer starting with the first producer, then as much as possible to the second starting with the first producer, and so forth. See figure~\ref{figNWCorner} for this specific case.
+We consider an example to illustrate, with 3 suppliers and 4 consumers. We first need to come up with any feasible solution to initialise the algorithm. The \underline{north-west corner rule} gives as much supply as possible to the first consumer starting with the first producer, then as much as possible to the second starting with the first producer, and so forth. See figure~\ref{figNWCorner} for this specific case.
 \begin{theorem}
     Let $x$ be a basic feasible solution obtained by the north-west corner rule. Then the undirected graph corresponding to the edges with non-zero flow is a spanning tree.
 \end{theorem}
@@ -275,7 +283,7 @@ Let the cost matrix be:
         5 & 6 & 2 & 4
     \end{pmatrix}
 \end{equation*}
-We then need to consider the values of $\vec{\lambda}$ and $\vec{\mu}$. We have 6 complementary slackness equations (one for each non-zero $x_{ij}$). Therefore, fix $\lambda_1 = 0$ WLOG and then the other equations give:
+We then need to consider the values of $\vec{\lambda}$ and $\vec{\mu}$. We have 6 complementary slackness equations (one for each non-zero $x_{ij}$), given by $(c_{ij} - (\lambda_i + \mu_j))x_{ij} = 0$. Therefore, fix $\lambda_1 = 0$ WLOG and then the other equations give:
 \begin{equation*}
     \vec{\lambda} = \begin{pmatrix}0 \\ 4 \\ 2\end{pmatrix},~~\vec{\mu} = \begin{pmatrix} 5 \\ 3 \\ 0 \\ 2\end{pmatrix}
 \end{equation*}
@@ -293,9 +301,9 @@ so then the transport tableau is:
      & 12 & 5 & 8 & 8 
 \end{tabular}
 
-So now we find the largest difference between $\lambda_i + \mu_j$ and $c_{ij}$
+Now we choose a cell that has $c_{ij} < \lambda_i + \mu_j$. We choose $(i, j) = (2, 1)$. Consider sending a quantity $\theta$ along the corresponding edge. Use the graph to consider the resulting quantities across different edges.
 
-%TODO: Get the next bit.
+In this case, the smallest quantity is $3 - \theta$. This means $\theta = 3$, and we update the graph and table accordingly.
 
 \begin{tabular}{c|c|c|c|c|c}
      & 5 & 3 & 7 & 9 & \\
@@ -308,5 +316,80 @@ So now we find the largest difference between $\lambda_i + \mu_j$ and $c_{ij}$
     \hline
      & 12 & 5 & 8 & 8 
 \end{tabular}
-Then we choose any cell where $\lambda_i + \mu_j > c_{ij}$. In this case choose $(2, 4)$.
+
+Then we choose any cell where $\lambda_i + \mu_j > c_{ij}$. In this case choose $(2, 4)$. Continue the process.
+\section{Max-Flow Min-Cut}
+We now consider a new type of transport problem where there is a single source and a single sink. All other vertices are intermediate.
+\begin{definition}{Max-Flow Min-Cut problem}
+    A \underline{max-flow min-cut problem} is the following optimisation problem:
+    \begin{align*}
+        \text{Maximise }& \delta \\
+        \text{Subject to }& \sum_{j : (1, j) \in E}x_{1j} - \sum_{j : (j, 1) \in E} x_{j1} = \delta \\
+        & \sum_{j : (n, j) \in E}x_{nj} - \sum_{j : (j, n) \in E} x_{nj} = -\delta \\
+        & \sum_{j : (i, j) \in E}x_{ij} - \sum_{j : (j, i) \in E} x_{ij} = 0,~~i \neq 1, n \\
+        & 0 \leq x_{ij} \leq c_{ij} \text{ for all } i, j.
+    \end{align*}
+\end{definition}
+\subsection{Cuts}
+\begin{definition}{Graph Cut}
+    The \underline{cut} of a graph $G$ is a partition of its vertices $V = \{1, 2, \cdots, n\}$ into two sets $S$ and $V \backslash S$ such that $1 \in S, n \in V \backslash S$.
+\end{definition}
+\begin{definition}{Cut Capacity}
+    The \underline{capacity} of a graph cut is:
+    \begin{equation*}
+        C(S) = \sum_{(i, j) \in E, i \in S, j \notin S} c_{ij}.
+    \end{equation*}
+\end{definition}
+\begin{theorem}[Max flow is at most min cut]
+    Let $x$ be a feasible flow. Then for any cut $(S, V \backslash S)$, $C(S)$ is at least as large as $\delta$.
+\label{thmMaxFlowLessMinCut}
+\end{theorem}
+\begin{proof}
+    For any sets $X$ and $Y \subseteq V$, let:
+    \begin{equation*}
+        f_x(X, Y) = \sum_{(i, j) \in E, i \in X, j \in Y} x_{ij}
+    \end{equation*}
+    We note that $X$ and $Y$ need not be disjoint.
+
+    We sum up all the flow constraints over all vertices in $S$.
+    \begin{align*}
+        \delta &= \sum_{i \in S} \left(\sum_{j : (i, j) \in E} s_{ij} - \sum_{j : (j, i) \in E} x_{ij}\right) \\
+        &= f_x(S, V) - f_x(V, S) \\
+        &= \left(f_x(S, V \backslash S) + f_x(S, S)\right) - \left(f_x(S, S) - f_x(V \backslash S, S)\right) \\
+        &= f_x(S, V \backslash S) - f_x(V \backslash S, S) \\
+        &\leq C(S) + 0
+    \end{align*}
+    as required.
+\end{proof}
+\begin{theorem}[Max-flow min-cut theorem]
+    Let $\delta^*$ be the optimal value of the flow from the source to the sink.
+    \begin{equation*}
+        \delta^* = \min \subsetselect{C(S)}{C \subseteq V, 1 \in S, n \notin S}
+    \end{equation*}
+    that is, there exists a cut such that the capacity of the cut is the maximal flow.
+\label{thmMaxFlowMinCut}
+\end{theorem}
+\begin{proof}
+    A path $v_0, v_1, \cdots, v_k$ is a sequence of vertices in $V$ such that all adjacent vertices are connected by an edge (either forward \textit{or backward}).
+
+    A path from vertex $1$ (the source) to vertex $n$ (the sink) is called an \underline{augmenting path} if every forward edge is not saturated (the flow is less than the capacity, $x_{ij} < c_{ij}$) and every reverse edge has non-zero flow. We can reason that if such an augmenting path exists, the resulting $x$ cannot be optimal.
+
+    Now we can define a cut. Let $S$ be the set of all vertices that can be reached from $1$ by an augmenting path. In the optimal case, where the flow is $\delta^*$, $n \notin S$ be the above. We now claim that this cut has $C(S) = \delta^*$.
+    \begin{align*}
+        \delta^*&= f_x(S, V\backslash S) - f_x(V \backslash S, S) \text{from theorem~\ref{thmMaxFlowLessMinCut}.}
+        &= C(S) + 0
+    \end{align*}
+    this is because any edge from $S$ to $V \backslash S$ must be at capacity, since this cannot be an augmenting path, and any reverse edges from $V \backslash S$ to $S$ must be empty.
+\end{proof}
+This proof suggests the basics of an algorithm: we start with a feasible flow, and look for augmenting paths; for any augmenting paths, we push flow along them until there are no more.
+\subsection{Ford-Fulkerson Algorithm}
+The Ford-Fulkerson Algorithm solves the Max-Flow Min-Cut problem. It is as follows.
+\begin{enumerate}
+    \item Start with $x = 0$ (or any other feasible flow).
+    \item Search for an augmenting path, push as much flow as possible along that path.
+    \item Stop when no augmenting paths exist.
+\end{enumerate}
+We then can use theorem~\ref{thmMaxFlowMinCut} to find an optimal cut by selecting the vertices with augmenting paths from $1$. Then if $\delta = C(S)$, we have the optimal flow $\delta^*$.
+
+We know that, for a graph with only integer capacities, the Ford-Fulkerson algorithm will converge in a finite amount of time. For non-integer capacities, the algorithm may or may not converge.
 \end{document}
