@@ -32,11 +32,17 @@ and so the functional for the area is:
 \subsection{Deriving the Minimal Surface Equation}
 Now consider $h + \delta h$, so:
 \begin{align*}
-    \delta A &= \int_D \frac{h_x (\delta h)_x + h_y (\delta h)_y}{\sqrt{1 + h_x^2 + h_y^2}} dx dy
+    \delta A &= \int_D \frac{h_x (\delta h)_x + h_y (\delta h)_y}{\sqrt{1 + h_x^2 + h_y^2}} dx dy \\
+    &= \int_D \left\{\frac{\partial}{\partial x}\left(\frac{h_x \delta h}{\sqrt{1 + h_x^2 + h_y^2}}\right) + \frac{\partial}{\partial y} \left(\frac{h_y \delta h}{\sqrt{1 + h_x^2 + h_y^2}}\right) \right. \\
+    &\left. - \left[\frac{\partial}{\partial x} \left(\frac{h_x}{\sqrt{1 + h_x^2 + h_y^2}}\right) + \frac{\partial}{\partial y}\left(\frac{h_y}{\sqrt{1 + h_x^2 + h_y^2}}\right)\right] \delta h\right\} dx dy \\
+    &= \int_{\partial D} \left(\frac{\partial}{\partial x}\left(\frac{h_x \delta h}{\sqrt{1 + h_x^2 + h_y^2}}\right), \frac{\partial}{\partial y} \left(\frac{h_y \delta h}{\sqrt{1 + h_x^2 + h_y^2}}\right) \right)^T \cdot d\vec{l} \\
+    &- \int_D \left[\frac{\partial}{\partial x} \left(\frac{h_x}{\sqrt{1 + h_x^2 + h_y^2}}\right) + \frac{\partial}{\partial y}\left(\frac{h_y}{\sqrt{1 + h_x^2 + h_y^2}}\right)\right] \delta h~dx~dy
 \end{align*}
-%TODO: Algebra
-
-Then we find an equivalent to the Euler-Lagrange equation:
+We have boundary conditions that ensure the boundary term (on $\partial D$) is zero, so now the variational derivative is:
+\begin{equation*}
+    \frac{\delta A[h]}{\delta h(x, y)} = - \frac{\partial}{\partial x} \left(\frac{h_x}{\sqrt{1 + h_x^2 + h_y^2}}\right) - \frac{\partial}{\partial y}\left(\frac{h_y}{\sqrt{1 + h_x^2 + h_y^2}}\right) = 0
+\end{equation*}
+This is our partial differential equation that is an equivalent to the Euler-Lagrange equation. We can simplify this:
 \begin{equation}
     (1 + h_y^2)h_{xx} + (1 + h_x^2) h_{yy} - 2h_x h_y h_{xy} = 0
     \label{eqnMinimalSurface}
@@ -48,9 +54,17 @@ If $h_x$ and $h_y$ are small and positive, equation~\ref{eqnMinimalSurface} beco
 One solution of equation~\ref{eqnMinimalSurface} is that $h$ is linear in $x$ and $y$, $h = Ax + By + C$ which is a plane. However, this only satisfies the boundary conditions if the curve $C$ lies in one plane.
 
 We can also find solutions in the case that $h$ depends only on the distance from some origin, $h = h(r)$.
-%TODO: Algebra
+We find that equation~\ref{eqnMinimalSurface} becomes:
+\begin{equation*}
+    rh'' + h' + (h')^3 = 0
+\end{equation*}
+Note that now this is an ordinary differential equation, but is still nonlinear and difficult to solve. We can instead substitute $h = h(r)$ into the functional to obtain:
+\begin{equation*}
+    A[z] = 2\pi \int_0^R r\sqrt{1 + (z')^2} dr
+\end{equation*}
+Extremising this is much easier because there is a first integral.
 
-We then obtain: $r = r_0 \cosh{\frac{z - z_0}{r_0}}$, a Catenoid.
+The solution is $r = r_0 \cosh{\frac{z - z_0}{r_0}}$, a Catenoid.
 \section{Vibrating string}
 Consider a string with fixed endpoints $(0, 0)$ and $(a, 0)$. Let the $y$ coordinate be a function of time, $t$ and $x$: $y = y(t, x)$.
 
@@ -63,22 +77,31 @@ where the prime denotes a derivative with respect to $x$, and the dot with respe
 
 The action is:
 \begin{equation*}
-    I[y] = \frac{1}{2} \int_{t = t_0}^{t_a} \int_{x = 0}^a \left[\rho \dot{y}^2 - T y^{\prime 2}\right] dx dt
+    I[y] = \frac12 \int_{t = t_0}^{t_a} \int_{x = 0}^a \left[\rho \dot{y}^2 - T y^{\prime 2}\right] dx dt
 \end{equation*}
-%TODO: algebra
+Then we can perform the same as above. Vary $y$ to $y + \delta y$:
+\begin{align*}
+    \delta I &= \int_{t_1}^{t_2} \int_{0}^{a} \left(\rho \dot{y}~\delta \dot{y} - T y'~\delta y'\right)dx~dt \\
+    &= \int_{t_1}^{t_2} \int_{0}^{a} \left[\partial_t \left(\rho \dot{y}~\delta \dot{y}\right) - \partial_x \left(Ty'~\delta y'\right) + \left(-\rho \ddot{y} + Ty''\right) \delta y\right] dx~dt
+\end{align*}
+Then, via the same procedure as above, we see that the term that is not inside a total derivative forms the basis of an Euler-Lagrange equation:
+\begin{equation*}
+    \ddot{y} - v^2 y'' = 0, \text{ where } v = \sqrt{\frac{T}{\rho}}.
+\end{equation*}
+This is the wave equation, as seen at the end of IA Differential Equations, and more fully studied in IB Methods.
 \section{Actions and Maxwell's Equations}
 Consider electric and magnetic fields $\vec{E}(t, \vec{x}), \vec{B}(t, \vec{x})$ and:
-\begin{align*}
-    \nabla \cdot \vec{B} &= 0 \\
-    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t}
-\end{align*}
+\begin{align}
+    \nabla \cdot \vec{B} &= 0 \label{eqnMaxwellI} \\
+    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t} \label{eqnMaxwellII}
+\end{align}
 Then we can find a vector potential $\vec{B} = \nabla \times \vec{A}$, and substituting this into the second Maxwell equation gives:
 \begin{equation*}
-    \nabla \times (\vec{E} + \frac{\partial \vec{A}}{\partial t}) = 0 \implies E = -\nabla \phi - \frac{\partial \vec{A}}{\partial t}
+    \nabla \times (\vec{E} + \frac{\partial \vec{A}}{\partial t}) = 0 \implies \vec{E} = -\nabla \phi - \frac{\partial \vec{A}}{\partial t}
 \end{equation*}
 And then the action is a function of $\vec{A}$ and $\phi$:
 \begin{equation*}
-    I[\vec{A}, \phi] = \int_D \left(\frac{|\vec{E}|^2}{2\epsilon_0} _ \frac{\mu_0}{2}|\vec{B}|^2 + \vec{A} \cdot \vec{j} - \phi \rho\right) d^3\vec{x} dt
+    I[\vec{A}, \phi] = \int_D \left(\frac{|\vec{E}|^2}{2\epsilon_0} + \frac{\mu_0}{2}|\vec{B}|^2 + \vec{A} \cdot \vec{j} - \phi \rho\right) d^3\vec{x} dt
 \end{equation*}
 Then we vary this with respect to $\vec{A}$ and $\phi$.
 

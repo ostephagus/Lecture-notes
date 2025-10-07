@@ -304,24 +304,44 @@ We want to extremise the length functional:
 \begin{equation*}
     L[\vec{x}] = \int_0^1 \sqrt{\dot{\vec{x}}^2} dt
 \end{equation*}
-subject to the constraint that $g(\vec{x}(t)) = 0$. We again use a Lagrange multiplier method, but using this function constraint rather than the functional constraint. Define $\lambda(t)$ to be this lagrange multiplier. Then:
+subject to the function constraint:
+\begin{equation}
+    g(\vec{x}(t)) = 0
+    \label{eqnGeneralSurfaceConstraint}
+\end{equation}
+We again use a Lagrange multiplier method, but of a slightly different form. Define $\lambda(t)$ to be this Lagrange multiplier. Then:
 \begin{equation*}
     \Phi[\vec{x}, \lambda] = L[\vec{x}] - \int_0^1 \lambda(t) g(\vec{x}(t)) dt
 \end{equation*}
 Extremising with respect to $\lambda$ recovers the constraint, and extremising with respect to $x_i$ gives:
+\begin{equation}
+    0 = \frac{\delta \Phi}{\delta x_i(t)} = -\lambda \left[\nabla g(\vec{x}(t))\right]_i -\frac{d}{dt} \left(\frac{x_i}{|\dvec{x}|}\right)
+    \label{eqnGeodesicEL}
+\end{equation}
+We now want to eliminate $\lambda$. We can do this by differentiating equation~\ref{eqnGeneralSurfaceConstraint} twice:
+\begin{align*}
+    0 &= \dot{x}_i \nabla_i g \\
+    \therefore 0 &=\frac{\dot{x}_i \nabla_i g}{\sqrt{\dot{x}^2}} \\
+    0 &= \frac{d}{dt} \left(\frac{\dot{x}_i}{|\dvec{x}|}\right) + \frac{\dot{x}_i}{|\dvec{x}|} \dot{x_j} \partial_i \partial_j g \\
+    &= -\lambda(t) (\nabla g)^2 + \frac{\dot{x_i} \dot{x_j} \partial i \partial j g}{|\dvec{x}|} \text{ by equation~\ref{eqnGeodesicEL}}\\
+\end{align*}
+Therefore we can find $\lambda$:
 \begin{equation*}
-    0 = \frac{\delta \Phi}{\delta x_i(t)} = -\lambda \left[\nabla g(\vec{x}(t))\right]_i -\frac{d}{dx} \left(\frac{x_i}{\sqrt{\dot{\vec{x}}^2}}\right)
+    \lambda(t) = \frac{\dot{x}_i \dot{x_j} \partial i \partial j g}{(\nabla g)^2 |\dvec{x}|}
 \end{equation*}
-Then we can eliminate $\lambda$. Eventually,
+In this way, we can substitute in for $\lambda$ and obtain an Euler-Lagrange equation from equation~\ref{eqnGeodesicEL}:
 \begin{equation*}
-    \lambda(t) = \frac{\dot{x}_i \dot{x}_j \frac{\partial^2 g}{\partial x_i \partial x_j}}{(\nabla g)^2 \sqrt{\dot{\vec{x}}^2}}
-\end{equation*}
-and then we arrive at:
-\begin{equation*}
-    \frac{1}{\sqrt{\dot{\vec{x}}^2}} \frac{d}{dt}\left(\frac{\dot{x}_i}{\sqrt{\dot{\vec{x}}^2}}\right) + \frac{\dot{x}_j \dot{x}_k \frac{\partial^2 g}{\partial x_j \partial x_k}}{(\nabla g)^2 \dot{\vec{x}}^2} [\nabla g]_i
+    \frac{1}{|\dvec{x}|} \frac{d}{dt} \left(\frac{\dot{x}_i}{|\dvec{x}|}\right) + \frac{\dot{x}_j \dot{x}_k \partial_j \partial_k g}{(\nabla g)^2 |\dvec{x}|^2} \nabla_i g = 0
 \end{equation*}
 If then we parameterise with arc length rather than $t$, and reintroduce the Hessian matrix for $g$:
 \begin{equation*}
-    \frac{d^2 x_i}{dl^2} + \frac{1}{(\nabla g)^2}\frac{dx_j}{dl} \frac{dx_k}{dl} H_{jk} [\nabla g]_i
+    \frac{d^2 x_i}{dl^2} + \frac{1}{(\nabla g)^2}\frac{dx_j}{dl} \frac{dx_k}{dl} H_{jk} \nabla_i g
 \end{equation*}
+\begin{example}
+    Consider the simple case of $g(\vec{x}) = z = 0$. Then the Euler-Lagrange equation becomes:
+    \begin{equation*}
+        \partial_j \partial_k g = 0
+    \end{equation*}
+    Which is the equation for a straight line.
+\end{example}
 \end{document}

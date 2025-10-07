@@ -14,7 +14,7 @@ Then we consider this for a functional:
 \end{equation*}
 with $y \in \funcset$, $\funcset = \subsetselect{y : [\alpha, \beta] \mapsto \R}{y(\alpha) = a, y(\beta) = b, \text{ y continuously twice-differentiable}}$.
 Then we consider a pertubation $y + \epsilon \xi \in \funcset$, and $\xi(\alpha) = \xi(\beta) = 0$.
-For small $\epsilon$,
+Considering the Taylor expansion to second order:
 \begin{align*}
     f(y + \epsilon \xi, y' + \epsilon \xi', x) &= f(y, y', x) + \epsilon \xi \left[\frac{\partial f}{\partial y} - \frac{d}{dx} \frac{\partial f}{\partial y'}\right] + \epsilon \frac{d}{dx}\left(\xi \frac{\partial f}{\partial y'}\right) \\
     &+ \frac{1}{2} \epsilon^2 \left[\xi^2 \frac{\partial^2 f}{\partial y^2} + 2\xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + \xi^{\prime 2} \frac{\partial^2 f}{\partial \xi^{\prime 2}}\right] + O(\epsilon^3)
@@ -23,10 +23,13 @@ And substituting this back in:
 \begin{align*}
     F[y + \epsilon \xi] - F[y] &= \epsilon \int_\alpha^\beta \xi(x) \frac{\delta F}{\delta y(x)}dx + \epsilon^2 \delta^2 F[y, \xi] + O(\epsilon^3) \\
     \delta^2 F[y, \xi] &= \frac{1}{2} \int_\alpha^\beta \left[\xi^2 \frac{\partial f}{\partial y^2} + 2\xi\xi' \frac{\partial^2 f}{\partial y \partial y'} + \xi^{\prime 2} \frac{\partial^2 f}{\partial \xi^{\prime 2}}\right]dx
-    &= \int_\alpha^\beta \left[\xi^2 \left(\frac{\partial f}{\partial y^2} - \frac{d}{dx} \frac{\partial^2 f}{\partial y \partial y'}\right) + \xi^{\prime 2} \frac{\partial f}{\partial y^{\prime 2}}\right]dx
-    %TODO: Check
 \end{align*}
-Recall that if $H(\vec{x})$ is positive semi-definite for all $\vec{x}$ then $f(\vec{x})$ is convex so any stationaru point is a global minimum. We can make a similar statement for functionals:
+We also note that $2\xi\xi' = \frac{d(\xi^2)}{dx}$, and so we can integrate by parts (and use the boundary conditions to remove an extra term) to achieve a nicer form for the second variation:
+\begin{equation}
+    \delta^2 F[y, \xi] = \int_\alpha^\beta \left[\xi^2 \left(\frac{\partial f}{\partial y^2} - \frac{d}{dx} \frac{\partial^2 f}{\partial y \partial y'}\right) + \xi^{\prime 2} \frac{\partial^2 f}{\partial y^{\prime 2}}\right]dx
+    \label{eqnSecondVariation}
+\end{equation}
+Recall that if $H(\vec{x})$ is positive semi-definite for all $\vec{x}$ then $f(\vec{x})$ is convex so any stationary point is a global minimum. We can make a similar statement for functionals:
 \begin{theorem}
     If $\delta^2 F[y, \xi] \geq 0$ for all $y \in \funcset$, and all allowed $\xi(x)$, then $y = y_0$ is a global minimum of $F$ in $\funcset$ if it satiesfies the Euler-Lagrange equation.
 \end{theorem}

@@ -4,9 +4,9 @@
 \section{Configuration Space}
 Consider a system of $N$ particles in $3$ dimensions. Use the conventions from IA Dynamics and Relativity.
 
-Rather than considering the positions of the individual particles, we can combine them into a $3n$-dimensional vector. This is known as the \underline{configuration space} of the system.
+Rather than considering the positions of the individual particles, we can combine them into a $3N$-dimensional vector. This is known as the \underline{configuration space} of the system.
 
-It may also be convenient to use non-cartesian coordinates\\$\vec{q} = (q_1, q_2, \cdots, q_N)^T$. There is a simple way to determine the equations of motion if we know the kinetic energy $T$ and potential energy $V$ in terms of the position in configuration space $\vec{q}(t)$ and its time derivative $\dot{\vec{q}}(t)$.
+It may also be convenient to use non-Cartesian coordinates\\$\vec{q} = (q_1, q_2, \cdots, q_N)^T$. There is a simple way to determine the equations of motion if we know the kinetic energy $T$ and potential energy $V$ in terms of the position in configuration space $\vec{q}(t)$ and its time derivative $\dot{\vec{q}}(t)$.
 
 \section{The Lagrangian}
 \subsection{In General Coordinates}
@@ -28,55 +28,97 @@ Since $\vec{q_A}$ and $\vec{q_B}$ are fixed, we have the Euler-Lagrange equation
 \begin{equation*}
     \frac{\partial L}{\partial q_i} - \frac{d}{dt} \frac{\partial L}{\partial \dot{q}_i} = 0.
 \end{equation*}
-Then if $L$ has no explicit dependence on $t$ (i.e. the corresponding derivative is zero), then there exists a first integral:
-\begin{equation*}
-    L = \sum_{i = 1}^{3N} \dot{q}_i \frac{\partial L}{\partial \dot{q}_i} = -E
-\end{equation*}
-where $E$ is a constant. In fact, we see that $E$ is the total energy of the system.
+\begin{proposition}
+    If $L$ has no explicit dependence on $t$ (i.e. the corresponding derivative is zero), then there exists a first integral:
+    \begin{equation*}
+        L = \sum_{i = 1}^{3N} \dot{q}_i \frac{\partial L}{\partial \dot{q}_i} = -E
+    \end{equation*}
+    where $E$ is a constant.
+\end{proposition}
+\begin{remark}
+    In fact, we see that $E$ is the total energy of the system.
+\end{remark}
+\begin{proof}
+    \begin{align*}
+        \frac{dL}{dt} &= \frac{d}{dt} L(\vec{q}(t), \dvec{q}(t),t) \\
+        &= \frac{\partial L}{\partial t} + \sum_{i = 1}^{3N} \left(\frac{\partial L}{\partial q_i} \dot{q}_i + \frac{\partial L}{\partial \dot{q}_i} \ddot{q}_i\right) \\
+        &= \frac{\partial L}{\partial t} + \sum_{i = 1}^{3N} \dot{q}_i \left(\frac{\partial L}{\partial q_i} - \frac{d}{dt} \frac{\partial L}{\partial \dot{q}_i}\right) + \frac{d}{dt} \sum_{i = 1}^{3N} \dot{q_i} \frac{\partial L}{\partial \dot{q}_i} \\
+        &= \frac{\partial L}{\partial t}  + \frac{d}{dt} \sum_{i = 1}^{3N} \dot{q_i} \frac{\partial L}{\partial \dot{q}_i} \text{ by Euler-Lagrange}
+    \end{align*}
+    And therefore we rearrange the equation:
+    \begin{align*}
+        \frac{d}{dt} \left(L - \sum_{i = 1}^{3N} \dot{q}_i \frac{\partial L}{\partial \dot{q}_i}\right) &= \frac{\partial L}{\partial t} \\ 
+        &= 0
+    \end{align*}
+\end{proof}
+\begin{example}
+    Consider a single particle moving under the influence of a potential $V = V(\vec{x})$. Then:
+    \begin{align*}
+        -E &= \frac{1}{2} m|\dvec{x}|^2 - V - \sum_{i = 1}^3 \dot{x}_i m \dot{x}_i \\
+        &= -\frac{1}{2} m|\dvec{x}|^2 - V
+    \end{align*}
+    so we have verified that indeed $E$ is the total energy.
+\end{example}
 \subsection{Example: In Polar Coordinates}
 Consider a particle in 2 dimensions, and use polar coordinates $(r, \phi)$. We have that the kinetic energy is:
 \begin{equation*}
-    T = \frac{1}{2} m \dot{x}^2 = \frac{1}{2} m (\dot{r}^2 + r^2 \dot(\phi)^2)
+    T = \frac{1}{2} m \dot{x}^2 = \frac{1}{2} m (\dot{r}^2 + r^2 \dot{\phi}^2)
 \end{equation*}
 and assume that the potential depends only on $r$: $V = V(r)$.
 
-The Lagrangian becomes $L = \frac{1}{2} m (\dot{r}^2 + r^2 \dot{\phi}^2) - V(r)$. Then Euler-Lagrange equation for $\phi(t)$ is:
+The Lagrangian becomes $L = \frac12 m (\dot{r}^2 + r^2 \dot{\phi}^2) - V(r)$. Then Euler-Lagrange equation for $\phi(t)$ is:
 \begin{equation*}
     \frac{\partial L}{\partial \phi} - \frac{d}{dt} \frac{\partial L}{\partial \dot{\phi}} = 0
 \end{equation*}
-Then note that $L$ has no explicit $\phi$ dependence, and the first integral gives that $\frac{\partial L}{\partial \dot{\phi}}$ is constant, and note that $m r^2 \dot{\phi}$ is constant, and this is angular momentum.
+Then note that $L$ has no explicit $\phi$ dependence, so we have a first integral:
+\begin{equation*}
+    \frac{dl}{d\dot{\phi}} = \text{const}
+\end{equation*}
+Evaluating this, and cancelling mass (which we assume to be constant), we find $r^2 \dot{\phi} = h$, where $h$ is constant. This is the specific angular momentum which is conserved.
 
 $L$ also has no explicit $t$ dependence, so using the above we have a first integral:
 \begin{equation*}
-    E = \dot{r} \frac{\partial L}{\partial \dot{r}} + \dot{\phi} \frac{\partial L}{\partial \dot{\phi}} - L = T + V
+    E = \dot{r} \frac{\partial L}{\partial \dot{r}} + \dot{\phi} \frac{\partial L}{\partial \dot{\phi}} - L = \frac{1}{2} m(\dot{r}^2 + r^2 \dot{\phi}^2) + V(r)
 \end{equation*}
+Finally, note that this contains $\dot{\phi}$, however we can eliminate this as in Dynamics and Relativity using the conserved quantity $h$.
 \section{The Hamiltonian}
 \subsection{In General Coordinates}
 \begin{definition}{Hamiltonian}
-    Assume that the Lagrangian is a convex function of $\dot{\vec{q}}$. Then the \underline{Hamiltonian} is the Legendre transform with respect to $\dot{\vec{q}}$.
+    Assume that the Lagrangian is a convex function of $\dot{\vec{q}}$. Then the\\\underline{Hamiltonian} is the Legendre transform with respect to $\dot{\vec{q}}$.
 \end{definition}
 Taking this Legendre Transform:
-\begin{align*}
-    H(\vec{q}, \vec{p}, t) &= \sup_{\dot{\vec{q}}} \left[\vec{p} \cdot \dot{\vec{q}} - L(\vec{q}, \dot{\vec{q}}, t)\right] \\
-    &= \left[\vec{p} \cdot \dot{\vec{q}} - L(\vec{q}, \dot{\vec{q}}, t)\right]_{\dot{\vec{q}} = \dot{\vec{q}}(\vec{q}, \vec{p}, t)}
-\end{align*}
-where $\dot{\vec{q}}(\vec{q}, \vec{p}, t)$ is determined by WHAT?? We also have that the $p_i$ are: %TODO: Understand
-\begin{equation*}
+\begin{align}
+    H(\vec{q}, \vec{p}, t) &= \sup_{\dot{\vec{q}}} \left[\vec{p} \cdot \dot{\vec{q}} - L(\vec{q}, \dot{\vec{q}}, t)\right] \label{eqnHamiltonian} \\
+    &= \left[\vec{p} \cdot \dot{\vec{q}} - L(\vec{q}, \dot{\vec{q}}, t)\right]_{\dot{\vec{q}} = \dot{\vec{q}}(\vec{q}, \vec{p}, t)} \nonumber
+\end{align}
+where $\dot{\vec{q}}(\vec{q}, \vec{p}, t)$ is defined to be the local extremum (note by convexity that this exists and is the global extremum), where $\frac{\partial}{\partial \dot{q}_i}$ of the square bracket term is zero.
+
+We also determine $\vec{p}$ as follows:
+\begin{equation}
     p_i = \frac{\partial L}{\partial \dot{q}_i}
-\end{equation*}
-By considering only a single particle, we note that the Hamiltonian can be understood as the total energy of the system. In general, $p_i$ is called the \underline{conjugate momentum} to $q_i$. In polar coordinates, for example, $p_i$ is the angular momentum.
+    \label{eqnHamiltonParameter}
+\end{equation}
+\begin{example}
+    Consider a single particle, $N = 1$, $\vec{q} = \vec{x}$. Then the Lagrangian is $L = \frac{1}{2} m |\dvec{x}|^2 - V(\vec{x}, t)$.
+    
+    Then the Hamiltonian parameter $p_i = \frac{\partial L}{\partial \dot{x}_i} = m \dot{x}_i$, or equivalently, $\vec{p} = m\dvec{x}$. This is the momentum.
+
+    Then the Hamiltonian is $H = \vec{p} \cdot \frac{\vec{p}}{m} - \left(\frac{|\vec{p}^2|}{2m} - V\right)$ which, after tidying, is the total energy.
+\end{example}
+In general, $p_i$ is called the \underline{conjugate momentum} to $q_i$. In polar coordinates, for example, $p_i$ is the angular momentum.
 
 Given that $H$ is equal to the total energy, $H$ will be conserved if $\frac{\partial L}{\partial t} = 0$ (as seen earlier).
 \subsection{Hamiltonian Equations of Motion}
 Consider:
 \begin{align*}
     \left(\frac{\partial H}{\partial p_i}\right)_{\vec{q}, t} &= \dot{q}_i + \sum_j p_j \frac{\partial \dot{q}_i}{\partial p_i} - \sum_j \frac{\partial L}{\partial \dot{q}_i} \frac{\partial \dot{q}_i}{\partial p_i} \\
-    &= \dot{q}_i \text{ by equation~\ref{findthereference}}
+    &= \dot{q}_i \text{ by equation~\ref{eqnHamiltonParameter}}
 \end{align*}
 \begin{align*}
     \left(\frac{\partial H}{\partial q_i}\right)_{\vec{p}, t} &= \sum_j p_j \frac{\partial \dot{q}_j}{\partial q_i} - \frac{\partial L}{\partial q_i} - \sum_j \frac{\partial L}{\partial \dot{q}_j} \frac{\partial \dot{q_j}}{\partial q_i} \\
-    &= -\frac{\partial L}{\partial q_i} = -\frac{d}{dt} \frac{\partial L}{\partial q_i} \\
-    &= -\dot{p}_i
+    &= -\frac{\partial L}{\partial q_i} \text{ by equation~\ref{eqnHamiltonParameter}} \\
+    &= -\frac{d}{dt} \frac{\partial L}{\partial q_i} \text{ using the Euler-Lagrange equations} \\
+    &= -\dot{p}_i \text{ again by equation~\ref{eqnHamiltonParameter}}
 \end{align*}
 and now the Euler-Lagrange equations imply:
 \begin{align}
@@ -85,11 +127,15 @@ and now the Euler-Lagrange equations imply:
 \end{align}
 and these are known as \underline{Hamilton's Equations}. These are first-order equations in $6N$-dimensional phase space with coordinates $(\vec{q}, \vec{p})$.
 
-%TODO: Something about action and boundary conditions??
+We can also obtain Hamilton's Equations as the Euler-Lagrange equations for the functional of $\vec{q} and \vec{p}$:
+\begin{equation*}
+    I[\vec{q}, \vec{p}] = \int_{t_a}^{t_b} \left(\dvec{q} \cdot \vec{p} - H(\vec{q}, \vec{p}, t)\right) dt
+\end{equation*}
+with boundary conditions required that fix $\vec{q}$ at the endpoints.
 
 The time derivative of the Hamiltonian is:
 \begin{align*}
-    \frac{\partial H}{\partial t} &= \frac{d}{dt} H(\vec{q}(t), \vec{p}(t), t) \\
+    \frac{dH}{dt} &= \frac{d}{dt} H(\vec{q}(t), \vec{p}(t), t) \\
     &= \sum_i \left(\frac{\partial H}{\partial q_i} \dot{q}_i + \frac{\partial H}{\partial p_i} \dot{p}_i\right) + \frac{\partial H}{\partial t} \\
     &= \frac{\partial H}{\partial t}
 \end{align*}
@@ -110,18 +156,26 @@ and require that $t \mapsto t^*$ is invertible. Then we can define a new curve $
     \label{eqnActionSymmetry}
 \end{equation}
 \subsection{Time Translational Symmetry}
-Consider a Lagrangian with no explicit $t$ dependence.
-%TODO: get the algebra down.
+Consider a Lagrangian with no explicit $t$ dependence, $L = L(\vec{q}, \dvec{q})$. Consider the following transformation:
+\begin{align*}
+    \vec{Q} &= \vec{q} \\
+    T &= t + s
+\end{align*}
+Therefore $\vec{q}^*(t^*) = \vec{q}(t) = \vec{q}(t^* - s)$. Limits of integration also shift by $s$. Then the LHS of equation~\ref{eqnActionSymmetry} is:
+\begin{align*}
+    \int_{t_A + s}^{s_b + s} L(\vec{q}(t^* - s), \frac{d\vec{q}}{dt} (t^* - s)) dt^* &= \int_{t_A}^{t_B} L(\vec{q}(t), \frac{d^{}\vec{q}}{dt^{}}(t)) dt \\
+    &= \text{ RHS of equation~\ref{eqnActionSymmetry}}
+\end{align*}
 \subsection{Parameterised Transformations of the Action (*)}
-Some of the content of this subsection is \textbf{non-examiable}.
+Some of the content of this subsection is \textbf{non-examinable}.
 
-Now we let $\vec{q}^* = \vec{Q}(\vec{q}, \dvec{q}, t, s)$ where $s$ is some parameter. Also $t^* = T(\vec{q}, \dvec{q}, t, s)$ and let $s = 0$ give the identity transform on $\vec{q}^*$ and $t^*$. For small $s$ this gives:
+Consider now a 1-parameter family of transformations. We let $\vec{q}^* = \vec{Q}(\vec{q}, \dvec{q}, t, s)$ where $s$ is some parameter. Also, $t^* = T(\vec{q}, \dvec{q}, t, s)$ and let $s = 0$ give the identity transform on $\vec{q}^*$ and $t^*$. For small $s$ this gives:
 \begin{align*}
     \vec{q}^* &= \vec{q} + s \left(\frac{\partial \vec{Q}}{\partial s}\right)_{s = 0} + \cdots \\
     t^* &= t + s \left(\frac{\partial T}{\partial s}\right)_{s = 0} + \cdots \\
 \end{align*}
 This statement and its proof are \textbf{non-examinable}.
-\begin{theorem}{Noether's Theorem}
+\begin{theorem}[Noether's Theorem]
     If the action has a 1-parameter family of symmetries then any solution of the Euler-Lagrange equations has a conserved quantity:
     \begin{equation}
         \sum_{i = 1}^{3N} \frac{\partial L}{\partial \dot{q}_i} \left(\frac{\partial Q_i}{\partial s}\right)_{s = 0} + \left(L - \sum_{i = 1}^{3N} \dot{q}_i \frac{\partial L}{\partial \dot{q}_i}\right) \left(\frac{\partial T}{\partial s}\right)_{s = 0} = \text{ const}
@@ -133,22 +187,43 @@ This statement and its proof are \textbf{non-examinable}.
     \begin{equation*}
         \frac{d t^*}{dt} = 1 + s \frac{d}{dt}\left(\frac{\partial T}{\partial S}\right)_{s = 0} + O(s^2)
     \end{equation*}
+    We assume that the action has a symmetry, so:
     \begin{align*}
         0 &= \int_{t_A^*}^{t_B^*} L(\vec{q}^*(t^*), \frac{d \vec{q}^*}{dt^*} (t^*), t^*) dt^* - \int_{t_A}^{t_B} L(\vec{q}(t), \frac{d \vec{q}}{dt} (t), t) dt \\
         &= I^* - I
     \end{align*}
-    Then change variables in $I^*$:
+    Then change variables in $I^*$ from $t^*$ to $t$:
+    \begin{equation*}
+        I^* = \int_{t_A}^{t_B} L\left(\vec{q}^*(t^*(t)), \left(\frac{dt^*}{dt}\right)^{-1} \frac{d}{dt} \left[\vec{q}^*(t^*(t))\right], t^*(t)\right) \frac{dt^*}{dt} dt
+    \end{equation*}
+    then the middle term of $L$ is:
     \begin{align*}
-        I^* &= \int_{t_A}^{t_B} L\left(\vec{q}^*(t^*(t)), \left(\frac{dt^*}{dt}\right)^{-1} \frac{d}{dt} \left[\vec{q}^*(t^*(t))\right], t^*(t)\right) \frac{dt^*}{dt} dt \\
+        & \left(1 + s \frac{d}{dt} \left(\frac{d^{}T}{ds^{}}\right)_{s = 0} + O(s^2)\right)^{-1} \frac{d}{dt} \left(\vec{q} + s\left(\frac{d^{}\vec{Q}}{ds^{}}\right)_{s = 0} + O(s^2)\right) \\
+        &= \frac{d^{}\vec{q}}{dt^{}} - s\frac{d}{dt} \left(\frac{d^{}T}{ds^{}}\right)_{s = 0} \frac{d\vec{q}}{dt} + s \frac{d}{dt}\left(\frac{d\vec{q}}{ds}\right)_{s = 0} + \cdots
     \end{align*}
-    %TODO: Algebra
+    And so we substitute this back into $I^*$:
+    \begin{align*}
+        I^*&= \int_{t_A}^{t_B} L \left(\vec{q} + s\left(\frac{d\vec{q}}{ds}\right)_{s = 0} + \cdots, \right.\\
+        & \left. \frac{d^{}\vec{q}}{dt^{}} - s\frac{d}{dt} \left(\frac{d^{}T}{ds^{}}\right)_{s = 0} \frac{d\vec{q}}{dt} + s \frac{d}{dt}\left(\frac{d\vec{q}}{ds}\right)_{s = 0} + \cdots, t + s \left(\frac{dt}{ds}\right)_{s = 0} + \cdots\right) \\
+        &\times \left(1 + s \left(\frac{dt}{ds}\right)_{s = 0} + \cdots\right) dt \\
+        &= \int_{t_A}^{t_B} \left\{L\left(\vec{q}(t), \frac{d\vec{q}}{dt}, t\right) + s \frac{\partial^{}L}{\partial q_i^{}} \left(\frac{\partial^{}q_i}{\partial s^{}}\right)_{S = 0} \right.\\
+        &+ s \frac{\partial^{}L}{\partial \dot{q}_i^{}} \left[\frac{d}{dt} \frac{\partial^{}Q_i}{\partial s^{}} - \dot{q}_i \frac{d}{dt} \left(\frac{\partial^{}T}{\partial s^{}}\right)_{s = 0}\right] + s \frac{\partial^{}L}{\partial t^{}} \left(\frac{\partial^{}T}{\partial s^{}}\right)_{s = 0} \\
+        &\left.+ sL\frac{d}{dt}\left(\frac{\partial^{}T}{\partial s^{}}\right)_{s = 0} + O(S^2) \right\} dt \\
+        &+ I + \int_{t_A}^{t_B} \left\{ \left(\frac{\partial^{}Q_i}{\partial s^{}}\right)_{s = 0} \left[\frac{\partial^{}L}{\partial q_i^{}} - \frac{d}{dt} \left(\frac{\partial^{}L}{\partial q_i^{}}\right)\right] \right. \\
+        &+ \frac{d}{dt} \left(\left(\frac{\partial^{}Q_i}{\partial s^{}}\right)_{s = 0} \frac{\partial^{}L}{\partial q_i^{}}\right) + \left(L - \dot{q}_i \frac{\partial^{}L}{\partial \dot{q}_i^{}}\right)\frac{d}{dt}\left(\frac{\partial^{}T}{\partial s^{}}\right)_{s = 0} \\
+        &\left. + \frac{\partial^{}L}{\partial t^{}}\left(\frac{\partial^{}T}{\partial s^{}}\right)_{s = 0} \right\}dt + O(s^2) \\
+        &= I + s \left[\left(\frac{\partial^{}Q_i}{\partial s^{}}\right)_{s = 0} \frac{\partial^{}L}{\partial \dot{q}_i^{}} + \left(L - \dot{q}_i \frac{\partial^{}L}{\partial \dot{q}_i^{}}\right) \left(\frac{\partial^{}T}{\partial s^{}}\right)_{s = 0}\right]_{t_A}^{t_B} \\
+        &- \int_{t_A}^{t_B} \left\{-\frac{d}{dt}\left(L - \dot{q}_i \frac{\partial^{}L}{\partial \dot{q}_i^{}}\right) + \frac{\partial L}{\partial t}\right\} \left(\frac{\partial^{}T}{\partial s^{}}\right)_{s = 0} dt + O(s^2) \\
+        &= I + s \left[\left(\frac{\partial^{}Q_i}{\partial s^{}}\right)_{s = 0} \frac{\partial^{}L}{\partial \dot{q}_i^{}} + \left(L - \dot{q}_i \frac{\partial^{}L}{\partial \dot{q}_i^{}}\right) \left(\frac{\partial^{}T}{\partial s^{}}\right)_{s = 0}\right]_{t_A}^{t_B} + O(s^2) \\
+    \end{align*}
+    but we know that $I^* = I$ for all $s$, and therefore the boundary term must be 0. That is, it takes the same value at $t_A$ and $t_B$. Since these endpoints are arbitrary, we have that the required expression is constant.
 \end{proof}
 \begin{example}[Time translational symmetry by theorem~\ref{thmNoether}]
     Assume again that $L$ has no explicit $t$ dependence, and use the same form of time translations as above. Then Noether's Theorem gives:
     \begin{equation*}
         L - \dot{q}_i \frac{\partial L}{\partial \dot{q}_i} = -E
     \end{equation*}
-    is constant. Therefore the invariance of the laws of physics under time translations imply conservation of energy.
+    is constant. Therefore, the invariance of the laws of physics under time translations imply conservation of energy.
 \end{example}
 \begin{example}[Space translational symmetry in one coordinate]
     Suppose that $L$ does not depend on a coordinate $q_1$. Define a translation:
