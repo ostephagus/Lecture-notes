@@ -1,0 +1,45 @@
+\documentclass[british,11pt,a4paper]{report}
+
+\def\course{Quantum Mechanics}
+\def\degreepart{IB}
+\def\term{Michaelmas}
+\def\year{2025}
+\def\lecturer{Prof M. Ubiali}
+
+\input{../../Header.tex}
+
+
+\newcommand{\uvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \hat{\boldsymbol{\firstpart}}_{\secondpart}
+}
+\newcommand{\dvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \dot{\boldsymbol{\firstpart}}_{\secondpart}
+}
+\newcommand{\ddvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \ddot{\boldsymbol{\firstpart}}_{\secondpart}
+}
+
+\newcommand{\duvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \dot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
+}
+\newcommand{\dduvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \ddot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
+}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Introduction}
+\subfile{Chapters/1 - Introduction.tex}
+\chapter{Foundations of QM}
+\chapter{Schr\"odinger Equation I}
+\chapter{Simultaneous Measurement}
+\chapter{Schr\"odinger Equation II}
+
+\end{document}

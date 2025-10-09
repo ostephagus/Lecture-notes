@@ -1,0 +1,81 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Classical Mechanics}
+Classical mechanics is based on 2 distinct concepts, particles and waves.
+
+Particles are point-like objects with position $\vec{x}(t)$ and velocity $\dvec{x}(t)$, which are fully determined by Newton's Second Law, $m\ddvec{x} = F(\vec{x}(t), \dvec{x}(t))$. Further, once we establish the initial position and initial velocity, the motion is determined for all time. Particles can collide or scatter but can never interfere.
+
+Waves are spread out objects, with some function $f(x, t)$ periodic in $\frac{t}{x}$. Their propogation is determined by the wave equation:
+\begin{equation}
+    \frac{\partial^{2}f(x, t)}{\partial t^{2}} - c^2 \frac{\partial^{2}f(x, t)}{\partial x^{2}} = 0
+    \label{eqnWave}
+\end{equation}
+The solutions to the wave equation are of the form:
+\begin{equation}
+    f_{\pm}(x, t) = A_{\pm} \exp\left[i(k x - \omega t)\right]
+    \label{eqnWaveSolution}
+\end{equation}
+Where $A_{\pm} \in \C$, $k, \omega \in \R$. 
+The solutions obey the dispertion relation:
+\begin{equation}
+    \omega = ck
+    \label{eqnDispersion}
+\end{equation}
+Here $\omega$ is the angular frequency and is related the wavelength $\lambda$ and the frequency $\nu$ by:
+\begin{equation*}
+    \nu = \frac{\omega}{2\pi},~~~\lambda = \frac{2\pi c}{\omega} = \frac{c}{\nu}
+\end{equation*}
+
+A key property of waves is interference: when 2 waves interact they sum together to interfere constructively or destructively.
+\section{Photoelectric Effect}
+\subsection{The Experiment}
+%TODO: Find a suitable diagram
+Consider monochromatic light with frequency $\lambda$ incident on a metal plate. This causes electrons to be released from the plate as they gain energy from the light.
+%TODO: more explanation using diagram.
+\subsection{Classical Expectation}
+In classical physics, the energy of a wave is proportional to the square of its amplitude. Therefore, as the intensity (square of amplitude) increases, there will be enough energy to break the bonds of the electrons with the atoms in the metal.
+
+Also, the emission rate of electrons should be constant as the intensity increases beyond a threshold.
+%TODO: More detail.
+\subsection{Experiment and Explanation}
+ surprising facts were found during experimentation:
+\begin{enumerate}
+    \item Below a certain frequency $\omega$, there were no electrons emitted. \label{PEFinding1}
+    \item The velocity (and, by extension, the kinetic energy) of the electrons depended on $\omega$ not the intensity.\label{PEFinding2}
+    \item The emission rate increased with the intensity.\label{PEFinding3}
+\end{enumerate}
+In 1905, Einstein submitted an explanation. This theorised that light comes in small quanta, particles called photons. Each quantum of light carries a small amount of energy related to the frequency as in equation~\ref{eqnPhotonEnergy}
+\begin{equation}
+    E = \hbar \omega = \frac{h \omega}{2\pi}
+    \label{eqnPhotonEnergy}
+\end{equation}
+where $h = 6.67\times 10^{-34} J s$ is the Planck Constant.
+
+The phenomenon of electron emission is explained by scattering of a single photon off of a single electron. In terms of energies, the kinetic energy transferred to the electron is the difference in energy of the photon and the binding energy.
+
+If the binding energy of an electron is $\phi$, the energy transferred to it is $E = \hbar \omega - \phi$. Therefore, the minimum amount of energy for any electrons to be released is:
+\begin{equation}
+    \omega_{min} = \frac{\phi}{\hbar}
+    \label{eqnPEEnergy}
+\end{equation}
+Equation~\ref{eqnPEEnergy} also explains why electron velocity is proportional to frequency of light, not intensity. Indeed, intensity measures the number of photons and therefore the number of electrons that are emitted form the metal plate.
+\section{Atomic Spectra}
+In 1897, Thompson discovere the electron, and considered a model with a uniform distribution of positive charge, with small negative charges (electrons) embedded within. in 1908, the Rutherford Scattering Experiment showed instead that the atom contained a small, dense nucleus of positive charge with electrons orbiting around it.
+
+Rutherford's model was also flawed. Electrons moving in a circular orbit would radiate energy and were not prevented from collapsing into the nucleus. Another problem arose from experimentation with atomic spectra.
+
+The emitted light from an atom when irradiated with light was a set of discrete lines of frequencies:
+\begin{equation}
+    \omega_{mn} = 2\pi R_0 \left(\frac{1}{n^2} - \frac1{m^2}\right)
+    \label{eqnAtomSpectra}
+\end{equation}
+here $n$ and $m$ are natural numbers and $R_0$ is the Rydberg constant.
+
+In 1913, Bohr proposed that electron orbits around the nucleus are quantised so that the angular momentum follows $L_n = n \bar{h}$ for each $n \in \N$.
+
+\begin{theorem}
+    
+    \label{thmQuantisation}
+\end{theorem}
+\end{document}
