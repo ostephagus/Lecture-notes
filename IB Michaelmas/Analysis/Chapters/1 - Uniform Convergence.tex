@@ -1,0 +1,68 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Pointwise Convergence}
+\subsection{Definitions}
+Consider a set $E \subseteq \R$, and consider a sequence of functions:
+\begin{equation*}
+    f_n : E \mapsto \R
+\end{equation*}
+for each $n \in \N$.
+
+We have already defined the idea of convergence for sequences of real numbers, so what could we define for functions to converge?
+
+\begin{definition}{Convergence at a point}
+    A sequence of functions $(f_n)_{n \in \N}$ \underline{converges at a point} $x \in R$ if the sequence of real numbers $(f_n(x))_{n \in \N}$ converges.
+\end{definition}
+\begin{definition}{Pointwise convergence}
+    A set of functions $(f_n)_{n \in \N}$ \underline{converges pointwise} to a function $f$ if the sequence of functions converges pointwise for every $x \in E$, and therefore $f$ is defined as $f(x) = \lim_{n \to \infty} f_n(x)$.
+\end{definition}
+\subsection{The Problem with Pointwise Convergence}
+\begin{example}[Continuity is not preserved]
+    Consider the most basic discontinuous function, the step function.
+    \begin{align*}
+        f : \R &\mapsto \R \\
+        x &= 
+        \begin{cases}
+            1 & x > 0 \\
+            0 & x = 0 \\
+            -1 & x < 0
+        \end{cases}
+    \end{align*}
+    Then we can consider a sequence of continuous functions that converge to this limit, such as:
+    \begin{equation*}
+        f_n(x) = \frac{2}{1 + e^{-nx}} - 1
+    \end{equation*}
+    Then this sequence of functions converges pointwise to the step function, but clearly the continuity property does not hold.
+\end{example}
+\begin{example}[Integrability is not preserved]
+    Let $q_1, q_2 \cdots$ be an enumeration of $\Q \cap [0, 1]$. Define:
+    \begin{align*}
+        f_n : [0, 1] &\mapsto \R \\
+        f_n(x) &=
+        \begin{cases}
+            1 & x \in \{q_1, \cdots, q_n\} \\
+            0 & x \text{ otherwise}
+        \end{cases}
+    \end{align*}    
+    then $f_n$ is integrable, because it is continuous on all but a finite set of points, but the limit $f$ is not integrable as found in Analysis I.
+\end{example}
+\begin{example}[Integrals are not preserved]
+    Consider a sequence of functions that represent triangles as their graphs. Let the triangle begin at the origin, include $(\frac1n, n)$ and $(\frac2n, 0)$ which is a triangle with area $1$, so the functions in the sequence have $\int_0^1 f(x) dx = 1$.
+
+    However, this converges pointwise to the zero function, which has integral 0.
+\end{example}
+
+This tells us that pointwise convergence is nowhere near strong enough to guarantee any properties that we would like. We therefore need a much stronger notion of convergence to be able to carry over properties like continuity and integrability to the limit function.
+\section{Defining Uniform Convergence}
+\begin{definition}{Uniform convergence}
+    Let $f_n, f : E \subseteq \R \mapsto \R$. Then the sequence $(f_n)_{n \in \N}$ \underline{converges uniformly} to $f$ if for all $\epsilon > 0$, there exists $N \in \N$ that may depend on $\epsilon$, so that for every $x \in E$ and $n \geq N$, $|f_n(x) - f(x)| < \epsilon$.
+\end{definition}
+\begin{remark}
+    The definition is equivalent to:
+    \begin{equation*}
+        \forall \epsilon > 0,~ \exists N \in \N~s.t.~~n \geq N \implies \sup_{x \in E} |f_n(x) - f(x)| < \epsilon
+    \end{equation*}
+\end{remark}
+The key difference between this and piecewise convergence is that $N$ is allowed to depend on $\epsilon$ and the specific point $x \in E$ where the convergence is applied. In uniform convergence the same $N$ works for all $x \in E$ given an $\epsilon$.
+\end{document}
