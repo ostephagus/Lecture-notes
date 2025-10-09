@@ -1,0 +1,41 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definitions}
+Throughout, all our random variables and random processes will be assumed to be defined on an appropriate underlying probability space.
+
+\begin{definition}{Discrete-time Markov Chain}
+    A \underline{discrete-time Markov Chain} is a sequence $\chain{X} = (X_n)_{n \geq 0}$ of random variables taking values in the same discrete, countably infinite \underline{state space} I, such that:
+    \begin{equation*}
+        \P(X_{n+1} = x_{n + 1} | X_n = x_n, \cdots, X_0 = 0) = \P(X_{n+1} = x_{n + 1} | X_n = x_n)
+    \end{equation*}
+\end{definition}
+\begin{definition}{Time-homogeneous Markov Chain}
+    A Markov Chain is \underline{time-homogeneous} if $\P(X_{n+1} = y | X_n = x)$ always depends on $n$.
+\end{definition}
+From now on, we will assume any Markov Chain is time-homogeneous.
+
+In this case, we introduce notation. Let $P(x, y) = P_{xy} = P(X_{n + 1} = y | X_n = x)$. The matrix $P$ that is formed is a \underline{stochastic matrix}, where $P_{xy} \geq 0$ and $\sum_{y \in I} P_{xy} = 1$.
+
+\begin{example}
+    A simple binary transition Markov Chain considers 2 states, with probability $\alpha$ to transition from $1$ to $2$, and probability $\beta$ to go back. The transition matrix $P$ is:
+    \begin{equation*}
+        P = 
+        \begin{pmatrix}
+            1 - \alpha & \alpha \\
+            \beta & 1 - \beta
+        \end{pmatrix}
+    \end{equation*}
+\end{example}
+\begin{definition}{Initial distribution}
+    A vector $\vec{\lambda}$ is an \underline{initial distribution} for a Markov chain $\chain{X}$ if $\vec{\lambda}$ is a probability mass function (so components sum to 1) and $P(X_0 = x) = \lambda_x, x \in I$.
+\end{definition}
+\begin{theorem}
+    A set of random variables $\chain{X}$ is a Markov Chain with initial distribution $\vec{\lambda}$ and transition matrix $P$ if and only if:
+    \begin{equation*}
+        P(X_0 = x_0, X_1 = x_1, \cdots, X_n = x_n) = \lambda_{x_0} P_{x_0 x_1} \cdots P(x_{n-1} x_n)
+    \end{equation*}
+    for all $n \geq 1$ and $x_i \in I$.
+    \label{thmMarkovPathEquivalence}
+\end{theorem}
+\end{document}
