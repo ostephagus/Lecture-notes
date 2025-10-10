@@ -1,0 +1,147 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+Throughout these lectures, we consider $\F$ a field. Before we define this formally, we can understand a field to be a set which permits the operations of addition and multiplication. For now, $\F = \R$ or $\C$.
+\section{Defining a Vector Space}
+\begin{definition}{Vector space}
+    A \underline{vector space} over a field $\F$ is an abelian group $(V, +, 0)$ equipped with a function:
+    \begin{align*}
+        \F \times V &\mapsto V
+        (\lambda, v) &\mapsto \lambda v
+    \end{align*}
+    called scalar multiplication.
+
+    We also require that, for all $v, w \in V$ and $\lambda, \mu \in \F$,
+    \begin{enumerate}
+        \item $(\lambda + \mu)v = \lambda v + \mu v$
+        \item $\lambda (v + w) = \lambda v + \lambda w$
+        \item $\lambda (u v) = (\lambda u)v$
+        \item $1 \cdot v = v$.
+    \end{enumerate}
+    Elements of the field $\F$ are called \underline{scalars}, and elements of $V$ are called \underline{vectors}.
+\end{definition}
+We will not make bold elements of $V$, which is different to IA courses, except the vector $\zv$ which may otherwise be confused with the additive identity of $\F$, $0$.
+
+\begin{example}
+    We have often considered column vectors, $V = \F^n$, with the familiar ideas of vector addition and scalar multiplication.
+
+    $\C^n$ is a complex vector space, but it is also a real vector space because we can simply take the field as $\R$ not $\C$.
+\end{example}
+\begin{example}
+    We can also consider the vector space of matrices over a field $\F$ with $n$ columns and $m$ rows.
+\end{example}
+\begin{example}
+    For any non-empty set $X$, we can consider $F^X = \subsetselect{f : X \mapsto \F}{\text{f is a function}}$. Then we define addition of vectors:
+    \begin{equation*}
+        f+g := (f + g)(x) = f(x) + g(x)
+    \end{equation*}
+    and scalar multiplication:
+    \begin{equation*}
+        \lambda f := (\lambda f)(x) = \lambda (f(x))
+    \end{equation*}
+\end{example}
+\begin{propositions}{
+        Let $V$ be a vector space over a field $\F$, let $v \in V$.
+    }
+    \item $0v = \zv$ \label{propZeroVector}
+    \item If $(-1) \in \F$ is the additive inverse of the multiplicative identity $1$, $(-1)v = -v$, the additive inverse of $v$. \label{propNegativeVector}
+    \label{propsSpecialVectors}
+\end{propositions}
+\section{Operations with Vector Spaces}
+\subsection{Vector Subspaces}
+\begin{definition}{Subspace}
+    A \underline{subspace} of a vector space $V$ over $\F$ is a subset $U \subseteq V$ which is a vector space over $\F$ over the same operations as $V$.
+
+    Equivalently, $(U, +)$ is a subgroup of $(V, +)$ and $\forall \lambda \in \F, u \in U, \lambda U \in U$.
+\end{definition}
+\begin{remark}
+    This ensures the vector space axioms are already inherited.
+\end{remark}
+\begin{proposition}[Subspace test]
+    Let $V$ be a vector space over $\F$. Let $U \subseteq V$. Then $U$ is a subspace of $V$ if and only if:
+    \begin{enumerate}
+        \item $U \neq \emptyset$
+        \item $\forall u, w \in U,~\forall \lambda \in \F,~ u + \lambda w \in U$.
+    \end{enumerate}
+    \label{propSubspaceTest}
+\end{proposition}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Let $U$ be a subspace of $V$}
+        Then we can use the axioms to show the 2 conditions.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose $U \subseteq V$ satisfies the two conditions.}
+        Let $\lambda = (-1)$ in the second criterion, then for all $u, v \in U, u - w \in U$ and $U \neq \emptyset$. By the subgroup test from IA Groups, $(U, +)$ is a subgroup of $(V, +)$. Finally, take $u = \zv$ in the second condition. THen for all $w \in U, \lambda \in \F, \lambda w \in U$.
+    \end{proofdirection}
+\end{proof}
+Notationally, for ``subspace of'' we write $U \leq V$.
+\begin{example}
+    Consider the set:
+    \begin{equation*}
+        \left\{\begin{pmatrix} x \\ y \\ z\end{pmatrix} \in \R^3~:~x + y + z = t\right\} \subseteq \R^3
+    \end{equation*}
+    where $t \in \R$ is fixed. Then this is a vector space if and only if $t = 0$.
+\end{example}
+\begin{example}
+    $\R^{\R}$, the set of functions on the reals, is a valid vector space over $\R$. The set of such functions that are continuous, $C(\R)$, is a subspace.
+    The set of infinitely differentiable functions, $C^{\infty}(\R)$ is a subspace of this, and the set of polynomial functions, $P(\R)$, is a subspace again.
+\end{example}
+\begin{lemma}
+    For $U, W \leq V$,
+    \begin{equation*}
+        U \cap W \leq V
+    \end{equation*}
+    \label{lemIntersectSubspace}
+\end{lemma}
+\begin{proof}
+    We need to check first that the set is non-empty. The easiest way to do this is to check it contains $\zv$. We have that, since $U$ and $W$ are independently subspaces of $V$ and so both contain $\zv$. Therefore, $\zv \in  U \cap W$.
+
+    Now consider $x, y \in U \cap W$, $\lambda \in \F$.
+
+    Since $U$ is a subspace of $V$, $x + \lambda y \in U$. The same applies for $W$, so $x + \lambda y \in U \cap W$. This holds for all such $x, y, \lambda$.
+
+    Thus by proposition~\ref{propSubspaceTest}, $U \cap W \leq V$.
+\end{proof}
+\begin{warning}
+    Union rarely preserves subspaces.
+\end{warning}
+Instead of taking a union, we can take a subspace sum:
+\begin{definition}{Subspace sum}
+    The \underline{subspace sum} of $U, W$ is:
+    \begin{equation*}
+        U + W = \subsetselect{u + w}{u \in U, w \in W}
+    \end{equation*}
+\end{definition}
+\begin{lemma}
+    If $U, W \leq V$ then $U + W \leq V$.
+    \label{lemSubspaceSum}
+\end{lemma}
+\begin{proof}
+    The proof is a simple application of the subspace test.
+\end{proof}
+\begin{remark}
+    $U + W$ is the smallest subspace of $V$ containing both $U$ and $W$, since any other subspace of $V$ that contains $U$ and $W$ must contain $U + W$ by the axiom of addition.
+\end{remark}
+\subsection{Linear Maps}
+\begin{definition}{Linear map}
+    A \underline{linear map} from $V$ to $W$ is a function $\alpha : V \mapsto W$ such that, for all $u, v \in V, \lambda \in \F$:
+    \begin{enumerate}
+        \item $\alpha(u + v) = \alpha(u) + \alpha(v)$
+        \item $\alpha(\lambda v) = \lambda \alpha(v)$.
+    \end{enumerate}
+\end{definition}
+We can combine these conditions into one: $\alpha(u + \lambda v) = \alpha(u) + \lambda \alpha(v)$.
+
+\begin{example}[Matrix multiplication is linear]
+    Let $V = \F^n, W = \F^m$. Let $A \in M_{m \times n}$, and let $\alpha$ be given by $\alpha(v) = Av$.
+
+    Then we can use the test above to show that $\alpha$ is linear.
+\end{example}
+\begin{example}[Differentiation/integration is linear]
+    We know from analysis that differentiation is linear, in this case differentiation acts on the set of differentiable functions of $\R$ to the set of functions of $\R$.
+
+    Integration acts on the set of integrable functions of $\R$.
+\end{example}
+\begin{example}[Functions are not necessarily linear]
+    Let $X$ be a non-empty set and let $\alpha : \F^X \mapsto \F$ using a function $f$. Then we know that these functions are not necessarily linear, such as $f(x) = x^2$ on the real numbers.
+\end{example}
+\end{document}
