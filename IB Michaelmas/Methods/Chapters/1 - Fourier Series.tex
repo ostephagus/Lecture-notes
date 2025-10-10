@@ -1,0 +1,116 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Motivation}
+After studing heat conduction in a rod, Joseph Forurier was studying $2\pi$ periodic functions.
+
+He found that if a function has the form:
+\begin{equation*}
+    f(\theta) = \sum_n \hat{f}_n(\theta) e^{in\pi}
+\end{equation*}
+for $n \in \Z$, then the coefficients can found using a formula:
+\begin{equation*}
+    \hat{f}_n = \frac{1}{2\pi} \int_0^{2\pi} f(\theta) e^{-in\pi} d\theta
+\end{equation*}
+In fact, Fourier believed this worked for any $2\pi$-periodic function. He was not quite correct.
+\section{Modern Treatment}
+Introduce a vector space $V$ of $L$-periodic functions. That is,
+\begin{equation*}
+    V = \subsetselect{f : \R \mapsto \C}{f\text{ is ``nice''}, f(\theta + L) = f(\theta)~\forall \theta \in \R}
+\end{equation*}
+Note that for $f \in V$, we need only consider values of $f$ taken in an interval of length $L$, such as $[0, L)$ or $(-\frac{L}{2}, \frac{L}{2}]$.
+
+We define the inner product on V:
+\begin{equation}
+    \langle f~|~g\rangle = \int_0^L f(\theta) \bar{g(\theta)} d\theta
+    \label{eqnInnerProdFuncs}
+\end{equation}
+We can also define a norm in the usual way, $||f|| = \sqrt{\langle f~|~f\rangle}$.
+
+For $n \in \Z$ we also define $e_n \in V$ defined by:
+\begin{equation}
+    e_n(\theta) = e^\frac{2\pi in\theta}{L}
+    \label{eqnFuncSpaceBasis}
+\end{equation}
+We can note the following:
+\begin{align*}
+    \langle e_n~|~e_m\rangle &= \int_0^L e^{2\pi i \frac{(n-m)\theta}{L}} d\theta \\
+    &= L\delta_{nm}
+\end{align*}
+This tells us that this set of functions are orthogonal, each with norm $L$.
+
+Recall from IA Vectors and Matrices that if $V_n$ is an $N$-dimensional vector space equipped with the dot product, with a set of vectors ${\vec{e_n}}_{n = 1}^N$ are orthogonal with $|\vec{e_n}|^2 = L$, then for each $\vec{x} \in V_N$ we can write it as a linear combination of this orthogonal set with coefficient $\hat{x}_n$. To find the coefficient of a single term in this linear combination, we can find the dot product $\vec{x} \cdot \vec{e_m} = \hat{x}_m \vec{e_m} \cdot \vec{e_m} = L\hat{x}_m$.
+
+Now the question is, could this work on $V$, especially because $V$ has infinite dimensions?
+
+We decide we do not care.
+
+If we assume that $f \in V$ can be written in the form
+\begin{equation}
+    f(\theta) = \sum_n \hat{f}_n e_n(\theta)
+    \label{eqnComplexFourierSeries}
+\end{equation}
+Then taking an inner product gives:
+\begin{align*}
+    \langle f~|~e_m\rangle &= \sum_n \hat{f}_n \langle e_n~|~e_m\rangle
+    &= \sum_n \hat{f}_n L\delta_{mn} \\
+    &= L\hat{f}_m
+\end{align*}
+Therefore,
+\begin{equation}
+    \hat{f}_n = \frac{1}{L}\langle f~|~e_n\rangle = \frac{1}{L} \int_0^L f(\theta) e^{-2\pi in\frac{\theta}{L}}d\theta
+    \label{eqnComplexFourierCoefficients}
+\end{equation}
+\begin{warning}
+    Here we implicitly interchanged an infinite integral and an infinite sum. This is fine, given our ``niceness'' condition.
+\end{warning}
+\subsection{Defining the Fourier Series}
+\begin{definition}{Complex Fourier Series}
+    For $L$-periodic $f : \R \mapsto \C$, define its \underline{complex Fourier series} by equation~\ref{eqnComplexFourierSeries}, with coefficients given by equation~\ref{eqnComplexFourierCoefficients}.
+\end{definition}
+We will write,
+\begin{equation*}
+    f(\theta) \sim \sum_n \hat{f}_n e^{2\pi i n \frac{\theta}{L}}
+\end{equation*}
+to mean that the series on the RHS corresponds to the complex Fourier series for the function on the LHS. We would like to demonstrate equality here, but we are not there yet.
+
+We can split the Fourier series into sines and cosines by splitting the sum:
+\begin{align*}
+    \sum_n \hat{f}_n e^{2\pi i n \frac{\theta}{L}} &= \hat{f}_0 + \sum_{n > 0} \hat{f}_n \left[\cos\left(\frac{2\pi i n \theta}{L}\right) + i\sin\left(\frac{2\pi n \theta}{L}\right)\right] \\
+    &+ \sum_{n > 0} \hat{f}_{-n} \left[\cos\left(\frac{2\pi i n \theta}{L}\right) - i\sin\left(\frac{2\pi n \theta}{L}\right)\right] \\ 
+    &= \hat{f}_0 + \sum_{n > 0} \left[a_n \cos\left(\frac{2\pi n \theta}{L}\right) + b_n \sin \left(\frac{2\pi n \theta}{L}\right)\right]
+\end{align*}
+where $a_n = \hat{f}_n + \hat{f}_{-n}, b_n = i (\hat{f}_n - \hat{f}_{-n})$.
+\begin{definition}{Fourier Series}
+    For $f : \R \mapsto \C$ and $L$-periodic define its \underline{Fourier series} by:
+    \begin{equation}
+        \frac{1}{2} a_0 + \sum_{n > 0} \left[a_n \cos\left(\frac{2\pi n \theta}{L}\right) + b_n \sin \left(\frac{2\pi n \theta}{L}\right)\right]
+        \label{eqnFourierSeries}
+    \end{equation}
+    where:
+    \begin{align*}
+        a_n &= \frac{2}{L} \int_0^L f(\theta) \cos\left(\frac{2\pi n \theta}{L}\right)d\theta
+        b_n &= \frac{2}{L} \int_0^L f(\theta) \sin\left(\frac{2\pi n \theta}{L}\right)d\theta
+    \end{align*}
+    are the Fourier coefficients for $f$.
+\end{definition}
+We can also consider a new set of vectors in our space $c_n(\theta) = \cos\left(\frac{2\pi n \theta}{L}\right)$ and $s_n(\theta) = \sin\left(\frac{2\pi n \theta}{L}\right)$. Then we also note that $\{1, c_n, s_n\}$ forms an orthogonal set in V.
+
+\begin{example}
+    Consider $f : \R \mapsto \R$, $1$-periodic such that $f(\theta) = \theta(1-\theta)$ on $[0, 1]$.
+
+    For $n \neq 0$,
+    \begin{align*}
+        \hat{f}_n &= \int_0^1 \theta(1-\theta) e^{-2\pi i n \theta} d\theta \\
+        &= -\left[\frac{\theta(1-\theta) e^{-2\pi i n \theta}}{2 \pi i n}\right]_0^1 + \frac{1}{2\pi i n} \int_0^1 (1 - 2\theta) e^{-2\pi i n \theta}d\theta \\
+        &= -\left[\frac{(1-2\theta) e^{-2\pi i n \theta}}{(2 \pi i n)^2}\right]_0^1 + 0 \\
+        &= -\frac{1}{2(\pi n)^2}
+    \end{align*}
+    and $\hat{f}_0 = \int_0^1 (\theta - \theta^2) d\theta = \frac16$.
+
+    Therefore,
+    \begin{equation*}
+        f(\theta) \sim \frac{1}{6} - \frac{1}{2} \sum_{n \neq 0} \frac{e^{2\pi i n \theta}}{(n \pi)^2}
+    \end{equation*}
+\end{example}
+\end{document}
