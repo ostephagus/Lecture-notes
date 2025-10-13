@@ -1,0 +1,17 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\begin{definition}{Span}
+    Let $V$ be a vector space over $\F$. The \underline{span} of a subset $S \subseteq V$ is the set:
+    \begin{equation*}
+        \spn{S} = \left\{\left.\sum_{s \in S} \lambda_s s \right| \lambda_s \in \F, \text{ finitely many } \lambda _s \text{ are non-zero} \right\}
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    If $S$ is infinite, we have not defined infinite summation so cannot add infinitely many elements of $S$. We call a sum of not-infinitely-many scaled elements of $S$ a \underline{linear combination}.
+\end{remark}
+\begin{definition}{Spanning set}
+    A subset $S$ of a vector space $V$ is a \underline{spanning set} for $V$ if $\spn{S} = V$. We say $S$ \underline{spans} $V$.
+\end{definition}
+$V$ is \underline{finite-dimensional} if it has a finite spanning set.
+\end{document}

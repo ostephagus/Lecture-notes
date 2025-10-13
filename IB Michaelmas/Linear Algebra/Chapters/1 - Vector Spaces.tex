@@ -47,8 +47,7 @@ We will not make bold elements of $V$, which is different to IA courses, except 
     \item If $(-1) \in \F$ is the additive inverse of the multiplicative identity $1$, $(-1)v = -v$, the additive inverse of $v$. \label{propNegativeVector}
     \label{propsSpecialVectors}
 \end{propositions}
-\section{Operations with Vector Spaces}
-\subsection{Vector Subspaces}
+\section{Vector Subspaces}
 \begin{definition}{Subspace}
     A \underline{subspace} of a vector space $V$ over $\F$ is a subset $U \subseteq V$ which is a vector space over $\F$ over the same operations as $V$.
 
@@ -121,7 +120,8 @@ Instead of taking a union, we can take a subspace sum:
 \begin{remark}
     $U + W$ is the smallest subspace of $V$ containing both $U$ and $W$, since any other subspace of $V$ that contains $U$ and $W$ must contain $U + W$ by the axiom of addition.
 \end{remark}
-\subsection{Linear Maps}
+\section{Linear Maps}
+\subsection{Definition and Examples}
 \begin{definition}{Linear map}
     A \underline{linear map} from $V$ to $W$ is a function $\alpha : V \mapsto W$ such that, for all $u, v \in V, \lambda \in \F$:
     \begin{enumerate}
@@ -144,4 +144,182 @@ We can combine these conditions into one: $\alpha(u + \lambda v) = \alpha(u) + \
 \begin{example}[Functions are not necessarily linear]
     Let $X$ be a non-empty set and let $\alpha : \F^X \mapsto \F$ using a function $f$. Then we know that these functions are not necessarily linear, such as $f(x) = x^2$ on the real numbers.
 \end{example}
+
+\subsection{Isomorphisms}
+\begin{definition}{Isomorphism}
+    An \underline{isomorphism} of vector spaces $V$ and $W$ over a field $\F$ is a bijective linear map $\alpha : V \mapsto W$. If such an isomorphism exists, we say $V$ and $W$ are \underline{isomorphic} and write $V \isom W$.
+\end{definition}
+\begin{example}
+    Consider $V = \F^4$, $W = M_{2 \times 2}(\F)$. Then consider the linear map:
+    \begin{equation*}
+        \alpha\left(\begin{pmatrix}a \\ b \\ c \\ d\end{pmatrix}\right) = \begin{pmatrix}a & b \\ c & d\end{pmatrix}
+    \end{equation*}
+    Injectivity and surjectivity are immediate, and we have linearity because the function is applied individually to each argument, which respects matrix and vector multiplication.
+\end{example}
+\begin{proposition}
+    Let $V, W$ be vector spaces of a field $\F$. Then let $\alpha : V \mapsto W$ be an isomorphism.
+    The map $\alpha^{-1} : W \mapsto V$ is an isomorphism.
+    \label{propInverseIsomorphism}
+\end{proposition}
+\begin{proof}
+    We have that $\alpha^{-1}$ is a bijection.
+
+    Let $w_1, w_2 \in W, \lambda \in \F$.
+    There exist $v_1$ and $v_2$ in $V$ such that, for $i = 1, 2, w_i = \alpha(v_i)$.
+    \begin{align*}
+        \alpha^{-1}(w_1 + \lambda w_2) &= \alpha^{-1}(\alpha(v_1) + \lambda \alpha(v_2)) \\
+        &= \alpha^{-1} (\alpha(v_1 + \lambda v_2)) \\
+        &= v_1 + \lambda v_2 \\
+        &= \alpha^{-1}(w_1) + \lambda \alpha^{-1}(w_2)
+    \end{align*}
+\end{proof}
+\subsection{Image and Kernel}
+\begin{definition}{Kernel}
+    Let $V, W$ be vector spaces over $\F$. Let $\alpha : V \mapsto W$ be a linear map. Then the \underline{kernel} of $\alpha$ is:
+    \begin{equation*}
+        \kera = \subsetselect{v \in V}{\alpha(v) = \zv_W} \subseteq V
+    \end{equation*}
+\end{definition}
+\begin{definition}{Image}
+    Let $V, W$ be vector spaces over $\F$. Let $\alpha : V \mapsto W$ be a linear map. Then the \underline{image} of $\alpha$ is:
+    \begin{equation*}
+        \im(\alpha) = \subsetselect{\alpha(v) \in W}{v \in V} \subseteq W
+    \end{equation*}
+\end{definition}
+\begin{propositions}{
+        Let $V$, $W$ be vector spaces over $\F$. Let $\alpha : V \mapsto W$ be a linear map.
+        \label{propKernelImage}
+    }
+    \item $\ker{\alpha} \leq V$ \label{propKerSubspace}
+    \item $\im{\alpha} \leq W$ \label{propKerImage}
+    \item $\alpha$ is surjective if and only if $\im{\alpha} = W$ \label{propSurjectiveIffIm}
+    \item $\alpha$ is injective if and only if $\ker{\alpha} = \{\zv_W\}$ \label{propInjectiveIffKer}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Kernel is a subspace of $V$:
+            First note that the kernel is certainly a subset of $V$. First note that:
+            \begin{align*}
+                \alpha(\zv_V) &= \alpha(\zv_V + \zv_V) \\
+                &= \alpha(\zv_V) + \alpha(\zv_V) \\
+                \therefore \zv_W &= \alpha(\zv_V)
+            \end{align*}
+            This means that $\zv_V \in \kera$, so so $\kera \neq \emptyset$.
+
+            Now suppose $u, v \in \kera, \lambda \in \F$.
+            \begin{align*}
+                \alpha(u + \lambda v) &= \alpha(u) + \lambda \alpha(v) \\
+                \therefore u + \lambda v &\in \kera
+            \end{align*}
+        \item Image is a subspace of $W$:
+            The proof proceeds similarly to the above
+        \item Surjectivity criterion:
+            This is reached directly from the definition of surjectivity.
+        \item Injectivity criterion:
+            \begin{proofdirection}{$\Rightarrow$}{Suppose that $\alpha$ is injective}
+                $\alpha(\zv_V) = \zv_W$, so $\zv_V \in \kera$. Let $v \in \kera$. Then $\alpha(v) = \zv_W = \alpha(\zv_V)$. Therefore, $v = \zv_V$, and the kernel is trivial.
+            \end{proofdirection}            
+            \begin{proofdirection}{$\Leftarrow$}{Suppose that $\kera = \{\zv_V\}$}
+                Let $u, v \in V$ and suppose $\alpha(u) = \alpha(v)$.
+                \begin{align*}
+                    \alpha(u) - \alpha(v) &= \zv_W \\
+                    \alpha(u - v) &= \zv_W \\
+                    u - v &\in \kera \\
+                    u - v &= \zv_V \\
+                    u &= v
+                \end{align*}
+                So $\alpha$ is injective.
+            \end{proofdirection}
+    \end{enumerate}
+\end{proof}
+\section{Quotient Spaces}
+Note that, since vector spaces are abelian groups under addition of vectors, and under scalar multiplication, all subspaces are normal subgroups. We can therefore define an analogue to a quotient group for a vector space.
+\begin{definition}{Left coset}
+    Let $V$ be a vector space over a field $\F$, and let $W \leq V$. Define the \underline{left coset} of $W$ by an element of $V$ as:
+    \begin{equation*}
+        v + W = \subsetselect{v + w}{w \in W} 
+    \end{equation*}
+\end{definition}
+Then the set of left cosets is:
+\begin{equation*}
+    V / W = \subsetselect{v + W}{v \in V}
+\end{equation*}
+Recall that for $u, v \in V$,
+\begin{equation}
+    u + W = v + W \Leftrightarrow u - v \in W
+    \label{eqnCosetEquality}
+\end{equation}
+\begin{definition}{Quotient space}
+    The \underline{quotient space} of a vector space $V$ by a subspace $W$ is the vector space $V / W$ with the associated operations:
+    \begin{enumerate}
+        \item $(u + W) + (v + W) = (u + v) + W$
+        \item $\lambda(u + W) = (\lambda u) + W$.
+    \end{enumerate}
+\end{definition}
+\begin{proposition}
+    The quotient space $V / W$ is a vector space and its operations are well-defined.
+    \label{propQuotientSpace}
+\end{proposition}
+\begin{proof}
+    The proof is similar to that in IA Groups.
+\end{proof}
+\begin{proposition}[Quotient Map]
+    There exists a well-defined function:
+    \begin{align*}
+        \pi_W : V &\mapsto V / W \\
+        v &\mapsto v + W
+    \end{align*}
+    which is surjective and has kernel $\ker(\pi_W) = W$.
+    \label{propQuotMap}
+\end{proposition}
+\begin{proof}
+    \begin{subproof}{$\pi_W$ is surjective}
+        Let $v + W \in V / W$. The $\pi_W (v) = v + W$.
+    \end{subproof}
+    \begin{subproof}{$\pi_W$ is linear}
+        Let $u, v \in V, \lambda \in \F$.
+        \begin{align*}
+            \pi_W(u + \lambda v) &= (u + \lambda v) + W \\
+            &= (u + W) + ((\lambda v) + W) \\
+            &= (u + w) + \lambda (v + W) \\
+            &= \pi_W (u) + \lambda \pi_W (v)
+        \end{align*}
+    \end{subproof}
+    \begin{subproof}{The kernel of $\pi_W$ is $W$}
+        Let $v \in \ker(\pi_W), \pi_W(v) = \zv_{V / W} = W$. Therefore by the criterion in equation~\ref{eqnCosetEquality}, $v - \zv_V \in W$, so $v \in W$. Clearly if $v \in W$ then $v \in \ker(\pi_W)$.
+    \end{subproof}
+\end{proof}
+\begin{theorem}[First isomorphism theorem]
+    Let $V, W$ be vector spaces over a field $\F$. Let $\alpha : V \mapsto W$ be a linear map.
+
+    Then there exists an isomorphism $\bar\alpha : V / \kera \mapsto \im(\alpha)$ given by $\bar\alpha(v + \kera) = \alpha(v)$.
+    \label{thmIsom1}
+\end{theorem}
+\begin{proof}
+    \begin{subproof}{$\bar{\alpha}$ is well-defined and injective}
+        Let $u, v \in V$.
+        \begin{align*}
+            &u + \kera = v + \kera \\
+            &\equiv u - v \in \kera \\
+            &\equiv \alpha(u - v) = \zv_W \\
+            &\equiv \alpha(u) = \alpha(v) \\
+            &\equiv \bar\alpha (u + \kera) = \bar\alpha(v + \kera)
+        \end{align*}
+        Then the forward direction implies that $\bar\alpha$ is well-defined, and the backward direction gives that $\bar\alpha$ is injective.
+    \end{subproof}
+    \begin{subproof}{$\bar\alpha$ is surjective}
+        Let $w \in \im(\alpha)$, so $\exists v \in V$ such that $w = \alpha(v)$.
+
+        Then $w = \bar\alpha(v + K)$.
+    \end{subproof}
+    \begin{subproof}{$\bar\alpha$ is linear}
+        Let $u, v \in V, \lambda \in \F$.
+        \begin{align*}
+            \bar\alpha((u + \kera) &+ \lambda (v + \kera)) = \bar\alpha((u + \lambda v) + \kera) \\
+            &= \alpha(u + \lambda v) \\
+            &= \alpha(u) + \lambda \alpha(v) \\
+            &= \bar\alpha(u + \kera) + \lambda\bar\alpha(v + \kera)
+        \end{align*}
+    \end{subproof}
+\end{proof}
 \end{document}
