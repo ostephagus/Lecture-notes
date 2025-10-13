@@ -29,7 +29,7 @@ We also note that $2\xi\xi' = \frac{d(\xi^2)}{dx}$, and so we can integrate by p
     \delta^2 F[y, \xi] = \int_\alpha^\beta \left[\xi^2 \left(\frac{\partial f}{\partial y^2} - \frac{d}{dx} \frac{\partial^2 f}{\partial y \partial y'}\right) + \xi^{\prime 2} \frac{\partial^2 f}{\partial y^{\prime 2}}\right]dx
     \label{eqnSecondVariation}
 \end{equation}
-Recall that if $H(\vec{x})$ is positive semi-definite for all $\vec{x}$ then $f(\vec{x})$ is convex so any stationary point is a global minimum. We can make a similar statement for functionals:
+Recale that if $H(\vec{x})$ is positive semi-definite for all $\vec{x}$ then $f(\vec{x})$ is convex so any stationary point is a global minimum. We can make a similar statement for functionals:
 \begin{theorem}
     If $\delta^2 F[y, \xi] \geq 0$ for all $y \in \funcset$, and all allowed $\xi(x)$, then $y = y_0$ is a global minimum of $F$ in $\funcset$ if it satiesfies the Euler-Lagrange equation.
 \end{theorem}
@@ -37,7 +37,24 @@ Recall that if $H(\vec{x})$ is positive semi-definite for all $\vec{x}$ then $f(
     In general, we rarely have that the second variation is non-negative for all functions in $\funcset$.
 \end{remark}
 \begin{example}[Geodesics in the Euclidean plane]
-    Geodesics in the Euclidean plane is a rare case in which the above theorem holds.
+    Here the functional was the length of a curve:
+    \begin{equation*}
+        L[y] = \int_\alpha^\beta \sqrt{1 + y^{\prime 2}} dx
+    \end{equation*}
+    where the curve is parameterised as $y(x)$.
+    
+    \begin{equation*}
+        \frac{\partial^{2}f}{\partial y^{2}} = \frac{\partial^{2}f}{\partial y\partial y'} = 0
+    \end{equation*}
+    and:
+    \begin{equation*}
+        \frac{\partial^{2}f}{\partial y^{\prime 2}} = (1 + y^{\prime 2}) ^{-\frac32}
+    \end{equation*}
+    Then the second variation is:
+    \begin{equation*}
+        \delta^2 F[y, \xi] = \frac12 \int_\alpha^\beta \xi^{\prime 2} (1 + y)^{-\frac32} dx \geq 0
+    \end{equation*}
+    And so any solution of the Euler-Lagrange equation is a global minimum of the distance between two points.
 \end{example}
 \section{Classifying Optimal Solutions}
 In general, we want to classify a solution of the Euler-Lagrange equations. Suppose $y_0 \in \funcset$ is a solution of the Euler-Lagrange equations.
@@ -48,25 +65,27 @@ In general, we want to classify a solution of the Euler-Lagrange equations. Supp
 Note that in the formula for $\delta^2 F$, there is a second term in $\xi^{\prime 2}$. If this is negative for some $y$ at any point on the interval, then we can easily find a $\xi$ that is small but changes rapidly around the specific point so that $\delta^2 F[y, \xi] < 0$. Therefore a necessary condition is:
 \begin{definition}{Legendre condition}
     Given a function $y \in \funcset$, a necessary condition for $y$ to be a local minimum is the \underline{Legendre condition}:
-    \begin{equation*}
-        \frac{\partial^2 f}{\partial y^{\prime 2}} > 0
-    \end{equation*}
+    \begin{equation}
+        \frac{\partial^2 f}{\partial y^{\prime 2}} \geq 0
+        \label{eqnLegendreCondition}
+    \end{equation}
 \end{definition}
 As some short-hand notation, define:
 \begin{equation*}
     \rho = \frac{\partial^2 f}{\partial y^{\prime 2}},~~\sigma = \left[\frac{\partial^2 f}{\partial y^2} - \frac{d}{dx} \frac{\partial^2f}{\partial y \partial y'}\right]
 \end{equation*}
 and so:
-\begin{equation*}
+\begin{equation}
     \delta^2 F[y, \xi] = \frac{1}{2} \int_\alpha^\beta \left[\rho(x) \xi^{\prime 2} + \sigma(x) \xi^2\right]dx
-\end{equation*}
-And so the Legendre condition is $\rho \geq 0$. A sufficient condition is $\rho > 0, \sigma \geq 0$, however this is not necessary.
+    \label{eqnSecondVariationShorthand}
+\end{equation}
+And so the Legendre condition is $\rho \geq 0$. A sufficient condition is $\rho > 0, \sigma \geq 0$ on $(\alpha, \beta)$, however this is not necessary.
 
-In general, we can integrate %WHAT EQUATION?
+In general, we can integrate equation~\ref{eqnSecondVariationShorthand} by parts:
 \begin{align*}
-    \delta^2 F[y_0, \xi] &= \frac{1}{2} \int_\alpha^\beta = \xi(x) L\xi(x) dx + \frac{1}{2} \left[\rho \xi \xi'\right]_\alpha^\beta \\
-    &= \frac{1}{2} \int_\alpha^\beta = \xi(x) L\xi(x) dx \\
-    L\xi = -\frac{d}{dx} \left(\rho \frac{d\xi}{dx}\right) + \sigma \xi
+    \delta^2 F[y_0, \xi] &= \frac{1}{2} \int_\alpha^\beta \xi(x) L\xi(x) dx + \frac{1}{2} \left[\rho \xi \xi'\right]_\alpha^\beta \\
+    &= \frac{1}{2} \int_\alpha^\beta \xi(x) L\xi(x) dx \\
+    L\xi &= -\frac{d}{dx} \left(\rho \frac{d\xi}{dx}\right) + \sigma \xi
 \end{align*}
 and so consider the Sturm-Liouville problem, and assume we can find a solution $\eta(x)$ such that:
 \begin{equation*}
