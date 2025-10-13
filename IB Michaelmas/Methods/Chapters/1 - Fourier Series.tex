@@ -13,7 +13,7 @@ for $n \in \Z$, then the coefficients can found using a formula:
     \hat{f}_n = \frac{1}{2\pi} \int_0^{2\pi} f(\theta) e^{-in\pi} d\theta
 \end{equation*}
 In fact, Fourier believed this worked for any $2\pi$-periodic function. He was not quite correct.
-\section{Modern Treatment}
+\section{Defining the Fourier Series}
 Introduce a vector space $V$ of $L$-periodic functions. That is,
 \begin{equation*}
     V = \subsetselect{f : \R \mapsto \C}{f\text{ is ``nice''}, f(\theta + L) = f(\theta)~\forall \theta \in \R}
@@ -64,7 +64,6 @@ Therefore,
 \begin{warning}
     Here we implicitly interchanged an infinite integral and an infinite sum. This is fine, given our ``niceness'' condition.
 \end{warning}
-\subsection{Defining the Fourier Series}
 \begin{definition}{Complex Fourier Series}
     For $L$-periodic $f : \R \mapsto \C$, define its \underline{complex Fourier series} by equation~\ref{eqnComplexFourierSeries}, with coefficients given by equation~\ref{eqnComplexFourierCoefficients}.
 \end{definition}
@@ -112,5 +111,124 @@ We can also consider a new set of vectors in our space $c_n(\theta) = \cos\left(
     \begin{equation*}
         f(\theta) \sim \frac{1}{6} - \frac{1}{2} \sum_{n \neq 0} \frac{e^{2\pi i n \theta}}{(n \pi)^2}
     \end{equation*}
+\end{example}
+\section{Convergence of Fourier Series}
+The subject of convergence of Fourier series is extremely subtle. Results exist about the convergence of many different classes of functions, but the proofs are often difficult and unsuitable for this course.
+
+\begin{definition}{Partial Fourier series}
+    For $f : \R \mapsto \C$ $L$-periodic, define the \underline{partial Fourier series}:
+    \begin{align*}
+        (S_Nf)(\theta)&=\sum_{|n| \leq N} \hat{f}_n e^{2\pi i n \frac\theta{L}} \\
+        &= \frac12 a_0 + \sum_{n = 1}^N \left[a_n \cos\left(\frac{2\pi n \theta}{L}\right) + b_n \sin\left(\frac{2 \pi n \theta}{L}\right)\right]
+    \end{align*}
+\end{definition}
+We want to understand whether $(S_n f) \to f$. There are a few different convergence criteria we can consider:
+\begin{itemize}
+    \item \textbf{Pointwise convergence:} This is the simplest for of convergence to show but, as seen in Analysis II, is quite weak;
+    \item \textbf{Uniform convergence:} this is a much stronger form of convergence, but would require a lot of work to show
+    \item \textbf{Convergence in norm:} Given that we have already defined a norm for our set of functions, we could alternatively consider the norm $||S_n f - f||$ and require that it tends to $0$ as $N \to \infty$. As a reminder, the norm is:
+        \begin{equation*}
+            ||S_n f - f|| = \sqrt{\int_0^1 |(S_n f)(\theta) - f(\theta)|d\theta}
+        \end{equation*}
+        As an aside, this is a motivating problem for the topic of Hilbert Spaces that is covered in Part II Functional Analysis
+\end{itemize}
+\begin{theorem}[Pointwise convergence of Fourier Series]
+    Let $f : \R \mapsto \C$ be $L$-periodic on $[0, L)$. Require:
+    \begin{enumerate}
+        \item $f$ has finitely many discontinuities
+        \item $f$ has finitely many local maxima and minima
+    \end{enumerate}
+    Then for each $\theta \in [0, L)$,
+    \begin{equation}
+        \frac{f(\theta_+) + f(\theta_-)}{2} = \lim_{N \to \infty} (S_N f)(\theta) = \sum_n \hat{f}_n e^{2\pi i n \frac{\theta}{L}}
+        \label{eqnFourierPointwise}
+    \end{equation}
+    Where $f(\theta_\pm) = \lim_{\epsilon \to 0} f(\theta \pm \epsilon)$.
+    \label{thmFourierPointwise}
+\end{theorem}
+\begin{remarks}
+    \item If there is not a discontinuity at $\theta_0$, the Fourier series returns $f(\theta_0)$
+    \item If there is a discontinuity at $\theta_0$, the Fourier series returns the average of $f$ at either side of the discontinuity
+    \item We call functions with the two properties above \underline{Dirichlet functions}
+\end{remarks}
+\begin{proof}[For $C^1$]
+    For ease, assume $L = 2\pi$ and $\theta = 0$ WLOG by considering the new function $f(\theta - \theta_0)$.
+
+    \begin{align*}
+        (S_n f)(0) &= \sum_{|n| \leq N} \hat{f_n} e^{in \times 0} \\
+        &= \sum_{|n| \leq N} \hat{f_n} \\
+        &= \sum_{|n| \leq N} \left(\frac{1}{2\pi} \int_{-\pi}^\pi f(\theta) e^{-i n \theta} d\theta\right) \\
+        &=\frac1{2\pi} \int_{-\pi}^\pi \left[\sum_{|n| \leq N} f(\theta) e^{-i n \theta}d\theta\right]
+    \end{align*}
+    Note that the sum is a geometric series:
+    \begin{equation*}
+        e^{iN\theta} \sum_{n = 0}^{2N} e^{-in\theta} = \frac{\sin\left[\left(N + \frac12\right)\right]}{\sin\left(\frac\theta{2}\right)}
+    \end{equation*}
+    note that this is equal to $2N + 1$ when $\theta \in 2\pi\Z$. We define this to be the \underline{Dirichlet kernel}
+    \begin{equation*}
+        D_N(\theta) =
+        \begin{cases}
+            \frac{\sin\left[\left(N + \frac12\right)\theta\right]}{\sin\left(\frac{\theta}{2}\right)} & \theta \in \R \backslash 2\pi \Z \\
+            2N + 1 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    We note that, for each $N \geq 0$,
+    \begin{enumerate}
+        \item $D_N$ is continuous and $2\pi$-periodic
+        \item $\int_{-\pi}^\pi D_N(\theta) d\theta = 2\pi$
+    \end{enumerate}
+    where here the second property is given by integrating the sum termwise.
+
+    This means:
+    \begin{equation*}
+        f(0) =\frac{1}{2\pi} \int_{-\pi}^\pi D_n(\theta) f(0) d\theta
+    \end{equation*}
+    \begin{align*}
+        (S_N f)(0) - f(0) &= \frac{1}{2\pi} \int_{-\pi}^\pi D_N(\theta) \left[f(\theta) - f(0)\right]d\theta \\
+        &= \frac{1}{2\pi} \int_{-\pi}^\pi \sin\left[\left(N + \frac12\right)\theta\right] F(\theta) d\theta
+    \end{align*}
+    where:
+    \begin{equation*}
+        F(\theta) = \frac{\theta}{\sin\left(\frac{\theta}{2}\right)} \left[\frac{f(\theta - f(0))}{\theta}\right]
+    \end{equation*}
+    Note that $F(\theta)$ is smooth since:
+    \begin{align*}
+        \frac{f(\theta) - f(0)}{\theta}&= \frac{1}{\theta} \int_{0}^{\theta} f'(\tau) d\tau \\
+        &= \frac{1}{\theta} \int_0^1 f'(\tau\theta) \theta d\tau \\
+        &= \int_0^1 f'(\tau\theta) d\tau.
+    \end{align*}
+    Now integrating by parts:
+    \begin{equation}
+        (S_n f)(0) - f(0) = \frac{1}{N + \frac12} \frac{1}{2\pi} \int_{-\pi}^\pi \cos\left[\left(N + \frac12\right)\theta\right] F'(\theta) d\theta
+        \label{eqnFourierPointwiseResult}
+    \end{equation}
+    and the RHS tends to $0$ as $N \to \infty$.
+\end{proof}
+\begin{remark}
+    The proof becomes more difficuly when $f$ becomes less regular.
+\end{remark}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        f(\theta) =
+        \begin{cases}
+            1 & \theta \in [0, \pi) \\
+            -1 & \theta \in [-\pi, 0)
+        \end{cases}
+    \end{equation*}
+    and let it be $2\pi$-periodic.
+
+    $f$ is odd so $a_n = 0$ in the Fourier series.
+    \begin{align*}
+        b_n&= \frac{2}{2\pi} \int_{-\pi}^\pi f(\theta) sin(n\theta) d\theta \\
+        &= \frac{2}{\pi}\int_{0}^{\pi} f(\theta)\sin(n\theta) d\theta \\
+        &= \frac{2}{n\pi} \left[\cos(n\theta)\right]_0^\pi \\
+        &= \frac{2}{n\pi} \left[1 - (-1)^n\right]
+    \end{align*}
+    and so:
+    \begin{equation*}
+        f(\theta) \sim \frac{4}{\pi} \sum_{n \text{ odd}} \frac{\sin(n\theta)}{n}
+    \end{equation*}
+    note also that the series is $0$ at $\theta = 0$, which is the midpoint of $+1$ and $-1$.
 \end{example}
 \end{document}
