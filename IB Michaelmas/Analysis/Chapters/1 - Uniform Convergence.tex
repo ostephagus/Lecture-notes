@@ -65,4 +65,88 @@ This tells us that pointwise convergence is nowhere near strong enough to guaran
     \end{equation*}
 \end{remark}
 The key difference between this and piecewise convergence is that $N$ is allowed to depend on $\epsilon$ and the specific point $x \in E$ where the convergence is applied. In uniform convergence the same $N$ works for all $x \in E$ given an $\epsilon$.
+
+Uniform convergence is a stronger notion than pointwise convergence, $f_n \to f$ uniformly $\implies f_n \to f$ pointwise on a set $E$. This gives a useful way to compute uniform limits of sequences of functions when they exist, or if a uniform limit exists. We first compute the pointwise limit of $f_n$, since if this does not exist then there is no uniform limit either. If it does exist, we have the function for which we can check $\sup_E |f_n - f|$, to ensure it goes to $0$.
+\section{Properties of Uniform Convergence}
+\subsection{Cauchy Criterion}
+\begin{definition}{Uniformly Cauchy Sequence}
+    Let $f_n : E \mapsto \R$ be a sequence of functions. We say $(f_n)$ is a\\\underline{uniformly cauchy sequence} if, for all $\epsilon > 0, \exists N(\epsilon)$ such that:
+    \begin{equation}
+        n, m \geq N \implies \sup_{x \in E} |f_n(x) - f_m(x)| < \epsilon
+        \label{eqnSequenceCauchy}
+    \end{equation}
+\end{definition}
+\begin{theorem}[Cauchy criterion for uniform convergenece]
+    Let $(f_n)$ be a sequence of functions $f_n : E \mapsto \R$. Then the sequence converges uniformly on $E$ if and only if the sequence is uniformly Cauchy on $E$.
+    \label{thmCauchyCriterion}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose $f$ converges uniformly to $f : E \mapsto \R$}
+        Then for any given $\epsilon$, there exists $N$ such that $n \geq N \implies \sup_{E} |f_n - f| < \epsilon$.
+        Choose also $m \geq N$:
+        \begin{align*}
+            |f_n(x) - f_m(x) &\leq |f_n(x) - f(x)| + |f_m(x) - f(x)| \\
+            &\leq \sup_E |f_n - f| + \sup_E |f_m - f| \\
+            \therefore \sup_E |f_n(x) - f_m(x)| &\leq \sup_E |f_n - f| + \sup_E |f_m - f| < 2\epsilon.
+        \end{align*}
+        therefore we have bounded by a fixed multiple of $\epsilon$, the sequence is uniformly Cauchy.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose $f_n$ is uniformly Cauchy}
+        Then the sequence of real numbers $(f_n(x))_n$ is Cauchy for all $x \in E$, so it has a limit. Let the limit be $f(x)$. Therefore we have $f_n \to f$ pointwise on $E$. We now have a candidate uniform limit for $(f_n)$, but we need to check it converges uniformly.
+
+        Fix $\epsilon > 0$, and use the Cauchy property:
+        \begin{equation*}
+            \exists N(\epsilon) \text{ such that } n, m \geq N \implies |f_n(x) - f_m(x)| < \epsilon
+        \end{equation*}
+        Therefore fix $n \geq N$, and let $m \to \infty$. This gives us the required bound:
+        \begin{equation*}
+            |f_n(x) - f(x)| \leq \epsilon \implies \sup_E |f_n(x) - f(x)| \leq \epsilon
+        \end{equation*}
+        and therefore $f_n \to f$ uniformly.
+    \end{proofdirection}
+\end{proof}
+\begin{example}
+    $f_n : \R \mapsto \R$. Let $f_n(x) = \frac{x}{n}$. Then $f_n(x) \to 0$ pointwise in $\R$. However, we do not have uniform convergence because there always exists an $x$ large enough that $|f_n(x) - 0| > \epsilon$.
+
+    However, restricting the domain to $(-a, a)$ allows the function to converge uniformly, because the supremum over $(-a, a)$ of $|f_n(x)|$ is $\frac{a}{n} \to 0$ as required.
+\end{example}
+\subsection{Continuity}
+\begin{theorem}[Continuity is preserved under uniform limits]
+    Let $f_n, f : [a, b] \mapsto \R$. Suppose that $f_n \to f$ uniformly. If, for all $n$, $f_n$ are continuous at some $x \in [a, b]$, then $f$ is continuous at $x$.
+    \label{thmContinuityUC}
+\end{theorem}
+\begin{proof}
+    Fix $\epsilon > 0$. By uniform convergence, we have $N = N(\epsilon)$ such that
+    \begin{equation*}
+        n \geq N \implies \sup_{y \in [a, b]} |f_n(y) - f(y)| < \epsilon
+    \end{equation*}
+
+    Then by continuity of $F_N$ at $x$, we have $\delta(N, x, \epsilon) > 0$ such that for any $y \in [a, b]$ where $|x - y| < \delta$ then $|f_N(y) - f_N(x)| < \epsilon$.
+    
+    Then we have:
+    \begin{align*}
+        |f(y) - f(x)| &\leq |f(y) - f_N(y)| + |f_N(y) - f_N(x) + |f_N(x) - f(x)| \\
+        &\leq \epsilon + \epsilon + \epsilon = 3\epsilon
+    \end{align*}
+    Therefore, since we have found that the difference between the points is less than a fixed multiple of $\epsilon$, $f$ must be continuous at $x$.
+\end{proof}
+\begin{corollary}[Uniform limits of continuous functions are continuous]
+    If $f_n, f : [a, b] \mapsto \R$, $f_n \to f$ uniformly, and $f_n$ are continuous on $[a, b]$ for each $n$, then $f$ is continuous on $[a, b]$.
+    \label{corLimitCtsUC}
+\end{corollary}
+\begin{proof}
+    Apply theorem~\ref{thmContinuityUC} for all $x \in [a, b]$.
+\end{proof}
+\begin{remark}
+    We define $C(E)$ to be the set of all continuous functions on $E$, assuming $E$ an appropriate set like an interval of $\R$ (if $E$ is not such a set, $C(E) = \emptyset$). This is a vector space.
+\end{remark}
+We can also provide an alternative statement for theorem~\ref{thmContinuityUC}:
+\begin{corollary}
+    Let $(f_n)$ be a uniformly Cauchy sequence of functions in $C([a, b])$. Then it converges to a function $f \in C([a, b])$.
+    \label{corUCauchyCts}
+\end{corollary}
+Alternatively, $C([a, b])$ has no holes.
+\begin{proof}
+    The proof is by using thorem~\ref{thmCauchyCriterion} and corollary~\ref{corLimitCtsUC}.
+\end{proof}
 \end{document}
