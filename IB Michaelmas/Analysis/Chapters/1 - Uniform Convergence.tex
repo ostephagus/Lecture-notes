@@ -113,7 +113,7 @@ Uniform convergence is a stronger notion than pointwise convergence, $f_n \to f$
 \subsection{Continuity}
 \begin{theorem}[Continuity is preserved under uniform limits]
     Let $f_n, f : [a, b] \mapsto \R$. Suppose that $f_n \to f$ uniformly. If, for all $n$, $f_n$ are continuous at some $x \in [a, b]$, then $f$ is continuous at $x$.
-    \label{thmContinuityUC}
+    \label{thmUCContinuity}
 \end{theorem}
 \begin{proof}
     Fix $\epsilon > 0$. By uniform convergence, we have $N = N(\epsilon)$ such that
@@ -135,12 +135,12 @@ Uniform convergence is a stronger notion than pointwise convergence, $f_n \to f$
     \label{corLimitCtsUC}
 \end{corollary}
 \begin{proof}
-    Apply theorem~\ref{thmContinuityUC} for all $x \in [a, b]$.
+    Apply theorem~\ref{thmUCContinuity} for all $x \in [a, b]$.
 \end{proof}
 \begin{remark}
     We define $C(E)$ to be the set of all continuous functions on $E$, assuming $E$ an appropriate set like an interval of $\R$ (if $E$ is not such a set, $C(E) = \emptyset$). This is a vector space.
 \end{remark}
-We can also provide an alternative statement for theorem~\ref{thmContinuityUC}:
+We can also provide an alternative statement for theorem~\ref{thmUCContinuity}:
 \begin{corollary}
     Let $(f_n)$ be a uniformly Cauchy sequence of functions in $C([a, b])$. Then it converges to a function $f \in C([a, b])$.
     \label{corUCauchyCts}
@@ -148,5 +148,118 @@ We can also provide an alternative statement for theorem~\ref{thmContinuityUC}:
 Alternatively, $C([a, b])$ has no holes.
 \begin{proof}
     The proof is by using thorem~\ref{thmCauchyCriterion} and corollary~\ref{corLimitCtsUC}.
+\end{proof}
+\subsection{Integrability} %TODO: If appropriate, put the proof of integrability here
+\begin{theorem}
+    Let $f_n, f : [a, b] \mapsto \R$ be bounded and integrable on $[a, b]$.
+
+    If $f_n \to f$ uniformly on $[a, b]$, then $\int_{a}^{b} f_n(x) dx \to \int_{a}^{b} f(x) dx$.
+    \label{thmUCIntegrals}
+\end{theorem}
+\begin{remark}
+    The assumption that $f$ is integrable is redundant, as later we will show that uniform convergence preserves integrability.
+\end{remark}
+\begin{proof}
+    \begin{align*}
+        \left|\int_{a}^{b} f_n(x) dx - \int_{a}^{b} f(x) dx\right| &= \left|\int_{a}^{b} (f_n(x) - f(x)) dx\right| \\
+        &\leq \int_{a}^{b} |f_n(x) - f(x)| dx \\
+        &\leq \sup_{x \in [a, b]} |f_n(x) - f(x)|(b - a) \\
+        &\to 0 \text{ by uniform convergence}
+    \end{align*}
+\end{proof}
+\subsection{Differentiability}
+This is more subtle than continuity or integrability. If $f_n \to f$ uniformly on some interval, and if $f_n$ are differentiable, it does not hold in general that $f$ is differentiable. Even if $f$ is differentiable, the derivatives may not converge even pointwise.
+\begin{example}
+    Consider the series of functions:
+    \begin{align*}
+        f_n : [-1, 1] &\mapsto \R \\
+        x &\mapsto |x|^{1 + \frac1n}
+    \end{align*}
+    \begin{align*}
+        \lim_{x \to 0} \frac{f_n(x) - f_n(0)}{x} &= \lim_{x \to 0} \frac{f_n(x)}{x} \\
+        &= \lim_{x \to 0} \left(\text{sgn}(x) x^{\frac1n}\right) = 0
+    \end{align*}
+    And so $f_n$ is differentiable at $x = 0$ with $f_n'(0) = 0$.
+
+    However, $f(x) = |x|$, which is not differentiable at $0$.
+\end{example}
+\begin{example}
+    Consider now:
+    \begin{align*}
+        f_n : \R &\mapsto \R \
+        x &\mapsto \frac{\sin(nx)}{\sqrt{x}}
+    \end{align*}
+    Then $f_n \to 0$ uniformly on $\R$. We have an infinitely differentiable limit since $f \equiv 0$. However, the derivative of $f_n$ at $0$ is $\sqrt{n} \cos(nx)$ which blow up to infinity as $n \to \infty$.
+\end{example}
+So far we have seen that a series of differentiable functions need to converge uniformly to a differentiable limit, and a series of non-differentiable functions can converge uniformly to a differentiable limit.
+
+\begin{theorem}
+    Let $f_n : [a, b] \mapsto \R$ be a sequence of differentiable functions on $(a, b)$, and require that the limit of the difference quotient exists on the one-sided limit at the endpoints.
+
+    Suppose that $f_n'$ converges uniformly to a function $g : [a, b] \mapsto \R$, and for some $c \in [a, b]$ the sequence $(f_n(c))$ converges.
+
+    Then $(f_n)$ converges uniformly to a function $f : [a, b] \mapsto \R$ and $f$ is differentiable on $[a, b]$ with derivative $g$.
+    \label{thmUCDiff}
+\end{theorem}
+\begin{remarks}
+    \item The statement tells us that:
+        \begin{equation*}
+            \frac{d}{dx}\left(\lim_{n \to \infty} f_n\right) = \lim_{n \to \infty} \left(\frac{d^{}f_n}{dx^{}}\right)
+        \end{equation*}
+        or, we can interchange the operations of taking derivatives and taking limits.
+    \item If we assume that $f_n'$ are continuous, then the proof is more straightforward and can be based on the Fundamental Theorem of Calculus.
+\end{remarks}
+\begin{proof}
+    \begin{subproof}{$f_n \to f$ uniformly}
+        We first start with a clever idea: instead of applying the Mean Value Theorem twice to two different function $f_n$ and $f_m$, consider applying it to their difference, $f_n - f_m$. This avoids two different arbitrary points generated by the MVT.
+        \begin{equation*}
+            f_n(x) - f_m(x) = f_n(c) - f_m(c) + (x - c) \frac{d}{dx}\left[f_n - f_m\right]_{x = x_{n, m}}
+        \end{equation*}
+        where here $x_{n, m}$ is a single point generated by the MVT.
+        \begin{align*}
+            &|f_n(x) - f_m(x) \leq |f_n(c) - f_m(c)| + (b - a) |f_n'(x_{n, m}) - f_m'(x_{n, m})| \\
+            &\sup_{n, m} |f_n(x) - f_m(x)| \leq |f_n(c) - f_m(c)| + (b-a) \sup_{n, m} |f_n' - f_m'|
+        \end{align*}
+        and this tends to $0$ as $m, n \to \infty$.
+
+        Therefore $(f_n)$ is uniformly Cauchy, and by theorem~\ref{thmCauchyCriterion}, there exists a function $f$ for which $f_n \to f$ uniformly.
+    \end{subproof}
+    \begin{subproof}{$f$ is differentiable with derivative $g$}
+        Fix some $y \in [a, b]$.
+        
+        The second clever idea of the proof is to re-formulate the differentiability of $f$ as the continuity of a auxiliary function $h$
+
+        Define $h(x)$:
+        \begin{equation*}
+            h(x) =
+            \begin{cases}
+                \frac{f(x) - f(y)}{x - y} & x \neq y \\
+                g(y) & x = y
+            \end{cases}
+        \end{equation*}
+        and a series of function $h_n(x)$:
+        \begin{equation*}
+            h_n(x) =
+            \begin{cases}
+                \frac{f_n(x) - f_n(y)}{x - y} & x \neq y \\
+                f_n'(y) & x = y
+            \end{cases}
+        \end{equation*}
+        Then, since $f_n$ is differentiable at $y$, we see that $h_n$ is continuous on $[a, b]$.
+        The pointwise limit of $h_n$ is $h$, since $f_n' \to g$. Therefore, if this convergence is uniform we can apply theorem~\ref{thmUCContinuity} to get continuity.
+
+        We can use the Cauchy criterion again:
+        \begin{align*}
+            h_n(x) - h_m(x) &=
+            \begin{cases}
+                \frac{(f_n - f_m)(x) - (f_n - f_m)(y)}{x - y} & x \neq y \\
+                (f_n' - f_m')(y) & x = y
+            \end{cases} \\
+            &= (f_n' - f_m')(x_{n, m}) \text{ where } x_{n, m} \in [x, y] \\
+            \sup (h_n - h_m) &\leq \sup |f_n' - f_m'| \to 0 \text{ as } n, m \to \infty
+        \end{align*}
+        
+    \end{subproof}
+    
 \end{proof}
 \end{document}
