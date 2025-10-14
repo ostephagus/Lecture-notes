@@ -15,7 +15,7 @@ Throughout, all our random variables and random processes will be assumed to be 
 \end{definition}
 From now on, we will assume any Markov Chain is time-homogeneous.
 
-In this case, we introduce notation. Let $P(x, y) = P_{xy} = P(X_{n + 1} = y | X_n = x)$. The matrix $P$ that is formed is a \underline{stochastic matrix}, where $P_{xy} \geq 0$ and $\sum_{y \in I} P_{xy} = 1$.
+In this case, we introduce notation. Let $P(x, y) = P_{xy} = \P(X_{n + 1} = y | X_n = x)$. The matrix $P$ that is formed is a \underline{stochastic matrix}, where $P_{xy} \geq 0$ and $\sum_{y \in I} P_{xy} = 1$.
 
 \begin{example}
     A simple binary transition Markov Chain considers 2 states, with probability $\alpha$ to transition from $1$ to $2$, and probability $\beta$ to go back. The transition matrix $P$ is:
@@ -33,9 +33,117 @@ In this case, we introduce notation. Let $P(x, y) = P_{xy} = P(X_{n + 1} = y | X
 \begin{theorem}
     A set of random variables $\chain{X}$ is a Markov Chain with initial distribution $\vec{\lambda}$ and transition matrix $P$ if and only if:
     \begin{equation*}
-        P(X_0 = x_0, X_1 = x_1, \cdots, X_n = x_n) = \lambda_{x_0} P_{x_0 x_1} \cdots P(x_{n-1} x_n)
+        \P(X_0 = x_0, X_1 = x_1, \cdots, X_n = x_n) = \lambda_{x_0} P_{x_0 x_1} \cdots P(x_{n-1} x_n)
     \end{equation*}
     for all $n \geq 1$ and $x_i \in I$.
     \label{thmMarkovPathEquivalence}
 \end{theorem}
+\section{Identifying a Markov Chain}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose that $\chain{X}$ is Markov$(\lambda, P)$}
+        \begin{align*}
+            &\P(X_0 = x_0, \cdots, X_n = x_n) = \\
+            &= \P(X_0 = x_0, \cdots, X_{n-1} = x_{n-1}) \P(X_n = x_n | X_{n-1} = x_{n-1}) \\
+            &= \P(X_0 = x_0, \cdots, X_{n-1} = x_{n-1}) P_{x_{n-1}, x_n} \\
+            &= \cdots = P(X_0 = x_0) P_{x_0, x_1} \cdots P_{x_{n-1}, x_n} \\
+        \end{align*}
+        and replacing the first term with $\lambda_{x_0}$ gives the required result.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Let the probability of a path be $\lambda_{x_0} P_{{x_0}, {x_1}}, \cdots$}
+        \begin{align*}
+            &\P(X_n = x_n | X_{n - 1} = x_{n-1}, \cdots, X_0 = x_0) = \\
+            &= \frac{\P(X_0 = x_0, \cdots, X_n = x_n)}{\P(X_0 = x_0, \cdots, X_{n-1} = x_{n-1})} \\
+            &= \frac{\lambda_{x_0} P_{x_0, x_1} \cdots P_{x_{n-1}, x_n}}{\lambda_{x_0} P_{x_0, x_1} \cdots P_{x_{n-2}, x_{n-1}}} \\
+            &= P_{x_{n-1}, x_n}
+        \end{align*}        
+        and this defines a Markov Chain.
+    \end{proofdirection}
+\end{proof}
+\begin{definition}{Unit mass function}
+    For $i \in I$, the \underline{unit mass function} $\delta_i$ is the probability mass function with $1$ at position $i$.
+\end{definition}
+\begin{definition}{Independence of processes}
+    Two processes $(X_n)_{n \geq 0}$ and $(Y_n)_{n \geq 0}$ are \underline{independent} if and only if, for any two finite sets of indices $\{t_1, t_2, \cdots, t_k\}$ and $\{s_1, \cdots, s_m\}$:
+    \begin{align*}
+        &\P(X_{t_1} = x_{t_1}, \cdots, X_{t_k} = x_{t_k}, Y_{s_1} = y_{s_1}, \cdots, Y_{s_m} = y_{s_m}) = \\
+        &\P(X_{t_1} = x_{t_1}, \cdots, X_{t_k} = x_{t_k}) \times \P(Y_{s_1} = y_{s_1}, \cdots, Y_{s_m} = y_{s_m})
+    \end{align*}
+\end{definition}
+Note that for a Markov chain, $X_{n+1}$ is \textit{conditionally} independent of $X_{n-1}$ given $X_n$, but $X_{n+1}$ is not fully independent of $X_{n-1}$.
+\begin{theorem}[Markov property]
+    If $\chain{X}$ is a Markov chain, $\chain{X} = \text{Markov}(\vec{\lambda}, P)$, then for any $m \geq 1$ and $i \in I$, conditional on $\{X_m = i\}$,
+    \begin{enumerate}
+        \item The process $(X_{m + n})_{n \geq 0}$ is a markov chain with initial distribution $\delta_i$ and transition matrix $P$.
+        \item The process is independent of $(X_0, \cdots, X_m)$.
+    \end{enumerate}
+    \label{thmMarkovProperty}
+\end{theorem}
+\begin{proof}
+    Clearly, $\ind{X_m = j | X_m = i} = \delta_{ij}$, so:
+    \begin{align*}
+        &\P(X_{n + m} = x_{m + n} | X_m = x_m, \cdots, X_{m + n - 1} = x_{n + m - 1}) = \\
+        &= \P(X_{m + n} = x_{m + n} | X_{m + n - 1} = x_{m + n - 1}) \\
+        &= \Pmat{m + n - 1}{m + n}
+    \end{align*}
+    so $\chain{X}$ is a Markov chain.
+
+    \begin{align*}
+        &\frac{\P(X_0 = x_0, \cdots, X_m = x_m, X_{m + 1} = x_{m + 1}, \cdots, X_{m + n} = x_{m + n})}{\P(X_m = i)} = \\
+        &= \frac{\lambda_{x_0} \Pmat{0}{1} \cdots \Pmat{m-1}{m} \P(X_{m + 1} = x_{m + 1} \cdots X_{m + n} = x_{m + n} | X_m = x_m)}{\P(X_m = i)} \\
+        &= P(X_0 = x_0, \cdots, X_m = x_m | X_m = i) \\
+        &\times \ind{X_{m + 1} = x_{m + 1}, \cdots, X_{m + n} = x_{m + n} | X_m = x_m}
+    \end{align*}
+\end{proof}
+\section{More on the Transition Matrix}
+Suppose $\chain{X}$ is a Markov chain with initial distribution $\vec{\lambda}$ and transition matrix $P$.
+
+We want to consider what $\P(X_n = n)$ is for large $n$.
+
+\begin{align*}
+    P(X_n = n) &= \sum_{x_0, \cdots, x_{n - 1}} \P(X_0 = x_0, \cdots, X_n = x_n) \\
+    &= \sum_{x_0, \cdots, x_{n-1}} \lambda_{x_0} \Pmat{0}{1} \cdots \Pmat{n-1}{n} \\
+    &= \left(\vec{\lambda} P^n\right)_{x_n}
+\end{align*}
+So to understand the long-term distribution of the chain $\chain{X}$ it suffices to understand the behaviour of $P^n$ for stochastic matrices $P$.
+
+\begin{theorem}
+    Suppose $\chain{X}$ is a Markov chain with initial distribution $\vec{\lambda}$ and transition matrix $P$. Then:
+    \begin{enumerate}
+        \item $\P(X_n = x) = \left(\vec{\lambda} P^n\right)_n$ for all $x \in J$.
+        \item $\P(X_{m + n} = y | X_m = n) = \left(P^n\right)_{x, y}$ for all $x, y \in J$.
+    \end{enumerate}
+    \label{thmMarkovMatPower}
+\end{theorem}
+\begin{proof}
+    The first statement has already been shown.
+
+    The second statement can be found by using theorem~\ref{thmMarkovProperty} and then it becomes the first statement.
+\end{proof}
+\begin{example}
+    Consider the simplest Markov chain with 2 states.
+    The transition matrix is:
+    \begin{equation*}
+        P = 
+        \begin{pmatrix}
+            1 - \alpha & \alpha \\
+            \beta & 1 - \beta
+        \end{pmatrix}
+    \end{equation*}
+    We want the probability that $X_n = 0$ given that $X_0 = 0$.
+
+    Since $P^{n+1} = P^n P$, 
+    \begin{align*}
+        P_{0, 0}^{n+1} &= P_{0, 0}^n (1 - \alpha) + P_{0, 1}^n (\beta) \\
+        &= P_{0, 0}^n (1 - \alpha) + (1 - P_{0, 0}^n) (\beta) \\
+        &= (1 - \alpha - \beta) P_{0, 0}^n + \beta
+    \end{align*}
+    and so solving this:
+    \begin{equation*}
+        P_{0, 0}^n =
+        \begin{cases}
+            \frac{\beta}{\alpha + \beta} + \frac{\alpha}{\alpha + \beta} (1 - \alpha - \beta)^n & \alpha + \beta \neq 0 \\
+            1 & \alpha + \beta = 0
+        \end{cases}
+    \end{equation*}
+\end{example}
 \end{document}

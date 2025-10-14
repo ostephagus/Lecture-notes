@@ -10,7 +10,9 @@
 
 \newcommand{\chain}[1]{\underline{\overline{#1}}}
 \newcommand{\paragraphmarker}{\P}
-\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\P}{\mathbb{P}} % Probability sign
+\newcommand{\Pmat}[2]{P_{x_{#1}, x_{#2}}} % Transition matrix to make indices easier.
+\newcommand{\ind}[1]{\mathbb{I}(#1)} % Indicator function
 
 \begin{document}
 \maketitle
