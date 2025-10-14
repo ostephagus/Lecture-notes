@@ -72,10 +72,64 @@ The emitted light from an atom when irradiated with light was a set of discrete 
 \end{equation}
 here $n$ and $m$ are natural numbers and $R_0$ is the Rydberg constant.
 
-In 1913, Bohr proposed that electron orbits around the nucleus are quantised so that the angular momentum follows $L_n = n \bar{h}$ for each $n \in \N$.
+In 1913, Bohr proposed that electron orbits around the nucleus are quantised so that the angular momentum follows: \begin{equation}
+    L_n = n \bar{h}
+    \label{eqnQuantisedL}
+\end{equation}
+for each $n \in \N$.
 
 \begin{theorem}
-    
+    If the angular momentum, $L$, is quantised, then so are the radius $r$, the velocity $v$, and the energy $E$.
     \label{thmQuantisation}
 \end{theorem}
+\begin{proof}
+    \begin{equation*}
+        \vec{L} = m_e \vec{v} \times \vec{r}
+    \end{equation*}
+    and $|\vec{L}| = L = m_e v r$, so $v = \frac{L}{m_e r}$. Using equation~\ref{eqnQuantisedL},
+    \begin{equation}
+        v_n = n \frac{\hbar}{m_e r}
+        \label{eqnQuantisedV}
+    \end{equation}
+    Considering the Coulomb force:
+    \begin{equation*}
+        \vec{F} = -\frac{e^2}{4\pi \epsilon_0} \frac{1}{r^2} \vec{e_r}
+    \end{equation*}
+    and by Newton's 2nd Law:
+    \begin{align*}
+        |\vec{F}| &= m_e a_r \\
+        \frac{e^2}{4\pi\epsilon_0} \frac{1}{r^2} &= m_e \frac{v^2}{r} \\
+    \end{align*}
+    and so using equation~\ref{eqnQuantisedV},
+    \begin{equation}
+        r_n = \frac{4\pi\epsilon_0}{m_e e^2} \hbar^2 n^2
+        \label{eqnQuantisedR}
+    \end{equation}
+    note also that this gives a minimum radius by setting $n = 1$:
+    \begin{equation*}
+        r_0 = \frac{4\pi\epsilon_0}{m_e e^2}\hbar^2
+    \end{equation*}
+    
+    Energy is given by:
+    \begin{align*}
+        E &= \frac12 m_e v^2 - \frac{e^2}{4\pi\epsilon_0} \frac{1}{r} \\
+        \therefore E_n &= \frac{e^2}{8\pi\epsilon_0r_0} \frac{1}{n^2}
+    \end{align*}
+    and this agrees with the result found for spectral emission.
+\end{proof}
+\begin{remark}
+    Indeed, we can say that the $\omega_{mn}$ from the spectral emission is:
+    \begin{align*}
+        \omega_{mn} &= \frac{E_m - E_n}{\hbar} \\
+        &= 2\pi c \left(\frac{e^2}{4\pi \epsilon_0 \hbar c}\right)^2 \left(\frac{1}{n^2} - \frac{1}{m^2}\right)
+    \end{align*}
+    here the squared term is Bohr's prediction of the Rydberg constant, which agreed with experiment.
+\end{remark}
+\section{De Broglie Wavelength}
+In 1923, De Broglie postulated that any particle of mass $n$ is associated with a wave with angular frequency $\omega$ give by:
+\begin{equation}
+    \omega = \frac{E}{\hbar}
+    \label{eqnDeBrogOmega}
+\end{equation}
+In 1927, Davisson and Germer observed electron scattering off crystals to produce an interference pattern. In fact, the pattern was consisted with the De Broglie Hypothesis in equation~\ref{eqnDeBrogOmega}.
 \end{document}

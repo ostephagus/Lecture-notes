@@ -1,0 +1,62 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Parallels with Linear Algebra}
+Quantum Mechanics uses a \underline{functional space}, which has many similarities with a vector space.
+
+\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+    \hline
+    Linear Algebra concept & Quantum Mechanics concept \\
+    \hline
+    Vector (n-dimensional complex vector) & State \\
+    $\vec{v}$ & $\psi$ \\
+    Basis $\{e_J\}$ which allows $\vec{v}$ to be written as a linear combination & $\{\vec{X}\}$ continuous basis, $\psi(\vec{x}, t)$. \\
+    Vector space $\C^n$ & $L^2(\R^3)$, complex-valued square-integrable functions \\
+    Inner product $\langle \vec{v}~|~\vec{u}\rangle$ & Inner product $(\psi, \phi)$ defined by equation~\ref{eqnInnerProduct} \\
+    Linear maps $\C^n \mapsto \C^n$ represented by a matrix & Operator %TODO: FIND
+\end{tabularx}
+The inner product in $L^2(\R^3)$ is:
+\begin{equation}
+    \int_{\R^3} \psi^*(\vec{x}, t) \phi(\vec{x}, t)d^3 x
+    \label{eqnInnerProduct}
+\end{equation}
+\section{Wave Function and Probabilistic Interpretation}
+\subsection{The Wave Function}
+In classical mechanics, we have that $\vec{x}$ and $\dvec{x}$ determine the dynamics of a particle in a deterministic way.
+
+In quantum mechanics, $\psi(\vec{x}, t)$ determines the dynamics of a particle in a probabilistic way.
+
+\begin{definition}{State}
+    The \underline{state} of a particle is ??? represented by $\psi$. %TODO: What?
+\end{definition}
+\begin{definition}{Wave function}
+    The \underline{wave function} of a particle is the complex coefficient of $\psi$ in the continuous basis $\vec{x}$ at a given time $t$. $\psi(\vec{x}, t)$ is the $\vec{x}$ resprentation.
+    \begin{equation*}
+        \psi(\vec{x}, t) : \R^3 \mapsto \C~~\forall t \in \R
+    \end{equation*}
+\end{definition}
+The physical interpretation of $\psi(\vec{x}, t)$ is given by:
+\begin{equation}
+    \rho(\vec{x}, t) \propto |\psi(\vec{x}, t)|^2
+    \label{eqnProbAmplitude}
+\end{equation}
+where $\rho(\vec{x}, t)$ is the probability density for a particle described by a state $\psi$ to sit at a point $\vec{x}$ at a given time $t$.
+
+\subsection{Mathematical Properties}
+\begin{align}
+    &\int_\R^3 |\psi(\vec{x}, t)|^2 d^3 x = N \in \R,~~N \text{ finite, nonzero} \label{eqnWFTotIntegral} \\
+    &\ybar(\vec{x}, t) = \frac{1}{\sqrt{N}} \psi(\vec{x}, t) \label{eqnPhiBar} \\
+    &\int_\R^3 |\ybar(\vec{x}, t)|^2 d^3 x = 1 \label{eqnWFInt1} \\
+    &\rho(\vec{x}, t) = |\ybar(\vec{x}, t)|^2 \label{eqnWFProbDens}
+\end{align}
+\begin{definition}{Equivalent state}
+    Two states $\psi$ and $\tilde{\psi}$ are \underline{equivalent state} if the amplitudes of their corresponding wavefunctions are the same,
+    \begin{equation*}
+        |\tilde{\psi}(\vec{x}, t)|^2 = |\psi(\vec{x}, t)|^2
+    \end{equation*}
+    this is when $\tilde{\psi} = e^{i\alpha} \psi$.
+\end{definition}
+\begin{remark}
+    As an aside, a state $\psi$ corresponds only to a series of rays in the space of functions, not an individual wavefunction. We can always define a new equivalent wavefunction up to a complex unit constant.
+\end{remark}
+\end{document}
