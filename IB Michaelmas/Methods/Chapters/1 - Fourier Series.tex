@@ -231,4 +231,120 @@ We want to understand whether $(S_n f) \to f$. There are a few different converg
     \end{equation*}
     note also that the series is $0$ at $\theta = 0$, which is the midpoint of $+1$ and $-1$.
 \end{example}
+\section{Further Concepts}
+\subsection{Periodic Extensions}
+Given $f : [0, L) \mapsto \C$, we can define $2L-periodic$ even/odd extensions $f_{even}$ and $f_{odd}$.
+
+We simply let $f_{even}(\theta) = f(-\theta)$ when $\theta \in [-L, 0)$. Similarly, we let $f_{odd}(\theta) = -f(-\theta)$ on $[-L, 0)$.
+
+The advantage of this is that now the function can be written as a Fourier series which, for the interval $[0, L)$, approximates the original function.
+\begin{align*}
+    f_{even} (\theta) &\sim \frac{1}{2} A_0 + \sum_{n = 1}^\infty A_n \cos\left(\frac{2\pi n \theta}{2L}\right) \\
+    \text{where } A_n &= \frac{2}{2L} \int_{-L}^L f_{even}(\theta) \cos\left(\frac{2\pi n \theta}{2L}\right)d\theta \\
+    &= \frac{2}{L}\int_{0}^{L} f(\theta)\cos\left(\frac{2\pi n \theta}{2L}\right) d\theta 
+\end{align*}
+and similarly,
+\begin{align*}
+    f_{odd} (\theta) &\sim \frac{1}{2} B_0 + \sum_{n = 1}^\infty B_n \sin\left(\frac{2\pi n \theta}{2L}\right) \\
+    \text{where } B_n &= \frac{2}{2L} \int_{-L}^L f_{odd}(\theta) \sin\left(\frac{2\pi n \theta}{2L}\right)d\theta \\
+    &= \frac{2}{L}\int_{0}^{L} f(\theta)\sin\left(\frac{2\pi n \theta}{2L}\right) d\theta 
+\end{align*}
+\begin{definition}{Cosine/Sine series}
+    For $f : [0, L) \mapsto \C$, we define its \underline{cosine/sine series} as the even and odd periodic extensions as described above.
+\end{definition}
+\begin{example}
+    Define the function:
+    \begin{align*}
+        f : [0, \pi) &\mapsto \C \\
+        \theta &\mapsto 1
+    \end{align*}
+    For the sine series:
+    \begin{equation*}
+        B_n = \frac{2}{\pi} \int_{0}^{\pi} \sin(n\theta) d\theta = \frac{2}{n\pi}\left(1 - (-1)^n\right)
+    \end{equation*}
+    Then on $(0, \pi)$,
+    \begin{align*}
+        1 &= f(\theta) = f_{odd}(\theta) \\
+        &= 4 \sum_{n~odd}^{} \frac{\sin(n\theta)}{n\pi}
+    \end{align*}
+    For the cosine series: $A_0 = 2$ and thereafter $A_n = 0$, so $f_{even}(\theta) = 1$.
+\end{example}
+\subsection{Regularity and Decay of Coefficients}
+\begin{remark}
+    The Riemann-Lebesgue lemma says that, if $g : [a, b] \mapsto \C$ is integrable on $[a, b]$ and $\lambda \in \R$, then:
+    \begin{equation*}
+        \int_{a}^{b} e^{-i\lambda \theta}g(\theta) d\theta \to 0 \text{ as } |\lambda| \to \infty
+    \end{equation*}
+    and this is non-examimable.
+
+    Therefore if $f : \R \mapsto \C$ is $L$-periodic and integrable on $[0, L)$, then:
+    \begin{equation*}
+        \hat{f}_n = \frac{1}{L} \int_{0}^{L} e^{-2\pi i n \frac\theta{L}}f(\theta) d\theta \to 0
+    \end{equation*}
+    as $n \to \infty$.
+
+    Further, the coefficients in the regular sine-and-cosine Fourier series also decay to $0$.
+\end{remark}
+Suppose now that $f$ is $L$-periodic and $f \in C^k(\R)$, $f$ is $k$-times continuously differentiable.
+
+Then $\hat{f}_n = \frac{1}{L} \int_{0}^{L} e^{-2\pi i n \frac{\theta}{L}} f(\theta) d\theta$. Integrating by parts:
+\begin{align*}
+    \hat{f}_n &= -\frac{1}{L} \left(\frac{L}{2\pi i n}\right)\left[f(\theta) e^{-2\pi i n \frac{\theta}{L}} \right]_{\theta = 0}^L \\
+    &+ \left(\frac{L}{2\pi i n}\right)\frac{1}{L}\int_{0}^{L} e^{-2\pi i n \frac{\theta}{L}}f'(\theta) d\theta \\
+    &= -\left(\frac{L}{2\pi i n}\right) \left[\frac{f(L^-) - f(0^+)}{L}\right] \\
+    &+ \left(\frac{L}{2\pi i n}\right)\frac{1}{L} \int_{0}^{L} e^{-2\pi i n \frac{\theta}{L}} f'(\theta) d\theta \\
+\end{align*}
+note that, by periodicity and continuity, $f(0^+) = f(L^+) = f(L^-)$. Therefore, the boundary term is zero. Repeating this process $k$ times:
+\begin{equation*}
+    hat{f}_n = \left(\frac{L}{2\pi i n}\right)\frac{1}{L} \int_{0}^{L} e^{-2\pi i n \frac{\theta}{L}} f^{(k)}(\theta) d\theta 
+\end{equation*}
+and by the Riemann-Lebesgue lemma, we have that $\hat{f}_n = o\left(\frac{1}{n^k}\right)$.
+\subsection{Termwise differentiation}
+Suppose $f$ is $L-periodic$ and continuously differentiable on $[0, L)$ with $f' = g$ there.
+
+Then $g$ is continuous on $[0, L)$, so:
+\begin{align*}
+    \hat{g}_n &= \frac{1}{L} \int_{0}^{L} e^{-2\pi i n \frac{\theta}{L}} f'(\theta) d\theta \\
+    &= \frac{f(L^-) - f(0^+)}{L} + \left(\frac{2\pi i n}{L}\right)\frac{1}{L} \int_{0}^{L} e^{-2\pi i n \frac{\theta}{L}}f(\theta) d\theta
+\end{align*}
+and so if $f$ is continuous on $\R$, then by periodicity and continuity the boundary term disappears, and:
+\begin{equation*}
+    \hat{g}_n = \left(\frac{2\pi i n}{L}\right) \hat{f}_n
+\end{equation*}
+this shows us that we can differentiate termwise:
+\begin{align*}
+    f'(\theta) &\sim \sum_n \left(\frac{2\pi i n}{L}\hat(f)_n e^{2\pi i n \frac{\theta}{L}}\right) \\
+    &= \sum_n \frac{d}{d\theta} \left[\hat{f}_n e^{2\pi i n \frac{\theta}{L}}\right]
+\end{align*}
+\subsection{Parseval's Theorem}
+If:
+\begin{align*}
+    f(\theta) &\sim \sum_n \hat{f}_n e_n(\theta) \\
+    g(\theta) &\sim \sum_n \hat{g}_n e_n(\theta)
+\end{align*}
+where $e_n$ are defined as before, the inner product is:
+\begin{align*}
+    \langle f~|~g\rangle &= \sum_{n, m} \hat{f}_n \bar{\hat{g}_m} \langle e_n~|~e_m\rangle \\
+    &= \sum_{n, m} \hat{f}_n \bar{\hat{g}_m} L \delta_{m, n} \\
+    &= L\sum_{n} \hat{f}_n \bar{\hat{g}_n}
+\end{align*}    
+This means:
+\begin{equation}
+    \frac{1}{L}\int_{0}^{L} f(\theta) \bar{g(\theta)} d\theta = \sum_{n} \hat{f}_n \bar{\hat{g}_n}
+    \label{eqnParseval}
+\end{equation}
+and this is Parseval's Theorem.
+\begin{example}
+    Let $f$ be $2\pi$-periodic, and let $f(\theta) = \theta$ on $[-\pi, \pi)$. This function has a jump discontinuity at $x \in \pi \Z$, and we can show that:
+    \begin{equation*}
+        f(\theta) \sim \sum_{n \neq 0} \frac{i(-1)^n}{n}e^{in\theta}
+    \end{equation*}
+    Then Parseval's Theorem of $f$ with itself says that:
+    \begin{align*}
+        \frac{\pi^2}{3} &= \frac{1}{2\pi} \int_{-\pi}^{\pi} \theta^2 d\theta \\
+        &= \sum_{n \neq 0} \frac{1}{n^2} \\
+        &= 2\sum_{n = 1}^\infty \frac{1}{n^2}
+    \end{align*}
+    which is a nice standard result.
+\end{example}
 \end{document}
