@@ -1,6 +1,7 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
+\section{Spanning Sets}
 \begin{definition}{Span}
     Let $V$ be a vector space over $\F$. The \underline{span} of a subset $S \subseteq V$ is the set:
     \begin{equation*}
@@ -14,4 +15,125 @@
     A subset $S$ of a vector space $V$ is a \underline{spanning set} for $V$ if $\spn{S} = V$. We say $S$ \underline{spans} $V$.
 \end{definition}
 $V$ is \underline{finite-dimensional} if it has a finite spanning set.
+\begin{remarks}
+    \item For $S \subseteq V$, $\spn{S} \leq V$. Conversely, if $W \leq V$ and $S \subseteq W$ then $\spn{S} \leq W$.
+    \item IF $S, T \subseteq V$ and $S$ spans $V$, if $S \subseteq \spn{T}$ then $T$ spans $V$.
+    \item By convention, $\spn{\emptyset} = \{\zv\}$.
+    \item $\spn{S \cup T} = \spn{S} + \spn{T}$.
+\end{remarks}
+\begin{example}
+    Consider $V = \R^3$. Define:
+    \begin{align*}
+        S &= \left\{\begin{pmatrix} 1 \\ 0 \\ 0\end{pmatrix}, \begin{pmatrix}1 \\ 1 \\ 2\end{pmatrix}\right\} \\
+        T &= \left\{\begin{pmatrix} 2 \\ 1 \\ 2\end{pmatrix}, \begin{pmatrix}0 \\ 1 \\ 2\end{pmatrix}, \begin{pmatrix}-1 \\ 2 \\ 4\end{pmatrix}\right\} \\
+    \end{align*}
+    Then we see that $\spn{S} = \spn{T}$
+    \label{ex3DSpanningSets}
+\end{example}
+\begin{example}
+    Let $V = \R^{\N}$, the set of real sequences. Let $T = \subsetselect{\delta_n}{n \in \N}$ where $delta_n(m) = \delta_{mn}$. Then the span of $T$ is the set of sequences that are eventually all $0$, the set of sequences with finitely many non-zero terms.
+
+    The problem here is that we only allow a linear combination of finitely many elements of $T$, so $T$ does not span $V$.
+\end{example}
+\section{Linear Independence}
+\begin{definition}{Linear independence}
+    A subset $S$ of a vector space $V$ is \underline{linearly independent} if, for all linear combinations
+    \begin{equation*}
+        \sum_{s \in S} \lambda_s s
+    \end{equation*}
+    of $S$, if the linear combination is zero then all the coefficients $\lambda_s$ must be zero.
+\end{definition}
+\begin{remarks}
+    \item The opposite of linear independence is \underline{linear dependence}
+    \item If $\zv \in S$ then $S$ is linearly dependent
+    \item If $S = \{v_1, \cdots, v_n\}$ is finite with size $n$, then $S$ is linearly independent if and only if:
+        \begin{equation*}
+            \sum_{i = 1}^n \lambda_i v_i = \zv \implies \lambda_i = 0~\forall i \in \{1, \cdots, n\}
+        \end{equation*}
+    \item If $S$ is infinite then $S$ is linearly independent if and only if every finite subset of $S$ is linearly independent.
+    \item Every subset of a linearly independent set is linearly independent
+\end{remarks}
+\begin{example}
+    In example~\ref{ex3DSpanningSets}, we can find that $T$ is not linearly independent:
+    \begin{equation*}
+        1 \times \begin{pmatrix} 2 \\ 1 \\ 2\end{pmatrix} - 5 \times \begin{pmatrix}0 \\ 1 \\ 2\end{pmatrix} + 2 \times \begin{pmatrix}-1 \\ 2 \\ 4\end{pmatrix} = \zv
+    \end{equation*}
+    But we note that $S$ is linearly independent.
+\end{example}
+\section{Basis of a Vector Space}
+\begin{definition}{Basis}
+    A subset $S$ of a vector space $V$ is a \underline{basis} of $V$ if $S$ is both linearly independent and a spanning set for $V$.
+\end{definition}
+\begin{examples}
+    \item Let $e_i \in \F^n$ be the vector with its $i$th entry 1, and the rest $0$. Then $\subsetselect{e_i}{1 \leq i \leq n}$ is the \underline{standard basis} for $\F^n$.
+    \item Let $P(\R)$ be the set of polynomial functions $\R \mapsto \R$. Let $p_n$ be given by $p_n(x) = x^n$. Then $\subsetselect{p_n}{n \in \N \cup \{0\}}$ is a basis for $P(\R)$.
+\end{examples}
+\begin{proposition}[Finite-dimensionality in terms of bases]
+    Let $S \subseteq V$ be a finite spanning set of $V$. Then there exists $S' \subseteq V$ which is a finite basis for $V$.
+    \label{propFinDimByBasis}
+\end{proposition}
+\begin{proof}
+    If $S$ is linearly independent then done. If not, write $S = \{v_1, \cdots, v_n\}$ and initially set $S' = S$. Then there exist scalars $\lambda_1, \cdots, \lambda_n \in \F$ such that the linear combination:
+    \begin{equation*}
+        \sum_{i = 1}^n \lambda_i v_i = 0
+    \end{equation*}
+    with at least one coefficient non-zero.
+
+    By possibly re-labelling, assume that $\lambda_n \neq 0$. Then:
+    \begin{equation*}
+        v_n = -\frac{1}{\lambda_n} \sum_{i = 1}^{n - 1} \lambda_i v_i
+    \end{equation*}
+    so $v_n \in \spn{S \backslash \{v_n\}}$, and so we can remove $v_n$ from $S'$. If $S'$ is linearly independent, then done. If not, repeat the process.
+
+    This process of removing vectors must terminate because $S$ and $S'$ are finite.
+\end{proof}
+\begin{corollary}
+    Every finite-dimensional vector space has a finite basis.
+    \label{corFinDimByBasis}
+\end{corollary}
+\begin{proof}
+    The definition we used of finite-dimensionality is that the vector space has a finite spanning set. Therefore we can create a finite basis using proposition~\ref{propFinDimByBasis}.
+\end{proof}
+\begin{theorem}[Steinitz Exchange Lemma]
+    Let $S, T$ be finite subsets of a vector space $V$ with $S$ linearly independent and $T$ a spanning set for $V$. Then:
+    \begin{enumerate}
+        \item $|S| \leq |T|$;
+        \item There exists $T' \subseteq T$ such that $|T'| = |T| - |S|$ and $S \cup T'$ spans $V$.
+    \end{enumerate}
+    \label{thmSteinitzExchange}
+\end{theorem}
+\begin{proof}
+    % Proof to come on 17/10/25
+\end{proof}
+\begin{corollary}
+    Let $V$ be finite-dimensional. Then every basis is finite and each has the same size.
+    \label{corBasesSameSize}
+\end{corollary}
+\begin{proof}
+    Given that $V$ is finite-dimensional it has a finite basis $B$. Suppose, for contradiction, that $B'$ is an infinite basis. Then $B'$ must be linearly independent and so must any subset. Let $B''$ be a finite subset of $B'$ which has $|B| + 1$ elements. Then $B''$ is linearly independent. Applying theorem~\ref{thmSteinitzExchange} part 1 with $S = B''$, $T = B$ gives a contradiction.
+
+    To get that bases have the same size, consider two bases $B$ and $B'$ of $V$. Then applying theorem~\ref{thmSteinitzExchange} part 1 first with $S = B, T = B'$ and second with $S = B', T = B$ gives that the sizes are bounded as:
+    \begin{equation*}
+        |B| \leq |B'| \leq |B| \implies |B| = |B'|
+    \end{equation*}
+\end{proof}
+\begin{definition}{Dimension}
+    The \underline{dimension} of a finite-dimensional vector space $V$, $\dim{V}$ is the size of any basis.
+\end{definition}
+\begin{corollary}
+    Let $V$ be finite-dimensional. Let $S$ and $T$ be subsets of $V$. Let $S$ be linearly independent and $T$ a spanning set for $V$. Then $|S| \leq \dim{V}$ and $|T| \geq \dim{V}$.
+
+    Equality holds in the corresponding inequality if and only if $S$ or $T$ is in fact a basis.
+    \label{corSpanLISizes}
+\end{corollary}
+\begin{proof}
+    Let $B$ be a basis of $V$. Applying theorem~\ref{thmSteinitzExchange} part 1 with $S$ and $B$ gives the first inequality, and applying it again with $B$ and $V$ gives the second.
+
+    If equality holds for $S$, use theorem~\ref{thmSteinitzExchange} part 2 to find $B' \subseteq B$ with $|B'| = |B| - |S| = 0$, so $B' = \emptyset$, and $S \cup B' = S$ spans $V$, so $S$ also spans $V$ and so $S$ is a basis.
+
+    The method is very similar to show the second equality condition.
+\end{proof}
+\begin{remark}
+    In general, we cannot say that a vector spcae has a basis. This holds for finite-dimensional vector spaces, but for many infinite-dimensional vector spaces we require the axiom of choice. As we have seen, sometimes we can write down a basis for an infinite-dimensional vector space such as $P(\R)$, but we cannot rely on this fact for a general infinite-dimensional vector space.
+\end{remark}
 \end{document}
