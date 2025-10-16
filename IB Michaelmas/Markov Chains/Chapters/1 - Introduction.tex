@@ -146,4 +146,40 @@ So to understand the long-term distribution of the chain $\chain{X}$ it suffices
         \end{cases}
     \end{equation*}
 \end{example}
+Introduce notation:
+$\P_x(A) = \P(A | X_0 = x)$ and $\E_x(A) = \E[A | X_0 = x]$ for any event $A$. For transition matrix $P$, let $(P^n)_{ij}$ = $p_{ij}(n)$.
+
+\subsection{Finding Long-Time Distributions}
+We want to compute $p_{ij}(n)$ for a Markov Chain. Suppose $P$ is a $k \times k$ matrix.
+\begin{itemize}
+    \item If $P$ has $k$ distinct real eigenvalues, then it is diagonalisable, $P = UDU^{-1}$ for diagonal $D$. Then we can easily compute $P^n = UD^n U^{-1}$ where $D^n$ is very simple to compute. If the eigenvalues of $P$ are $\lambda_i$, then we find that $p_{11}(n)$ is a polynomial of $k$ terms. Therefore, we can compute the coefficients using values of $P^n$ for small $k$, and get the resulting distribution for $n$ large.
+    \item If $P$ has some complex eigenvalues, these will come in complex conjugate pairs. In this case, given that $P^n$ is real for each $n$, we introduce $r^n\cos{n\theta}$ and $r^n\sin{n\theta}$ for each $\lambda_i = re^{i\theta}$.
+    \item If all eigenvalues are distinct except the last two, $\lambda_{k - 1} = \lambda_k$, we use Jordan Normal Form to get that the same expansion holds for $p_{11}(n)$ except that we must include a term of the form $(a + bn) \lambda_{k-1}^n$.
+\end{itemize}
+\begin{example}
+    Consider a Markov Chain with 3 states:
+    \begin{equation*}
+        P=
+        \begin{pmatrix}
+            0 & 1 & 0 \\
+            0 & \frac12 & \frac12 \\
+            \frac12 & 0 & \frac12
+        \end{pmatrix}
+    \end{equation*}
+    Our intuition tells us that the final distribution should be:
+    \begin{equation*}
+        \begin{pmatrix}\frac15 \\ \frac25 \\ \frac25\end{pmatrix}
+    \end{equation*}
+    because half the time we stay at 2 or 3, but always leave 1. Let's check.
+
+    The eigenvalues of $P$ are $1, \frac{i}{2}, -\frac{i}{2}$, so:
+    \begin{equation*}
+        p_{11}(n) = a + b\left(\frac12\right)^n \cos\left(\frac{n\pi}{2}\right) + c\left(\frac{1}{2}\right)^n \sin\left(\frac{n\pi}{2}\right)
+    \end{equation*}
+    But we know that $p_{11}(0) = 1$, $p_{11}(1) = 0$ and $p_{11}(2) = 0$. Therefore:
+    \begin{equation*}
+        p_{11}(n) = \frac15 + \left(\frac12\right)^n \left[\frac45 \cos\left(\frac{n\pi}{2}\right) - \frac25 \sin\left(\frac{n\pi}{2}\right)\right]
+    \end{equation*}
+    which goes to $\frac15$ exponentially fast.
+\end{example}
 \end{document}

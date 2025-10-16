@@ -1,0 +1,87 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Communication Classes}
+\begin{definition}{Leads to}
+    A state $i$ \underline{leads to} another state $j$ if:
+    \begin{equation*}
+        \P_i(X_n = j \text{ for some } n\geq 0) > 0
+    \end{equation*}
+    and we write $i \to j$.
+\end{definition}
+\begin{definition}{Communication}
+    A state $i$ \underline{communicates} with another state $j$ if $i$ and $j$ lead to each other. We write $i \comms j$.
+\end{definition}
+\begin{theorem}
+    The following are equivalent:
+    \begin{enumerate}
+        \item $i \to j$
+        \item There exists a path $x_0 = i, x_1 = x_1, \cdots, x_n = j$ with each step having non-zero transition probability:
+            \begin{equation*}
+                P_{i, x_1} \Pmat{1}{2} \cdots \Pmat{n-2}{n-1} P_{x_{n-1}, j} > 0
+            \end{equation*}
+        \item $p_{ij}(n) > 0$ for some $n$.
+    \end{enumerate}
+    \label{thmCommEquivalence}
+\end{theorem}
+\begin{proof}
+    \begin{subproof}{Statement 1 is equivalent to statement 3}
+        \begin{equation*}
+            \left\{X_n = j \text{ for some } n \geq 0\right\} = \bigcup_{n \geq 0} \left\{X_n = j\right\}
+        \end{equation*}
+        so if $\P_i(X_n = j \text{ for some } n \geq 0) > 0$, then there exists some $n \geq 0$ such that $\P_i(X_n = j) > 0$. Clearly if $\P_i(X_n = j) > 0$ then $i \to j$.
+    \end{subproof}
+    \begin{subproof}{Statement 2 is equivalent to statement 3}
+        \begin{align*}
+            P_{ij}(n) &= \P_i(X_n = j) \\
+            &= \sum_{x_1, \cdots, x_{n-1}} \P_i(X_1 = x_1, \cdots, X_{n-1} = x_{n-1}, X_n = j) \\
+            &= \sum_{x_1, \cdots, x_{n-1}} P_{i, x_1} \Pmat{1}{2} \cdots P_{x_{n-1}, j}
+        \end{align*}
+        so if $p_{ij}(n) > 0$, there must be at least one element of the sum that is non-zero. Also, if an element of the sum is non-zero then $p_{ij}(n) > 0$.
+    \end{subproof}
+\end{proof}
+\begin{corollary}
+    Communication is an equivalence relation on the state space $I$.
+    \label{corCommEquivalence}
+\end{corollary}
+\begin{proof}
+    We clearly have that $x \comms x$, and $x \comms y \equiv y \comms x$. By statement $2$ in theorem~\ref{thmCommEquivalence}, we can put the paths together and we have that $x \comms y$ and $y \comms z \implies x \comms z$.
+\end{proof}
+\begin{definition}{Communication classes}
+    An equivalence class defined by communication is a \underline{communication class}.
+\end{definition}
+\begin{definition}{Closed class}
+    A communication class $C \subseteq I$ is \underline{closed} if $x \to y$ for some $x \in C, y \in I$ implies that $y \in C$.
+\end{definition}
+\begin{definition}{Absorbing state}
+    A state $x$ is an \underline{absorbing state} if $\{x\}$ is a closed communication class.
+\end{definition}
+\begin{definition}{Irreducibility}
+    A transition matrix $P$ is \underline{irreducible} if $I$ is a communicating class.
+\end{definition}
+\section{Hitting Time}
+\begin{definition}{First hitting time}
+    Let $A \subseteq I$. The \underline{first hitting time} for $A$ is:
+    \begin{equation*}
+        T_A = \inf \subsetselect{n \geq 0}{X_n \in A}
+    \end{equation*}
+    Note that this is not necessarily finite, since this is infinite if the Markov chain never gets to $A$, because we define $\inf \emptyset = \infty$.
+\end{definition}
+\begin{definition}{Hitting probability}
+    The \underline{hitting probability} is the function:
+    \begin{equation*}
+        h^A : I \mapsto [0, 1]
+    \end{equation*}
+    defined by $h_i^A = \P_i(T_A < \infty), i \in I$.
+\end{definition}
+\begin{definition}{Mean hitting time}
+    The \underline{mean hitting time} is a function $k^A : I \mapsto [0, \infty]$ defined by:
+    \begin{equation*}
+        k_i^A = \E_i[T_A]
+    \end{equation*}
+    If $T_A$ is infinite then the mean hitting time must be infinite. If, however, $\P(T_a = \infty) = 0$ we get:
+    \begin{equation*}
+        k_i^A = \sum_{n = 0}^\infty \P_i (T_A = n)
+    \end{equation*}
+\end{definition}
+\end{document}
