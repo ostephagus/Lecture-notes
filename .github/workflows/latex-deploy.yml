@@ -32,7 +32,7 @@ jobs:
     - name: Compile all Main.tex files
       run: |
         mkdir output
-        export TEXINPUTS=.:.///:
+        export TEXINPUTS=.
         find . -type f -name 'Main.tex' -not -path "./templates/*" | while read file; do
           dir=$(dirname "$file")
           filename=$(basename "$dir")
@@ -40,7 +40,7 @@ jobs:
           echo "Compiling $file in $dir"
           cd "$dir"
           latexmk -pdf -interaction=nonstopmode Main.tex || true
-          cp main.pdf "${{ github.workspace }}/output/$filename.pdf"
+          cp Main.pdf "${{ github.workspace }}/output/$filename.pdf"
           cd - > /dev/null
           echo "::endgroup::"
         done
