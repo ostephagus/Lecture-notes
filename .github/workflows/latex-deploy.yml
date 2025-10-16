@@ -1,0 +1,57 @@
+name: latex-deploy
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "**.tex"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5.0.0
+
+    - name: Checkout lecturenotes repo
+      uses: actions/checkout@v5.0.0
+      with:
+        repository: ostephagus/lecturenotes
+        path: lecturenotes
+
+    - name: Install TeX Live
+      uses: zauguin/install-texlive@v4
+      with:
+        package_file: ${{ github.workspace }}/.github/tl_packages
+
+    - name: Copy lecturenotes package
+      run: |
+        cp lecturenotes/lecturenotes.sty .
+
+    - name: Compile all Main.tex files
+      run: |
+        mkdir output
+        export TEXINPUTS=".:${{ github.workspace }}//:"
+        find . -type f -name 'Main.tex' -not -path "./templates/*" | while read file; do
+          dir=$(dirname "$file")
+          filename=$(basename "$dir")
+          echo "::group::Compiling $filename"
+          echo "Compiling $file in $dir"
+          cd "$dir"
+          latexmk -pdf -interaction=nonstopmode Main.tex || true
+          cp Main.pdf "${{ github.workspace }}/output/$filename.pdf"
+          cd - > /dev/null
+          echo "::endgroup::"
+        done
+        
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Deploy folder via rsync
+      run: |
+        rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./output/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.REMOTE_DIR }}pdfs/
