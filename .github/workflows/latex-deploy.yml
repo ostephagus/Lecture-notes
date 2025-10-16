@@ -14,14 +14,25 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v5.0.0
 
+    - name: Checkout lecturenotes repo
+      uses: actions/checkout@v5.0.0
+      with:
+        repository: ostephagus/lecturenotes
+        path: lecturenotes
+
     - name: Install TeX Live
       uses: zauguin/install-texlive@v4
       with:
         package_file: ${{ github.workspace }}/.github/tl_packages
 
+    - name: Copy lecturenotes package
+      run: |
+        cp lecturenotes/lecturenotes.sty .
+
     - name: Compile all main.tex files
       run: |
         mkdir output
+        export TEXINPUTS=.:.///:
         find . -type f -name 'main.tex' -not -path "./templates/*" | while read file; do
           dir=$(dirname "$file")
           filename=$(basename "$dir")
