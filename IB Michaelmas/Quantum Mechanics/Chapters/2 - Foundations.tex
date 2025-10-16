@@ -59,4 +59,168 @@ where $\rho(\vec{x}, t)$ is the probability density for a particle described by 
 \begin{remark}
     As an aside, a state $\psi$ corresponds only to a series of rays in the space of functions, not an individual wavefunction. We can always define a new equivalent wavefunction up to a complex unit constant.
 \end{remark}
+\section{The Hilbert Space}
+\subsection{Hilbert Space as a Vector Space}
+\begin{definition}{Hilbert space}
+    The set of all square-integrable functions in $\R^3$ is called the \underline{Hilbert space} ($\hilb$ or $L^2(\R^3)$)
+\end{definition}
+We have the property that if $\psi_1, \psi_2 \in \hilb$
+
+\begin{theorem}
+    If $\psi_1(\vec{x}, t)$ and $\psi_2(\vec{x}, t)$ are square-integrable, then $\psi = a_1 \psi_2 + a_2 \psi_2$ is square integrable.
+    \label{thmSquareIntLinearCombo}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        \int_{\R^3} |\psi_1(\vec{x}, t)|^2 d^3x &= N_1 < \infty \\
+        \int_{\R^3} |\psi_2(\vec{x}, t)|^2 d^3x &= N_2 < \infty 
+    \end{align*}
+    then by the triangle identity for complex numbers ($|z_1| + |z_2| \leq |z_1 + z_2|$), and taking $z_1 = a_1 \psi_1(\vec{x}, t)$ and $z_2 = \psi_2(\vec{x}, t)$,
+    \begin{align*}
+        \int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x &= \int_{\R^3} |a_1 \psi_1(\vec{x}, t) + a_2 \psi_2 (\vec{x}, t)|^2 d^3x \\
+        &\leq \int_{\R^3} \left(|a_1 \psi_1(\vec{x}, t)| + |a_2 \psi_2 (\vec{x}, t)|\right)^2 d^3x
+        &= \int_{\R^3} \left(|a_1 \psi_1(\vec{x}, t)|^2 + |a_2 \psi_2 (\vec{x}, t)|^2+ 2 |a_1 \psi_1||a_2 \psi_2|\right) d^3x \\
+        &\leq \int_{\R^3} \left(2|a_1 \psi_1(\vec{x}, t)|^2 + 2|a_2 \psi_2 (\vec{x}, t)|^2\right) d^3x \\
+        &= 2|a_1|^2 N_1 + 2|a_2|^2 N_2 < \infty
+    \end{align*}
+\end{proof}
+\subsection{Inner Product}
+\begin{definition}{Inner product}
+    The \underline{inner product} in $\hilb$ is defined, for two functions $\psi$ and $\phi \in \hilb$:
+    \begin{equation}
+        \langle \psi~|~\phi\rangle = \int_{\R^3} \phi^*(\vec{x}, t) \psi(\vec{x}, t) d^3x
+        \label{eqnHilbInnProd}
+    \end{equation}
+\end{definition}
+\begin{theorem}
+    If $\psi, \phi \in \hilb$, then their inner product is guaranteed to exist.
+    \label{thmInnProdExists}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        \int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x &= N_1 < \infty \\
+        \int_{\R^3} |\phi(\vec{x}, t)|^2 d^3x &= N_2 < \infty 
+    \end{align*}
+    Therefore, consider the inner product:
+    \begin{align*}
+        \langle \phi~|~\psi\rangle& \left|\int_{\R^3} \psi^*(\vec{x}, t)\phi(\vec{x}, t) d^3 x\right| \\
+        &\leq \sqrt{\int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x \int_{\R^3} |\phi(\vec{x}, t)|^2 d^3x} \\
+        &= \sqrt{N_1 N_2} < \infty
+    \end{align*}
+    by the Cauchy-Schwarz inequality.
+\end{proof}
+\begin{propositions}{
+        Let $\phi, \psi \in \hilb$. Let $a_1, a_2$ be real coefficients.
+        \label{propsInnProdProps}
+    }
+    \item $\langle \psi~|~\phi\rangle = \langle \phi~|~\psi\rangle^*$
+    \item The inner product is antilinear in the first argument, linear in the second argument.
+    \item $\langle \psi~|~\psi\rangle \geq 0$
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Immediate from the definition
+        \item Consider $\psi, \psi_1, \psi_2, \psi, \psi_1, \psi_2 \in \hilb$, $a_1, a_2 \in \C$.
+            \begin{align*}
+                \langle a_1 \psi_1 + a_2 \psi_2 ~|~ \phi\rangle &= a_1^* \langle \psi_1~|~\psi\rangle + a_2^* \langle \psi_2~|~\phi\rangle \\
+                \langle \psi~|~a_1 \phi_1 + a_2 \phi_2\rangle &= a_1 \langle \psi~|~\phi_1\rangle + a_2 \langle \psi~|~\phi_2\rangle
+            \end{align*}
+        \item Note that when a function is input to both sides of the inner product, the resulting integrand is square so the inner product must be $\geq 0$. Equality holds when the integrand is equal to $0$ on all $\R^3$, which is when $\psi \equiv 0$. However, this is not a valid probability density function because it cannot be normalised.
+    \end{enumerate}
+\end{proof}
+\begin{definition}{Norm}
+    The \underline{norm} of a wavefunction $\psi$ is the real function:
+    \begin{equation}
+        ||\psi|| = \sqrt{\langle \psi~|~\psi\rangle}
+        \label{eqnWFNorm}
+    \end{equation}
+\end{definition}
+\begin{definition}{Normalised wavefunction}
+    A wavefunction $\psi$ is \underline{normalised} if its norm is $1$.
+\end{definition}
+\begin{definition}{Orthogonal wavefunctions}
+    Wavefunctions $\phi, \psi \in \hilb$ are  \underline{orthogonal} if their inner product is zero.
+\end{definition}
+\begin{definition}{Orthonormal wavefunctions}
+    A set of wavefunctions $\{\psi_n\}$ is  \underline{orthonormal} if their inner products satisfy:
+    \begin{equation*}
+        \langle \psi_n~|~\psi_m\rangle = \delta_{mn}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Completeness}
+    A set of wavefunctions is \underline{complete} if any $\psi \in \hilb$ can be written as a linear combination of elements of the set:
+    \begin{equation}
+        \phi = \sum_{n = 0}^{\infty} c_n \psi_n
+        \label{eqnHilbLinCombo}
+    \end{equation}
+    where $c_n \in \C$
+\end{definition}
+\begin{lemma}
+    If $\{\psi_n\}$ forms a complete and orthonormal basis of $\hilb$, then  in equation~\ref{eqnHilbLinCombo} $c_n = \langle \psi_n~|~\phi\rangle$.
+    \label{lemLinComboCoeffts}
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        \langle \psi_n~|~\phi\rangle &= \langle \psi_n~|~\sum_{m = 0}^\infty c_m \psi_m\rangle \\
+        &= \sum_{m = 0}^{\infty}c_m \langle \psi_n~|~\psi_m\rangle \\
+        &= \sum_{m = 0}^{\infty} c_m \delta_mn \\
+        &= c_n
+    \end{align*}
+\end{proof}
+\section{Time-Dependent Schr\texorpdfstring{\"o}{o}dinger Equation}
+Recall that the first postulate of Quantum Mechanics is Born's Rule that the probability density is given by the wavefunction. The second postulate is the time-dependent \schr equation (TDSE):
+\begin{equation}
+    i\hbar \frac{\partial^{}\phi(\vec{x}, t)}{\partial t^{}} = -\frac{\hbar}{2m}\nabla^2 \psi(\vec{x}, t) + U(\vec{x})\psi(\vec{x}, t)
+    \label{eqnTDSE}
+\end{equation}
+where here:
+\begin{equation*}
+    \nabla^2 = \frac{d^2}{dx^2} + \frac{d^2}{dy^2} + \frac{d^2}{dy^2}
+\end{equation*}
+and $U(\vec{x}) \in \R$ is the \underline{potential}.
+
+\begin{remarks}
+    \item Since this gives the first derivative of $\psi$ with respect to time, if the wave function is known at a given time $t_0$ then we can find it at all time.
+    \item We have asymmetry in $t \leftrightarrow \vec{x}$, so this is a non-relativistic equation.
+\end{remarks}
+\begin{example}
+    Consider an electron behaving like a wave, and so the solution to the wave equation is $\exp\left[i(kx - \omega t)\right]$. Then if we substitute this into equation~\ref{eqnTDSE} with $U = 0$, we find $\omega \propto k^2$, where $k$ is the wave number.
+
+    De Broglie's hypothesis gives that:
+    \begin{align*}
+        k &= \frac{p}{\hbar} \\
+        \omega &= \frac{E}{k}
+    \end{align*}
+    and so, since $E = \frac{p^2}{2m}$, we can find $\omega$ in terms of $k$:
+    \begin{align*}
+        \omega &= \frac{p^2}{2m \hbar} = \frac{\hbar}{2m} k^2 \\
+        \therefore \omega \propto k^2
+    \end{align*}
+    as expected.
+
+    Note that this is different from an electromagnetic wave, where $\omega \propto k$. This is because we are comparing massless particles (photons) with massive particles (electrons).
+\end{example}
+\begin{propositions}{
+        Let $\psi$ obey TDSE.
+        \label{propsTDSE}
+    }
+    \item Normalisation of $\psi$ is constant.
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Normalisation is: $\int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x = N$.
+            \begin{align*}
+                \frac{d^{}N}{dt^{}} &= \frac{d}{dt} \int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x \\
+                &= \int_{\R^3} \frac{\partial}{\partial t} \left(\psi(\vec{x}, t) \psi^*(\vec{x}, t)\right) d^3x
+            \end{align*}
+            and by TDSE:
+            \begin{align*}
+                \frac{\partial \psi}{\partial t} &= \frac{i \hbar}{2m} \nabla^2 \psi - \frac{iU}{\hbar}\psi                
+                \frac{\partial \psi^*}{\partial t} &= \frac{i \hbar}{2m} \nabla^2 \psi* - \frac{iU}{\hbar}\psi* \\
+                \therefore \frac{\partial \psi^* \psi}{\partial t} &= \nabla \cdot \left(\frac{i\hbar}{2m} \left(\psi^* \nabla \psi - \psi \nabla \psi^*\right)\right) \\
+                &=0 \text{ by divergence theorem}
+            \end{align*}
+            because we have the boundary conditions that $\psi \to 0$ when $\vec{x}$ gets far from $0$.
+    \end{enumerate}
+\end{proof}
 \end{document}
