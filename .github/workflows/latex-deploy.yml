@@ -32,7 +32,7 @@ jobs:
     - name: Compile all Main.tex files
       run: |
         mkdir output
-        export TEXINPUTS="${{ github.workspace }}"
+        export TEXINPUTS=".:${{ github.workspace }}//:"
         find . -type f -name 'Main.tex' -not -path "./templates/*" | while read file; do
           dir=$(dirname "$file")
           filename=$(basename "$dir")
