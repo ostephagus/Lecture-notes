@@ -1,0 +1,52 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{General Series}
+\subsection{Basic Convergence}
+\begin{definition}{Parital sum}
+    Let $g_n : E \mapsto \R$. Write $f_n = \sum_{j = 1}^n g_j$, these are the \underline{partial sums} of $g$.
+\end{definition}
+we use the same definitions of $f_n$ and $g_n$ for the following definitions:
+\begin{definition}{Pointwise convergence}
+    The infinite series $\sum_{n = 1}^\infty g_n(x)$ \underline{converges at a point} $x \in E$ if the sequence of partial sums converges to a point.
+\end{definition}
+\begin{definition}{Uniform convergence}
+    The infinite series $\sum_{n = 1}^\infty g_n(x)$ \underline{converges uniformly} on $E$ if the sequence $f_n$ converges uniformly on $E$.
+\end{definition}
+\begin{definition}{Absolute convergence}
+    The infinite series $\sum_{n = 1}^\infty g_n(x)$ \underline{converges absolutely} at $x \in E$ if the series $\sum_{n = 1}^\infty |g_n(x)|$ converges at the point $x$.
+\end{definition}
+\begin{definition}{Absolute uniform convergence}
+    The infinite series $\sum_{n = 1}^\infty g_n(x)$ \underline{converges absolutely uniformly} if the series $\sum_{n = 1}^\infty |g_n(x)|$ converges absolutely on $E$.
+\end{definition}
+From Analysis I, absolute convergence implies convergence for a series of numbers. We can therefore give the same result for pointwise convergence of functions by considering each point $x$ in turn.
+
+\begin{proposition}
+    If $g_n : E \mapsto \R$ is such that the series $\sum_{n = 1}^\infty |g_n|$ converges uniformly on $E$ (absolute uniform convergence), then so does the series $\sum_{n = 1}^\infty g_n$ (uniform convergence)
+    \label{propAbsUCImpliesUC}
+\end{proposition}
+\begin{proof}
+    Let $f_n$ be the $n$th partial sum. Consider $n > m$:j
+    \begin{align*}
+        |f_n(x) - f_m(x)| &= \left| \sum_{j = m+1}^{n}g_j(x) \right| \\
+        &\leq \sum_{j = m + 1}^{n} |g_j(x)| \\
+        &= h_n(x) - h_m(x)
+    \end{align*}
+    where $h_n$ is the $n$th partial sum of the absolute series. Taking suprema:
+    \begin{equation*}
+        \sup_{x \in E} |f_n(x) - f_m(x)| \leq \sup_{x\in E} |h_n(x) - h_m(x)| \to 0
+    \end{equation*}
+    and so $f_n$ converges uniformly on $E$.
+\end{proof}
+\begin{example}
+    Consider the series:
+    \begin{equation*}
+        \sum_{n = 1}^\infty \frac{(-1)^n}{n}x^n
+    \end{equation*}
+    on $[0, 1)$. Then we have uniform convergence, and absolute pointwise convergence but not absolute uniform convergence.
+\end{example}
+\begin{remark}
+    This tells us that the converse of proposition~\ref{propAbsUCImpliesUC} does not hold, even if we impose absolute pointwise convergence.
+\end{remark}
+\subsection{Weierstrass M-Test}
+\end{document}

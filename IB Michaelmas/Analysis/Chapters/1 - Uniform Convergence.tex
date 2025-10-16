@@ -208,6 +208,7 @@ So far we have seen that a series of differentiable functions need to converge u
         \end{equation*}
         or, we can interchange the operations of taking derivatives and taking limits.
     \item If we assume that $f_n'$ are continuous, then the proof is more straightforward and can be based on the Fundamental Theorem of Calculus.
+    \item Indeed, for this theorem, $f_n'$ need not be continuous.
 \end{remarks}
 \begin{proof}
     \begin{subproof}{$f_n \to f$ uniformly}
@@ -258,8 +259,63 @@ So far we have seen that a series of differentiable functions need to converge u
             &= (f_n' - f_m')(x_{n, m}) \text{ where } x_{n, m} \in [x, y] \\
             \sup (h_n - h_m) &\leq \sup |f_n' - f_m'| \to 0 \text{ as } n, m \to \infty
         \end{align*}
-        
     \end{subproof}
-    
 \end{proof}
+\begin{example}[Derivatives need not be continuous in theorem~\ref{thmUCDiff}]
+    Consider:
+    \begin{align*}
+        f : [-1, 1] &\mapsto \R\\
+        x &\mapsto \begin{cases}
+            x^2 \sin\left(\frac{1}{x}\right) & x \neq 0 \\
+            0 & x = 0
+         \end{cases}
+    \end{align*}
+    Then $f_n$ is differentiable on $[-1, 1]$ with derivative:
+    \begin{equation*}
+        f'(x) = 
+        \begin{cases}
+            2x\sin\left(\frac{1}{x}\right) - \sin\left(\frac{1}{x}\right) & x \neq 0 \\
+            0 & x = 0
+        \end{cases}
+    \end{equation*}
+    Then we can take $f_n(x) = f(x)$ or $f_n(x) = f(x) + \frac{x}{n}$.
+\end{example}
+As we stated earlier, we can provide a shorter proof if we assume $f_n'$ are continuous:
+\begin{proof}[Assume $f_n'$ continuous in theorem~\ref{thmUCDiff}]
+    For any $x \in [a, b]$ we can write:
+    \begin{equation}
+        f_n(x) = f_n(c) + \int_{c}^{x} f'(t) dt
+        \label{eqnFTCImplication}
+    \end{equation}
+    by the Fundamental Theorem of Calculus.
+
+    \begin{align*}
+        |f_n(x) - f_m(x)| &= \left|\left(f_n(c) - f_m(c)\right) + \int_{c}^{x} \left(f_n'(t) - f_m'(t)\right) dt \right| \\
+        &\leq |f_n(c) - f_m(c)| + \sup_{t \int [a, b]} \left|f_n'(t) - f_m'(t)\right|
+    \end{align*}
+    and this tends to $0$ by uniform convergence of $f'$.
+
+    This shows that $f_n$ are uniformly Cauchy, and so converge uniformly to some limit $f : [a, b] \mapsto \R$.
+
+    Note that by theorem~\ref{thmUCIntegrals} that:
+    \begin{equation*}
+        \int_{c}^{x} f'(t) dt \to \int_{c}^{x} g(t) dt
+    \end{equation*}
+    where the continuity of $g$ implies its integrability, so this theorem's assumptions are satisfied. Now letting $n \to \infty$ in equation~\ref{eqnFTCImplication}:
+    \begin{equation*}
+        f(x) = f(c) + \int_{c}^{x} g(t) dt 
+    \end{equation*}
+    and differentiating gives $f'(x) = g(x)$, again by the Fundamental Theorem of Calculus.
+\end{proof}
+\begin{propositions}{
+        Let $f_n, g_n : E \mapsto \R$ with $f_n \to f$ and $g_n \to g$ uniformly on $E$.
+    }
+    \item $f_n + g_n \to f + g$ uniformly on $E$ \label{propUCSum}
+    \item If $h : E \mapsto \R$ is a bounded function on $E$, $hf_n \to hf$ uniformly on $E$. \label{propUCMultiple}
+    \label{propUCLinearity}
+\end{propositions}
+The proof of this is simple, and is on the example sheet.
+\begin{example}[$h$ must be bounded in proposition~\ref{propUCMultiple}]
+    Let $f_n, h : \R \mapsto \R$ with $f_n(x) = \frac{1}{n}$ and $h = x$. Then $f_n \to 0$ uniformly on $\R$ but $(hf_n)(x) = \frac{x}{n}$ which does not converge uniformly to $0$.
+\end{example}
 \end{document}
