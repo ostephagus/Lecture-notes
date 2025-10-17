@@ -103,7 +103,36 @@ $V$ is \underline{finite-dimensional} if it has a finite spanning set.
     \label{thmSteinitzExchange}
 \end{theorem}
 \begin{proof}
-    % Proof to come on 17/10/25
+    Let $S = \{u_1, u_2, \cdots, u_m\}$ and $T = \{v_1, v_2, \cdots, v_n\}$.
+
+    If $S$ is empty then done, so assume $S$ non-empty.
+
+    We now construct new spanning sets $S_l$ containing elements of $S$.
+    
+    \induction{$l = 1$}{
+        Write $u_1$ as a linear combination of vectors in $V$:
+        \begin{equation*}
+            u_1 = \sum_{i=1}^{n} \lambda_i v_i
+        \end{equation*}
+        because $T$ is spanning. By possibly re-numbering, assume $\lambda_1 \neq 0$, so:
+        \begin{equation*}
+            v_1 = \frac{1}{\lambda_1}\left(u_1 - \sum_{i=2}^{n}\lambda_i v_i\right)
+        \end{equation*}
+        and so define the set $U_1 = \{u_1, v_2, \cdots, v_n\}$ which spans $V$.
+    }{$l = k < n$}{
+        Assume that there exists a spanning set $U_k$ with $k$ vectors from $U$ and the rest from $V$.
+    }{$l = k + 1$}{
+        Write $u_{k+1}$ using the spanning set $U_k$:
+        \begin{equation*}
+            u_{k+1} = \sum_{j=1}^k \mu_j u_j + \sum_{i = k + 1}^n \lambda_i v_i
+        \end{equation*}
+        Note that if all $\lambda_i$ were non-zero, then we would have $u_{k+1}$ as a linear combination of other elements of $S$ which contradicts linear independence. Therefore we must have at least one element $\lambda_i \neq 0$. After possibly re-labelling, let this be $\lambda_{k+1}$:
+        \begin{equation*}
+            v_{k+1} = \frac{1}{\lambda_{k+1}} \left(u_{k+1} - \sum_{j=1}^{k}\mu_i u_i - \sum_{j=k+2}^{n}\lambda_i v_i\right)
+        \end{equation*}
+        and so the new set $U_{k+1}$ spans $V$.
+    }
+    The above process can only terminate when we run out of elements of $S$, when $l = m$. We therefore conclude that $m < n$ and the new set $T' = \{v_{m+1}, \cdots, v_n\}$ is such that $S \cup T'$ spans $V$.
 \end{proof}
 \begin{corollary}
     Let $V$ be finite-dimensional. Then every basis is finite and each has the same size.
@@ -136,4 +165,164 @@ $V$ is \underline{finite-dimensional} if it has a finite spanning set.
 \begin{remark}
     In general, we cannot say that a vector spcae has a basis. This holds for finite-dimensional vector spaces, but for many infinite-dimensional vector spaces we require the axiom of choice. As we have seen, sometimes we can write down a basis for an infinite-dimensional vector space such as $P(\R)$, but we cannot rely on this fact for a general infinite-dimensional vector space.
 \end{remark}
+\begin{corollary}
+    Let $V$ be a finite-dimensional vector space, $U \leq V$. Then $U$ is also finite with dimension at most $\dim(V)$. $\dim(U) = \dim(V)$ if and only if $U = V$.
+    \label{corSubspaceDim}
+\end{corollary}
+\begin{proof}
+    If $U = \{\zv_V\}$, then we are done. Therefore assume not. We now want to construct a basis for $U$.
+
+    \induction{$n = 1$}{
+        Choose a non-zero vector $u_1 \in U$. Then $U_1 = \{u_1\}$ is a linearly independent set in $U$. 
+    }{$n = k$}{
+        Assume that there exists a set $U_k$ containing $k$ vectors that are linearly independent.
+    }
+    {$n = k + 1$}{
+        If the set $U_k$ spans $U$ then we are done. If not, choose a vector $u_{k+1}$ that is not in the span of $U$. If we do not have linear independence,
+        \begin{equation*}
+            \sum_{i = 1}^{k+1} \lambda_iu_{i} = 0
+        \end{equation*}
+        and note that $\lambda_{k+1} \neq 0$ because the set $U_k$ is linearly independent so cannot have a non-trivial linear combination of $\zv$.
+        Rearranging:
+        \begin{equation*}
+            u_{k + 1} = -\frac{1}{\lambda_{k+1}} \sum_{i=1}^{k} u_k
+        \end{equation*}
+        which is in the span of $U_k$.~\contradiction
+    }
+
+    This forms $U_m$ with $m$ vectors that is a basis for $U$.
+
+    Then this must terminate after at at most $\dim(V)$ steps by corollary~\ref{corSpanLISizes}. If in fact $\dim(U) = \dim(V)$, apply corollary~\ref{corSpanLISizes} with $S$ being any basis for $U$.
+\end{proof}
+\begin{proposition}[Basis Extension Principle]
+    Let $V$ be finite-dimensional, and $U \leq V$. For any basis $B_U$ of $U$, there exists a basis $B_V$ for $V$ such that $B_U \subseteq B_V$.
+    \label{propBasisExtension}
+\end{proposition}
+\begin{proof}
+    Apply theorem~\ref{thmSteinitzExchange} part 2 with $S = B_U$, $T$ being any basis for $V$.
+
+    Therefore we have $T' \subseteq T$ such that:
+    \begin{align*}
+        |T'| &= |T| - |S| \\
+        &= \dim(V) - \dim(U)
+    \end{align*}
+    and $B_U \cup T'$ spans $V$. Therefore let $B_V = B_U \cup T'$. The size of a union is at most the sum of the sizes: $|B_V| \leq |B_U| + |T'| = \dim(V)$. Therefore by corollary~\ref{corBasesSameSize} we have that $B_V$ is a basis.
+\end{proof}
+Consider $V$ a finite-dimensional vector space over $\F$, and let $W$ be a vector space over $\F$. Let $\alpha : V \mapsto W$ be a linear map. Then we can use ideas of bases and dimension to learn more about the kernel and image.
+\begin{definition}{Nullity}
+    The \underline{nullity} of a linear map $\alpha$, $n(\alpha)$, is defined to be the dimension of the kernel. 
+\end{definition}
+\begin{definition}{Rank}
+    The \underline{rank} of a linear map $\alpha$, $rk(\alpha)$, is defined to be the dimension of the image.
+\end{definition}
+\begin{lemma}
+    Let $V$ be finite-dimensional and $U leq V$. Then:
+    \begin{equation}
+        \dim(V / U) = \dim(V) - \dim(U)
+        \label{eqnQuotientSizes}
+    \end{equation}
+    \label{lemQuotientSizes}
+\end{lemma}
+\begin{proof}
+    Let $B_U = \{u_1, \cdots, u_m\}$ be a basis for $U$. Extend to a basis $B_V = \{u_1, \cdots, u_m, v_{m+1}, \cdots, v_n\}$ of $V$. Define a subset of $V / U$:
+    \begin{equation*}
+        B_{V / U} = \subsetselect{v_i + U}{m+1 \leq i \leq n}
+    \end{equation*}
+    and note that it has size $n - m$.
+
+    For spanning, let $v \in V$ and write:
+    \begin{equation*}
+        v = \sum_{i} \lambda_i v_i + \sum_{j} \mu_j u_j
+    \end{equation*}
+    Then $v + U = \sum_i \lambda_i(v_i + U) \in \spn{B_{V / U}}$.
+
+    For linear independence, suppose there exists a non-trivial linear combination of $\zv$:
+    \begin{align*}
+        \zv + U &= \sum_i \lambda_i(v_i + U) \\
+        &= \left(\sum_i \lambda_i v_i\right) + U \\
+        \therefore &\sum_i \lambda_i v_i \in U \\
+        \therefore &\sum_i \lambda_i v_i = \sum_j \mu_j v_j
+    \end{align*}
+    but since $B_V$ is linear independent, all $\lambda_i$ and $\mu_j$ must be zero. We also get uniqueness, since if $v_i + U = v_j + U$ then $v_i - v_j \in U$ which is a contradiction.
+\end{proof}
+\begin{theorem}[Rank-Nullity Theorem]
+    Let $V, W$ be vector spaces over $\F$ and let $V$ be finite-dimensional. Let $\alpha : V \mapsto W$ be a linear map. Then:
+    \begin{equation}
+        \dim(V) = n(\alpha) + rk(\alpha)
+        \label{eqnRankNullity}
+    \end{equation}
+    \label{thmRankNullity}
+\end{theorem}
+\begin{proof}
+    By the First Isomorphism Theorem,
+    \begin{equation*}
+        V / \ker{\alpha} \isom \im(\alpha)
+    \end{equation*}
+    applying lemma~\ref{lemQuotientSizes} gives the result immediately.
+\end{proof}
+\begin{remark}
+    The proof can be done directly without using a lemma, but the ideas are the same.
+\end{remark}
+\begin{corollary}[Linear pigeon-hole principle]
+    Consider the same assumptions as the previous theorem. Assume also that $V$ and $W$ both have dimension $n$. Then the following are equivalent:
+    \begin{enumerate}
+        \item $\alpha$ is injective
+        \item $\alpha$ is surjective
+        \item $\alpha$ is an isomorphism
+    \end{enumerate}
+    \label{corLinPidge}
+\end{corollary}
+\begin{proof}
+    By definition statement 3 implies 1 and 2. Statements 1 and 2 together imply statement 3, so it is sufficient to prove that statements 1 and 2 are equivalent.
+
+    \begin{subproof}{Statement 1 implies statement 2}
+        If $\alpha$ is injective then $\ker{\alpha} = \{\zv\}$. That is, $n(\alpha) = 0$. Therefore by theorem~\ref{thmRankNullity}, $rk(\alpha) = n-0 = n$, so $\alpha$ is surjective.
+    \end{subproof}
+    \begin{subproof}{Statement 2 implies statement 1}
+        If $\alpha$ is surjective then $\im{\alpha} = W$. That is, $rk(\alpha) = n$. Therefore by theorem~\ref{thmRankNullity}, $n(\alpha) = n-n = 0$, so $\alpha$ is injective.
+    \end{subproof}
+\end{proof}
+\begin{proposition}
+    Let $V$ be a vector space (that can be infinite-dimensional), and suppose we have a basis $B_V$. For any vector space $W$ with a function $f : B_V \mapsto W$, there exists a corresponding unique linear map:
+    \begin{equation*}
+        F : V \mapsto W
+    \end{equation*}
+    \label{propLinMapOfBasis}
+\end{proposition}
+\begin{proof}
+    For each $v$ in $V$, write $v$ as a finite sum $\sum_{b} \lambda_b b$. Let $F(v)$ be the finite sum $\sum_b \lambda_b f(b)$.
+
+    \begin{subproof}{$F$ is well-defined}
+        As $B$ is a basis, the $\lambda_b$ are uniquely determined by $v$.
+    \end{subproof}
+    \begin{subproof}{$F$ is linear}
+        Let $u, v \in V$. Find their finite linear combinations of basis vectors:
+        \begin{equation*}
+            u = \sum_b \mu_b b,~~v = \sum_b \lambda_b b
+        \end{equation*}
+        Then:
+        \begin{align*}
+            F(u + \lambda v) &= F\left(\sum_b (\mu_b + \lambda\lambda_b)b\right) \\
+            &= \sum_b (\mu_b + \lambda \lambda_b) f(b) \\
+            &= \sum_b \mu_b f(b) + \lambda\sum_b\lambda_b f(b) \\
+            &= F(u) + \lambda F(v)
+        \end{align*}
+    \end{subproof}
+    \begin{subproof}{$F$ is unique}
+        Suppose $\bar{F}$ is another linear map that extends the function $f$.
+        \begin{align*}
+            \bar{F} \left(\sum_b \lambda_b b\right) &= \sum_b\lambda_b \bar{F}(b) \\
+            &= \sum_b \lambda_b f(b) \\
+            &= F\left(\sum_b \lambda_b b\right)
+        \end{align*}
+    \end{subproof}
+\end{proof}
+\begin{corollary}
+    Let $\dim(V) = n$, and $B$ a basis for $V$ with elements $\{b_i\}_{i=1}^n$. Then there is an isomorphism:
+    \begin{align*}
+        F_B : V &\mapsto \F^n\\
+        \sum_{i=1}^n \lambda_i b_i &\mapsto \begin{pmatrix} \lambda_1 \\ \vdots \\ \lambda_n \end{pmatrix}
+    \end{align*}
+    \label{corUniqueIsom}
+\end{corollary}
 \end{document}
