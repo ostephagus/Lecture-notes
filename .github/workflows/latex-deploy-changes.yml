@@ -1,4 +1,4 @@
-name: latex-deploy
+name: latex-deploy-changes
 
 on:
   workflow_dispatch:
@@ -19,7 +19,7 @@ jobs:
     - name: Get chenged files
       id: changed-files
       run: |
-        echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)" >> $GITHUB_OUTPUT"
+        echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)" >> $GITHUB_OUTPUT
     
     - name: List changed files
       run: |
