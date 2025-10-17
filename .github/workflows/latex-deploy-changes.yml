@@ -1,0 +1,28 @@
+name: latex-deploy
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "**.tex"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5.0.0
+      with:
+        fetch-depth: 0
+
+    - name: Get chenged files
+      id: changed-files
+      run: |
+        echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)" >> $GITHUB_OUTPUT"
+    
+    - name: List changed files
+      run: |
+        for file in ${{ steps.changed-files.outputs.changed_files }}; do
+          echo "$file was changed"
+        done
