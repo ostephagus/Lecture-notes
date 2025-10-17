@@ -1,7 +1,43 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-Throughout these lectures, we consider $\F$ a field. Before we define this formally, we can understand a field to be a set which permits the operations of addition and multiplication. For now, $\F = \R$ or $\C$.
+\section{Defining a Field}
+In this section we will quickly run through the important properties of a field. Proofs are very quick and so are not explicitly given.
+\subsection{Definition and Examples}
+\begin{definition}{Field}
+    A \underline{field} is a tuple $(\F, +, \cdot, 0, 1)$ where $\F$ is a set, $+$ (addition) and $\cdot$ (multiplication) are binary operations on $\F$, and $0, 1 \in F$ such that:
+    \begin{enumerate}
+        \item $(\F, +, 0)$ is an abelian group;
+        \item $(\F \backslash \{0\}, \cdot, 1)$ is an abelian group
+        \item For all $a, b, c \in \F$, $a \cdot (b + c) = a \cdot b + a \cdot c$.
+        \item $0 \neq 1$.
+    \end{enumerate}
+\end{definition}
+For $a \in \F$ we write $-a$ for its additive inverse, and $a^{-1}$ for its multiplicative inverse. We can easily prove that for every $a \in \F, 0 \cdot a = 0$. Therefore, if axiom 4 were false, we would have that $\F = \{0\}$.
+\begin{examples}
+    \item $\R, \C$ and $\Q$ are all examples of fields with the standard multiplication and addition operations.
+    \item If $p$ is prime, the $\Z / p\Z$ is a field (see IA Numbers and Sets, and B\'ezout's Theorem).
+\end{examples}
+\begin{examples}[Non-examples of fields]
+    \item The integers $\Z$ do not form a field because we lack multiplicative inverses.
+    \item If $n \in \N$ is not prime then $\Z / n\Z$ is not a field. Also if $n = 1$ then we do not have axiom 4.
+\end{examples}
+\subsection{Classifying Fields}
+\begin{definition}{Finite field}
+    A field is \underline{finite} (or infinite) if the corresponding set is finite (or infinite).
+\end{definition}
+
+We cannot divide by zero in a field, because this would contradict the axiom of total collapse. This means we must be careful when taking multiplicative inverses. For instance, $(1 + 1)^{-1}$ is not defined on $\Z / 2\Z$ because $1 + 1 = 0$.
+\begin{definition}{Algebraic closure}
+    A field $\F$ is \underline{algebraically closed} if any polynomial equation $f(X) = 0$, with coefficients in $\F$, has a solution in $\F$.
+\end{definition}
+\begin{example}
+    $\C$ is the most obvious algebraically closed field by the Fundamental Theorem of Algebra.
+\end{example}
+\begin{examples}[Non-examples of algebraic closure]
+    \item $\R$ is not algebraically closed, $x^2 + 1 = 0$ has no solutions in $\R$.
+    \item For any prime $p$, $\Z / p\Z$ is not algebraically closed. Indeed, we can show that there exist quadratic equations for each such field that have no solutions in that field.
+\end{examples}
 \section{Defining a Vector Space}
 \begin{definition}{Vector space}
     A \underline{vector space} over a field $\F$ is an abelian group $(V, +, 0)$ equipped with a function:
