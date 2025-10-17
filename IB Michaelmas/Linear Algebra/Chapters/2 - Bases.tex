@@ -64,7 +64,7 @@ $V$ is \underline{finite-dimensional} if it has a finite spanning set.
 \begin{definition}{Basis}
     A subset $S$ of a vector space $V$ is a \underline{basis} of $V$ if $S$ is both linearly independent and a spanning set for $V$.
 \end{definition}
-\begin{examples}
+\begin{examples}{}
     \item Let $e_i \in \F^n$ be the vector with its $i$th entry 1, and the rest $0$. Then $\subsetselect{e_i}{1 \leq i \leq n}$ is the \underline{standard basis} for $\F^n$.
     \item Let $P(\R)$ be the set of polynomial functions $\R \mapsto \R$. Let $p_n$ be given by $p_n(x) = x^n$. Then $\subsetselect{p_n}{n \in \N \cup \{0\}}$ is a basis for $P(\R)$.
 \end{examples}
@@ -208,6 +208,7 @@ $V$ is \underline{finite-dimensional} if it has a finite spanning set.
     \end{align*}
     and $B_U \cup T'$ spans $V$. Therefore let $B_V = B_U \cup T'$. The size of a union is at most the sum of the sizes: $|B_V| \leq |B_U| + |T'| = \dim(V)$. Therefore by corollary~\ref{corBasesSameSize} we have that $B_V$ is a basis.
 \end{proof}
+\section{Bases and Linear Maps}
 Consider $V$ a finite-dimensional vector space over $\F$, and let $W$ be a vector space over $\F$. Let $\alpha : V \mapsto W$ be a linear map. Then we can use ideas of bases and dimension to learn more about the kernel and image.
 \begin{definition}{Nullity}
     The \underline{nullity} of a linear map $\alpha$, $n(\alpha)$, is defined to be the dimension of the kernel. 
@@ -216,7 +217,7 @@ Consider $V$ a finite-dimensional vector space over $\F$, and let $W$ be a vecto
     The \underline{rank} of a linear map $\alpha$, $rk(\alpha)$, is defined to be the dimension of the image.
 \end{definition}
 \begin{lemma}
-    Let $V$ be finite-dimensional and $U leq V$. Then:
+    Let $V$ be finite-dimensional and $U \leq V$. Then:
     \begin{equation}
         \dim(V / U) = \dim(V) - \dim(U)
         \label{eqnQuotientSizes}
