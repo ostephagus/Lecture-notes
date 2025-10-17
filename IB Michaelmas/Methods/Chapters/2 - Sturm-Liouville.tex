@@ -1,0 +1,150 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Abstract Eigenvalue Problem}
+Recall from IA Vectors and Matrices that a linear map $A : V_N \mapsto V_N$ was called \underline{Hermitian} if $A^\dagger = A$, or equivalently $\langle\vec{x} ~|~(A\vec{y})\rangle = \langle(A \vec{x}) ~|~ \vec{y}\rangle$.
+
+These had real eigenvalues, with eigenvectors corresponding to distinct eigenvalues being orthogonal. Also, these matrices were diagonalisable by choosing an orthogonal eigenvector basis.
+
+Consider now a vector space of ``nice'' functions $f : [a, b] \mapsto \C$.\begin{definition}{Weight function}
+    A \underline{weight function} $w(x) : [a, b] \mapsto \R$ is a real-valued function that is positive on $(a, b)$.
+\end{definition}
+Also introduce the inner product:
+\begin{equation}
+    \langle f~|~g\rangle_w = \int_{a}^{b} f(x) \bar{g(x)} w(x) dx 
+    \label{eqnInnerFuncProduct}
+\end{equation}
+And use the notation that, when $w$ is omitted, we assume $w \equiv 1$.
+
+Let the norm be $||f||_w = \langle f~|~f\rangle_w$.
+
+\begin{definition}{Self-adjointness}
+    A linear differential operator is \underline{self-adjoint} on $(V, \langle \cdot~|~\cdot\rangle)$ if:
+    \begin{equation*}
+        \langle Ly_1~|~y_2\rangle_w = \langle y~|~Ly_2\rangle_w
+    \end{equation*}
+    for all $y_1, y_2 \in V$.
+\end{definition}
+\begin{definition}{Eigenfunction}
+    The function $y \in V \backslash \{0\}$ is an \underline{eigenfunction} for a linear differential operator $L$ if, for some $\lambda \in C$ called the \underline{eigenvalue},
+    \begin{equation}
+        Ly = \lambda_y
+        \label{eqnEigenFunc}
+    \end{equation}
+\end{definition}
+\begin{propositions}{
+        Let $L$ be self-adjoint on $V$ with respect to the inner product $\langle \cdot~|~\cdot\rangle_w$.
+        \label{propsSelfAdjProps}
+    }
+    \item Eigenvalues are real
+    \item Eigenfunctions with distinct eigenvalues are orthogonal with respect to the inner product
+    \item There exists a complete, orthogonal set of eigenfunctions $\{y_n\}_{n=1}^\infty$. Therefore for each $f \in V$ we can write:
+        \begin{equation*}
+            f = \sum_{n = 1}^\infty \hat{f}_n y_n
+        \end{equation*}
+        where $\hat{f}_n = \frac{\langle f~|~y_n\rangle_w}{||y_n||_w^2}$.
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $Ly = \lambda y$ for $y \neq 0$. Then:
+            \begin{align*}
+                (\lambda - \bar{\lambda}) ||y||_w^2 &= \langle \lambda_y~|~y\rangle_w - \langle y~|~\lambda_y\rangle_w \\
+                &= \langle Ly~|~y\rangle_w - \langle y~|~Ly\rangle_w = 0
+            \end{align*}
+            which implies that $\lambda$ is real.
+        \item If $Ly_1 = \lambda_1 y_1$, $Ly_2 = \lambda_2 y_2$,
+            \begin{align*}
+                &(\lambda_1 - \lambda_2) \langle y_1~|~y_2\rangle_w \\
+                &= \langle \lambda_1 y_1~|~y_2\rangle_w - \langle y_1~|~\lambda_2 y_2\rangle \\
+                &= \langle Ly_1~|~y_2\rangle - \langle y_1~|~Ly_2\rangle \\
+                &= 0
+            \end{align*}
+            which implies that $\langle y_1~|~y_2\rangle_w = 0$.
+        \item See the course II Functional Analysis.
+    \end{enumerate}
+\end{proof}
+\section{Self-Adjoint Operators and Boundary Values}
+We will study problems of the form:
+\begin{align}
+    Ly &= \lambda y \text{ on } x\in(a, b) \label{eqnBVProb} \\
+    y &\text{ satisfies some boundary conditions} \nonumber
+\end{align}
+Where $L$ is a particular operator:
+\begin{definition}{Sturm-Liouville operator}
+    An operator $L$ is a \underline{Sturm-Liouville operator} on $(a, b)$ if it has the form:
+    \begin{align*}
+        Lf &= \frac{1}{w}\left[-\frac{d}{dx}\left(p \frac{d^{}f}{dx^{}}\right) + qf\right] \\
+        &= \frac{1}{w}\left[-p \frac{d^{2}f}{dx^{2}} - p' \frac{d^{}f}{dx^{}} + qf\right] \\
+    \end{align*}
+    where $p, q, w$ are real-valued functions with $p, w > 0 on (a, b)$. Again $w$ is a weight function.
+\end{definition}
+Then we see that the eigenvalue problem $Ly = \lambda y$ is equivalent to:
+\begin{equation}
+    -\frac{d}{dx}\left(p \frac{dy}{dx}\right) + qy = \lambda w y
+    \label{eqnSLProb}
+\end{equation}
+We will enforce boundary conditions in equation~\ref{eqnBVProb} by stipulating that $y$ belongs to a suitable vector space of functions that have appropriate behaviour at the boundary.
+\begin{definition}{Singularity}
+    For Sturm-Liouville operator on $(a, b)$, say that an endpoint $c \in \{a, b\}$ is \underline{singularity} if $p(c) = 0$.
+
+    The opposite is non-singular, where $p(c) > 0$.
+\end{definition}
+We will impose real, homogeneous boundary conditions of the form:
+\begin{equation}
+    \alpha_c y(c) + \beta_c y'(c) = 0, \alpha_c, \beta_c \in \R, c \in \{a, b\}
+    \label{eqnBoundaryCondition}
+\end{equation}
+where $\alpha_c$ and $\beta_c$ are not both zero, at any non-singular endpoint.
+
+\begin{remark}
+    This boundary condition is closed under addition and scalar multiplication.
+\end{remark}
+We will work on generic vector spaces $V \subseteq C^2[a, b]$ that require $y \in V$ to satisfy real homogeneous boundary conditions at each non-singular endpoint. We also include the inner product:
+\begin{equation*}
+    \langle f~|~g\rangle_w = \int_{a}^{b} f(x) \bar{g(x)} w(x) dx 
+\end{equation*}
+\begin{examples}
+    \item \begin{equation*}
+        -\frac{d}{dx}\left[\cos\left(\frac{x}{2}\right)\frac{dy}{dx}\right] + \sin\left(\frac{x}{2}\right)y = \lambda x y
+    \end{equation*}
+    on $x \in (0, \pi)$, with $y'(0) = 0$. Then we have that $p(x) = \cos\left(\frac{x}{2}\right)$, $q(x) = \sin\left(\frac{x}{2}\right)$, and $w = x$. We find that $x = \pi$ is singular, so the problem is of the form $Ly = \lambda y$ with appropriate boundary conditions.
+    \item \begin{equation*}
+        -\frac{d}{dx}\left[(1 - x^2)\frac{dy}{dx}\right] = \lambda y, x \in (-1, 1)
+    \end{equation*}
+    and $p = (1 - x^2)$, $q = 0, w=1$. Therefore we do not need boundary conditions because both endpoints are singular.
+\end{examples}
+\begin{proposition}
+    If $L$ is a Sturm-Liouville operator on $(a, b)$, with weight function $w$, then if $y_1$ and $y_2 \in C^2[a, b]$, then:
+    \begin{equation}
+        \langle Ly_1~|~y_2\rangle_w - \langle y_1~|~Ly_2\rangle = \left. p(x) W(y_1, \bar{y_2})(x)\right|_{x = a}^b
+        \label{eqnSLWronskian}
+    \end{equation}
+    where $W(u, v)$ is the Wronskian, $W(u, v) = uv' - vu'$.
+    \label{propSLWronskian}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \int_{a}^{b} &\frac{1}{w}\left[-(py_1')' + qy_1\right]\bar{y_2} w dx \\
+        &- \int_{a}^{b} \frac{1}{w}y_1\left[ (p\bar{y_2}')' + q\bar{y_2}\right] w dx \\
+        &=\int_{a}^{b} y_1 \left(p\bar{y_2}'\right)' - \bar{y_2} \left(py_1'\right)' dx 
+        &= \int_{a}^{b} \frac{d}{dx}\left[p(x) W(y_1, \bar{y_2})(x)\right] dx \\
+        &= \left.p(x) W(y_1, \bar{y_2})(x)\right|_{x = a}^b
+    \end{align*}
+\end{proof}
+Now assume that $y_1, y_2$ are in a function space with appropriate boundary conditions.
+
+If $x = c \in \{a, b\}$ is singular, then $p(c) = 0$ so the term with $x = c$ in equation~\ref{eqnSLWronskian} is zero. Alternatively, if $x = c \in \{a, b\}$ is non-singular with real homogeneous boundary conditions:
+\begin{equation*}
+    \begin{pmatrix}
+        y_1(c) & y_1'(c) \\
+        \bar{y_2}(c) & \bar{y_2}'(c)
+    \end{pmatrix}
+    \begin{pmatrix} \alpha_c \\ \beta_c\end{pmatrix} = \vec{0}.
+\end{equation*}
+And since the vector is non-zero, we must have that the determinant of the matrix, the Wronskian, is zero. That means that the term in equation~\ref{eqnSLWronskian} with $x = c$ is zero. This is all to say:
+\begin{equation}
+    \langle Ly_1~|~y_2\rangle - \langle y_1~|~Ly_2\rangle = 0
+    \label{eqnSLIsSelfAdj}
+\end{equation}
+or, $L$ is self-adjoint.
+\end{document}
