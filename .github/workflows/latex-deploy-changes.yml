@@ -44,7 +44,7 @@ jobs:
         done < texfiles.txt
 
         # remove duplicates
-        sort -u main_files.txt -o main_files.txt
+        grep -v '^[[:space:]]*$' main_files.txt | sort -u > main_files.txt
         echo "Files to compile:"
         cat main_files.txt || echo "None"
 
