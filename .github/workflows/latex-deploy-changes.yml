@@ -52,11 +52,13 @@ jobs:
         files=$(paste -sd "," main_files.txt)
         echo "main_files=$files" >> $GITHUB_OUTPUT
     
-    - name: Compile all Main.tex files
+    - name: Compile changed Main.tex files
+      if: steps.changes.outputs.main_files != ''
       run: |
         mkdir output
         export TEXINPUTS=".:${{ github.workspace }}//:"
-        find . -type f -name 'Main.tex' -not -path "./templates/*" | while read file; do
+        IFS=',' read -ra files <<< "${{ steps.changes.outputs.main_files }}"
+        for file in "${files[@]}"; do
           dir=$(dirname "$file")
           filename=$(basename "$dir")
           echo "::group::Compiling $filename"
