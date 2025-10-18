@@ -19,22 +19,23 @@ jobs:
     - name: Determine changed .tex files
       id: changes
       run: |
-        echo "Changed files:"
-        git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '\.tex$' > changed_tex.txt || true
-        cat changed_tex.txt || true
+        # Fetch list of changed TeX files between the pushed commits
+        git diff --name-only "${{ github.event.before }}" "${{ github.event.after }}" | grep '\.tex$' > changed_tex.txt || true
 
-        # filter out header.tex
+        echo "Changed .tex files:"
+        cat changed_tex.txt || echo "None"
+
+        # Exclude header.tex (root-level)
         grep -v '^header\.tex$' changed_tex.txt > texfiles.txt || true
 
-        # find which Main.tex files need recompiling
+        # Find which Main.tex files need recompiling
         echo "" > main_files.txt
         while IFS= read -r file; do
-          [ -z "$file" ] && continue
+          [ -z "$file" ] && continue  # skip empty lines
 
           if [[ "$file" == *"Main.tex" ]]; then
             echo "$file" >> main_files.txt
           elif [[ "$file" == *"/Chapters/"* ]]; then
-            # get directory containing Main.tex
             main_dir=$(dirname "$(dirname "$file")")
             main_file="$main_dir/Main.tex"
             if [ -f "$main_file" ]; then
@@ -43,14 +44,20 @@ jobs:
           fi
         done < texfiles.txt
 
-        # remove duplicates
-        grep -v '^[[:space:]]*$' main_files.txt | sort -u > main_files.txt
-        echo "Files to compile:"
+        # Remove duplicates and blank lines
+        grep -v '^[[:space:]]*$' main_files.txt | sort -u > tmp_main_files.txt
+        mv tmp_main_files.txt main_files.txt
+
+        echo "Main.tex files to compile:"
         cat main_files.txt || echo "None"
 
-        # export as output (for next step)
-        files=$(paste -sd "," main_files.txt)
-        echo "main_files=$files" >> $GITHUB_OUTPUT
+        # Build comma-separated list for GitHub output
+        if [ -s main_files.txt ]; then
+          files=$(paste -sd "," main_files.txt)
+          echo "main_files=$files" >> $GITHUB_OUTPUT
+        else
+          echo "main_files=" >> $GITHUB_OUTPUT
+        fi
     
     - name: Compile changed Main.tex files
       if: steps.changes.outputs.main_files != ''
@@ -59,6 +66,12 @@ jobs:
         export TEXINPUTS=".:${{ github.workspace }}//:"
         IFS=',' read -ra files <<< "${{ steps.changes.outputs.main_files }}"
         for file in "${files[@]}"; do
+          [ -z "$file" ] && continue
+          if [ ! -f "$file" ]; then
+            echo "File not found: $file"
+            continue
+          fi
+        
           dir=$(dirname "$file")
           filename=$(basename "$dir")
           echo "::group::Compiling $filename"
