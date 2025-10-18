@@ -2,7 +2,7 @@
 
 \begin{document}
 \section{General Series}
-\subsection{Basic Convergence}
+\subsection{Different Notions of Convergence}
 \begin{definition}{Parital sum}
     Let $g_n : E \mapsto \R$. Write $f_n = \sum_{j = 1}^n g_j$, these are the \underline{partial sums} of $g$.
 \end{definition}
@@ -48,5 +48,94 @@ From Analysis I, absolute convergence implies convergence for a series of number
 \begin{remark}
     This tells us that the converse of proposition~\ref{propAbsUCImpliesUC} does not hold, even if we impose absolute pointwise convergence.
 \end{remark}
-\subsection{Weierstrass M-Test}
+\subsection{Weierstrass \texorpdfstring{$M$}{M}-Test}
+\begin{theorem}[Weierstrass $M$-test]
+    Let $g_n : E \subseteq \R \mapsto \R$ be a sequence of functions and suppose that there exists a sequence $M_n$ such that:
+    \begin{equation*}
+        \sup_{x \in E} |g_n(x)| \leq M_n
+    \end{equation*}
+    and suppose that $\sum_{n = 1}^\infty M_n$ converges. Then $\sum_{n = 1}^\infty g_n$ converges absolutely uniformly on $E$.
+    \label{thmWstrassMTest}
+\end{theorem}
+\begin{proof}
+    Let $h_n(x) = \sum_{j = 1}^n |g_j(x)|$. For $n > m$, cosider:
+    \begin{align*}
+        h_n(x) - h_m(x) &= \sum_{j = m+1}^n |g_j(x)| \\
+        &\leq \sum_{j=m+1}^{n}M_j \\
+        &= \sum_{j=1}^{n} M_j - \sum_{j=1}^{m} M_j \\
+        \therefore |h_n - h_m| \leq \left|\sum_{j=1}^{n} M_j - \sum_{j=1}^{m} M_j\right|~\forall n, m \\
+        \therefore \sup_{x \in E}|h_n - h_m| \leq \left|\sum_{j=1}^{n} M_j - \sum_{j=1}^{m} M_j\right|
+    \end{align*}
+    and so we have that $h_n$ is uniformly Cauchy (since the difference is positive and bounded above), so we have the required result.
+\end{proof}
+\section{Power Series}
+\subsection{Convergence and Continuity}
+We now specialise the preceeding discussion to the case:
+\begin{equation*}
+    g_n(x) = c_n (x - a)^n,~~ c_n, a \in \R
+\end{equation*}
+\begin{definition}{Real power series}
+    A \underline{real power series} is a series of the form:
+    \begin{equation*}
+        \sum_{n=0}^{\infty} c_n (x-a)^n
+    \end{equation*}
+    for $c_n, a$ real numbers.
+\end{definition}
+Power series were considered in IA Analysis I, but we can now give a deeper understanding using notions of uniform convergence that have been introduced in this course.
+\begin{theorem}[Radius of convergence]
+    Let $\sum_{n = 0}^\infty c_n (x-a)^n$ be a real power series. Then there is a number $\R \in [0, \infty]$ called the \underline{radius of convergence} of the power series such that:
+    \begin{enumerate}
+        \item If $|x-a| < R$ then the power series converges absolutely at $x$. If $|x-a| > R$ then the power series does not converge even pointwise at $x$.
+            Moreover, the radius of convergence is given by:
+            \begin{equation*}
+                \frac{1}{R} = \lim_{n \to\infty} \sup(|c_n|^\frac{1}{n})
+            \end{equation*}
+            and we set $R = 0$ if this limit is infinite, and we set $R = \infty$ if this limit is zero.
+            \item For an $r \in (0, R)$, we have that the power series converges absolutely uniformly on $[a-r,a+r]$. Also, the limit function formed by the power series is continuous on $(a-R, a+R)$.
+    \end{enumerate} 
+    \label{thmRadiusConvergence}
+\end{theorem}
+\begin{proof}
+    Part 1 was proved in Analysis I.
+
+    Consider theorem~\ref{thmWstrassMTest}. First note that the power series converges absolutely at $x = a + r$. Therefore we can consider a bound:
+    \begin{equation*}
+        \sum_{n = 0}^\infty |c_n r^n \geq \sum_{n = 0}^\infty |c_n (x - a)^n|
+    \end{equation*}
+    for any $x \in [a-r, a+r]$. Therfore apply theorem~\ref{thmWstrassMTest} with $M_n = |c_n|r^n$ to get that the series converges absolutely uniformly. We can now use theorem~\ref{thmUCContinuity} to get that the power series is continuous on this interval too.
+\end{proof}
+\begin{remark}
+    We can show that if the power series converges at one of the boundary points $\{a+R, a-R\}$, then by setting the function defined by the power series $f(x) = \sum_{n=0}^{\infty}c_n (x-a)^n$ to be equal to the value of the power series at $R$, we see that $f$ is still continuous there. This is not something we will prove or use, but is nice to know. In general, we cannot say anything about the convergence of general power series at the radius of convergence.
+\end{remark}
+\subsection{Differentiability}
+\begin{theorem}[Differentiability of power series]
+    Let $\sum_{n = 0}^\infty c_n (x-a)^n$ be a power series with radius of convergence $R > 0$. Define:
+    \begin{equation*}
+        f(x) = \sum_{n = 0}^\infty c_n (x-a)^n
+    \end{equation*}
+    and so $f : (a-R, a+R) \mapsto \R$. Then the following hold:
+    \begin{enumerate}
+        \item The \underline{derived series} $\sum_{n = 1}^\infty nc_n (x-a)^{n-1}$ has the same radius of convergence, $R$.
+        \item $f$ is differentiable on $(a-R, a+R)$ with derivative $f'(x)$ equal to the derived series.
+    \end{enumerate}
+    \label{thmPSDiff}
+\end{theorem}
+\begin{proof}
+    \begin{subproof}{The derived series converges}
+        Consider:
+        \begin{equation*}
+            \lim_{n \to \infty} \sup (n|c_n|)^\frac{1}{n} = \lim_{n \to \infty} \sup |c_n|^\frac{1}{n}
+        \end{equation*}
+        since the limit of $n^\frac{1}{n}$ is 1.
+    \end{subproof}
+    Consider theorem~\ref{thmUCDiff}. First we need the single point $c$, and we consider the power series at $a$ which certainly converges to $0$ for each partial sum. Also, by considering the $n$th partial sum:
+    \begin{equation*}
+        f_n(x) = \sum_{j = 0}^n c_j (x-a)^j
+    \end{equation*}
+    then these are clearly differentiable on $\R$ since they are polynomials. The derivatives are:
+    \begin{equation*}
+        f_n'(x) = \sum_{j = 0}^n jc_j (x-a)^{j-1}.
+    \end{equation*}
+    By the claim above, we have that the functions $f_n$ converge uniformly. Thus we have the conditions for theorem~\ref{thmUCDiff}, and the function $f$ is differentiable on $[a-r, a+r]$ with derivative equal to the derived series.
+\end{proof}
 \end{document}
