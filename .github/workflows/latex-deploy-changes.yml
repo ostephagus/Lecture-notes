@@ -15,6 +15,21 @@ jobs:
       uses: actions/checkout@v5.0.0
       with:
         fetch-depth: 0
+        
+    - name: Checkout lecturenotes repo
+      uses: actions/checkout@v5.0.0
+      with:
+        repository: ostephagus/lecturenotes
+        path: lecturenotes
+
+    - name: Install TeX Live
+      uses: zauguin/install-texlive@v4
+      with:
+        package_file: ${{ github.workspace }}/.github/tl_packages
+
+    - name: Copy lecturenotes package
+      run: |
+        cp lecturenotes/lecturenotes.sty .
     
     - name: Determine changed .tex files
       id: changes
