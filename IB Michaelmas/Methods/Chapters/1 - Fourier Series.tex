@@ -22,7 +22,7 @@ Note that for $f \in V$, we need only consider values of $f$ taken in an interva
 
 We define the inner product on V:
 \begin{equation}
-    \langle f~|~g\rangle = \int_0^L f(\theta) \bar{g(\theta)} d\theta
+    \langle f~|~g\rangle = \int_0^L f(\theta) \overline{g(\theta)} d\theta
     \label{eqnInnerProdFuncs}
 \end{equation}
 We can also define a norm in the usual way, $||f|| = \sqrt{\langle f~|~f\rangle}$.
@@ -324,13 +324,13 @@ If:
 \end{align*}
 where $e_n$ are defined as before, the inner product is:
 \begin{align*}
-    \langle f~|~g\rangle &= \sum_{n, m} \hat{f}_n \bar{\hat{g}_m} \langle e_n~|~e_m\rangle \\
-    &= \sum_{n, m} \hat{f}_n \bar{\hat{g}_m} L \delta_{m, n} \\
-    &= L\sum_{n} \hat{f}_n \bar{\hat{g}_n}
+    \langle f~|~g\rangle &= \sum_{n, m} \hat{f}_n \overline{\hat{g}_m} \langle e_n~|~e_m\rangle \\
+    &= \sum_{n, m} \hat{f}_n \overline{\hat{g}_m} L \delta_{m, n} \\
+    &= L\sum_{n} \hat{f}_n \overline{\hat{g}_n}
 \end{align*}    
 This means:
 \begin{equation}
-    \frac{1}{L}\int_{0}^{L} f(\theta) \bar{g(\theta)} d\theta = \sum_{n} \hat{f}_n \bar{\hat{g}_n}
+    \frac{1}{L}\int_{0}^{L} f(\theta) \overline{g(\theta)} d\theta = \sum_{n} \hat{f}_n \overline{\hat{g}_n}
     \label{eqnParseval}
 \end{equation}
 and this is Parseval's Theorem.
