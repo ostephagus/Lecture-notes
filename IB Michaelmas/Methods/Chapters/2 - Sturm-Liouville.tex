@@ -11,55 +11,59 @@ Consider now a vector space of ``nice'' functions $f : [a, b] \mapsto \C$.\begin
 \end{definition}
 Also introduce the inner product:
 \begin{equation}
-    \langle f~|~g\rangle_w = \int_{a}^{b} f(x) \bar{g(x)} w(x) dx 
+    \inn{f}{g}_w = \int_{a}^{b} f(x) \overline{g(x)} w(x) dx 
     \label{eqnInnerFuncProduct}
 \end{equation}
 And use the notation that, when $w$ is omitted, we assume $w \equiv 1$.
 
-Let the norm be $||f||_w = \langle f~|~f\rangle_w$.
+Let the norm be $||f||_w = \inn{f}{f}_w$.
 
 \begin{definition}{Self-adjointness}
-    A linear differential operator is \underline{self-adjoint} on $(V, \langle \cdot~|~\cdot\rangle)$ if:
+    A linear differential operator is \underline{self-adjoint} on $(V, \inn{\cdot}{\cdot})$ if:
     \begin{equation*}
-        \langle Ly_1~|~y_2\rangle_w = \langle y~|~Ly_2\rangle_w
+        \inn{Ly_1}{y_2}_w = \inn{y}{Ly_2}_w
     \end{equation*}
     for all $y_1, y_2 \in V$.
 \end{definition}
 \begin{definition}{Eigenfunction}
     The function $y \in V \backslash \{0\}$ is an \underline{eigenfunction} for a linear differential operator $L$ if, for some $\lambda \in C$ called the \underline{eigenvalue},
     \begin{equation}
-        Ly = \lambda_y
+        Ly = \lambda y
         \label{eqnEigenFunc}
     \end{equation}
 \end{definition}
 \begin{propositions}{
-        Let $L$ be self-adjoint on $V$ with respect to the inner product $\langle \cdot~|~\cdot\rangle_w$.
+        Let $L$ be self-adjoint on $V$ with respect to the inner product $\inn{\cdot}{\cdot}_w$.
         \label{propsSelfAdjProps}
     }
-    \item Eigenvalues are real
-    \item Eigenfunctions with distinct eigenvalues are orthogonal with respect to the inner product
+    \item Eigenvalues are real \label{propEValReal}
+    \item Eigenfunctions with distinct eigenvalues are orthogonal with respect to the inner product \label{propEfuncOrtho}
     \item There exists a complete, orthogonal set of eigenfunctions $\{y_n\}_{n=1}^\infty$. Therefore for each $f \in V$ we can write:
         \begin{equation*}
             f = \sum_{n = 1}^\infty \hat{f}_n y_n
         \end{equation*}
-        where $\hat{f}_n = \frac{\langle f~|~y_n\rangle_w}{||y_n||_w^2}$.
+        where: 
+        \begin{equation*} 
+            \hat{f}_n = \frac{\inn{f}{y_n}_w}{||y_n||_w^2}
+        \end{equation*}
+        \label{propBasisEFunctions}
 \end{propositions}
 \begin{proof}
     \begin{enumerate}
         \item Let $Ly = \lambda y$ for $y \neq 0$. Then:
             \begin{align*}
-                (\lambda - \bar{\lambda}) ||y||_w^2 &= \langle \lambda_y~|~y\rangle_w - \langle y~|~\lambda_y\rangle_w \\
-                &= \langle Ly~|~y\rangle_w - \langle y~|~Ly\rangle_w = 0
+                (\lambda - \overline{\lambda}) ||y||_w^2 &= \inn{\lambda_y}{y}_w - \inn{y}{\lambda_y}_w \\
+                &= \inn{Ly}{y}_w - \inn{y}{Ly}_w = 0
             \end{align*}
             which implies that $\lambda$ is real.
         \item If $Ly_1 = \lambda_1 y_1$, $Ly_2 = \lambda_2 y_2$,
             \begin{align*}
-                &(\lambda_1 - \lambda_2) \langle y_1~|~y_2\rangle_w \\
-                &= \langle \lambda_1 y_1~|~y_2\rangle_w - \langle y_1~|~\lambda_2 y_2\rangle \\
-                &= \langle Ly_1~|~y_2\rangle - \langle y_1~|~Ly_2\rangle \\
+                &(\lambda_1 - \lambda_2) \inn{y_1}{y_2}_w \\
+                &= \inn{\lambda_1 y_1}{y_2}_w - \inn{y_1}{\lambda_2 y_2} \\
+                &= \inn{Ly_1}{y_2} - \inn{y_1}{Ly_2} \\
                 &= 0
             \end{align*}
-            which implies that $\langle y_1~|~y_2\rangle_w = 0$.
+            which implies that $\inn{y_1}{y_2}_w = 0$.
         \item See the course II Functional Analysis.
     \end{enumerate}
 \end{proof}
@@ -76,7 +80,7 @@ Where $L$ is a particular operator:
         Lf &= \frac{1}{w}\left[-\frac{d}{dx}\left(p \frac{d^{}f}{dx^{}}\right) + qf\right] \\
         &= \frac{1}{w}\left[-p \frac{d^{2}f}{dx^{2}} - p' \frac{d^{}f}{dx^{}} + qf\right] \\
     \end{align*}
-    where $p, q, w$ are real-valued functions with $p, w > 0 on (a, b)$. Again $w$ is a weight function.
+    where $p, q, w$ are real-valued functions with $p, w > 0$ on $(a, b)$. Again $w$ is a weight function.
 \end{definition}
 Then we see that the eigenvalue problem $Ly = \lambda y$ is equivalent to:
 \begin{equation}
@@ -101,7 +105,7 @@ where $\alpha_c$ and $\beta_c$ are not both zero, at any non-singular endpoint.
 \end{remark}
 We will work on generic vector spaces $V \subseteq C^2[a, b]$ that require $y \in V$ to satisfy real homogeneous boundary conditions at each non-singular endpoint. We also include the inner product:
 \begin{equation*}
-    \langle f~|~g\rangle_w = \int_{a}^{b} f(x) \bar{g(x)} w(x) dx 
+    \inn{f}{g}_w = \int_{a}^{b} f(x) \overline{g(x)} w(x) dx 
 \end{equation*}
 \begin{examples}
     \item \begin{equation*}
@@ -116,7 +120,7 @@ We will work on generic vector spaces $V \subseteq C^2[a, b]$ that require $y \i
 \begin{proposition}
     If $L$ is a Sturm-Liouville operator on $(a, b)$, with weight function $w$, then if $y_1$ and $y_2 \in C^2[a, b]$, then:
     \begin{equation}
-        \langle Ly_1~|~y_2\rangle_w - \langle y_1~|~Ly_2\rangle = \left. p(x) W(y_1, \bar{y_2})(x)\right|_{x = a}^b
+        \inn{Ly_1}{y_2}_w - \inn{y_1}{Ly_2} = \left. p(x) W(y_1, \overline{y_2})(x)\right|_{x = a}^b
         \label{eqnSLWronskian}
     \end{equation}
     where $W(u, v)$ is the Wronskian, $W(u, v) = uv' - vu'$.
@@ -124,11 +128,11 @@ We will work on generic vector spaces $V \subseteq C^2[a, b]$ that require $y \i
 \end{proposition}
 \begin{proof}
     \begin{align*}
-        \int_{a}^{b} &\frac{1}{w}\left[-(py_1')' + qy_1\right]\bar{y_2} w dx \\
-        &- \int_{a}^{b} \frac{1}{w}y_1\left[ (p\bar{y_2}')' + q\bar{y_2}\right] w dx \\
-        &=\int_{a}^{b} y_1 \left(p\bar{y_2}'\right)' - \bar{y_2} \left(py_1'\right)' dx 
-        &= \int_{a}^{b} \frac{d}{dx}\left[p(x) W(y_1, \bar{y_2})(x)\right] dx \\
-        &= \left.p(x) W(y_1, \bar{y_2})(x)\right|_{x = a}^b
+        \int_{a}^{b} &\frac{1}{w}\left[-(py_1')' + qy_1\right]\overline{y_2} w dx \\
+        &- \int_{a}^{b} \frac{1}{w}y_1\left[ (p\overline{y_2}')' + q\overline{y_2}\right] w dx \\
+        &=\int_{a}^{b} y_1 \left(p\overline{y_2}'\right)' - \overline{y_2} \left(py_1'\right)' dx 
+        &= \int_{a}^{b} \frac{d}{dx}\left[p(x) W(y_1, \overline{y_2})(x)\right] dx \\
+        &= \left.p(x) W(y_1, \overline{y_2})(x)\right|_{x = a}^b
     \end{align*}
 \end{proof}
 Now assume that $y_1, y_2$ are in a function space with appropriate boundary conditions.
@@ -137,14 +141,148 @@ If $x = c \in \{a, b\}$ is singular, then $p(c) = 0$ so the term with $x = c$ in
 \begin{equation*}
     \begin{pmatrix}
         y_1(c) & y_1'(c) \\
-        \bar{y_2}(c) & \bar{y_2}'(c)
+        \overline{y_2}(c) & \overline{y_2}'(c)
     \end{pmatrix}
     \begin{pmatrix} \alpha_c \\ \beta_c\end{pmatrix} = \vec{0}.
 \end{equation*}
 And since the vector is non-zero, we must have that the determinant of the matrix, the Wronskian, is zero. That means that the term in equation~\ref{eqnSLWronskian} with $x = c$ is zero. This is all to say:
 \begin{equation}
-    \langle Ly_1~|~y_2\rangle - \langle y_1~|~Ly_2\rangle = 0
+    \inn{Ly_1}{y_2} - \inn{y_1}{Ly_2} = 0
     \label{eqnSLIsSelfAdj}
 \end{equation}
 or, $L$ is self-adjoint.
+\section{Sturm-Liouville Eigenvalue Problems}
+\subsection{Solving SLEV Problems}
+We now study the concrete eigenvalue problem of the form:
+\begin{equation}
+    -\frac{d}{dx}\left[p \frac{d^{}y}{dx^{}}\right] + qy = \lambda w y
+    \label{eqnSLEvalProb}
+\end{equation}
+satisfying the boundary conditions in equation~\ref{eqnBoundaryCondition} at non-singular endpoints.
+
+Then again we consider $V$ a vector space of real-valued functions in $C^2[a, b]$ satisfying the boundary conditions. Note we can assume the elements are real because $p, q, w$ are real functions, and $\lambda$ is real by proposition~\ref{propEValReal}. Then set the inner product:
+\begin{equation*}
+    \inn{y_1}{y_2}_W = \int_{a}^{b} y_1(x) y_2(x) w(x) dx 
+\end{equation*}
+Since $L$ is self-adjoint on $(V, \inn{\cdot}{\cdot})$ we apply propositions~\ref{propsSelfAdjProps} to get that there must exist $(y_n, \lambda_n) \in (V \backslash \{0\}) \times \R$ such that $Ly_n = \lambda y_n$, $\inn{y_n}{y_m} = 0$ if $\lambda_n \neq \lambda_m$, and for $f \in V$,
+\begin{equation*}
+    f(x) = \sum_{n=1}^{\infty}\hat{f}_n y_n(x)
+\end{equation*}
+where:
+\begin{equation*}
+    \hat{f}_n = \frac{\inn{f}{y_n}_W}{||y_n||_W^2}
+\end{equation*}
+are the \underline{generalised Fourier coefficients} of $f$.
+
+It will also be the case that the $\lambda_n$ are increasing, and tend to $\infty$ as $n \to \infty$. This is proved on the example sheet.
+
+\begin{example}
+    Consider $-y'' = \lambda y$ on $0 \leq x \leq L$ with $y = 0$ at the endpoints. Then we must solve:
+    \begin{equation*}
+        y'' + \lambda y = 0
+    \end{equation*}
+    which has solution $y = A\sin(\sqrt{\lambda} x) + B\cos(\sqrt{\lambda} x)$.
+
+    Note that if $\lambda \leq 0$ we get only trivial solutions (since the $\sin$ and $\cos$ become $\sinh$ and $\cosh$, which do not satisfy the boundary conditions). Therefore $\lambda > 0$. Applying the boundary conditions, $B = 0$ and $A\sin(\sqrt{\lambda} L) = 0$, which gives that:
+    \begin{equation*}
+        \lambda = \left(\frac{n\pi}{L}\right)^2
+    \end{equation*}
+    And therefore our $n$th solution function is:
+    \begin{equation*}
+        y_n(x) = \sin\left(\frac{n\pi x}{L}\right)
+    \end{equation*}
+    Then we can use the fact that, for $f \in V$,
+    \begin{equation*}
+        f(x) = \sum_{n = 1}^\infty \hat{f_n}\sin\left(\frac{n\pi x}{L}\right) 
+    \end{equation*}
+    where:
+    \begin{align*}
+        \hat{f}_n &= \frac{\inn{f}{y_n}}{||y_n||^2} \\
+        &=\frac{2}{L} \int_{0}^{L} f(x) \sin\left(n\pi x\right)L dx 
+    \end{align*}
+    and in so doing we have re-derived the sine Fourier series!
+\end{example}
+\subsection{Reduction to Sturm-Liouville Form}
+Consider a general eigenvalue problem of the form:
+\begin{equation}
+    \alpha(x) \frac{d^{2}y}{dx^{2}} + \beta(x) \frac{d^{}y}{dx^{}} + \gamma(x) y + \lambda y = 0
+    \label{eqnSecondOrderEV}
+\end{equation}
+and constrain $\alpha(x) > 0$. Now we can use something akin to an integrating factor:
+\begin{equation*}
+    I(x) = \exp\left[\int^x \frac{\beta(t)}{\alpha(t)}dt\right]
+\end{equation*}
+\begin{proposition}
+    Equation~\ref{eqnSecondOrderEV} is equivalent to:
+    \begin{equation*}
+        -\frac{d}{dx}\left[p \frac{dy}{dx}\right] + qy = \lambda w y
+    \end{equation*}
+    where:
+    \begin{align*}
+        p(x) &= I(x) \\
+        q(x) &= \frac{-I(x) \gamma(x)}{\alpha(x)} \\
+        w(x) &= \frac{I(x)}{\alpha(x)}
+    \end{align*}
+    \label{propEVPropEquiv}
+\end{proposition}
+\begin{proof}
+    The proof is by dividing equation~\ref{eqnSecondOrderEV} by $\alpha$ and multiplying by $I$:
+    \begin{align*}
+        -\frac{d}{dx}&\left(p \frac{dy}{dx}\right) + qy - \lambda w y \\
+        &= I\left[-\frac{d^{2}y}{dx^{2}} - \frac{p(x)}{\alpha(x)} \frac{d^{}y}{dx^{}}- \frac{\gamma(x)}{\alpha(x)} y - \frac{\lambda y}{\alpha(x)}\right]
+    \end{align*}
+    and since $I > 0$, we have that the square-bracket term must be zero whenever the Sturm-Liouville problem is zero.
+\end{proof}
+\begin{example}
+    Consider the problem $y'' - 2y' + \lambda y = $ on $x \in [0, 1]$ with $y(0) = y'(1) = 0$.
+
+    Then $I(x) = e^{\int^x \frac{-2}{1}} = e^{-2x}$ and so we can convert this problem to Sturm-Liouville form:
+    \begin{equation*}
+        -\frac{d}{dx}\left(e^{-2x} \frac{dy}{dx}\right) = \lambda e^{-2x} y
+    \end{equation*}
+    and note that this gives us the weight function $w(x) = e^{-2x}$.
+
+    To solve, we substitute $y = e^{kx}$ to get $k = 1 \pm \sqrt{1 - \lambda}$. Therefore, for $\lambda \neq 1$, we have solutions of the form:
+    \begin{equation*}
+        y = e^x\left[Ae^{x\sqrt{1-\lambda}} + Be^{-x\sqrt{1-\lambda}}\right]
+    \end{equation*}
+    Then we must check that $1-\lambda < 0$ gives only trivial solutions. Then we can set $1 - \lambda = \mu^2$:
+    \begin{equation*}
+        y = e^x\left[A\sin(\mu x) + B\sin(\mu x)\right]
+    \end{equation*}
+    and so applying the boundary conditions we find $B = 0$ and $\tan{\mu} = -\mu$. By drawing the graphs of this, as shown in figure~\ref{figEValGraph} we see that there are infinitely many intersections $\mu_1, \mu_2, \cdots$.
+    
+
+    Then the eigenvalues are $\lambda_n = 1 + \mu_n^2$ with eigenfunctions $y_n = e^x \sin(\mu_n x)$. These are orthogonal with respect to the inner product:
+    \begin{align*}
+        \inn{y_n}{y_m} &= \int_{0}^{1} e^{-2x}y_1(x) y_2(x) dx \\
+        &= \int_{0}^{1} e^{-2x} e^x \sin(\mu_n x) e^x \sin(\mu_m x) dx \\
+        &= \int_{0}^{1} \sin(\mu_n x) \sin(\mu_m x) dx \\
+        &= \frac12 \int_{0}^{1} \left[\cos((\mu_n - \mu_m)x) - \cos((\mu_n + \mu_m)x)\right] dx \\
+        &= \frac12 \left[\frac{\sin(\mu_n - \mu_m)}{\mu_n - \mu_m} - \frac{\sin(\mu_n + \mu_m)}{\mu_n + \mu_m}\right] \\
+        &= \frac12 \left[ \frac{\sin(\mu_n) \cos(\mu_m) - \sin(\mu_m \cos(\mu_n))}{\mu_n - \mu_m}\right. \\
+        &\left. - \frac{\sin(\mu_n) \cos(\mu_m) + \sin(\mu_m) \cos(\mu_n)}{\mu_n + \mu_m} \right] \\
+        &= \frac12 \cos(\mu_n) \cos(\mu_m) \times \left[\frac{\tan(\mu_n) - \tan(\mu_m)}{\mu_n - \mu_m} - \frac{\tan(\mu_n) + \tan(\mu_m)}{\mu_n + \mu_m}\right] \\
+        &= \frac12 \cos(\mu_n) \cos(\mu_m) \left[\frac{-\mu_n + \mu_m}{\mu_n - \mu_m} - \frac{-\mu_n - \mu_m}{\mu_n + \mu_m}\right] \\
+        &= \frac12 \cos(\mu_n) \cos(\mu_m) \left[-1 - (-1) \right] \\
+        &=0
+    \end{align*}
+    although it is perfectly permissible to simply quote the result in proposition~\ref{propEfuncOrtho}.
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \begin{axis}[
+            axis lines=middle,
+            xmin=-0.5,xmax=6.5,ymin=-6.5,ymax=1,
+            xlabel={$\mu$},
+            ylabel={$y$}
+        ]
+        \addplot[samples=50] {tan(deg(x))}node[right]{$y=\tan \mu$};
+        \addplot[samples=50] {-x}node[right]{$y= -\mu$};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Graph of $-\mu$ and $\tan(\mu)$}
+    \label{figEValGraph}
+\end{figure}
 \end{document}
