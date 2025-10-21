@@ -1,12 +1,29 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
+\section{Limit Supremum}
+We have not yet defined the operator $\lim \sup$.
+\begin{definition}{Limit Supremum}
+    Let $(a_n)$ be a sequence of real numbers. Let $p_n = \sup\subsetselect{a_m}{m \geq n}$. Then the \underline{limit supremum} is:
+    \begin{equation*}
+        \limsup_{n \to \infty} a_n = \lim_{n \to \infty} p_n
+    \end{equation*}
+\end{definition}
+We note that $p_n$ and $q_n$ are monotone, so must tend to a limit (be this a real number or $\infty$).
+
+We can check that the $\liminf$ is always at most the $\limsup$, with equality if and only if the series $a_n$ converges to that same limit.
+\begin{definition}{Limit Infimum}
+    Let $(a_n)$ be a sequence of real numbers. Let $q_n = \inf\subsetselect{a_m}{m \geq n}$. Then the \underline{limit infimum} is:
+    \begin{equation*}
+        \liminf_{n \to \infty} a_n = \lim_{n \to \infty} q_n
+    \end{equation*}
+\end{definition}
 \section{General Series}
 \subsection{Different Notions of Convergence}
 \begin{definition}{Parital sum}
     Let $g_n : E \mapsto \R$. Write $f_n = \sum_{j = 1}^n g_j$, these are the \underline{partial sums} of $g$.
 \end{definition}
-we use the same definitions of $f_n$ and $g_n$ for the following definitions:
+We use the same definitions of $f_n$ and $g_n$ for the following definitions:
 \begin{definition}{Pointwise convergence}
     The infinite series $\sum_{n = 1}^\infty g_n(x)$ \underline{converges at a point} $x \in E$ if the sequence of partial sums converges to a point.
 \end{definition}
@@ -58,7 +75,7 @@ From Analysis I, absolute convergence implies convergence for a series of number
     \label{thmWstrassMTest}
 \end{theorem}
 \begin{proof}
-    Let $h_n(x) = \sum_{j = 1}^n |g_j(x)|$. For $n > m$, cosider:
+    Let $h_n(x) = \sum_{j = 1}^n |g_j(x)|$. For $n > m$, consider:
     \begin{align*}
         h_n(x) - h_m(x) &= \sum_{j = m+1}^n |g_j(x)| \\
         &\leq \sum_{j=m+1}^{n}M_j \\
@@ -70,7 +87,7 @@ From Analysis I, absolute convergence implies convergence for a series of number
 \end{proof}
 \section{Power Series}
 \subsection{Convergence and Continuity}
-We now specialise the preceeding discussion to the case:
+We now specialise the preceding discussion to the case:
 \begin{equation*}
     g_n(x) = c_n (x - a)^n,~~ c_n, a \in \R
 \end{equation*}
@@ -102,11 +119,15 @@ Power series were considered in IA Analysis I, but we can now give a deeper unde
     \begin{equation*}
         \sum_{n = 0}^\infty |c_n r^n \geq \sum_{n = 0}^\infty |c_n (x - a)^n|
     \end{equation*}
-    for any $x \in [a-r, a+r]$. Therfore apply theorem~\ref{thmWstrassMTest} with $M_n = |c_n|r^n$ to get that the series converges absolutely uniformly. We can now use theorem~\ref{thmUCContinuity} to get that the power series is continuous on this interval too.
+    for any $x \in [a-r, a+r]$. Therefore, apply theorem~\ref{thmWstrassMTest} with $M_n = |c_n|r^n$ to get that the series converges absolutely uniformly. We can now use theorem~\ref{thmUCContinuity} to get that the power series is continuous on this interval too.
 \end{proof}
 \begin{remark}
     We can show that if the power series converges at one of the boundary points $\{a+R, a-R\}$, then by setting the function defined by the power series $f(x) = \sum_{n=0}^{\infty}c_n (x-a)^n$ to be equal to the value of the power series at $R$, we see that $f$ is still continuous there. This is not something we will prove or use, but is nice to know. In general, we cannot say anything about the convergence of general power series at the radius of convergence.
 \end{remark}
+Theorem~\ref{thmRadiusConvergence} therefore gives the definition:
+\begin{definition}{Local uniform convergence}
+    If a power series centred at $a$ has radius of convergence $R > 0$ then it \underline{converges locally uniformly} on the interval of convergence $(a-R, a+R)$.
+\end{definition}
 \subsection{Differentiability}
 \begin{theorem}[Differentiability of power series]
     Let $\sum_{n = 0}^\infty c_n (x-a)^n$ be a power series with radius of convergence $R > 0$. Define:
@@ -138,4 +159,11 @@ Power series were considered in IA Analysis I, but we can now give a deeper unde
     \end{equation*}
     By the claim above, we have that the functions $f_n$ converge uniformly. Thus we have the conditions for theorem~\ref{thmUCDiff}, and the function $f$ is differentiable on $[a-r, a+r]$ with derivative equal to the derived series.
 \end{proof}
+\begin{remark}
+    The derived series is itself a power series, which shows that we can differentiate a power series inside its radius of convergence arbitrarily many times. The $k$th derivative is:
+    \begin{equation*}
+        f^{(k)}(x) = \sum_k^\infty n(n-1)\cdots(n-k+1) c_n(x-a)^{n-k}
+    \end{equation*}
+    Then we can get the familiar equation for each coefficient: $c_k = \frac{f^{(k)}(a)}{k!}$. Rather notably, this means that knowing the behaviour of $f$ on an arbitrarily small interval around $a$ is sufficient to determine the whole power series.
+\end{remark}
 \end{document}

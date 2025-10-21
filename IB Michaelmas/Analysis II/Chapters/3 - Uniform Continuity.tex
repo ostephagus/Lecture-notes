@@ -1,0 +1,64 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Finding Uniformly Continuous Functions}
+\begin{definition}{Uniform continuity}
+    Let $E \subseteq \R$, and let $f : E \mapsto \R$. Then $f$ is \underline{uniformly continuous} on $E$ if, for all $\epsilon > 0$, there exists $\delta(\epsilon) > 0$ such that for all $x, y$,
+    \begin{equation*}
+        |x - y| < \delta \implies |f(x) - f(y)| < \epsilon
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    Similar to uniform convergence, we now require that $\delta$ does not depend on the specific point chosen.
+\end{remark}
+We have uniform continuity implies continuity at every point in $E$ (pointwise continuity). However, the converse does not hold:
+\begin{example}[Pointwise continuity does not imply uniform continuity]
+    We consider:
+    \begin{align*}
+        f : (0, 1) &\mapsto \R\\
+        x &\mapsto \frac{1}{x}
+    \end{align*}
+    then as $x \to 0$, we see that any $\delta(\epsilon)$ will not work for smaller $x$ because we can go arbitrarily close to $0$ to get $|x-y| < \delta$ but $|f(x) - f(y)| > \epsilon$.
+\end{example}
+\begin{example}[Bounded continuous does not imply uniform continuity]
+    We can use the classic example:
+    \begin{align*}
+        f : (0, 1) &\mapsto \R\\
+        x &\mapsto (0, 1)
+    \end{align*}
+    Then we can use the sequence definition of continuity. Taking $x_n = (2n\pi)^{-1}$ and $y_n = ((2n + \frac12)\pi)^{-1}$ gives that $|x_n - y_n| \to 0$ but $|f(x_n) - f(y_n) = 1$.
+\end{example}
+\begin{theorem}
+    Consider a closed, bounded interval $[a, b]$, and let $f : [a, b] \mapsto \R$ be a continuous function. Then $f$ is uniformly continuous.
+    \label{thmUCTClosedBdd}
+\end{theorem}
+\begin{proof}
+    Assume, on the contrary, that $f$ is not uniformly continuous on $[a, b]$. Then there exists an $\epsilon > 0$ for which there does not exist a $\delta > 0$ such that $|x - y| < \delta \implies |f(x) - f(y)| < \epsilon$. 
+
+    Therefore take $\delta = \frac{1}{n}$. Take $x_n, y_n \in [a, b]$ where $|x_n - y_n| < \frac{1}{n}$ and $|f(x_n) - f(y_n)| > \epsilon$. Use the Bolzano-Weierstrass theorem to get a subsequence $(x_{n_k})_k$ that converges to a limit $x \in [a, b]$.
+    \begin{align*}
+        |x-y_{n_k}| &\leq |x-x_{n_k}| + |x_{n_k} - y_{n_k}| \\
+        &\leq |x - x_{n_k}| + \frac{1}{n_k} \\
+        &\to 0 \text{ as } k \to \infty
+    \end{align*}
+    Therefore by continuity of $f$, $f(x_{n_k}) \to f(x)$ as $k \to \infty$. However, now we can get $|f(x_{n_k}) - f(y_{n_k})| < \epsilon$.\contradiction
+\end{proof}
+\nonexaminablesection{Classifying Integrable Functions}
+\begin{theorem}
+    Let $f : [a, b] \mapsto \R$ be any function. Suppose that there is a collection $\collec$ for intervals $I \subset \R$ such that, given the set:
+    \begin{equation*}
+        F = [a, b] \backslash \bigcup_{I \in \collec} I
+    \end{equation*}
+    then $f$ is continuous at every point in $F$. That is, the set of discontinuities is a subset of the union. Then for each $\epsilon > 0$, there exists a $\delta(\epsilon)$ such that if $x \in F, y \in [a, b]$,
+    \begin{equation*}
+        |x - y| < \delta \implies |f(x) - f(y)| < \epsilon
+    \end{equation*}
+    \label{thmUCTSubsetClosedBdd}
+\end{theorem}
+\begin{remark}
+    This requires weaker assumptions on $f$ than theorem~\ref{thmUCTClosedBdd}, but reaches roughly the same conclusion.
+\end{remark}
+\begin{proof}
+    The proof is very similar to that of theorem~\ref{thmUCTClosedBdd}, but the main difference is that we must show that the limit point found, $x$, is in $F$ and not any of the intervals in $\collec$.
+\end{proof}
+\end{document}

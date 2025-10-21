@@ -70,7 +70,7 @@ Uniform convergence is a stronger notion than pointwise convergence, $f_n \to f$
 \section{Properties of Uniform Convergence}
 \subsection{Cauchy Criterion}
 \begin{definition}{Uniformly Cauchy Sequence}
-    Let $f_n : E \mapsto \R$ be a sequence of functions. We say $(f_n)$ is a\\\underline{uniformly cauchy sequence} if, for all $\epsilon > 0, \exists N(\epsilon)$ such that:
+    Let $f_n : E \mapsto \R$ be a sequence of functions. We say $(f_n)$ is a\\\underline{uniformly Cauchy sequence} if, for all $\epsilon > 0, \exists N(\epsilon)$ such that:
     \begin{equation}
         n, m \geq N \implies \sup_{x \in E} |f_n(x) - f_m(x)| < \epsilon
         \label{eqnSequenceCauchy}
@@ -89,7 +89,7 @@ Uniform convergence is a stronger notion than pointwise convergence, $f_n \to f$
             &\leq \sup_E |f_n - f| + \sup_E |f_m - f| \\
             \therefore \sup_E |f_n(x) - f_m(x)| &\leq \sup_E |f_n - f| + \sup_E |f_m - f| < 2\epsilon.
         \end{align*}
-        therefore we have bounded by a fixed multiple of $\epsilon$, the sequence is uniformly Cauchy.
+        Therefore, we have bounded by a fixed multiple of $\epsilon$ and the sequence is uniformly Cauchy.
     \end{proofdirection}
     \begin{proofdirection}{$\Rightarrow$}{Suppose $f_n$ is uniformly Cauchy}
         Then the sequence of real numbers $(f_n(x))_n$ is Cauchy for all $x \in E$, so it has a limit. Let the limit be $f(x)$. Therefore we have $f_n \to f$ pointwise on $E$. We now have a candidate uniform limit for $(f_n)$, but we need to check it converges uniformly.
@@ -147,7 +147,7 @@ We can also provide an alternative statement for theorem~\ref{thmUCContinuity}:
 \end{corollary}
 Alternatively, $C([a, b])$ has no holes.
 \begin{proof}
-    The proof is by using thorem~\ref{thmCauchyCriterion} and corollary~\ref{corLimitCtsUC}.
+    The proof is by using theorem~\ref{thmCauchyCriterion} and corollary~\ref{corLimitCtsUC}.
 \end{proof}
 \subsection{Integrability} %TODO: If appropriate, put the proof of integrability here
 \begin{theorem}
@@ -228,7 +228,7 @@ So far we have seen that a series of differentiable functions need to converge u
     \begin{subproof}{$f$ is differentiable with derivative $g$}
         Fix some $y \in [a, b]$.
         
-        The second clever idea of the proof is to re-formulate the differentiability of $f$ as the continuity of a auxiliary function $h$
+        The second clever idea of the proof is to re-formulate the differentiability of $f$ as the continuity of an auxiliary function $h$
 
         Define $h(x)$:
         \begin{equation*}
