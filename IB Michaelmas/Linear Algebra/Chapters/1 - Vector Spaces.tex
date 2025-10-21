@@ -7,8 +7,8 @@ In this section we will quickly run through the important properties of a field.
 \begin{definition}{Field}
     A \underline{field} is a tuple $(\F, +, \cdot, 0, 1)$ where $\F$ is a set, $+$ (addition) and $\cdot$ (multiplication) are binary operations on $\F$, and $0, 1 \in F$ such that:
     \begin{enumerate}
-        \item $(\F, +, 0)$ is an abelian group;
-        \item $(\F \backslash \{0\}, \cdot, 1)$ is an abelian group
+        \item $(\F, +, 0)$ is an Abelian group;
+        \item $(\F \backslash \{0\}, \cdot, 1)$ is an Abelian group
         \item For all $a, b, c \in \F$, $a \cdot (b + c) = a \cdot b + a \cdot c$.
         \item $0 \neq 1$.
     \end{enumerate}
@@ -20,7 +20,7 @@ For $a \in \F$ we write $-a$ for its additive inverse, and $a^{-1}$ for its mult
 \end{examples}
 \begin{examples}[Non-examples of fields]
     \item The integers $\Z$ do not form a field because we lack multiplicative inverses.
-    \item If $n \in \N$ is not prime then $\Z / n\Z$ is not a field. Also if $n = 1$ then we do not have axiom 4.
+    \item If $n \in \N$ is not prime then $\Z / n\Z$ is not a field. Also, if $n = 1$ then we do not have axiom 4.
 \end{examples}
 \subsection{Classifying Fields}
 \begin{definition}{Finite field}
@@ -40,7 +40,7 @@ We cannot divide by zero in a field, because this would contradict the axiom of 
 \end{examples}
 \section{Defining a Vector Space}
 \begin{definition}{Vector space}
-    A \underline{vector space} over a field $\F$ is an abelian group $(V, +, 0)$ equipped with a function:
+    A \underline{vector space} over a field $\F$ is an Abelian group $(V, +, 0)$ equipped with a function:
     \begin{align*}
         \F \times V &\mapsto V
         (\lambda, v) &\mapsto \lambda v
@@ -67,7 +67,8 @@ We will not make bold elements of $V$, which is different to IA courses, except 
     We can also consider the vector space of matrices over a field $\F$ with $n$ columns and $m$ rows.
 \end{example}
 \begin{example}
-    For any non-empty set $X$, we can consider $F^X = \subsetselect{f : X \mapsto \F}{\text{f is a function}}$. Then we define addition of vectors:
+    For any non-empty set $X$, we can consider $F^X$ as the set of function on $X$:
+    $\F^X = \subsetselect{f : X \mapsto \F}{\text{f is a function}}$. Then we define addition of vectors:
     \begin{equation*}
         f+g := (f + g)(x) = f(x) + g(x)
     \end{equation*}
@@ -105,7 +106,7 @@ We will not make bold elements of $V$, which is different to IA courses, except 
         Then we can use the axioms to show the 2 conditions.
     \end{proofdirection}
     \begin{proofdirection}{$\Leftarrow$}{Suppose $U \subseteq V$ satisfies the two conditions.}
-        Let $\lambda = (-1)$ in the second criterion, then for all $u, v \in U, u - w \in U$ and $U \neq \emptyset$. By the subgroup test from IA Groups, $(U, +)$ is a subgroup of $(V, +)$. Finally, take $u = \zv$ in the second condition. THen for all $w \in U, \lambda \in \F, \lambda w \in U$.
+        Let $\lambda = (-1)$ in the second criterion, then for all $u, v \in U, u - w \in U$ and $U \neq \emptyset$. By the subgroup test from IA Groups, $(U, +)$ is a subgroup of $(V, +)$. Finally, take $u = \zv$ in the second condition. Then for all $w \in U, \lambda \in \F, \lambda w \in U$.
     \end{proofdirection}
 \end{proof}
 Notationally, for ``subspace of'' we write $U \leq V$.
@@ -240,7 +241,7 @@ We can combine these conditions into one: $\alpha(u + \lambda v) = \alpha(u) + \
                 &= \alpha(\zv_V) + \alpha(\zv_V) \\
                 \therefore \zv_W &= \alpha(\zv_V)
             \end{align*}
-            This means that $\zv_V \in \kera$, so so $\kera \neq \emptyset$.
+            This means that $\zv_V \in \kera$, so $\kera \neq \emptyset$.
 
             Now suppose $u, v \in \kera, \lambda \in \F$.
             \begin{align*}
@@ -269,7 +270,7 @@ We can combine these conditions into one: $\alpha(u + \lambda v) = \alpha(u) + \
     \end{enumerate}
 \end{proof}
 \section{Quotient Spaces}
-Note that, since vector spaces are abelian groups under addition of vectors, and under scalar multiplication, all subspaces are normal subgroups. We can therefore define an analogue to a quotient group for a vector space.
+Note that, since vector spaces are Abelian groups under addition of vectors, and under scalar multiplication, all subspaces are normal subgroups. We can therefore define an analogue to a quotient group for a vector space.
 \begin{definition}{Left coset}
     Let $V$ be a vector space over a field $\F$, and let $W \leq V$. Define the \underline{left coset} of $W$ by an element of $V$ as:
     \begin{equation*}

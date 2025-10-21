@@ -126,7 +126,7 @@ $V$ is \underline{finite-dimensional} if it has a finite spanning set.
         \begin{equation*}
             u_{k+1} = \sum_{j=1}^k \mu_j u_j + \sum_{i = k + 1}^n \lambda_i v_i
         \end{equation*}
-        Note that if all $\lambda_i$ were non-zero, then we would have $u_{k+1}$ as a linear combination of other elements of $S$ which contradicts linear independence. Therefore we must have at least one element $\lambda_i \neq 0$. After possibly re-labelling, let this be $\lambda_{k+1}$:
+        Note that if all $\lambda_i$ were non-zero, then we would have $u_{k+1}$ as a linear combination of other elements of $S$ which contradicts linear independence. Therefore, we must have at least one element $\lambda_i \neq 0$. After possibly re-labelling, let this be $\lambda_{k+1}$:
         \begin{equation*}
             v_{k+1} = \frac{1}{\lambda_{k+1}} \left(u_{k+1} - \sum_{j=1}^{k}\mu_i u_i - \sum_{j=k+2}^{n}\lambda_i v_i\right)
         \end{equation*}
@@ -150,7 +150,7 @@ $V$ is \underline{finite-dimensional} if it has a finite spanning set.
     The \underline{dimension} of a finite-dimensional vector space $V$, $\dim{V}$ is the size of any basis.
 \end{definition}
 \begin{corollary}
-    Let $V$ be finite-dimensional. Let $S$ and $T$ be subsets of $V$. Let $S$ be linearly independent and $T$ a spanning set for $V$. Then $|S| \leq \dim{V}$ and $|T| \geq \dim{V}$.
+    Let $V$ be finite-dimensional. Let $S$ and $T$ be subsets of $V$, with $S$ be linearly independent and $T$ a spanning set for $V$. Then $|S| \leq \dim{V}$ and $|T| \geq \dim{V}$.
 
     Equality holds in the corresponding inequality if and only if $S$ or $T$ is in fact a basis.
     \label{corSpanLISizes}
@@ -163,7 +163,7 @@ $V$ is \underline{finite-dimensional} if it has a finite spanning set.
     The method is very similar to show the second equality condition.
 \end{proof}
 \begin{remark}
-    In general, we cannot say that a vector spcae has a basis. This holds for finite-dimensional vector spaces, but for many infinite-dimensional vector spaces we require the axiom of choice. As we have seen, sometimes we can write down a basis for an infinite-dimensional vector space such as $P(\R)$, but we cannot rely on this fact for a general infinite-dimensional vector space.
+    In general, we cannot say that a vector space has a basis. This holds for finite-dimensional vector spaces, but for many infinite-dimensional vector spaces we require the axiom of choice. As we have seen, sometimes we can write down a basis for an infinite-dimensional vector space such as $P(\R)$, but we cannot rely on this fact for a general infinite-dimensional vector space.
 \end{remark}
 \begin{corollary}
     Let $V$ be a finite-dimensional vector space, $U \leq V$. Then $U$ is also finite with dimension at most $\dim(V)$. $\dim(U) = \dim(V)$ if and only if $U = V$.
@@ -192,7 +192,7 @@ $V$ is \underline{finite-dimensional} if it has a finite spanning set.
 
     This forms $U_m$ with $m$ vectors that is a basis for $U$.
 
-    Then this must terminate after at at most $\dim(V)$ steps by corollary~\ref{corSpanLISizes}. If in fact $\dim(U) = \dim(V)$, apply corollary~\ref{corSpanLISizes} with $S$ being any basis for $U$.
+    Then this must terminate after at most $\dim(V)$ steps by corollary~\ref{corSpanLISizes}. If in fact $\dim(U) = \dim(V)$, apply corollary~\ref{corSpanLISizes} with $S$ being any basis for $U$.
 \end{proof}
 \begin{proposition}[Basis Extension Principle]
     Let $V$ be finite-dimensional, and $U \leq V$. For any basis $B_U$ of $U$, there exists a basis $B_V$ for $V$ such that $B_U \subseteq B_V$.
@@ -288,6 +288,7 @@ Consider $V$ a finite-dimensional vector space over $\F$, and let $W$ be a vecto
     \begin{equation*}
         F : V \mapsto W
     \end{equation*}
+    such that $F(b) = f(b)$ for all basis vectors $b$.
     \label{propLinMapOfBasis}
 \end{proposition}
 \begin{proof}
@@ -324,6 +325,145 @@ Consider $V$ a finite-dimensional vector space over $\F$, and let $W$ be a vecto
         F_B : V &\mapsto \F^n\\
         \sum_{i=1}^n \lambda_i b_i &\mapsto \begin{pmatrix} \lambda_1 \\ \vdots \\ \lambda_n \end{pmatrix}
     \end{align*}
-    \label{corUniqueIsom}
+    \label{corCoordinateVector}
 \end{corollary}
+\begin{proof}
+    Let $E = \{e_1, e_2, \cdots, e_n\}$ be the standard basis for $\F^n$. Define $f : B \mapsto W$ by $f(v_i) = e_i$. Then let $F_B$ be the unique linear extension of $f$ to $V$, as in proposition~\ref{propLinMapOfBasis}.
+
+    Then $f$ defines a bijection from $B$ to $E$. Let $\overline{F_B}$ be the linear extension of $f^{-1} : E \mapsto B$ to $W$.
+
+    Then $\overline{F_B} \circ F_B$ is a linear extension of $Id_B$, but $Id_V$ is also a linear extension of $Id_B$, and since by proposition~\ref{propLinMapOfBasis} these are unique, $\overline{F_B} = F_B^{-1}$.
+
+    Therefore $F_B$ is an isomorphism.
+\end{proof}
+This isomorphism gives the following definition
+\begin{definition}{Coordinate vector}
+    Given a finite vector space $V$ with a basis $B = \{b_1, \cdots, b_n\}$, the\\\underline{coordinate vector} of a vector $v \in V$ is a vector in $\F^{\dim(V)}$ given by:
+    \begin{equation*}
+        \sum_{i=1}^n \lambda_i b_i \mapsto \begin{pmatrix} \lambda_1 \\ \vdots \\ \lambda_n \end{pmatrix}
+    \end{equation*}
+\end{definition}
+\begin{corollary}
+    Let $V$ and $W$ be finite-dimensional vector spaces over a field $\F$. Then $V \isom W$ if and only if $\dim(V) = \dim(W)$.
+    \label{corIsomIffSameDim}
+\end{corollary}
+\begin{proof}
+    If the dimensions are both equal to $n$, use corollary~\ref{corCoordinateVector}:
+    \begin{equation*}
+        V \isom \F^n \isom W
+    \end{equation*}
+    If instead there exists an isomorphism, consider the image of the basis of $V$ under this isomorphism to get a new basis of the same size in $W$.
+\end{proof}
+\section{Direct Sums}
+\begin{definition}{(External) Direct sum}
+    The \underline{(external) direct sum} of vector spaces $V$ and $W$ over a field $\F$, denoted $V \oplus W$, is the vector space over $\F$ with underlying set $V \times W$ and operations:
+    \begin{itemize}
+        \item $(v_1, w_1) + (v_2, w_2) = (v_1 + v_2, w_1 + w_2)$
+        \item $\lambda(v, w) = (\lambda v, \lambda w)$.
+    \end{itemize}
+\end{definition}
+Similarly, we can chain this operation to define the external direct sum for a finite number of vector spaces.
+
+\begin{lemma}
+    For $V$ and $W$ vector spaces over $\F$,
+    \begin{equation}
+        \dim(V \oplus W) = \dim(V) + \dim(W)
+        \label{eqnDSDim}
+    \end{equation}
+    \label{lemDSDim}
+\end{lemma}
+\begin{proof}[by finding a basis for the direct sum]
+    Find bases $B$ and $C$ for $V$ and $W$. Define:
+    \begin{equation*}
+        D = (B \times \{\zv_W\}) \cup (\{\zv_V\} \times C)
+    \end{equation*}
+    Then we can check that this is a basis and note that it has size $|B| + |C|$.
+\end{proof}
+\begin{proof}[By isomorphism]
+    Suppose $V \isom \F^n$ and $W \isom \F^m$. Then we want to construct an isomorphism $V \oplus W \isom \F^{n+m}$. Consider a basis $B$ for $V$ and $C$ for $W$, and construct the isomorphism as follows:
+    \begin{align*}
+        \phi : V \oplus W &\mapsto \F^{n+m}\\
+        \left(\begin{pmatrix} v_1 \\ \vdots \\ v_n\end{pmatrix}, \begin{pmatrix} w_1 \\ \vdots \\ w_m\end{pmatrix}\right) &\mapsto \begin{pmatrix} v_1 \\ \vdots \\ v_n \\ w_1 \\ \vdots \\ w_m\end{pmatrix}
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    Let $V$ be a vector space over $\F$. Let $U, W \leq V$. Then there exists a surjective linear map:
+    \begin{align*}
+        \phi : U \oplus W &\mapsto U + W\\
+        (u, w) &\mapsto u + w
+    \end{align*}
+    with $\ker(\phi) = U \cap W$.
+    \label{propMapDSToSum}
+\end{proposition}
+\begin{proof}
+    Linearity is clear. By considering any element of $U + W$, we must be able to represent it as $u + w$ for some $u \in U, w \in W$ by definition, and then $\phi(u, w)$ is the required element which gives surjectivity.
+
+    Note for $(u, w) \in U \oplus W$, $(u, w) \in \ker(\phi)$ if and only if $w = -u$. Therefore, $\ker(\phi) = \subsetselect{(x, -x)}{x \in U \cap W}$. Then we can define:
+    \begin{align*}
+        \psi : U \cap W &\mapsto \ker(\phi)\\
+        x &\mapsto (x, -x)
+    \end{align*}
+    which is an isomorphism.
+\end{proof}
+\begin{corollary}[Sum-Intersection Formula]
+    If $V$ is a finite-dimensional vector space over $\F$ and $U, W \leq V$,
+    \begin{equation*}
+        \dim(U + W) = \dim(U) + \dim(W) - \dim(U \cap W)
+    \end{equation*}
+    \label{corSumIntersection}
+\end{corollary}
+\begin{proof}
+    Apply theorem~\ref{thmRankNullity} to the linear map from proposition~\ref{propMapDSToSum}:
+    \begin{align}
+        \dim(U) + \dim(W) &= \dim(U \oplus W) \\
+        &= \dim(\ker(\phi)) + \dim(\im(\phi)) \\
+        &= \dim(U \cap W) + \dim(U + W)
+    \end{align}
+\end{proof}
+We can construct an explicit basis for this operation:
+
+Given a basis $B$ for $U \cap W$, extend $B$ to a basis $B_U$ for $U$ and $B_W$ for $W$. Then consider the set $B_U \cap B_W$. Therefore this spans $U + W$ and:
+\begin{equation}
+    |B_U \cap B_W| \leq |B_U| + |B_W| - |B|
+    \label{eqnBasisDSIneq}
+\end{equation}
+but by the Sum-Intersection formula, the RHS of equation~\ref{eqnBasisDSIneq} is equal to $\dim(U + W)$. Therefore $B_U \cap B_W$ is linearly independent, so is a basis for $U + W$.
+\begin{definition}{(Internal) Direct sum}
+    Suppose $U, W \leq V$ satisfying:
+    \begin{enumerate}
+        \item $U + W = V$,
+        \item $U \cap W = \{\zv_V\}$
+    \end{enumerate} 
+    then $U \oplus W$ is the \underline{(internal) direct sum} of $V$.
+\end{definition}
+We see that this is compatible with our previous notion by considering the map $\phi$ in proposition~\ref{propMapDSToSum}, and noting that the assumption $U \cap V = \{\zv_V\}$ implies that the kernel is trivial, so $\phi$ is an isomorphism.
+\begin{definition}{Direct complement}
+    For $U \leq V$, a \underline{direct complement} to $U$ in $V$ is a subspace $W \leq V$ such that:
+    \begin{equation*}
+        V = U \oplus W
+    \end{equation*}
+\end{definition}
+\begin{proposition}
+    If $V$ is finite-dimensional, any subspace $U$ has a direct complement $W$.
+    \label{propDCExists}
+\end{proposition}
+\begin{proof}
+    Let $U \leq V$. Let $B_U$ be a basis for the subspace, and extend $B_U$ to a basis $B_V$ for $V$. Set $W = \spn{B_V \backslash B_U}$.
+
+    Then:
+    \begin{align*}
+        V &= \spn{B_V} = \spn{B_U \cap (B_V \backslash B_U)} \\
+        &= \spn{B_U} + \spn{B_V \backslash B_U} \\
+        &= U + W
+    \end{align*}
+    Moreover, since $B_V$ is linearly independent,
+    \begin{equation*}
+        U \cap W = \spn{B_U} \cap \spn{B_V \backslash B_U} = \{\zv_V\}
+    \end{equation*}
+\end{proof}
+We can also apply this to $n$ subspaces $U_i, 1 \leq i \leq n$. We say that $V$ is the (internal) direct sum of the $U_i$, and write:
+\begin{equation*}
+    V = U_1 \oplus U_2 \oplus \cdots \oplus U_n
+\end{equation*}
+If the map $\phi : U_1 \oplus \cdots \oplus U_n \mapsto V$ is an isomorphism.
 \end{document}
