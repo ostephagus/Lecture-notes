@@ -84,4 +84,95 @@
         k_i^A = \sum_{n = 0}^\infty \P_i (T_A = n)
     \end{equation*}
 \end{definition}
+\begin{theorem}
+    If $\chain{X} = (X_n)_{n\geq 0}$ is a Markov chain with transition matrix $P$ on $I$ and $A \subseteq I$, then the hitting probabilities $h_i^A$ satisfy:
+    \begin{equation}
+        \begin{cases}
+            1 & i \in A \\
+            \sum_{j \in I} P(i, j) h_j^A & i \notin A
+        \end{cases}
+        \label{eqnHittingProb}
+    \end{equation}
+    moreover, $(h_i^A)$ is the minimal solution to equation~\ref{eqnHittingProb}, that is, if $(h_i)$ also solves the equation then $h_i^A \leq h_i$ for all $i$.
+    \label{thmHittingProb}
+\end{theorem}
+\begin{proof}
+    If $i \in A$ then $h_i^A = 1$ by definition. Therefore assume that $i \notin A$.
+
+    \begin{align*}
+        h_i^a &= \P_i(T_A < \infty) \\
+        &= \P_i(X_0 \in A) + \P_i(X_0 \notin A, X_1 \in A) \\
+        &+ \cdots + \P_i(X_0 \notin A, X_1 \notin A, \cdots, X_n \in A) \\
+        &= \sum_{n \geq 1} \P_i(X_0 \notin A, \cdots, X_{n-1} \notin A, X_n \in A) \\
+        &= \sum_{n \geq 1} \sum_{j \in I}\P_i (X_0 \notin A, \cdots, X_{n-1} \notin A, X_n \in A, x_1 = j) \\
+        &= \sum_{j \in I} \left(\P_i(X_1 \in A, X_1 = j) \right. \\
+        &= \left.\sum_{n \geq 2} \sum_{j \in I}\P_i (X_1 \notin A, \cdots, X_{n-1} \notin A, X_n \in A, x_1 = j)\right) \\
+        &= \left(P_i(X_1 \in A | X_1 = j) P(i, j)\right. \\
+        &+ \left(\sum_{n\geq 2} P_i(X_1 \notin A, \cdots, X_{n-1} \notin A, X_n \in A | X_1 \in j)P(i, j)\right) \\
+        &= \left(P(X_1 \in A | X_1 = j) P(i, j)\right. \\
+        &+ \left(\sum_{n\geq 2} P(X_1 \notin A, \cdots, X_{n-1} \notin A, X_n \in A | X_1 \in j)\right) \\
+        &= \sum_{j \in I} P(i, j) \P(X_0 \notin A | X_0 \in j) \\
+        &+ \sum_{j \in I} \sum_{n \geq 1} P(i, j) \P(X_0 \notin A, \cdots, X_{n-1} \notin A, X_{n-1} \in A | X_0 = j) \\
+        &= \sum_{j \in I} \sum_{n \geq 0} \P_j(T_A = n) P(i, j) \\
+        &= \sum_{j \in I} \P_j(T_A < \infty) P(i, j) \\
+        &= \sum_{j \in I} P(i, j) h_j^A \\
+    \end{align*}
+    as required.
+
+    Now to see that this solution is minimal, let $h_i$ be a different solution.  If $i \in A, h_i^A = h_i = 1$, so indeed $h_i^A$ is at most $h_i$. Consider now $i \notin A$:
+    \begin{align*}
+        h_i &= \sum_{j \in I} P(i, j) h_j \\
+        &= \sum_{j \in A} P(i, j) + \sum_{j \notin A} P(i, j) h_j \\
+        &= \sum_{j \in A} P(i, j) + \sum_{j \notin A} \left[\sum_k P(j, k) h_k\right] \\
+        &= \sum_{j \in A} P(i, j) + \sum_{j \notin A, k \in A} P(i, j) P(j, k) + \sum_{j \notin A, k \notin A} P(i, j) P(j, k) h_k \\
+        &= \sum_{j_1 \in A} P(i, j_1) + \sum_{j_1 \notin A, j_2 \in A} P(i, j_1) P(j_1, j_2) \\
+        &+ \cdots + \sum_{j_1, \cdots, j_{n-1} \notin A, j_n \in A} P(j_1, j_2) \cdots P(j_{n-1}, j_n) \\
+        &+ \sum_{j_1, \cdots, j_{n}} P(j_1, j_2) \cdots P(j_{n-1}, j_n)h_{j_n} \\
+        &= \P_i(T_A = 1) + \P_i(T_A = 2) + \cdots + \P_i(T_A = n) \\
+        &+ \sum_{j_1, \cdots, j_{n}} P(j_1, j_2) \cdots P(j_{n-1}, j_n)h_{j_n} \\
+        &\geq \P_i(T_A = n) \\
+        &\geq \P_i(T_A < \infty) = h_i^A
+    \end{align*}
+\end{proof}
+\begin{example}
+    Consider a Markov chain with transition matrix:
+    \begin{equation*}
+        P=
+        \begin{pmatrix}
+            1 & 0 & 0 & 0 \\
+            \frac12 & 0 & \frac12 & 0 \\
+            0 & \frac12 & 0 & \frac12 \\
+            0 & 0 & 0 & 0\\
+        \end{pmatrix}
+    \end{equation*}
+    and let $A = \{4\}$.
+    We note that states $1$ and $4$ are absorbing states. We want to calculate $h_2^A$.
+
+    By the previous theorem:
+    \begin{align*}
+        h_1^A&=h_1^A \\
+        h_2^A &= \frac12 h_1^A + \frac12 h_2^A \\
+        h_3^A &= \frac12 h_2^A + \frac12 h_4^A
+    \end{align*}
+    but we note that $h_1^A = 0$, so using the above along with minimality, $h_2^A = \frac13$.
+\end{example}
+\begin{example}
+    Consider the random walk on $\N \cup \{0\}$ defined by the transition matrix:
+    \begin{align*}
+        P(0, 1) &= 1 \\
+        P(i, i+1) &= p \\
+        P(i, i-1) = q = 1-p
+    \end{align*}
+    Then we want to know the probability $h_i^A$ if $A = \{0\}$. By the previous theorem:
+    \begin{align*}
+        h_0^A &= 1 \\
+        h_i^A &= ph_{i+1}^A + qh_{i-1}^A 
+    \end{align*}
+    then this gives a simple difference equation.
+    \begin{itemize}
+        \item In the case $p \neq q$, we have that $h_i = a + b\left(\frac{q}{p}\right)^i$. \item Therefore, if $q > p$ then we get $b = 0, a = 1$ and so $h_i^A = 1$ for all $i$.
+        \item If instead $p > q$ we get $a = 0, b = 1$. We then get that $h_i^A = \frac{q^i}{p^i}$ which is non-zero.
+        \item If $p = q$, the general solution has the form $h_i^A = a + bi$. Solving gives $h_i^A = 1$.
+    \end{itemize}
+\end{example}
 \end{document}

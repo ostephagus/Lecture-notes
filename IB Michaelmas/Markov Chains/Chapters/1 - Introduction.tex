@@ -73,7 +73,7 @@ Note that for a Markov chain, $X_{n+1}$ is \textit{conditionally} independent of
 \begin{theorem}[Markov property]
     If $\chain{X}$ is a Markov chain, $\chain{X} = \text{Markov}(\vec{\lambda}, P)$, then for any $m \geq 1$ and $i \in I$, conditional on $\{X_m = i\}$,
     \begin{enumerate}
-        \item The process $(X_{m + n})_{n \geq 0}$ is a markov chain with initial distribution $\delta_i$ and transition matrix $P$.
+        \item The process $(X_{m + n})_{n \geq 0}$ is a Markov chain with initial distribution $\delta_i$ and transition matrix $P$.
         \item The process is independent of $(X_0, \cdots, X_m)$.
     \end{enumerate}
     \label{thmMarkovProperty}
@@ -117,7 +117,7 @@ So to understand the long-term distribution of the chain $\chain{X}$ it suffices
 \begin{proof}
     The first statement has already been shown.
 
-    The second statement can be found by using theorem~\ref{thmMarkovProperty} and then it becomes the first statement.
+    The second statement can be found by using theorem~\ref{thmMarkovProperty}, and then it becomes the first statement.
 \end{proof}
 \begin{example}
     Consider the simplest Markov chain with 2 states.
