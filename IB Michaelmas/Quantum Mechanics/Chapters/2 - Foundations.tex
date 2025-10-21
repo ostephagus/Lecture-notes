@@ -4,7 +4,7 @@
 \section{Parallels with Linear Algebra}
 Quantum Mechanics uses a \underline{functional space}, which has many similarities with a vector space.
 
-\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\begin{tabularx}{0.9\textwidth}{|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
     \hline
     Linear Algebra concept & Quantum Mechanics concept \\
     \hline
@@ -13,8 +13,10 @@ Quantum Mechanics uses a \underline{functional space}, which has many similariti
     Basis $\{e_J\}$ which allows $\vec{v}$ to be written as a linear combination & $\{\vec{X}\}$ continuous basis, $\psi(\vec{x}, t)$. \\
     Vector space $\C^n$ & $L^2(\R^3)$, complex-valued square-integrable functions \\
     Inner product $\langle \vec{v}~|~\vec{u}\rangle$ & Inner product $(\psi, \phi)$ defined by equation~\ref{eqnInnerProduct} \\
-    Linear maps $\C^n \mapsto \C^n$ represented by a matrix & Operator %TODO: FIND
+    Linear maps $\C^n \mapsto \C^n$ represented by a matrix & Operator $\op$ \\
+    \hline
 \end{tabularx}
+
 The inner product in $L^2(\R^3)$ is:
 \begin{equation}
     \int_{\R^3} \psi^*(\vec{x}, t) \phi(\vec{x}, t)d^3 x
@@ -27,14 +29,17 @@ In classical mechanics, we have that $\vec{x}$ and $\dvec{x}$ determine the dyna
 In quantum mechanics, $\psi(\vec{x}, t)$ determines the dynamics of a particle in a probabilistic way.
 
 \begin{definition}{State}
-    The \underline{state} of a particle is ??? represented by $\psi$. %TODO: What?
+    The \underline{state} of a particle is a mathematical description represented by $\psi$.
 \end{definition}
 \begin{definition}{Wave function}
-    The \underline{wave function} of a particle is the complex coefficient of $\psi$ in the continuous basis $\vec{x}$ at a given time $t$. $\psi(\vec{x}, t)$ is the $\vec{x}$ resprentation.
+    The \underline{wave function} of a particle is the complex coefficient of $\psi$ in the continuous basis $\vec{x}$ at a given time $t$. $\psi(\vec{x}, t)$ is the $\vec{x}$ representation.
     \begin{equation*}
         \psi(\vec{x}, t) : \R^3 \mapsto \C~~\forall t \in \R
     \end{equation*}
 \end{definition}
+\begin{remark}
+    We could define other representations, such as the $\vec{p}$-representation (for momentum), but we will consider only the $\vec{x}$ representation in this course.
+\end{remark}
 The physical interpretation of $\psi(\vec{x}, t)$ is given by:
 \begin{equation}
     \rho(\vec{x}, t) \propto |\psi(\vec{x}, t)|^2
@@ -44,7 +49,7 @@ where $\rho(\vec{x}, t)$ is the probability density for a particle described by 
 
 \subsection{Mathematical Properties}
 \begin{align}
-    &\int_\R^3 |\psi(\vec{x}, t)|^2 d^3 x = N \in \R,~~N \text{ finite, nonzero} \label{eqnWFTotIntegral} \\
+    &\int_\R^3 |\psi(\vec{x}, t)|^2 d^3 x = N \in \R,~~N \text{ finite, non-zero} \label{eqnWFTotIntegral} \\
     &\ybar(\vec{x}, t) = \frac{1}{\sqrt{N}} \psi(\vec{x}, t) \label{eqnPhiBar} \\
     &\int_\R^3 |\ybar(\vec{x}, t)|^2 d^3 x = 1 \label{eqnWFInt1} \\
     &\rho(\vec{x}, t) = |\ybar(\vec{x}, t)|^2 \label{eqnWFProbDens}
@@ -60,15 +65,16 @@ where $\rho(\vec{x}, t)$ is the probability density for a particle described by 
     As an aside, a state $\psi$ corresponds only to a series of rays in the space of functions, not an individual wavefunction. We can always define a new equivalent wavefunction up to a complex unit constant.
 \end{remark}
 \section{The Hilbert Space}
+We now set up a vector space of functions that allows us to define important properties in Quantum Mechanics.
 \subsection{Hilbert Space as a Vector Space}
 \begin{definition}{Hilbert space}
     The set of all square-integrable functions in $\R^3$ is called the \underline{Hilbert space} ($\hilb$ or $L^2(\R^3)$)
 \end{definition}
 We have the property that if $\psi_1, \psi_2 \in \hilb$
 
-\begin{theorem}
+\begin{theorem}[Superposition principle]
     If $\psi_1(\vec{x}, t)$ and $\psi_2(\vec{x}, t)$ are square-integrable, then $\psi = a_1 \psi_2 + a_2 \psi_2$ is square integrable.
-    \label{thmSquareIntLinearCombo}
+    \label{thmSuperposition}
 \end{theorem}
 \begin{proof}
     \begin{align*}
@@ -77,18 +83,21 @@ We have the property that if $\psi_1, \psi_2 \in \hilb$
     \end{align*}
     then by the triangle identity for complex numbers ($|z_1| + |z_2| \leq |z_1 + z_2|$), and taking $z_1 = a_1 \psi_1(\vec{x}, t)$ and $z_2 = \psi_2(\vec{x}, t)$,
     \begin{align*}
-        \int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x &= \int_{\R^3} |a_1 \psi_1(\vec{x}, t) + a_2 \psi_2 (\vec{x}, t)|^2 d^3x \\
-        &\leq \int_{\R^3} \left(|a_1 \psi_1(\vec{x}, t)| + |a_2 \psi_2 (\vec{x}, t)|\right)^2 d^3x
+        \int_{\R^3}& |\psi(\vec{x}, t)|^2 d^3x = \int_{\R^3} |a_1 \psi_1(\vec{x}, t) + a_2 \psi_2 (\vec{x}, t)|^2 d^3x \\
+        &\leq \int_{\R^3} \left(|a_1 \psi_1(\vec{x}, t)| + |a_2 \psi_2 (\vec{x}, t)|\right)^2 d^3x \\
         &= \int_{\R^3} \left(|a_1 \psi_1(\vec{x}, t)|^2 + |a_2 \psi_2 (\vec{x}, t)|^2+ 2 |a_1 \psi_1||a_2 \psi_2|\right) d^3x \\
         &\leq \int_{\R^3} \left(2|a_1 \psi_1(\vec{x}, t)|^2 + 2|a_2 \psi_2 (\vec{x}, t)|^2\right) d^3x \\
         &= 2|a_1|^2 N_1 + 2|a_2|^2 N_2 < \infty
     \end{align*}
 \end{proof}
+\begin{remark}
+    As we will see later, it is necessary to require $\psi$ to be twice differentiable, and that its second derivative is square-integrable. We also require that $\psi$ goes to $0$ exponentially fast as $|x| \to \infty$.
+\end{remark}
 \subsection{Inner Product}
 \begin{definition}{Inner product}
     The \underline{inner product} in $\hilb$ is defined, for two functions $\psi$ and $\phi \in \hilb$:
     \begin{equation}
-        \langle \psi~|~\phi\rangle = \int_{\R^3} \phi^*(\vec{x}, t) \psi(\vec{x}, t) d^3x
+        \inn{\psi}{\phi} = \int_{\R^3} \phi^*(\vec{x}, t) \psi(\vec{x}, t) d^3x
         \label{eqnHilbInnProd}
     \end{equation}
 \end{definition}
@@ -103,7 +112,7 @@ We have the property that if $\psi_1, \psi_2 \in \hilb$
     \end{align*}
     Therefore, consider the inner product:
     \begin{align*}
-        \langle \phi~|~\psi\rangle& \left|\int_{\R^3} \psi^*(\vec{x}, t)\phi(\vec{x}, t) d^3 x\right| \\
+        \inn{\phi}{\psi}& \left|\int_{\R^3} \psi^*(\vec{x}, t)\phi(\vec{x}, t) d^3 x\right| \\
         &\leq \sqrt{\int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x \int_{\R^3} |\phi(\vec{x}, t)|^2 d^3x} \\
         &= \sqrt{N_1 N_2} < \infty
     \end{align*}
@@ -113,17 +122,17 @@ We have the property that if $\psi_1, \psi_2 \in \hilb$
         Let $\phi, \psi \in \hilb$. Let $a_1, a_2$ be real coefficients.
         \label{propsInnProdProps}
     }
-    \item $\langle \psi~|~\phi\rangle = \langle \phi~|~\psi\rangle^*$
+    \item $\inn{\psi}{\phi} = \inn{\phi}{\psi}^*$
     \item The inner product is antilinear in the first argument, linear in the second argument.
-    \item $\langle \psi~|~\psi\rangle \geq 0$
+    \item $\inn{\psi}{\psi} \geq 0$
 \end{propositions}
 \begin{proof}
     \begin{enumerate}
         \item Immediate from the definition
         \item Consider $\psi, \psi_1, \psi_2, \psi, \psi_1, \psi_2 \in \hilb$, $a_1, a_2 \in \C$.
             \begin{align*}
-                \langle a_1 \psi_1 + a_2 \psi_2 ~|~ \phi\rangle &= a_1^* \langle \psi_1~|~\psi\rangle + a_2^* \langle \psi_2~|~\phi\rangle \\
-                \langle \psi~|~a_1 \phi_1 + a_2 \phi_2\rangle &= a_1 \langle \psi~|~\phi_1\rangle + a_2 \langle \psi~|~\phi_2\rangle
+                \inn{a_1 \psi_1 + a_2 \psi_2}{\phi} &= a_1^* {\psi_1}{\psi} + a_2^* \inn{\psi_2}{\phi} \\
+                \inn{psi}{a_1 \phi_1 + a_2 \phi_2} &= a_1 \inn{\psi}{\phi_1} + a_2 \inn{\psi}{\phi_2}
             \end{align*}
         \item Note that when a function is input to both sides of the inner product, the resulting integrand is square so the inner product must be $\geq 0$. Equality holds when the integrand is equal to $0$ on all $\R^3$, which is when $\psi \equiv 0$. However, this is not a valid probability density function because it cannot be normalised.
     \end{enumerate}
@@ -131,12 +140,12 @@ We have the property that if $\psi_1, \psi_2 \in \hilb$
 \begin{definition}{Norm}
     The \underline{norm} of a wavefunction $\psi$ is the real function:
     \begin{equation}
-        ||\psi|| = \sqrt{\langle \psi~|~\psi\rangle}
+        ||\psi|| = \sqrt{\inn{\psi}{\psi}}
         \label{eqnWFNorm}
     \end{equation}
 \end{definition}
 \begin{definition}{Normalised wavefunction}
-    A wavefunction $\psi$ is \underline{normalised} if its norm is $1$.
+    A wavefunction $\psi$ is \underline{normalised} if its norm is $1$. We denote this $\ybar$.
 \end{definition}
 \begin{definition}{Orthogonal wavefunctions}
     Wavefunctions $\phi, \psi \in \hilb$ are  \underline{orthogonal} if their inner product is zero.
@@ -144,7 +153,7 @@ We have the property that if $\psi_1, \psi_2 \in \hilb$
 \begin{definition}{Orthonormal wavefunctions}
     A set of wavefunctions $\{\psi_n\}$ is  \underline{orthonormal} if their inner products satisfy:
     \begin{equation*}
-        \langle \psi_n~|~\psi_m\rangle = \delta_{mn}
+        \inn{\psi_n}{\psi_m} = \delta_{mn}
     \end{equation*}
 \end{definition}
 \begin{definition}{Completeness}
@@ -156,13 +165,14 @@ We have the property that if $\psi_1, \psi_2 \in \hilb$
     where $c_n \in \C$
 \end{definition}
 \begin{lemma}
-    If $\{\psi_n\}$ forms a complete and orthonormal basis of $\hilb$, then  in equation~\ref{eqnHilbLinCombo} $c_n = \langle \psi_n~|~\phi\rangle$.
+    If $\{\psi_n\}$ forms a complete and orthonormal basis of $\hilb$, then  in equation~\ref{eqnHilbLinCombo} $c_n = \inn{\psi_n}{\phi}$.
     \label{lemLinComboCoeffts}
 \end{lemma}
 \begin{proof}
     \begin{align*}
-        \langle \psi_n~|~\phi\rangle &= \langle \psi_n~|~\sum_{m = 0}^\infty c_m \psi_m\rangle \\
-        &= \sum_{m = 0}^{\infty}c_m \langle \psi_n~|~\psi_m\rangle \\
+        \inn{\psi_n}{\phi} 
+        &= \inn{\psi_n}{\sum_{m = 0}^\infty c_m \psi_m} \\
+        &= \sum_{m = 0}^{\infty}c_m \inn{\psi_n}{\psi_m} \\
         &= \sum_{m = 0}^{\infty} c_m \delta_mn \\
         &= c_n
     \end{align*}
@@ -184,7 +194,7 @@ and $U(\vec{x}) \in \R$ is the \underline{potential}.
     \item We have asymmetry in $t \leftrightarrow \vec{x}$, so this is a non-relativistic equation.
 \end{remarks}
 \begin{example}
-    Consider an electron behaving like a wave, and so the solution to the wave equation is $\exp\left[i(kx - \omega t)\right]$. Then if we substitute this into equation~\ref{eqnTDSE} with $U = 0$, we find $\omega \propto k^2$, where $k$ is the wave number.
+    Consider an electron behaving like a wave, and so the solution to the wave equation is $\exp\left[i(kx - \omega t)\right]$. Then, if we substitute this into equation~\ref{eqnTDSE} with $U = 0$, we find $\omega \propto k^2$, where $k$ is the wave number.
 
     De Broglie's hypothesis gives that:
     \begin{align*}
@@ -200,27 +210,127 @@ and $U(\vec{x}) \in \R$ is the \underline{potential}.
 
     Note that this is different from an electromagnetic wave, where $\omega \propto k$. This is because we are comparing massless particles (photons) with massive particles (electrons).
 \end{example}
-\begin{propositions}{
-        Let $\psi$ obey TDSE.
-        \label{propsTDSE}
-    }
-    \item Normalisation of $\psi$ is constant.
-\end{propositions}
+\begin{proposition}
+    Let $\psi$ obey TDSE. Then the normalisation of $\psi$ is constant.
+    \label{propConstNormaln}
+\end{proposition}
 \begin{proof}
-    \begin{enumerate}
-        \item Normalisation is: $\int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x = N$.
-            \begin{align*}
-                \frac{d^{}N}{dt^{}} &= \frac{d}{dt} \int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x \\
-                &= \int_{\R^3} \frac{\partial}{\partial t} \left(\psi(\vec{x}, t) \psi^*(\vec{x}, t)\right) d^3x
-            \end{align*}
-            and by TDSE:
-            \begin{align*}
-                \frac{\partial \psi}{\partial t} &= \frac{i \hbar}{2m} \nabla^2 \psi - \frac{iU}{\hbar}\psi                
-                \frac{\partial \psi^*}{\partial t} &= \frac{i \hbar}{2m} \nabla^2 \psi* - \frac{iU}{\hbar}\psi* \\
-                \therefore \frac{\partial \psi^* \psi}{\partial t} &= \nabla \cdot \left(\frac{i\hbar}{2m} \left(\psi^* \nabla \psi - \psi \nabla \psi^*\right)\right) \\
-                &=0 \text{ by divergence theorem}
-            \end{align*}
-            because we have the boundary conditions that $\psi \to 0$ when $\vec{x}$ gets far from $0$.
-    \end{enumerate}
+    Normalisation is: $\int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x = N$.
+    \begin{align*}
+        \frac{d^{}N}{dt^{}} &= \frac{d}{dt} \int_{\R^3} |\psi(\vec{x}, t)|^2 d^3x \\
+        &= \int_{\R^3} \frac{\partial}{\partial t} \left(\psi(\vec{x}, t) \psi^*(\vec{x}, t)\right) d^3x
+    \end{align*}
+    and by TDSE:
+    \begin{align*}
+        \frac{\partial \psi}{\partial t} &= \frac{i \hbar}{2m} \nabla^2 \psi - \frac{iU}{\hbar}\psi \\
+        \frac{\partial \psi^*}{\partial t} &= \frac{i \hbar}{2m} \nabla^2 \psi* - \frac{iU}{\hbar}\psi* \\
+        \therefore \frac{\partial \psi^* \psi}{\partial t} &= \nabla \cdot \left(\frac{i\hbar}{2m} \left(\psi^* \nabla \psi - \psi \nabla \psi^*\right)\right) \\
+        &=0 \text{ by divergence theorem}
+    \end{align*}
+    because we have the boundary conditions that $\psi \to 0$ when $\vec{x}$ gets far from $0$.
+\end{proof}
+\begin{remark}
+    The equation:
+    \begin{equation*}
+        \frac{\partial}{\partial t} (\psi^* \psi) = \nabla \cdot \left(\frac{i\hbar}{2m}(\psi^* \nabla \psi - \psi \nabla \psi^*)\right) = 0
+    \end{equation*}
+    that appeared in the proof of proposition~\ref{propConstNormaln} shows us that the probability density is conserved. We can define the quantity:
+    \begin{equation*}
+        \vec{J} = \frac{i\hbar}{2m}(\psi^* \nabla \psi - \psi \nabla \psi^*)
+    \end{equation*}
+\end{remark}
+\section{Measurements in Quantum Mechanics}
+We want to know how to extract information from a state $\psi$.
+\begin{definition}{Observability}
+    A property of a particle described by $\psi$ is \underline{observable} if it can be measured. In QM, observable properties correspond to an operator acting on $\psi$, and a measurement corresponds to the expected value of this operation.
+\end{definition}
+\subsection{Heuristic Derivation of Position and Momentum}
+Consider only one dimension for this subsection.
+
+The two most important observables are the position, $x$, and the momentum, $p$.
+
+From the probabilistic interpretation, if we want to measure the position of a particle, we calculate:
+\begin{align*}
+    \E{x} &= \int_{-\infty}^{\infty} x |\psi(x, t)|^2 dx \\
+    &= \int_{-\infty}^\infty \psi^*(x, t) x \psi(x, t) dx
+\end{align*}
+where here $\E{x}$ is the expected value for $x$. We see that this has the same form as in IA Probability.
+
+Now the expected value of the momentum is defined:
+\begin{align*}
+    \E{p} &= \frac{d\E{x}}{dt} \\
+    &= m \frac{d}{dt} \int_{-\infty}^{\infty} \psi^*(x, t) x \psi(x, t) dx \\
+    &= m \int_{-\infty}^{\infty} x \frac{\partial}{\partial t}(\psi^* \psi) dx \\
+    &= \frac{i\hbar m}{2m} \int_{-\infty}^{\infty} x \frac{\partial}{\partial x}\left(\psi^* \frac{\partial \psi}{\partial x}- \psi \frac{\partial \psi^*}{\partial x}\right) dx \\
+    &\text{Integrate by parts, boundary term goes to }0: \\
+    &= \frac{-i\hbar}{2} \int_{-\infty}^{\infty} \left(\psi^* \frac{\partial \psi}{\partial x} - \psi \frac{\partial \psi^*}{\partial x}\right) dx \\
+    &= -i\hbar \int_{-\infty}^{\infty} \psi^* \frac{\partial \psi}{\partial x} dx \\
+\end{align*}
+Therefore we have derived the operators for position, multiplication by $x$, and for momentum, application of $-i\hbar \frac{\partial}{\partial x}$. Now any quantity that is a function of position and momentum, $Q(x, p)$, can be translated into such an integral:
+\begin{equation*}
+    \E{Q(x, p)} = \int_{-\infty}^{\infty} \psi^* Q(x, -i\hbar \frac{\partial}{\partial x})\psi dx 
+\end{equation*}
+\subsection{Hermitian Operators}
+In $\C^n$, we have linear maps that are represented by matrices. We define a Hermitian matrix by $A^\dagger = A$.
+
+In QM, we consider the Hilbert space $\hilb$ and define operators similarly.
+\begin{definition}{Operator}
+    An \underline{operator} $\op$ is a linear map $\op : \hilb \mapsto \hilb$ such that:
+    \begin{equation*}
+        \op(a_1 \psi_1 + a_2 \psi_2) = a_1 \op(\psi_1) + a_2 \op(\psi_2)
+    \end{equation*}
+    for all $a_1, a_2 \in C,~\psi_1, \psi_2 \in \hilb$.
+\end{definition}
+\begin{examples}{}
+    \item Finite difference operators:
+        \begin{equation*}
+            \sum_{n = 0}^N q_n(x) \frac{\partial^{n}}{\partial x^{n}}
+        \end{equation*}
+        where $q_n(x)$ is a polynomial. The operators we have already seen for position and momentum are special cases.
+    \item Translation: $\psi(x) \mapsto \psi(x - a)$
+    \item Parity: $\psi(x) \mapsto \psi(-x)$.
+\end{examples}
+\begin{definition}{Hermitian conjugate}
+    The \underline{Hermitian conjugate} $\opdg$ of an operator $\op$ is the operator such that:
+    \begin{equation*}
+        (\opdg \psi_1, \psi_2) = (\psi_1, \op \psi_2)
+    \end{equation*}
+    for all $\psi_1, \psi_2 \in \hilb$.
+\end{definition}
+We can easily verify that the usual Hermitian properties apply.
+\begin{definition}{Hermitian operator}
+    An operator $\op$ is a \underline{Hermitian operator} if $\op = \opdg$.
+\end{definition}
+\begin{remark}
+    All physics quantities in Quantum Mechanics are represented by Hermitian operators.
+\end{remark}
+\begin{examples}{
+        For the proofs of these, see the first example sheet.
+    }
+    \item The operator $\hat{x} : \psi(x, t) \mapsto x\psi(x, t)$ is Hermitian. We can check this easily:
+        \begin{align*}
+            (\hat(x)\psi_1, \psi_2) &= \int_{-\infty}^\infty (x\psi_1)^* \psi_2 dx \\
+            &= \int_{-\infty}^\infty \psi_1^* x \psi_2 dx \\
+            &= (\psi_1, \hat{x} \psi_2)
+        \end{align*}
+    \item We can similarly verify that $\hat{p} : \psi(x, t) \mapsto i\hbar \frac{\partial \psi}{\partial x}$ is Hermitian.
+    \item The kinetic energy operator $\hat{T} : \psi(x, t) \mapsto \frac{\hat{p}^2}{2m}\psi$ is Hermitian.
+    \item The potential energy operator $\hat{U} : \psi(x, t) \mapsto U(x) \psi(x,t)$ is Hermitian.
+    \item The total energy operator $\hat{H} : \psi(x, t) \mapsto (\hat{T} + \hat{U}) \psi(x, t)$.
+\end{examples}
+\begin{theorem}
+    The eigenvalues of Hermitian operators are real.
+    \label{thmReaEvals}
+\end{theorem}
+\begin{proof}
+    Let $\op$ be Hermitian. Let there exist an eigenvalue $a$ with eigenfunction $\psi$, $\op \psi = a\psi$. For ease, assume $\psi$ is normal ($||\psi|| = 1$).
+
+    \begin{align*}
+        (\psi, \op\psi) &= (\psi, a\psi) = a(\psi, \psi) \\
+        &= a \\
+        (\psi, \op\psi) &= (\op\psi, \psi) = (a\psi, \psi) \\
+        &= a^* (\psi, \psi) = a^* \\
+        \implies& a = a^*, a \in \R
+    \end{align*}
 \end{proof}
 \end{document}

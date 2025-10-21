@@ -6,7 +6,7 @@ Classical mechanics is based on 2 distinct concepts, particles and waves.
 
 Particles are point-like objects with position $\vec{x}(t)$ and velocity $\dvec{x}(t)$, which are fully determined by Newton's Second Law, $m\ddvec{x} = F(\vec{x}(t), \dvec{x}(t))$. Further, once we establish the initial position and initial velocity, the motion is determined for all time. Particles can collide or scatter but can never interfere.
 
-Waves are spread out objects, with some function $f(x, t)$ periodic in $\frac{t}{x}$. Their propogation is determined by the wave equation:
+Waves are spread out objects, with some function $f(x, t)$ periodic in $\frac{t}{x}$. Their propagation is determined by the wave equation:
 \begin{equation}
     \frac{\partial^{2}f(x, t)}{\partial t^{2}} - c^2 \frac{\partial^{2}f(x, t)}{\partial x^{2}} = 0
     \label{eqnWave}
@@ -17,7 +17,7 @@ The solutions to the wave equation are of the form:
     \label{eqnWaveSolution}
 \end{equation}
 Where $A_{\pm} \in \C$, $k, \omega \in \R$. 
-The solutions obey the dispertion relation:
+The solutions obey the dispersion relation:
 \begin{equation}
     \omega = ck
     \label{eqnDispersion}
@@ -30,16 +30,23 @@ Here $\omega$ is the angular frequency and is related the wavelength $\lambda$ a
 A key property of waves is interference: when 2 waves interact they sum together to interfere constructively or destructively.
 \section{Photoelectric Effect}
 \subsection{The Experiment}
-%TODO: Find a suitable diagram
-Consider monochromatic light with frequency $\lambda$ incident on a metal plate. This causes electrons to be released from the plate as they gain energy from the light.
-%TODO: more explanation using diagram.
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.2]{{Photoelectric effect}}
+    \caption{Diagram of the photoelectric effect}
+    \label{figPhotoelectric}
+\end{figure}
+
+Consider monochromatic light with frequency $\lambda$ incident on a metal plate. This causes electrons to be released from the plate as they gain energy from the light (see figure~\ref{figPhotoelectric}).
+
+These electrons have a given kinetic energy that can be measured by applying a \textit{stopping potential} across the plate and an electrode to prevent the electrons from exiting the plate with any kinetic energy.
 \subsection{Classical Expectation}
 In classical physics, the energy of a wave is proportional to the square of its amplitude. Therefore, as the intensity (square of amplitude) increases, there will be enough energy to break the bonds of the electrons with the atoms in the metal.
 
 Also, the emission rate of electrons should be constant as the intensity increases beyond a threshold.
 %TODO: More detail.
 \subsection{Experiment and Explanation}
- surprising facts were found during experimentation:
+Surprising facts were found during experimentation:
 \begin{enumerate}
     \item Below a certain frequency $\omega$, there were no electrons emitted. \label{PEFinding1}
     \item The velocity (and, by extension, the kinetic energy) of the electrons depended on $\omega$ not the intensity.\label{PEFinding2}
@@ -61,7 +68,7 @@ If the binding energy of an electron is $\phi$, the energy transferred to it is 
 \end{equation}
 Equation~\ref{eqnPEEnergy} also explains why electron velocity is proportional to frequency of light, not intensity. Indeed, intensity measures the number of photons and therefore the number of electrons that are emitted form the metal plate.
 \section{Atomic Spectra}
-In 1897, Thompson discovere the electron, and considered a model with a uniform distribution of positive charge, with small negative charges (electrons) embedded within. in 1908, the Rutherford Scattering Experiment showed instead that the atom contained a small, dense nucleus of positive charge with electrons orbiting around it.
+In 1897, Thompson discovered the electron, and considered a model with a uniform distribution of positive charge, with small negative charges (electrons) embedded within. In 1908, the Rutherford Scattering Experiment showed instead that the atom contained a small, dense nucleus of positive charge with electrons orbiting around it.
 
 Rutherford's model was also flawed. Electrons moving in a circular orbit would radiate energy and were not prevented from collapsing into the nucleus. Another problem arose from experimentation with atomic spectra.
 
