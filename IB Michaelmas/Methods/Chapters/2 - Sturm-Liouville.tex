@@ -285,4 +285,155 @@ and constrain $\alpha(x) > 0$. Now we can use something akin to an integrating f
     \caption{Graph of $-\mu$ and $\tan(\mu)$}
     \label{figEValGraph}
 \end{figure}
+\section{Important Equations}
+\subsection{Legendre's Equation}
+Consider an eigenvalue problem:
+\begin{equation}
+    -\frac{d}{dx}\left[(1 - x)^2 \frac{dy}{dx}\right] = \lambda y, x \in (-1, 1)
+    \label{eqnLegendre}
+\end{equation}
+Then we find that $p = (1 - x^2), q = 0, w = 1$. Then we note that both endpoints are singular, so as we have seen we do not have to specify boundary conditions. Therefore, we consider only the space $V = C^2[-1, 1]$.
+
+Since $x = 0$ is a regular singular point of the differential equation, we can look for solutions of the form:
+\begin{equation*}
+    y = \sum_{n=0}^{\infty} a_n x^n
+\end{equation*}
+then from IA Differential Equations, we can find a recurrence relation for the $a_n$ that depend on $a_0$ and $a_1$:
+\begin{equation*}
+    a_{n+2} = \left[\frac{n(n+1)-\lambda}{(n+1)(n+2)}\right]a_n
+\end{equation*}
+This gives us two linearly independent solutions, depending on the parity of the terms:
+\begin{align*}
+    y_0(x) &= a_0 \left[1 + \frac{-\lambda x^2}{2!} + \frac{-\lambda (6-\lambda)x^4}{4!} + \cdots\right] \\
+    y_1(x) &= a_1 \left[x + \frac{(2-\lambda)x^3}{3!} + \frac{(2-\lambda)(12-\lambda)x^5}{5!} + \cdots\right]
+\end{align*}
+note that one of the equations collapses (terminates) to give a polynomial if, for some $k \in \N \cup \{0\}$, $\lambda = k(k+1)$.
+
+If $\lambda$ does not have this form, we have two infinite series. We note that $\frac{a_{n+2}}{a_n} \to 1$ as $n \to \infty$, so we must have that both series will converge on $|x| < 1$. However, we need convergence on also $|x| = 1$ for the solution to be valid.
+
+\begin{proof}[Non-examinable proof that $y_0$ diverges at $|x| = 1$]
+    Let $A_n = a_{2n}$, so:
+    \begin{equation*}
+        \frac{A_n}{A_{n+1}} = \frac{(2n+1)(2n+2)}{2n(2n+1) - \lambda} = 1 + \frac{1}{n} + \epsilon_n
+    \end{equation*}
+    where $|\epsilon_n| \leq \frac{M}{n^2}$ where $M$ is a positive constant (that depends on $\lambda$). That is, the RHS is positive for $n$ sufficiently large. Say that this is the case when $n \geq N$, $N \in \N$. In particular, the $A_n$ must all have the same sign when $n \geq N$.
+    We then want to find some bounds. Note that we can use $e^x \geq 1 + x$:
+    \begin{align*}
+        \frac{|A_n|}{|A_{n+1}|} &\leq e^\frac1{n} + \epsilon_n \\
+        \implies |A_{n+1}| & \geq \frac{e^{-\frac{1}{n}}|A_n|}{1 + e^{-\frac{1}{n}}|\epsilon_n|} \\
+        &\geq \frac{e^{-\frac{1}{n}}|A_n|}{1 + |\epsilon_n|} \\
+        &\geq e^{-\frac{1}{n}} |A_n|e^{-|\epsilon_n} \\
+    \end{align*}
+    and by repeating this, for $n \geq N$,
+    \begin{align*}
+        |A_{n+1}| &\geq |a_n| \exp\left[-\left(\frac{1}{n} + \frac{1}{n-1} + \cdots + \frac{1}{N}\right)\right. \\
+        &- \left.\left(|\epsilon_n| + \cdots + |\epsilon_N|\right)\right] \\
+    \end{align*}
+    Then defining the harmonic series $H_n = \sum_{i=1}^{n} \frac{1}{i}$,
+    \begin{equation*}
+        |A_{n+1} \geq |A_n| e^{-H_n + H_{N-1}} e^{-M\frac{\pi^2}{6}}
+    \end{equation*}
+    Because the sum of $\epsilon_n$ is:
+    \begin{align*}
+        |\epsilon_n| &+ \cdots + |\epsilon_N| \\
+        &\leq M\left[\frac{1}{n^2} + \cdots + \frac{1}{N^2}\right] \\
+        &\leq M\sum_{k=1}^\infty \frac{1}{k^2} \\
+        &= \frac{M\pi^2}{6}
+    \end{align*}
+    Now since $H_n \leq \log(n) + 2\gamma$,
+    \begin{align*}
+        |A_{n+1}| &\geq |A_N| e^{H_{N-1} = M\frac{\pi^2}{6}} e^{-\log(n) - 2\gamma} \\
+        &> \frac{C}{n+1}
+    \end{align*}       
+    Then $y_0$ is given by:
+    \begin{equation*}
+        y_0 = \sum_{n \leq N} A_n x^{2n} + \sum_{n > N} A_nx^{2n}
+    \end{equation*}
+    then since the $A_n$ have the same sign, we assume they are positive WLOG.
+    \begin{align*}
+        \sum_{n > n} A_n x^{2n} &> c\left[\sum_{n=1}^\infty \frac{x^{2n}}{n} - \sum_{n \leq N}  \frac{x^{2n}}{n}\right] \\
+        &= c\left[\log\left(\frac{1}{1-x^2}\right) - \text{polynomial in x}\right]
+    \end{align*}
+    and by considering the $\log$ term, we see that this diverges at $x = \pm 1$.
+
+    The analysis is similar for $y_1$
+\end{proof}
+Thus if the functions $y_0$ or $y_1$ does not collapse into a polynomial, it is not in $V$. Therefore the solutions to Legendre's equation (\ref{eqnLegendre}) are the ``Legendre polynomials'' where $\lambda = k(k+1)$. We often make a normalisation $y(1) = 1$.
+
+\begin{tabular}{|c|c|c|}
+    \hline
+    $k$ & $\lambda_k$ & $p_k(x)$ \\
+    \hline
+    $0$ & $0$ & $p_0(x) = 1$ \\
+    $1$ & $2$ & $p_1(x) = x$ \\
+    $2$ & $6$ & $p_2(x) = \frac12(3x^2-1)$ \\
+    $3$ & $12$ & $p_1(x) = \frac12(5x^3-3x)$ \\
+    \hline
+\end{tabular}
+\subsection{Bessel's Equation}
+Fix an integer $m \geq 0$. Consider:
+\begin{equation}
+    -\frac{d}{dr} \left[r \frac{dy}{dx}\right] + \frac{m^2}{r}y = \lambda r y, r \in (0, 1), y(1) = 0
+    \label{eqnBesselSL}
+\end{equation}
+Here we have $p = r, q = \frac{m^2}{r}, w = r$. We have that the left endpoint is singular so we only need the 1 boundary condition.
+
+We can change this into standard form:
+\begin{equation}
+    r^2 y'' + ry' + \left(\lambda r^2 - m^2\right)y = 0, r\in(0, 1), y(1) = 0
+    \label{eqnBesselStd}
+\end{equation}
+Then we can set $z = \sqrt{\lambda} r$. Note that here $\lambda$ is unknown but we can show it is non-negative. Also set $R(z) = y(r)$.
+\begin{equation}
+    z^2 R'' + zR' + (z^2 - m^2)R = 0, z \in (0, \sqrt{\lambda}), R(\sqrt{\lambda}) = 0
+    \label{eqnBessel}
+\end{equation}
+and this is Bessel's Equation. By substituting in the form:
+\begin{equation*}
+    R = z^\sigma \sum_{n=0}^{\infty} a_n z^n
+\end{equation*}
+we get two linearly independent solutions. Without going into detail, only 1 solution is well-behaved at 0, $J_m(z)$:
+\begin{equation}
+    J_m(z) = \left(\frac{z}{2}\right)^m \sum_{n=0}^{\infty} \frac{(-1)^n}{n!(n+m)!} \left(\frac{z}{2}\right)^{2n}
+    \label{eqnBesselSoln}
+\end{equation}
+These are called \underline{Bessel's Functions of the First Kind} (the second kind is the set of solutions that are badly behaved at 0).
+Also, we can show that as $z \to \infty$,
+\begin{equation*}
+    J_m(z) \to \sqrt{\frac{2}{\pi z}} \cos\left(z - \frac{\pi m}{2} - \frac{\pi}{4}\right) + O(z^{-\frac{3}{2}})
+\end{equation*}
+so $J_m(z)$ has infinitely many zeroes on the positive $z$-axis, labelled $j_{mk}$ for $k \in \N$. Since we require that $J_m(\sqrt{\lambda}) = 0$, we have the eigenvalues $\lambda_k = j_{mk}^2$. That is, solutions to equation~\ref{eqnBesselSL} are:
+\begin{equation}
+    y_k(r) = J_m(j_{mk}r), \lambda_k = j_{mk}^2
+    \label{eqnBesselSLSoln}
+\end{equation}
+\subsection{Inhomogeneous Problems}
+Let $L$ be a Sturm-Liouville operator. Consider problems of the form:
+\begin{equation*}
+    Ly = f \in V
+\end{equation*}
+After possibly re-labelling the function $f$, set $w = 1$. Because $L$ is Sturm-Liouville, we have $\{Y_k\}$ a set of normalised eigenfunctions of $L$, and by completeness we can write, for any $y \in V$:
+\begin{equation*}
+    y = \sum_{k} A_k Y_k,~~f = \sum_k B_k Y_k
+\end{equation*}
+which gives:
+\begin{align*}
+    \sum_{j=1}^{\infty} (\lambda_k A_k - B_k) Y_k &= 0 \\
+    \implies \lambda_k A_k &= B_k \\
+    \implies A_k \frac{B_k}{\lambda_k} \text{ if all } \lambda_k \text{ are non-zero}
+\end{align*}
+which gives our solution:
+\begin{equation*}
+    y(x) = \sum_{k=1}^{\infty} \frac{B_k}{\lambda_k} Y_k(x)
+\end{equation*}
+where $B_k = \inn{f}{Y_k}$. Applying this:
+\begin{align*}
+    y(x) &= \sum_{j=1}^{\infty} \frac{1}{\lambda_k} \left[\int_{a}^{b} f(\xi) Y_k(\xi) d\xi \right]Y_k(x)
+    &= \int_{a}^{b} G(x;\xi) f(\xi) d\xi 
+\end{align*}
+Where
+\begin{equation*}
+    G(x;\xi) = \sum_{k=1}^{\infty} \frac{Y_k(\xi)Y_k(x)}{\lambda_k}
+\end{equation*}
+Here $G$ is a Green's Function.
 \end{document}
