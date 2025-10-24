@@ -55,10 +55,78 @@ We have uniform continuity implies continuity at every point in $E$ (pointwise c
     \end{equation*}
     \label{thmUCTSubsetClosedBdd}
 \end{theorem}
-\begin{remark}
-    This requires weaker assumptions on $f$ than theorem~\ref{thmUCTClosedBdd}, but reaches roughly the same conclusion.
-\end{remark}
+\begin{remarks}
+    \item This requires weaker assumptions on $f$ than theorem~\ref{thmUCTClosedBdd}, but reaches roughly the same conclusion.
+    \item Note that the hypothesis here is stronger than simply saying that the function $f_F$ restricted to $f$ is continuous on $F$. For example, the irrational indicator function $f(x) = 1$ if $x$ irrational, $0$ otherwise, is continuous on the rational numbers but nowhere continuous on the real numbers. This would not be a valid function.
+\end{remarks}
 \begin{proof}
-    The proof is very similar to that of theorem~\ref{thmUCTClosedBdd}, but the main difference is that we must show that the limit point found, $x$, is in $F$ and not any of the intervals in $\collec$.
+    The proof is very similar to that of theorem~\ref{thmUCTClosedBdd}, but the main difference is that we must show that the limit point found, $x$, is in $F$ and not any of the intervals in $\collec$. The argument is that, since each $I \in \collec$ is an open interval, we cannot get there by taking a limit of points in $F$.
+\end{proof}
+\section{Integrability}
+\subsection{A Reminder of Riemann Integration}
+Recall that we defined Riemann Integration in terms of upper and lower sums on a partition of an interval.
+
+Let $f : [a, b] \mapsto \R$ be a bounded function, $m \leq f(x) \leq M$ with finite $m, M$.
+
+Let $P = \{a_0 = a, a_1, \cdots, a_{n-1}, a_n = b\}$ be a \underline{partition} of $[a, b]$, where the $a_i$ are strictly increasing. Write $I_j = [a_j, a_{j+1}],~0 \leq j \leq n-1$. Then define the upper and lower sums $U$ and $L$:
+\begin{align*}
+    U(f, P) &= \sum_{j=0}^{n-1} (a_{j+1} - a_j) \sup_{x\in I_j} f(x) \\
+    L(f, P) &= \sum_{j=0}^{n-1} (a_{j+1} - a_j) \inf_{x\in I_j} f(x)
+\end{align*}
+Then in IA Analysis I we showed that $m(b-a) \leq L(f, P) \leq U(f, P) \leq M(b-a)$. When we refine the partition the upper sum only stays the same or decreases, and vice versa for the lower sum. We then define the upper and lower integals:
+\begin{align*}
+    I^*(f) &= \inf_{P} U(P, f) \\
+    I_*(f) &= \sup_{P} L(P, f)
+\end{align*}
+and $f$ is \underline{Riemann Integrable} on $[a, b]$ if, on this interval, $I_* = I^*$. In this case, we call the common value the \underline{integral} of $f$ and denote it:
+\begin{equation*}
+    \int_{a}^{b} f(x) dx = \int_a^b f
+\end{equation*}
+Recall also the Riemann Criterion for integrability:
+\begin{theorem}[Riemann Criterion for Integrablility]
+    A bounded function $f : [a, b] \mapsto \R$ is integrable if and only if, given $\epsilon > 0$, there exists a partition $P$ such that $U(P, f) - L(P, f) < \epsilon$.
+    \label{thmRiemannCriterion}
+\end{theorem}
+The proof was given in IA Analysis I.
+\subsection{Continuity and Integrability}
+\begin{theorem}
+    Let $f : [a, b] \mapsto [A, B] \subseteq \R$ be integrable. Let $g : [A, B] \mapsto \R$ be continuous. Then the composition $g \circ f : [a, b] \mapsto \R$ is an integrable function.
+    \label{thmCtsComposeIBL}
+\end{theorem}
+\begin{proof}
+    First, by uniform continuity of $g$ we invoke theorem~\ref{thmUCTClosedBdd}. For all $\epsilon > 0$ there exists a $\delta > 0$ such that for all $x, y \in [A, B]$, $|x - y| < \delta \implies |g(x) - g(y)| < \epsilon$.
+    We also have integrability of $f$, so there exists a partition $P$ of $[a, b]$ such that $U(P, f) - L(P, f) < \epsilon'$. Then:
+    \begin{align*}
+        U(P, g\circ f) - L(P, g \circ f) = \sum_{j=0}^{n - 1} (a_{j+1} - a_j) \left(\sup_{I_j} g\circ f - \inf_{I_j} g \circ f\right)
+    \end{align*}
+    We now want these terms to be small. Therefore, we can consider terms for which the difference of supremum and infimum is small, and terms for which there is a large difference, separately. First let the terms with difference less than $\delta$ have indices $j \in J$:
+    \begin{equation*}
+        J = \subsetselect{j}{\sup_{I_j} f - \inf_{I_j} f < \delta}
+    \end{equation*}
+    Indeed, if $j \in J$ then the smallest and largest values of $f$ are less than $\delta$, which means the input to $g$ is less than $\delta$ apart and so by uniform continuity of $g$ we must have:
+    \begin{equation*}
+        \sup_{I_j} g\circ f - \inf_{I_j} g\circ f < \epsilon~\forall j \in J
+    \end{equation*}
+    and so summing:
+    \begin{equation}
+        \sum_{j \in J} (a_{i+1} - a_i) \sup_{I_j} g\circ f - \inf_{I_j} g\circ f < \sum_{j \in J} \epsilon
+        \label{eqnContinuityBound}
+    \end{equation}
+    Now consider the $j \notin J$, that is, $\sup_{I_j} f - \inf_{I_j} f \geq \delta$, then:
+    \begin{align*}
+        \delta (a_{j+1} - a_j) &\leq (a_{j+1} - a_j) \left(\sup_{I_j} f - \inf_{I_j} f\right) \\
+        \delta \sum_{j \notin J}(a_{j+1} - a_j) &\leq \sum_{j \notin J} (a_{j+1} - a_j) \left(\sup_{I_j} f - \inf_{I_j} f\right) \\
+        &\leq \epsilon' \text{ by integrability of }f \\
+        \sum_{j \notin J}(a_{j+1} - a_j) &\leq \frac{\epsilon'}{\delta}
+    \end{align*}
+    Therefore, we can now set $\epsilon' = \delta \epsilon$, so that this sum above is less than $\epsilon$. Using this:
+    \begin{equation*}
+        \sum_{j \notin J}(a_{j+1} - a_j) (\sup_{I_j} g \circ f - \inf_{I_j} g \circ f) <\epsilon(2\sup_{[A, B]} |g|)
+    \end{equation*}
+    Now combining this with equation~\ref{eqnContinuityBound},
+    \begin{equation*}
+        U(P, g \circ f) - L(P, g \circ f) < \left((b-a) + 2 \sup_{[A, B]} |g|\right) \epsilon
+    \end{equation*}
+    This is a fixed multiple of $\epsilon$.
 \end{proof}
 \end{document}
