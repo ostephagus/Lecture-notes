@@ -175,4 +175,112 @@
         \item If $p = q$, the general solution has the form $h_i^A = a + bi$. Solving gives $h_i^A = 1$.
     \end{itemize}
 \end{example}
+\begin{example}
+    Consider a population model. $I = \N \cup \{0\}$. Set $P(0, 0) = 1$, and:
+    \begin{align*}
+        P(i, i+1) &=p_i \in (0, 1) \\
+        P(i, i-1) &= q_i = 1- p_i
+    \end{align*}
+    and the other transitions are probability $0$. We now want to consider the extinction probability, so $A = \{0\}$. We get $h_0^A = 1$ and:
+    \begin{equation*}
+        h_{i}^A = q_i h_{i-1}^A + p_i h_{i+1}^A
+    \end{equation*}
+    Rearranging gives:
+    \begin{equation*}
+        p_i (h_{i+1}^A - h_i^A) = q_i (h_i - h_{i-1})
+    \end{equation*}
+    Defining instead $u_i = h_{i}^A - h_{i-1}^A$,
+    \begin{equation*}
+        u_{i+1} = \frac{q_i}{p_i}u_i
+    \end{equation*}
+    which has solution:
+    \begin{equation*}
+        u_{i+1} = \left(\prod_{j=1}^{n}\frac{q_j}{p_j}\right)u_1
+    \end{equation*}
+    and we denote the product $\gamma_i$. By telescoping sum, the sum of the $u_i$ is just the endpoints:
+    \begin{align*}
+        \sum_{i=1}^{j}u_i &= h_j^A - h_0 \\
+        \therefore h_j^A &= h_0^A + \sum_{i=1}^j u_i \\
+        &= 1 + \left(\sum_{i=0}^{j-1}\gamma_i\right)(h_1^A - 1)
+    \end{align*}
+    But then we use $h_j^A \geq 0$:
+    \begin{equation*}
+        h_1^A \geq 1 - \left(\sum_{i=0}^{j}\gamma_i\right)^{-1}
+    \end{equation*}
+    and taking $j \to \infty$,
+    \begin{equation*}
+        h_1^A \geq 1 - \left(\sum_{i=0}^{\infty}\gamma_i\right)^{-1}
+    \end{equation*}
+    But by minimality take $h_1^A$ equal to this quantity, $h_1^A = 1 - \frac{1}{S}$.
+
+    We have 2 cases. In the case that $S$ is finite, $h_0^A = 1$ and
+    \begin{equation*}
+        h_i^A = \frac{\sum_{j=i}^{\infty} \gamma_j}{\sum_{j=0}^{\infty}\gamma_j}
+    \end{equation*}
+    which is a positive probability that the population does not go extinct.
+
+    In the case that $S$ is infinite, however, we have that $h_i^A = 1$ for all $i$ and therefore the population certainly goes extinct.
+\end{example}
+\section{Mean Hitting Time}
+We have previously defined the mean hitting time. We will derive a similar system of equation for the mean hitting time as we have for the regular hitting time.
+\begin{theorem}
+    If $\chain{X}$ is a Markov chain with state space $I$ and transition matrix $P$, for a subset $A \subseteq I$ the mean hitting times $(k_i^A)$ are the minimal non-negative solution to:
+    \begin{equation*}
+        k_i^A =
+        \begin{cases}
+            0 & i \in A \\
+            1 + \sum_{j \notin A} P(i, j) k_j^A & i \notin A
+        \end{cases}
+    \end{equation*}
+    \label{thmMeanHittingProb}
+\end{theorem}
+\begin{proof}
+    If $i \in A$ then $k_i^A = 0$ by definition. Therefore assume that $i \notin A$.
+
+    \begin{align*}
+        h_i^a &= \E_i(T_A) = \sum_{n = 0}^\infty \P_i(T_A > n)\\
+        &= \sum_{n \geq 0} \P_i(X_0 \notin A, \cdots, X_{n-1} \notin A, X_n \notin A) \\
+        &= 1 + \sum_{n \geq 1} \P_i(X_1 \notin A, \cdots, X_{n-1} \notin A, X_n \notin A) \\
+        &= 1 + \sum_{n \geq 1} \sum_{j \in I}\P_i (X_1 \notin A, \cdots, X_n \notin A, X_1 = j) \\
+        &= 1 + \sum_{n \geq 1} \sum_{j \in I}\P(X_1 \notin A, \cdots, X_n \notin A | X_1 = j)P(i, j) \\
+        &= 1 + \sum_{j \in I} P(i, j) \sum_{n \geq 0} \P(X_1 \notin A, \cdots, X_n \notin A | X_1 = j) \\
+        &= 1 + \sum_{j \in I} P(i, j) \sum_{n \geq 1} \P_j(X_0 \notin A, \cdots, X_{n-1} \notin A_) \\
+        &= 1 + \sum_{j \in I} P(i, j) \sum_{n \geq 1} \P_j(T_A > n-1) \\
+        &= 1 + \sum_{j \in I} P(i, j) \sum_{n \geq 0} \P_j(T_A > n) \\
+        &= 1 + \sum_{j \in I} P(i, j) \sum_{n \geq 0} \P_j(T_A > n) \\
+        &= 1 + \sum_{j \in I} P(i, j) k_j^A \\
+        &= 1 + \sum_{j \notin A} P(i, j) k_j^A \\
+    \end{align*}
+    as required.
+
+    Now to see that this solution is minimal, let $k_i$ be a different solution.  If $i \in A, k_i^A = k_i = 0$, so indeed $k_i^A$ is at most $k_i$. Consider now $i \notin A$:
+    \begin{align*}
+        k_i &= 1 + \sum_{j_1 \notin A} P(i, j_1) k_{j_1} \\
+        &= 1 + \sum_{j_1 \notin A} P(i, j_1) \left[1 + \sum_{j_2 \notin A} P(i, j_2) k_{j_2}\right] \\
+        &= 1 + \sum_{j_1 \notin A} P(i, j_1) + \sum_{j_1, j_2 \notin A} P(i, j_2) k_{j_2} \\
+        &\vdots \\
+        &= 1 + \sum_{j_1 \notin A} P(i, j_1) + \sum_{j_1, j_2 \notin A} P(i, j_2) \\
+        &+ \cdots + \sum_{j_1, \cdots, j_n \notin A} P(i, j_1) P(j_1, j_2) \cdots P(j_{n-1}, j_n) \\
+        &+ \sum_{j_1, \cdots, j_{n+1} \notin A} P(i, j_1) \cdots P(j_n, j_{n+1}) k_{j_{n+1}} \\
+        &\geq 1 + \P_i(T_A > 1) + \P_i(T_A > 2) + \cdots + \P_i(T_A > n) \\
+        &\geq \sum_{n \geq 0} \P_i(T_A > n) = k_i^A \text{ by taking } n \to \infty
+    \end{align*}
+\end{proof}
+\section{Stopping Time and the Strong Markov Property}
+\begin{definition}{Stopping time}
+    A \underline{stopping time} $T$ for a process $\chain{X}$ on a state space $I$ is a random variable taking values $\N \cup \{0, \infty\}$ such that for all $n \geq 0$ the event $\{T = n\}$ only depends on $X_0, \cdots, X_n$
+\end{definition}
+\begin{example}[Hitting times are stopping times]
+    $\{T_A = n\} = \{X_0 \notin A, \cdots, X_{n-1} \notin A, X_n \in A\}$.
+    Then this only depends on the previous states.
+\end{example}
+\begin{example}[Last Exit times are not stopping times]
+    Define the \textit{last exit time} as $S_A = \sup\subsetselect{n \geq 0}{X_n = A}$. Then this is not a stopping time because it depends on the times looking forward (all the way to $\infty$).
+\end{example}
+\begin{theorem}[Strong Markov Property]
+    Suppose $\chain{X} = (X_n)_{n \geq 0}$ is a Markov chain on $I$ with transition matrix $P$, and suppose $T$ is a stopping time.
+
+    Let $i \in I$. Then, conditional on $\{T < \infty\} \cap \{X_T = i\}$, the process $(X_{T+n})_{n \geq 0}$ is a Markov chain with initial distribution $\delta_i$ and transition matrix $P$ which is independent of $(X_0, \cdots, X_T)$.
+    \label{thmStrongMarkov}
+\end{theorem}
 \end{document}
