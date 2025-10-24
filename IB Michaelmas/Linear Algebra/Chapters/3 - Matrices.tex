@@ -93,6 +93,8 @@ then we have the following theorem:
 \begin{remark}
     We can produce two maps $V \mapsto \F^m$. Via $W$, $\alpha : V \mapsto W$ and then $E_C : W \mapsto \F^m$. Via $\F^n$, $E_B : V \mapsto \F^n$ and then $[\alpha]_B^C : \F^n \mapsto \F^m$. This is a \underline{commutative diagram}.
 \end{remark}
+\section{Properties of Matrices}
+\subsection{Change-of-Basis}
 \begin{proposition}
     Let $V, W, X$ be finite-dimensional vector spaces with bases $B, C, D$ respectively. Let $\alpha \in \L(V,W), \beta \in \L(W, X)$. Then:
     \begin{equation*}
@@ -146,4 +148,180 @@ $GL_n(\F)$ denotes the group of invertible matrices of size $n$ over $\F$.
     \end{equation*}
     so indeed the matrix $[Id_V]_{B'}^B$ is invertible with the required inverse. To show the second part, use proposition~\ref{propMatrixCompose} again.
 \end{proof}
+\begin{definition}{Equivalent matrices}
+    Matrices $A, A' \in M_{m \times n}(\F)$ are \underline{equivalent} if there exist matrices $P \in GL_m(\F), Q \in GL_n(\F)$ such that $A' = PAQ$.
+\end{definition}
+\begin{remarks}
+    \item Equivalent matrices represent the same linear map under different bases of the input/output spaces.
+    \item This is indeed an equivalence relation: Inverting $P$ and $Q$ gives that $A$ is equivalent to $A'$. Using the identity matrix gives that $A$ is equivalent to itself, and transitivity holds by composing two matrices either side of $A$.
+\end{remarks}
+\begin{theorem}
+    Let $V$ and $W$ be finite-dimensional vector spaces over $\F$. Let their dimensions be $n, m$ respectively. Let $\alpha : V \mapsto W$ be linear. Let $r = rk(\alpha)$. Then:
+    \begin{enumerate}
+        \item There exist bases $B, C$ for $V$ and $W$ such that:
+            \begin{equation*}
+                [\alpha]_C^B =
+                \begin{pmatrix}
+                    I_r & 0 \\
+                    0 & 0
+                \end{pmatrix}
+            \end{equation*}
+        \item If
+            \begin{equation*}
+                [\alpha]_{C'}^{B'} =
+                \begin{pmatrix}
+                    I_{r'} & 0 \\
+                    0 & 0
+                \end{pmatrix}
+            \end{equation*}
+            for some bases $B', C'$ and some $r'$, then $r' = r$.
+    \end{enumerate}
+    \label{thmBlockMatDecomp}
+\end{theorem}
+\begin{proof}
+    By theorem~\ref{thmRankNullity}, $n(\alpha) = n-r$. Therefore let $\{v_{r+1}, \cdots, v_n\}$ be a basis for this kernel. Extend to a basis of $V$, $B = \{v_1, \cdots, v_n\}$. Then applying $\alpha$:
+    \begin{equation*}
+        \alpha(B) = \{\alpha(v_1), \cdots, \alpha(v_r), \zv, \cdots, \zv\}
+    \end{equation*}
+    and note that the first $r$ vectors must be a basis for $\im(\alpha)$, because there are $r$ linearly independent vectors. Extend the first $r$ vectors of $\alpha(B)$ to a basis of $W$:
+    \begin{equation*}
+        C = \{w_1 = \alpha(v_1), \cdots, w_r = \alpha(v_r), w_{r+1}, \cdots, w_m\}
+    \end{equation*}
+    Therefore applying $\alpha$ to $B$:
+    \begin{equation*}
+        \alpha(v_j) =
+        \begin{cases}
+            w_j & 1 \leq j \leq r \\
+            \zv & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    and therefore we have that:
+    \begin{equation*}
+        [\alpha]_C^B =
+        \begin{pmatrix}
+            I_r & 0 \\
+            0 & 0
+        \end{pmatrix}
+    \end{equation*}
+
+    Now prove uniqueness. Suppose that:
+    \begin{equation*}
+        [\alpha]_{C'}^{B'} =
+        \begin{pmatrix}
+            I_{r'} & 0 \\
+            0 & 0
+        \end{pmatrix}
+    \end{equation*}
+    and so:
+    \begin{equation*}
+        \alpha(v_j') =
+        \begin{cases}
+            w_j' & 1 \leq j \leq r' \\
+            \zv & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    hence $w_1', \cdots, w_{r'}'$ span the image and are linearly indpendent, so $r = rk(\alpha) = r'$.
+\end{proof}
+\subsection{Rank of a Matrix}
+\begin{definition}{Column space}
+    For $A \in M_{m \times n}(\F)$, the \underline{column space} of $A$, $\Col(A)$, is the subspace of $\F^m$ spanned by the columns of $A$. The \underline{column rank} of $A$ is $\crk(A) = \dim(\Col(A))$.
+\end{definition}
+\begin{definition}{Row space}
+    For $A \in M_{m \times n}(\F)$, the \underline{row space} of $A$, $\Row(A)$, is the subspace of $\F^m$ spanned by the transposed rows of $A$. The \underline{row rank} of $A$ is $\rrk(A) = \dim(\Row(A))$.
+\end{definition}
+The row and column ranks are related by: $\rrk(A) = \crk(A^T)$.
+\begin{lemma}
+    For $A \in M_{m \times n}(\F)$ and $B \in M_{n \times p}(\F)$, and let these represent linear maps $\alpha, \beta$ in standard basis. Then:
+    \begin{equation*}
+        rk(\alpha \circ \beta) = \min\{rk(\alpha), rk(\beta)\}
+    \end{equation*}
+    \label{lemRankOfProduct}
+\end{lemma}
+\begin{proof}
+    $\im(\alpha \circ \beta) \leq \im(\alpha)$, so $rk(\alpha \circ \beta) \leq rk(\alpha)$. If $Bv = \zv$ for $v \in \F^p$, then $ABv = 0$ so $n(\beta) \leq n(\alpha\beta)$. Then by theorem~\ref{thmRankNullity},
+    \begin{align*}
+        p - rk(\beta) &\leq p - rk(\alpha\beta) \\
+        \therefore rk(\alpha\beta) &\leq rk(\beta)
+    \end{align*}
+\end{proof}
+\begin{theorem}
+    Let $A, A' \in M_{m \times n}(\F)$.
+    \begin{enumerate}
+        \item $A$ is equivalent to:
+        \begin{equation*}
+            \begin{pmatrix}
+                I_r & 0 \\
+                0 & 0
+            \end{pmatrix}
+        \end{equation*}
+        \item $A$ and $A'$ are equivalent if and only if $\crk(A) = \crk(A')$.
+    \end{enumerate}
+    \label{thmMatEquivClasses}
+\end{theorem}
+\begin{proof}
+    Again let $\alpha$ represent $A$ in standard basis (let $E_k$ be standard basis for $\F^k$). Now there exist bases $B, C$ of $\F^n, \F^m$ such that:
+    \begin{align*}
+        \begin{pmatrix}
+            I_r & 0 \\
+            0 & 0
+        \end{pmatrix}
+        &= [\alpha]_C^B \\
+        &= [Id_{\F^m}]_C^{E_m} [\alpha]_{E_m}^{E_n} [Id_{\F^n}]^{E_n}_B
+    \end{align*}
+    and this is $PAQ$ for matrices $P, Q$ seen above. Therefore this is equivalent to $A$, with $rk(\alpha) = \crk(A)$.
+
+    For the second part of the theorem, consider $A'$ with column-rank $r$ representing a linear map $\alpha'$ in standard basis. Then $A'$ can be represented as a block-matrix with upper-left identity by the first part. Hence $A'$ is equivalent to $A$. Conversely, if $A' = PAQ$ then by the lemma,
+    \begin{equation*}
+        rk(\alpha') \leq \crk(AQ) \leq rk(\alpha)
+    \end{equation*}
+    We can also use the inverse change of basis, $A = P^{-1} A' Q^{-1}$ to get the other side of the inequality, resulting in $rk(\alpha) = rk(\alpha')$.
+\end{proof}
+\begin{theorem}
+    For any $A \in M_{m \times n}(\F)$,
+    \begin{equation*}
+        \rrk(A) = \crk(A) = rk(A)
+    \end{equation*}
+    \label{thmMatrixRank}
+\end{theorem}
+\begin{proof}
+    Note that if $P$ is invertible, so is $P^T$ with inverse $(P^{-1})^T$. Now let $\crk(A) = r$. Then there exists $P \in GL_m(\F),~Q \in GL_n(\F)$ such that:
+    \begin{equation*}
+        PAQ =
+        \begin{pmatrix}
+            I_r & 0 \\
+            0 & 0
+        \end{pmatrix}
+        \in M_{m \times n}(\F)
+    \end{equation*}
+    and $A^T$ is equivalent to:
+    \begin{equation*}
+        Q^TA^TP^T = (PAQ)^T
+        \begin{pmatrix}
+            I_r & 0 \\
+            0 & 0
+        \end{pmatrix}
+        \in M_{n \times m}(\F)
+    \end{equation*}
+    (note that these block matrices are different sizes).
+    Then by the previous theorem, $\crk(A) = \crk(A^T) = r$.
+\end{proof}
+Now consider $V$ a finite-dimensional vector space. Let $B, B'$ be bases for $V$, $\alpha : V \mapsto V$ linear. Then:
+\begin{align*}
+    [\alpha]_{B'}^B &= [Id_V]_{B'}^B [\alpha]_B^B [Id_V]_B^{B'} \\
+    &= P^{-1} [\alpha]_B^B P
+\end{align*}
+\subsection{Matrix Similarity}
+\begin{definition}{Similar matrices}
+    Matrices $A, A' \in M_{n \times n}(\F)$ are \underline{similar} of there exists $P \in GL_n(\F)$ such that:
+    \begin{equation*}
+        A' = P^{-1} A P
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item Note that similarity is an equivalence relation on $M_{n \times n}(\F)$.
+    \item Similar matrices are also equivalent, but equivalent matrices need not be similar.
+\end{remarks}
+\begin{example}[Equivalence does not imply similarity]
+    $I_n$ is equivalent to every matrix in $GL_n(\F)$ but the similarity class is $\{I_n\}$ because any matrices on the left and right will cancel out.
+\end{example}
 \end{document}
