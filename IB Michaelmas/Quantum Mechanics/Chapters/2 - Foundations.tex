@@ -131,8 +131,8 @@ We have the property that if $\psi_1, \psi_2 \in \hilb$
         \item Immediate from the definition
         \item Consider $\psi, \psi_1, \psi_2, \psi, \psi_1, \psi_2 \in \hilb$, $a_1, a_2 \in \C$.
             \begin{align*}
-                \inn{a_1 \psi_1 + a_2 \psi_2}{\phi} &= a_1^* {\psi_1}{\psi} + a_2^* \inn{\psi_2}{\phi} \\
-                \inn{psi}{a_1 \phi_1 + a_2 \phi_2} &= a_1 \inn{\psi}{\phi_1} + a_2 \inn{\psi}{\phi_2}
+                \inn{a_1 \psi_1 + a_2 \psi_2}{\phi} &= a_1^* \inn{\psi_1}{\phi} + a_2^* \inn{\psi_2}{\phi} \\
+                \inn{\psi}{a_1 \phi_1 + a_2 \phi_2} &= a_1 \inn{\psi}{\phi_1} + a_2 \inn{\psi}{\phi_2}
             \end{align*}
         \item Note that when a function is input to both sides of the inner product, the resulting integrand is square so the inner product must be $\geq 0$. Equality holds when the integrand is equal to $0$ on all $\R^3$, which is when $\psi \equiv 0$. However, this is not a valid probability density function because it cannot be normalised.
     \end{enumerate}
@@ -245,6 +245,7 @@ We want to know how to extract information from a state $\psi$.
     A property of a particle described by $\psi$ is \underline{observable} if it can be measured. In QM, observable properties correspond to an operator acting on $\psi$, and a measurement corresponds to the expected value of this operation.
 \end{definition}
 \subsection{Heuristic Derivation of Position and Momentum}
+\label{sscHeuristicMesurements}
 Consider only one dimension for this subsection.
 
 The two most important observables are the position, $x$, and the momentum, $p$.
@@ -333,4 +334,102 @@ We can easily verify that the usual Hermitian properties apply.
         \implies& a = a^*, a \in \R
     \end{align*}
 \end{proof}
+\begin{theorem}
+    Let $\op$ be a Hermitian operator, $\psi_1, \psi_2$ normalised eigenfunctions of $\op$ with eigenvalues $a_1, a_2$. Then if $a_1 \neq a_2$, $\psi_1$ and $\psi_2$ are orthogonal.
+    \label{thmOrthoEFuncs}
+\end{theorem}
+\begin{proof}
+    We have:
+    \begin{align*}
+        \op \psi_1&= a_1 \psi_1 \\
+        \op \psi_2&= a_2 \psi_2
+    \end{align*}
+    then consider:
+    \begin{align*}
+        a_1 \inn{\psi_1}{\psi_2} &= a_1^* \inn{\psi_1}{\psi_2} \text{ since }a\text{ real} \\
+        &= \inn{a_1 \psi_1}{\psi_2} \\
+        &= \inn{\op \psi_1}{\psi_2} \\
+        &= \inn{\psi_1}{\op\psi_2} \text{ since }\op\text{ is Hermitian} \\
+        &= \inn{\psi_1}{a_2\psi_2} \\
+        &= a_2 \inn{\psi_1}{\psi_2}
+    \end{align*}
+    That is,
+    \begin{equation*}
+        (a_1 - a_2)\inn{\psi_1}{\psi_2}
+    \end{equation*}
+    which, since $a_1 \neq a_2$, gives that the eigenfunctions are orthogonal.
+\end{proof}
+\begin{theorem}
+    The discrete (or continuous) set of eigenfunctions of any Hermitian operator forms a complete orthonormal basis for the Hilbert space $\hilb$.
+    \label{thmHermitianBasis}
+\end{theorem}
+This theorem will be used without proof.
+\begin{remark}
+    We say discrete or continuous because some states can be written in a discrete basis,
+    \begin{equation*}
+        \psi(x, t) = \sum_{i=1}^{N}a_1 \psi_i(x, t),~N \in [1, \infty]
+    \end{equation*}
+    However, sometimes we need a \textit{continuous basis}:
+    \begin{equation*}
+        \psi(x, t) = \int_{\Delta \lambda} a(\lambda) \psi_\lambda(x, t) d\lambda
+    \end{equation*}
+    where here $\lambda \in \R, \Delta \lambda \subseteq \R$.
+\end{remark}
+\subsection{Expectation Values}
+The Copenhagen Interpretation of Quantum Mechanics requires the following postulates:
+\begin{enumerate}
+    \item[I.] The possible outcomes of a measurement of an observable $O$ are the eigenvalues of the corresponding operator $\op$.
+    \item[II.] If $\op$ has a discrete set of normalised eigenfunctions $\{\psi_i\}$ with distinct eigenvalues $\{\lambda_i\}$ then the measurement of the observable $\op$ on a particle described by the state $\psi$ has probability:
+        \begin{equation*}
+            \mathbb{P}(O = \lambda_i) = |a_i|^2 = |\inn{\psi_i}{\psi}|^2
+        \end{equation*}
+        where we assume that $\psi = \sum_i a_i \lambda_i$.
+    \item[III.] If $\{\psi_i\}$ is a set of orthonormal eigenfunctions of $\op$ and $\{\psi_i\}_{i \in I_\lambda}$ is a complete set of orthonormal eigenfunctions with eigenvalue $\lambda$,
+        \begin{equation*}
+            P(O = \lambda) = \sum_{i \in I} |a_i|^2 = \sum_{i \in I} |\inn{\psi_i}{\psi}|^2
+        \end{equation*}
+    \item[IV.] (Projection Postulate): If $O$ is measured on a particle described by a state $\psi$ at time $t$ and the outcome of the measurement is $\lambda_i$, then the wavefunction of $\psi$ instantaneously becomes $\psi(x, t) = \psi_i$ after the measurement. This is the famous \textit{wavefunction collapse}.
+\end{enumerate}
+\begin{definition}{Projection operator}
+    Given a wavefunction $\psi(x, t) = \sum_i a_i \psi_i(x,t)$, \underline{projection operator} is the operator:
+    \begin{equation*}
+        \hat{P}_i : \psi \mapsto a_i \psi_i = \inn{\psi_i}{\psi} \psi_i
+    \end{equation*}
+\end{definition}
+\begin{definition}{Expectation value}
+    Given a state $\psi$ and observable $O$ with operator $\op$, the \underline{expectation value} of $O$ on $\psi$ is:
+    \begin{align*}
+        \E{O}_\psi &= \sum_i \mathbb{P}(O = \lambda_i) \\
+        &= \inn{\psi}{\op\psi}
+    \end{align*}
+    as we saw earlier in subsection~\ref{sscHeuristicMesurements}.
+\end{definition}
+Recall Born's Rule: If $\phi$ is the state that gives the desired outcome of a measurement of a particle described by a state $\psi$, then the probability that a measurement on $\psi$ gives this outcome is given by:
+\begin{equation*}
+    |\inn{\phi}{\psi}| = \left|\int_{-\infty}^{\infty} \phi^*(x, t) \psi(x, t) dx \right|
+\end{equation*}
+That is, we no longer require an eigenfunction.
+\section{Time-Independent Schr\texorpdfstring{\"o}{o}dinger Equation}
+We can re-write the TDSE in one dimension:
+\begin{align*}
+    i\hbar \frac{\partial \psi}{\partial t} &= -\frac{\hbar^2}{2m} \frac{\partial^{2}\psi}{\partial x^{2}} + U(x) \psi(x, t) \\
+    &= \hat{H} \psi(x, t)
+\end{align*}
+where $\hat{H} = \hat{T} + \hat{U}$. We now consider $\psi(x, t) = T(t)\chi(x)$. That is, we separate out the time and space dependences.
+\begin{align*}
+    i\hbar \frac{\partial T(t)\chi(x)}{\partial t} &= \hat{H}(T(t)\chi(x)) \\
+    i\hbar \frac{\partial T(t)}{\partial t}\chi(x) &= T(t)\hat{H}(\chi(x)) \\
+    \frac{1}{T(t)} i\hbar \frac{\partial T}{\partial t} &= \frac{\hat{H} \chi(x)}{\chi(x)}
+\end{align*}
+but here we have that the LHS is a function of $t$, where the RHS is a function of $x$. Therefore, we must have that both are equal to some constant $E$:
+\begin{align}
+    \frac{1}{T(t)} i\hbar \frac{\partial T}{\partial t} &= E \implies T(t) = e^{-\frac{iEt}{\hbar}} \label{eqnTimeTDSE} \\
+    \hat{H} \chi(x) &= E\chi(x) \label{eqnSpaceTDSE}
+\end{align}
+and here equation~\ref{eqnSpaceTDSE} is the Time-Independent \schr Equation (TISE). We can write it explicitly:
+\begin{equation}
+    -\frac{\hbar^2}{2m} \frac{\partial^{2}\chi}{\partial x^{2}} + U(x) \chi(x) = E\chi(x)
+    \label{eqnTISE}
+\end{equation}
+However, it is often more useful to consider the Hamiltonian-operator form (\ref{eqnSpaceTDSE}).
 \end{document}
