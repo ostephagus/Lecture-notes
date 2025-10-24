@@ -1,0 +1,133 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Superposition}
+We will be interested in solving Boundary-Value problems (BVPs) and Initial Boundary-Value problems (IBVPs):
+\begin{equation}
+    \begin{cases}
+        P\phi(\vec{x}) = 0 & \vec{x} \in \Omega \\
+        \text{Appropriate boundary conditions} & \vec{x} \in \partial \Omega
+    \end{cases}
+    \label{eqnGeneralBVP}
+\end{equation}
+\begin{equation}
+    \begin{cases}
+        Q\phi(\vec{x}, t) = 0 & (\vec{x}, t) \in \Omega \times (0, T) \\
+        \text{Appropriate initial conditions} & (\vec{x}, t) \in \Omega \times \{t = 0\} \\
+        \text{Appropriate boundary conditions} & (\vec{x}, t) \in \partial \Omega \times (0, T)
+    \end{cases}
+    \label{eqnGeneralIBVP}
+\end{equation}
+Where here $P, Q$ are \underline{linear partial differential operators} and $\Omega$ is a bounded, open subset of $\R^n$.
+
+Note that we can split equation~\ref{eqnGeneralIBVP} into:
+\begin{align*}
+    &\begin{cases}
+        Q\phi_1(\vec{x}, t) = 0 & (\vec{x}, t) \in \Omega \times (0, T) \\
+        \text{Initial conditions} = 0 & (\vec{x}, t) \in \Omega \times \{t = 0\} \\
+        \text{Appropriate boundary conditions} & (\vec{x}, t) \in \partial \Omega \times (0, T)
+    \end{cases} \\
+    &\begin{cases}
+        Q\phi_2(\vec{x}, t) = 0 & (\vec{x}, t) \in \Omega \times (0, T) \\
+        \text{Appropriate initial conditions} & (\vec{x}, t) \in \Omega \times \{t = 0\} \\
+        \text{boundary conditions} = 0 & (\vec{x}, t) \in \partial \Omega \times (0, T)
+    \end{cases}
+\end{align*}
+and then $\phi = \phi_1 + \phi_2$ is a valid solution.
+
+In this course, $\Omega$ will always be (possibly after a change of variables) a line/rectangle/cuboid. So without loss of generality we can always deal with boundary conditions that are zero everywhere except from on one endpoint/edge/face. For example:
+\begin{equation}
+    \begin{cases}
+        P\psi(\vec{x}) = 0 & x \in (0, 1) \times (0, 1) \\
+        \psi = f_i & \text{ on side } i \in \{1, \cdots, 4\}
+    \end{cases}
+    \label{eqneqnBVPSquare}
+\end{equation}
+and we can split this into 4 functions $\psi_i$:
+\begin{equation*}
+    \begin{cases}
+        P\psi_i(\vec{x}) = 0 & \vec{x} \in (0, 1)^2 \\
+        \psi_i = 0 & \text{on side } \neq i \\
+        \psi_i = f_i & \text{on side } = i
+    \end{cases}
+\end{equation*}
+Then $\psi = \sum_{i=1}^4 \psi_i$ solves the problem.
+\section{Laplace's Equation}
+Recall Laplace's Equation for $\phi : \R^n \mapsto \R$:
+\begin{equation}
+    \Delta \phi = 0
+    \label{eqnLaplace}
+\end{equation}
+where $\Delta = \nabla^2 = \nabla \cdot \nabla$. We say $\phi$ is \underline{harmonic} if it satisfies this equation. Harmonic functions are always infinitely differentiable (smooth).
+\begin{example}[Incompressible irrotational fluid]
+    Consider $\vec{u} : \R^3 \mapsto \R^3$ is a velocity field of an incompressible fluid ($\nabla u = 0$), and if it is also irrotational ($\nabla \times u = \vec{0}$), we can solve using Laplace's equation since there must exist a potential $\phi : \R^3 \mapsto \R$ such that $\vec{u} = \nabla \phi$. Then:
+    \begin{equation*}
+        0 = \nabla \cdot \vec{u} = \nabla \cdot (\nabla \phi) = \Delta \phi
+    \end{equation*}
+\end{example}
+We now consider BVPs of the form:
+\begin{equation*}
+    \begin{cases}
+        \Delta \phi(\vec{x}) = 0 & \vec{x} \in \Omega \\
+        B\phi = f(\vec{x}) & \vec{x} \in \partial \Omega
+    \end{cases}
+\end{equation*}
+where $B\phi = \phi$ (Dirichlet BCs), $B\phi = \frac{\partial \phi}{\partial \vec{n}}$ (Von Neumann BCs), or more generally $B\phi = \phi + \frac{\partial \phi}{\partial \vec{n}}$ (Robin BCs).
+\subsection{Separation of Variables on a Square}
+Consider:
+\begin{equation*}
+    \begin{cases}
+        \phi_{xx} + \phi_{yy} = 0 & (x, y) \in (0, 1)^2 \\
+        \phi(x, y) = 0 & \{\{0, 1\}, y\} \cup \{x, 0\} \\
+        \phi(x, 1) = f(x) & y = 1
+    \end{cases}
+\end{equation*}
+Now try a \underline{separable} solution of the form:
+\begin{equation*}
+    \phi = X(x) Y(y)
+\end{equation*}
+Then:
+\begin{equation*}
+    X''(x) Y(y) + X(x)Y''(y) = 0
+\end{equation*}
+Dividing through by $XY$:
+\begin{align*}
+    \frac{X''(x)}{X(x)} + \frac{Y''(y)}{Y(y)} &= 0 \\
+    -\frac{X''(x)}{X(x)} = \lambda = \frac{Y''(y)}{Y(y)}
+\end{align*}
+because we have 2 terms with different dependences, so they may only be constant. We can now simultaneously solve the $x$ equation and the $y$ equation:
+\begin{equation*}
+    \begin{cases}
+        X'' + \lambda X = 0 & x \in (0,1) \\
+        X(x) = 0 & x \in \{0, 1\}
+    \end{cases}
+\end{equation*}
+which is simply a Sturm-Liouville problem with $w = 1, p = 1, q = 0$. Therefore, there exist eigenfunction-eigenvalue pairs $(X_n, \lambda_n)$ with increasing $\lambda$ and orthogonality condition $\inn{X_n}{X_m} = 0$ for $n \neq m$.
+
+After checking, we find that $\lambda > 0$ for non-trivial solutions. Then we can solve:
+\begin{equation*}
+    X(x) = A\sin(\sqrt{\lambda}x) + B\cos(\sqrt{\lambda}x)
+\end{equation*}
+then applying the boundary conditions gives $B = 0$, $\lambda = \lambda_n = (n\pi)^2$.
+\begin{equation*}
+    X_n(x) = \sin(n\pi x), \inn{X_n}{X_m} = \frac12 \delta_{mn}
+\end{equation*}
+Therefore the $y$ problem becomes:
+\begin{equation*}
+    Y'' - (n\pi)^2 Y = 0
+\end{equation*}
+and we solve this to get $Y(y) = B \sinh(n\pi y)$, or $Y_n(y) = B_n \sinh(n\pi y)$. Combining these together:
+\begin{equation*}
+    \phi_n(x, y) = A_n \sin(n\pi x) \sinh(n\pi x)
+\end{equation*}
+each satisfies $\Delta y_n = 0$ on $(x, y) \in (0,1)^2$ and $\phi_n = 0$ on $x = 0$, $x = 1$ and $y = 0$. Therefore, the most general solution $\phi$ is:
+\begin{equation*}
+    \phi(x, y) = \sum_{n = 1}^\infty A_n \sin(n\pi x) \sinh(n\pi x)
+\end{equation*}
+but we need to apply the final boundary condition, $\phi(x, 1) = f(x)$ Taking an inner product:
+\begin{align*}
+    \inn{f}{X_n} &= \sum_{m=0}^{\infty} A_m \inn{X_m}{X_n} \sinh(n\pi) \\
+    &= \frac{A_n}{2}\sinh(n\pi) \\
+    \therefore A_n &= \frac{2}{\sinh(n\pi)} \int_{0}^{1} f(x) \sin(n\pi x) dx 
+\end{align*}
+\end{document}
