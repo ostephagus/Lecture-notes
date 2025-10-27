@@ -89,6 +89,7 @@ Recall also the Riemann Criterion for integrability:
 \end{theorem}
 The proof was given in IA Analysis I.
 \subsection{Continuity and Integrability}
+We can now use our notion of uniform continuity to prove results about integration.
 \begin{theorem}
     Let $f : [a, b] \mapsto [A, B] \subseteq \R$ be integrable. Let $g : [A, B] \mapsto \R$ be continuous. Then the composition $g \circ f : [a, b] \mapsto \R$ is an integrable function.
     \label{thmCtsComposeIBL}
@@ -128,5 +129,46 @@ The proof was given in IA Analysis I.
         U(P, g \circ f) - L(P, g \circ f) < \left((b-a) + 2 \sup_{[A, B]} |g|\right) \epsilon
     \end{equation*}
     This is a fixed multiple of $\epsilon$.
+\end{proof}
+\begin{corollary}
+    If $g : [a, b] \mapsto \R$ is continuous the $g$ is integrable
+    \label{corCtsIntegrable}
+\end{corollary}
+\begin{proof}
+    We can compose $g$ with the identity function, which is integrable.
+\end{proof}
+\begin{remark}
+    This proof is much easier than that which was given in IA Analysis I.
+\end{remark}
+\begin{theorem}
+    Let $f_n : [a, b] \mapsto \R$ be bounded, integrable functions. Let $(f_n) \to f$ uniformly on $[a,b]$, so $f : [a, b] \mapsto \R$. Then $f$ is bounded and integrable. Further,
+    \begin{equation*}
+        \int_{a}^{b} f_n(x) dx \to \int_{a}^{b} f(x) dx 
+    \end{equation*}
+    \label{thmUCIntegrable}
+\end{theorem}
+\begin{remark}
+    We have already seen in theorem~\ref{thmUCIntegrals} that the integrals converge, so it is only necessary to prove boundedness and integrability.
+\end{remark}
+\begin{proof}
+    We have boundedness fairly easily:
+    \begin{equation*}
+        \sup_{[a, b]} |f| \leq \sup_{[a, b]} |f - f_n| + \sup_{[a, b]} |f_n| < \epsilon + \sup_{[a,b]} |f_n|
+    \end{equation*}
+    This is bounded by boundedness of $f_n$.
+
+    Now consider any partition $P = \{a = a_0, a_1, \cdots, a_{m-1}, a_m = b\}$. Let $\epsilon > 0$:
+    \begin{align*}
+        &U(P, f) - L(P, f) = \sum_{j=1}^{m-1} (a_{j+1} - a_j) \left(\sup_{I_j} f - \inf_{I_j} f\right) \\
+        &= \sum_{j=1}^{m-1} (a_{j+1} - a_j) \left(\sup_{I_j} (f-f_n+f_n) - \inf_{I_j} (f-f_n+f_n)\right) \\
+        &\leq \sum_{j=1}^{m-1} (a_{j+1} - a_j) \left(\sup_{I_j} (f-f_n) + \sup_{I_j} f_n - \inf_{I_j} (f-f_n) - \inf_{I_j}f_n\right) \\
+        &\leq \sum_{j=1}^{m-1} (a_{j+1} - a_j) \left(\sup_{I_j} (f-f_n) - \inf_{I_j} (f-f_n) \right) \\
+        &+ \sum_{j=1}^{m-1} (a_{j+1} - a_j) \left(\sup_{I_j} f_n - \inf_{I_j}f_n\right) \\
+        &\leq U(P, f_n) - L(P, f_n) + 2(b-a)\sup_{[a, b]} |f - f_n|
+    \end{align*}
+    Now given some $\epsilon$, choose $N$ such that $2(b-a) \sup_{[a, b]} |f - f_N| < \frac12 \epsilon$ by uniform convergence, and also choose a partition $P_N$ such that $U(P, f_N) - L(P, f_N) < \frac12 \epsilon$ by integrability of $f_N$. Therefore now:
+    \begin{equation*}
+        U(f, P_N) - L(f, P_N) < \epsilon
+    \end{equation*}
 \end{proof}
 \end{document}
