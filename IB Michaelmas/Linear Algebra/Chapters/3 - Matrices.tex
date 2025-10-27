@@ -220,7 +220,7 @@ $GL_n(\F)$ denotes the group of invertible matrices of size $n$ over $\F$.
             \zv & \text{otherwise}
         \end{cases}
     \end{equation*}
-    hence $w_1', \cdots, w_{r'}'$ span the image and are linearly indpendent, so $r = rk(\alpha) = r'$.
+    hence $w_1', \cdots, w_{r'}'$ span the image and are linearly independent, so $r = rk(\alpha) = r'$.
 \end{proof}
 \subsection{Rank of a Matrix}
 \begin{definition}{Column space}
@@ -324,4 +324,145 @@ Now consider $V$ a finite-dimensional vector space. Let $B, B'$ be bases for $V$
 \begin{example}[Equivalence does not imply similarity]
     $I_n$ is equivalent to every matrix in $GL_n(\F)$ but the similarity class is $\{I_n\}$ because any matrices on the left and right will cancel out.
 \end{example}
+\section{Elementary Operations on Matrices}
+Let $\vec{r_1}, \cdots, \vec{r_m}$ be the rows of a matrix $A$. There exist 3 types of \underline{elementary row operations} on $A$:
+\begin{enumerate}
+    \item Swapping $\vec{r_i}$ and $\vec{r_j}$;
+    \item Multiplying $\vec{r_i}$ elementwise by $\lambda$ (scaling).
+    \item Adding $\lambda \vec{r_j}$ to $\vec{r_i}$.
+\end{enumerate}
+\begin{remark}
+    By transposing the matrix, applying a row operation, and transposing it back, we have 3 corresponding \underline{elementary column operations}.
+\end{remark}
+We also have the corresponding \underline{elementary matrices}:
+\begin{enumerate}
+    \item $T_{i,j}$
+    \item $M_{i, \lambda}$
+    \item $C_{i, j, \lambda}$
+    %TODO: Figure out how to represent these matrices.
+\end{enumerate}
+\begin{remarks}
+    \item These correspond exactly to applying an elementary row operation to the identity matrix.
+    \item The elementary row operations are invertible, so the elementary matrices are invertible with inverses:
+    \begin{equation*}
+        T_{i,j}^{-1} = T_{i,j},~M_{i, \lambda}^{-1} = M_{i, \lambda^{-1}},~C_{i, j, \lambda}^{-1} = C_{i, j, -\lambda}
+    \end{equation*}
+\end{remarks}
+\begin{lemma}
+    If $E$ is an elementary matrix, and $A$ is a matrix, $EA$ is the matrix obtained by applying the corresponding row operation encoded by $E$.
+    \label{lemMatAndRowOP}
+\end{lemma}
+\begin{proof}
+    The proof is by multiplying the matrices explicitly and noting the row operation is as required.
+\end{proof}
+\begin{remark}
+    Right-multiplying by $E$, encodes an elementary column operation. The one exception is that $C_{i, j, \lambda}$ adds $\lambda$ times column $i$ to column $j$.
+\end{remark}
+An important property of row and column operations is that they preserve the row and column spaces of the matrix. Therefore, these operations preserve the rank of the matrix.
+\begin{definition}{Row-reduced echelon form}
+    A matrix $A \in M_{m \times n}(\F)$ is in \underline{row-reduced echelon form} (RRE form) if:
+    \begin{enumerate}
+        \item All non-zero rows of $A$ appear above all zero rows in $A$.
+        \item The leftmost non-zero element of a non-zero row is $1$. This is the \underline{pivot entry} $1 \leq p(\vec{r_i}) \leq n$.
+        \item If $\vec{r_i}, \vec{r_j} \neq \zv$, $i < j$, then
+            \begin{equation*}
+                p(\vec{r_i}) < p(\vec{r_j})
+            \end{equation*} 
+        \item In a column containing a pivot entry, every other entry is zero.
+    \end{enumerate}
+\end{definition}
+\begin{definition}{Column-reduced echelon form}
+    A matrix $A \in M_{n \times m}(\F)$ is in \underline{column-reduced echelon form} (CRE form) if the matrix $A^T$ is in RRE form.
+\end{definition}
+\begin{lemma}
+    If $A$ is in RRE form then $\rrk(A)$ is the number of non-zero rows in $A$.
+    \label{lemRRECrk}
+\end{lemma}
+\begin{proof}
+    Let $\vec{r_1}, \cdots, \vec{r_k}$ by the non-zero rows of $A$. Let $j_i = p(\vec{r_i})$ be the pivot entry. Note $j_i$ are strictly increasing.
+
+    Certainly these rows span $\Row(A)$, since all other rows are zero.
+
+    Suppose $\vec{v} = \sum_{i=1}^{k} \lambda_i \vec{r_i} = \zv$. Then $0 = (\vec{v})_{j_i} = \lambda_i$, so the set must be linearly independent. That is, the rows form a basis of $\Row(A)$, and so $k = \rrk(A)$.
+\end{proof}
+\begin{theorem}
+    Every matrix $A \in M_{m \times n}(\F)$ can be put into RRE form.
+    \label{thmRREFormation}
+\end{theorem}
+\begin{proof}
+    Let $\{\vec{c_1}, \cdots, \vec{c_n}\}$ be the columns of $A$.
+    \induction{$n = 1$}{
+        If a matrix has only 1 column, perform a row operation of type 2 on the first element to ensure it is 1, then use row operations of type 3 to remove all the other elements in the matrix, so the column is simply:
+        \begin{equation*}
+            \begin{pmatrix}
+            1 \\ 0 \\ \vdots \\ 0
+            \end{pmatrix}
+        \end{equation*}
+    }{$n = k$}{Suppose a matrix with $k$ columns can be put in RRE form}
+    {$n = k+1$}{
+        If $\vec{c_1} = 0$, apply the hypothesis to the rest of the columns. Then if $\vec{c_1} \neq \zv$, suppose entry $(i, 1)$ is non-zero. Using a row operation of type 1, we can suppose that entry $(1, 1)$ is non-zero. By scaling (row operation type 2), we can assume that this entry $A_{1, 1} = 1$.
+        We can now use row operations of type 3, we can ensure that the rest of the entries in $\vec{c_1}$ are zero.
+        
+        Finally, via further row operations of type 3, we can ensure that all the elements in the first row are zero.
+    }
+\end{proof}
+\begin{remarks}
+    \item Putting a matrix into RRE form preserves the row space.
+    \item There is only one RRE form for a given matrix.
+    \item By transposing, theorem~\ref{thmRREFormation} applies for CRE form too.
+    \item IF $A$ is a square matrix in RRE form, then either $A$ has a zero row or $A$ is the identity matrix.
+\end{remarks}
+\begin{theorem}
+    For $A \in M_{n \times n}(\F)$, the following are equivalent:
+    \begin{enumerate}
+        \item $rk(A) = n$.
+        \item $A$ is a product of elementary matrices
+        \item $A$ is invertible.
+    \end{enumerate}
+    \label{thmInvertibilityCriterion}
+\end{theorem}
+\begin{proof}
+    \begin{subproof}{Assume $A$ has rank $n$}
+        By theorem~\ref{thmRREFormation} there exist elementary matrices $E_i$ such that:
+        \begin{equation*}
+            I_n = E_1 E_2 \cdots E_l A
+        \end{equation*}
+        and since the elementary matrices are invertible, $A$ is a product of elementary matrices.
+
+        Statement 1 implies statement 2.
+    \end{subproof}
+    \begin{subproof}{Suppose $A$ is a product of elementary matrices}
+        Then the elementary matrices are invertible and so we can find the inverse of a product of invertible matrices to find that $A$ is invertible.
+    \end{subproof}
+    \begin{subproof}{Suppose $A$ is invertible.}
+        For $\vec{v} \in \F^n$, $\alpha$ the linear map represented by $A$,
+        \begin{equation*}
+            v = (AA^{-1})(v) = A(A^{-1}v)
+        \end{equation*}
+        so $v \in \im(\alpha)$. That is, $\im(\alpha)$ has $n$ dimensions so $rk(A) = n$.
+    \end{subproof}
+\end{proof}
+We can now provide an alternative proof of theorem~\ref{thmMatEquivClasses}.
+\begin{proof}
+    Apply elementary matrices $E_1, \cdots, E_l$ such that $E_1 \cdots E_L A$ is in RRE form. Let the new matrix be $PA$.
+
+    Apply column operations of type 1 to move the pivot columns to the left. Then the result of this, $PAE_1' \cdots E_k'$ has the form:
+    \begin{equation*}
+        \begin{pmatrix}
+            I_r & B \\
+            0 & 0
+        \end{pmatrix}
+    \end{equation*}
+    This is good, but we have $B \neq 0$. We can use column operations of type 3 to get rid of all the elements of $B$, and so:
+    \begin{equation*}
+        PAQ = PAE_1' \cdots E_k' E_1'' \cdots E_j'' =
+        \begin{pmatrix}
+            I_r & 0 \\
+            0 & 0
+        \end{pmatrix}
+    \end{equation*}
+\end{proof}
+\begin{remark}
+    If $A \in GL_n(\F)$, we can reduce $A$ to $I_m$ using only elementary row operations, or only elementary column operations.
+\end{remark}
 \end{document}
