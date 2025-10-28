@@ -1,0 +1,79 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Metrics and Norms}
+\begin{definition}{Metric}
+    Let $X$ be any set. A \underline{metric} (or distance function) on $X$ is a function $d : X \times X \mapsto \R$ satisfying, for any $x, y, z \in X$, the following axioms:
+    \begin{enumerate}
+        \item $d(x, y) \geq 0$, with $d(x, y) = 0 \equiv x = y$;
+        \item $d(x, y) = d(y, x)$;
+        \item $d(x, y) \leq d(x, z) + d(y, z)$.
+    \end{enumerate}
+\end{definition}
+\begin{definition}{Metric space}
+    For a set $X$ with a metric $d$, the tuple $(X, d)$ is a \underline{metric space}. We will sometimes say $X$ is a metric space if it has a metric $d$.
+\end{definition}
+\begin{definition}{Norm}
+    Let $V$ be a vector space over $\R$. A \underline{norm} on $V$ is a function $||\cdot|| : V \mapsto \R$ satisfying, for any $x, y \in V$ and any scalar $\lambda$,
+    \begin{enumerate}
+        \item $||x|| \geq 0$ with $||x|| = 0 \equiv x = \vec{0}$;
+        \item $||\lambda x|| = |\lambda|~||x||$;
+        \item $||x + y|| \leq ||x|| + ||y||$.
+    \end{enumerate}
+\end{definition}
+Similarly, a \underline{normed space} is a vector space with associated norm.
+
+Once we have a norm space, this defines a metric on $V$.
+\begin{proposition}
+    If $(V, ||\cdot||)$ is a normed space, and if $d : V \times V \mapsto \R$ is defined by:
+    \begin{equation*}
+        d(x, y) = ||x - y||
+    \end{equation*}
+    then $d$ is a metric, and so $(V, d)$ is a metric space.
+    \label{propNormIsMetric}
+\end{proposition}
+The proof is simply checking the axioms.
+\section{Examples}
+\subsection{Finite-Dimensional Normed Spaces}
+The classic example of a normed space or metric space is $\R^n$.
+
+We can first take $\R^n$ with its usual vector space structure, and define several useful norms for the vector $\vec{x} = (x_1, x_2, \cdots, x_n)^T$:
+\begin{enumerate}
+    \item Euclidean norm ($\ell_2$ norm):
+        \begin{equation*}
+            ||x||_2 = \sqrt{\sum_{i=1}^{n} |x_i|^2}
+        \end{equation*}
+        It is easy to check the first two axioms. For the triangle inequality:
+        \begin{align*}
+            ||x + y|_2^2 &= \sum_{i=1}^{n} (x_i + y_i)^2 \\
+            &= ||x||^2 + ||y||^2 + 2\sum_{i=1}^{n} x_i y_i \\
+            &\leq ||x||^2 + ||y||^2 + 2||x||~||y|| \text{ by Cauchy-Schwarz} \\
+            &= (||x|| + ||y||)^2
+        \end{align*}
+    \item The $\ell_1$ norm:
+        \begin{equation*}
+            ||x||_1 = \sum_{i=1}^{n} |x_i|
+        \end{equation*}
+    \item The $\ell_\infty$ norm:
+        \begin{equation*}
+            ||x||_\infty = \sup \subsetselect{|x_i|}{1 \leq i \leq n}
+        \end{equation*}
+    \item The general $\ell_p$ norm for $p \in \R, p \geq 1$:
+        \begin{equation*}
+            ||x||_p = \left(\sum_{i=1}^{n} |x_i|^p\right)^\frac1p
+        \end{equation*}
+\end{enumerate}
+\subsection{Infinite-Dimensional Normed Spaces}
+Consider first the set of sequences of real numbers, $\R^\N = \subsetselect{(x_k)_{k \in \N}}{x_k \in \R~\forall k \in \N}$. Then this is a vector space under addition and scalar multiplication, defined termwise. We cannot provide a norm that is finite for the whole space. However, we can define norms and consider the spaces for which those norms are finite.
+\begin{enumerate}
+    \item Consider the $\ell_1$ space: $\ell_1 = \subsetselect{(x_k) \in \R^\N}{\sum_{k=1}^\infty |x_k| < \infty}$. Then this is a linear subspace of $\R^\N$, and is a normed space under the $\ell_1$ norm.
+    \item We can do the same thing with $\ell_2$: define the $\ell_2$ space: $\ell_1 = \subsetselect{(x_k) \in \R^\N}{\sqrt{\sum_{k=1}^\infty |x_k|^2} < \infty}$. Then this is a linear subspace of $\R^\N$, and is a normed space under the $\ell_2$ norm.
+    \item We can then make different normed subspaces with the $\ell_p$ norm, including $\ell_\infty$.
+\end{enumerate}
+\begin{remark}
+    The $\ell_p$ norm as defined on $\R^\N$ is the limit of the $\ell_p$ norm on $\R^n$ as $n \to\infty$:
+    \begin{equation*}
+        ||(x_k)||_p = \lim_{n \to \infty} ||(x_1, x_2, \cdots, x_n)||_p
+    \end{equation*}
+\end{remark}
+\end{document}
