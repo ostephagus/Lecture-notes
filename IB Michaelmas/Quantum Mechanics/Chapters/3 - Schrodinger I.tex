@@ -1,0 +1,47 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+In this chapter, we will solve the TISE in 3 cases:
+\begin{enumerate}
+    \item Bound states, where the particle cannot escape to infinity.
+    \item The free particle, with no potential $U(x)$
+    \item Scattering states
+\end{enumerate}
+\section{Bound States}
+\subsection{Infinite Potential Well}
+Consider a potential of the form:
+\begin{equation*}
+    U(x) =
+    \begin{cases}
+        0 & |x| \leq a \\
+        \infty & |x| > a
+    \end{cases}
+\end{equation*}
+Then for $|x| > a$, we must have that $\chi(x) = 0$. Therefore, consider $|x| \leq a$. Consider the TISE:
+\begin{equation*}
+    \chi''(x) + \frac{2mE}{\hbar^2} \chi(x) = 0
+\end{equation*}
+Then since $E \geq 0$, we set $\frac{2mE}{\hbar^2} = k^2$ to get solutions:
+\begin{equation*}
+    \chi(x) = A\sin(kx) + B\cos(kx)
+\end{equation*}
+We need to impose the boundary condition $\chi(\pm a) = 0$. This gives that $A\sin(ka) = 0$ and $B\cos(ka) = 0$. There are two options:
+\begin{itemize}
+    \item $A = 0, \cos(ka) = 0$, this gives a set of values, $k = k_n = \frac{n\pi}{2a}$ for odd $n$.
+    \item $B = 0, \sin(ka) = 0$ and here we have $k_n = \frac{n\pi}{2a}$ for even $n$.
+\end{itemize}
+The energy eigenvalues are $E_n = \frac{\hbar^2 k_n^2}{2m} = \frac{\hbar^2 \pi^2}{8ma^2}n^2$. To determine $A$ and $B$, we require normalisation of the $\chi_n$. For this, we find $A = B = a^{-\frac12}$.
+
+The full solution is:
+\begin{equation*}
+    \chi_n(x) =
+    \begin{cases}
+        a^{-\frac12} \sin(\frac{n\pi x}{2a}) & n \text{ even} \\
+        a^{-\frac12} \cos(\frac{n\pi x}{2a}) & n \text{ odd}
+    \end{cases}
+\end{equation*}
+\begin{remarks}
+    \item The ground state has a non-zero energy. This is contrary to classical mechanics.
+    \item As $n \to \infty$, we find that the particle can be anywhere, which corresponds to the classical interpretation, where the probability a particle is at $x$ is inversely proportional to the particle's velocity at $x$.
+\end{remarks}
+\end{document}

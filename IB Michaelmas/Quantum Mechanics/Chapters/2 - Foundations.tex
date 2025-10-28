@@ -177,10 +177,10 @@ We have the property that if $\psi_1, \psi_2 \in \hilb$
         &= c_n
     \end{align*}
 \end{proof}
-\section{Time-Dependent Schr\texorpdfstring{\"o}{o}dinger Equation}
+\section{Time-Dependent Schr\"odinger Equation}
 Recall that the first postulate of Quantum Mechanics is Born's Rule that the probability density is given by the wavefunction. The second postulate is the time-dependent \schr equation (TDSE):
 \begin{equation}
-    i\hbar \frac{\partial^{}\phi(\vec{x}, t)}{\partial t^{}} = -\frac{\hbar}{2m}\nabla^2 \psi(\vec{x}, t) + U(\vec{x})\psi(\vec{x}, t)
+    i\hbar \frac{\partial \psi(\vec{x}, t)}{\partial t} = -\frac{\hbar}{2m}\nabla^2 \psi(\vec{x}, t) + U(\vec{x})\psi(\vec{x}, t)
     \label{eqnTDSE}
 \end{equation}
 where here:
@@ -409,7 +409,7 @@ Recall Born's Rule: If $\phi$ is the state that gives the desired outcome of a m
     |\inn{\phi}{\psi}|^2 = \left|\int_{-\infty}^{\infty} \phi^*(x, t) \psi(x, t) dx \right|^2
 \end{equation*}
 That is, we no longer require an eigenfunction.
-\section{Time-Independent Schr\texorpdfstring{\"o}{o}dinger Equation}
+\section{Time-Independent Schr\"odinger Equation}
 We can re-write the TDSE in one dimension:
 \begin{align*}
     i\hbar \frac{\partial \psi}{\partial t} &= -\frac{\hbar^2}{2m} \frac{\partial^{2}\psi}{\partial x^{2}} + U(x) \psi(x, t) \\
@@ -432,4 +432,59 @@ and here equation~\ref{eqnSpaceTDSE} is the Time-Independent \schr Equation (TIS
     \label{eqnTISE}
 \end{equation}
 However, it is often more useful to consider the Hamiltonian-operator form (\ref{eqnSpaceTDSE}).
+\section{Stationary States}
+We now have the TISE, and by finding a solution of the TISE we can convert this into a solution of the TDSE:
+\begin{definition}{Stationary state}
+    For a solution $\chi(x)$ of the TISE, there is a corresponding \underline{stationary state} which solves the TDSE given by:
+    \begin{equation}
+        \psi(x, t) = e^{-\frac{iEt}{\hbar}} \chi(x)
+        \label{eqnStnState}
+    \end{equation}
+\end{definition}
+These are called stationary states because the probability density does not change:
+\begin{align*}
+    \rho(x, t) &= |\psi(x, t)|^2 \\
+    &= \left|e^{-\frac{iEt}{\hbar}} \chi(x)\right| \\
+    &= \left|\chi(x)\right|
+\end{align*}
+\begin{theorem}
+    Every solution of the TDSE can be written as a linear combination of stationary states.
+    \label{thmStationaryBasis}
+\end{theorem}
+\begin{remark}
+    This is the application of theorem~\ref{thmHermitianBasis} to the operator $\hat{H}$.
+\end{remark}
+\begin{itemize}
+    \item For a system with a discrete set of eigenvalues $E_1, E_2, \cdots$ of $\hat{H}$,
+        \begin{equation*}
+            \sum_{n \in \N} a_n \chi_n(x) e^{-\frac{iEnt}{\hbar}}
+        \end{equation*}
+    \item For a system with a continuous set of eigenvalues $E(\alpha)$ for $\alpha \in \R$,
+        \begin{equation*}
+            \psi(x, t) = \int_{\Delta \alpha} A(\alpha) \chi_\alpha(x) e^{-\frac{iE\alpha t}{\hbar}} d\alpha
+        \end{equation*}
+        where $A : \R\mapsto\C$.
+\end{itemize}
+Then using the Copenhagen Interpretation postulates, $|a_n|^2$ or $|A(\alpha)|^2 d\alpha$ is the probability of measuring the energy of a particle to be $E_n$ or $E(\alpha)$.
+\begin{example}
+    Consider a state with 2 distinct energy eigenvalues $E_1, E_2$.
+    \begin{equation*}
+        \psi(x, t) = a_1 \chi_1(x) e^{-\frac{iE_1t}{\hbar}} + a_2 \chi_2(x) e^{-\frac{iE_2t}{\hbar}}
+    \end{equation*}
+    Then at $t = 0$, $\psi(x, t) = a_1 \chi_1(x) + a_2 \chi_2(x)$. If $a_1$ or $a_2$ is zero, then $\psi$ itself is a stationary state.
+
+    The probability density for $\psi$ is:
+    \begin{align*}
+        \rho(x, t) &= |\psi(x, t)| = \inn{\psi}{\psi} \\
+        &= \inn{a_1 \chi_1(x) e^{-\frac{iE_1t}{\hbar}} + a_2 \chi_2(x) e^{-\frac{iE_2t}{\hbar}}}{a_1 \chi_1(x) e^{-\frac{iE_1t}{\hbar}} + a_2 \chi_2(x) e^{-\frac{iE_2t}{\hbar}}} \\
+        &= |a_1|^2 \inn{\chi_1}{\chi_1} + |a_2|^2 \inn{\chi_2}{\chi_2} + a_1^* a_2 \chi_1^* \chi_2 e^{-\frac{i(E_1 - E_2) t}{\hbar}} \\
+        &+ a_2^* a_1 \chi_2^* \chi_1 e^{-\frac{i(E_2 - E_1) t}{\hbar}} \\
+    \end{align*}
+    Now let $a_1 = |a_1|e^{i\alpha_1}$, same for $a_2$.
+    \begin{align*}
+        \rho(x, t) &= |a_1|^2 + |a_2|^2 + |a_1||a_2|\left(e^{-i(\alpha_1 - \alpha_2)} e^{-\frac{i(E_1 - E_2)t}{\hbar}}\right. \\
+        &\left.+ e^{i(\alpha_1 - \alpha_2)}e^{\frac{i(E_1 - E_2)t}{\hbar}}\right) \\
+        &= 1 + 2|a_2||a_2|\chi_1(x) \chi_2(x) \cos\left(\frac{(E_1 - E_2)t}{\hbar} + \alpha_1 - \alpha_2\right)
+    \end{align*}
+\end{example}
 \end{document}
