@@ -1,0 +1,142 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+Throughout this chapter, let $A \in M_{n \times n}(\F)$
+\section{Defining the Determinant}
+\begin{definition}{Volume form}
+    A function $F$ is a \underline{volume form} if it satisfies:
+    \begin{enumerate}
+        \item \textbf{Alternating form:} if $\vec{c_i}, \vec{c_j}$ are equal columns of $A$, $i \neq j$, then $F(A) = 0$.
+        \item \textbf{Multilinear in columns:} for all $1 \leq i \leq n$ and $\vec{v_j} \in \F^n$, the function:
+        \begin{align*}
+            \F^n &\mapsto \F\\
+            \vec{v} &\mapsto F(V)
+        \end{align*}
+        is linear, where $V$ is the matrix with vectors $\vec{v_j}$ as its columns, and $\vec{v}$ in its $i$th column.
+    \end{enumerate}
+\end{definition}
+\begin{propositions}{
+        Let $F$ be a $n$-dimensional volume form, and $A \in M_{n \times n}(\F)$.
+        \label{propsVolForm}
+    }
+    \item If $A$ has a zero column then $F(A) = 0$; \label{propVFZeroColumn}
+    \item $F(A \cdot T_{ij}) = -F(A)$; \label{propVFColSwap}
+    \item $F(A \cdot M_{i, \lambda}) = \lambda F(A)$; \label{propVFColScale}
+    \item $F(A \cdot C_{i, j, \lambda}) = F(A)$. \label{propVFColAdd}
+\end{propositions}
+\begin{proof}
+    Let the columns of $A$ be $c_j, 1 \leq j \leq n$. Let $f_i(\vec{v})$ be the function that evaluates $F$ with row $i$ set to $\vec{v}$ in $A$. We know that $f_i$ is linear by the properties of a volume form.
+
+    Further, $f_i(\vec{c_j}) = \delta_{ij}$.
+    \begin{enumerate}
+        \item If $\vec{c_i} = \zv$, then $F(A) = f_i(\vec{c_i}) = f_i(\zv) = 0$.
+        \item Let $\bar{A}$ be the matrix obtained from $A$ be replacing both the $i$th and $j$th columns by $\vec{c_i} + \vec{c_j}$. Then:
+            \begin{equation*}
+                0 = F(\bar{A}) = F(A) + f_i(\vec{c_j}) + f_j(\vec{c_i}) + F(A \cdot T_{ij})
+            \end{equation*}
+        \item \begin{equation*}
+            F(A \cdot M_{i, j}) = f_i(\lambda \vec{c_i}) = \lambda f_i(\vec{c_i}) = \lambda F(A)
+        \end{equation*}
+        \item \begin{equation*}
+            F(A \cdot C_{i, j, \lambda}) = f_j(\vec{c_j} + \lambda \vec{c_i}) = f_j(\vec{c_j}) + f_j(\lambda \vec{c_i}) = F(A)
+        \end{equation*}
+    \end{enumerate}
+\end{proof}
+before we give the main theorem of this chapter, we need some properties from IA groups.
+\begin{itemize}
+    \item $S_n$ is the group of permutations of a set of size $n$.
+    \item $\sgn : S_n \mapsto \{\pm1\}$ is the unique homomorphism satisfying $\sgn(\tau) = 1$ for all transpositions $\tau$.
+    \item $A_n = \ker(\sgn)$, and $S_n = A_n \times A_n\tau$ for any transposition $\tau \in S_n$.
+\end{itemize}
+\begin{theorem}
+    There exists a unique function $F : M_{n \times n}(\F) \mapsto \F$ satisfying the following properties:
+    \begin{enumerate}
+        \item \textbf{Volume form:} $F$ is a volume form (satisfying alternating and multilinear properties).
+        \item \textbf{Non-triviality:} $F(I_n) = 1$.
+    \end{enumerate}
+    \label{thmDeterminant}
+\end{theorem}
+\begin{proof}
+    Let $F$ be an $n$-dimensional volume form satisfying $F(I_n) = 1$. Then by the lemma:
+    \begin{align*}
+        F(T_{ij}) = -1;~&~F(M_{i, \lambda}) = \lambda;\\
+        F(C_{i, j, \lambda}) = 1;~&~F(AE) = F(A)F(E) \text{ for }E\text{ elementary.}
+    \end{align*}
+    \begin{subproof}{$F$ is unique.}
+        Let $A \in M_{n \times n}(\F)$. Then there exist elementary matrices $E_1, \cdots, E_l$ such that: $A' = AE_1 \cdots E_l$ is in CRE form.
+        \begin{equation*}
+            F(A) = F(A') F(E_1)^{-1} \cdots F(E_l)^{-1}
+        \end{equation*}
+        Therefore, either $A' = I_n$, so $F(A) = F(E_1)^{-1} \cdots F(E_l)^{-1}$, or $A'$ has a zero column and so $F(A) = 0$.
+    \end{subproof}
+    \begin{subproof}{$F$ exists.}
+        We can write down the following form for $F$:
+        \begin{align*}
+            F : M_{n \times n}(\F) &\mapsto \F\\
+            A &\mapsto \sum_{\sigma \in S_n} \sgn(\sigma) \prod_{i=1}^{n}a_{\sigma(i), i}
+        \end{align*}
+        Now we need to check this $F$ is a volume for satisfying $F(I_n) = 1$.
+
+        Given the matrix $I_n$, this has zeroes everywhere except the diagonal so the only $\sigma \in S_n$ contributes to the sum. This gives $F(I_n) = 1$.
+
+        Each product $\prod_{i=1}^{n} a_{\sigma(i), i}$ is multilinear in columns, and therefore so is $F$.
+
+        Now suppose $\vec{c_k} = \vec{c_l}, k \neq l$. Now set $\tau = (k~~l)$ so $a_{i,j} = a_{i, \tau(j)}$.
+        \begin{align*}
+            F(A) &= \sum_{\sigma \in A_n} \sgn(\sigma) \prod_{i=1}^{n} a_{\sigma(i), i} \\
+            &+ \sum_{\sigma \in A_n} \sgn(\sigma \tau) \prod_{i=1}^{n} a_{\sigma\tau(i), i} \\
+            &= \sum_{\sigma \in A_n} \prod_{i=1}^{n} a_{\sigma(i), i} - \sum_{\sigma \in A_n} \prod_{i=1}^{n} a_{\sigma\tau(i), i} \\
+            &= \sum_{\sigma \in A_n} \prod_{i=1}^{n} a_{\sigma(i), i} - \sum_{\sigma \in A_n} \prod_{i=1}^{n} a_{\sigma\tau(i), \tau(i)} \\
+            &= \sum_{\sigma \in A_n} \prod_{i=1}^{n} a_{\sigma(i), i} - \sum_{\sigma \in A_n} \prod_{i=1}^{n} a_{\sigma(j), j} \text{ by writing } \tau(i) = j \\
+            &= 0
+        \end{align*}
+    \end{subproof}
+\end{proof}
+\begin{definition}{Determinant}
+    The function defined in theorem~\ref{thmDeterminant} is the \underline{$n$-dimensional determinant}. We write $F(A) = \det(A) = |A|$.
+\end{definition}
+\begin{corollary}
+    $\det(A) \neq 0$ if and only if $A$ is invertible. In this case, $A$ is a product of elementary matrices:
+    \begin{equation*}
+        A = E_1 \cdots E_l
+    \end{equation*}
+    and its determinant is the product of individual determinants.
+    \label{corDetNZeroInvert}
+\end{corollary}
+\section{Properties of the Determinant}
+\begin{lemma}
+    For $A \in M_{n \times n}(\F)$, $\det(A^T) = \det(A)$.
+    \label{lemDetTrans}
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        \det(A^T) &= \sum_{\sigma \in S_n} \sgn(\sigma) \prod_{i=1}^{n} a_{i, \sigma(i)} \\
+        &= \sum_{\sigma \in S_n} \sgn(\sigma) \prod_{j=1}^{n} a_{\sigma^{-1}(j), j} \text{ by setting } j = \sigma(i) \\
+        &= \sum_{\sigma \in S_n} \sgn(\sigma^{-1}) \prod_{j=1}^{n} a_{\sigma^{-1}(j), j} \\
+        &= \det(A)
+    \end{align*}
+    Here the final step is valid because inverting an element in a group is an isomorphism from a group to itself.
+\end{proof}
+\begin{proposition}
+    For all $A, B \in M_{n \times n}(\F)$,
+    \begin{equation*}
+        \det(AB) = \det(A) \det(B)
+    \end{equation*}
+    \label{propDetProd}
+\end{proposition}
+\begin{proof}
+    By lemma~\ref{lemRankOfProduct}, $rk(AB) \leq \min\{rk(A), rk(B)\}$. Therefore, if either $A$ or $B$ has rank less than $n$ then so does $AB$, and therefore by the corollary above $\det(AB) = 0$.
+
+    If not, write:
+    \begin{align*}
+        A &= E_1 \cdots E_l \\
+        B &= E_1' \cdots E_k' \\
+        AB &= E_1 \cdots E_l E_1' \cdots E_k' \\
+    \end{align*}
+    The determinant is, by corollary~\ref{corDetNZeroInvert}:
+    \begin{align*}
+        \det(AB) &= \det(E_1) \cdots \det(E_l) \det(E_1') \cdots \det(E_k') \\
+        &= \det(A)\det(B)
+    \end{align*}
+\end{proof}
+\end{document}
