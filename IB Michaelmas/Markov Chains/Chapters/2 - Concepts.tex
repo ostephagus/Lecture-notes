@@ -283,4 +283,30 @@ We have previously defined the mean hitting time. We will derive a similar syste
     Let $i \in I$. Then, conditional on $\{T < \infty\} \cap \{X_T = i\}$, the process $(X_{T+n})_{n \geq 0}$ is a Markov chain with initial distribution $\delta_i$ and transition matrix $P$ which is independent of $(X_0, \cdots, X_T)$.
     \label{thmStrongMarkov}
 \end{theorem}
+\begin{proof}
+    We need to show that, for any path $w \in \cup_{k \geq 0} I^k$, and for any sequence of states $x_0, x_1, \cdots, x_n \in I$,
+    \begin{align*}
+        &\P\left((x_0, \cdots, x_T) = w, X_T = x_0, \cdots, X_{T+n} = x_n | T < \infty, X_T = i\right) \\
+        &= \P((X_0 ,\cdots, X_T) = w | T < \infty, X_T = i) \\
+        &\times \mathbb{I}_{X_0 = i} \Pmat{0}{1} \cdots \Pmat{n-1}{n} 
+    \end{align*}
+    So take the LHS:
+    \begin{equation*}
+        \frac{\P((x_0, \cdots, x_T) = w, X_T = x_0, \cdots, X_{T+n} = x_n, T < \infty, X_T = i)}{\P(T < \infty, X_T = i)}
+    \end{equation*}
+    Consider its numerator:
+    \begin{align*}
+        &\P((x_0, \cdots, x_T) = w, T < \infty, X_T = i) \\
+        &\times \P(X_T = x_0, \cdots, X_{T+n} = x_n | T<\infty, X_T = i) \\
+        &= \P((x_0, \cdots, x_T) = w, T < \infty, X_T = i) \\
+        &\times \P(X_k = x_0, \cdots, X_{k+n} = x_n | T = k, X_k = i) \\
+        &\text{ use theorem~\ref{thmMarkovProperty}:} \\
+        &= \P((X_0, \cdots, X_T) = w, T < \infty, X_T = i) \textbf{I}_{X_0 = i} \Pmat{0}{1} \cdots \Pmat{n-1}{n}
+    \end{align*}
+    Then this is only the numerator, so now divide by the denominator:
+    \begin{equation*}
+        \P((X_0 ,\cdots, X_T) = w | T < \infty, X_T = i) \times \mathbb{I}_{X_0 = i} \Pmat{0}{1} \cdots \Pmat{n-1}{n} 
+    \end{equation*}
+\end{proof}
+Then the power of this theorem is that we can break a Markov chain down into independent and identically distributed (iid) chunks between when a Markov chain visits a given state.
 \end{document}

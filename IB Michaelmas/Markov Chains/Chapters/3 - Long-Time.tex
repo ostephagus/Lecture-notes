@@ -1,0 +1,108 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\begin{definition}{Recurrent state}
+    A state $i$ is \underline{recurrent} if:
+    \begin{equation*}
+        \P_i(X_n = i \text{ for infinitely many }n) = 1
+    \end{equation*}
+\end{definition}
+Then the matrix $P$ is \underline{recurrent} if all states are recurrent.
+\begin{definition}{Transient state}
+    A state $i$ is \underline{transient} if:
+    \begin{equation*}
+        \P_i(X_n = i \text{ for infinitely many }n) = 0
+    \end{equation*}
+\end{definition}
+Then the matrix $P$ is \underline{transient} if all states are transient.
+\begin{definition}{Return time}
+    The \underline{return time} to $i$, $T_i^{(k)}$ are defined by:
+    \begin{equation*}
+        T_i^{(k)} =
+        \begin{cases}
+            0 & k=0 \\
+            \inf\subsetselect{n>T_i^{(k)}}{X_n = i} & k > 0
+        \end{cases}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Return probability}
+    The \underline{return probability} for a state $i$ is $f_i = \P_i(T_i < \infty)$.
+\end{definition}
+\begin{definition}{Total number of visits}
+    The \underline{total number of visits} to $i$ is:
+    \begin{equation*}
+        v_i = \sum_{t = 0}^\infty \mathbb{I}_{X_t = i}
+    \end{equation*}
+\end{definition}
+\begin{lemma}
+    For each $v \geq 0$, $v_i$ satisfies:
+    \begin{equation*}
+        \P_i(v_i > r) = f_i^v,~v_i \sim Geo(1-f_i)
+    \end{equation*}
+    \label{lemReturnGeometric}
+\end{lemma}
+\begin{proof}
+    \induction{$r = 1$}{
+        $\P_i(v_i > 0) = 1 = f_i^{(0)}$ as required.
+    }{$r \leq k$}{
+        Assume true for all $r \leq k$.
+    }{$r = k+1$}{
+        \begin{align*}
+            \P_i(v_i > k+1) &= \P_i(T_i^{(k+1)} < \infty) \\
+            &= \P_i(T_i^{(k+1)} < \infty, T_i^{(k)} < \infty) \\
+            &= \P_i(T_i^{(k)} < \infty)\P_i(T_i^{(k + 1)} < \infty  T_i^{(k)} < \infty) \\
+        \end{align*}
+        then by theorem~\ref{thmStrongMarkov}, 
+        \begin{equation*}
+            \P_i(v_i > k+1) = f_i^k \P_i(T_i^{1} < \infty) = f_i^{k+1}
+        \end{equation*}
+    }
+\end{proof}
+\begin{theorem}
+    Given a state $i$, if $f_i = 1$ then $i$ is recurrent and $\sum_{n=0}^{\infty} p_{ii}(n) = \infty$.
+
+    If $f_i < 1$ then $i$ is transient and $\sum_{n=1}^{\infty} p_{ii}(n) < \infty$.
+    \label{thmReccurOrTrans}
+\end{theorem}
+\begin{proof}
+    First note that:
+    \begin{align*}
+        \E_i(v_i) &= \E_i \left(\sum_{n=0}^{\infty} \mathbb{I}_{X_n = i}\right) \\
+        &= \sum_{n \geq 0} \P_i(X_n = i) \\
+        &= \sum_{n \geq 0} p_{ii}(n)
+    \end{align*}
+    This gives us that if $f_i = 1$ then by lemma~\ref{lemReturnGeometric}, $v_i = \infty$ with probability 1 and $E_i(v_i) = \infty$, so $\sum_{n\geq 0} p_{ii}(n) = \infty$ and $i$ is recurrent.
+
+    If $f_i < 1$, then by the lemma $E_i(v_i) < \infty$ so $P_i(v_i < \infty) = 1$ so $i$ is transient with $\sum_{n \geq 0} p_{ii}(n) < \infty$.
+\end{proof}
+\begin{theorem}
+    If $x \comms y$ then either they are both recurrent or both transient.
+    \label{thmRecurrenceCommunicates}
+\end{theorem}
+\begin{proof}
+    Suppose $x$ is recurrent. Since $x \comms y$ there exist $l, m$ such that $p_{xy}(l) > 0$ and $p_{yx}(m) > 0$. Then:
+    \begin{align*}
+        \sum_{n \geq 0} p_{yy}(n) &\geq \sum_{n \geq 0} p_{yy}(m + n + l) \\
+        &\geq \sum_{n \geq 0}p_{yx}(m) p_{xx}(n) p_{xy}(l) \\
+        &= p_{yx}(m) p_{xy}(l)\sum_{n \geq 0} p_{xx}(x) \\ 
+        &\text{ and this is infinite.}
+    \end{align*}
+    Therefore, $y$ must also be recurrent. By applying theorem~\ref{thmReccurOrTrans}, we have the required result.
+\end{proof}
+\begin{corollary}
+    If $S \subseteq I$ is a communicating class then either all $i \in S$ are recurrent or all $i \in S$ are transient.
+    \label{corComClassRecur}
+\end{corollary}
+\begin{theorem}
+    If $C \subseteq I$ is a recurrent communicating class, then it is closed.
+    \label{thmRecurCommClosed}
+\end{theorem}
+\begin{proof}
+    Suppose $x \to y$ with $x \in C, y \notin C$. Then there exists some $m$ such that $p_{xy}(m) > 0$. Note that once $y$ is visited, $x$ is never visited.
+    \begin{align*}
+        \P_x(v_x < \infty) &\geq P_x(x_n = y) \\
+        &= p_{xy}(m) > 0
+    \end{align*}
+    This implies that $x$ is transient.\contradiction
+\end{proof}
+\end{document}

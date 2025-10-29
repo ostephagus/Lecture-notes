@@ -149,7 +149,6 @@ So to understand the long-term distribution of the chain $\chain{X}$ it suffices
 Introduce notation:
 $\P_x(A) = \P(A | X_0 = x)$ and $\E_x(A) = \E[A | X_0 = x]$ for any event $A$. For transition matrix $P$, let $(P^n)_{ij}$ = $p_{ij}(n)$.
 
-\subsection{Finding Long-Time Distributions}
 We want to compute $p_{ij}(n)$ for a Markov Chain. Suppose $P$ is a $k \times k$ matrix.
 \begin{itemize}
     \item If $P$ has $k$ distinct real eigenvalues, then it is diagonalisable, $P = UDU^{-1}$ for diagonal $D$. Then we can easily compute $P^n = UD^n U^{-1}$ where $D^n$ is very simple to compute. If the eigenvalues of $P$ are $\lambda_i$, then we find that $p_{11}(n)$ is a polynomial of $k$ terms. Therefore, we can compute the coefficients using values of $P^n$ for small $k$, and get the resulting distribution for $n$ large.
