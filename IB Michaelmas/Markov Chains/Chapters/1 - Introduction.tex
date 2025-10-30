@@ -30,6 +30,7 @@ In this case, we introduce notation. Let $P(x, y) = P_{xy} = \P(X_{n + 1} = y | 
 \begin{definition}{Initial distribution}
     A vector $\vec{\lambda}$ is an \underline{initial distribution} for a Markov chain $\chain{X}$ if $\vec{\lambda}$ is a probability mass function (so components sum to 1) and $P(X_0 = x) = \lambda_x, x \in I$.
 \end{definition}
+\section{Identifying a Markov Chain}
 \begin{theorem}
     A set of random variables $\chain{X}$ is a Markov Chain with initial distribution $\vec{\lambda}$ and transition matrix $P$ if and only if:
     \begin{equation*}
@@ -38,7 +39,6 @@ In this case, we introduce notation. Let $P(x, y) = P_{xy} = \P(X_{n + 1} = y | 
     for all $n \geq 1$ and $x_i \in I$.
     \label{thmMarkovPathEquivalence}
 \end{theorem}
-\section{Identifying a Markov Chain}
 \begin{proof}
     \begin{proofdirection}{$\Rightarrow$}{Suppose that $\chain{X}$ is Markov$(\lambda, P)$}
         \begin{align*}

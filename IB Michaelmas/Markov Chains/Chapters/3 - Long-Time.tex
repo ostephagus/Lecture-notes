@@ -1,6 +1,7 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
+\section{Recurrence and Transience}
 \begin{definition}{Recurrent state}
     A state $i$ is \underline{recurrent} if:
     \begin{equation*}
@@ -13,6 +14,7 @@ Then the matrix $P$ is \underline{recurrent} if all states are recurrent.
     \begin{equation*}
         \P_i(X_n = i \text{ for infinitely many }n) = 0
     \end{equation*}
+    For this, we will write $\P_i(X_n = i \io) = 1$. Here i.o. stands for infinitely often.
 \end{definition}
 Then the matrix $P$ is \underline{transient} if all states are transient.
 \begin{definition}{Return time}
@@ -104,5 +106,127 @@ Then the matrix $P$ is \underline{transient} if all states are transient.
         &= p_{xy}(m) > 0
     \end{align*}
     This implies that $x$ is transient.\contradiction
+\end{proof}
+\begin{theorem}
+    A finite, closed class is recurrent.
+    \label{thmFinClosedRecurr}
+\end{theorem}
+\begin{proof}
+    Suppose $C$ is a finite, closed class and take $x \in C$. Then there must exist some $y \in C$ such that:
+    \begin{equation*}
+        \P_x(X_n = y \io) > 0
+    \end{equation*}
+    Since $C$ is a communicating class, there is an $m$ such that $p_{yx}(m) > 0$. Then:
+    \begin{align*}
+        &P_y(X_n = y \io)\\
+        &\geq \P_y(X_n = y \io, n > m, X_n = x) \\
+        &= \P_y(X_n = y \io, n > m | X_m = x) \P_y(X_m = x) \\
+        &= p_{yx}(m) \P_y(X_n = y \io) > 0
+    \end{align*}
+    This means $y$ is recurrent. Since recurrence is a class property, $C$ is a recurrent class.
+\end{proof}
+\begin{theorem}
+    If a transition matrix $P$ is irreducible and recurrent then:
+    \begin{equation*}
+        P_x(T_Y < \infty) = 1~\forall x, y \in I
+    \end{equation*}
+    \label{thmRecurHittingTime}
+\end{theorem}
+\begin{proof}
+    Let $x, y \in I$. Since $x \comms y$, there is an $m$ such that $p_{yx}(m) > 0$. Then:
+    \begin{align*}
+        1 &= \P_y(X_n = y \io) \\
+        &= \sum_x \P_y(X_n = y \io, X_m = x) \\
+        &= \sum_x \P_x(X_n = y \io) p_{yx}(m) \\
+        &\leq \sum_x \P_x(T_y < \infty)p_{yx}(m)
+    \end{align*}
+    Since $p_{yx}(m) > 0$, $\P_x(T_y < \infty) = 1$ because we are taking an average of objects less than or equal to 1.
+\end{proof}
+\section{Simple Symmetric Random Walk}
+\begin{definition}{Simple symmetric random walk}
+    The \underline{simple symmetric random walk} (SSRW) $\chain(X)$ on the integer lattice $\Z^d$ is the Markov chain $\chain(X) = (X_n)_{n \in \N}$ with transition probabilities:
+    \begin{equation*}
+        P(x, x + e_i) = P(x, x - e_i) = \frac{1}{2d}
+    \end{equation*}
+    where $e_i$ is a standard basis vector in $\Z^d$.
+\end{definition}
+\begin{theorem}
+    The SSRW on $\Z^d$ is recurrent for $d = 1, 2$ and transient for $d = 3$.
+    \label{thmSSRWRecurr}
+\end{theorem}
+\begin{remark}
+    This theorem reveals something rather profound, in 1 and 2 dimensions we have that the walk will visit every point infinitely often. In 3 dimensions, we have a notion of ``too much choice'', and the random walk will drift off without returning to each point.
+\end{remark}
+\begin{proof}[In the case $d = 1$]
+    Suppose $X_0 = 0$. Note that $\chain{X}$ is irreducible so it suffices to prove recurrence for a single state.
+
+    \begin{align*}
+        \sum_{n \geq 0} p_{00}(n) &= \sum_{n \geq 0} p_{00}(2n) \\
+        &= \sum_{n \geq 0} \binom{2n}{n} \left(\frac{1}{2}\right)^2n
+    \end{align*}
+    Recall Stirling's formula,
+    \begin{equation*}
+        n! \sim n^n \sqrt{2\pi n} e^{-n}  
+    \end{equation*}
+    \begin{align*}
+        \sum_{n \geq 0} p_{00}(n) &= \sum_{n \geq 0} \frac{1}{\sqrt{\pi n}} \\
+        &\geq \sum_{n \geq 0} \frac{1}{2\sqrt{\pi n}}
+    \end{align*}
+    This sum is infinite. Therefore, the state $0$ is recurrent. Since the whole chain is irreducible we must have that $\chain{X}$ is recurrent.
+\end{proof}
+\begin{remark}
+    The same computation shows that the simple asymmetric random walk on $\Z$ is transient. Let $P(0, 1) = 1$ and $P(x, x_{+1}) = p$, $P(x, x-1) = q = 1-p$. Ensure $p \neq 0 \neq \frac12$.
+    \begin{align*}
+        \sum_{n\geq 0}p_{00}(n)&= \sum_{n\geq 0} p_{00}(2n) \\
+        &= \sum_{n \geq 0} \binom{2n}{n} p^n q^n \\
+        &= \sum_{n \geq 0} \frac{(4pq)^n}{\sqrt{\pi n}} \\
+    \end{align*}
+    Note that $4pq < 1$, so we have a roughly geometric progression that must converge. That is, the walk is transient.
+\end{remark}
+\begin{lemma}
+    Let $f(x, y)$ be the projection of $x, y$ onto the lines $y = x$ and $y = -x$. That is,
+    \begin{equation*}
+        f(x, y) = \left(\frac{x + y}{\sqrt{2}}, \frac{x=y}{\sqrt{2}}\right)
+    \end{equation*}
+    Let $(X_n^+, X_n^-) = f(X_n)$. Then $(X_n^+)$ and $(X_n^-)$ are independent SSRWs.
+    \label{lemProjectionRW}
+\end{lemma}
+\begin{proof}
+    If $X_0 = 0$ we can write $X_n = \sum_{i=1}^n \xi_i$ where $(\xi_i)_{i \geq 1}$ are independent and identically distributed random variables with:
+    \begin{equation*}
+       \xi_i =
+       \begin{cases}
+        (0, 1) & \text{probability } \frac14 \\
+        (0, -1) & \text{probability } \frac14 \\
+        (1, 0) & \text{probability } \frac14 \\
+        (-1, 0) & \text{probability } \frac14
+       \end{cases} 
+    \end{equation*}
+    Write each $\xi_i = (\xi_i^1, \xi_i^2)$ so that:
+    \begin{equation*}
+        X_n^+ = \sum_{i=1}^{n} \frac{\xi_i^1 +\xi_i^2}{\sqrt{2}},~X_n^- = \sum_{i=1}^{n} \frac{\xi_i^1 -\xi_i^2}{\sqrt{2}}
+    \end{equation*}
+    From this it immediately follows that $(X_n^+)$ and $(X_i^+)$ are each a SSRW because they are both sums of independent and identically distributed random variables.
+
+    To show independence, it suffices to show $\xi^1 + \xi^2$ is independent of $\xi^1 - \xi^2$. This is easy to check case-by-case, for example:
+    \begin{align*}
+        \P(\xi^1 + \xi^2 =& 1, \xi^1 - \xi^2 = -1) \\
+        &= \P(\xi^1 = 0, \xi^2 = 1) = \frac12 \\
+        &= \P(\xi^1 + \xi^2 = 1) \P(\xi^1 - \xi^2 = -1)
+    \end{align*}
+    And this is applicable for each of the cases.
+\end{proof}
+\begin{proof}[For theorem~\ref{thmSSRWRecurr} with $d = 2$]
+    By the lemma we know that $p_{00}(n)$ is only non-zero when $n$ is even, and:
+    \begin{align*}
+        p_{00}(2n) &= \P_0(X_n^+ = 0, X_n^- = 0) \\
+        &=\P_0(X_n^+ = 0) \P_0(X_n^- = 0) \\
+    \end{align*}
+    Using lemma~\ref{lemProjectionRW}. Therefore, we can apply the proof for $d = 1$:
+    \begin{align*}
+        p_{00}(2n) &\sim \sum_{n \geq 0}\frac{1}{\pi n} \\
+        & \geq \sum_{n \geq 0} \frac{1}{2\pi n}
+    \end{align*}
+    This is infinite, and so $0$ is recurrent. Therefore, $\chain{X}$ is recurrent.
 \end{proof}
 \end{document}
