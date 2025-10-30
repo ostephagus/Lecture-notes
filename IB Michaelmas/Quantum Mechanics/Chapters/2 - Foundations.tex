@@ -475,16 +475,18 @@ Then using the Copenhagen Interpretation postulates, $|a_n|^2$ or $|A(\alpha)|^2
 
     The probability density for $\psi$ is:
     \begin{align*}
-        \rho(x, t) &= |\psi(x, t)| = \inn{\psi}{\psi} \\
-        &= \inn{a_1 \chi_1(x) e^{-\frac{iE_1t}{\hbar}} + a_2 \chi_2(x) e^{-\frac{iE_2t}{\hbar}}}{a_1 \chi_1(x) e^{-\frac{iE_1t}{\hbar}} + a_2 \chi_2(x) e^{-\frac{iE_2t}{\hbar}}} \\
-        &= |a_1|^2 \inn{\chi_1}{\chi_1} + |a_2|^2 \inn{\chi_2}{\chi_2} + a_1^* a_2 \chi_1^* \chi_2 e^{-\frac{i(E_1 - E_2) t}{\hbar}} \\
-        &+ a_2^* a_1 \chi_2^* \chi_1 e^{-\frac{i(E_2 - E_1) t}{\hbar}} \\
+        \rho(x, t) &= |\psi(x, t)|^2 = \psi^*(x, t) \psi(x, t) \\
+        &= (a_1^* \chi_1^* e^{\frac{iE_1t}{\hbar}} + a_2^* \chi_2^* e^{\frac{iE_2t}{\hbar}})(a_1 \chi_1 e^{-\frac{iE_1t}{\hbar}} + a_2 \chi_2 e^{-\frac{iE_2t}{\hbar}}) \\
+        &= |a_1|^2|\chi_1|^2 + |a_2|^2|\chi_2|^2 \\
+        &+ a_1^*a_2e^{\frac{i(E_1-E_2)t}{\hbar}} \chi_1^*\chi_2 + a_2^*a_1e^{-\frac{i(E_1-E_2)t}{\hbar}} \chi_2^*\chi_1
     \end{align*}
-    Now let $a_1 = |a_1|e^{i\alpha_1}$, same for $a_2$.
+    And now we can rotate $\chi_1, \chi_2$ such that they are real. Also set $a_1 = |a_1|e^{i\alpha_1},~a_2 = |a_2|e^{i\alpha_2}$.
     \begin{align*}
-        \rho(x, t) &= |a_1|^2 + |a_2|^2 + |a_1||a_2|\left(e^{-i(\alpha_1 - \alpha_2)} e^{-\frac{i(E_1 - E_2)t}{\hbar}}\right. \\
-        &\left.+ e^{i(\alpha_1 - \alpha_2)}e^{\frac{i(E_1 - E_2)t}{\hbar}}\right) \\
-        &= 1 + 2|a_2||a_2|\chi_1(x) \chi_2(x) \cos\left(\frac{(E_1 - E_2)t}{\hbar} + \alpha_1 - \alpha_2\right)
+        \rho(x, t) &= |a_1|^2|\chi_1|^2 + |a_2|^2 + |\chi_2|^2 \\
+        &+|a_1|~|a_2|\chi_1 \chi_2 \left[e^{\frac{i(E_1 + E_2)t}{\hbar}}e^{-i(\alpha_1 - \alpha_2)} + e^{\frac{-i(E_1 + E_2)t}{\hbar}}e^{i(\alpha_1 - \alpha_2)}\right] \\
+        \rho(x, t) &= |a_1|^2|\chi_1|^2 + |a_2|^2 + |\chi_2|^2 \\
+        &+|a_1|~|a_2|\chi_1 \chi_2 \cos\left[\frac{(E_1 - E_2)t}{\hbar} + (\alpha_1 - \alpha_2)\right]
     \end{align*}
+    Therefore the probability density oscillates with frequency dependent on the difference in energy.
 \end{example}
 \end{document}
