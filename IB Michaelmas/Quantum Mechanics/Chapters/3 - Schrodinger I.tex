@@ -110,8 +110,18 @@ Then taking the ratio of these equations gives $k\tan(ka) = \bar{k}$. We also re
 Here $r_0 = \frac{2mU_0a^2}{\hbar^2}$.
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=0.5]
+    \begin{tikzpicture}[scale=0.7]
+        \begin{axis}[
+            axis lines=middle,
+            xmin=-0.5,xmax=4,ymin=-0.5,ymax=5,
+            trig format=rad,
+            xlabel={$\xi$},
+            ylabel={$\eta$}
+        ]
         % TODO: plot the above two equations (a circle and $\xi \tan{\xi}$)
+            \addplot[samples=50] {x * tan(x)};
+            \addplot[samples=50] {(9 - x^2)^(1/2)};
+        \end{axis}
     \end{tikzpicture}
     \caption{Solution of Finite Potential Well}
     \label{figFPWellSoln}
