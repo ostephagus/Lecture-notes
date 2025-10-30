@@ -5,7 +5,7 @@
 \begin{definition}{Metric}
     Let $X$ be any set. A \underline{metric} (or distance function) on $X$ is a function $d : X \times X \mapsto \R$ satisfying, for any $x, y, z \in X$, the following axioms:
     \begin{enumerate}
-        \item $d(x, y) \geq 0$, with $d(x, y) = 0 \equiv x = y$;
+        \item $d(x, y) \geq 0$, with $d(x, y) = 0 \implies x = y$;
         \item $d(x, y) = d(y, x)$;
         \item $d(x, y) \leq d(x, z) + d(y, z)$.
     \end{enumerate}
@@ -16,7 +16,7 @@
 \begin{definition}{Norm}
     Let $V$ be a vector space over $\R$. A \underline{norm} on $V$ is a function $||\cdot|| : V \mapsto \R$ satisfying, for any $x, y \in V$ and any scalar $\lambda$,
     \begin{enumerate}
-        \item $||x|| \geq 0$ with $||x|| = 0 \equiv x = \vec{0}$;
+        \item $||x|| \geq 0$ with $||x|| = 0 \implies x = \vec{0}$;
         \item $||\lambda x|| = |\lambda|~||x||$;
         \item $||x + y|| \leq ||x|| + ||y||$.
     \end{enumerate}
@@ -34,6 +34,7 @@ Once we have a norm space, this defines a metric on $V$.
 \end{proposition}
 The proof is simply checking the axioms.
 \section{Examples}
+We will give various examples of normed spaces which, by proposition~\ref{propNormIsMetric}, are also metric spaces.
 \subsection{Finite-Dimensional Normed Spaces}
 The classic example of a normed space or metric space is $\R^n$.
 
@@ -63,7 +64,7 @@ We can first take $\R^n$ with its usual vector space structure, and define sever
             ||x||_p = \left(\sum_{i=1}^{n} |x_i|^p\right)^\frac1p
         \end{equation*}
 \end{enumerate}
-\subsection{Infinite-Dimensional Normed Spaces}
+\subsection{Normed Spaces of Sequences}
 Consider first the set of sequences of real numbers, $\R^\N = \subsetselect{(x_k)_{k \in \N}}{x_k \in \R~\forall k \in \N}$. Then this is a vector space under addition and scalar multiplication, defined termwise. We cannot provide a norm that is finite for the whole space. However, we can define norms and consider the spaces for which those norms are finite.
 \begin{enumerate}
     \item Consider the $\ell_1$ space: $\ell_1 = \subsetselect{(x_k) \in \R^\N}{\sum_{k=1}^\infty |x_k| < \infty}$. Then this is a linear subspace of $\R^\N$, and is a normed space under the $\ell_1$ norm.
@@ -75,5 +76,100 @@ Consider first the set of sequences of real numbers, $\R^\N = \subsetselect{(x_k
     \begin{equation*}
         ||(x_k)||_p = \lim_{n \to \infty} ||(x_1, x_2, \cdots, x_n)||_p
     \end{equation*}
+\end{remark}
+\subsection{Normed Spaces of Functions}
+Consider a vector space $V = C([a, b])$. Then this is a vector space under pointwise addition and scalar multiplication of functions. We can define:
+\begin{enumerate}
+    \item The $L^1$ norm:
+        \begin{equation*}
+            ||f||_1 = \int_{a}^{b} |f(x)| dx
+        \end{equation*}
+    \item The $L^2$ norm:
+        \begin{equation*}
+            ||f||_2 = \sqrt{\int_{a}^{b} |f(x)|^2 dx}
+        \end{equation*}
+    \item The $L^\infty$ norm, or uniform norm:
+        \begin{equation*}
+            ||f||_{\infty} = \sup_{x \in [a, b]} |f(x)|
+        \end{equation*}
+\end{enumerate}
+We can provide explicitly a metric for this space. Say $d(f, g) = ||f - g||_\infty$. That is,
+\begin{equation*}
+    d(f, g) = \sup_{x \in [a, b]} |f(x) - g(x)|
+\end{equation*}
+Note the similarity with uniform convergence.
+
+\begin{remark}
+    Integral norms like $L^1$ and $L^2$ seem to permit integrable functions (a wider class than just continuous functions). Indeed the set of integrable functions on $[a, b]$ is a vector space. However, there are integrable functions that are zero on only a countable set of points, which means their integral is zero, and so is their norm. This violates the first condition of a norm. However, we can define an equivalence relation to say that $f \sim g$ if $f = g$ \underline{almost everywhere} (everywhere except a set of measure zero). Then we do get a valid norm.
+\end{remark}
+\subsection{Metrics on Generic Sets}
+For any set $X$, define:
+\begin{equation*}
+    d(x, y) =
+    \begin{cases}
+        0 & x = y \\
+        1 & \text{otherwise}
+    \end{cases}
+\end{equation*}
+Then this is a valid metric, but it does not tell us much about the distance between elements in the set.
+
+We can also define metrics from other metrics. For example, given a set $X$ with metric $d$, we can define a new metric:
+\begin{align*}
+    g : X \times X &\mapsto \R\\
+    (x, y) &\mapsto \min\{1, d(x, y)\}
+\end{align*}
+Alternatively,
+\begin{align*}
+    h : X \times X &\mapsto \R\\
+    (x, y) &\mapsto \frac{d(x, y)}{1 + d(x, y)}
+\end{align*}
+Then $g(x, y) \leq 1$ for all $x, y \in X$ and $h(x, y) < 1$ for all $x, y \in X$.
+
+For a more concrete example, let $X = R^n$. Define:
+\begin{align*}
+    d : \R^n \times \R^n &\mapsto \R\\
+    (x, y) &\mapsto \begin{cases}
+        ||x - y||_2 & x = ty \\
+        ||x|| + ||y|| & \text{otherwise}
+    \end{cases}
+\end{align*}
+Then this metric defines a distance only radially. If two points are on a radius, then the distance under $d$ is the Euclidean distance. If not, the distance under $d$ is the Euclidean distance from point $x$ to $y$ via the origin. This is called the \underline{French Railways Metric} or \underline{SNCF metric}, as a joke that all travellers must go through Paris (the origin) to get to a destination anywhere not on their own train line.
+\section{Metric Subspaces}
+\begin{definition}{Subspace metric}
+    Let $X$ be a metric space with metric $d$. Let $Y\subseteq X$ be any subset. Then the restriction $d|_{Y \times Y} : Y \times Y \mapsto \R$ is a metric on $Y$ called the \underline{subspace metric} or \underline{induced metric} on $Y$.
+\end{definition}
+\begin{definition}{Open ball}
+    Let $(X, d)$ be a metric space. For any point $a \in X$ and any $r > 0$, the \underline{open ball} with radius $r$ and centre $a$ is the set:
+    \begin{equation*}
+        B_r(a) = \subsetselect{x \in X}{d(x, a) < r}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Open subset}
+    For a metric space $(X, d)$, a subset $U \subseteq X$ is an \underline{open subset} if, for all $a \in U$, there exists a radius $r > 0$ such that $B_r(a) \subseteq U$.
+\end{definition}
+\begin{remark}
+    This definition can be understood as: for any point $a$ in $U$, there exists a radius (however small) around $a$ that does not leave $U$ (or intersect its boundary).
+\end{remark}
+\begin{definition}{Closed subset}
+    For a metric space $(X, d)$, a subset $E \subseteq X$ is a \underline{closed subset} if $X \backslash E$ is open.
+\end{definition}
+\begin{remark}
+    An open subset can also be a closed subset, these are not mutually exclusive definitions.
+\end{remark}
+\begin{example}[Openness or closedness is relative to the containing space]
+    Consider $X = \R$ with the Euclidean metric. Let $Y = [0, 1) \cup \{2\}$ with the induced metric.
+    Then $[0, 1)$ is neither open nor closed on $X$, but $[0, 1)$ is both open and closed on $Y$.
+
+    $\{2\}$ is closed on $X$ but not open on $X$, $\{2\}$ is both open and closed on $Y$.
+\end{example}
+\begin{propositions}{
+        Let $(X, d)$ be a metric space
+        \label{propsOpenSets}
+    }
+    \item Any open ball $B_r(a)$ is an open set.
+    \item Any singleton $\{x\} \subset X$ is closed.
+\end{propositions}
+\begin{remark}
+    Open balls can be closed sets, and singletons can be open sets.
 \end{remark}
 \end{document}
