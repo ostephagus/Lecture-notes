@@ -139,4 +139,209 @@ before we give the main theorem of this chapter, we need some properties from IA
         &= \det(A)\det(B)
     \end{align*}
 \end{proof}
+\begin{corollary}
+    If $A$ is an invertible matrix then:
+    \begin{equation*}
+        \det(A^{-1}) = \frac{1}{\det(A)}
+    \end{equation*}
+    \label{corInvertDet}
+\end{corollary}
+\begin{proof}
+    \begin{align*}
+        1 &= \det(I_n) = \det(AA^{-1}) \\
+        &= \det(A) \det(A^{-1})
+    \end{align*}
+\end{proof}
+\begin{corollary}
+    Similar matrices have the same determinant.
+    \label{corSimilarSameDet}
+\end{corollary}
+\begin{proof}
+    Let $A' = PAP^{-1}$. Then:
+    \begin{align*}
+        \det(A') &= \det(PAP^{-1}) \\
+        &= \det(P) \det(A) \det(P^{-1}) \\
+        &=\frac{\det(P) \det(A)}{\det(P)} \\
+        &= \det(A)
+    \end{align*}
+\end{proof}
+\begin{remark}
+    We can alternatively express this as: the determinant function is constant on similarity classes.
+\end{remark}
+\begin{definition}{Determinant of a linear map}
+    Let $V$ be a finite-dimensional vector space, $\alpha \in \L(V, V)$. Let $B$ be a basis for $V$. Then the \underline{determinant} of $\alpha$ is:
+    \begin{equation*}
+        \det(\alpha) = \det([\alpha]_B^B)
+    \end{equation*}
+\end{definition}
+\begin{proposition}
+    For a linear map $\alpha : V\mapsto V$, $\det(A)$ is independent of the basis chosen for $V$.
+    \label{propDetLinMapUnique}
+\end{proposition}
+\begin{proof}
+    Let $B'$ be another basis for $B$. Let $P = [Id_V]^B_{B'}$. Recall that $P$ is invertible, with inverse $P^{-1} = [Id_V]_B^{B'}$.
+    \begin{align*}
+        [\alpha]_{B'}^B &= [Id_V]_{B'}^B [\alpha]_{B'}^{B'} [Id_V]_{B}^{B'}\\ 
+        &= P[\alpha]_{B'}^{B'} P^{-1}
+    \end{align*}
+    Therefore the two matrices representing $\alpha$ in $B$ and $B'$ are similar, and so have the same determinant by corollary~\ref{corSimilarSameDet}.
+\end{proof}
+\begin{definition}{Singular linear map}
+    A linear map $\alpha : V \mapsto V$ is \underline{singular} if $\det(\alpha) = 0$.
+\end{definition}
+\begin{corollary}
+    For any $\alpha \in \L(V, V)$, the following are equivalent:
+    \begin{enumerate}
+        \item $rk(\alpha) = \dim(V)$;
+        \item $\alpha$ is invertible;
+        \item $\alpha$ is non-singular.
+    \end{enumerate}
+    \label{corInvertabilityLM}
+\end{corollary}
+\begin{proof}
+    We have that statements 1 and 2 are equivalent by theorem~\ref{thmRankNullity}.
+    \begin{subproof}{Statement 2 is equivalent to statement 3}
+        Fix any basis $B$ for $V$. Set $A = [\alpha]_B^B$. Then $rk(A) = rk(\alpha)$.
+        
+        Hence, $rk(\alpha) = \dim(V)$ if and only if $rk(A) = \dim(V)$, which is exactly when $\det(A) \neq 0$.
+    \end{subproof}
+\end{proof}
+\begin{proposition}[Block Triangular Matrices]
+    Let $A \in M_{k \times k}(\F), B \in M{l \times l}(\F)$. Define:
+    \begin{equation*}
+        C =
+        \begin{pmatrix}
+            A & (\star) \\
+            0 & B
+        \end{pmatrix}
+        \in M_{n \times m}(\F)
+    \end{equation*}
+    Where here $(\star)$ shows that anything may sit in the upper-right block.
+
+    Then we conclude $\det(C) = \det(A) \det(B)$.
+    \label{propTriangularDet}
+\end{proposition}
+\begin{proof}
+    Note that $c_{ij} = 0$ for all $i \geq k+1$ and $j \leq k$. Therefore, for $\sigma \in S_n$, if
+    \begin{equation*}
+        \prod_{i=1}^{n} c_{\sigma(i), i} \neq 0
+    \end{equation*}
+    then we must have that $\sigma$ preserves $X = \{1, \cdots, k\}$.
+
+    Therefore, we also have $\sigma$ preserves $Y = \{k+1, \cdots, n\}$. Now we can write $\sigma = \tau \cdot \theta$ where $\tau \in \text{Sym}(X)$ and $\theta \in \text{Sym}(Y)$.
+
+    NOTE: What we really mean here is that $\tau$ fixes all elements of $Y$ and applies some $\tau' \in \text{Sym}(X)$ for each element of $X$. Similar for $\theta$.
+
+    Conversely, given $\tau \in \text{Sym}(X)$ and $\theta \in \text{Sym}(Y)$ we can write $\sigma \in S_n$ preserving $X$ and $Y$.
+
+    Moreover, we have:
+    \begin{align*}
+        \prod_{i=1}^{n} c_{(\tau \cdot \theta)(i), i} &= \left(\prod_{x \in X} C_{(\tau \theta)(x), x}\right)\left(\prod_{y \in Y} C_{(\tau \theta)(y), y}\right) \\
+        &= \left(\prod_{x \in X} C_{\tau(x), x}\right)\left(\prod_{y \in Y} C_{\theta(y), y}\right) \\
+    \end{align*}
+    \begin{align*}
+        \det(X) &= \sum_{\sigma \in S_n} \sgn(\sigma) \prod_{i=1}^{n} c_{\sigma(i), i}\\
+        &= \sum_{\tau \in \text{Sym(X)}, \theta \in \text{Sym(Y)}} \sgn(\tau\theta) \prod_{i=1}^{n} c_{\tau\theta(i), i} \\
+        &= \sum_{\tau, \theta} \sgn{\tau\theta} \left(\prod_{x \in X}C_{\tau(x), x}\right)\left(\prod_{y\in Y} c_{\theta(y), y}\right) \\
+        &= \sum_\tau \sum_\theta \sgn(\tau) \sgn(\theta) \left(\prod_{x \in X}C_{\tau(x), x}\right)\left(\prod_{y\in Y} c_{\theta(y), y}\right) \\
+        &= \left(\sum_\tau \prod_{x=1}^kC_{\tau(x), x}\right)\left(\sum_\theta \prod_{y = k+1}^n c_{\theta(y), y}\right) \\
+        &= \det(A) \det(B)
+    \end{align*}
+\end{proof}
+\begin{corollary}
+    If $A$ has the following form:
+    \begin{equation*}
+        C =
+        \begin{pmatrix}
+            A_1 & (\star) & (\star) & \cdots & (\star) \\
+            0 & A_2 & (\star) & \cdots & (\star) \\
+            0 & 0 & \ddots & & \vdots \\
+            \vdots & \vdots & & A_{k-1} & (\star) \\
+            0 & 0 & \cdots & 0 & A_k
+        \end{pmatrix}                
+    \end{equation*}
+    We have:
+    \begin{equation*}
+        \det(A) = \prod_{i=1}^{k} \det(A_i)
+    \end{equation*}
+    \label{corMultiBlockDet}
+\end{corollary}
+\begin{proof}
+    The proof is inductive, by considering the matrix $B$ as contining $A_2$ to $A_k$ and applying the theorem on $C$ and $B$ $k-1$ times.
+\end{proof}
+\begin{definition}{Minor matrix}
+    For $A \in M_{n \times n}(\F)$, the \underline{$(i, j)$-minor matrix} is:
+    \begin{equation*}
+        \mnr{A}{i}{j} \in M_{n-1, n-1} (\F)
+    \end{equation*}
+    This is obtained from $A$ by deleting the $i$th row and the $j$th column.
+\end{definition}
+\begin{lemma}[Laplace Expansion along a column or row]
+    \begin{enumerate}
+        \item For any fixed $1 \leq i \leq n$,
+            \begin{equation*}
+                \det(A) = \sum_{j=1}^{n} (-1)^{i+j} a_{ij} \det(\mnr{A}{i}{j})
+            \end{equation*}
+        \item For any fixed $1 \leq j \leq n$,
+            \begin{equation*}
+                \det(A) = \sum_{i=1}^{n} (-1)^{i+j} a_{ij} \det(\mnr{A}{i}{j})
+            \end{equation*}
+    \end{enumerate}
+    \label{lemLaplaceOnRowCol}
+\end{lemma}
+\begin{proof}
+    If we can show the row expansion, we can show the column expansion easily using $\det(A) = \det(A^T)$.
+
+    Recall that the row-swap elementary matrix $T_{ij}$ has determinant $-1$. Let $A$ have columns $(\vec{c_1}, \cdots, \vec{c_n})$. By linearity in column $j$:
+    \begin{align*}
+        \det(A) &= \sum_{i=1}^{n} a_{ij} \det\left((\vec{c_1} \vline \cdots \vline \vec{c_{j-1}} \vline \vec{e_i} \vline \vec{c_{j+1}} \vline \cdots \vline \vec{c_n})\right) \\
+        &= \sum_{i=1}^{n} a_{ij} \det(A^{(i)})
+    \end{align*}
+    Therefore it suffices to find $\det(A^{(i)})$. Apply $j-1$ elementary column operations $T_{k, k+1}$ to move the $j$th column all the way left. Obtain:
+    \begin{equation*}
+        \det(A^{(i)}) = (-1)^{j-1} \det((\vec{e_i} \vline \vec{c_1} \vline \cdots \vline \vec{c_{j-1}} \vline \vec{c_{j+1}} \vline \cdots \vline \vec{c_n}))
+    \end{equation*}
+    Then apply $i-1$ elementary row operations to move the $i$th row to the top (so there is a 1 at the top-left element)
+    \begin{equation*}
+        \det(A^{(i)}) = (-1)^{i-1} (-1)^{j-1} \det\left(\begin{pmatrix}
+            1 & (\star) \\
+            0 & \mnr{A}{i}{j}
+        \end{pmatrix}
+        \right)
+    \end{equation*}
+    By proposition~\ref{propTriangularDet}, this is $(-1)^{i+j} \det(\mnr{A}{i}{j})$.
+\end{proof}
+\begin{definition}{Adjugate matrix}
+    The \underline{adjugate matrix} $\adj(A)$ of $A$ is given by:
+    \begin{equation*}
+        \adj(A) = \left((-1)^{i+j} \det(\mnr{A}{j}{i})\right)_{ij}
+    \end{equation*}
+\end{definition}
+\begin{theorem}[Cramer's Rule]
+    \begin{enumerate}
+        \item $\adj(A) \cdot A = A \cdot \adj(A) = \det(A) I_n$.
+        \item If $A$ is invertible then:
+            \begin{equation*}
+                A^{-1} = \frac{\adj(A)}{\det(A)}
+            \end{equation*}
+    \end{enumerate}
+    \label{thmCramerRule}
+\end{theorem}
+\begin{proof}
+    The second statement is immediate from the first because inverses are unique.
+
+    For the first statement, consider a Laplace expansion about the $j$th column:
+    \begin{align*}
+        \det(A) &= \sum_i (\adj(A))_{j, i} a_{ij} \\
+        &= \left[\adj(A) A\right]_{i, j}
+    \end{align*}
+    Then for $j \neq k$, replace the $j$th column of $A$ by the $k$th column to obtain $A'$.
+    \begin{align*}
+        0 &= \det(A')\\
+        &= \sum_{i} \adj(A) a_{jk} \text{ by expanding along } j\text{th column} \\
+        &= \left[\adj(A) A\right]_{jk}
+    \end{align*}
+
+    We can use the same process for $A \adj(A)$ by expanding on a row.
+\end{proof}
 \end{document}
