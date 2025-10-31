@@ -347,18 +347,16 @@ The higher-dimensional analogue of the wave equation is:
     \frac{1}{c^2} \frac{\partial^{2}\phi}{\partial t^{2}} = \Delta \phi
     \label{eqnWave3D}
 \end{equation}
-We will solve the IBVP on a drum:
-\begin{equation*}
-    \Omega = \subsetselect{(r, \theta)}{0 \leq r < 1, 0 \leq \theta < 2\pi}
-\end{equation*}
-\begin{equation*}
+We will solve the IBVP on a drum, $\Omega = \subsetselect{(r, \theta)}{0 \leq r < 1, 0 \leq \theta < 2\pi}$:
+\begin{equation}
     \begin{cases}
         \phi_{tt} - c^2 \Delta \phi & \Omega \times (0, \infty) \\
         \phi = 0 & \partial \phi \times (0, \infty) \\
         \phi = f & \phi \times (t = 0) \\
         \phi_t = g & \phi \times (t = 0) \\
     \end{cases}
-\end{equation*}
+    \label{eqnWaveDrum}
+\end{equation}
 For simplicity, assume that $f$ and $g$ are only functions of $r$. Therefore, it is reasonable to assume that $\phi$ is independent of $\theta$ too. The wave equation becomes:
 \begin{equation*}
     \frac{1}{c^2} \frac{\partial^{2}\phi}{\partial t^{2}} = \frac{1}{r} \frac{\partial}{\partial r}\left(r \frac{\partial \phi}{\partial r}\right)
@@ -404,4 +402,119 @@ And the by orthogonality we can find the coefficients $A_n$ and $B_n$:
     A_k &= \frac{2}{J_0'(j_{0k})^2} \int_{0}^{1} f(r) J_0(j_{0k}r) r dr \\
     B_k &= \frac{2}{J_0'(j_{0k})^2} \frac{1}{cj_{0k}} \int_{0}^{1} g(r) J_0(j_{0k}r)r dr
 \end{align*}
+\subsection{Energy Conservation and Uniqueness}
+We will now show how energy conservation allows us to show uniqueness for the wave equation.
+
+Begin on the string, with tension $\tau$, density $\mu$, and clamped at $x \in \{0, L\}$. Define the energy:
+\begin{equation*}
+    E(t) = \int_{0}^{L} \left[\frac12 \mu y_t^2 + \frac12 \tau y_x^2\right] dx = T + V
+\end{equation*}
+The second term in the integral is the potential energy stored in the string. We know that potential energy is proportional to the extension of the string, so on a small length of the string:
+\begin{align*}
+    ds - dx &= \left(\sqrt{1 + y_x^2} - 1\right) dx \\
+    &\approx \frac{1}{2}y_x^2 dx
+\end{align*}
+For simplicity, set $\mu = 1$ so $\tau = c^2$ and the energy, after scaling, is:
+\begin{equation*}
+    E(t) = \frac12 \int_{0}^{L} \left[y_t^2 + c^2 y_x^2\right] dx
+\end{equation*}
+For the wave equation on a general domain $\Omega \times (0, \infty)$,
+\begin{equation*}
+    E(t) = \frac12 \int_{\Omega} \left[\phi_t^2 + c^2 |\nabla\phi|^2\right]dV
+\end{equation*}
+Recall our IBVP for the wave equation:
+\begin{equation}
+    \begin{cases}
+        \phi_{tt} - c^2 \Delta \phi & \Omega \times (0, \infty) \\
+        \phi = 0 & \partial \phi \times (0, \infty) \\
+        \phi = f & \phi \times (t = 0) \\
+        \phi_t = g & \phi \times (t = 0) \\
+    \end{cases}
+    \tag{\ref{eqnWaveDrum}}
+\end{equation}
+We can now look at the evolution of the energy as $\phi$ evolves according to equation~\ref{eqnWaveDrum} (our IBVP),
+\begin{align*}
+    \frac{dE}{dt} &= \int_{\Omega} \left(\phi_t \phi_{tt} + c^2 \nabla \phi \cdot \nabla \phi_t\right) dV \\
+    &= c^2\int_{\Omega} \left(\phi_t \Delta \phi + c^2 \nabla \phi \cdot \nabla \phi_t\right) dV \text{by equation~\ref{eqnWave3D}} \\
+    &= c^2 \int_{\Omega} \nabla \cdot \left(\phi_t\nabla \phi\right) \\
+    &= c^2 \int_{\partial \Omega} \phi_t \frac{\partial \phi}{\partial \vec{n}} dS
+\end{align*}
+We know that $\phi(\vec{x}, t) = 0$ on $\partial \Omega$, so its time derivative must also be zero on the boundary. This gives:
+\begin{equation*}
+    \frac{dE}{dt} = 0
+\end{equation*}
+Therefore $E$ takes the same value at all time that it did at $0$, $E(t) = E(0)$. From the initial conditions, we find:
+\begin{equation*}
+    E(t) = E(0) = \frac12 \int_{\Omega} \left(g^2 + c^2 |\nabla f|^2\right) dV
+\end{equation*}
+\begin{proposition}
+    The solution to equation~\ref{eqnWaveDrum} is unique.
+    \label{propWaveUnique}
+\end{proposition}
+\begin{proof}
+    Suppose both $\phi_1$ and $\phi_2$ satisfy equation~\ref{eqnWaveDrum}. Consider their difference:
+    \begin{equation*}
+        \psi = \phi_1 - \phi_2
+    \end{equation*}
+    Then $\psi$ satisfies equation~\ref{eqnWaveDrum}, with $f = g = 0$. By the conservation of energy:
+    \begin{align*}
+        0 = E(0) = E(t) &= \frac12 \int_\Omega \left(\psi_t^2 + c^2 |\nabla \psi|^2\right) dV
+    \end{align*}
+    But the integrand is certainly non-negative, so must be zero. $\psi_t = |\nabla \psi| = 0$ which implies that $\psi$ is constant on $\Omega$. However, since $\psi = 0$ on $\partial \psi$, we must have that $\psi = 0$ and $\phi_1 = \phi_2$.
+\end{proof}
+\subsection{Wave Reflection and Transmission}
+Consider an infinite string, with constant tension $\tau$ and density $\mu_+$ on $x > 0$, density $\mu_-$ on $x < 0$. The equations of motion are:
+\begin{equation*}
+    \begin{cases}
+        \frac{1}{c_-^2}\frac{\partial^{2}y}{\partial t^{2}} = \frac{\partial^{2}y}{\partial x^{2}} & x < 0 \\
+        \frac{1}{c_+^2}\frac{\partial^{2}y}{\partial t^{2}} = \frac{\partial^{2}y}{\partial x^{2}} & x < 0 \\
+    \end{cases}
+\end{equation*}
+In the above, $c_{\pm}^2 = \tau / \mu_{\pm}$. Now consider, for $\omega \in \R$, an incoming wave from $x < 0$ of the form:
+\begin{align*}
+    y(x, t) &= \cos\left[\omega \left(t - \frac{x}{c_-}\right)\right] \\
+    &= \text{Re} \left[e^{i\omega(t - x/c_-)}\right]
+\end{align*}
+Then we expect to get wave transmission and reflection due to interactions at $x = 0$. We need to impose some physical conditions to get the solutions we want:
+\begin{enumerate}
+    \item The string does not break:
+        \begin{equation*}
+            y(0^+, t) = y(0^-, t)
+        \end{equation*}
+    \item Forces at $x = 0$ must be equal (because this single point has no mass):
+        \begin{align*}
+            \tau \sin(\theta_+) &= \tau \sin(\theta_-) \\
+            \frac{\partial y}{\partial x}(0^+, t) &= \frac{\partial y}{\partial x} (0^-, t)
+        \end{align*}
+        If there were a mass at this point, we would need Newton's 2nd Law.
+\end{enumerate}
+We consider $y(x, t) = e^{i\omega (t - x / c_-)}$ as our solution. Given that all of our equations are real-valued, we know that the real part and the imaginary part of this will satisfy the equations separately. Therefore, we will deal with this complex function and take real parts at the end.
+
+Consider solutions of the form:
+\begin{equation*}
+    y(x, t) =
+    \begin{cases}
+        e^{i\omega(t - \frac{x}{c_-})} + Re^{-\omega(t - \frac{x}{c_-})} & x < 0 \\
+        Te^{-\omega (t - \frac{x}{c_+})} & x > 0
+    \end{cases}
+\end{equation*}
+By the first boundary condition:
+\begin{equation*}
+    e^{i\omega t} + Re^{i\omega t} = Te^{i\omega t}
+\end{equation*}
+By the second boundary condition:
+\begin{equation*}
+    \frac{i\omega}{c_-} e^{i\omega t} (R - 1) = -\frac{i\omega}{c_+} Te^{-\omega t}
+\end{equation*}
+Then setting $\lambda = c_+ / c_- = \sqrt{\mu_- / \mu_+}$ to get our coefficients:
+\begin{equation*}
+    R = \frac{\lambda - 1}{\lambda + 1},~~T = \frac{2\lambda}{\lambda + 1}
+\end{equation*}
+We call $R$ the \underline{reflection coefficent}, and $T$ the \underline{transmission coefficient}.
+To check, we can consider some extreme cases:
+\begin{itemize}
+    \item If $\mu_+ = \mu_-$, $\lambda = 1$ and $R = 0, T = 1$. That is, the wave passes straight thorugh the origin (because now the two sides are the same).
+    \item If $\mu_+ >> \mu_-$, we find that $\lambda << 1$ so $R \approx -1$ and $T \approx 0$. This is (in the limit), a fixed end which changes the phase by $\pi$ and reflects the wave.
+    \item If $\mu_- >> \mu_+$, $\lambda >> 1$, we find $R \approx 1$ and $T \approx 2$.
+\end{itemize}
 \end{document}
