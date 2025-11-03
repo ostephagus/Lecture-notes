@@ -1,0 +1,154 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Basics of Dual Spaces}
+\subsection{Definition and Examples}
+\begin{definition}{Dual Space}
+    Let $V$ be a vector space over a field $\F$. Then the \underline{dual space} of $V$ is:
+    \begin{equation*}
+        V^* = \L(V, \F)
+    \end{equation*}
+    An element $\theta \in V^*$ is sometimes known as a \underline{linear functional} on $V$.
+\end{definition}
+\begin{examples}{}
+    \item Consider $\theta : \R^3 \mapsto \R$ given by $\theta(\vec{x}) = x - 2y + 3z$.
+    \item Note that the trace function in in the dual space $M_{n \times n}(\F)^*$
+    \item Consider $V$ the set of functions in $C([0, 1])$. Then consider:
+        \begin{align*}
+            \theta : C([0, 1]) &\mapsto \R\\
+            f &\mapsto \int_{0}^{1} e^{-t}f(t) dt 
+        \end{align*}
+        Then $\theta \in V^*$. We can now more clearly see why $\theta$ is a \underline{linear functional} of $C([0, 1])$.
+\end{examples}
+\subsection{Connection with Bases}
+Suppose $V$ is a vector space over a field $\F$. Suppose $B$ is a basis of $V$. For $b \in B$, define $b^* \in V^*$ such that:
+\begin{equation*}
+    b^* \left(\sum_{c \in B}' \lambda_i c\right) = \lambda_b,~b^*(c) = \delta_{b, c}
+\end{equation*}
+Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
+\begin{propositions}{
+        Suppose $V, B, B^*$ are defined as above.
+        \label{propsDualBasis}
+    }
+    \item $B^*$ is linearly independent.
+    \item If $V$ is finite-dimensional, then $B^*$ is a basis for $V^*$
+\end{propositions}
+\begin{proof}
+    First suppose $\sum_{b \in B}' \lambda_b b^* = \zv$ in $V^*$. Then for $c \in B$,
+    \begin{equation*}
+        0 = \left(\sum_{b \in B} \lambda_b b^*\right)(c) = \sum_{b \in B}' \lambda_i b^*(c) = \lambda_c
+    \end{equation*}
+    and therefore we must have $c = 0$.
+
+    For the second claim, we can give a short proof and a constructive proof.
+
+    By theorem~\ref{findthereference}, for $V, W$ finite-dimensional,
+    \begin{equation*}
+        \dim(\L(V, W)) = \dim(V) \dim(W)
+    \end{equation*}
+    \begin{align*}
+        \dim(V^*) &=\dim(\L(V, \F)) \\
+        &= \dim(V)
+    \end{align*}
+    Also $B^*$ is a linearly independent subset of $V^*$ with size $\dim(V) = \dim(V^*)$, hence $B^*$ is a basis for $V$.
+
+    We can provide a constructive proof:
+    
+    Given $\theta \in V^*$ and $b \in B$, set $\lambda_b = \theta(b) \in \F$ and take:
+    \begin{equation*}
+        \theta = \sum_{b \in B}; \lambda_b b^* \in V^*
+    \end{equation*}
+    then $\bar{\theta} \in \spn{B^*}$ and for $c \in B$,
+    \begin{equation*}
+        \bar{\theta}(c) = \lambda_c = \theta(c)
+    \end{equation*}
+    hence $\theta = \bar{\theta}$ since they agree on the basis vectors, and $\theta \in \spn{B^*}$.
+\end{proof}
+\begin{definition}{Dual basis}
+    The \underline{dual basis} of a finite-dimensional vector space $V$ with basis $B$ is given as above.
+\end{definition}
+\begin{example}[Dual bases are more complicated in infinite dimensions]
+    Consider the space of polynomial functions $\P(\R)$. Then we can show that the dual space is isomorphic to $\R^\N$, but we showed on the first example sheet that these are not isomorphic, in contrast to the finite-dimensional case.
+\end{example}
+\begin{corollary}
+    For $V$ a finite-dimensional vector space over $\F$, $V \isom V^*$.
+    \label{corDualBasisIsom}
+\end{corollary}
+\begin{proof}
+    By proposition~\ref{propsDualBasis}, $\dim(V) = \dim(V^*)$. Note $V$ is finite dimensional so we can form a basis $B = \{v_1, \cdots, v_n\}$.
+
+    For $v \in V, \theta \in V^*$, write:
+    \begin{equation*}
+        v = \sum_{i=1}^{n} \lambda_i v_i, ~~\theta = \sum_{j=1}^{n} \mu_j v_j^*
+    \end{equation*}
+    Then $\theta(v)$ is given by:
+    \begin{align*}
+        \theta(v) &= \sum_{i, j = 1}^{n} \lambda_i \mu_i v_{j}^*(v_i) \\
+        &= \sum_{i=1}^n \lambda_i \mu_i \\
+        &= \left([\theta]_{B^*}\right)^T [v_B]
+    \end{align*}
+\end{proof}
+\begin{definition}{Annihilator}
+    For $V$ a finite-dimensional vector space over $\F$, $S \subseteq V$, the \underline{annihilator} of $S$ is:
+    \begin{equation*}
+        S^0 = \subsetselect{\theta \in V^*}{\forall s \in S, \theta(s) = 0} \subseteq V^*
+    \end{equation*}
+\end{definition}
+\begin{propositions}{
+        Let $V$ be a finite-dimensional vector space over $\F$. Let $S, T \subseteq V$.
+        \label{propsAnnihilator}
+    }
+    \item $S^0 \leq V^*$
+    \item If $S \subseteq T$ then $T^0 \leq S^0$
+    \item $S^0 = \spn{S}^0$
+    \item $V^0 = \{\zv_{V^*}\}$ and $\{\zv_V\}^0 = V^*$.
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item We can simply apply the subspace test in this case.
+        \item By the first part, it suffuces to check $T^0 \subseteq S^0$. For $\theta \in T^0, s \in S$, we have that $s \in T$ and so $\theta(s) = 0$.
+        \item Note that $S \subseteq \spn{S}$ and by the second part, we have immediately that $\spn{S}^0 \leq S^0$.
+        
+            Then suppose $\theta \in S^0, v \in \spn{S}$. Write $v = \sum_{s \in S}' \lambda_s s$, so:
+            \begin{equation*}
+                \theta(v) = \sum_{s \in S}' \lambda_s \theta(s) = 0
+            \end{equation*}
+            Therefore, $\theta \in \spn{S}^0$.
+        \item If $\theta \in V^*$ and $\theta$ sends all elements to zero, $\theta$ must be the zero functional.
+        
+        For any $\theta \in V^*$ $\theta(\zv_V) = 0$ so $\theta \in \{\zv_V\}^0$.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    For $V$ finite-dimensional, and $U \leq V$,
+    \begin{equation*}
+        \dim(V) = \dim(U) + \dim(U^0)
+    \end{equation*}
+    \label{propAnnihilatorDim}
+\end{proposition}
+\begin{proof}
+    Let $\dim(V) = n, \dim(U) = k$.
+    Let $B_U = \{v_1, \cdots, v_k\}$ be a basis for $U$. Extend this basis to $B_V = \{v_1, \cdots, v_n\}$.
+
+    Then $B_V^* = \{v_1^*, \cdots, v_n^*\}$ is a basis for $V^*$.
+    \begin{subproof}{$\{v_{k+1}^*, \cdots, v_n^*\}$ forms a basis for $U^0$}
+        First we show that this is a subset of $U^0$. For $i \leq k$ and $j \geq k+1$, $v_j^*(v_i) = 0$ and so:
+        \begin{align*}
+            v_j^* \in (B_U)^0 &= \spn{B_U}^0 \\
+            &= U^0
+        \end{align*}
+        We have that this is also certainly linerly independent because it is a subset of a basis. Therefore the final thing to check is that this spans $U^0$. For this, let $\theta \in U^0$. Write it as a linear combination:
+        \begin{equation*}
+            \theta = \sum_{j=1}^n \lambda_j v_j^*
+        \end{equation*}
+        For $i \leq k, v_i \in U$,
+        \begin{equation*}
+            0 = \theta(v_i) = \sum_{j=1}^{n} \lambda_j v_j^*(v_i) = \lambda_i
+        \end{equation*}
+        Therefore, $\theta = \sum_{j = k + 1}^{n} \lambda_i v_j^* \in \spn{v_{k+1}^*, \cdots, v_n^*}$.
+    \end{subproof}
+\end{proof}
+\begin{remark}
+    For an infinite-dimensional vector space $V$, we can use the idea of direct sums to show that if $U, W \leq V$ satisfy $V = U \oplus W$ then $U^0 \isom W^*$.
+\end{remark}
+\end{document}

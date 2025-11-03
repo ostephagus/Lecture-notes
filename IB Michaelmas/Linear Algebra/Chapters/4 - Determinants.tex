@@ -344,4 +344,59 @@ before we give the main theorem of this chapter, we need some properties from IA
 
     We can use the same process for $A \adj(A)$ by expanding on a row.
 \end{proof}
+\section{Trace}
+\begin{definition}{Trace}
+    For $A \in M_{n \times n}(\F)$, the \underline{trace} of $A$ is given by:
+    \begin{equation*}
+        \tr(A) = \sum_{i=1}^n a_{i, i}
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    Trace is a linear operation on matrices.
+\end{remark}
+\begin{lemma}
+    For all $A, B \in M_{n \times n}(\F)$,
+    \begin{equation*}
+        \tr(AB) = \tr(BA)
+    \end{equation*}
+    \label{lemTrCommute}
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        \tr(AB) &= \sum_{i=1}^{n} (AB)_{i, i} \\
+        &= \sum_{i=1}^{n} \sum_{j=1}^{n} a_{i, j} b_{j, i} \\
+        &= \sum_{j=1}^{n} \sum_{i=1}^{n} b_{j, i} a_{i, j} \\
+        &= \sum_{j=1}^{n} (BA)_{j, j} \\
+        &= \tr(BA)
+    \end{align*}
+\end{proof}
+\begin{remark}
+    In general, we do not have the stronger property that $\tr(AB) = \tr(A) \tr(B)$.
+\end{remark}
+\begin{corollary}
+    Similar matrices have the same trace
+    \label{corSimilarSameTr}
+\end{corollary}
+\begin{proof}
+    Let $P \in GL_{n}(\F)$. Then:
+    \begin{align*}
+        \tr(PAP^{-1}) &= \tr(P^{-1} (PA)) \\
+        &= \tr(IA) \\
+        &= \tr(A)
+    \end{align*}
+\end{proof}
+\begin{definition}{Trace of a linear map}
+    For $V$ a finite-dimensional vector space, and $\alpha \in \L(V, V)$, define the \underline{Trace of $\alpha$} by:
+    \begin{equation*}
+        \tr(\alpha) = \tr([\alpha]_B^B)
+    \end{equation*}
+    Where $B$ is any basis for $V$.
+\end{definition}
+\begin{proposition}
+    The trace of a linear map $\alpha$ is independent of the basis chosen for $V$.
+    \label{propLMTraceWellDef}
+\end{proposition}
+\begin{proof}
+    If $B'$ is another basis for $V$, $[\alpha]_{B'}^{B'}$ is similar to $[\alpha]_B^B$ and therefore they have the same trace by corollary~\ref{corSimilarSameTr}
+\end{proof}
 \end{document}
