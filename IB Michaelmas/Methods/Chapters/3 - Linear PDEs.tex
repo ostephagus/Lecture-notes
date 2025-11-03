@@ -517,4 +517,144 @@ To check, we can consider some extreme cases:
     \item If $\mu_+ >> \mu_-$, we find that $\lambda << 1$ so $R \approx -1$ and $T \approx 0$. This is (in the limit), a fixed end which changes the phase by $\pi$ and reflects the wave.
     \item If $\mu_- >> \mu_+$, $\lambda >> 1$, we find $R \approx 1$ and $T \approx 2$.
 \end{itemize}
+\section{The Heat Equation}
+We want to model the temperature, $\phi(x, t)$, of a conductive material as it evolves over time. This must satisfy the \underline{heat equation}:
+\begin{equation}
+    \frac{\partial \phi}{\partial t} \kappa \Delta\phi
+    \label{eqnHeat}
+\end{equation}
+The general idea behind this equation is that the heat should in general average out over time, so the rate of change at a given point is proportional to the average temperature around it. $\kappa > 0$ can be understood to measure conductivity of the material. Let the domain of the conducting material be $\Omega$. Then we have the IBVP:
+\begin{equation}
+    \begin{cases}
+        \phi_t - \kappa \Delta\phi = 0 & \Omega \times (0, \infty) \\
+        \phi = 0 & \partial \Omega \times (0, \infty) \\
+        \phi = f & \Omega \times \{t = 0\}
+    \end{cases}
+    \label{eqnHeatIBVP}
+\end{equation}
+We can use our standard method of taking $\phi(\vec{x}, t) = T(t) \psi(\vec{x})$. We find that:
+\begin{align}
+    \dot{T} + \kappa \mu T &= 0 \label{eqnHeatTime} \\
+    -\Delta \psi &= \mu \psi \label{eqnHeatSpace} \\
+\end{align}
+We get the simple solution for time, $T(t) = e^{-\kappa \mu t}$. We now need to solve the BVP:
+\begin{equation}
+    \begin{cases}
+        -\Delta \psi = \mu \psi & \vec{x} \in \Omega \\
+        \psi = 0 & \vec{x} \in \partial \Omega
+    \end{cases}
+    \label{eqnHeatBVP}
+\end{equation}
+Then the solutions to this BVP depend on the geometry of the conducting domain $\Omega$.
+\subsection{Heat Conduction on a Square Sheet}
+Consider $\Omega = \{(x, y) \in (0, L) \times (0, L)\}$. Then we can separate $\psi(\vec{x})$ into $\psi(\vec{x}) = X(x)Y(y)$. We find:
+\begin{align*}
+    X'' + \lambda X &= 0 \\
+    Y'' + (\mu - \lambda) Y = 0
+\end{align*}
+with boundary conditions:
+\begin{align*}
+    X(0) &= X(L) = 0 \\
+    Y(0) &= Y(L) = 0
+\end{align*}
+We are familiar with problems like this. They have solutions:
+\begin{equation*}
+    X_n(X) = \sin\left(\frac{n \pi x}{L}\right),~\lambda_n = \left(\frac{n\pi}{L}\right)^2
+\end{equation*}
+Use these eigenvalues to solve the equation for $Y$:
+\begin{equation*}
+    Y = A\sin\left(y\sqrt{\mu - \lambda_n}\right) + B\cos\left(y\sqrt{\mu - \lambda_n}\right) \\
+\end{equation*}
+Then apply the boundary conditions. $y(0) = 0 \implies B = 0$. $Y(L) = 0$ gives:
+\begin{equation*}
+    \mu_{mn} - \lambda_n = \left(\frac{n\pi}{L}\right)^2
+\end{equation*}
+This gives the solutions:
+\begin{equation*}
+    Y_n(y) = \sin\left(\frac{m \pi y}{L}\right),~~\mu_{mn} = \left(\frac{n\pi}{L}\right)^2 + \left(\frac{m \pi}{L}\right)^2
+\end{equation*}
+Now we are ready to write down our solution to $\phi$:
+\begin{equation*}
+    \phi(x, y, t) = \sum_{m, n = 1}^{\infty} A_{mn} e^{-\kappa \mu_{mn}t} \sin\left(\frac{n \pi x}{L}\right)\sin\left(\frac{m \pi x}{L}\right)
+\end{equation*}
+Then we have satisfied the condition for $t > 0$. We now apply the initial condition to determine $A_{mn}$:
+\begin{equation*}
+    f(x, y) = \sum_{m, n = 1}^{\infty} A_{mn} \sin\left(\frac{n \pi x}{L}\right) \sin\left(\frac{m \pi x}{L}\right)
+\end{equation*}
+Then we need two inner products to get $A$. Using equalities like $\inn{X_n, X_k} = \frac{L}{2} \delta_{nk}$:
+\begin{equation*}
+    A_{m, n} = \frac{2}{L} \frac{2}{L} \int_{0}^{L} \int_{0}^{L} f(x, y) \sin\left(\frac{n \pi x}{L}\right) \sin\left(\frac{n \pi x}{L}\right) dy  dx 
+\end{equation*}
+\subsection{Heat Flow Down a Pipe}
+We now want to consider a pipe, so use cylindrical polars and define $\Omega$:
+\begin{equation*}
+    \Omega = \{(\rho, \phi, z) \vline 0 \leq \rho < 1, 0 \leq \phi < 2\pi, 0 < z < L\}
+\end{equation*}
+We now want to solve the IBVP in equation~\ref{eqnHeatIBVP}. For simplicity, assume $f$ depends only on $\rho, z$. We look for a solution of the form:
+\begin{equation*}
+    \phi(\rho, z, t) = T(t) \psi(\rho, z)
+\end{equation*}
+$\psi$ must satisfy:
+\begin{align*}
+    &-\Delta \psi = \mu \psi \\
+    \implies &\frac{1}{\rho} \frac{\partial}{\partial \rho} \left(\rho \frac{\partial \psi}{\partial \rho}\right) + \frac{\partial^{2}\psi}{\partial z^{2}} + \mu \psi = 0
+\end{align*}
+Now we try another separable solution $\psi(\rho, z) = P(\rho) Z(z)$. Then we get that there exist eigenvalues $\lambda$ such that:
+\begin{align*}
+    -\frac{1}{\rho P} [\rho P']' &= \lambda \\
+    Z'' + (\mu - \lambda) Z &= 0
+\end{align*}
+Our problem becomes:
+\begin{align*}
+    -\frac{d}{d\rho}\left[\rho \frac{dP}{d\rho}\right] = \lambda \rho P,~~&~0 < \rho < 1, P(1) = 0 \\
+    Z'' + (\mu - \lambda) z = 0,~~&~Z(0) = Z(L) = 0
+\end{align*}
+The equation for $\rho$ is the Bessel problem with $m = 0$. Therefore it has solutions:
+\begin{equation*}
+    P_k(\rho) = J_0(j_{0k}\rho), \lambda_k = j_{0k}^2
+\end{equation*}
+The equation for $Z$ has solutions:
+\begin{equation*}
+    Z_n(z) = \sin\left(\frac{n \pi z}{L}\right), \mu_{kn} = \lambda_k +\left(\frac{n \pi}{L}\right)^2
+\end{equation*}
+Now we are ready to write down $\psi$:
+\begin{equation*}
+    \psi(\rho, z, t) = \sum_{n, k = 1}^{\infty} B_{nk} e^{-\kappa \mu_{nk} t} J_0(j_{0k}\rho) \sin\left(\frac{n \pi z}{L}\right)
+\end{equation*}
+This satisfies the heat equation and the boundary conditions. We use the initial conditions to determine $B_{nk}$:
+\begin{equation*}
+    f(\rho, z) = \sum_{n, k = 1}^{\infty} B_{nk} J_0(j_{0k} \rho) \sin\left(\frac{n \pi z}{L}\right)
+\end{equation*}
+Recall that $\int_{0}^{1} J_{0}(j_{0k} \rho) J_{0} (j_{0l} \rho) \rho d\rho = \frac12 J_0'(j_{0k})^2 \delta_{kl}$. Therefore we take inner products and find the constants:
+\begin{equation*}
+    B_{nk} = \frac{2}{J_0'(j_{0k})^2} \frac{2}{L} \int_{0}^{1} \int_{0}^{L} \rho f(\rho, z) J_0(j_{0k}\rho) \sin\left(\frac{n \pi z}{L}\right) dz  d\rho 
+\end{equation*}
+\subsection{Heat Loss and Uniqueness}
+Like with the wave equation, we can consider an energy, the heat energy:
+\begin{equation*}
+    Q(t) = \frac12 \int_{\Omega} \phi(\vec{x}, t)^2 dV
+\end{equation*}
+Then we can find the derivative:
+\begin{align*}
+    Q'(t) &= \int_{\Omega} \phi_t \phi dV \\
+    &= \int_{\Omega} \kappa \phi \Delta \phi \\
+    &= \kappa \int_{\Omega} \left[\nabla \cdot (\phi \nabla \phi) - |\nabla \phi|^2\right]dV \\
+    &= \kappa \int_{\partial \Omega} \phi \frac{\partial \phi}{\partial \vec{n}} dS  - \int_{\Omega} |\nabla \phi|^2 dV 
+\end{align*}
+Therefore $Q'(t) \leq 0$. Equivalently, $Q(t) \leq Q(0) = \frac{1}{2} \int_\Omega f(\vec{x})^2 dV$.
+\begin{proposition}
+    The solution to equation~\ref{eqnHeatIBVP} is unique.
+    \label{propHeatUnique}
+\end{proposition}
+\begin{proof}
+    Suppose that $\phi_1, \phi_2$ are solutions to equation~\ref{eqnHeatIBVP}. Then consider their difference $\psi$ which satisfoes equation~\ref{eqnHeatIBVP} with $f = 0$.
+
+    \begin{equation*}
+        \frac12 \int_\Omega \psi(\vec{x}, t)^2 dV = Q(t) \leq Q(0) = 0
+    \end{equation*}
+    Then this implies that $\psi(\vec{x}, t) = 0$ everywhere so $\phi_1 = \phi_2$.
+\end{proof}
+\begin{remark}
+    There do exist problems for which $Q(t)$ does not exist. In this case, we cannot say that solutions are unique.
+\end{remark}
 \end{document}
