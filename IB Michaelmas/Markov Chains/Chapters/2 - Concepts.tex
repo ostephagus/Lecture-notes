@@ -452,12 +452,15 @@ Then the matrix $P$ is \underline{transient} if all states are transient.
 \end{proof}
 \section{Simple Symmetric Random Walk}
 \begin{definition}{Simple symmetric random walk}
-    The \underline{simple symmetric random walk} (SSRW) $\chain(X)$ on the integer lattice $\Z^d$ is the Markov chain $\chain(X) = (X_n)_{n \in \N}$ with transition probabilities:
+    The \underline{simple symmetric random walk} (SSRW) $\chain{X}$ on the integer lattice $\Z^d$ is the Markov chain $\chain{X} = (X_n)_{n \in \N}$ with transition probabilities:
     \begin{equation*}
         P(x, x + e_i) = P(x, x - e_i) = \frac{1}{2d}
     \end{equation*}
     where $e_i$ is a standard basis vector in $\Z^d$.
 \end{definition}
+\begin{remark}
+    The simply asymmetric random walk on $\Z$ is the Markov Chain with transition probabilities: $P(i, i+1) = p, P(i, i-1) = 1-p$ where $p \notin\{0, \frac12, 1\}$.
+\end{remark}
 \begin{theorem}
     The SSRW on $\Z^d$ is recurrent for $d = 1, 2$ and transient for $d = 3$.
     \label{thmSSRWRecurr}
@@ -536,5 +539,42 @@ Then the matrix $P$ is \underline{transient} if all states are transient.
         & \geq \sum_{n \geq 0} \frac{1}{2\pi n}
     \end{align*}
     This is infinite, and so $0$ is recurrent. Therefore, $\chain{X}$ is recurrent.
+\end{proof}
+\begin{proof}[For theorem~\ref{thmSSRWRecurr} with $d = 3$]
+    We will show that the sum:
+    \begin{equation*}
+        \sum_{n \geq 0} p_{00}(n) < \infty.
+    \end{equation*}
+    This will show that $0$ is transient, and since the chain is irreducible then the whole chain must be transient. Recall that $P_{00}(n) = 0$ if $n$ odd.
+    \begin{align*}
+        p_{00}(2n) &= \sum_{i, j, k \geq 0, i + j + k = n} \binom{2n}{i~i~j~j~k~k} \left(\frac{1}{6}\right)^{2n} \\
+        &= \binom{2n}{n} \sum_{i, j, k} \binom{n}{i~j~k}^2 \left(\frac16\right)^{2n}
+    \end{align*}
+    Now we consider cases based on $n$ mod $3$.
+    \begin{case}{$n = 3m$}
+        We can show that:
+        \begin{equation*}
+            \binom{n}{i~j~k} \leq \binom{3m}{m~m~m}
+        \end{equation*}
+        Then we can apply this:
+        \begin{align*}
+            p_{00}(2n) &\leq \binom{2n}{n} \left(\frac12\right)^{2n} \left(\frac13\right)^n \binom{3m}{m~m~m} \sum_{i, j, k} \binom{n}{i~j~k} \left(\frac13\right)^n \\
+            &= \binom{2n}{n} \left(\frac12\right)^{2n} \left(\frac13\right)^n \binom{3m}{m~m~m} \\
+            &\leq \frac{C}{n^{\frac32}}
+        \end{align*}
+        Therefore $p_{00}(6m) \leq \frac{c}{n^\frac32}$.
+    \end{case}
+    \begin{case}{$n \neq 3m$}
+        We can bound the other cases by the case $n = 3m$:
+        \begin{align*}
+            p_{00}(6m) &\geq p_{00}(6m-2) \left(\frac{1}{6}\right)^2 \\
+            p_{00}(6m) &\geq p_{00}(6m-4) \left(\frac{1}{6}\right)^4
+        \end{align*}
+    \end{case}
+    Therefore we can sum:
+    \begin{equation*}
+        \sum_{n \geq 0} p_{00}(n) \leq \sum_{n \geq 0} \frac{c}{n^\frac32}
+    \end{equation*}
+    which is finite. Therefore, state $0$ is transient along with the rest of the chain.
 \end{proof}
 \end{document}

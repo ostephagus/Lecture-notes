@@ -1,4 +1,90 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
+So far we have only been able to find the equilibrium distribution of a Markov chain by calculating the probabilities explicitly for all times. In this chapter we will provide a thorough analysis of the limiting distribution of Markov Chains.
+We want to understand when $\P(X_n = i)$ converges to something, and what it converges to under the right assumptions.
+
+\section{Invariant Distributions}
+Note that if $\P(X_n = j) \to \pi(j)$ as $n \to \infty$, for some probability distribution $\pi$, then we intuitively understand that $\pi$ must have the property $X_n \sim \pi \implies X_{n+1} \sim \pi$. That is, $\pi$ is a stable distribution. We find:
+\begin{align*}
+    \pi(j) &= \P(X_{n+1} = j) = \sum_{i \in I} \P(X_n = i, X_{n+1} = j) \\
+    &= \sum_{i \in I} \P(X_n = i) P(i, j) \\
+    &= \sum_{i \in I} \pi(i) P(i, j)
+\end{align*}
+Thus we can gain a nice set of simultaneous equations for $\pi$. We can formalise this property:
+\begin{definition}{Invariant distribution}
+    A distribution $\pi$ is \underline{invariant} for a transition matrix $P$ if:
+    \begin{equation*}
+        \pi(j) = \sum_{i \in I} \pi(i) P(i, j)~\forall j \in I
+    \end{equation*}
+\end{definition}
+\begin{theorem}
+    Let $\chain{X}$ be a Markov chain on a finite state space. Suppose that, for any initial distribution $\vec{\lambda}$, $p_{i, j}(n) \to \pi(j)$ as $n \to \infty$, the $\pi$ is an invariant distribution.
+    \label{thmLimitIsInvariant}
+\end{theorem}
+\begin{proof}
+    Consider a 1-step analysis and take limit as $n \to \infty$. We can interchange this with the sum because $I$ is finite.
+    \begin{align*}
+        p_{ij}(n+1) &= \sum_{k \in I} p_{ik}(n) P(k, j) \\
+        \pi(j) = \sum_{k \in I} \pi(k) P(k, j)
+    \end{align*}
+    Therefore $\pi$ is invariant. Also:
+    \begin{equation*}
+        \sum_{j \in I}\pi(j) = \sum_{j \in I} \lim_{n \to \infty} p_{ij}(n) = 1
+    \end{equation*}
+\end{proof}
+\begin{remarks}
+    \item The assumption that $I$ is finite is critical here. For example, the SSRW in 1 dimension has $p_{xy}(n) \sim \frac{c}{\sqrt{n}}$ for all $n$ which is not a valid probability distribution.
+    \item If $I$ is finite then we can easily show that an invariant distribution always exists. If the state space is infinite, we again run into problems (see later).
+\end{remarks}
+\begin{proposition}
+    If $X \sim \text{Markov}(\pi, P)$ where $\pi$ is an invariant distribution for all $P$, then $X_k \sim \pi$ for all $n$.
+    \label{propStayAtInvDist}
+\end{proposition}
+\begin{proof}
+    \induction{$n = 0$}{
+        We have that $X_0 \sim \pi$ by the fact that $\pi$ is our initial distrubution.
+    }{$n = k$}{}
+    {$n = k + 1$}{
+        \begin{align*}
+            \P(X_{n+1} = j) &= \sum_{i \in I} \P(X_n = i, X_{n+1} = j) \\
+            &= \sum_{i \in I} \pi(i) P(i, j)
+        \end{align*}
+    }
+\end{proof}
+\begin{example}
+    Consider a very simple 2-state Markov chain with transition probabilities:
+    \begin{equation*}
+        \begin{pmatrix}
+            1-\alpha & \alpha \\
+            \beta & 1-\beta
+        \end{pmatrix}
+    \end{equation*}
+    Then we saw earlier that:
+    \begin{equation*}
+        p_{00}(n) = \frac{\beta}{\alpha + \beta} + \frac{\alpha}{\alpha + \beta}(1 - \alpha - \beta)^n
+    \end{equation*}
+    So we have that our transition probabilities tend to:
+    \begin{equation*}
+        \begin{pmatrix}
+            \frac{\beta}{\alpha + \beta} & \frac{\alpha}{\alpha + \beta} \\
+            \frac{\alpha}{\alpha + \beta} & \frac{\beta}{\alpha + \beta} \\
+        \end{pmatrix}
+    \end{equation*}
+    We find that $\pi = \left(\frac{\beta}{\alpha + \beta}, \frac{\alpha}{\alpha + \beta}\right)^T$. This is an invariant distribution for the chain and the chain indeed converges to $\pi$.
+\end{example}
+\begin{definition}{Measure}
+    A \underline{measure} on $I$ is a vector $\vec{\lambda} = (\lambda_i)_{i \in I}$ of positive elements.
+\end{definition}
+\begin{definition}{Return time}
+    Consider any $k \in I$ and set the \underline{return time} for $k$ to be:
+    \begin{equation*}
+        T_k = \inf\subsetselect{n \geq 1}{X_n = k}
+    \end{equation*}
+    We define a measure $\nu_k$ on $I$ as:
+    \begin{equation*}
+        \nu_k(i) = \E_k{\left(\sum_{n=0}^{T_k - 1} \ind{X_k = i}\right)}
+    \end{equation*}
+    Then this is the expected total number of visits to $i$ during an excursion from $k$ back to itself.
+\end{definition}
 \end{document}
