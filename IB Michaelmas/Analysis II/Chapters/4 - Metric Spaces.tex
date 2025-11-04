@@ -172,4 +172,144 @@ Then this metric defines a distance only radially. If two points are on a radius
 \begin{remark}
     Open balls can be closed sets, and singletons can be open sets.
 \end{remark}
+\begin{proof}
+    \begin{subproof}{Open balls are open sets}
+        In order to prove that the open ball is an open set, we take any $y \in B_r(a)$. We need to show that there exists an open ball around $y$ that is contained within our original set. Therefore take $r_1 = r - d(y, a)$. This is a positive quantity since $y \in B_r(a)$. Then take any point $z \in B_{r_1}(y)$.
+        \begin{align*}
+            d(z, a) &\leq d(z, y) + d(y, a) \\
+            &< r_1 + d(y, a) \\
+            &= r
+        \end{align*}
+    \end{subproof}
+    \begin{subproof}{Singletons are closed sets}
+        Consider the singleton $\{x\}$. Now take $y \in X \backslash \{x\}$, that is, $y \neq x$. Define $r = d(z, x) > 0$. Therefore $x \notin B_r(z)$ for any $z$. 
+    \end{subproof}
+\end{proof}
+\begin{theorem}
+    Let $X$ be a metric space with distance function $d$.
+
+    \begin{enumerate}
+        \item The union of any (possibly uncountable) collection of open sets is an open set.
+        \item The intersection of any finite collection of open sets is open
+        \item The empty set $\emptyset$ and $X$ are both open.
+    \end{enumerate}
+    \label{thmOpennessUnionIntersec}
+\end{theorem}
+\begin{proof}
+    The proof is again using the definitions. % TODO: Come back to when reviewing.
+\end{proof}
+\begin{remark}
+    The finite condition is necessary for part 2. Consider $X = \R$ and the Euclidean metric. Consider the open sets $(-\frac{1}{n}, \frac{1}{n})$. Taking the union over the infinite set $\N$ gives us the singleton $\{0\}$ which is not open.
+\end{remark}
+\begin{corollary}
+    Let $X$ be a metric space with distance function $d$.
+    \begin{enumerate}
+        \item The intersection of any (possible uncountable) collection of closed sets is closed
+        \item The union of any finite collection of closed sets is closed
+        \item $\emptyset, X$ are both closed.
+    \end{enumerate}
+    \label{corClosureUnionIntersec}
+\end{corollary}
+\begin{proof}
+    The proof is immediate from theorem~\ref{thmOpennessUnionIntersec} by taking set complements.
+\end{proof}
+\section{Convergence in Metric Spaces}
+With a notion of distance, we can define convergence of sequences using the distance function:
+\begin{definition}{Convergence to a point}
+    Let $(X, d)$ be a metric space. A sequence $(x_k)$ in $X$ \underline{converges to a point} $x \in X$ if $d(x_k, x) \to 0$ (as real numbers). That is, given any $\epsilon > 0$ there exists $N \in \N$ such that:
+    \begin{align*}
+        n \geq N &\implies d(x_n, x) < \epsilon \\
+        &\implies x_n \in B_\epsilon(x)
+    \end{align*}
+\end{definition}
+\begin{remark}
+    Immediately from the definition, if $x_n$ converges to $x$ then any subsequence $x_{n_j}$ converges to $x$.
+\end{remark}
+\begin{proposition}
+    If, in a metric space $(X, k)$, $x_n \to x$ and $x_n \to y$ then $x = y$
+    \label{propUniqueConvergeLimit}
+\end{proposition}
+\begin{proof}
+    Consider the distance from $x$ to $y$:
+    \begin{align*}
+        d(x, y) &\leq d(x, x_k) + d(y, x_k) \\
+        &= 0 \text{ as }n \to \infty
+    \end{align*}
+    and we conclude that $x = y$.
+\end{proof}
+\begin{example}[Convergence depends on the metric]
+    Consider $X = \R$ and consider both the Euclidean metric and the metric $d(x, y) = |f(x) - f(y)|$ defined by:
+    \begin{align*}
+        f : \R &\mapsto \R\\
+        x &\mapsto \begin{cases}
+            0 & x = 1 \\
+            1 & x = 0 \\
+            x & \text{otherwise}
+        \end{cases}
+    \end{align*}
+    Then we have that the sequence $x_n = \frac{1}{n}$ converges to $0$ in the Euclidean metric, and $1$ in the new metric.
+\end{example}
+\begin{remark}
+    It is therefore possible for the same sequence in a set $X$ to have different limits under different metrics. This can also happen in a normed space, as seen on the second Example Sheet. However, this cannot happen if the normed space is finite-dimensional because, as we shall see later, any two norms on a finite-dimensional space are equivalent.
+\end{remark}
+\begin{proposition}[Convergence in $\R^n$ with $\ell_2$ norm]
+    Convergence in $\R^n$ with respect to the Euclidean norm is equivalent to convergence of the coordinates as real numbers. That is, if $x^{(k)} = (x^{(k)}_1, \cdots, x_n^{(k)})$,
+    \begin{equation*}
+        x^{(k)} \to x \iff x_j^{(k)} \xrightarrow{k \to \infty} x_j
+    \end{equation*}
+    \label{propConvergenceRN}
+\end{proposition}
+\begin{proof}
+    Fix $\epsilon > 0$.
+    \begin{proofdirection}{$\Rightarrow$}{Suppose that the vectors $x^{(k)}$ converge.}
+        We have that there exists $N(\epsilon)$ such that $k \geq n \implies ||x^{(k)} - x||_2 < \epsilon$. Equivalently,
+        \begin{equation*}
+            \sum_{j=1}^{\infty} (x_j^{(k)} - x_j)^2 < \epsilon^2
+        \end{equation*}
+        Therefore the terms are individually less than $\epsilon$:
+        \begin{align*}
+            (x_j^{(k)} - x_j)^2 &< \epsilon \\
+            \implies x_j^{(k)} - x_j &< \epsilon
+        \end{align*}
+        This is for all $j$ when $k \geq N$.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that the coordinates $x_j^{(k)}$ converge}
+        We have that, for each $j$, there exists $N_j$ such that for all $k \geq N_1, |x_j^{(k)} - x_j| < \frac{\epsilon}{\sqrt{N_j}}$. Then take $N = \max_j \{N_j\}$, squaring and summing gives:
+        \begin{equation*}
+            \sum_{j=1}^{N} |x_j^{(k)} - x_j|^2 < \epsilon^2
+        \end{equation*}
+        Therefore, we get the required result $||x^{(k)} - x|| < \epsilon$.
+    \end{proofdirection}
+\end{proof}
+\begin{remarks}
+    \item Here we did not have to use the Euclidean metric. Any metric would have worked for $\R^n$.
+    \item We can see very clearly where the problem would arise in the infinite-dimensional case. Here we would not be able to control the size of the sum of infinitely many coordinates.
+    \item As an infinite-dimensional example, convergence in $(C([a, b]), ||\cdot||_{\infty})$ is uniform convergence that we have studied extensively.
+\end{remarks}
+\begin{definition}{Bounded set}
+    Consider a metric space $(X, d)$. A subset $E$ is a \underline{bounded set} if $E \subseteq B_R(a)$ for some $a \in X$ and some finite $R > 0$.
+\end{definition}
+\begin{theorem}[Bolzano-Weierstrass Theorem in $\R^n$]
+    Every bounded sequence in $\R^n$ with respect to the Euclidean metric has a convergent subsequence.
+    \label{thmBWInRN}
+\end{theorem}
+\begin{proof}
+    \induction{$n = 1$}{
+        We have proved the case $n = 1$ in Analysis I - this is the Bolzano Weierstrass Theorem in $\R$
+    }{$n = m - 1$}{
+        Suppose that the theorem holds in $\R^{m-1}$.
+    }{$n = m$}{
+        Let $(X^{(k)})$ be a bounded sequence in $\R^m$, say $||x^{(k)}||_2^2 \leq R^2$ for some $R$ and all $k$. Write this as:
+        \begin{align*}
+            x^{(k)} &= (x_1^{(k)}, \cdots, x_{m-1}^{(k)}, x_m^{(k)}) \\
+            y^{(k)} &= (x_1^{(k)}, \cdots, x_{m-1}^{(k)})
+        \end{align*}
+        Then $||y^{(k)}||_2^2 + |x_m^{(k)}|^2 \leq R^2$. That is, both sequences are bounded. Now by the base case $x_m^{(k)}$ has a convergent subsequence, and by the induction hypothesis so must $y^{(k)}$. Let the convergent subsequences be:
+        \begin{align*}
+            y^{(k_j)} &\xrightarrow{j \to \infty} y \in \R^{n-1} \\
+            x_m^{(k_j)} &\xrightarrow{j \to \infty} x_m \in \R
+        \end{align*}
+        Now we can use proposition~\ref{propConvergenceRN} once in the forward direction to get that the coordinates of $y^{(k)}$ converge, and once in the backward direction to get that these coordinates, along with $x_m^{(k)}$ converge to form a convergent subsequence in $\R^m$.
+    }
+\end{proof}
 \end{document}
