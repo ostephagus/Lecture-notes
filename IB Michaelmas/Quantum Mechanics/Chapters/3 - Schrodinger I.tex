@@ -118,7 +118,6 @@ Here $r_0 = \frac{2mU_0a^2}{\hbar^2}$.
             xlabel={$\xi$},
             ylabel={$\eta$}
         ]
-        % TODO: plot the above two equations (a circle and $\xi \tan{\xi}$)
             \addplot[samples=50] {x * tan(x)};
             \addplot[samples=50] {(9 - x^2)^(1/2)};
         \end{axis}
@@ -164,7 +163,167 @@ Then we can use a trial form $\chi_n(\xi) = f(\xi) e^{-\frac{\xi^2}{2}}$. This g
     \label{eqnQHMTrialEquation}
 \end{equation}
 The best way to solve this is with a power series,
-\begin{equation*}
+\begin{equation}
     f(\xi) = \sum_{n=0}^{\infty} a_n \xi^n
+    \label{eqnQHMSeries}
+\end{equation}
+Substituting this in gives:
+\begin{align*}
+    0 &= -\sum_{n=0}^{\infty} n(n-1) \xi^{n-2} + 2\sum_{n=0}^{\infty} na_n \xi^n + (1 - \epsilon) \sum_{n=0}^{\infty} a_n \xi^n \\
+    &= \sum_{n = 0}^{\infty} \left[(n+1)(n+2) a_{n+2} - 2n a_n + (\epsilon - 1) a_n\right]
+\end{align*}
+Then since each term must be 0 individually,
+\begin{equation}
+    a_{n+2} = \frac{2n - \epsilon + 1}{(n+1)(n+2)}
+    \label{eqnQHMRecurRelation}
+\end{equation}
+We know that, for a symmetric potential, the function must either be odd or even. Therefore either $a_{2n+1} = 0$, to give $f(\xi) = f(-\xi)$; or, $a_{2n} = 0$ to give $f(\xi) = -f(-\xi)$.
+\begin{proposition}
+    If, for a given series of the form in equation~\ref{eqnQHMSeries} does not terminate, the corresponding eigenfunction of $\hat{H}$ does not terminate.
+    \label{propQHMSeriesFinite}
+\end{proposition}
+\begin{proof}
+    Suppose that such a series does not terminate, and we look at the asymtotic behaviour. For $n \to \infty$, use equation~\ref{eqnQHMRecurRelation}:
+    \begin{equation*}
+        \frac{a_{n+2}}{a_n} \to \frac{2}{n}
+    \end{equation*}
+    However, we note that this is the same behaviour as:
+    \begin{equation*}
+        g(\xi) = e^{\xi^2} = \sum_{n=0}^{\infty} \frac{\xi^{2n}}{n!} = \sum_{m=0}^{\infty} b_m \xi^m
+    \end{equation*}
+    where $b_m = \frac{1}{m!}$ when $m$ even, and zero when $m$ odd.
+
+    Asymtotic behaviour of $g(\xi)$:
+    \begin{equation*}
+        \frac{b_{m+2}}{b_m} \frac{\left(\frac{m}{2}\right)!}{\left(\frac{m}{2} + 1\right)!} = \frac{2}{m+1}\to \frac{2}{m}
+    \end{equation*}
+    Therefore we would find that $\chi(\xi) \sim e^{\xi^2} e^{-\xi^2 / 2} = e^{\xi^2 / 2}$. This is not normalisable.
+\end{proof}
+We conclude from this that the series must terminate, because we require that the eigenfunctions of $\hat{H}$ are normalisable. This is always the case when we have bounded solutions.
+
+Given now that the series in equation~\ref{eqnQHMSeries} must terminate, there exists $N$ such that $a_{N + 2} = 0$ with $A_N \neq 0$.
+\begin{equation*}
+    a_{N+2} = \frac{2N - \epsilon + 1}{(N+1)(N+2)} a_N = 0
 \end{equation*}
+Therefore this can only happen if $2N = \epsilon - 1$. Recall that $\epsilon = \frac{2E}{\hbar \omega}$, so we find the energy eigenvalue:
+\begin{equation*}
+    E_n = \left(N + \frac12\right) \hbar \omega
+\end{equation*}
+\begin{remarks}
+    \item We find that the eigenvalues increase by $\hbar \omega$ each time: $E_{n+1} - E_n = \hbar \omega$.
+    \item The eigenfunctions $\chi_n$ are given by:
+        \begin{equation*}
+            \chi_n(\xi) f_n(\xi) e^{-\frac{\xi^2}{2}}
+        \end{equation*}
+    \item The eigenfunctions alternate between odd and even:
+        \begin{equation*}
+            \chi_n(-\xi) = (-1)^n \chi_n(\xi).
+        \end{equation*}
+    \item The functions $f_n$ are the \underline{Hermite polynomials} satisfying:
+        \begin{equation*}
+            f_n(\xi) = (-1)^n e^{\xi^2} \frac{d^{N}}{d\xi^{N}} \left(e^{-\xi^2}\right)
+        \end{equation*}
+\end{remarks}
+The first four Hermite polynomials are given in the below table.
+
+\begin{tabular}{|c|c|c|}
+    \hline
+    $n$ & $E_n$ & $\chi_n(\xi)$ \\
+    \hline
+    $0$ & $\frac12 \hbar \omega$ & $\exp\left(-\frac{\xi^2}{2}\right)$ \\
+    $1$ & $\frac32 \hbar \omega$ & $\xi\exp\left(-\frac{\xi^2}{2}\right)$ \\
+    $2$ & $\frac52 \hbar \omega$ & $(1 - 2\xi^2)\exp\left(-\frac{\xi^2}{2}\right)$ \\
+    $3$ & $\frac72 \hbar \omega$ & $(\xi - \frac23\xi^3)\exp\left(-\frac{\xi^2}{2}\right)$ \\
+    \hline
+\end{tabular}
+\section{The Free Particle}
+The TISE for the free particle is:
+\begin{equation*}
+    -\frac{\hbar^2}{2m}\chi''(x) = E\chi(x)
+\end{equation*}
+We can rewrite this:
+\begin{equation}
+    \chi''(x) + k^2 \chi(x) = 0,~~k = \sqrt{\frac{2mE}{\hbar^2}}
+    \label{eqnFPTISE}
+\end{equation}
+We can easily find an oscillatory eigenfunction:
+\begin{equation*}
+    \chi_k(x) = e^{ikx}
+\end{equation*}
+We have a continuous set of eigenvalues $E_k = \frac{\hbar^2 k^2}{2m}, k \in \R$.
+However, substituting this into the TDSE:
+\begin{align*}
+    \psi_k(x, t) &= \chi_k(x) e^{-\frac{iE_kt}{\hbar}} \\
+    &= e^{i\left(kx - \frac{\hbar k^2}{2m}t\right)}
+\end{align*}
+We find that this wavefunction is not normalisable, the integral diverges:
+\begin{equation*}
+    \int_{-\infty}^{\infty} |\psi_k(x, t)|^2 dx = \int_{-\infty}^{\infty} 1 dx
+\end{equation*}
+There are two ways to deal with this:
+\begin{enumerate}
+    \item Build a linear superposition of $\chi_k$ that is normalisable
+    \item Ignore the problem, change the interpretation.
+\end{enumerate}
+\subsection{Gaussian Wavepacket}
+We can consider a general superposition of $\chi_k$:
+\begin{equation*}
+    \psi(x, t) = \int_{-\infty}^{\infty} A(k) \psi_k(x, t) dk,~~A : \R \mapsto \R
+\end{equation*}
+A possible option is the \underline{Gaussian Wavepacket},
+\begin{equation}
+    A(k) = A_{GP}(k) = \exp\left[-\frac{\sigma}{2} (k - k_0^2)\right]
+    \label{eqnGaussWP}
+\end{equation}
+Note that this is simply a normal distribution $N(k_0, \sigma^2)$. We form the wavefunction and show that it is now normalisable:
+\begin{align*}
+    \psi_{GP}(x, t) &= \int_{-\infty}^{\infty} A_{GP}(k) \psi_k(x, t) dk \\
+    &= exp\left[F(k)\right] dk \\
+    F(k) &= -\frac\sigma2 (k - k_0)^2 + ikx - i \frac{\hbar k^2}{2m}t \\
+    &= -\frac12\left(\sigma + \frac{i\hbar t}{m}\right)k^2 + \left(k_0 \sigma + ix\right)k - \frac{\sigma}{2} k_0^2
+\end{align*}
+Now set $\alpha = \sigma + \frac{i\hbar t}{m}$, $\beta = k_0 \sigma + ix$, $\delta = \frac{\sigma}{2} k_0^2$.
+\begin{align*}
+    F(k) &= -\frac\alpha2 k^2 + \beta k + \delta \\
+    &= -\frac{\alpha}{2} \left(k - \frac{\beta}{\alpha}\right)^2 + \frac{\beta^2}{2\alpha} + \delta \\
+    \psi_{GP}(x, t) &= \exp\left[\frac{\beta^2}{2\alpha} + \delta\right] \int_{-\infty}^{\infty} \exp\left[-\frac{\alpha}{2} \left(k - \frac\beta\alpha\right)^2\right] dk 
+\end{align*}
+Now shift the dependent variable $\tilde{k} = k - \frac{\beta}{\alpha}$. Set $\text{Im}(\tilde{k}) = \text{Im}(-\frac\beta\alpha) = \nu$.
+\begin{align*}
+    \psi_{GP}(x, t) &= \exp\left[\frac{\beta^2}{2\alpha}+ \delta\right] \int_{-\infty - i \nu}^{\infty + i \nu} \exp\left[-\frac{\alpha}{2}\tilde{k}^2\right] d\tilde{k} \\
+    &= \sqrt{\frac{2\pi}{\alpha}} \exp\left[\frac{\beta^2}{2\alpha} + \delta\right] \text{ by Gaussian Integral}
+\end{align*}
+Now substituting back $\alpha, \beta, \delta$, and normalising:
+\begin{align*}
+    |\bar{\psi_{GP}}(x, t)|^2 &= \rho_{GP}(x, t) \\
+    &= \sqrt{\frac{\sigma}{\pi\left(\sigma^2 + \frac{\hbar^2 t^2}{m^2}\right)}} \exp\left[-\frac{\sigma(x - \frac{\hbar k_0}{m}t)}{\sigma^2 + \frac{\hbar^2 t^2}{m^2 \sigma}}\right]
+\end{align*}
+This gives us a normal distribution with width equal to:
+\begin{equation*}
+    \sqrt{\frac12 \left(\sigma + \frac{\hbar^2 t^2}{m^2 \sigma}\right)}
+\end{equation*}
+We find the expected position:
+\begin{align*}
+    \E{\hat{x}}_{GP} &= \int_{-\infty}^{\infty} \bar{\psi_{GP}}^* x \bar{\psi_{GP}}(x, t) dx \\
+    &= \frac{\hbar k_0}{m}t
+\end{align*}
+Then we can find the uncertainty of the position (standard deviation):
+\begin{equation*}
+    \Delta x = \sqrt{\E{x^2}_{GP} - \E{x}_{GP}^2} = \sqrt{\frac12 \left(\sigma + \frac{\hbar^2 t^2}{m^2 \sigma}\right)}
+\end{equation*}
+
+We can also find the momentum of the particle:
+\begin{align*}
+    \E{\hat{p}}_{GP} &= \int_{-\infty}^{\infty} \bar{\psi_{GP}}^*(x, t) \left(-i \hbar \frac{\partial}{\partial x} \bar{\psi_{GP}}\right) dx \\
+    &= \hbar k_0
+\end{align*}
+The standard deviation of this quantity is:
+\begin{equation*}
+    \Delta p = \sqrt{\frac{\hbar^2}{2\sigma}}
+\end{equation*}
+Therefore, for a Gaussian wavepacket we find:
+\begin{equation*}
+    \Delta x~\Delta p \geq \frac{\hbar}{2}
+\end{equation*}
+with the lower bound attained at $t = 0$. This will turn out to be quite profound, as this is the global minimum (out of the space of all wavefunctions) of this quantity.
 \end{document}
