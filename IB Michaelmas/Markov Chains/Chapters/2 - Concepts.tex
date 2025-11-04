@@ -309,4 +309,232 @@ We have previously defined the mean hitting time. We will derive a similar syste
     \end{equation*}
 \end{proof}
 Then the power of this theorem is that we can break a Markov chain down into independent and identically distributed (iid) chunks between when a Markov chain visits a given state.
+\section{Recurrence and Transience}
+\begin{definition}{Recurrent state}
+    A state $i$ is \underline{recurrent} if:
+    \begin{equation*}
+        \P_i(X_n = i \text{ for infinitely many }n) = 1
+    \end{equation*}
+\end{definition}
+Then the matrix $P$ is \underline{recurrent} if all states are recurrent.
+\begin{definition}{Transient state}
+    A state $i$ is \underline{transient} if:
+    \begin{equation*}
+        \P_i(X_n = i \text{ for infinitely many }n) = 0
+    \end{equation*}
+    For this, we will write $\P_i(X_n = i \io) = 1$. Here i.o. stands for infinitely often.
+\end{definition}
+Then the matrix $P$ is \underline{transient} if all states are transient.
+\begin{definition}{Return time}
+    The \underline{return time} to $i$, $T_i^{(k)}$ are defined by:
+    \begin{equation*}
+        T_i^{(k)} =
+        \begin{cases}
+            0 & k=0 \\
+            \inf\subsetselect{n>T_i^{(k)}}{X_n = i} & k > 0
+        \end{cases}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Return probability}
+    The \underline{return probability} for a state $i$ is $f_i = \P_i(T_i < \infty)$.
+\end{definition}
+\begin{definition}{Total number of visits}
+    The \underline{total number of visits} to $i$ is:
+    \begin{equation*}
+        v_i = \sum_{t = 0}^\infty \mathbb{I}_{X_t = i}
+    \end{equation*}
+\end{definition}
+\begin{lemma}
+    For each $v \geq 0$, $v_i$ satisfies:
+    \begin{equation*}
+        \P_i(v_i > r) = f_i^v,~v_i \sim Geo(1-f_i)
+    \end{equation*}
+    \label{lemReturnGeometric}
+\end{lemma}
+\begin{proof}
+    \induction{$r = 1$}{
+        $\P_i(v_i > 0) = 1 = f_i^{(0)}$ as required.
+    }{$r \leq k$}{
+        Assume true for all $r \leq k$.
+    }{$r = k+1$}{
+        \begin{align*}
+            \P_i(v_i > k+1) &= \P_i(T_i^{(k+1)} < \infty) \\
+            &= \P_i(T_i^{(k+1)} < \infty, T_i^{(k)} < \infty) \\
+            &= \P_i(T_i^{(k)} < \infty)\P_i(T_i^{(k + 1)} < \infty  T_i^{(k)} < \infty) \\
+        \end{align*}
+        then by theorem~\ref{thmStrongMarkov}, 
+        \begin{equation*}
+            \P_i(v_i > k+1) = f_i^k \P_i(T_i^{1} < \infty) = f_i^{k+1}
+        \end{equation*}
+    }
+\end{proof}
+\begin{theorem}
+    Given a state $i$, if $f_i = 1$ then $i$ is recurrent and $\sum_{n=0}^{\infty} p_{ii}(n) = \infty$.
+
+    If $f_i < 1$ then $i$ is transient and $\sum_{n=1}^{\infty} p_{ii}(n) < \infty$.
+    \label{thmReccurOrTrans}
+\end{theorem}
+\begin{proof}
+    First note that:
+    \begin{align*}
+        \E_i(v_i) &= \E_i \left(\sum_{n=0}^{\infty} \mathbb{I}_{X_n = i}\right) \\
+        &= \sum_{n \geq 0} \P_i(X_n = i) \\
+        &= \sum_{n \geq 0} p_{ii}(n)
+    \end{align*}
+    This gives us that if $f_i = 1$ then by lemma~\ref{lemReturnGeometric}, $v_i = \infty$ with probability 1 and $E_i(v_i) = \infty$, so $\sum_{n\geq 0} p_{ii}(n) = \infty$ and $i$ is recurrent.
+
+    If $f_i < 1$, then by the lemma $E_i(v_i) < \infty$ so $P_i(v_i < \infty) = 1$ so $i$ is transient with $\sum_{n \geq 0} p_{ii}(n) < \infty$.
+\end{proof}
+\begin{theorem}
+    If $x \comms y$ then either they are both recurrent or both transient.
+    \label{thmRecurrenceCommunicates}
+\end{theorem}
+\begin{proof}
+    Suppose $x$ is recurrent. Since $x \comms y$ there exist $l, m$ such that $p_{xy}(l) > 0$ and $p_{yx}(m) > 0$. Then:
+    \begin{align*}
+        \sum_{n \geq 0} p_{yy}(n) &\geq \sum_{n \geq 0} p_{yy}(m + n + l) \\
+        &\geq \sum_{n \geq 0}p_{yx}(m) p_{xx}(n) p_{xy}(l) \\
+        &= p_{yx}(m) p_{xy}(l)\sum_{n \geq 0} p_{xx}(x) \\ 
+        &\text{ and this is infinite.}
+    \end{align*}
+    Therefore, $y$ must also be recurrent. By applying theorem~\ref{thmReccurOrTrans}, we have the required result.
+\end{proof}
+\begin{corollary}
+    If $S \subseteq I$ is a communicating class then either all $i \in S$ are recurrent or all $i \in S$ are transient.
+    \label{corComClassRecur}
+\end{corollary}
+\begin{theorem}
+    If $C \subseteq I$ is a recurrent communicating class, then it is closed.
+    \label{thmRecurCommClosed}
+\end{theorem}
+\begin{proof}
+    Suppose $x \to y$ with $x \in C, y \notin C$. Then there exists some $m$ such that $p_{xy}(m) > 0$. Note that once $y$ is visited, $x$ is never visited.
+    \begin{align*}
+        \P_x(v_x < \infty) &\geq P_x(x_n = y) \\
+        &= p_{xy}(m) > 0
+    \end{align*}
+    This implies that $x$ is transient.\contradiction
+\end{proof}
+\begin{theorem}
+    A finite, closed class is recurrent.
+    \label{thmFinClosedRecurr}
+\end{theorem}
+\begin{proof}
+    Suppose $C$ is a finite, closed class and take $x \in C$. Then there must exist some $y \in C$ such that:
+    \begin{equation*}
+        \P_x(X_n = y \io) > 0
+    \end{equation*}
+    Since $C$ is a communicating class, there is an $m$ such that $p_{yx}(m) > 0$. Then:
+    \begin{align*}
+        &P_y(X_n = y \io)\\
+        &\geq \P_y(X_n = y \io, n > m, X_n = x) \\
+        &= \P_y(X_n = y \io, n > m | X_m = x) \P_y(X_m = x) \\
+        &= p_{yx}(m) \P_y(X_n = y \io) > 0
+    \end{align*}
+    This means $y$ is recurrent. Since recurrence is a class property, $C$ is a recurrent class.
+\end{proof}
+\begin{theorem}
+    If a transition matrix $P$ is irreducible and recurrent then:
+    \begin{equation*}
+        P_x(T_Y < \infty) = 1~\forall x, y \in I
+    \end{equation*}
+    \label{thmRecurHittingTime}
+\end{theorem}
+\begin{proof}
+    Let $x, y \in I$. Since $x \comms y$, there is an $m$ such that $p_{yx}(m) > 0$. Then:
+    \begin{align*}
+        1 &= \P_y(X_n = y \io) \\
+        &= \sum_x \P_y(X_n = y \io, X_m = x) \\
+        &= \sum_x \P_x(X_n = y \io) p_{yx}(m) \\
+        &\leq \sum_x \P_x(T_y < \infty)p_{yx}(m)
+    \end{align*}
+    Since $p_{yx}(m) > 0$, $\P_x(T_y < \infty) = 1$ because we are taking an average of objects less than or equal to 1.
+\end{proof}
+\section{Simple Symmetric Random Walk}
+\begin{definition}{Simple symmetric random walk}
+    The \underline{simple symmetric random walk} (SSRW) $\chain(X)$ on the integer lattice $\Z^d$ is the Markov chain $\chain(X) = (X_n)_{n \in \N}$ with transition probabilities:
+    \begin{equation*}
+        P(x, x + e_i) = P(x, x - e_i) = \frac{1}{2d}
+    \end{equation*}
+    where $e_i$ is a standard basis vector in $\Z^d$.
+\end{definition}
+\begin{theorem}
+    The SSRW on $\Z^d$ is recurrent for $d = 1, 2$ and transient for $d = 3$.
+    \label{thmSSRWRecurr}
+\end{theorem}
+\begin{remark}
+    This theorem reveals something rather profound, in 1 and 2 dimensions we have that the walk will visit every point infinitely often. In 3 dimensions, we have a notion of ``too much choice'', and the random walk will drift off without returning to each point.
+\end{remark}
+\begin{proof}[In the case $d = 1$]
+    Suppose $X_0 = 0$. Note that $\chain{X}$ is irreducible so it suffices to prove recurrence for a single state.
+
+    \begin{align*}
+        \sum_{n \geq 0} p_{00}(n) &= \sum_{n \geq 0} p_{00}(2n) \\
+        &= \sum_{n \geq 0} \binom{2n}{n} \left(\frac{1}{2}\right)^2n
+    \end{align*}
+    Recall Stirling's formula,
+    \begin{equation*}
+        n! \sim n^n \sqrt{2\pi n} e^{-n}  
+    \end{equation*}
+    \begin{align*}
+        \sum_{n \geq 0} p_{00}(n) &= \sum_{n \geq 0} \frac{1}{\sqrt{\pi n}} \\
+        &\geq \sum_{n \geq 0} \frac{1}{2\sqrt{\pi n}}
+    \end{align*}
+    This sum is infinite. Therefore, the state $0$ is recurrent. Since the whole chain is irreducible we must have that $\chain{X}$ is recurrent.
+\end{proof}
+\begin{remark}
+    The same computation shows that the simple asymmetric random walk on $\Z$ is transient. Let $P(0, 1) = 1$ and $P(x, x_{+1}) = p$, $P(x, x-1) = q = 1-p$. Ensure $p \neq 0 \neq \frac12$.
+    \begin{align*}
+        \sum_{n\geq 0}p_{00}(n)&= \sum_{n\geq 0} p_{00}(2n) \\
+        &= \sum_{n \geq 0} \binom{2n}{n} p^n q^n \\
+        &= \sum_{n \geq 0} \frac{(4pq)^n}{\sqrt{\pi n}} \\
+    \end{align*}
+    Note that $4pq < 1$, so we have a roughly geometric progression that must converge. That is, the walk is transient.
+\end{remark}
+\begin{lemma}
+    Let $f(x, y)$ be the projection of $x, y$ onto the lines $y = x$ and $y = -x$. That is,
+    \begin{equation*}
+        f(x, y) = \left(\frac{x + y}{\sqrt{2}}, \frac{x=y}{\sqrt{2}}\right)
+    \end{equation*}
+    Let $(X_n^+, X_n^-) = f(X_n)$. Then $(X_n^+)$ and $(X_n^-)$ are independent SSRWs.
+    \label{lemProjectionRW}
+\end{lemma}
+\begin{proof}
+    If $X_0 = 0$ we can write $X_n = \sum_{i=1}^n \xi_i$ where $(\xi_i)_{i \geq 1}$ are independent and identically distributed random variables with:
+    \begin{equation*}
+       \xi_i =
+       \begin{cases}
+        (0, 1) & \text{probability } \frac14 \\
+        (0, -1) & \text{probability } \frac14 \\
+        (1, 0) & \text{probability } \frac14 \\
+        (-1, 0) & \text{probability } \frac14
+       \end{cases} 
+    \end{equation*}
+    Write each $\xi_i = (\xi_i^1, \xi_i^2)$ so that:
+    \begin{equation*}
+        X_n^+ = \sum_{i=1}^{n} \frac{\xi_i^1 +\xi_i^2}{\sqrt{2}},~X_n^- = \sum_{i=1}^{n} \frac{\xi_i^1 -\xi_i^2}{\sqrt{2}}
+    \end{equation*}
+    From this it immediately follows that $(X_n^+)$ and $(X_i^+)$ are each a SSRW because they are both sums of independent and identically distributed random variables.
+
+    To show independence, it suffices to show $\xi^1 + \xi^2$ is independent of $\xi^1 - \xi^2$. This is easy to check case-by-case, for example:
+    \begin{align*}
+        \P(\xi^1 + \xi^2 =& 1, \xi^1 - \xi^2 = -1) \\
+        &= \P(\xi^1 = 0, \xi^2 = 1) = \frac12 \\
+        &= \P(\xi^1 + \xi^2 = 1) \P(\xi^1 - \xi^2 = -1)
+    \end{align*}
+    And this is applicable for each of the cases.
+\end{proof}
+\begin{proof}[For theorem~\ref{thmSSRWRecurr} with $d = 2$]
+    By the lemma we know that $p_{00}(n)$ is only non-zero when $n$ is even, and:
+    \begin{align*}
+        p_{00}(2n) &= \P_0(X_n^+ = 0, X_n^- = 0) \\
+        &=\P_0(X_n^+ = 0) \P_0(X_n^- = 0) \\
+    \end{align*}
+    Using lemma~\ref{lemProjectionRW}. Therefore, we can apply the proof for $d = 1$:
+    \begin{align*}
+        p_{00}(2n) &\sim \sum_{n \geq 0}\frac{1}{\pi n} \\
+        & \geq \sum_{n \geq 0} \frac{1}{2\pi n}
+    \end{align*}
+    This is infinite, and so $0$ is recurrent. Therefore, $\chain{X}$ is recurrent.
+\end{proof}
 \end{document}
