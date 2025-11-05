@@ -257,7 +257,7 @@ With a notion of distance, we can define convergence of sequences using the dist
     \begin{equation*}
         x^{(k)} \to x \iff x_j^{(k)} \xrightarrow{k \to \infty} x_j
     \end{equation*}
-    \label{propConvergenceRN}
+    \label{propConvergenceRn}
 \end{proposition}
 \begin{proof}
     Fix $\epsilon > 0$.
@@ -309,7 +309,101 @@ With a notion of distance, we can define convergence of sequences using the dist
             y^{(k_j)} &\xrightarrow{j \to \infty} y \in \R^{n-1} \\
             x_m^{(k_j)} &\xrightarrow{j \to \infty} x_m \in \R
         \end{align*}
-        Now we can use proposition~\ref{propConvergenceRN} once in the forward direction to get that the coordinates of $y^{(k)}$ converge, and once in the backward direction to get that these coordinates, along with $x_m^{(k)}$ converge to form a convergent subsequence in $\R^m$.
+        Now we can use proposition~\ref{propConvergenceRn} once in the forward direction to get that the coordinates of $y^{(k)}$ converge, and once in the backward direction to get that these coordinates, along with $x_m^{(k)}$ converge to form a convergent subsequence in $\R^m$.
     }
+\end{proof}
+\begin{example}[B-W does not hold in the space of sequences]
+    Consider the space $\ell_{\infty}$ of bounded sequences. Consider a sequence $e^{(k)}$ (note that these are themselves sequences) which are defined by $e^{(k)}_n = \delta_{kn}$. That is, they are all zero except have $1$ at the $k$th index. These all have norm $1$, so despite being bounded we find that there can be no convergence in norm.
+\end{example}
+\begin{remark}
+    In fact the converse holds: for any normed space, if the Bolzano-Weierstrass theorem holds then the space must be finite-dimensional. This is an exercise on the example sheet.
+\end{remark}
+\begin{definition}{Limit point}
+    Consider a metric space $(X, d)$ and a subset $E \subseteq X$. Then any $x \in E$ is a \underline{limit point} of $E$ if there exists a sequence $(x_k) \in E$ with $x_k \neq x$ for every $k$ and $x_k \to x$.
+\end{definition}
+\begin{definition}{Isolated point}
+    With $E$ a subset of a metric space $X$, a point $x \in E$ is an \underline{isolated point} if $x$ is not a limit point of $E$.
+\end{definition}
+\begin{definition}{Closure}
+    For a metric space $X$ with subset $E$, the \underline{closure} of $E$, $\bar{E}$, is the set of all limits of sequences of $E$.
+\end{definition}
+\begin{remark}
+    The closure of $E$ is the union of $E$ with its limit points.
+\end{remark}
+\begin{definition}{Interior point}
+    Let $X$ be a metric space with $E \subseteq X$. A point $x \in X$ is an \underline{interior point} of $E$ if there exists a radius $r > 0$ such that $B_r(x) \subseteq E$.
+\end{definition}
+\begin{definition}{Interior}
+    For $X$ a metric space and $E$ a subset, the \underline{interior} of $E$, denoted $\interior{E}$ is the set of interior points of $E$.
+\end{definition}
+\begin{remark}
+    It follows immediately that $x \in E$. We also find that in an open set, every point is an interior point, $E = \interior{E}$.
+\end{remark}
+\begin{example}
+    Take $X = \R$ with the Euclidean metric. Consider $E = [0, 1) \cup \{2\}$. Then the set of limit points is $\{1\}$, and the closure of $E$ is $\bar{E} = [0, 1] \cup \{2\}$. The interior is $\interior{E} = (0, 1)$.
+\end{example}
+\begin{proposition}
+    For any $E \subseteq X$, $\bar{E}$ is a closed set, and is the smallest closed set that contains $E$:
+    \label{propClosureIsClosed}
+\end{proposition}
+\begin{proof}
+    The proof is on the second example sheet.
+\end{proof}
+\begin{proposition}
+    Let $X \subseteq X$. Then the following are equivalent:
+    \begin{enumerate}
+        \item If $(x_k)$ is a sequence in $E$ with $x_n \to x \in X$ then $x \in E$
+        \item $E = \bar{E}$
+        \item $E$ is a closed set in $X$
+    \end{enumerate}
+    \label{propSubsetClosure}
+\end{proposition}
+\begin{proof}
+    This directly follows from the definitions and proposition~\ref{propClosureIsClosed}
+\end{proof}
+\section{Completeness}
+\begin{definition}{Cauchy sequence}
+    Let $(X, d)$ be a metric space. Let $(x_n)_n$ be a sequence. This is a \underline{Cauchy sequence} if, given $\epsilon > 0$, there exists an $N$ such that:
+    \begin{equation*}
+        m, n \geq N \implies d(x_m, x_n) < \epsilon
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    Some ideas immediately generalise from the ideas used with $\R$. For example:
+    \begin{itemize}
+        \item All convergent sequences are Cauchy;
+        \item All Cauchy sequences are bounded;
+        \item If $x_k$ is Cauchy and has a convergent subsequence converging to a point $x$ then the whole sequence converges to $x$.
+    \end{itemize}
+\end{remark}
+\begin{definition}{Completeness}
+    Let $(X, d)$ be a metric space. This is \underline{complete} if every Cauchy sequence in $X$ converges to some element $x \in X$.
+\end{definition}
+\begin{theorem}[$\R^n$ is complete]
+    $\R^n$ with the Euclidean metric is a complete space.
+    \label{thmRnComplete}
+\end{theorem}
+\begin{proof}
+    If $(x^{(k)})$ is a Cauchy sequence in $\R^n$, then we find that the coordinates must also be Cauchy sequences. Since $\R$ is complete, these individual coordinate sequences must converge. 
+    By proposition~\ref{propConvergenceRn}, the whole sequence must converge.
+\end{proof}
+\begin{remark}
+    We will, in due course, find that any finite-dimensional normed space is complete.
+\end{remark}
+\begin{theorem}[The space of continuous functions is complete]
+    $C([a, b])$ is a complete space with respect to the supremum norm.
+    \label{thmCtsComplete}
+\end{theorem}
+\begin{proof}
+    We invoke theorem~\ref{thmCauchyCriterion} to show that uniformly Cauchy functions are uniformly convergent. Further, theorem~\ref{thmUCContinuity} tells us that this limit indeed resides in $C([a, b])$.
+\end{proof}
+\begin{theorem}[Sequence spaces are complete]
+    The spaces $\ell_1, \ell_2, \ell_{\infty}$ are complete.
+    \label{thmSequencesComplete}
+\end{theorem}
+\begin{proof}
+    The proof for $\ell_1$ is on the example sheet, and the proof for $\ell_2$ is similar. Consider only $\ell_{\infty}$, the set of bounded sequences. We can understand such sequences as bounded functions $f : \N \mapsto \R$. To prove completeness, take a Cauchy sequence in this space (which is a Cauchy sequence of functions).
+    
+    We can again invoke theorem~\ref{thmCauchyCriterion} to show that such a function (and so the underlying sequence) converges. We have shown that it is bounded (and so the sequence is in $\ell_{\infty}$) on the first example sheet.
 \end{proof}
 \end{document}
