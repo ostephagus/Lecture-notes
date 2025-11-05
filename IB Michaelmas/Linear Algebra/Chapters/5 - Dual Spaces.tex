@@ -12,7 +12,7 @@
 \end{definition}
 \begin{examples}{}
     \item Consider $\theta : \R^3 \mapsto \R$ given by $\theta(\vec{x}) = x - 2y + 3z$.
-    \item Note that the trace function in in the dual space $M_{n \times n}(\F)^*$
+    \item Note that the trace function is in the dual space $M_{n \times n}(\F)^*$
     \item Consider $V$ the set of functions in $C([0, 1])$. Then consider:
         \begin{align*}
             \theta : C([0, 1]) &\mapsto \R\\
@@ -88,6 +88,7 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
         &= \left([\theta]_{B^*}\right)^T [v_B]
     \end{align*}
 \end{proof}
+\subsection{Annihilators}
 \begin{definition}{Annihilator}
     For $V$ a finite-dimensional vector space over $\F$, $S \subseteq V$, the \underline{annihilator} of $S$ is:
     \begin{equation*}
@@ -98,15 +99,15 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
         Let $V$ be a finite-dimensional vector space over $\F$. Let $S, T \subseteq V$.
         \label{propsAnnihilator}
     }
-    \item $S^0 \leq V^*$
-    \item If $S \subseteq T$ then $T^0 \leq S^0$
-    \item $S^0 = \spn{S}^0$
-    \item $V^0 = \{\zv_{V^*}\}$ and $\{\zv_V\}^0 = V^*$.
+    \item $S^0 \leq V^*$ \label{propAnnihilatorIsSubspace}
+    \item If $S \subseteq T$ then $T^0 \leq S^0$ \label{propAnnihilatorInclReverse}
+    \item $S^0 = \spn{S}^0$ \label{propAnnihilatorSpan}
+    \item $V^0 = \{\zv_{V^*}\}$ and $\{\zv_V\}^0 = V^*$. \label{propAnnihilatorExtremes}
 \end{propositions}
 \begin{proof}
     \begin{enumerate}
         \item We can simply apply the subspace test in this case.
-        \item By the first part, it suffuces to check $T^0 \subseteq S^0$. For $\theta \in T^0, s \in S$, we have that $s \in T$ and so $\theta(s) = 0$.
+        \item By the first part, it suffices to check $T^0 \subseteq S^0$. For $\theta \in T^0, s \in S$, we have that $s \in T$ and so $\theta(s) = 0$.
         \item Note that $S \subseteq \spn{S}$ and by the second part, we have immediately that $\spn{S}^0 \leq S^0$.
         
             Then suppose $\theta \in S^0, v \in \spn{S}$. Write $v = \sum_{s \in S}' \lambda_s s$, so:
@@ -137,7 +138,7 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
             v_j^* \in (B_U)^0 &= \spn{B_U}^0 \\
             &= U^0
         \end{align*}
-        We have that this is also certainly linerly independent because it is a subset of a basis. Therefore the final thing to check is that this spans $U^0$. For this, let $\theta \in U^0$. Write it as a linear combination:
+        We have that this is also certainly linearly independent because it is a subset of a basis. The final thing to check is that this spans $U^0$. For this, let $\theta \in U^0$. Write it as a linear combination:
         \begin{equation*}
             \theta = \sum_{j=1}^n \lambda_j v_j^*
         \end{equation*}
@@ -150,5 +151,200 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
 \end{proof}
 \begin{remark}
     For an infinite-dimensional vector space $V$, we can use the idea of direct sums to show that if $U, W \leq V$ satisfy $V = U \oplus W$ then $U^0 \isom W^*$.
+\end{remark}
+\begin{propositions}{
+        Suppose $V$ is a vector space over $\F$. Let $U, W \subseteq V$.
+        \label{propsAnnihilatorSubsets}
+    }
+    \item $U^0 \cap W^0 = (U + W)^0$;
+    \item $U^0 + W^0 \leq (U \cap W)^0$;
+    \item If $V$ is finite-dimensional then we have equality in both cases.
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item For $\theta \in V^*$, $\theta \in (U + W)^0$ implies that for all $u \in U, w \in W$, $\theta(u + w) = 0$. This is equivalent to $\theta(u) = \theta(w) = 0$, so $\theta \in U^0 \cap W^0$. Conversely, if $\theta$ annihilates everything in $U$ and $W$ then it must annihilate everything in $(U + W)$ by linearity.
+        \item $U \cap W \leq U, W$, so by proposition~\ref{propAnnihilatorInclReverse},
+            \begin{align*}
+                U^0, W^0 & \leq (U\cap W)^0 \\
+                U^0 + W^0 &\leq (U \cap W)^0
+            \end{align*}
+        \item Now let $\dim(V) = n$. Then:
+            \begin{align*}
+                \dim(U^0 + W^0) &= \dim(U^0) + \dim(W^0) - \dim(U^0 \cap W^0) \\
+                &= \dim(U^0) + \dim(W^0) - \dim((U + W)^0) \\
+                &= (n- \dim(U)) + (n - \dim(W)) - (n - \dim(U + W)) \\
+                &= n - \dim(U \cap W) \\
+                &= \dim((U \cap W)^0)
+            \end{align*}
+    \end{enumerate}
+\end{proof}
+\section{Dual Linear Maps}
+\begin{definition}{Dual map}
+    Let $\alpha \in \L(V, W)$ for vector spaces $V, W$ over $\F$. The \underline{dual map} of $\alpha$ is given by:
+    \begin{align*}
+        \alpha^* : W^* &\mapsto V^*\\
+        \theta &\mapsto \theta \circ \alpha
+    \end{align*}
+\end{definition}
+\begin{propositions}{
+    If $\alpha, \beta \in \L(V, W)$, $\gamma \in \L(U, V), \lambda \in \F$, then:
+        \label{propsDLM}
+    }
+    \item $\alpha^*$ is linear. \label{propDLMLinear}
+    \item $(\alpha + \lambda \beta)^* = \alpha^* + \lambda\beta^*$ \label{propDLMLinearOp}
+    \item $(Id_V)^* = Id_{V^*}$ \label{propDLMId}
+    \item If $\beta$ is an isomorphism then so is $\beta^*$ with inverse:
+        \begin{equation*}
+            (\beta^*)^{-1} = (\beta^{-1})^*
+        \end{equation*}
+        \label{propDLMIsomPreserved}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $\theta, \eta \in W^*$, $\mu \in \F$. Then for $v \in V$, consider $\alpha^*(\theta + \mu \eta)$.
+            \begin{align*}
+                \alpha^*(\theta + \mu \eta)(v) &= (\theta + \mu \eta)(\alpha(v)) \\
+                &= \theta(\alpha(v)) + \mu \eta(\alpha(v)) \\
+                &= \alpha^*(\theta)(v) + \mu \alpha^*(\eta)(v) \\
+                &= \left[\alpha^*(\theta) + \mu \alpha^*(\eta)\right](v)
+            \end{align*}
+            and since $v$ was arbitrary, it is the case that:
+            \begin{equation*}
+                \alpha^*(\theta + \mu \eta) = \alpha^*(\theta) + \mu \alpha^*(\eta)
+            \end{equation*}
+        \item For $\theta \in W^*$, $v \in V$,
+            \begin{align*}
+                (\alpha + \lambda \beta)*^(\theta)(v) &= \theta(\alpha + \lambda \beta)(v) \\
+                &= \theta(\alpha(v) + \lambda \beta(v)) \\
+                &= \theta(\alpha(v)) + \lambda\theta(\beta(v)) \\
+                &= \alpha^*(\theta)(v) + \lambda\beta^*(\theta)(v) \\
+                &= (\alpha^*(\theta) + \lambda \beta^*(\theta))(v)
+            \end{align*}
+            Since $v, \theta$ were arbitrary, we must have that:
+            \begin{equation*}
+                (\alpha + \lambda \beta)^* = \alpha^* + \lambda \beta^*
+            \end{equation*}
+        \item Consider $\theta \in W^*$.
+            \begin{align*}
+                (\alpha \circ \gamma)^*(\theta) &= \theta \circ (\alpha \circ \gamma) \\
+                &= \alpha^*(\theta) \circ \gamma \\
+                &= \gamma^*(\alpha^*(\theta)) \\
+                &= (\gamma^* \circ \alpha^*)(\theta)
+            \end{align*}
+            We again conclude that, since $\theta$ was arbitrary,
+            \begin{equation*}
+                (\alpha \circ \gamma)^* = \gamma^* \circ \alpha^*
+            \end{equation*}
+        \item For all $\theta \in V^*$, $(Id_V)^*(\theta) = \theta \circ Id_V = \theta$.
+        \item Now consider:
+            \begin{align*}
+                Id_{V^*} &= (\beta^{-1} \circ \beta) \\
+                &= \beta^* + (\beta^{-1})^*
+            \end{align*}
+            Similarly, $id_{W^*} = (\beta^{-1})^* \circ \beta^*$.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $V, W$ be finite-dimensional vector space over $\F$. Let $\alpha \in \L(V, W)$.
+
+    Consider $B, C$ bases for $V, W$. Then:
+    \begin{equation*}
+        [\alpha^*]_{B^*}^{C^*} = \left([\alpha]_C^B\right)^T
+    \end{equation*}
+    \label{propDLMIsTranspose}
+\end{proposition}
+\begin{proof}
+    Let $n = \dim(V), m = \dim(W)$. Let $B = \{b_1, \cdots, b_n\}$ and $C = \{c_1, \cdots, c_m\}$. Define:
+    \begin{align*}
+        A &= [\alpha]_C^B,~~\alpha(b_i) = \sum_{k=1}^{m} a_{ki} c_k \\
+        A' &= [\alpha^*]_{B^*}^{C^*},~~\alpha(c_j^*) = \sum_{l=1}^{n}a_{lj}' b_l^*
+    \end{align*}
+    Then we find:
+    \begin{align*}
+        a_{ij}' &=\alpha^*(c_j^*)(b_i) \\
+        &= c_j^*(\alpha(b_i)) \\
+        &= c_j^* \left(\sum_{k=1}^{m} a_{ki} c_k\right) \\
+        &= \alpha_{ji}
+    \end{align*}
+\end{proof}
+\begin{example}[Change-of-Basis]
+    Let $B, C$ be bases of $V$. Set $P = [Id_V]_C^B$. Then $[Id_{V^*}]_{B^*}^{C^*} = P^T$.
+
+    Then $[Id_{V^*}]_{C^*}^{B^*} = (P^T)^{-1}$.
+\end{example}
+\begin{corollary}
+    Consider the same assumptions as proposition~\ref{propDLMIsTranspose}.
+
+    \begin{equation*}
+        rk(\alpha^*) = rk(\alpha)
+    \end{equation*}
+    \label{corDLMRank}
+\end{corollary}
+\begin{proof}
+    The ranks of $\alpha, \alpha^*$ are the column ranks of their corresponding matrices. Since these are transposes of each other, and since column rank is equal to row rank, we have that the linear maps must have the same rank.
+\end{proof}
+\begin{propositions}{
+        Let $V, W$ be vector spaces over a field $\F$. For $\alpha \in \L(V, W)$:
+        \label{propsDLMImKer}
+    }
+    \item $\ker(\alpha^*) = \im(\alpha)^0$ \label{propDLMKer} \\
+    \item $\im(\alpha^*) \leq \ker(\alpha)^0$ \label{propDLMIm} \\
+    \item If $V$ and $W$ are finite-dimensional then we have equality in the above. \label{propDLMFinteIm}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $\theta \in W^*$. Observe the following chain of equivalence:
+            \begin{align*}
+                \theta \in \ker(\alpha^*) &\iff \theta \circ \alpha = \zv_{V^*} \\
+                &\iff \forall v \in V, \theta(\alpha(v)) = \zv_V \\
+                &\iff \theta \in \im(\alpha)^0
+            \end{align*}
+        \item Now consider $\eta \in V^*$. Then if $\eta \in \im(\alpha^*)$ there exists $\theta \in W^*$ such that $\eta = \theta \circ \alpha$. Therefore, for all $v \in \kera$,
+            \begin{align*}
+                \eta(v) &= \theta(\alpha(v)) \\
+                &= \theta(\zv_V) \\
+                &= \zv_{V^*} \\
+                &\implies (\kera)^0
+            \end{align*}
+        \item By corollary~\ref{corDLMRank},
+            \begin{align*}
+                rk(\alpha^*) &= rk(\alpha) \\
+                &= \dim(V) - \dim(\kera) \\
+                &= \dim(\kera^0)
+            \end{align*}
+    \end{enumerate}
+\end{proof}
+\section{The Double Dual}
+We now consider the dual space of the dual space, $V^{**} = (V^*)^*$.
+\begin{theorem}[Double dual isomorphism]
+    Let $V$ be a vector space over $\F$. Then there exists a linear map $E : V \mapsto V^{**}$ given by $E(v)(\theta) = \theta(v)$.
+    
+    If $V$ is finite-dimensional then this is an isomorphism.
+    \label{thmDDLMIsom}
+\end{theorem}
+\begin{proof}
+    \begin{subproof}{$E$ is linear}
+        Let $v, w \in V, \lambda \in \F, \theta \in V^*$.
+        \begin{align*}
+            E(v + \lambda w)(\theta) &= \theta(v + \lambda w) \\
+            &= \theta(v) + \lambda \theta(w) \\
+            &= E (v)(\theta) + \lambda E(w)\theta \\
+            &= \left(E(v) + \lambda E(w)\right)(\theta)
+        \end{align*}
+        Then this is true for all $\theta$, so $E$ must be linear.
+    \end{subproof}
+    Now suppose $V$ is finite-dimensional.
+    \begin{subproof}{$E$ is injective.}
+        Suppose $v$ is a non-zero vector in $\ker(E)$. Therefore, for all $\theta \in V^*$, $E(v)(\theta) = 0$. Consider a basis $B$ of $V$ with first element $v$. Let $B^*$ be the usual dual basis of $B$. Now set $\theta = v_1^*$. Then $0 = \theta(v) = v_1^*(v_1) = 1$.
+
+        That is, $1 = 0$. \contradiction
+    \end{subproof}
+    Surjectivity follows from the rank-nullity theorem because:
+    \begin{equation*}
+        \dim(V) = \dim(V^*) = \dim(V^{**})
+    \end{equation*}
+\end{proof}
+\begin{remark}
+    We are able to show injectivity in the infinite-dimensional case if we assume the axiom of choice. However, surjectivity does not hold in general.
 \end{remark}
 \end{document}
