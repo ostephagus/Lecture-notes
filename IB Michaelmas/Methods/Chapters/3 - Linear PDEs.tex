@@ -2,7 +2,7 @@
 
 \begin{document}
 \section{Superposition}
-We will be interested in solving Boundary-Value problems (BVPs) and Initial Boundary-Value problems (IBVPs):
+We will be interested in solving Boundary-Value problems (BVPs) of the form in equation~\ref{eqnGeneralBVP} and Initial Boundary-Value problems (IBVPs) of the form in equation~\ref{eqnGeneralIBVP}
 \begin{equation}
     \begin{cases}
         P\phi(\vec{x}) = 0 & \vec{x} \in \Omega \\
@@ -47,8 +47,8 @@ and we can split this into 4 functions $\psi_i$:
 \begin{equation*}
     \begin{cases}
         P\psi_i(\vec{x}) = 0 & \vec{x} \in (0, 1)^2 \\
-        \psi_i = 0 & \text{on side } \neq i \\
-        \psi_i = f_i & \text{on side } = i
+        \psi_i = 0 & \text{on side} \neq i \\
+        \psi_i = f_i & \text{on side} = i
     \end{cases}
 \end{equation*}
 Then $\psi = \sum_{i=1}^4 \psi_i$ solves the problem.
@@ -60,7 +60,7 @@ Recall Laplace's Equation for $\phi : \R^n \mapsto \R$:
 \end{equation}
 where $\Delta = \nabla^2 = \nabla \cdot \nabla$. We say $\phi$ is \underline{harmonic} if it satisfies this equation. Harmonic functions are always infinitely differentiable (smooth).
 \begin{example}[Incompressible irrotational fluid]
-    Consider $\vec{u} : \R^3 \mapsto \R^3$ is a velocity field of an incompressible fluid ($\nabla u = 0$), and if it is also irrotational ($\nabla \times u = \vec{0}$), we can solve using Laplace's equation since there must exist a potential $\phi : \R^3 \mapsto \R$ such that $\vec{u} = \nabla \phi$. Then:
+    Consider $\vec{u} : \R^3 \mapsto \R^3$ a velocity field of an incompressible fluid ($\nabla \vec{u} = 0$). Suppose that it is also irrotational ($\nabla \times u = \vec{0}$). In this case we can find $\vec{u}$ using Laplace's equation since there must exist a potential $\phi : \R^3 \mapsto \R$ such that $\vec{u} = \nabla \phi$. Then:
     \begin{equation*}
         0 = \nabla \cdot \vec{u} = \nabla \cdot (\nabla \phi) = \Delta \phi
     \end{equation*}
@@ -74,12 +74,12 @@ We now consider BVPs of the form:
 \end{equation*}
 where $B\phi = \phi$ (Dirichlet BCs), $B\phi = \frac{\partial \phi}{\partial \vec{n}}$ (Von Neumann BCs), or more generally $B\phi = \phi + \frac{\partial \phi}{\partial \vec{n}}$ (Robin BCs).
 \subsection{Separation of Variables on a Square}
-Consider:
+Consider Laplace's equation on a square with boundary conditions:
 \begin{equation*}
     \begin{cases}
         \phi_{xx} + \phi_{yy} = 0 & (x, y) \in (0, 1)^2 \\
-        \phi(x, y) = 0 & \{\{0, 1\}, y\} \cup \{x, 0\} \\
-        \phi(x, 1) = f(x) & y = 1
+        \phi(x, y) = 0 & \text{Sides } x = 0, y = 0, x = 1 \\
+        \phi(x, 1) = f(x) & \text{Side }y = 1
     \end{cases}
 \end{equation*}
 Now try a \underline{separable} solution of the form:
@@ -93,7 +93,7 @@ Then:
 Dividing through by $XY$:
 \begin{align*}
     \frac{X''(x)}{X(x)} + \frac{Y''(y)}{Y(y)} &= 0 \\
-    -\frac{X''(x)}{X(x)} = \lambda = \frac{Y''(y)}{Y(y)}
+    \implies -\frac{X''(x)}{X(x)} &= \lambda = \frac{Y''(y)}{Y(y)}
 \end{align*}
 because we have 2 terms with different dependences, so they may only be constant. We can now simultaneously solve the $x$ equation and the $y$ equation:
 \begin{equation*}
@@ -120,16 +120,26 @@ and we solve this to get $Y(y) = B \sinh(n\pi y)$, or $Y_n(y) = B_n \sinh(n\pi y
 \begin{equation*}
     \phi_n(x, y) = A_n \sin(n\pi x) \sinh(n\pi x)
 \end{equation*}
-each satisfies $\Delta y_n = 0$ on $(x, y) \in (0,1)^2$ and $\phi_n = 0$ on $x = 0$, $x = 1$ and $y = 0$. Therefore, the most general solution $\phi$ is:
+Note that we only need one constant at the front (we set $A_n B_n \to A_n$).
+Each satisfies $\Delta y_n = 0$ on $(x, y) \in (0,1)^2$ and $\phi_n = 0$ on $x = 0$, $x = 1$ and $y = 0$. Therefore, the most general solution $\phi$ is:
 \begin{equation*}
     \phi(x, y) = \sum_{n = 1}^\infty A_n \sin(n\pi x) \sinh(n\pi x)
 \end{equation*}
-but we need to apply the final boundary condition, $\phi(x, 1) = f(x)$ Taking an inner product:
+but we need to apply the final boundary condition, $\phi(x, 1) = f(x)$. Taking an inner product:
 \begin{align*}
     \inn{f}{X_n} &= \sum_{m=0}^{\infty} A_m \inn{X_m}{X_n} \sinh(n\pi) \\
     &= \frac{A_n}{2}\sinh(n\pi) \\
     \therefore A_n &= \frac{2}{\sinh(n\pi)} \int_{0}^{1} f(x) \sin(n\pi x) dx 
 \end{align*}
+This is our solution, and so given a specific function $f$ we can find the value of each $A_n$ and a closed form for $\phi$.
+
+In general, this is how we will proceed with solving these sorts of PDEs. We do the following:
+\begin{enumerate}
+    \item Try a separable solution and solve for each separate function
+    \item Apply homogeneous boundary conditions (ones with $=0$) to the individual eigenfunctions
+    \item Multiply the separable parts back together and sum over all possible eigenvalues (usually indexed by $n \in \N$ or $n \in \N \cup \{0\}$)
+    \item Apply any non-homogeneous boundary conditions (ones with $=f$ for $f$ a function) using the relevant inner product.
+\end{enumerate}
 \subsection{Separation of Variables on a Disc}
 We will solve $\Delta \phi = 0$ on the region $r_1 < |x| < r_2$ in the $(x, y)$ plane. Polar coordinates appear as an obvious choice for such a region. Then Laplace's equation becomes:
 \begin{equation*}
@@ -143,7 +153,7 @@ Now we look for a separable solution of the form $\phi = R(r) \Theta(\theta)$. S
 Therefore we can separate this, both must be equal to $\lambda \in \R$:
 \begin{align*}
     r \frac{d}{dr}\left(r \frac{dR}{dr}\right) &= \lambda R \\
-    \frac{d^{2}\Theta}{d\theta^{2}} + \lambda \Theta = 0
+    \frac{d^{2}\Theta}{d\theta^{2}} + \lambda \Theta &= 0
 \end{align*}
 Then we can find a solution to the theta equation:
 \begin{equation*}
@@ -202,20 +212,20 @@ Now we consider $\Delta \phi = 0$ on the region $a < |\vec{x}| < b$ in $\R^3$. W
 \begin{equation*}
     \frac{1}{r^2} \frac{\partial }{\partial r}\left[r^2 \frac{\partial \phi}{\partial r}\right] + \frac{1}{r^2 \sin(\theta)} \frac{\partial}{\partial \theta} \left[\sin(\theta) \frac{\partial \phi}{\partial \theta}\right] = 0
 \end{equation*}
-Note here that we removed the last term. We now look for a separable solution $\phi = R(r) = \Theta(\theta)$. Then:
+Note here that we removed the last term because there is no $\varphi$ dependence. We now look for a separable solution $\phi = R(r) \Theta(\theta)$. Then:
 \begin{equation*}
-    \frac{1}{R} \frac{d}{dr} \left[r^2 \frac{dR}{dr}\right] + \frac{1}{\Theta \sin(theta)} \frac{d}{d\theta} \left[\sin(\theta) \frac{d\Theta}{d\theta}\right]
+    \frac{1}{R} \frac{d}{dr} \left[r^2 \frac{dR}{dr}\right] + \frac{1}{\Theta \sin(\theta)} \frac{d}{d\theta} \left[\sin(\theta) \frac{d\Theta}{d\theta}\right]
 \end{equation*}
 So now we have $\lambda \in \R$ such that:
 \begin{align*}
     [r^2 R']' &= \lambda R
     -[\sin(\theta) \Theta']' = \lambda \sin(\theta)
 \end{align*}
-Now, to solve the $\Theta$ equation, consider the new variable $x = \cos(\theta)$. Let $\tilde{\Theta}(x) = \Theta(\theta)$. Note that the operator $\frac{d}{d\theta} = -sin(\theta) \frac{d}{dx}$.
+Now, to solve the $\Theta$ equation, consider the new variable $x = \cos(\theta)$. Let $\tilde{\Theta}(x) = \Theta(\theta)$. Note that the operator $\frac{d}{d\theta} = -\sin(\theta) \frac{d}{dx}$.
 \begin{align*}
     \lambda \sin(\theta) \tilde{\Theta} &= -\left(-\sin(\theta) \frac{d}{dx}\right) \left[\sin(\theta) \left(-\sin(\theta) \frac{d\tilde{\Theta}}{dx}\right)\right] \\
     &= -\sin(\theta) \frac{d}{dx} \left[(1 - x^2) \frac{d\tilde{\Theta}}{dx}\right] \\
-    \therefore -\frac{d}{dx} \left[(1 - x^2) \frac{d\tilde{\Theta}}{dx}\right] = \lambda \tilde{\Theta}
+    \therefore -\frac{d}{dx} &\left[(1 - x^2) \frac{d\tilde{\Theta}}{dx}\right] = \lambda \tilde{\Theta}
 \end{align*}
 But now we have Legendre's equation! This means we do not need any boundary conditions, and we have $\tilde{\Theta}(x) = P_n(x)$ where $\lambda = \lambda_n = n(n+1)$. In terms of $\Theta$ and $\theta$,
 \begin{equation*}
@@ -231,7 +241,7 @@ Trying a solution of the form $R^\alpha$ gives $\alpha(\alpha+1) = n(n+1)$. The 
 \end{equation*}
 And note that if $r = 0$ belongs to the domain, all the $\beta_n$ are zero.
 \begin{example}
-    We consider $\Delta \phi = 0$ on $r < 1$ and $\phi(r, \theta) = f(\theta)$. We can now try a solution of the form:
+    We consider $\Delta \phi = 0$ on $r < 1$ and $\phi(1, \theta) = f(\theta)$. Since $r = 0$ is in the domain, set $\beta_n = 0$. Consider:
     \begin{equation*}
         \phi(r, \theta) = \sum_{n=0}^{\infty} \alpha_nr^n P_n(\cos(\theta))
     \end{equation*}
@@ -245,14 +255,16 @@ And note that if $r = 0$ belongs to the domain, all the $\beta_n$ are zero.
     \end{equation*}
     Then setting $x = \cos(\theta)$:
     \begin{equation*}
-        \frac{2}{2n+1}\delta_{nm} = \int_{0}^{\pi} P_n(\cos{\theta}) P_m (\sin{\theta}) d\theta
+        \frac{2}{2n+1}\delta_{nm} = \int_{0}^{\pi} P_n(\cos{\theta}) P_m (\cos{\theta})\sin(\theta) d\theta
     \end{equation*}
     Therefore we can determine the $\alpha_n$:
     \begin{align*}
         \int_{0}^{\pi} f(\theta)P_m(\cos{\theta}) \sin(\theta) d\theta &= \sum_{n=0}^{\infty} \alpha_n \inn{P_n}{P_m} \\
         &= \frac{2\alpha_m}{2m+1} \\
-        \implies \alpha_n &= \left(\frac{2n+1}{2}\right) \int_{0}^{\pi} f(\theta) P_n(\cos{\theta}) \sin{\theta} d\theta
     \end{align*}
+    \begin{equation*}
+        \implies \alpha_n = \left(\frac{2n+1}{2}\right) \int_{0}^{\pi} f(\theta) P_n(\cos{\theta}) \sin{\theta} d\theta
+    \end{equation*}
 \end{example}
 \section{Wave Equation}
 Consider a taut string, under constant tension $\tau$, clamped at its ends $x = 0, L$. Let $y = y(x, t)$ denote vertical displacement of string. Assume that oscillations are transverse and the slope $|y_x| << 1$. Note that:
@@ -309,7 +321,7 @@ We want to solve the IBVP:
         y_t(x, 0) = g(x) & x \in (0, L)
     \end{cases}
 \end{equation*}
-We can try a separable solution $y(x, y) = X(x) T(t)$. We need $X(0) = X(l) = 0$. We obtain:
+We can try a separable solution $y(x, y) = X(x) T(t)$. We need $X(0) = X(L) = 0$. We obtain:
 \begin{equation}
     \frac{\ddot{T}}{c^2T} = \frac{X''}{X}
     \label{eqnWaveSeparated}
@@ -351,9 +363,9 @@ We will solve the IBVP on a drum, $\Omega = \subsetselect{(r, \theta)}{0 \leq r 
 \begin{equation}
     \begin{cases}
         \phi_{tt} - c^2 \Delta \phi & \Omega \times (0, \infty) \\
-        \phi = 0 & \partial \phi \times (0, \infty) \\
-        \phi = f & \phi \times (t = 0) \\
-        \phi_t = g & \phi \times (t = 0) \\
+        \phi = 0 & \partial \Omega \times (0, \infty) \\
+        \phi = f & \Omega \times (t = 0) \\
+        \phi_t = g & \Omega \times (t = 0) \\
     \end{cases}
     \label{eqnWaveDrum}
 \end{equation}

@@ -1,0 +1,106 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{The Dirac Delta Function}
+The Dirac Delta function was introduced in IA Differential Equations with the following properties:
+\begin{align*}
+    \delta(x) &= 0 \text{ if }x \neq 0 \\
+    \forall \epsilon > 0, &\int_{-\epsilon}^{\epsilon} \delta(x) dx = 1
+\end{align*}
+No such function exists.
+
+However, we can attempt to understand this by considering the Dirac Delta Function as the limit of a sequence of functions:
+\begin{equation*}
+    \delta_n(x) =
+    \begin{cases}
+        \frac{n}{\alpha}\exp\left[-\frac{1}{1-n^2x^2}\right] & |x| < \frac1n \\
+        0 & |x| \geq \frac1n
+    \end{cases}
+\end{equation*}
+where:
+\begin{equation*}
+    \int_{-1}^{1} \exp\left[-\frac{1}{1-y^2}\right] dy 
+\end{equation*}
+We note that:
+\begin{enumerate}
+    \item The function $\delta_n$ is smooth for each $n$;
+    \item $\delta_n(x)$ is zero on $|x| \geq \frac1n$;
+    \item For all $\epsilon > 0,~\exists N > 0$ such that:
+        \begin{equation*}
+            n \geq N \implies \int_{-\epsilon}^{\epsilon} \delta_x dx = 1
+        \end{equation*}
+\end{enumerate}
+For the third remark, we simply take $N > \frac1\epsilon$. This results in:
+\begin{align*}
+    \int_{-\epsilon}^{\epsilon} \delta_n(x) dx &= \int_{-\frac1n}^{\frac1n} \delta_n(x) dx \\
+    &= \frac1\alpha \int_{-1}^{1} \exp\left[-\frac{1}{1-y^2}\right] dy \text{ by taking }y = nx \\
+    &= 1
+\end{align*}
+Now consider figure~\ref{figDiracDeltaGraph}. We see that $\lim_{n \to \infty} \delta_n(x) = 0$ if $x \neq 0$ and, for $\epsilon > 0$, we have the required integral property.
+
+Therefore, this \underline{almost} gives us the limit:
+\begin{equation*}
+    \delta(x) = \lim_{n \to \infty} \delta_n(x)
+\end{equation*}
+However, the pointwise limit does not exist everywhere:
+\begin{equation*}
+    \lim_{n \to \infty} \delta_n(0) = \lim_{n \to \infty} \frac{n}{e\alpha}
+\end{equation*}
+which is infinite.
+
+For this course, we will say that the limit does exist, but in a ``weaker sense'' (see III Distribution Theory \& Applications).
+
+The Dirac Delta function rarely appears in isolation. For example, the key ``picking out'' property:
+\begin{equation*}
+    \int_{-\infty}^{\infty} f(x)\delta(x - a) dx = f(a)
+\end{equation*}
+It also has important applications in modelling an impulse:
+\begin{equation*}
+    \ddot{y} + \omega^2 y = \delta(t)
+\end{equation*}
+To deal with this, we solve $\ddot{y}_n + \omega^2 y_n = \delta_n(t)$. Then we define $y(t)$ as the pointwise limit $\lim_{n \to \infty} t_n(t)$.
+
+Using this limiting procedure, we can also consider $\delta'(x)$:
+\begin{align*}
+    \int_{-\infty}^{\infty} \delta'(x)f(x) dx &= \lim_{n \to \infty} \int_{-\infty}^{\infty} \delta_n'(x) f(x) dx \\
+    &= -\lim_{n \to \infty} \int_{-\infty}^{\infty} \delta_n(x) f'(x) dx \\
+    &= -\int_{-\infty}^{\infty} \delta(x) f'(x) dx = -f'(0)    
+\end{align*}
+It gets irritating writing all these limits, so we usually deal with the Dirac Delta function itself (where we understand that, behind the scenes, a limiting process is occurring).
+\subsection{Periodic delta functions}
+Let $\delta^L(x)$ denote the $L$-periodic delta function outside the interval $\left[\left.-\frac{L}{2}, \frac{L}{2}\right)\right.$
+We can even take the Fourier series:
+\begin{equation*}
+    \frac{1}{L} \int_{-\frac{L}{2}}^{\frac{L}{2}} \delta(x) e^{-\frac{2\pi}{L}inx} dx
+\end{equation*}
+This gives:
+\begin{equation*}
+    \delta^L(x) \sim \frac{1}{L}\sum_{n \in \Z} e^{\frac{2\pi}{L}inx}
+\end{equation*}
+Plausibility test:
+\begin{align*}
+    f(0) &= \int_{-\frac{L}{2}}^{\frac{L}{2}} \delta^L(x) f(x) dx \\
+    &= \sum_{n \in Z} \left[\frac{1}{L} \int_{-\frac{L}{2}}^{\frac{L}{2}} e^{\frac{2\pi}{L}inx}f(x) dx \right] \\
+    &= \sum_{n \in \Z} \hat{f}_{-n} = \sum_{n \in \Z} \hat{f}_{n} \\
+    &= f(0)
+\end{align*}
+This, although we have dealt with non-convergent sums to find it, is our expected result. Note that, since $\delta_n(x)$ is smooth its Fourier coefficients must decay rapidly, so this is slightly less bad than it looks.
+\subsection{Eigenfunction Expansion of \texorpdfstring{$\delta(x)$}{the Delta Function}}
+Let $L$ be a Sturm-Liouville operator on the vector space $V \subseteq C^2[a, b]$, where we require that $y \in V$ satisfy real, homogeneous boundary conditions at each non-singular endpoint.
+
+Let $\{Y_k\}_{k=1}^\infty$ be a set of normalised eigenfunctions. Fix $\xi \in [a, b]$, and consider functions $\delta_n(x - \xi)$. For $n$ sufficiently large, $\delta_n(x - \xi) \in V$. By completeness,
+\begin{align*}
+    \delta(x - \xi) &= \sum_{k=1}^{\infty} \inn{\delta_n(t-\xi)}{Y_k(t)}_W Y_k(x) \\
+    &= \sum_{k=1}^{\infty} \left[\int_{a}^{b} \delta_n(t - \xi) Y_k(t) w(t) dt \right] Y_k(x)
+\end{align*}
+Formally, letting $n \to \infty$,
+\begin{equation*}
+    \delta(x - \xi) = \sum_{k=1}^{\infty} w(\xi) Y_k(\xi) Y_k(x)
+\end{equation*}
+We can consider another plausibility test:
+\begin{align*}
+    f(x) &= \int_{a}^{b} \delta(x - \xi)f(\xi) d\xi \\
+    &= \sum_{k=1}^{\infty} \int_{a}^{b} f(\xi) Y_k(\xi) w(\xi) d\xi Y_k(x) \\
+    &= \sum_{k=1}^{\infty} \hat{f}_k Y_k(x) \sim f(x)
+\end{align*}
+\end{document}
