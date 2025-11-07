@@ -177,13 +177,13 @@ Then since each term must be 0 individually,
     a_{n+2} = \frac{2n - \epsilon + 1}{(n+1)(n+2)}
     \label{eqnQHMRecurRelation}
 \end{equation}
-We know that, for a symmetric potential, the function must either be odd or even. Therefore either $a_{2n+1} = 0$, to give $f(\xi) = f(-\xi)$; or, $a_{2n} = 0$ to give $f(\xi) = -f(-\xi)$.
+We know that, for a symmetric potential, the function must either be odd or even. Therefore, either $a_{2n+1} = 0$, to give $f(\xi) = f(-\xi)$; or, $a_{2n} = 0$ to give $f(\xi) = -f(-\xi)$.
 \begin{proposition}
     If, for a given series of the form in equation~\ref{eqnQHMSeries} does not terminate, the corresponding eigenfunction of $\hat{H}$ does not terminate.
     \label{propQHMSeriesFinite}
 \end{proposition}
 \begin{proof}
-    Suppose that such a series does not terminate, and we look at the asymtotic behaviour. For $n \to \infty$, use equation~\ref{eqnQHMRecurRelation}:
+    Suppose that such a series does not terminate, and we look at the asymptotic behaviour. For $n \to \infty$, use equation~\ref{eqnQHMRecurRelation}:
     \begin{equation*}
         \frac{a_{n+2}}{a_n} \to \frac{2}{n}
     \end{equation*}
@@ -193,7 +193,7 @@ We know that, for a symmetric potential, the function must either be odd or even
     \end{equation*}
     where $b_m = \frac{1}{m!}$ when $m$ even, and zero when $m$ odd.
 
-    Asymtotic behaviour of $g(\xi)$:
+    Asymptotic behaviour of $g(\xi)$:
     \begin{equation*}
         \frac{b_{m+2}}{b_m} \frac{\left(\frac{m}{2}\right)!}{\left(\frac{m}{2} + 1\right)!} = \frac{2}{m+1}\to \frac{2}{m}
     \end{equation*}
@@ -326,4 +326,132 @@ Therefore, for a Gaussian wavepacket we find:
     \Delta x~\Delta p \geq \frac{\hbar}{2}
 \end{equation*}
 with the lower bound attained at $t = 0$. This will turn out to be quite profound, as this is the global minimum (out of the space of all wavefunctions) of this quantity.
+\subsection{Beam Interpretation}
+The idea is to ignore the problem of normalisation, taking:
+\begin{equation*}
+    \chi_k(x) = e^{ikx}
+\end{equation*}
+These are improper eigenfunctions of $\hat{H}$. Take $\chi_n(x) = Ae^{ikx}$, then the wavefunction is:
+\begin{equation*}
+    \psi_k(x, t) = Ae^{ikx} e^{-\frac{i\hbar k^2}{2m}}
+\end{equation*}
+We change our interpretation. Rather than $\psi$ describing a single particle, it describes a continuous beam of particles with:
+\begin{align*}
+    p_k &= \hbar k \\
+    E_k &= \frac{\hbar^2 k^2}{2m}
+\end{align*}
+with average density of particles equal to $\rho(x, t) = |A|^2$.
+
+We compute the probability current $J_k$:
+\begin{align*}
+    J_k(x, t) &= -\frac{i\hbar}{2m}\left(\psi_k^* \frac{\partial \psi_k}{\partial x} - \psi_k \frac{\partial \psi_k^*}{\partial x}\right) \\
+    &= |A|^2 \frac{\hbar k}{m} \text{ after much computation} \\
+    &= |A|^2 \frac{p_k}{m}
+\end{align*}
+Then we interpret this as the average flux of particles - the average density multiplied by the average speed.
+\section{Scattering States}
+\begin{definition}{Reflection coefficient}
+    For a setup as in figure~\ref{figPotentialBarrier}, the probability for an incoming particle to be reflected is given by the \underline{reflection coefficient}:
+    \begin{equation}
+        R = \lim_{t \to \infty} \int_{\infty}^{0} |\psi_{GP}(x, t)|^2 dx 
+        \label{eqnReflecCoefft}
+    \end{equation}
+\end{definition}
+\begin{definition}{Transmission coefficient}
+    For a setup as in figure~\ref{figPotentialBarrier}, the probability for an incoming particle to pass through the potential barrier is given by the \underline{transmission coefficient}:
+    \begin{equation}
+        T = \lim_{t \to \infty} \int_{0}^{\infty} |\psi_{GP}(x, t)|^2 dx 
+        \label{eqnTransmCoefft}
+    \end{equation}
+\end{definition}
+Clearly $T + R = 1$ (normalisation).
+
+In the beam interpretation $R$ and $T$ give the fraction of particles reflected and transmitted. Solving scattering problems with the beam interpretation gives the same results for $R$ and $T$ as using the Gaussian wavepacket.
+\subsection{Scattering Off a Potential Step}
+Consider a potential of the form:
+\begin{equation*}
+    U(x) =
+    \begin{cases}
+        0 & x \leq 0 \\
+        U_0 & x > 0
+    \end{cases}
+\end{equation*}
+Define region 1 to be $\{x \leq 0\}$. Here $U(x) = 0$. We therefore have the equation:
+\begin{equation*}
+    \chi_k''(x) + k^2 \chi_k(x) = 0
+\end{equation*}
+The solutions are (in exponential form):
+\begin{equation*}
+    \chi_k(x) = Ae^{ikx} + Be^{-ikx}
+\end{equation*}
+Where we can interpret the first term to be the beam of incident particles, and the second term to be the beam of reflected particles.
+
+Now consider region 2 where $\{x > \}$. Here $U(x) = U_0$.
+\begin{equation*}
+    \chi''(x) + \bar{k}^2 \chi_k(x) = 0
+\end{equation*}
+Here $\bar{k} = \sqrt{\frac{2m(E-U_0)}{\hbar^2}}$. Note that $\bar{k}$ is real if $E \geq U_0$, and imaginary otherwise.
+Consider first the case $E \geq U_0$.
+\begin{equation*}
+    \chi_{\bar{k}}(x) = Ce^{i\bar{k}x} + De^{-i\bar{k}x}
+\end{equation*}
+We interpret this to be the sum of the beam of transmitted particles (term 1) and some incident beam from $+\infty$ (term 2). Because there is no such incident beam, $D = 0$.
+\begin{equation*}
+    \chi_{k, \bar{k}} =
+    \begin{cases}
+        Ae^{ikx} + Be^{-ikx} & x \leq 0 \\
+        Ce^{i\bar{k}x} & x > 0
+    \end{cases}
+\end{equation*}
+We impose continuity of $\chi$ and $\chi'$ at zero:
+\begin{equation*}
+    B = \frac{k - \bar{k}}{k + \bar{k}} A,~~ C = \frac{2k}{k + \bar{k}}A
+\end{equation*}
+We consider the flux of particles, $J(x, t)$:
+\begin{equation*}
+    J(x, t) =
+    \begin{cases}
+        \frac{\hbar k}{m}\left(|A|^2 - |B|^2\right) & x \leq 0 \\
+        \frac{\hbar k}{m}|C|^2 & x > 0
+    \end{cases}
+\end{equation*}
+We define the individual components:
+\begin{align*}
+    J_{\text{inc}} &= \frac{\hbar k}{m} |A|^2 \\
+    J_{\text{ref}} &= \frac{\hbar k}{m} |B|^2 \\
+    J_{\text{trn}} &= \frac{\hbar k}{m} |C|^2
+\end{align*}
+Then we can determine the reflection and transmission coefficients:
+\begin{align*}
+    R &= \frac{J_{\text{ref}}}{J_\text{inc}} = \frac{|B|^2}{|A|^2} = \left(\frac{k - \bar{k}}{k + \bar{k}}\right)^2 \\
+    T &= \frac{J_\text{trn}}{J_\text{inc}} = \frac{|C|^2}{|A|^2}\frac{\bar{k}}{k} = \frac{4k\bar{k}}{(k + \bar{k})^2}
+\end{align*}
+\begin{remarks}
+    \item $R + T = 1$, as expected. 
+    \item $E \to U_0$ gives $\bar{k} \to 0$ and so $T \to 0, R \to 1$.
+    \item $E \to \infty$ gives $T \to 1, R \to 0$, the beam is unaffected by the potential.
+\end{remarks}
+
+Now consider the case $E < U_0$. Here we get:
+\begin{equation*}
+    \chi_\bar{k} = Ce^{-\eta x} + De^{\eta x},~~\eta = \sqrt{\frac{2m(U_0 - E)}{\hbar^2}}
+\end{equation*}
+We require $D = 0$ because otherwise $\chi_\bar{k} \to \infty$ as $x \to \infty$. We impose continuity of $\chi, \chi'$ at $x = 0$: %TODO: Compute
+
+\begin{align*}
+    J_\text{inc}&= \frac{\hbar k}{m}|A|^2 \\
+    J_\text{ref}&= \frac{\hbar k}{m}|B|^2 \\
+    J_\text{trn}&= 0
+\end{align*}
+Therefore $R = 1, T = 0$. However, we find that $\chi_\bar{k}(x) \neq 0$ at $x > 0$. This corresponds to the fact that a particle can exist past this potential barrier but has no momentum.
+\subsection{Scattering Off a Potential Barrier}
+Now consider a potential of the form:
+\begin{equation*}
+    U(x) =
+    \begin{cases}
+        0 & x \leq 0 \\
+        0 & x \geq a \\
+        U_0 & 0 < x < a
+    \end{cases}
+\end{equation*}
 \end{document}
