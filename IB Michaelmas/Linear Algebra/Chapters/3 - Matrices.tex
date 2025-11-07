@@ -117,7 +117,7 @@ then we have the following theorem:
     For any basis $B$ of $V$, $[Id_V]_B^B = I_n$, the identity matrix of size $n\times n$.
 \end{remark}
 \begin{definition}{Change-of-basis matrix}
-    For a vector space $V$ with dimension $n$, and bases $B, B'$, the \underline{change-of-basis matrix} from $B$ to $B'$ is given by:
+    For a vector space $V$ with dimension $n$, and bases $B, B'$, the \underline{change-of-} \underline{basis matrix} from $B$ to $B'$ is given by:
     \begin{equation*}
         P = [Id_V]_{B'}^B \in M_{n \times n}(\F)
     \end{equation*}
@@ -156,7 +156,7 @@ $GL_n(\F)$ denotes the group of invertible matrices of size $n$ over $\F$.
     \item This is indeed an equivalence relation: Inverting $P$ and $Q$ gives that $A$ is equivalent to $A'$. Using the identity matrix gives that $A$ is equivalent to itself, and transitivity holds by composing two matrices either side of $A$.
 \end{remarks}
 \begin{theorem}
-    Let $V$ and $W$ be finite-dimensional vector spaces over $\F$. Let their dimensions be $n, m$ respectively. Let $\alpha : V \mapsto W$ be linear. Let $r = rk(\alpha)$. Then:
+    Let $V$ and $W$ be finite-dimensional vector spaces over $\F$ with dimensions be $n, m$ respectively. Let $\alpha : V \mapsto W$ be a linear map with rank $r$. Then:
     \begin{enumerate}
         \item There exist bases $B, C$ for $V$ and $W$ such that:
             \begin{equation*}
@@ -270,7 +270,7 @@ The row and column ranks are related by: $\rrk(A) = \crk(A^T)$.
     \end{align*}
     and this is $PAQ$ for matrices $P, Q$ seen above. Therefore this is equivalent to $A$, with $rk(\alpha) = \crk(A)$.
 
-    For the second part of the theorem, consider $A'$ with column-rank $r$ representing a linear map $\alpha'$ in standard basis. Then $A'$ can be represented as a block-matrix with upper-left identity by the first part. Hence $A'$ is equivalent to $A$. Conversely, if $A' = PAQ$ then by the lemma,
+    For the second part of the theorem, consider $A'$ with column-rank $r$ representing a linear map $\alpha'$ in standard basis. Then $A'$ can be represented as a block-matrix with upper-left identity by the first part. Hence, $A'$ is equivalent to $A$. Conversely, if $A' = PAQ$ then by the lemma,
     \begin{equation*}
         rk(\alpha') \leq \crk(AQ) \leq rk(\alpha)
     \end{equation*}
@@ -325,7 +325,7 @@ Now consider $V$ a finite-dimensional vector space. Let $B, B'$ be bases for $V$
     $I_n$ is equivalent to every matrix in $GL_n(\F)$ but the similarity class is $\{I_n\}$ because any matrices on the left and right will cancel out.
 \end{example}
 \section{Elementary Operations on Matrices}
-Let $\vec{r_1}, \cdots, \vec{r_m}$ be the rows of a matrix $A$. There exist 3 types of \underline{elementary row operations} on $A$:
+Let $\vec{r_1}, \cdots, \vec{r_m}$ be the rows of a matrix $A$. There exist 3 types of \underline{elementary row} \underline{operations} on $A$:
 \begin{enumerate}
     \item Swapping $\vec{r_i}$ and $\vec{r_j}$;
     \item Multiplying $\vec{r_i}$ elementwise by $\lambda$ (scaling).

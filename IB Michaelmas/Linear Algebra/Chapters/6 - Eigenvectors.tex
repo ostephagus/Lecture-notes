@@ -1,0 +1,86 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Polynomials}
+\begin{definition}{Polynomial}
+    A \underline{polynomial} $f$ over a field $\F$ is a formal expression:
+    \begin{equation*}
+        f(t) = \sum_{i=0}^{n} a_i t^i
+    \end{equation*}
+    Here $n \in \N \cup \{0\}$ and $a_i \in \F$ are the \underline{coefficients}.
+\end{definition}
+Define $\F[t]$ to be the vector space over $\F$ of all polynomials. We have the basis $\{1 = t^0, t^1, t^2, \cdots\}$.
+
+\begin{definition}{Degree}
+    The \underline{degree} $\deg{f}$ of $f \in \F[t]$ is the largest $i$ such that $a_i \neq 0$. We have the convention that if $f$ is the \underline{zero polynomial}, $f(t) = 0$, $\deg(f) = -\infty$.
+    We call this $a_i$ the \underline{leading coefficient}
+\end{definition}
+\begin{definition}{Monic polynomial}
+    A polynomial $f \in \F[t]$ is \underline{monic} if its leading coefficient is $1$.
+\end{definition}
+We define addition and multiplication for any polynomials $f, g \in \F[t]$
+\begin{align*}
+    (f + g)(t) &= \sum_{i=0}^{\max{\deg(f), \deg(g)}} (a_i + b_i)t^i \\
+    (fg)(t) &= \sum_{i=0}^{\deg(f) + \deg(g)} \left(\sum_{k=0}^{i} a_kb_{i-k}\right)t^i
+\end{align*}
+Note that the degree of $f + g$ is at most $\max{\deg(f), \deg(g)}$ (because the leading coefficient can cancel), but the degree of $fg$ is exactly $\deg(f) + \deg(g)$.
+
+Write $f | g$ if there exists $h \in \F[t]$ satisfying $g = fh$.
+
+For $\lambda \in \F$ we can \underline{evaluate} $f$ at $\lambda$ by:
+\begin{equation*}
+    f(\lambda) = \sum_{i=0}^{n} a_i \lambda^i
+\end{equation*}
+\begin{warning}
+    We distinguish between $\F[t]$ and the space of polynomial maps $\F \mapsto \F$. If $\F$ is finite, then $\F[t]$ is not finite-dimensional but the space of polynomial maps on $\F$ is a subspace of $\F^{\F}$ which is finite-dimensional.
+\end{warning} %TODO: WHY?
+\begin{proposition}[Euclid's Algorithm for Polynomials]
+    For $f, g \in \F[t]$, $g \neq 0$, there exist $q, r \in \F[t]$ such that:
+    \begin{equation*}
+        f = qg + r
+    \end{equation*}
+    where $\deg(r) < \deg(q)$.
+    \label{propEuclidAlgPolynom}
+\end{proposition}
+\begin{proof}
+    The proof is very similar to the integer case.
+
+    Let $n = \deg(f), m = \deg(g)$. If $m > n$ set $r = f, q = 0$.
+
+    If $n \geq m$ we can perform an induction by setting $\tilde{f}(t) = f(t) - \left(\frac{a_n}{b_m}\right)t^{n-m} g(t)$, which has degree less than $\deg(f)$.
+\end{proof}
+\begin{corollary}[B\'ezout's Lemma for Polynomials]
+    If $f_1, \cdots, f_k$ are polynomials with no non-constant common divisor, then:
+    \begin{equation*}
+        \exists q_1, \cdots, q_n \in \F[t] \text{ s.t. } 1 = \sum_{i=1}^{k} f_i q_i
+    \end{equation*}
+    \label{corBezoutPolynom}
+\end{corollary}
+\begin{lemma}
+    For $\lambda \in \F$, $f(\lambda) = 0$ if and only if $(t - \lambda) | f(t)$.
+    \label{lemFactorTheorem}
+\end{lemma}
+The proof is by applying Euclid's Algorithm to $f(t)$ with $g(t) = t - \lambda$.
+
+\begin{definition}{Root of a polynomial}
+    A scalar $\lambda \in \F$ is a \underline{root} of a polynomial $f \in \F[t]$ if $f(\lambda) = 0$.
+\end{definition}
+\begin{definition}{Multiplicity}
+    A root $\lambda \in \F$ for a polynomial $f$ has \underline{multiplicity} $e$ which is the largest integer satisfying $(t - \lambda)^e | f$.
+\end{definition}
+\begin{corollary}
+    If $\deg(f) = n \geq 0$, then $f$ has at most $n$ roots (when considering multiplicity).
+    \label{corPolyNRoots}
+\end{corollary}
+\begin{corollary}
+    If $\deg(f), \deg(g) < n$ and there exists $n$ distinct $\lambda_i$ which are roots of both $f$ and $g$ then $f = g$.
+    \label{corPolyCompareRoots}
+\end{corollary}
+\begin{theorem}[Fundamental Theorem of Algebra]
+    Every $f \in \C[t]$ of degree $n \geq 1$ has exactly $n$ roots, when considering multiplicity.
+    \label{thmFundamentalAlgebra}
+\end{theorem}
+\begin{proof}
+    The proof is seen in IB Complex Analysis.
+\end{proof}
+\end{document}

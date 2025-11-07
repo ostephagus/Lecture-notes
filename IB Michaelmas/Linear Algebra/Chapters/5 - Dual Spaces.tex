@@ -170,7 +170,7 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
             \end{align*}
         \item Now let $\dim(V) = n$. Then:
             \begin{align*}
-                \dim(U^0 + W^0) &= \dim(U^0) + \dim(W^0) - \dim(U^0 \cap W^0) \\
+                \dim(U^0 &+ W^0) = \dim(U^0) + \dim(W^0) - \dim(U^0 \cap W^0) \\
                 &= \dim(U^0) + \dim(W^0) - \dim((U + W)^0) \\
                 &= (n- \dim(U)) + (n - \dim(W)) - (n - \dim(U + W)) \\
                 &= n - \dim(U \cap W) \\
@@ -287,8 +287,8 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
         Let $V, W$ be vector spaces over a field $\F$. For $\alpha \in \L(V, W)$:
         \label{propsDLMImKer}
     }
-    \item $\ker(\alpha^*) = \im(\alpha)^0$ \label{propDLMKer} \\
-    \item $\im(\alpha^*) \leq \ker(\alpha)^0$ \label{propDLMIm} \\
+    \item $\ker(\alpha^*) = \im(\alpha)^0$ \label{propDLMKer}
+    \item $\im(\alpha^*) \leq \ker(\alpha)^0$ \label{propDLMIm}
     \item If $V$ and $W$ are finite-dimensional then we have equality in the above. \label{propDLMFinteIm}
 \end{propositions}
 \begin{proof}
@@ -317,10 +317,10 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
 \section{The Double Dual}
 We now consider the dual space of the dual space, $V^{**} = (V^*)^*$.
 \begin{theorem}[Double dual isomorphism]
-    Let $V$ be a vector space over $\F$. Then there exists a linear map $E : V \mapsto V^{**}$ given by $E(v)(\theta) = \theta(v)$.
+    Let $V$ be a vector space over $\F$. Then there exists a linear map $E : V \mapsto V^{**}$ (the \underline{natural isomorphism}) given by $E(v)(\theta) = \theta(v)$.
     
     If $V$ is finite-dimensional then this is an isomorphism.
-    \label{thmDDLMIsom}
+    \label{thmNatIsom}
 \end{theorem}
 \begin{proof}
     \begin{subproof}{$E$ is linear}
@@ -347,4 +347,57 @@ We now consider the dual space of the dual space, $V^{**} = (V^*)^*$.
 \begin{remark}
     We are able to show injectivity in the infinite-dimensional case if we assume the axiom of choice. However, surjectivity does not hold in general.
 \end{remark}
+Note: Suppose $V$ and $W$ are finite-dimensional vector spaces, let $B$ and $C$ be bases for them. Let $\alpha \in \L(V, W)$. Then:
+\begin{align*}
+    \alpha^*(\theta)(V) &= \left([\alpha^*(\theta)]_{B^*}\right) [v]_B \\
+    &= \left(A^T [\theta]_{C^*}\right)^T [v]_B \\
+    &= \left([\theta_{C^*}]\right)^T (A[v]_B) \\
+    &=\left([\theta]_{C^*}\right)^T [\alpha(v)]_C
+\end{align*}
+\section{Dual Space and Bases}
+\begin{proposition}
+    Suppose $V$ is a finite-dimensional vector space. Every basis $C$ for $V^*$ is the dual basis to some basis of $V$.
+    \label{propDualBasisBackwards}
+\end{proposition}
+\begin{proof}
+    Let $C = \{\theta_1, \cdots, \theta_n\}$ where $n = \dim(V)$.
+
+    Let $C^* = \{\theta_1^*, \cdots, \theta_n^*\} \subseteq V^{**}$.
+
+    Consider the isomorphism $E : V \mapsto V^**$ as defined in theorem~\ref{thmNatIsom}. Set $v_i = E^{-1}(\theta_i^*) \in V$. Note now that $B = \{v_1, \cdots, v_n\}$ is a basis of $V$ because $E$ is an isomorphism. For all $i, j$:
+    \begin{equation*}
+        \theta_i(v_j) = E(v_j)(\theta_i) = \theta_j^*(\theta_i) = \delta_{ij}
+    \end{equation*}
+    Therefore $B$ is the required basis.
+\end{proof}
+\begin{proposition}
+    Consider $V$ a finite-dimensional vector space and $U \leq V$.
+
+    Under the natural isomorphism, $E(U) = (U^0)^0 \leq V^{**}$.
+    \label{thmNatIsomSubset}
+\end{proposition}
+\begin{proof}
+    For $u \in U, \theta \in U^0$,
+    \begin{equation*}
+        E(u)(\theta) = \theta(u) = 0
+    \end{equation*}
+    This is true for all such $\theta$, so $E(U) \leq (U^0)^0$.
+
+    Next consider dimensions:
+    \begin{align*}
+        \dim((U^0)^0) &= \dim(V^*) - \dim(U^0) \\
+        &= \dim(V) - \left(\dim(V) - \dim(U)\right) \\
+        &= \dim(U) \\
+        &= \dim(E(U)) \\
+    \end{align*}
+    Therefore, since $E(U)$ is a subspace of $(U^0)^0$ and they have the same dimension, they must be equal.
+\end{proof}
+\begin{remarks}
+    \item It is common to say that $V = V^{**}$, where the equality is understood to be up to isomorphism with $E$.
+    \item Under this identification, for $U \leq V$, $U = (U^0)^0$ and for $X \subset V^*$, its annihilator is identified with:
+        \begin{equation*}
+            X_0 = \subsetselect{v \in V}{\theta(v) = 0~\forall \theta \in X} = \bigcap_{\theta \in X}\ker(\theta)
+        \end{equation*}
+        Then $\dim(X_0) = n - \dim(\spn{X})$ and every $U \leq V$ is $X_0$ for some $X$, namely $X = U^0$.
+\end{remarks}
 \end{document}
