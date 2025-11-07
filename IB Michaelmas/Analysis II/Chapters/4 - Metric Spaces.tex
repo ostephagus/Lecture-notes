@@ -406,4 +406,77 @@ With a notion of distance, we can define convergence of sequences using the dist
     
     We can again invoke theorem~\ref{thmCauchyCriterion} to show that such a function (and so the underlying sequence) converges. We have shown that it is bounded (and so the sequence is in $\ell_{\infty}$) on the first example sheet.
 \end{proof}
+\begin{theorem}
+    Let $(X, d)$ be a complete metric space. Let $Y$ be any subset.
+
+    Then, with respect to the induced metric, $Y$ is complete if and only if it is closed in $X$.
+    \label{thmCompleteIffSubsetClosed}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose $Y$ is complete}
+        Take any sequence $x_n$ in $Y$ that converges to a limit $x \in X$. Then $x$ must be a limit point of $Y$. Also, $(x_k)$ is a Cauchy space in $X$ and so (because the metric is the same and the sequence is in $Y$) it is also Cauchy in $Y$ and converges to some $z \in Y$.
+        
+        By uniqueness of limit we have $z = x, x \in Y$. Therefore, any limit point of $Y$ must be contained within it: $Y$ is closed.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that $Y$ is closed}
+        Let $(x_k)$ be a Cauchy sequence in $Y$. Since $X$ is complete this is also a Cauchy sequence in $X$ so converges to some $x \in X$.
+
+        However, since $Y$ is closed we must also have $x \in Y$. Since this is for any sequence, $Y$ must be complete.
+    \end{proofdirection}
+\end{proof}
+\begin{example}
+    Consider $X = (0, 1)$ with the Euclidean metric. We can show this is not complete, and we can provide 2 proofs.
+    \begin{enumerate}
+        \item Consider the sequence $\left(\frac{1}{n}\right)$ which is Cauchy, but its limit is zero (not in $X$).
+        \item Consider $X \subseteq \R$, and let $\R$ with its Euclidean metric be the ambient space. Then $X$ is not closed in $\R$, so is not complete.
+    \end{enumerate}
+\end{example}
+\begin{example}
+    Consider $X = \R \backslash \{0\}$ with the Euclidean metric. Consider $Y = (0, \infty)$. Then $Y$ is closed in $X$, but it is not complete. This shows that we require the ambient space to be complete.
+
+    We can also consider the subset $[1, \infty) \subseteq X$ which \textit{is} complete.
+\end{example}
+\begin{example}[An incomplete normed space]
+    Consider the space $\ell_0$, the space of real sequences with finitely many non-zero elements.
+    
+    Any sequence in $\ell_0$ is certainly bounded, so consider it as a subset of $\ell_\infty$. Therefore, take the supremum norm for $\ell_\infty$ and its subset $\ell_0$ (here taking the induced norm).
+
+    Define the sequence $X^{(k)} = (1, \frac12, \frac13, \cdots, \frac1k, 0, 0, \cdots)$. Then we see that converges in $\ell_{\infty}$ to the sequence:
+    \begin{equation*}
+        x = (1, \frac12, \frac13, \cdots)
+    \end{equation*}
+    However, $x \notin \ell_0$ because it has infinitely many non-zero terms. This means $\ell_0$ is not closed, so by theorem~\ref{thmCompleteIffSubsetClosed} is not complete.
+\end{example}
+\begin{example}
+    Consider the subset of $C([a, b])$ satisfying, for some fixed $\R$,
+    \begin{equation*}
+        X = \subsetselect{f \in C([a, b])}{||f||_{\infty} < R}
+    \end{equation*}
+    Then $X$ is complete with respect to the uniform norm because it is a closed set of $C([a, b])$. Note that this is not, itself, a normed space.
+\end{example}
+\begin{example}[Incompleteness of $L^1$ norm]
+    The metric space $C([a, b])$ under the $L^1$ integral norm is incomplete. This is seen on the second example sheet.
+
+    [The rest of this example is \textbf{non-examinable}]
+
+    However, we can enlarge the space to be the space of integrable functions on $[a, b]$, $\tilde{\mathscr{R}}([a, b])$. We find that even this space is not complete under the $L^1$ norm, and this is the reason for introducing Lebesgue Integration in II Probability and Measure.
+\end{example}
+\section{Compactness}
+\begin{definition}{Sequential compactness}
+    A metric space $(X, d)$ is \underline{sequentially compact} if every sequence in the space has a convergent subsequence.
+\end{definition}
+\begin{definition}{Sequential compactness for subsets}
+    A subset $K \leq X$ is \underline{sequentially compact} if it is sequentially compact with respect to the induced metric $d_{K \times K}$. Equivalently, every sequence in $K$ has a subsequence that converges to an element in $K$.
+\end{definition}
+\begin{remark}
+    Compactness is a different notion from sequential compactness, in general. However, for a metric space these are the same, and so we will write compact when we mean sequentially compact. For more detail, see IB Topological Spaces.
+\end{remark}
+\begin{examples}{
+        
+    }
+    \item Consider $I = [0, 1]$. Then this is compact by the Bolzano-Weierstrass theorem.
+    \item The open subset $(0, 1)$ is not a compact subset of $\R$ because it is not closed.
+    \item $\R$ is not compact because the sequence $(n)_{n \geq 0}$ has no convergent subsequence. This is because it is not bounded.
+    \item Consider the unit sphere $S = \subsetselect{x \in \R^n}{||x||_2 = 1}$. This is compact. Again this is by theorem~\ref{thmBWInRN} and closure, because any sequence in $S$ is bounded.
+\end{examples}
 \end{document}
