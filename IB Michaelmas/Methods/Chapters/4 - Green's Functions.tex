@@ -103,4 +103,150 @@ We can consider another plausibility test:
     &= \sum_{k=1}^{\infty} \int_{a}^{b} f(\xi) Y_k(\xi) w(\xi) d\xi Y_k(x) \\
     &= \sum_{k=1}^{\infty} \hat{f}_k Y_k(x) \sim f(x)
 \end{align*}
+\section{Green's Functions}
+We want to solve inhomogeneous problems of the form:
+\begin{equation}
+    \begin{cases}
+        Ly = f(x) & x \in (a, b) \\
+        y(x) = 0 & x \in \{a, b\}
+    \end{cases}
+    \label{eqnInhomogProblem}
+\end{equation}
+Here, $L$ has the form $\alpha(x) \frac{d^{2}}{dx^{2}} + \beta(x) \frac{d}{dx} + \gamma(x)$ where $\alpha(x) \neq 0$.
+
+Now fix $\xi \in (a, b)$. Suppose we can find a function $G = G(x; \xi)$ satisfying:
+\begin{equation*}
+    \begin{cases}
+        L_x[G(x;\xi)] = \delta(x - \xi) & x \in (a, b) \\
+        G(x, \xi) = 0 & x \in \{a, b\}
+    \end{cases}
+\end{equation*}
+Now consider the new function defined by:
+\begin{equation*}
+    y(x) = \int_{a}^{b} G(x;\xi) f(\xi) d\xi
+\end{equation*}
+Clearly $y(a) = y(b) = 0$. Then applying $L$:
+\begin{align*}
+    L_x[y(x)] &= \int_{a}^{b} L_x[G(x;\xi)]f(\xi) d\xi \\
+    &= \int_{a}^{b} \delta(x - \xi)f(\xi) d\xi \\
+    &= f(x)
+\end{align*}
+Therefore, $y$ solves equation~\ref{eqnInhomogProblem}. We call $G$ a \underline{Green's Function} for $L$ with Dirichlet boundary conditions.
+
+We want to try to understand $G$. Note that on the intervals $(a, \xi)$ and $(\xi, b)$ it must satisfy:
+\begin{equation*}
+    L_x[G(x;\xi)] = 0
+\end{equation*}
+This is a nice, 2nd-order, homogeneous ordinary differential equation so we expect $G(x;\xi)$ to be well-behaved here. However, in the neighbourhood of $\xi$, we have that $\alpha(x) \frac{d^{2}G}{dx^{2}}$ will be badly behaved, and we know that $\delta(x - \xi)$ is very badly behaved.
+\begin{equation*}
+    \alpha(x) \frac{d}{dx}\left[\frac{dG}{dx}\right] = \delta(x - \xi) + \text{ more regular terms}
+\end{equation*}
+So the key question is: what sort of functions have derivatives that look like $\delta(x - \xi)$?
+
+Recall the sequence $\delta_n$:
+\begin{equation*}
+    \lim_{n \to \infty} \delta_n(x) = 0, x \neq 0, \text{ and } \forall \epsilon > 0 \lim_{n \to \infty} \int_{-\epsilon}^{\epsilon} \delta_n(x) dx = 1
+\end{equation*}
+It is therefore natural to consider the functions:
+\begin{equation*}
+    H_n(x) = \int_{-\infty}^{x} \delta_n(x) dx
+\end{equation*}
+if we fix $X > 0$ then for $N$ sufficiently large ($\frac1n < X$):
+\begin{align*}
+    H_n(X) &= \int_{-\frac1n}^{\frac1n} \delta_n(t) dt 
+    &= 1
+\end{align*}
+Similarly fixing $X < 0$, then for $N$ sufficiently large $H_N(X) = 0$. Taking a limit of $H_n$,
+\begin{equation*}
+    \lim_{n \to \infty} H_n(x) = H(x) =
+    \begin{cases}
+        1 & x > 0 \\
+        0 & x < 0
+    \end{cases}
+\end{equation*}
+Here $H$ is called the \underline{Heaviside function} which satisfies the key property $H'(x) = \delta(x)$.
+
+Armed with this knowledge, we expect to need $\frac{dG}{dx}$ to behave like $H(x - \xi)$ near $x = \xi$. That is, we need $G$ to have a jump discontinuity in its derivative around $x = \xi$. For the behaviour of $G$ we can integrate $H(x)$:
+\begin{equation*}
+    \int_{a}^{x} H(t - \xi) dt =
+    \begin{cases}
+        x - \xi & x \geq \xi \\
+        0 & x < \xi
+    \end{cases}
+\end{equation*}
+This is a continuous function!
+
+We conclude that we need $G$ to be continuous at $x = \xi$ (and also the rest of the interval), and that $\frac{dG}{dx}$ should have a jump discontinuity at $x = \xi$. To find the magnitude of the jump, integrate:
+\begin{equation*}
+    \frac{\delta(x - \xi)}{\alpha(x)} = \frac{d^{2}G}{dx^{2}} + \frac{\beta(x)}{\alpha(x)}\frac{dG}{dx} + \frac{\gamma(x)}{\alpha(x)}G
+\end{equation*}
+over a small region around $\xi$. The LHS is:
+\begin{equation*}
+    \int_{\xi - \epsilon}^{\xi + \epsilon} \frac{\delta(x) - \xi}{\alpha(x)} dx = \frac{1}{\alpha(\xi)}
+\end{equation*}
+The RHS is:
+\begin{align*}
+    \lim_{\epsilon \to 0} &\left.\frac{dG}{dx} \right|_{x = \xi - \epsilon}^{x = \xi + \epsilon} + \int_{\xi - \epsilon}^{\xi + \epsilon} \left[\frac{\beta(x)}{\alpha(x)}\frac{dG}{dx} + \frac{\gamma(x)}{\alpha(x)}G\right] dx \\
+    &= \left[\frac{dG}{dx}\right]_{x = -\epsilon}^{x = \epsilon} = \frac{1}{\alpha(\xi)}
+\end{align*}
+In summary, $G$ satisfies:
+\begin{enumerate}
+    \item $G(\xi^+;\xi) = G(\xi^-;\xi)$
+    \item $\left[\frac{dG}{dx}\right]_{x = -\epsilon}^{x = \epsilon} = \frac{1}{\alpha(\xi)}$.
+\end{enumerate}
+\begin{example}
+    Let $L = \frac{d^{2}}{dx^{2}} + \omega^2$ on the interval $(0, 1)$.
+
+    We want to solve:
+    \begin{equation*}
+        \begin{cases}
+            \frac{d^{2}G}{dx^{2}} + \omega^2 G = \delta(x - \xi) & x \in (0, 1) \\
+            G(x;\xi) & x \in \{0, 1\}
+        \end{cases}
+    \end{equation*}
+    We solve the differential equation on either side of $x = \xi$.
+    \begin{equation*}
+        G(x;\xi) =
+        \begin{cases}
+            A(\xi) \sin(\omega x) + B(\xi) \cos(\omega x) & x \in (0, \xi) \\
+            C(\xi) \sin(\omega (x-1)) + D(\xi) \cos(\omega (x-1)) & x \in (\xi, 1) \\
+        \end{cases}
+    \end{equation*}
+    Applying the boundary conditions gives $B, D = 0$. This is because we wrote the second bit of $G$ using $x-1$ rather than $x$.
+
+    Use the continuity condition:
+    \begin{equation*}
+        A(\xi) = C(\xi) \frac{\sin(\omega(\xi-1))}{\sin(\omega\xi)}
+    \end{equation*}
+    Using the derivative jump equation and substituting for $A$:
+    \begin{equation*}
+        \frac{C(\xi)\omega}{\sin(\omega\xi)} \left[\cos(\omega(\xi - 1))\sin(\omega\xi) - \cos(\omega\xi)\sin(\omega(\xi - 1))\right] = 1
+    \end{equation*}
+    We have an addition formula:
+    \begin{align*}
+        1 &= \frac{C(\xi)\omega}{\sin(\omega\xi)} \left[\sin(\omega \xi - \omega(\xi - 1))\right] \\
+        &= \frac{C(\xi) \omega}{\sin(\omega \xi)} \sin(\omega) \\
+        C(\xi) &= \frac{\sin(\omega \xi)}{\omega \sin(\omega)} \\
+        A(\xi) &= \frac{\sin(\omega(\xi - 1))}{\omega \sin \omega}
+    \end{align*}
+    Then our Green's function becomes:
+    \begin{equation*}
+        G(x;\xi) = \frac{1}{\omega \sin(\omega)}
+        \begin{cases}
+            \sin(\omega x) \sin(\omega(\xi - 1)) & x \in (0, \xi) \\
+            \sin(\omega \xi) \sin(\omega(x - 1)) & x \in (\xi, 1)
+        \end{cases}
+    \end{equation*}
+    However, this has the form:
+    \begin{equation*}
+        \text{const } \times
+        \begin{cases}
+            y_1(x)y_2(\xi) & x \in (0, \xi) \\
+            y_1(\xi)y_2(x) & x \in (\xi, 1)
+        \end{cases}
+    \end{equation*}
+    Note that $y_1, y_2$ are linearly independent solutions to $Ly = 0$ with $y_1(0) = 0$ and $y_2(1) = 0$.
+
+    We have a problem! For some values of $\omega$, our Green's Function is not defined. However, it turns out that these are exactly the eigenvalues of the operator $L$. In fact, this can be used to find the eigenvalues of $L$, and is analogous to setting a determinant to zero.
+\end{example}
 \end{document}
