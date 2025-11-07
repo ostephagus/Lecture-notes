@@ -74,17 +74,183 @@ Thus we can gain a nice set of simultaneous equations for $\pi$. We can formalis
     We find that $\pi = \left(\frac{\beta}{\alpha + \beta}, \frac{\alpha}{\alpha + \beta}\right)^T$. This is an invariant distribution for the chain and the chain indeed converges to $\pi$.
 \end{example}
 \begin{definition}{Measure}
-    A \underline{measure} on $I$ is a vector $\vec{\lambda} = (\lambda_i)_{i \in I}$ of positive elements.
+    A \underline{measure} on $I$ is a vector $\vec{\lambda} = (\lambda_i)_{i \in I}$ of non-negative elements.
 \end{definition}
+We can also apply the definition of invariance to a measure:
+
+$\vec{\lambda}$ is invariant if $\vec{\lambda} = \vec{\lambda}P$, and so for each $n$, $\vec{\lambda} = \vec{\lambda} P^n$.
 \begin{definition}{Return time}
     Consider any $k \in I$ and set the \underline{return time} for $k$ to be:
     \begin{equation*}
         T_k = \inf\subsetselect{n \geq 1}{X_n = k}
     \end{equation*}
-    We define a measure $\nu_k$ on $I$ as:
-    \begin{equation*}
-        \nu_k(i) = \E_k{\left(\sum_{n=0}^{T_k - 1} \ind{X_k = i}\right)}
-    \end{equation*}
-    Then this is the expected total number of visits to $i$ during an excursion from $k$ back to itself.
 \end{definition}
+\begin{definition}{First return time}
+    For $k \in I$, the \underline{first return time} to $k$ is:
+    \begin{equation*}
+        \inf\subsetselect{n \geq 1}{X_n = k}
+    \end{equation*}
+    We assume that $X_0 = k$ (or start a new Markov chain starting at the time that $X_n = k$.)
+\end{definition}
+We define a measure $\nu_k$ on $I$ as:
+\begin{equation*}
+    \nu_k(i) = \E_k{\left(\sum_{n=0}^{T_k - 1} \ind{X_k = i}\right)}
+\end{equation*}
+Then this is the expected total number of visits to $i$ during an excursion from $k$ back to itself. Note that:
+\begin{equation*}
+    \nu_k(i) = \E_k\left(\sum_{n-1}^{T_k} \ind{X_n = i}\right)
+\end{equation*}
+Further,
+\begin{align*}
+   \sum_{i \in I} v_k(i) &= \sum_{i \in I} \E_k\left(\sum_{n = 0}^{T_k-1} \ind{X_n = i}\right) \\
+    &= \E_k\left(\sum_{n = 0}^{T_k-1} \sum_{i \in I} \ind_{X_n = i}\right) \\
+    &= \E_k\left(\sum_{n = 0}^{T_k-1} 1\right) \\
+    &= \E_k(T_k)
+\end{align*}
+\begin{theorem}
+    Suppose $P$ is irreducible and recurrent. Then:
+    \begin{enumerate}
+        \item $0 < \nu_k(i) < \infty$ for all $i$;
+        \item $\nu_k(k) = 1$;
+        \item $\nu_k$ is an invariant measure for $P$.
+    \end{enumerate}
+    \label{thmMeasureProps}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \setcounter{enumi}{1}
+        \item Obvious from the above derivation, the first return time starting at $k$ is always 1.
+        \item Fix $i \in I$. now:
+            \begin{align*}
+                \nu_k(i) &= \E_k\left(\sum_{n=1}^{T_k} \ind{X_n = i}\right) \\
+                &= \E_k\left(\sum_{n=1}^{\infty}\ind_{X_n = i} \ind{n \leq T_k}\right) \\
+                &= \sum_{n=1}^{\infty} \P(X_n = i, T_k \geq n) \\
+                &= \sum_{n=1}^{\infty} \sum_{i \in I} \P_k(X_n = i, X_{n-1} = j, T_k \geq n) \\
+                &= \sum_{n=1}^{\infty} \sum_{i \in I} \P_k(X_n = i | X_{n-1} = j, T_k \geq n) \P_k(X_{n-1} = j, T_k \geq n) \\
+            \end{align*}
+            Note that the event $\{T_k \geq n\} = \{T_k \leq n-1\}^C$ which only depends on the states before time $n$. Therefore, by theorem~\ref{thmStrongMarkov},
+            \begin{align*}
+                \nu_i(k)&= \sum_{n=1}^{\infty} \sum_{j \in I} P(j, i) \P_k(X_{n-1} = j, T_k \geq n) \\
+                \nu_i(k)&= \sum_{j \in I} P(j, i) \sum_{n=1}^{\infty} \E_k\left(\ind{X_{n-1} = j} \ind{T_k \geq n}\right) \\
+                \nu_i(k) &= \sum_{j \in I} P(j, i) \E_k\left(\sum_{n=1}^{T_k} \ind{X_{n-1} = j}\right) \\
+                \nu_i(k) &= \sum_{j \in I} P(j, i) \E_k\left(\sum_{n=0}^{T_k - 1} \ind{X_{n} = j}\right) \\
+                &= \sum_{j \in I} P(j, i) \nu_k(j)
+            \end{align*}
+            So indeed $\nu_k$ is invariant.
+        \setcounter{enumi}{0}
+        \item Fix $i \in I$. By invariance, $\nu_k = \nu_kP^n$ for any $n$. Therefore, fix also $n \in \N$.
+            \begin{equation*}
+                \nu_k(i) = \sum_{j \in I} \nu_k(j) p_{ij}(n) \geq p_{ki}(n)
+            \end{equation*}
+            But by irreducibility, we must have that there exists $n$ such that $p_{ki}(n) > 0$, so $\nu_k(i)$ is positive.
+
+            For finiteness, observe:
+            \begin{align*}
+                1 &= \nu_k(k) = \sum_{j \in I} \nu_k(j) p_{jk}(n) \\
+                &\geq \nu_k(i) p_{ik}(n)
+            \end{align*}
+            Now again by irreducibility we can choose $n$ such that $p_{ik}(n) > 0$. Therefore $\nu_k(i) \leq \frac{1}{p_{ik}(n)} < \infty$.
+    \end{enumerate}
+\end{proof}
+\begin{theorem}[$\nu_k$ is unique]
+    Let $P$ be a transition matrix for a Markov chain. Suppose that $\lambda$ is an invariant measure for $P$ such that $\lambda_k = 1$. Suppose that $P$ is irreducible.
+
+    Then $\lambda \geq \nu_k$, or $\lambda_i \geq \nu_k(i)$ for all $i \in I$.
+
+    Further, if $P$ is also recurrent then $\lambda = \nu_k$.
+    \label{thmInvMeasureUnique}
+\end{theorem}
+\begin{proof}
+    By invariance, 
+    \begin{align*}
+        \lambda_i &= \sum_{j_1 \in I} \lambda_{j_1} P(j_1, i) \\
+        &= P(k, i) + \sum_{j_1 \neq k} \lambda_{j_1} P(j_1, i) \\
+        &= P(k, i) + \sum_{j_1 \neq k} \sum_{j_2 \in I} P(j_2, j_1) P(j_1, i) \\
+        &= P(k, i) + \sum_{j_1 \neq k} P(k, j_1) P(j_1, i) \sum_{j_1, j_2 \neq k} \lambda_{j_2} P(j_2, j_1) P(j_1, i) \\
+        &= \cdots \\
+        &= P(k, i) + \sum_{j_1 \neq k}P(k, j_1) P(j_1, i) + \cdots \\
+        &+ \sum_{j_1, \cdots, j_{n-1} \neq k} P(k, j_{n-1}) P(j_{n-1} j_{n-2}) \cdots P(j_1, i) \\
+        &+ \sum_{j_1, \cdots, j_n \neq k} \lambda_{j_n} P(j_n, j_{n-1}) \cdots P(j_1, i)
+    \end{align*}
+    Now take $i \neq k$.
+    \begin{align*}
+        \lambda_i &\geq \P_k(X_1 = i, T_k \geq 1) + \P_k(X_2 = i, T_k \geq 2) \\
+        &+ \cdots + \P_k(X_n - i, T_k \geq n)
+    \end{align*}
+    This holds for all $n$ so take $n \to \infty$.
+    \begin{align*}
+        \lambda_i &\geq \sum_{n=1}^\infty \P_k(X_n = i, T_k \geq n) \\
+        &= \sum_{n=1}^{\infty} \E_k \left(\ind{X_n = i, T_k \geq n}\right) \\
+        &= \E_k \left(\sum_{n=1}^{T_k} \ind{X_n = i}\right) \\
+        &= \nu_k(i)
+    \end{align*}
+    Therefore we have shown the required inequality.
+
+    Now assume $P$ is recurrent. $\lambda$ and $\nu_k$ are invariant, so we must also have that their difference, $\lambda - \nu_k$, is invariant. Now fix $i \in I$. By invariance:
+    \begin{align*}
+        0 &= \lambda_k - \nu_k(k) \\
+        &= \sum_{j \in I} (\lambda_j - \nu_k(j))P_{jk}(n) \\
+    \end{align*}
+    Now take $n$ such that $p_{ik}(n) > 0$, which is valid by recurrence.
+    \begin{align*}
+        0 &\geq (\lambda_i - \nu_k(i)) p_{ik}(0) \geq 0
+    \end{align*}
+    therefore we have indeed that $\lambda_i - \nu_k(i) = 0$. This holds for all $i$, so we are done.
+\end{proof}
+\begin{definition}{Positive recurrence}
+    Let $\chain{X}$ be a Markov chain with transition matrix $P$. Suppose $i$ is a recurrent state for $P$. Then $i$ is \underline{positive recurrent} if $\E_i(T_i) < \infty$.
+
+    We say that a state $i$ is \underline{null recurrent} if $\E_i(T_i)$ is infinite.
+\end{definition}
+\begin{theorem}
+    Suppose $P$ is an irreducible transition matrix of a Markov chain. The following are equivalent:
+    \begin{enumerate}
+        \item All states are positive recurrent
+        \item There exists a positive recurrent state
+        \item $P$ has an invariant distribution
+    \end{enumerate}
+    Further, under any (and therefore all) of these conditions, the invariant distribution is given by:
+    \begin{equation*}
+        \pi(i) = \frac{1}{\E_i(T_i)}
+    \end{equation*}
+    \label{thmPosRecurEquivs}
+\end{theorem}
+\begin{proof}
+    \begin{subproof}{Statement 1 implies statement 2}
+        This is trivial.
+    \end{subproof}
+    \begin{subproof}{Statement 2 implies statement 3}
+        Since there exists a positive recurrent state $k$, and $P$ is irreducible, we must have that $P$ is recurrent (because $k$ is recurrent). By theorem~\ref{thmInvMeasureUnique}, $\nu_k$ is invariant. We also know:
+        \begin{equation*}
+            \sum_{i \in I} \nu_k(i) = \E_k(T_k) < \infty
+        \end{equation*}
+        And therefore we can define an invariant distribution:
+        \begin{equation*}
+            \pi(i) = \frac{\nu_k(i)}{\sum_{j \in I} \nu_k(i)} = \frac{\nu_k(i)}{\E_k(T_k)}
+        \end{equation*}
+    \end{subproof}
+    \begin{subproof}{Statement 3 implies statement 3}
+        Fix $k \in I$. First we show that $\pi(k) > 0$.
+        \begin{equation*}
+            \pi(k) = \sum_{j \in J} \pi(j) p_{jk}(n) \\
+        \end{equation*}
+        Then choose an $i$ such that $\pi(i) > 0$ (which is valid because $\pi$ is a distribution), and choose $n$ such that $p_{ik}(n) > 0$ by recurrence. Then $\pi(k) \geq \pi(i) p_{ik}(n) > 0$.
+
+        Since $\pi$ is invariant, for a fixed $k$ we can define a new invariant measure:
+        \begin{equation*}
+            \lambda_i = \frac{\pi(i)}{\pi(k)}, i \in I
+        \end{equation*}
+        This has $\lambda_k = 1$. Then by theorem~\ref{thmInvMeasureUnique}, $\lambda \geq \nu_k$. That is,
+        \begin{align*}
+            \E_k(T_k) &= \sum_{i\in I} \nu_k(i) \\
+            &\leq \sum_{i \in I} \lambda_i \\
+            &= \frac{1}{\pi(k)}
+        \end{align*}
+        Since $\pi(k)$ was chosen to be positive this quantity is finite. Now, since $k$ was arbitrary, all states must be recurrent.
+    \end{subproof}
+    Finally, note that since $P$ is irreducible and recurrent we must have that the above $\lambda$ is in fact equal to $\nu_k$, that is:
+    \begin{equation*}
+        \E_k(T_k) = \frac{1}{\pi(k)}~\forall k \in I
+    \end{equation*}
+\end{proof}
 \end{document}
