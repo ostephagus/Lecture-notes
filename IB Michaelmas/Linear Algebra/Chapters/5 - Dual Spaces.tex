@@ -11,7 +11,7 @@
     An element $\theta \in V^*$ is sometimes known as a \underline{linear functional} on $V$.
 \end{definition}
 \begin{examples}{}
-    \item Consider $\theta : \R^3 \mapsto \R$ given by $\theta(\vec{x}) = x - 2y + 3z$.
+    \item Consider $\theta : \R^3 \mapsto \R$ given by $\theta(\vec{x}) = x - 2y + 3z$. Then this is in $(\R^3)^*$.
     \item Note that the trace function is in the dual space $M_{n \times n}(\F)^*$
     \item Consider $V$ the set of functions in $C([0, 1])$. Then consider:
         \begin{align*}
@@ -21,9 +21,9 @@
         Then $\theta \in V^*$. We can now more clearly see why $\theta$ is a \underline{linear functional} of $C([0, 1])$.
 \end{examples}
 \subsection{Connection with Bases}
-Suppose $V$ is a vector space over a field $\F$. Suppose $B$ is a basis of $V$. For $b \in B$, define $b^* \in V^*$ such that:
+Suppose $V$ is a vector space over a field $\F$ with a basis $B$. For $b \in B$, define $b^* \in V^*$ such that:
 \begin{equation*}
-    b^* \left(\sum_{c \in B}' \lambda_i c\right) = \lambda_b,~b^*(c) = \delta_{b, c}
+    b^* \left(\finitesum_{c \in B} \lambda_i c\right) = \lambda_b,~b^*(c) = \delta_{b, c}
 \end{equation*}
 Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
 \begin{propositions}{
@@ -68,7 +68,7 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
     The \underline{dual basis} of a finite-dimensional vector space $V$ with basis $B$ is given as above.
 \end{definition}
 \begin{example}[Dual bases are more complicated in infinite dimensions]
-    Consider the space of polynomial functions $\P(\R)$. Then we can show that the dual space is isomorphic to $\R^\N$, but we showed on the first example sheet that these are not isomorphic, in contrast to the finite-dimensional case.
+    Consider the space of polynomial functions $\poly(\R)$. Then we can show that the dual space is isomorphic to $\R^\N$, but we showed on the first example sheet that these are not isomorphic, in contrast to the finite-dimensional case.
 \end{example}
 \begin{corollary}
     For $V$ a finite-dimensional vector space over $\F$, $V \isom V^*$.
@@ -85,16 +85,32 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
     \begin{align*}
         \theta(v) &= \sum_{i, j = 1}^{n} \lambda_i \mu_i v_{j}^*(v_i) \\
         &= \sum_{i=1}^n \lambda_i \mu_i \\
-        &= \left([\theta]_{B^*}\right)^T [v_B]
+        &= \left([\theta]_{B^*}\right)^T [v]_B
     \end{align*}
 \end{proof}
+This finite-dimensional isomorphism is important to understand. We can understand the dual basis as being very similar to the space of \textit{row vectors}. Note that this is not quite true, and actually the dual space is the set of linear maps corresponding to multiplying by a row vector.
+
+If we take an element of $V^*$ and express it as a coordinate vector using the basis vectors in $B^*$, then we have constructed a column vector from the row vector, which is why we need to transpose it (or take a dot product, which is not discussed until later in the course).
+\begin{example}[Dual of the space of polynomials]
+    Consider the space of polynomials $\poly{\R}$. This has basis:
+    \begin{equation*}
+        B = \{p_0 = 1, p_1 = x, p_2 = x^2, \cdots\}
+    \end{equation*}
+    Then we must find a functional $\theta_n(p_m) = \delta_{nm}$. What functional can pick out a unique polynomial?
+
+    We can, rather uninterestingly, define $\theta_n(p_m)$ as above, but we can also use differentiation to define elements in the dual space:
+    \begin{equation*}
+        \theta_n = \left.\frac{1}{m!}\frac{d^{m}}{dx^{m}}\right|_{x = 0}
+    \end{equation*}
+\end{example}
 \subsection{Annihilators}
 \begin{definition}{Annihilator}
-    For $V$ a finite-dimensional vector space over $\F$, $S \subseteq V$, the \underline{annihilator} of $S$ is:
+    For $V$ a vector space over $\F$, $S \subseteq V$, the \underline{annihilator} of $S$ is:
     \begin{equation*}
         S^0 = \subsetselect{\theta \in V^*}{\forall s \in S, \theta(s) = 0} \subseteq V^*
     \end{equation*}
 \end{definition}
+We can understand the annihilator of a given subset $S$ as the set of elements of the dual (row vectors or linear functionals) that send all elements of $S$ to zero.
 \begin{propositions}{
         Let $V$ be a finite-dimensional vector space over $\F$. Let $S, T \subseteq V$.
         \label{propsAnnihilator}
@@ -110,9 +126,9 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
         \item By the first part, it suffices to check $T^0 \subseteq S^0$. For $\theta \in T^0, s \in S$, we have that $s \in T$ and so $\theta(s) = 0$.
         \item Note that $S \subseteq \spn{S}$ and by the second part, we have immediately that $\spn{S}^0 \leq S^0$.
         
-            Then suppose $\theta \in S^0, v \in \spn{S}$. Write $v = \sum_{s \in S}' \lambda_s s$, so:
+            Then suppose $\theta \in S^0, v \in \spn{S}$. Write $v = \finitesum_{s \in S} \lambda_s s$, so:
             \begin{equation*}
-                \theta(v) = \sum_{s \in S}' \lambda_s \theta(s) = 0
+                \theta(v) = \finitesum_{s \in S} \lambda_s \theta(s) = 0
             \end{equation*}
             Therefore, $\theta \in \spn{S}^0$.
         \item If $\theta \in V^*$ and $\theta$ sends all elements to zero, $\theta$ must be the zero functional.
@@ -186,6 +202,26 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
         \theta &\mapsto \theta \circ \alpha
     \end{align*}
 \end{definition}
+We can explain this better with the help of a diagram.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=3]
+        \node (V) at (0, 0) {$V$};
+        \node (W) at (1, 0) {$W$};
+        \node (F) at (1, -1) {$\F$};
+
+        \draw[->] (V.east) -- (W.west)
+            node[pos=0.5, anchor=south] {$\alpha \in \L(V, W)$};
+        \draw[->] (W.south) -- (F.north)
+            node[pos=0.5, anchor=west] {$\theta \in W^*$};
+        \draw[->] (V.south east) -- (F.north west)
+            node[pos=0.5, anchor=north east] {$\alpha^*(\theta) \in V^*$};
+
+    \end{tikzpicture}
+    \caption{Diagram of Dual Linear Maps}
+    \label{figDLMDiagram}
+\end{figure}
+Figure~\ref{figDLMDiagram} shows the relationship between $\alpha$ and its application to a dual vector. If $\theta$ is a dual vector in $W^*$, we can \textit{cut the corner} of going to $W$ by directly applying $\alpha^*(\theta)$ to an element of $V$ to get an element of the underlying field. This explains the definition $\alpha^*(\theta) = \theta \circ \alpha$.
 \begin{propositions}{
     If $\alpha, \beta \in \L(V, W)$, $\gamma \in \L(U, V), \lambda \in \F$, then:
         \label{propsDLM}
@@ -214,7 +250,7 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
             \end{equation*}
         \item For $\theta \in W^*$, $v \in V$,
             \begin{align*}
-                (\alpha + \lambda \beta)*^(\theta)(v) &= \theta(\alpha + \lambda \beta)(v) \\
+                (\alpha + \lambda \beta)^*(\theta)(v) &= \theta(\alpha + \lambda \beta)(v) \\
                 &= \theta(\alpha(v) + \lambda \beta(v)) \\
                 &= \theta(\alpha(v)) + \lambda\theta(\beta(v)) \\
                 &= \alpha^*(\theta)(v) + \lambda\beta^*(\theta)(v) \\
@@ -316,8 +352,15 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
 \end{proof}
 \section{The Double Dual}
 We now consider the dual space of the dual space, $V^{**} = (V^*)^*$.
-\begin{theorem}[Double dual isomorphism]
-    Let $V$ be a vector space over $\F$. Then there exists a linear map $E : V \mapsto V^{**}$ (the \underline{natural isomorphism}) given by $E(v)(\theta) = \theta(v)$.
+
+We want to consider a nice isomorphism that is independent of any basis chosen for $V$. This has to produce a unique element of $V^{**} = \L(V^*, \F)$ for each $v \in V$. Therefore set $v^{**}$ to be the linear map such that $v^{**}(\theta) = \theta(v)$. We note that $v^{**}$ \textit{does} depend on the chosen value of $v$, but it is a function that takes as its argument elements of $V^*$.
+\begin{theorem}[Natural isomorphism]
+    Let $V$ be a vector space over $\F$. Then there exists a linear map given by:
+    \begin{align*}
+        E : V &\mapsto V^{**}\\
+        v &\mapsto v^{**}
+    \end{align*}
+    Where $v^{**}(\theta) = \theta(v)$ for $\theta \in V^*$.
     
     If $V$ is finite-dimensional then this is an isomorphism.
     \label{thmNatIsom}
@@ -328,10 +371,10 @@ We now consider the dual space of the dual space, $V^{**} = (V^*)^*$.
         \begin{align*}
             E(v + \lambda w)(\theta) &= \theta(v + \lambda w) \\
             &= \theta(v) + \lambda \theta(w) \\
-            &= E (v)(\theta) + \lambda E(w)\theta \\
+            &= E (v)(\theta) + \lambda E(w)(\theta) \\
             &= \left(E(v) + \lambda E(w)\right)(\theta)
         \end{align*}
-        Then this is true for all $\theta$, so $E$ must be linear.
+        Then this is true for all $\theta$, so $E(v + \lambda w) = E(v) + \lambda E(w)$.
     \end{subproof}
     Now suppose $V$ is finite-dimensional.
     \begin{subproof}{$E$ is injective.}
@@ -344,9 +387,10 @@ We now consider the dual space of the dual space, $V^{**} = (V^*)^*$.
         \dim(V) = \dim(V^*) = \dim(V^{**})
     \end{equation*}
 \end{proof}
-\begin{remark}
-    We are able to show injectivity in the infinite-dimensional case if we assume the axiom of choice. However, surjectivity does not hold in general.
-\end{remark}
+\begin{remarks}
+    \item We are able to show injectivity in the infinite-dimensional case if we assume the axiom of choice. However, surjectivity does not hold in general.
+    \item This isomorphism is called a \underline{natural isomorphism} because it does not depend on the choice of basis. Compare this isomorphism with the isomorphism $V \mapsto V^*$ which does depend on the basis.
+\end{remarks}
 Note: Suppose $V$ and $W$ are finite-dimensional vector spaces, let $B$ and $C$ be bases for them. Let $\alpha \in \L(V, W)$. Then:
 \begin{align*}
     \alpha^*(\theta)(V) &= \left([\alpha^*(\theta)]_{B^*}\right) [v]_B \\
@@ -354,7 +398,6 @@ Note: Suppose $V$ and $W$ are finite-dimensional vector spaces, let $B$ and $C$ 
     &= \left([\theta_{C^*}]\right)^T (A[v]_B) \\
     &=\left([\theta]_{C^*}\right)^T [\alpha(v)]_C
 \end{align*}
-\section{Dual Space and Bases}
 \begin{proposition}
     Suppose $V$ is a finite-dimensional vector space. Every basis $C$ for $V^*$ is the dual basis to some basis of $V$.
     \label{propDualBasisBackwards}
@@ -393,7 +436,7 @@ Note: Suppose $V$ and $W$ are finite-dimensional vector spaces, let $B$ and $C$ 
     Therefore, since $E(U)$ is a subspace of $(U^0)^0$ and they have the same dimension, they must be equal.
 \end{proof}
 \begin{remarks}
-    \item It is common to say that $V = V^{**}$, where the equality is understood to be up to isomorphism with $E$.
+    \item It is common to say that $V = V^{**}$, because a natural isomorphism is understood to be sufficient for equality.
     \item Under this identification, for $U \leq V$, $U = (U^0)^0$ and for $X \subset V^*$, its annihilator is identified with:
         \begin{equation*}
             X_0 = \subsetselect{v \in V}{\theta(v) = 0~\forall \theta \in X} = \bigcap_{\theta \in X}\ker(\theta)
