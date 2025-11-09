@@ -25,7 +25,7 @@ Throughout this chapter, let $A \in M_{n \times n}(\F)$
     \item $F(A \cdot C_{i, j, \lambda}) = F(A)$. \label{propVFColAdd}
 \end{propositions}
 \begin{proof}
-    Let the columns of $A$ be $c_j, 1 \leq j \leq n$. Let $f_i(\vec{v})$ be the function that evaluates $F$ with row $i$ set to $\vec{v}$ in $A$. We know that $f_i$ is linear by the properties of a volume form.
+    Let the columns of $A$ be $c_j, 1 \leq j \leq n$. Let $f_i(\vec{v})$ be the function that evaluates $F$ with column $i$ set to $\vec{v}$ in $A$. We know that $f_i$ is linear by the properties of a volume form.
 
     Further, $f_i(\vec{c_j}) = \delta_{ij}$.
     \begin{enumerate}
@@ -45,7 +45,7 @@ Throughout this chapter, let $A \in M_{n \times n}(\F)$
 before we give the main theorem of this chapter, we need some properties from IA groups.
 \begin{itemize}
     \item $S_n$ is the group of permutations of a set of size $n$.
-    \item $\sgn : S_n \mapsto \{\pm1\}$ is the unique homomorphism satisfying $\sgn(\tau) = 1$ for all transpositions $\tau$.
+    \item $\sgn : S_n \mapsto \{\pm1\}$ is the unique homomorphism satisfying $\sgn(\tau) = -1$ for all transpositions $\tau$.
     \item $A_n = \ker(\sgn)$, and $S_n = A_n \times A_n\tau$ for any transposition $\tau \in S_n$.
 \end{itemize}
 \begin{theorem}
