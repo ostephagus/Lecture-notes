@@ -20,10 +20,10 @@ Define $\F[t]$ to be the vector space over $\F$ of all polynomials. We have the 
 \end{definition}
 We define addition and multiplication for any polynomials $f, g \in \F[t]$
 \begin{align*}
-    (f + g)(t) &= \sum_{i=0}^{\max{\deg(f), \deg(g)}} (a_i + b_i)t^i \\
+    (f + g)(t) &= \sum_{i=0}^{\max\{\deg(f), \deg(g)\}} (a_i + b_i)t^i \\
     (fg)(t) &= \sum_{i=0}^{\deg(f) + \deg(g)} \left(\sum_{k=0}^{i} a_kb_{i-k}\right)t^i
 \end{align*}
-Note that the degree of $f + g$ is at most $\max{\deg(f), \deg(g)}$ (because the leading coefficient can cancel), but the degree of $fg$ is exactly $\deg(f) + \deg(g)$.
+Note that the degree of $f + g$ is at most $\max\{\deg(f), \deg(g)\}$ (because the leading coefficient can cancel), but the degree of $fg$ is exactly $\deg(f) + \deg(g)$.
 
 Write $f | g$ if there exists $h \in \F[t]$ satisfying $g = fh$.
 
@@ -32,8 +32,8 @@ For $\lambda \in \F$ we can \underline{evaluate} $f$ at $\lambda$ by:
     f(\lambda) = \sum_{i=0}^{n} a_i \lambda^i
 \end{equation*}
 \begin{warning}
-    We distinguish between $\F[t]$ and the space of polynomial maps $\F \mapsto \F$. If $\F$ is finite, then $\F[t]$ is not finite-dimensional but the space of polynomial maps on $\F$ is a subspace of $\F^{\F}$ which is finite-dimensional.
-\end{warning} %TODO: WHY?
+    We distinguish between $\F[t]$ and the space of polynomial maps $\F \mapsto \F$. If $\F$ is finite, then $\F[t]$ is not finite-dimensional but the space of polynomial maps on $\F$ is a subspace of $\F^{\F}$ which is finite-dimensional. This comes about because some polynomials agree on all points in $\F$ and so are not unique as functions (but have different coefficients). For example, in $\F = \Z / 5\Z$, the polynomials $f(t) = t$ and $f(t) = t^5$ encode the same underlying function but have different coefficients.
+\end{warning}
 \begin{proposition}[Euclid's Algorithm for Polynomials]
     For $f, g \in \F[t]$, $g \neq 0$, there exist $q, r \in \F[t]$ such that:
     \begin{equation*}
@@ -76,6 +76,9 @@ The proof is by applying Euclid's Algorithm to $f(t)$ with $g(t) = t - \lambda$.
     If $\deg(f), \deg(g) < n$ and there exists $n$ distinct $\lambda_i$ which are roots of both $f$ and $g$ then $f = g$.
     \label{corPolyCompareRoots}
 \end{corollary}
+\begin{proof}
+    The proof is by factoring both $f$ and $g$ into a product of linear factors $(x - \lambda_i)$, and noting that these factorisations are the same so the coefficients of $f$ and $g$ are equal.
+\end{proof}
 \begin{theorem}[Fundamental Theorem of Algebra]
     Every $f \in \C[t]$ of degree $n \geq 1$ has exactly $n$ roots, when considering multiplicity.
     \label{thmFundamentalAlgebra}

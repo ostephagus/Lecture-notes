@@ -228,11 +228,11 @@ before we give the main theorem of this chapter, we need some properties from IA
     \end{equation*}
     then we must have that $\sigma$ preserves $X = \{1, \cdots, k\}$.
 
-    Therefore, we also have $\sigma$ preserves $Y = \{k+1, \cdots, n\}$. Now we can write $\sigma = \tau \cdot \theta$ where $\tau \in \text{Sym}(X)$ and $\theta \in \text{Sym}(Y)$.
+    Therefore, we also have $\sigma$ preserves $Y = \{k+1, \cdots, n\}$. Now we can write $\sigma = \tau \cdot \theta$ where $\tau \in \operatorname{Sym}(X)$ and $\theta \in \operatorname{Sym}(Y)$.
 
-    NOTE: What we really mean here is that $\tau$ fixes all elements of $Y$ and applies some $\tau' \in \text{Sym}(X)$ for each element of $X$. Similar for $\theta$.
+    [NOTE: What we really mean here is that $\tau$ fixes all elements of $Y$ and applies some $\tau' \in \operatorname{Sym}(X)$ for each element of $X$. Similar for $\theta$.]
 
-    Conversely, given $\tau \in \text{Sym}(X)$ and $\theta \in \text{Sym}(Y)$ we can write $\sigma \in S_n$ preserving $X$ and $Y$.
+    Conversely, given $\tau \in \operatorname{Sym}(X)$ and $\theta \in \operatorname{Sym}(Y)$ we can write $\sigma \in S_n$ preserving $X$ and $Y$.
 
     Moreover, we have:
     \begin{align*}
@@ -240,11 +240,11 @@ before we give the main theorem of this chapter, we need some properties from IA
         &= \left(\prod_{x \in X} C_{\tau(x), x}\right)\left(\prod_{y \in Y} C_{\theta(y), y}\right) \\
     \end{align*}
     \begin{align*}
-        \det(X) &= \sum_{\sigma \in S_n} \sgn(\sigma) \prod_{i=1}^{n} c_{\sigma(i), i}\\
-        &= \sum_{\tau \in \text{Sym(X)}, \theta \in \text{Sym(Y)}} \sgn(\tau\theta) \prod_{i=1}^{n} c_{\tau\theta(i), i} \\
+        \det(C) &= \sum_{\sigma \in S_n} \sgn(\sigma) \prod_{i=1}^{n} c_{\sigma(i), i}\\
+        &= \sum_{\substack{\tau \in \operatorname{Sym(X)}\\\theta \in \operatorname{Sym(Y)}}} \sgn(\tau\theta) \prod_{i=1}^{n} c_{\tau\theta(i), i} \\
         &= \sum_{\tau, \theta} \sgn{\tau\theta} \left(\prod_{x \in X}C_{\tau(x), x}\right)\left(\prod_{y\in Y} c_{\theta(y), y}\right) \\
         &= \sum_\tau \sum_\theta \sgn(\tau) \sgn(\theta) \left(\prod_{x \in X}C_{\tau(x), x}\right)\left(\prod_{y\in Y} c_{\theta(y), y}\right) \\
-        &= \left(\sum_\tau \prod_{x=1}^kC_{\tau(x), x}\right)\left(\sum_\theta \prod_{y = k+1}^n c_{\theta(y), y}\right) \\
+        &= \left(\sum_\tau \sgn{\tau} \prod_{x=1}^kC_{\tau(x), x}\right)\left(\sum_\theta \sgn{\theta} \prod_{y = k+1}^n c_{\theta(y), y}\right) \\
         &= \det(A) \det(B)
     \end{align*}
 \end{proof}
