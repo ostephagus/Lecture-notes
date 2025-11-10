@@ -104,6 +104,7 @@ We can consider another plausibility test:
     &= \sum_{k=1}^{\infty} \hat{f}_k Y_k(x) \sim f(x)
 \end{align*}
 \section{Green's Functions}
+\subsection{Deriving a Green's Function}
 We want to solve inhomogeneous problems of the form:
 \begin{equation}
     \begin{cases}
@@ -117,7 +118,7 @@ Here, $L$ has the form $\alpha(x) \frac{d^{2}}{dx^{2}} + \beta(x) \frac{d}{dx} +
 Now fix $\xi \in (a, b)$. Suppose we can find a function $G = G(x; \xi)$ satisfying:
 \begin{equation*}
     \begin{cases}
-        L_x[G(x;\xi)] = \delta(x - \xi) & x \in (a, b) \\
+        L[G(x;\xi)] = \delta(x - \xi) & x \in (a, b) \\
         G(x, \xi) = 0 & x \in \{a, b\}
     \end{cases}
 \end{equation*}
@@ -137,7 +138,7 @@ We want to try to understand $G$. Note that on the intervals $(a, \xi)$ and $(\x
 \begin{equation*}
     L_x[G(x;\xi)] = 0
 \end{equation*}
-This is a nice, 2nd-order, homogeneous ordinary differential equation so we expect $G(x;\xi)$ to be well-behaved here. However, in the neighbourhood of $\xi$, we have that $\alpha(x) \frac{d^{2}G}{dx^{2}}$ will be badly behaved, and we know that $\delta(x - \xi)$ is very badly behaved.
+This is a nice, 2nd-order, homogeneous ordinary differential equation so we expect $G(x;\xi)$ to be well-behaved here. However, in the neighbourhood of $\xi$, we have that $\alpha(x) \frac{d^{2}G}{dx^{2}}$ will be badly behaved, as we know that $\delta(x - \xi)$ is very badly behaved.
 \begin{equation*}
     \alpha(x) \frac{d}{dx}\left[\frac{dG}{dx}\right] = \delta(x - \xi) + \text{ more regular terms}
 \end{equation*}
@@ -153,7 +154,7 @@ It is therefore natural to consider the functions:
 \end{equation*}
 if we fix $X > 0$ then for $N$ sufficiently large ($\frac1n < X$):
 \begin{align*}
-    H_n(X) &= \int_{-\frac1n}^{\frac1n} \delta_n(t) dt 
+    H_n(X) &= \int_{-\frac1n}^{\frac1n} \delta_n(t) dt \\
     &= 1
 \end{align*}
 Similarly fixing $X < 0$, then for $N$ sufficiently large $H_N(X) = 0$. Taking a limit of $H_n$,
@@ -187,12 +188,12 @@ over a small region around $\xi$. The LHS is:
 The RHS is:
 \begin{align*}
     \lim_{\epsilon \to 0} &\left.\frac{dG}{dx} \right|_{x = \xi - \epsilon}^{x = \xi + \epsilon} + \int_{\xi - \epsilon}^{\xi + \epsilon} \left[\frac{\beta(x)}{\alpha(x)}\frac{dG}{dx} + \frac{\gamma(x)}{\alpha(x)}G\right] dx \\
-    &= \left[\frac{dG}{dx}\right]_{x = -\epsilon}^{x = \epsilon} = \frac{1}{\alpha(\xi)}
+    &= \left[\frac{dG}{dx}\right]_{x = \xi-\epsilon}^{x = \xi + \epsilon} = \frac{1}{\alpha(\xi)}
 \end{align*}
 In summary, $G$ satisfies:
 \begin{enumerate}
-    \item $G(\xi^+;\xi) = G(\xi^-;\xi)$
-    \item $\left[\frac{dG}{dx}\right]_{x = -\epsilon}^{x = \epsilon} = \frac{1}{\alpha(\xi)}$.
+    \item $\lim_{x \to \xi^+} G(x;\xi) = \lim_{x \to \xi^-} G(x,\xi)$
+    \item $\left[\frac{dG}{dx}\right]_{x = \xi - \epsilon}^{x = \xi + \epsilon} = \frac{1}{\alpha(\xi)}$.
 \end{enumerate}
 \begin{example}
     Let $L = \frac{d^{2}}{dx^{2}} + \omega^2$ on the interval $(0, 1)$.
@@ -245,8 +246,161 @@ In summary, $G$ satisfies:
             y_1(\xi)y_2(x) & x \in (\xi, 1)
         \end{cases}
     \end{equation*}
-    Note that $y_1, y_2$ are linearly independent solutions to $Ly = 0$ with $y_1(0) = 0$ and $y_2(1) = 0$.
+    Note that $y_1, y_2$ are linearly independent solutions to $Ly = 0$ with $y_1(0) = 0$ and $y_2(1) = 0$. This is a very interesting result which hints at a more general easier way to solve for these sorts of functions.
 
     We have a problem! For some values of $\omega$, our Green's Function is not defined. However, it turns out that these are exactly the eigenvalues of the operator $L$. In fact, this can be used to find the eigenvalues of $L$, and is analogous to setting a determinant to zero.
+    \label{exInhomogOscillator}
+\end{example}
+\subsection{Easier Method for Green's Functions}
+We want to find a more general method for finding a Green's function for the problem in equation~\ref{eqnInhomogProblem}.
+\begin{proposition}
+    Let $y_1, y_2$ be linearly independent solutions to $Ly = 0$ with $y_1(a) = 0$ and $y_2(b) = 0$. The Green's function for the problem in equation~\ref{eqnInhomogProblem} is given by:
+    \begin{equation}
+        G(x;\xi) = \frac{1}{\alpha(\xi) W(y_1, y_2)(\xi)} \begin{cases}
+            y_1(x)y_2(\xi)  & x \in (a, \xi) \\
+            y_1(\xi) y_2(x) & x \in (\xi, b)
+        \end{cases}
+        \label{eqnGreenFuncFormula}
+    \end{equation}
+    and it satisfies $L[G(x;\xi)] = \delta(x-\xi), G(a;\xi) = G(b;\xi) = 0$.
+    \label{propGreenFuncFormula}
+\end{proposition}
+\begin{proof}
+    We have that $L[G(x;\xi)] = 0$ for $x \neq \xi$ because $y_1$ and $y_2$ are solutions. We also have continuity around $\xi$ because the limit is the same from both sides, $G(\xi;\xi) = y_1(\xi)y_2(\xi)$.
+
+    The derivative jump is given by:
+    \begin{align*}
+        &\left[\frac{dG}{dx}\right]_{x = \xi - \epsilon}^{x = \xi + \epsilon} \\
+        &= \frac{1}{\alpha(x) W(y_1, y_2)(\xi)} \left[y_1(\xi) y_2'(\xi) - y_2(\xi) y_1'(\xi)\right] \\
+        &=\frac{1}{\alpha(x)}
+    \end{align*}
+    So this formula for $G(x;\xi)$ has the properties we want.
+\end{proof}
+Therefore the general solution to equation~\ref{eqnInhomogProblem} is:
+\begin{align*}
+    y(x) &= \int_{a}^{b} G(x;\xi) f(\xi) d\xi \\
+    &= \int_{a}^{x} G(x;\xi) f(\xi) d\xi + \int_{x}^{b} G(x;\xi) f(\xi) d\xi \\
+    &= y_2(x) \int_{a}^{x} \frac{y_1(\xi)f(\xi)}{\alpha(\xi)W(y_1, y_2)(\xi)} d\xi + y_1(x) \int_{x}^{b} \frac{y_2(\xi)f(\xi)}{\alpha(\xi)W(y_1, y_2)(\xi)} d\xi 
+\end{align*} % TODO: Fix alignment
+\begin{example}
+    We will now re-do example~\ref{exInhomogOscillator} with this new method.
+
+    We will use:
+    \begin{align*}
+        y_1(x) &= \sin(\omega x) \\
+        y_2(x) &= \sin(\omega(x - 1))
+    \end{align*}
+    Now $\alpha(\xi)$ is simply 1, and the Wronskian is:
+    \begin{align*}
+        W(y_1, y_2)(\xi) &= \omega \sin(\omega \xi) \cos(\omega(\xi - 1)) \\
+        &- \omega \cos(\omega \xi) \sin(\omega(\xi - 1)) \\
+        &= \omega \sin(\omega \xi - \omega(\xi - 1)) \\
+        &= \omega \sin(\omega)
+    \end{align*}
+    Now we have the result we expect:
+    \begin{equation*}
+        G(x;\xi) = \frac{1}{\omega \sin(\omega)}
+        \begin{cases}
+            \sin(\omega x) \sin(\omega(\xi - 1)) & x \in (0, \xi) \\
+            \sin(\omega \xi) \sin(\omega(x - 1)) & x \in (\xi, 1)
+        \end{cases}
+    \end{equation*}
+    This example is still useful to motivate further ideas. We note that the function out the front is a constant, not a function of $\xi$. This is a more general idea that generalises to all Sturm-Liouville operators.
+\end{example}
+\section{Green's Functions for Sturm-Liouville Operators}
+Suppose that the operator $L$ is Sturm-Liouvile:
+\begin{equation*}
+    L = \frac{1}{W(x)} \left[-\frac{d}{dx}\left(p(x) \frac{d}{dx}\right) + q(x)\right]
+\end{equation*}
+Since we are interested in the solutions to $Ly = f$, we can set the weight function to $1$ and re-label $W(x) f(x)$ to $f(x)$.
+
+For such an operator our $\alpha(x)$ is $-p(x)$.
+\begin{proposition}
+    For $L$ a Sturm-Liouville operator with linearly independent solutions $y_1, y_2$ satisfying $y_1(a) = 0 = y_1(b)$,
+    \begin{equation*}
+        p(x) W(y_1, y_2)(x) \text{ is constant.}
+    \end{equation*}
+    \label{propSLGreensFunc}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        y_2 Ly_1 - y_1 Ly_2 &= y_1 \left(-(py_1')' + qy_1\right) - y_1 \left(-(py_1')' + qy_2\right) \\
+        &= y_1 (py_2')' - y_2(py_1')' \\
+        &= \left[y_1(py_2')' + y_1'(py_2')\right] - \left[y_2(py_1')' + y_2'(py_1')\right] \\
+        &= \left[py_1y_2' - py_2 y_1'\right]' \\
+        &= \left[p(x) W(y_1, y_2)(x)\right]'
+    \end{align*}
+    But note now that $Ly_1 = Ly_2 = 0$, so the function $p(x) W(y_1, y_2)(x)$ is constant (its derivative is zero).
+\end{proof}
+Now we can write out our solution $y(x)$ to $Ly = f$:
+\begin{multline*}
+    y(x) = \frac{-1}{p(c) W(y_1, y_2)(c)} \left(y_2(x) \int_{a}^{x} f_1(\xi) f(\xi) d\xi \right. \\
+    \left.+ y_1(x) \int_{x}^{b} y_2(\xi)f(\xi) d\xi \right)
+\end{multline*}
+for any constant $c \in (a, b)$.
+\section{Eigenfunction Expansions, Revisited}
+Recall that if $L$ is a Sturm-Liouville operator on $V = \subsetselect{y \in C^2[a, b]}{y(a) = y(b) = 0}$, then there exist normalised eigenfunctions $\{y_k\}_{k = 1}^\infty$ such that $LY_k = \lambda_k Y_k$ and $\inn{Y_k}{Y_l} = \delta_{kl}$ (orthonormality). Again take the weight function $W(x) = 1$.
+
+For any $f \in V$ then we can consider the eigenfunction expansion:
+\begin{equation*}
+    f(x) = \sum_{k=1}^{\infty} \hat{f}_k Y_k
+\end{equation*}
+where $\hat{f}_k = \inn{f}{Y_k}$.
+
+We would really like to write $G(x;\xi)$ in this form, but $G \notin V$ because it is not in $C^2[a, b]$. We apply our usual trick and take:
+\begin{equation*}
+    G_n(x;\xi) = \delta_n(x - \xi), G_n(a;\xi) = G_n(b;\xi) = 0.
+\end{equation*}
+Then $G_n \in V$ for each $n \in \N$. That means we can take an eigenfunction expansion and then take a limit of both sides:
+\begin{equation*}
+    G(x;\xi) = \sum_{k=1}^{\infty} \hat{G}_k(\xi) Y_k(x),~~~\hat{G}_k(\xi) = \inn{G(x;\xi)}{Y_k(x)}
+\end{equation*}
+\begin{proposition}
+    If $\{Y_k\}$ are as above then the Green's Function for the Sturm-Liouville opeartor $L$ satisfies:
+    \begin{equation*}
+        G(x;\xi) = \sum_{k=1}^{\infty} \frac{Y_k(x)Y_k(\xi)}{\lambda_k}
+    \end{equation*}
+    \label{propGreenEFuncExp}
+\end{proposition}
+\begin{proof}
+    By completeness,
+    \begin{equation*}
+        G(x;\xi) = \sum_{k=1}^{\infty} \hat{G}_k(\xi) Y_k(x)
+    \end{equation*}
+    Then the coefficients are:
+    \begin{align*}
+        \hat{G}_k(\xi) &= \inn{G}{Y_k} \\
+        &= \frac{1}{\lambda_k} \inn{G}{LY_k} \\
+        &= \frac{1}{\lambda_k} \inn{LG}{Y_k} \text{ because $L$ is self-adjoint} \\
+        &= \frac{1}{\lambda_k} \inn{\delta(x - \xi)}{Y_k(x)} \\
+        &= \frac{1}{\lambda_k} \int_{a}^{b} \delta(x - \xi) Y_k(x) dx \\
+        &= \frac{Y_k(\xi)}{\lambda_k}
+    \end{align*}
+    as required.
+\end{proof}
+\begin{remark}
+    This function fails if $L$ has a zero eigenvalue. That is, if there exists a non-zero function $\tilde{y} \in V$ such that $L\tilde{y} = 0$. This is a problem when we want to solve $Ly = f$ beacuse now the problem is ill-defined because the problem is not unique. 
+    As an aside, we are trying to find $L^{-1}(f)$ which cannot exist if $L$ has a zero eigenvalue. The analogue to this is trying to find $A^{-1} \vec{v}$ when $A$ is a singular matrix.
+\end{remark}
+\begin{example}
+    Take $L = -\frac{d^{2}}{dx^{2}}$, and $(a, b) = (0, 1)$. The vector space to consider is:
+    \begin{equation*}
+        V = \subsetselect{y \in C^2[0, 1]}{y(0) = y(1) = 0}
+    \end{equation*}
+    We know that the normalised eigenfunctions are:
+    \begin{equation*}
+        Y_k(x) = \sqrt{2} \sin(k \pi x),~~~\lambda_k = (k \pi)^2
+    \end{equation*}
+    Then we can very easily find our Green's Function:
+    \begin{equation*}
+        G(x;\xi) = \sum_{k=1}^{\infty} \frac{2\sin(k \pi x) \sin(k \pi \xi)}{(k \pi)^2}
+    \end{equation*}
+    We can now derive a familar result:
+    \begin{align*}
+        G(x;\xi) &= \sum_{k=1}^{\infty} \frac{Y_k(x) Y_k(\xi)}{\lambda_k} \\
+        \delta(x - \xi) &= L[G(x;\xi)] \\
+        &= \sum_{k=1}^{\infty} \frac{Y_k(\xi) LY_k(x)}{\lambda_k} \\
+        &= \sum_{k=1}^{\infty} Y_k(\xi) Y_k(x)
+    \end{align*}
 \end{example}
 \end{document}
