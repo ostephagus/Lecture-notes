@@ -228,7 +228,7 @@ Figure~\ref{figDLMDiagram} shows the relationship between $\alpha$ and its appli
     }
     \item $\alpha^*$ is linear. \label{propDLMLinear}
     \item $(\alpha + \lambda \beta)^* = \alpha^* + \lambda\beta^*$ \label{propDLMLinearOp}
-    \item $(Id_V)^* = Id_{V^*}$ \label{propDLMId}
+    \item $(\Id_V)^* = \Id_{V^*}$ \label{propDLMId}
     \item If $\beta$ is an isomorphism then so is $\beta^*$ with inverse:
         \begin{equation*}
             (\beta^*)^{-1} = (\beta^{-1})^*
@@ -271,10 +271,10 @@ Figure~\ref{figDLMDiagram} shows the relationship between $\alpha$ and its appli
             \begin{equation*}
                 (\alpha \circ \gamma)^* = \gamma^* \circ \alpha^*
             \end{equation*}
-        \item For all $\theta \in V^*$, $(Id_V)^*(\theta) = \theta \circ Id_V = \theta$.
+        \item For all $\theta \in V^*$, $(\Id_V)^*(\theta) = \theta \circ \Id_V = \theta$.
         \item Now consider:
             \begin{align*}
-                Id_{V^*} &= (\beta^{-1} \circ \beta) \\
+                \Id_{V^*} &= (\beta^{-1} \circ \beta) \\
                 &= \beta^* + (\beta^{-1})^*
             \end{align*}
             Similarly, $id_{W^*} = (\beta^{-1})^* \circ \beta^*$.
@@ -304,9 +304,9 @@ Figure~\ref{figDLMDiagram} shows the relationship between $\alpha$ and its appli
     \end{align*}
 \end{proof}
 \begin{example}[Change-of-Basis]
-    Let $B, C$ be bases of $V$. Set $P = [Id_V]_C^B$. Then $[Id_{V^*}]_{B^*}^{C^*} = P^T$.
+    Let $B, C$ be bases of $V$. Set $P = [\Id_V]_C^B$. Then $[\Id_{V^*}]_{B^*}^{C^*} = P^T$.
 
-    Then $[Id_{V^*}]_{C^*}^{B^*} = (P^T)^{-1}$.
+    Then $[\Id_{V^*}]_{C^*}^{B^*} = (P^T)^{-1}$.
 \end{example}
 \begin{corollary}
     Consider the same assumptions as proposition~\ref{propDLMIsTranspose}.

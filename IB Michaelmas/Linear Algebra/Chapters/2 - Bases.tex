@@ -332,7 +332,7 @@ Consider $V$ a finite-dimensional vector space over $\F$, and let $W$ be a vecto
 
     Then $f$ defines a bijection from $B$ to $E$. Let $\overline{F_B}$ be the linear extension of $f^{-1} : E \mapsto B$ to $W$.
 
-    Then $\overline{F_B} \circ F_B$ is a linear extension of $Id_B$, but $Id_V$ is also a linear extension of $Id_B$, and since by proposition~\ref{propLinMapOfBasis} these are unique, $\overline{F_B} = F_B^{-1}$.
+    Then $\overline{F_B} \circ F_B$ is a linear extension of $\Id_B$, but $\Id_V$ is also a linear extension of $\Id_B$, and since by proposition~\ref{propLinMapOfBasis} these are unique, $\overline{F_B} = F_B^{-1}$.
 
     Therefore $F_B$ is an isomorphism.
 \end{proof}
@@ -362,7 +362,10 @@ This isomorphism gives the following definition
         \item $\lambda(v, w) = (\lambda v, \lambda w)$.
     \end{itemize}
 \end{definition}
-Similarly, we can chain this operation to define the external direct sum for a finite number of vector spaces.
+We can chain this operation to define the external direct sum for a finite number of vector spaces. For vector spaces $V_1, \cdots, V_m$, the external direct sum of all of them is denoted:
+\begin{equation*}
+    \bigoplus_{i = 1}^m V_i
+\end{equation*}
 
 \begin{lemma}
     For $V$ and $W$ vector spaces over $\F$,

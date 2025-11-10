@@ -86,4 +86,220 @@ The proof is by applying Euclid's Algorithm to $f(t)$ with $g(t) = t - \lambda$.
 \begin{proof}
     The proof is seen in IB Complex Analysis.
 \end{proof}
+\section{An Introduction to Eigenspaces}
+\begin{definition}{Diagonalisability}
+    Let $V$ be a finite-dimensional vector space. Let $\alpha : V \mapsto V$. This is \underline{diagonalisable} if there exists a basis $B$ of $V$ such that $[\alpha]_B^B$ is a diagonal matrix.
+\end{definition}
+\begin{definition}{Triangularisability}
+    Let $V$ be a finite-dimensional vector space. Let $\alpha : V \mapsto V$. This is \underline{triangularisable} if there exists a basis $B$ of $V$ such that $[\alpha]_B^B$ is a triangular matrix.
+\end{definition}
+\begin{remarks}
+    \item $A \in M_{n \times n}(\F)$ is diagonalisable if $A$ is similar to a diagonal matrix.
+    \item $A \in M_{n \times n}(\F)$ is triangularisable if $A$ is similar to a triangular matrix.
+    \item By change of basis, $\alpha$ is diagonalisable if and only if for some basis $B$ of $V$, $[\alpha]_B^B$ is diagonalisable.
+    \item By change of basis, $\alpha$ is triangularisable if and only if for some basis $B$ of $V$, $[\alpha]_B^B$ is triangularisable.
+\end{remarks}
+Diagonal and triangular matrices have nice properties with their determinants. It is easy to compute the determinant of an upper triangular matrix, since this is simply the product of the diagonal elements, and it is easy to understand the similarity classes of a diagonal matrix.
+
+If $B = \{v_1, \cdots, v_n\}$ is a basis for a space $V$, and in this basis a map $\alpha : V \mapsto V$ is given by:
+\begin{equation*}
+    [\alpha]_B^B =
+    \begin{pmatrix}
+        \lambda_1 &  & 0 \\
+         & \ddots &  \\
+        0 &  & \lambda_n
+    \end{pmatrix}
+    = \diag(\lambda_1, \cdots, \lambda_n)
+\end{equation*}
+then $\alpha(v_i) = \lambda_i v_i$.
+\begin{definition}{Eigenvalue}
+    Let $V$ be a vector space over $\F$, and let $\alpha \in \L(V, V)$. $\lambda \in \F$ is an \underline{eigenvalue} of $\alpha$ if there exists a non-zero vector $v \in V$ such that:
+    \begin{equation*}
+        \alpha(v) = \lambda v
+    \end{equation*}
+    In this case, $v$ is an \underline{eigenvector} of $\alpha$.
+\end{definition}
+\begin{definition}{Eigenspace}
+    Let $V$ be a vector space over $\F$. For an eigenvalue $\lambda$ of a linear map $\alpha : V \mapsto V$, the \underline{$\lambda$-eigenspace} is given by:
+    \begin{equation*}
+        V_{\lambda} = \subsetselect{v \in V}{\alpha(v) = \lambda v}
+    \end{equation*}
+    That is, all the eigenvectors with eigenvalue $\lambda$.
+\end{definition}
+\begin{propositions}{
+        Let $V$ be a vector space over a field $\F$.
+        \label{propsEVals}
+    }
+    \item $V_\lambda = \ker(\alpha - \lambda \Id_V) \leq V$ \label{propEValKernel}
+    \item For $V$ finite-dimensional, $\alpha$ is diagonalisable if and only if $V$ has a basis of eigenvectors of $\alpha$. \label{propDiagIffBasis}
+    \item If $v \in V_{\mu}$, for $\lambda \neq \mu$, then
+        \begin{equation*}
+            (\alpha - \lambda \Id_V) (v) = (\mu - \lambda)(v)
+        \end{equation*}
+        Thus $(\alpha - \lambda \Id_V)$ preserves $V_{\mu}$ and $(\alpha - \lambda \Id_V) \vline_{V_\mu}$ is invertible with inverse $v \mapsto (\mu - \lambda)^{-1} v$.
+        \label{propEValDifferentKernel}
+\end{propositions}
+\begin{proof}
+    The proofs of these statements are quite straightforward.
+    \begin{enumerate}
+        \item If $v \in V_{\lambda}$ then $\alpha(v) = \lambda v$. Equivalently, $(\alpha(v) - \lambda \Id_V(v)) = \zv$, so $v$ is in $\ker(\alpha - \Id_V)$. Similarly, if $v \in \ker(\alpha - \Id_V)$ then $\alpha(v) = \lambda v$ and $v \in V_{\lambda}$.
+        \item This is by noting that the basis required by the definition of a diagonal matrix is in fact the eigenvector basis.
+        \item This is immediate by working through the steps in the statement.
+    \end{enumerate}
+\end{proof}
+\begin{lemma}
+    Let $\lambda_1, \cdots, \lambda_k \in \F$ be a set of distinct eigenvalues over a vector space $V$, and $\zv \neq v_i \in V_{\lambda_i}$ be a set of corresponding eigenvectors. Then the set $\{v_1, \cdots, v_k\}$ is linearly independent.
+    \label{lemEVecLI}
+\end{lemma}
+\begin{remark}
+    The lemma is more succinctly stated: eigenvectors corresponding to distinct eigenvalues are linearly independent.
+\end{remark}
+\begin{proof}
+    Suppose not. Let $\sum_{i=0}^{k} \mu_i v_i = \zv_V$ and assume that $\mu_i$ are not all zero. After possibly re-labelling, assume $\mu_1 \neq 0$. Define also:
+    \begin{equation*}
+        \beta = \prod_{i=2}^{k}(\alpha - \lambda_i \Id_V)
+    \end{equation*}
+    Then by proposition~\ref{propEValDifferentKernel},
+    \begin{align*}
+        \beta(v_j) &= \left(\prod_{i=2}^{k}(\lambda_j - \lambda_i)\right) v_j \\
+        &\neq 0 \text{ if and only if } j = 1. \\
+        \therefore \zv &= \beta\left(\sum_{i = 1}^k \mu_i v_i\right) \\
+        &= \beta(\mu_1 v_1) \text{ by previous remark} \\
+        &= \left(\mu_1 \prod_{i = 1}^k(\lambda_1 - \lambda_k)\right) v_1
+    \end{align*}
+    But, since the eigenvalues are all distinct, we must have $\mu_1 = 0$ \contradiction
+\end{proof}
+\begin{corollary}
+    Let $V$ be a vector space over a field $\F$ with dimension $n$. Any linear map $\alpha \in \L(V, V)$ has at most $n$ eigenvalues.
+    \label{corFinitelyManyEVals}
+\end{corollary}
+\begin{proof}
+    Let $\alpha$ have $m$ eigenvalues $\lambda_1, \cdots, \lambda_m$. Then each eigenvalue has a corresponding eigenvector $v_i$, and by lemma~\ref{lemEVecLI}, these form a linearly independent set. By theorem~\ref{thmSteinitzExchange}, a linearly independent set of $V$ can have size at most $n$. Therefore, there can be at most $n$ eigenvectors and, because each eigenvalue has at least one eigenvector, at most $n$ eigenvalues.
+\end{proof}
+\begin{propositions}{
+        Let $V$ be a finite-dimensional vector space over $\F$. Let $\alpha \in \L(V, V)$ with eigenvalues $\lambda_1, \cdots, \lambda_k \in F$.
+        \label{propsEigenspaces}
+    }
+    \item $\spn{\bigcup_{i = 1}^k V_{\lambda_k}} = \bigoplus_{i = 1}^k V_{\lambda_k}$ \label{propSpanESpaces}
+    \item $\alpha$ is diagonalisable if and only if $V = \bigoplus_{i = 1}^k V_{\lambda_k}$ \label{propESpaceWholeSpace}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Recall that the map in proposition~\ref{propMapDSToSum} is surjective, so $\spn{\bigcup_{i = 1}^k V_{\lambda_k}} \geq \bigoplus_{i = 1}^k V_{\lambda_k}$. If it is not also injective, there exists a vector in the kernel of this map. That is, there exists a linear combination:
+            \begin{equation*}
+                \sum_{i=1}^{k} v_j = \zv
+            \end{equation*}
+            but not all the $v_j$ are zero. This contradicts lemma~\ref{lemEVecLI}.
+        \item
+            \begin{proofdirection}{$\Rightarrow$}{Suppose that $\alpha$ is diagonalisable}
+                By proposition~\ref{propDiagIffBasis}, we have a basis of eigenvectors. Then this means $V$ is a direct sum of the spaces spanned by each of these eigenvectors, which are the $V_{\lambda_i}$.
+            \end{proofdirection}
+            \begin{proofdirection}{$\Leftarrow$}{Suppose that $V$ is a direct sum}
+                Because we are in finite-dimensional space, each $V_{\lambda_i}$ has a basis $B_i$. By Ex1Q8, the union $B = \bigcup_{i = 1}^k B_i$ is a basis for $V$. That is, $\alpha$ has a basis of eigenvectors, so $[\alpha]_B^B$ is diagonal.
+            \end{proofdirection}
+    \end{enumerate}
+\end{proof}
+\section{The Characteristic Polynomial}
+Recall that for $V$ finite-dimensional, and $\beta \in \L(V, V)$, $\det(\beta) \neq 0 \iff \ker{\beta} \neq \{\zv_V\}$. Therefore, $\lambda \in \F$ is an eigenvalue of $\alpha \in \L(V, V)$ if and only if $\det(\alpha - \lambda \Id_V) = 0$.
+\begin{definition}{Matrix characteristic polynomial}
+    For $A \in M_{n \times n}(\F)$ the \underline{characteristic polynomial} of $A$ is:
+    \begin{equation*}
+        \chi_A(t) = \det(t I_n - A) \in \F[t]
+    \end{equation*}
+\end{definition}
+\begin{definition}{Linear map characteristic polynomial}
+    For a finite-dimensional vector space $V$ over a field $\F$, and $\alpha \in \L(V, V)$, the \underline{characteristic polynomial} of $\alpha$ is:
+    \begin{equation*}
+        \chi_\alpha(t) = \det(t \Id_V - \alpha)
+    \end{equation*}
+\end{definition}
+We make concrete the remark we made earlier:
+\begin{lemma}
+    Let $V$ be a finite dimensional vector space over a field $\F$ and $\alpha \in \L(V, V)$.
+    The roots of $\chi_\alpha$ are exactly the eigenvalues of $\alpha$.
+    \label{lemCharPolyIsEvals}
+\end{lemma}
+\begin{remarks}
+    \item $\chi_\alpha$ is monic. This is why we define it the ``other way round'' to in IA Vectors and Matrices, where we had that the leading coefficient was $(-1)^n$.
+    \item Similar matrices have the same characteristic polynomial, because determinant is invariant on similarity classes (and $P^{-1} I P = I$).
+    \item By the Leibniz formula applied to $tI - A$, we get that:
+        \begin{equation*}
+            \chi_\alpha(t) = t^n + C_{n-1} t^{n-1} + \cdots + C_1 t + C_0
+        \end{equation*}
+        These coefficients generally have interesting properties. For example, $C_{n-1} = -\tr(\alpha)$ and $C_0 = (-1)^n \det(A)$.
+\end{remarks}
+\begin{proposition}
+    For $V$ a finite-dimensional vector space and $\alpha \in \L(V, V)$, if $\alpha$ is triangularisable then $\chi_\alpha(t)$ can be written as a product of linear factors.
+    \label{propTriangularFactorise}
+\end{proposition}
+\begin{proof}
+    Consider the basis $B$ in which $[\alpha]_B^B$ is triangular. Call this matrix $A$. By proposition~\ref{propTriangularDet}, $\det(t\Id_V - \alpha)$ is the product of the diagonal elements of $tI - A$, and this is precisely:
+    \begin{equation*}
+        \chi_\alpha(t) = \prod_{i=1}^{n} (t - a_{ii})
+    \end{equation*}
+\end{proof}
+\begin{remark}
+    If the characteristic polynomial does not split as linear factors, then the matrix is not triangularisable.
+\end{remark}
+\begin{example}
+    Consider the rotation matrix:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            \cos(\theta) & -\sin(\theta) \\
+            \sin(\theta) & \cos(\theta)
+        \end{pmatrix}
+    \end{equation*}
+    We can compute the characteristic polynomial:
+    \begin{equation*}
+        \chi_A(t) = t^2 - 2\cos(\theta) t + 1
+    \end{equation*}
+    Then considering the discriminant, $4\cos^2(\theta) - 4$, this is negative for $\theta \in (0, \pi)$. So, in the space of \textit{real matrices}, this is not triangularisable.
+\end{example}
+\begin{theorem}
+    Every $A \in M_{n \times n}(\C)$ is triangularisable.
+    \label{thmComplexTriangular}
+\end{theorem}
+\begin{proof}
+    By theorem~\ref{thmFundamentalAlgebra}, $\chi_A(t)$ has a root $\lambda \in C$.
+
+    \induction{$n = 2$}{
+        There exists a non-zero vector $v \in V$ such that $\alpha(v) = \lambda v$. Extend to a basis $B = \{v, w\}$ of $V$. With respect to this basis, $\alpha$ is given by:
+        \begin{equation*}
+            [\alpha]_B^B =
+            \begin{pmatrix}
+                \lambda & a_{12} \\
+                0 & a_{22}
+            \end{pmatrix}
+        \end{equation*}
+        This is upper-triangular.
+    }{$n = k$}{
+        Assume any matrix in $M_{k \times k}(\C)$ is triangularisable.
+    }{$n = k + 1$}{
+        Given the eigenvalue $\lambda$ there must exist a non-zero vector $v_1 \in V$ such that $\alpha(v) \lambda v$. Then extend to a basis $B = \{v_1, \cdots, v_n\}$ of $V$. Under this basis, $\alpha$ is given by the block matrix:
+        \begin{equation*}
+            [\alpha]_B^B = A =
+            \begin{pmatrix}
+                \lambda & \star \\
+                0 & C
+            \end{pmatrix}
+        \end{equation*}
+        Now $C \in M_{k \times k}(\F)$, and so by induction there exists a change-of-basis matrix $\bar{P} \in GL_k(\C)$ such that $\bar{P} C \bar{P}^{-1}$ is upper-triangular. Extend $\bar{P}$ to a matrix $P$ by:
+        \begin{equation*}
+            P =
+            \begin{pmatrix}
+                1 & 0 \\
+                0 & \bar{P}
+            \end{pmatrix}
+        \end{equation*}
+        Then $PAP^{-1}$ is upper-triangular.
+    }
+\end{proof}
+\begin{remark}
+    The same proof can be used for any field $\F$, $A \in M_{n \times n}(\F)$ is triangularisable if and only if it is a product of linear factors.
+\end{remark}
+\begin{corollary}
+    Every linear map in a finite-dimensional vector space over $\C$ is triangularisable.
+    \label{corComplexLMTriangular}
+\end{corollary}
 \end{document}
