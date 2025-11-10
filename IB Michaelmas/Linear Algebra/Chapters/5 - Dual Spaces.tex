@@ -38,7 +38,7 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
     \begin{equation*}
         0 = \left(\sum_{b \in B} \lambda_b b^*\right)(c) = \sum_{b \in B}' \lambda_i b^*(c) = \lambda_c
     \end{equation*}
-    and therefore we must have $c = 0$.
+    and therefore we must have $\lambda_c = 0$.
 
     For the second claim, we can give a short proof and a constructive proof.
 
@@ -75,24 +75,28 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
     \label{corDualBasisIsom}
 \end{corollary}
 \begin{proof}
-    By proposition~\ref{propsDualBasis}, $\dim(V) = \dim(V^*)$. Note $V$ is finite dimensional so we can form a basis $B = \{v_1, \cdots, v_n\}$.
-
-    For $v \in V, \theta \in V^*$, write:
-    \begin{equation*}
-        v = \sum_{i=1}^{n} \lambda_i v_i, ~~\theta = \sum_{j=1}^{n} \mu_j v_j^*
-    \end{equation*}
-    Then $\theta(v)$ is given by:
+    By proposition~\ref{propsDualBasis}, $\dim(V) = \dim(V^*)$. Note $V$ is finite dimensional so we can form a basis $B = \{v_1, \cdots, v_n\}$. We can similarly form the corresponding dual basis $B^* = \{v_1^*, \cdots, v_n^*\}$. Then we extend the isomorphism from the basis to the dual basis by proposition~\ref{propLinMapOfBasis}:
     \begin{align*}
-        \theta(v) &= \sum_{i, j = 1}^{n} \lambda_i \mu_i v_{j}^*(v_i) \\
-        &= \sum_{i=1}^n \lambda_i \mu_i \\
-        &= \left([\theta]_{B^*}\right)^T [v]_B
+        \Phi : V &\mapsto V^*\\
+        \sum_{i=1}^{n} \lambda_i v_i &\mapsto \sum_{i = 1}^n \lambda_i v_i^*
     \end{align*}
 \end{proof}
+For $v \in V, \theta \in V^*$, write:
+\begin{equation*}
+    v = \sum_{i=1}^{n} \lambda_i v_i, ~~\theta = \sum_{j=1}^{n} \mu_j v_j^*
+\end{equation*}
+
+Then $\theta(v)$ is given by:
+\begin{align*}
+    \theta(v) &= \sum_{i, j = 1}^{n} \lambda_i \mu_i v_{j}^*(v_i) \\
+    &= \sum_{j=1}^n \lambda_j \mu_j \\
+    &= \left([\theta]_{B^*}\right)^T [v]_B
+\end{align*}
 This finite-dimensional isomorphism is important to understand. We can understand the dual basis as being very similar to the space of \textit{row vectors}. Note that this is not quite true, and actually the dual space is the set of linear maps corresponding to multiplying by a row vector.
 
 If we take an element of $V^*$ and express it as a coordinate vector using the basis vectors in $B^*$, then we have constructed a column vector from the row vector, which is why we need to transpose it (or take a dot product, which is not discussed until later in the course).
 \begin{example}[Dual of the space of polynomials]
-    Consider the space of polynomials $\poly{\R}$. This has basis:
+    Consider the space of polynomials $\poly(\R)$. This has basis:
     \begin{equation*}
         B = \{p_0 = 1, p_1 = x, p_2 = x^2, \cdots\}
     \end{equation*}
