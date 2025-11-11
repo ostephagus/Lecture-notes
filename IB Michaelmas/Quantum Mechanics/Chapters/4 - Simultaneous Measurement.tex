@@ -1,0 +1,77 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+Recall that, for an operator $\op$, the possible outcomes of a measurement are given by its eigenvalues. Given a wavefunction of the form $\psi = \sum_{i=1}^{\infty} a_i \psi_i$, the probability that a measurement results in a given eigenvalue $\lambda_i$ is:
+\begin{equation*}
+    \P(O = \lambda_i) = |a_i|^2 = |\inn{\psi_i}{\psi}|^2
+\end{equation*}
+Once a measurement has been performed, we have the projection postulate which describes wavefunction collapse, and the wavefunction becomes $\psi_i$.
+\section{Commutators}
+\begin{definition}{Commutator}
+    The \underline{commutator} of two Hermitian operators $\hat{A}, \hat{B}$ is the operator defined as:
+    \begin{equation*}
+        [\hat{A}, \hat{B}] = \hat{A}\hat{B} - \hat{B}\hat{A}
+    \end{equation*}
+\end{definition}
+\begin{propositions}{
+        Let $\hat{A}, \hat{B}$ be hermitian operators.
+        \label{propsCommutator}
+    }
+    \item $[\hat{A}, \hat{B}] = -[\hat{B}, \hat{A}]$
+    \item $\cmmt{A}{A} = 0$
+    \item $[\hat{A}, \hat{B}\hat{C}] = \cmmt{A}{B}\hat{C} + \hat{B} \cmmt{A}{C}$
+    \item $[\hat{A}\hat{B}, \hat{C}] = \hat{A}\cmmt{B}{C} + \cmmt{A}{C}\hat{B}$
+\end{propositions}
+\begin{example}
+    We consider the commutator $\cmmt{x}{p}$ in one dimension. Consider $\psi \in \hilb$:
+    \begin{align*}
+        \hat{x} \hat{p} \psi &= x\left(-i\hbar \frac{\partial }{\partial x}\right)\psi(x) \\
+        &= -i\hbar x \frac{\partial \psi(x)}{\partial x} \\
+        \hat{p} \hat{x} \psi &= \left(-i\hbar \frac{\partial }{\partial x}\right) \left(x \psi(x)\right) \\
+        &= -i\hbar \psi(x) - i\hbar x \frac{\partial \psi(x)}{\partial x} \\
+        \cmmt{x}{p} &= -i\hbar x \frac{\partial \psi(x) }{\partial x} + i \hbar \psi(x) + i \hbar x \frac{\partial \psi(x)}{\partial x} \\
+        &= i \hbar \psi(x)
+    \end{align*}
+    Therefore we conclude $\cmmt{x}{p} = i\hbar \hat{I}$ where $\hat{I}$ is the identity operator. This is called the \underline{canonical commutator relation}.
+\end{example}
+\begin{definition}{Simultaneous diagonalisability}
+    Two Hermitian operators $\hat{A}$, $\hat{B}$ are \underline{simultaneously diagonalisable} in $\hilb$ if there exists a complete basis of joint eigenfunctions $\psi_i$ such that:
+    \begin{equation}
+        \begin{aligned}
+            \hat{A}\psi_i &= a_i \psi_i \\
+            \hat{B}\psi_i &= b_i \psi_i
+        \end{aligned}
+        \label{eqnSimDiag}
+    \end{equation}
+\end{definition}
+\begin{theorem}
+    Two Hermitian operators $\hat{A}, \hat{B}$ are simultaneously diagonalisable if and only if $\cmmt{A}{B} = 0$.
+    \label{thmSimDiagIffCmmtZero}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose that $\hat{A}, \hat{B}$ are simultanously diagonalisable.}
+        Therefore, we have eigenfunctions $\psi_i$ that form a complete basis of $\hilb$ as in equation~\ref{eqnSimDiag}. Therefore:
+        \begin{align*}
+            \cmmt{A}{B}\psi_i &= \hat{A} \hat{B} \psi_i - \hat{B}\hat{A} \psi_i \\
+            &= a_i b_i \psi_i - b_i a_i \psi_i = 0
+        \end{align*}
+        Then we can apply this to any linear combination:
+        \begin{align*}
+            \cmmt{A}{B} \sum_{i} a_i \psi_i &= \sum_i a_i \cmmt{A}{B} \psi_i \\
+            &= 0
+        \end{align*}
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that the commutator is zero}
+        Let $\psi_i$ be the eigenfunctions of $\hat{A}$ with eigenvalues $a_i$.
+        \begin{align*}
+            0 &= \cmmt{A}{B}\psi_i = \hat{A} \hat{B} \psi_i - \hat{B} \hat{A} \psi_i \\
+            &= \hat{A} \hat{B} \psi_i = a_i \hat{B} \psi_i
+        \end{align*}
+        That is,
+        \begin{equation*}
+            \hat{A}(\hat{B}\psi_i) = a_i \hat{B} \psi_i
+        \end{equation*}
+        Then $\hat{B}$ maps the eigenspace $E_i$ of $\hat{A}$ with eigenvalue $a_i$ into itself. Therefore, the restricted map $B|_{E_i}$ is a Hermitian operator of $E_i$. Similarly, because the $E_i$ are complete and thus span $\hilb$, we can find a basis of joint eigenfunctions of $\hat{A}$ and $\hat{B}$.
+    \end{proofdirection}
+\end{proof}
+\end{document}

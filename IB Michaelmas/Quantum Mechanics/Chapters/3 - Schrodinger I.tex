@@ -25,7 +25,7 @@ Then since $E \geq 0$, we set $\frac{2mE}{\hbar^2} = k^2$ to get solutions:
 \begin{equation*}
     \chi(x) = A\sin(kx) + B\cos(kx)
 \end{equation*}
-We need to impose the boundary condition $\chi(\pm a) = 0$. This gives that $A\sin(ka) = 0$ and $B\cos(ka) = 0$. There are two options:
+We need to impose the continuity condition $\chi(\pm a) = 0$. This gives that $A\sin(ka) = 0$ and $B\cos(ka) = 0$. There are two options:
 \begin{itemize}
     \item $A = 0, \cos(ka) = 0$, this gives a set of values, $k = k_n = \frac{n\pi}{2a}$ for odd $n$.
     \item $B = 0, \sin(ka) = 0$ and here we have $k_n = \frac{n\pi}{2a}$ for even $n$.
@@ -350,6 +350,7 @@ We compute the probability current $J_k$:
 \end{align*}
 Then we interpret this as the average flux of particles - the average density multiplied by the average speed.
 \section{Scattering States}
+
 \begin{definition}{Reflection coefficient}
     For a setup as in figure~\ref{figPotentialBarrier}, the probability for an incoming particle to be reflected is given by the \underline{reflection coefficient}:
     \begin{equation}
@@ -434,16 +435,16 @@ Then we can determine the reflection and transmission coefficients:
 
 Now consider the case $E < U_0$. Here we get:
 \begin{equation*}
-    \chi_\bar{k} = Ce^{-\eta x} + De^{\eta x},~~\eta = \sqrt{\frac{2m(U_0 - E)}{\hbar^2}}
+    \chi_{\bar{k}} = Ce^{-\eta x} + De^{\eta x},~~\eta = \sqrt{\frac{2m(U_0 - E)}{\hbar^2}}
 \end{equation*}
-We require $D = 0$ because otherwise $\chi_\bar{k} \to \infty$ as $x \to \infty$. We impose continuity of $\chi, \chi'$ at $x = 0$: %TODO: Compute
+We require $D = 0$ because otherwise $\chi_{\bar{k}} \to \infty$ as $x \to \infty$. We impose continuity of $\chi, \chi'$ at $x = 0$: %TODO: Compute
 
 \begin{align*}
     J_\text{inc}&= \frac{\hbar k}{m}|A|^2 \\
     J_\text{ref}&= \frac{\hbar k}{m}|B|^2 \\
     J_\text{trn}&= 0
 \end{align*}
-Therefore $R = 1, T = 0$. However, we find that $\chi_\bar{k}(x) \neq 0$ at $x > 0$. This corresponds to the fact that a particle can exist past this potential barrier but has no momentum.
+Therefore $R = 1, T = 0$. However, we find that $\chi_{\bar{k}}(x) \neq 0$ at $x > 0$. This corresponds to the fact that a particle can exist past this potential barrier but has no momentum.
 \subsection{Scattering Off a Potential Barrier}
 Now consider a potential of the form:
 \begin{equation*}
@@ -454,4 +455,58 @@ Now consider a potential of the form:
         U_0 & 0 < x < a
     \end{cases}
 \end{equation*}
+We define the constants:
+\begin{align*}
+    k &= \sqrt{\frac{2me}{\hbar^2}} \\
+    \eta &= \sqrt{\frac{2m(U_0 - E)}{\hbar^2}}
+\end{align*}
+and find the general solution:
+\begin{equation*}
+    \left\{\begin{aligned}
+        &e^{ikx} + Ae^{-ikx} && x \leq 0 && \text{(region 1)} \\
+        &Be^{-\eta x} + Ce^{\eta x} && x \in (0, a) && \text{(region 2)} \\
+        &De^{ikx} + Fe^{-ikx} && x \geq a && \text{(region 3)}
+    \end{aligned}\right.
+\end{equation*}
+For region 1, we have decided to use the constant $1$ in front of the incident wave because this allows us to read off the reflection coefficient directly.
+In region 3, we set $F = 0$ due to our initial condition that all particles are initially at $-\infty$.
+
+Note that both regions 1 and 3 give oscillatory solutions, whereas in region 2 we see exponential decay of the intensity of the particle beam.
+We can determine the coefficients $A$, $B$, $C$ and $D$ using the continuity of $\chi$ and its first derivative at the points $x \in \{0, a\}$. Of note is the value of the constant $D$:
+\begin{equation*}
+    D = -\frac{4i\eta k}{(\eta - ik)^2 \exp\left[(\eta + i k)a\right] - (\eta + ik)^2 \exp\left[-(\eta - ik)a\right]}
+\end{equation*}
+Then the transmission coefficient $T$ is equal to $|D|^2$ (because we set the amplitude of the incident wave to 1):
+\begin{equation*}
+    T = \frac{4k^2 \eta^2}{(k^2 + \eta^2) \sinh(\eta a) + 4k^2 \eta^2}
+\end{equation*}
+Then this is non-zero! This is remarkable because we have found that, from a beam of particles, some will manage to get through the potential barrier despite having less energy (which is classically impossible).
+
+Even if $U_0 >> E$, which means $\eta a >> 1$,
+\begin{equation*}
+    T \to \frac{16k^2\eta^2}{(\eta^2 + k^2)^2} e^{-2\eta a} = \frac{16k^2\eta^2}{(\eta^2 + k^2)^2} e^{-\frac{2a}{\hbar}\sqrt{2m(U_0 - E)}}
+\end{equation*}
+\subsection{Summary of Unbound States}
+In summary, we have given two ways to solve the problem of unbound states, for which the solutions of the TISE are non-normalisable.
+\begin{enumerate}
+    \item We can consider a \underline{Gaussian Wavepacket}, a linear combination of solutions which is normalisable:
+        \begin{equation*}
+            \psi_{GP}(x, t) = \int_{-\infty}^{\infty} A_{GP}(k) \psi_k(x, t) dk 
+        \end{equation*}
+        where $A_{GP}$ is chosen such that $\psi_{GP}$ is normalisable.
+        Then, for a scattering potential, we define the reflection and transmission coefficients:
+        \begin{align*}
+            R &= \lim_{t \to \infty} \int_{-\infty}^{0} |\psi_{GP}(x, t)|^2 dx \\
+            T &= \lim_{t \to \infty} \int_{0}^{\infty} |\psi_{GP}(x, t)|^2 dx \\
+        \end{align*}
+    \item We ignore the problem of normalisability and interpret $\psi_k$ as a beam of particles. We solve the TDSE with $\psi_k$, and compute the flux:
+        \begin{equation*}
+            J(x, t) = -\frac{i\hbar}{2m} \left(\psi^* \frac{\partial \psi}{\partial x} - \psi \frac{\partial \psi^*}{\partial x}\right)
+        \end{equation*}
+        Then the transmission and reflection coefficients are given in terms of this flux:
+        \begin{align*}
+            R &= \frac{J_{ref}}{J_{inc}}\\
+            T &= \frac{J_{trn}}{J_{inc}}
+        \end{align*}
+\end{enumerate}
 \end{document}
