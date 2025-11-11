@@ -79,16 +79,10 @@ Thus we can gain a nice set of simultaneous equations for $\pi$. We can formalis
 We can also apply the definition of invariance to a measure:
 
 $\vec{\lambda}$ is invariant if $\vec{\lambda} = \vec{\lambda}P$, and so for each $n$, $\vec{\lambda} = \vec{\lambda} P^n$.
-\begin{definition}{Return time}
-    Consider any $k \in I$ and set the \underline{return time} for $k$ to be:
-    \begin{equation*}
-        T_k = \inf\subsetselect{n \geq 1}{X_n = k}
-    \end{equation*}
-\end{definition}
 \begin{definition}{First return time}
     For $k \in I$, the \underline{first return time} to $k$ is:
     \begin{equation*}
-        \inf\subsetselect{n \geq 1}{X_n = k}
+        T_k = \inf\subsetselect{n \geq 1}{X_n = k}
     \end{equation*}
     We assume that $X_0 = k$ (or start a new Markov chain starting at the time that $X_n = k$.)
 \end{definition}
@@ -98,7 +92,7 @@ We define a measure $\nu_k$ on $I$ as:
 \end{equation*}
 Then this is the expected total number of visits to $i$ during an excursion from $k$ back to itself. Note that:
 \begin{equation*}
-    \nu_k(i) = \E_k\left(\sum_{n-1}^{T_k} \ind{X_n = i}\right)
+    \nu_k(i) = \E_k\left(\sum_{n=1}^{T_k} \ind{X_n = i}\right)
 \end{equation*}
 Further,
 \begin{align*}
@@ -197,6 +191,15 @@ Further,
     \end{align*}
     therefore we have indeed that $\lambda_i - \nu_k(i) = 0$. This holds for all $i$, so we are done.
 \end{proof}
+\begin{remark}
+    Note the condition $\lambda_k = 1$. If this condition does not hold, then in the irreducible and recurrent case any invariant measure is a multiple of $\nu_k$.
+\end{remark}
+\section{Positive Recurrence}
+We have now found that an irreducible and recurrent Markov chain has an invariant measure $\nu_k$. We therefore want to know if this invariant measure can be normalised to give an \textit{invariant distribution}. Recall that:
+\begin{equation*}
+    \sum_{i \in I} \nu_k(i) = \E_k(T_k)
+\end{equation*}
+and so, for normalisability, we require that this is finite.
 \begin{definition}{Positive recurrence}
     Let $\chain{X}$ be a Markov chain with transition matrix $P$. Suppose $i$ is a recurrent state for $P$. Then $i$ is \underline{positive recurrent} if $\E_i(T_i) < \infty$.
 
@@ -253,4 +256,180 @@ Further,
         \E_k(T_k) = \frac{1}{\pi(k)}~\forall k \in I
     \end{equation*}
 \end{proof}
+\begin{corollary}
+    If $\chain{X}$ is an irreducible Markov chain with invariant distribution $\pi$, then:
+    \begin{equation*}
+        \nu_k(i) = \frac{\pi(i)}{\pi(k)}
+    \end{equation*}
+    for all $i \in I$
+    \label{corInvariantQuotient}
+\end{corollary}
+\begin{proof}
+    We have values for $\pi$:
+    \begin{equation*}
+        \pi(i) = \frac{\nu_k(i)}{\E_k(T_k)},~~\pi(k) = \frac{1}{\E_k(T_k)}.
+    \end{equation*}
+    Then the quotient gives the result.
+\end{proof}
+\begin{example}[Simple symmetric random walk]
+    The invariance equations are:
+    \begin{align*}
+        \pi(i) &= \sum_j \pi(j) P(i, j) \\
+        &= \frac12 \pi(i-1) + \frac12 \pi(i + 1)
+    \end{align*}
+    Then setting $\pi(i) = 1~\forall i \in \Z$ gives a solution. Since this chain is irreducible and recurrent, we have that by proposition~\ref{findtheref} all other invariant distributions are multiples of $\pi$.
+
+    However, this cannot be normalised to an invariant distribution! Therefore we get that $\chain{X}$ has an invariant measure but no invariant distribution. This is because $\chain{X}$ is not positive-recurrent.
+\end{example}
+\begin{example}[Simple asymmetric random walk]
+    Consider a simple asymmetric random walk on $\Z$ with transition probabilities:
+    \begin{align*}
+        P(i, i+1) &= p\\
+        P(i, i-1) &= q = 1-p
+    \end{align*}
+    for all $i \in \Z$, where $p < q$ and both are non-zero.
+
+    Then the invariance equations are:
+    \begin{equation*}
+        \pi(i) = p \pi(i-1) + q \pi(i + 1)
+    \end{equation*}
+    We can find the solution:
+    \begin{equation*}
+        \pi(i) = a + b \left(\frac{p}{q}\right)^i
+    \end{equation*}
+    However, not all invariant measures are multiples of each other, and so we conclude that $\chain{X}$ is not recurrent.
+\end{example}
+\begin{example}
+    Consider a random walk on $\N_0$. Transition probabilities are, for $i \in \N$,
+    \begin{align*}
+        P(i, i+1) &= p,\quad P(i, i-1) = q = 1-p\\
+        P(0, 1) &= p,\quad P(0, 0) = q
+    \end{align*}
+    Then the invariance equations are:
+    \begin{align*}
+        \pi(i) &= p\pi(i-1) + q \pi(i + 1) \\
+        \pi(0) &= q\pi(0) + p\pi(1)
+    \end{align*}
+    We can find the solution:
+    \begin{equation*}
+        \pi(i) = \left(\frac{p}{q}\right)^i \pi(0)
+    \end{equation*}
+    Then this can be normalised:
+    \begin{equation*}
+        \pi(i) = \left(1 - \frac{p}{q}\right)\left(\frac{p}{q}\right)^i
+    \end{equation*}
+    And therefore we must have that $\chain{X}$ is positive recurrent because it has an invariant distribution.
+\end{example}
+\section{Reversibility}
+\begin{proposition}
+    Suppose that $\chain{X}$ is an irreducible Markov Chain with transition matrix $P$. Further, suppose that it has an invariant distribution $\pi$. Let $N \in \N$ and suppose that $\chain{X}$ is \underline{stationary}: $X_0 \sim \pi$.
+
+    Then $\chain{Y} = (Y_n)_{0 \leq n \leq N}$ defined as $Y_n = X_{N - n}$ is a Markov chain with transition matrix:
+    \begin{equation}
+        \hat{P}(x, y) = P(Y, x) \frac{\pi(y)}{\pi(x)}
+        \label{eqnReverseTransitionMat}
+    \end{equation}
+    Moreover, $\hat{P}$ is also irreducible and $\pi$ is invariant for $\hat{P}$.
+    \label{propReverseChain}
+\end{proposition}
+\begin{proof}
+    \begin{subproof}{$\hat{P}$ is a transition matrix.}
+        We must check that its row sum to 1:
+        \begin{align*}
+            \sum_{y \in I} \hat{P}(x, y) &= \frac{1}{\pi(x)} \sum_{y \in I} \pi(y) P(y, x) \\
+            &= 1 \text{ because $\pi$ is invariant.}
+        \end{align*}
+    \end{subproof}
+    \begin{subproof}{$Y$ is a Markov chain with transition matrix $\hat{P}$.}
+        \begin{align*}
+            &\P(Y_0 = y_0, Y_1 = y_1, \cdots, Y_N = y_n) = \\
+            &= \P(X_0 = Y_n, X_1 = Y_{N-1}, \cdots, X_n = y_0) \\
+            &= \pi(Y_n) P(y_N, y_{N-1}) \cdots P(y_1, y_0) \\
+            &= \pi(y_0) \hat{P}(y_0, y_1) \cdots P(Y_{n-1}, Y_N) \text{ by equation~\ref{eqnReverseTransitionMat}}
+        \end{align*}
+    \end{subproof}
+    The irreducibility of $\hat{P}$ follows from teh fact that:
+    \begin{equation*}
+        P(x, y) > 0 \iff \hat{P}(y, x) > 0
+    \end{equation*}
+    \begin{subproof}{$\pi$ is an invariant measure for $\hat{P}$.}
+        \begin{align*}
+            &\sum_{x \in I} \pi(x) \hat{P}(x, y) = \\
+            &= \sum_{x \in I} \pi(x) \frac{\pi(y)}{\pi(x)} P(y, x) \\
+            &= \pi(y)
+        \end{align*}
+    \end{subproof}
+\end{proof}
+\begin{definition}{Time-reversibility}
+    A Markov chain $\chain{X}$ with invariant distribution $\pi$ and transition matrix $P$ is \underline{time-reversible} (or just \underline{reversible}) if $\hat{P} = P$.
+
+    This is equivalent to:
+    \begin{equation}
+        \pi(x) P(x, y) = \pi(y) P(y, x)~\forall x, y \in I
+        \label{eqnDetailedBalance}
+    \end{equation}
+\end{definition}
+Equation~\ref{eqnDetailedBalance} are called the \underline{detailed balance equations}. This is a far easier system of equations to solve than the general invariance equations.
+\begin{lemma}
+    If $\lambda$ satisfies the detailed balance equations for a transition matrix $P$, i.e.
+    \begin{equation*}
+        \lambda(x) P(x, y) = \lambda(y) P(y, x)~\forall x, y \in I,
+    \end{equation*}
+    then $\lambda$ is an invariant measure for $P$.
+    \label{eqnDBImpliesInvariant}
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        \sum_{x \in I} \lambda(x) P(x, y) &= \sum_{x \in I} \lambda(y) P(y, x) \\
+        &= \lambda(y)
+    \end{align*}
+\end{proof}
+\begin{example}[Asymmetric random walk on the circle $\Z_n$]
+    Consider the state space $\Z / n \Z$. Define:
+    \begin{align*}
+        P(i, i+1 \text{ mod } n) &= \frac23 \\
+        P(i, i-1 \text{ mod } n) &= \frac13
+    \end{align*}
+    We can verify an invariant distribution $\pi(n) = \frac1n$,
+    \begin{equation*}
+        \frac1n = \frac1n\frac23 + \frac1n \frac13
+    \end{equation*}
+    But the detailed balance equations are not satisfied:
+    \begin{equation*}
+        \frac1n \frac23 \neq \frac1n \frac13
+    \end{equation*}
+\end{example}
+\begin{example}[Asymmetric random walk on the line $\Z_n$]
+    Consider a random walk with transition probabilities:
+    \begin{align*}
+        &P(0, 1) = \frac23,\quad P(0, 0) = \frac13 \\
+        &P(n-1, n-1) = \frac23,\quad P(n-1, n-2) = \frac13 \\
+        &P(i, i+1) = \frac23,\quad P(i, i-1) = \frac13 \text{ otherwise}
+    \end{align*}
+    Consider the detailed balance equations:
+    \begin{equation*}
+        \frac23\lambda(i) = \frac13 \lambda(i-2)
+    \end{equation*}
+    Then we can find a solution $\lambda(i) = 2^i$, which can be normalised.
+
+    This tells us that the chain is reversible as we can find an invariant distribution.
+
+    The intuition behind the reversibility of this chain is that most of the time we are on the right, so we are forced to move left when we are at the right endpoint. This compensates for the fact that we have a higher probability of moving to the right in general.
+\end{example}
+\begin{example}
+    Suppose $G = (E, V)$ is a finite, connected, undirected graph such that the degree of each vertex is $d(x)$. Consider a symmetric random walk on $G$ with transition probabilities:
+    \begin{equation*}
+        P(x, y) =
+        \begin{cases}
+            \frac1{d(x)} & (x, y) \in E \\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    Then $\pi(x) = \frac{d(x)}{2|E|}$ is an invariant measure that satisfies the detailed balance equations.
+    \begin{align*}
+        \pi(x) P(x, y) &= \frac{d(x)}{2|E|} \frac{1}{d(x)} \\
+        &= \frac{1}{2|E|} \\
+        &= \frac{d(y)}{2|E|} \frac{1}{d(y)} = \pi(y) P(y, x)
+    \end{align*}
+\end{example}
 \end{document}
