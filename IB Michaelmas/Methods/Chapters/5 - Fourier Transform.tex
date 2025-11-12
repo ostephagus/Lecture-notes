@@ -1,0 +1,167 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definitions and Simple Properties}
+We can understand the Fourier Transform as the limit $L \to \infty$ of the Fourier Series that we discussed in Chapter 1. Indeed, in the book ``Methods of Modern Mathematical Physics: Functional Analysis Volume I'', Michael Reed and Barry Simon, 1980 (Academic Press), all the following properties are derived this way.
+
+\begin{definition}{Fourier Transform}
+    For $f : \R \mapsto \C$, define its \underline{Fourier transform} (FT) by:
+    \begin{equation}
+        \hat{f}(\lambda) = \int_{-\infty}^{\infty} e^{-i\lambda x} f(x) dx
+        \label{eqnFT}
+    \end{equation}
+    for $\lambda \in \R$.
+\end{definition}
+We will use $\FT$ to denote the linear map that sends $f$ to $\hat{f}$, $\FT(f) = \hat{f}$.
+By the Riemann-Lebesgue lemma,
+\begin{equation*}
+    \int_{-\infty}^{\infty} e^{-i\lambda x} g(x) dx \to 0 \text{ as } |\lambda| \to \infty
+\end{equation*}
+we have that $\hat{f}(\lambda) \to 0$ as $|\lambda| \to \infty$.
+\begin{propositions}{
+        Let $f : \R \mapsto \C$ be any function. Denote the input to $f$ by $x$, and the input to $\FT(f)$ by $\lambda$.
+        \label{propsFTProps}
+    }
+    \item Differentiation is given by:
+        \begin{equation*}
+            \FT\left[\left(\frac{d^{k}}{dx^{k}}\right)f(x)\right] = (i\lambda)^k \hat{f}(\lambda)
+        \end{equation*}
+        \label{propFTDiff}
+    \item Multiplication is given by:
+        \begin{equation*}
+            \FT\left[x^k f(x)\right] = \left(i \frac{d}{d\lambda}\right)^k \hat{f}(\lambda)
+        \end{equation*}
+        \label{propFTMult}
+    \item Translation is given by:
+        \begin{equation*}
+            \FT[f(x-k)] = e^{-i\lambda k} \hat{f}(\lambda)
+        \end{equation*}
+        \label{propFTTrans}
+    \item Phase shift is given by:
+        \begin{equation*}
+            \FT\left[e^{-ikx}f(x)\right] = \hat{f}(x - k)
+        \end{equation*}
+        \label{propFTPhase}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item \begin{align*}
+            \int_{-\infty}^{\infty} f^{(k)}(x) e^{-i \lambda x} dx &= \begin{split}
+                \int_{-\infty}^{\infty} f(x) &\left(-\frac{d}{dx}\right)^k e^{-i \lambda x} dx\\
+                &\text{ by integration by parts}
+            \end{split}\\
+            &= (i\lambda)^k \hat{f}(\lambda)
+        \end{align*}
+        \item \begin{align*}
+            &\left(i \frac{d}{d\lambda}\right)^k \int_{-\infty}^{\infty} e^{-i\lambda x}f(x) dx \\
+            &= \int_{-\infty}^{\infty} e^{-i \lambda x} x^k f(x) dx \\
+            &= \FT[x^k f(x)]            
+        \end{align*}
+        \item \begin{align*}
+            \FT[f(x - a)] &= \int_{-\infty}^{\infty} e^{-i \lambda x}f(x - k) dx \\
+            \intertext{Change variables $x \mapsto x + k$:}
+            &= \int_{-\infty}^{\infty} e^{-i \lambda (x + k)} f(x) dx \\
+            &= e^{-i \lambda k} \int_{-\infty}^{\infty} e^{-i \lambda x} f(x) dx \\
+            &= e^{-i \lambda k} \hat{f}(\lambda)            
+        \end{align*}
+        \item The phase shift example is very similar to the previous, but the logic works in reverse.
+    \end{enumerate}
+\end{proof}
+Proposition~\ref{propFTDiff} is extremely important in solving differential equations. For example, consider:
+\begin{equation*}
+    P\left(\frac{d}{dx}\right)y = F(x), P\text{ is a polynomial}
+\end{equation*}
+Then taking Fourier transforms of both sides:
+\begin{align*}
+    P(i\lambda) \hat{y}(\lambda) &= \hat{F}(\lambda) \\
+    \hat{y}(\lambda) &= \frac{\hat{F}(\lambda)}{P(i\lambda)}
+\end{align*}
+This is fairly easy to do once the Fourier Transform has been computed, since we just evaluate a polynomial. However, to be able to use this technique we need to be able to reconstruct $y$ from $\hat{y}$.
+\begin{theorem}[Fourier Inversion Theorem]
+    Given a function $\hat{f}$, the function $f$ that satisfies $\FT(f) = \hat{f}$ is given by:
+    \begin{equation}
+        \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda x} \hat{f}(\lambda) d\lambda
+        \label{eqnInverseFT}
+    \end{equation}
+    \label{thmInverseFT}
+\end{theorem}
+\begin{proof}
+    \begin{equation*}
+        \lim_{n \to \infty} \frac{1}{2\pi} \int_{-n}^{n} e^{i \lambda x} \hat{f}(\lambda) d\lambda = \lim_{n \to\infty}\frac{1}{2\pi} \int_{-n}^{n} \left[\int_{-\infty}^{\infty} e^{-i \lambda y} f(y) dy \right] d\lambda
+    \end{equation*}
+    Exchange the order of integration:
+    \begin{align*}
+        &= \lim_{n \to \infty} \int_{-\infty}^{\infty} f(y) \left[\frac{1}{2\pi} \int_{-n}^{n} e^{i \lambda(x - y)} d\lambda \right] dy \\
+        &= \lim_{n \to \infty} \int_{-\infty}^{\infty} f(y) \frac{\sin\left[n(x-y)\right]}{\pi(x - y)} dy \\
+        \intertext{Change variables $y \mapsto x + y$:}
+        &= \lim_{n \to \infty} \int_{-\infty}^{\infty} f(x + y) \frac{\sin(ny)}{\pi y} dy
+    \end{align*}
+    Now recall a result on the first example sheet if IA Differential Equations:
+    \begin{equation*}
+        \forall n > 0, \int_{-\infty}^{\infty} \frac{\sin(ny)}{\pi y} dy = 1
+    \end{equation*}
+    Therefore,
+    \begin{align*}
+        \frac{1}{2\pi} &\lim_{n \to \infty} \int_{-n}^{n} \hat{f}(\lambda) d\lambda  - f(x) \\
+        &= \lim_{n \to \infty} \int_{-n}^{n} \sin(ny) \left[\frac{f(x + y) - f(x)}{\pi y}\right] dy \\
+        %TODO: check lecture notes.
+        &\text{this will be finished later.}
+    \end{align*}
+\end{proof}
+Note that from this we get (removing the limits):
+\begin{equation*}
+    f(x) = \int_{-\infty}^{\infty} f(y) \left[\frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda (x - y)} d\lambda \right] dy
+\end{equation*}
+And we can conclude:
+\begin{equation*}
+    \delta(x - y) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i\lambda(x - y)} d\lambda
+\end{equation*}
+\begin{proposition}[Parseval's theorem for Fourier transforms]
+    For $f, g : \R \mapsto \C$,
+    \begin{align*}
+        \int_{-\infty}^{\infty} f(x)\overline{g(x)} dx &= \frac{1}{2\pi} \int_{-\infty}^{\infty} \hat{f}(\lambda) \overline{\hat{g}(\lambda)} d\lambda \\
+        \intertext{hence}
+        \int_{-\infty}^{\infty} |f(x)|^2 dx &= \frac{1}{2\pi} \int_{-\infty}^{\infty} |f(\lambda)|^2 d\lambda 
+    \end{align*}
+    \label{thmParsevalFT}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \frac{1}{2\pi}& \int_{-\infty}^{\infty} \left[\int_{-\infty}^{\infty} e^{-i \lambda y}f(y) dy \right] \left[\int_{-\infty}^{\infty} e^{-i \lambda x}g(x) dx \right] d\lambda \\
+        &= \int_{\R^2} f(y) \overline{g(x)} \left[\frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda(x - y)} d\lambda \right] dx~dy \\
+        &= \int_{\R^2} f(y) \overline{g(x)} \delta(x - y) dx~dy \\
+        &= \int_{-\infty}^{\infty} f(x) \overline{g(x)} dx 
+    \end{align*}
+\end{proof}
+\begin{definition}{Convolution}
+    For $f, g : \R \mapsto \C$, define the \underline{convolution} $f \star g : \R \mapsto \C$ by:
+    \begin{equation*}
+        (f \star g)(x) = \int_{-\infty}^{\infty} f(x - y)g(y) dy
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    Note that convolutions are commutative ($f \star g = g \star f$)
+\end{remark}
+\begin{proposition}
+    \begin{equation*}
+        \FT\left[(f \star g)(x)\right] = \hat{f}(\lambda) \hat{g}(\lambda)
+    \end{equation*}
+    \label{propFTConvol}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \text{LHS}&= \int_{-\infty}^{\infty} e^{-i \lambda x} \left[\int_{-\infty}^{\infty} f(x - y) g(y) dy \right] dx  \\
+        &= \int_{\R^2} e^{-i \lambda x} f(x - y) g(y) dx~dy
+    \end{align*}
+    then consider a change of variables:
+    \begin{equation*}
+        \begin{pmatrix} X \\ Y\end{pmatrix} = \begin{pmatrix} x - y \\ y\end{pmatrix} = \begin{pmatrix} 1 & -1 \\ 0 & 1\end{pmatrix} \begin{pmatrix}x \\ y\end{pmatrix}
+    \end{equation*}
+    Therefore the Jacobian is $\det{J} = 1$,
+    \begin{align*}
+        \text{LHS} &= \int_{\R^2} e^{-i \lambda(X + Y)} f(X) g(Y) dX~dY \\
+        &= \left[\int_{-\infty}^{\infty} e^{-i \lambda X}f(X) dX \right]\left[\int_{-\infty}^{\infty} e^{-i \lambda Y} g(Y) dY \right] \\
+        &= \hat{f}(\lambda) \hat{g}(\lambda).
+    \end{align*}
+\end{proof}
+\end{document}

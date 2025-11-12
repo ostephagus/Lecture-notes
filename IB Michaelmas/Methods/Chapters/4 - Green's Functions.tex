@@ -403,4 +403,65 @@ Then $G_n \in V$ for each $n \in \N$. That means we can take an eigenfunction ex
         &= \sum_{k=1}^{\infty} Y_k(\xi) Y_k(x)
     \end{align*}
 \end{example}
+\section{Initial-Value Problems}
+\begin{equation}
+    \begin{cases}
+        Ly = f(t) & t > 0 \\
+        y(0) = \dot{y}(0) = 0 &
+    \end{cases}
+    \label{eqnInhomogIVP}
+\end{equation}
+where $L = \alpha(t) \frac{d^2}{dx^2} + \beta(t) \frac{d}{dx} + \gamma(t)$ for $\alpha(t) \neq 0$.
+
+For each $\tau \in (0, \infty)$, suppose we can find $G = G(t;\tau)$ such that:
+\begin{align*}
+    L[G(t;\tau)] &= \delta(t - \tau),~~t > 0 \\
+    G(0, \tau) &= \dot{G}(t;\tau) = 0
+\end{align*}
+Then we have the function:
+\begin{equation*}
+    y(t) = \int_{0}^{\infty} G(t;\tau) f(\tau) d\tau 
+\end{equation*}
+and this satisfies equation~\ref{eqnInhomogIVP}.
+\begin{proposition}
+    Green's function for equation~\ref{eqnInhomogIVP} is characterised by:
+    \begin{enumerate}
+        \item $G(t;\tau) = 0$ on $t < \tau$,
+        \item $L[G(t, \tau)] = 0$ on $t > \tau$ with $G(\tau^+;\tau) = 0$ and $\dot{G}(\tau^+;\tau) = \frac{1}{\alpha(t)}$.
+    \end{enumerate}
+    \label{propGreensFuncIVP}
+\end{proposition}
+\begin{proof}
+    The first condition guarantees that $L[G(t;\tau)] = 0$ for $t < \tau$ and $G(0, \tau) = \dot{G}(0, \tau) = 0$.
+
+    The second condition guarantees that $L[G(t;\tau)] = \delta(t - \tau)$ since $G(\tau^+;\tau) = G(\tau^-, \tau) = 0$ and the jump in derivative is:
+    \begin{equation*}
+        \dot{G}(\tau^+;\tau) - \dot{G}(\tau^-;\tau) = \frac{1}{\alpha(t)} - 0
+    \end{equation*}
+    as required.
+\end{proof}
+Note that since $G(t;\tau)$ = 0 on $t < \tau$, we have the following:
+\begin{equation*}
+    y(t) = \int_{0}^{\infty} G(t;\tau)f(\tau) d\tau = \int_{0}^{t} G(t;\tau)f(\tau) d\tau
+\end{equation*}
+That is, causality is intact (the solution at time $t$ depends only on the forcing term for times less than $t$).
+\begin{example}
+    Take $L = \frac{d^{2}}{dx^{2}}$. Then we have that $G(t;\tau) = 0$ when $t < \tau$. To find $G$ for $t > \tau$ we solve the differential equation:
+    \begin{equation*}
+        \ddot{G}(t;\tau) = 0 = G(\tau^+,t) = 0,~\dot{G}(\tau^+;\tau) = 1
+    \end{equation*}
+    We will use a similar trick as earlier by making $G$ a function of $t - \tau$:
+    \begin{equation*}
+        G(t;\tau) = A(\tau) (t - \tau) + B(\tau)
+    \end{equation*}
+    Then we see that $B = 0$, and $A = 1$ by the boundary conditions at $t \to \tau^+$. Then the solution for $y$ is:
+    \begin{equation*}
+        y(t) = \int_{0}^{t} (t - \tau)f(\tau) d\tau
+    \end{equation*}
+    We note that this is consistent with Taylor's Theorem:
+    \begin{alignat*}{3}
+        y(t) &= y(0) &&+ ty'(0) &&+ \int_{0}^{t} (t - \tau)y''(\tau) d\tau \\
+        &= 0 &&+ 0 &&+ \int_{0}^{t} (t - \tau)f(\tau) d\tau
+    \end{alignat*}
+\end{example}
 \end{document}
