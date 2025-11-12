@@ -232,6 +232,7 @@ Figure~\ref{figDLMDiagram} shows the relationship between $\alpha$ and its appli
     }
     \item $\alpha^*$ is linear. \label{propDLMLinear}
     \item $(\alpha + \lambda \beta)^* = \alpha^* + \lambda\beta^*$ \label{propDLMLinearOp}
+    \item $(\alpha \circ \gamma)^* = \gamma^* \circ \alpha^*$. \label{propDLMSwapsCompose}
     \item $(\Id_V)^* = \Id_{V^*}$ \label{propDLMId}
     \item If $\beta$ is an isomorphism then so is $\beta^*$ with inverse:
         \begin{equation*}
@@ -297,7 +298,7 @@ Figure~\ref{figDLMDiagram} shows the relationship between $\alpha$ and its appli
     Let $n = \dim(V), m = \dim(W)$. Let $B = \{b_1, \cdots, b_n\}$ and $C = \{c_1, \cdots, c_m\}$. Define:
     \begin{align*}
         A &= [\alpha]_C^B,~~\alpha(b_i) = \sum_{k=1}^{m} a_{ki} c_k \\
-        A' &= [\alpha^*]_{B^*}^{C^*},~~\alpha(c_j^*) = \sum_{l=1}^{n}a_{lj}' b_l^*
+        A' &= [\alpha^*]_{B^*}^{C^*},~~\alpha^*(c_j^*) = \sum_{l=1}^{n}a_{lj}' b_l^*
     \end{align*}
     Then we find:
     \begin{align*}

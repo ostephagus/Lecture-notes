@@ -40,7 +40,7 @@ For $\lambda \in \F$ we can \underline{evaluate} $f$ at $\lambda$ by:
         f = qg + r
     \end{equation*}
     where $\deg(r) < \deg(q)$.
-    \label{propEuclidAlgPolynom}
+    \label{propEuclidAlgPoly}
 \end{proposition}
 \begin{proof}
     The proof is very similar to the integer case.
@@ -276,7 +276,7 @@ We make concrete the remark we made earlier:
     }{$n = k$}{
         Assume any matrix in $M_{k \times k}(\C)$ is triangularisable.
     }{$n = k + 1$}{
-        Given the eigenvalue $\lambda$ there must exist a non-zero vector $v_1 \in V$ such that $\alpha(v) \lambda v$. Then extend to a basis $B = \{v_1, \cdots, v_n\}$ of $V$. Under this basis, $\alpha$ is given by the block matrix:
+        Given the eigenvalue $\lambda$ there must exist a non-zero vector $v_1 \in V$ such that $\alpha(v) = \lambda v_1$. Then extend to a basis $B = \{v_1, \cdots, v_n\}$ of $V$. Under this basis, $\alpha$ is given by the block matrix:
         \begin{equation*}
             [\alpha]_B^B = A =
             \begin{pmatrix}
@@ -302,4 +302,231 @@ We make concrete the remark we made earlier:
     Every linear map in a finite-dimensional vector space over $\C$ is triangularisable.
     \label{corComplexLMTriangular}
 \end{corollary}
+\section{Annihilator Polynomials}
+We define notation for applying a polynomial to a linear map. Let $p(t)$ be a polynomial,
+\begin{equation*}
+    p(t) = \sum_{i=0}^{n}\mu_i t^i
+\end{equation*}
+then we can apply this to a linear map $\alpha$, $p(\alpha)$, to get the linear map:
+\begin{equation*}
+    p(\alpha) = \sum_{i=0}^{n} \mu_i \alpha^i
+\end{equation*}
+We define a similar notion for a square matrix $A$, where we say $A^0 = I$.
+\begin{remark}
+    If $B$ is a basis for $V$ then $[p(\alpha)]_B^B = p([\alpha]_B^B)$.
+\end{remark}
+\begin{definition}{Annihilator polynomial}
+    For $V$ a finite-dimensional vector space over $\F$ and $\alpha \in \L(V, V)$, $p \in \F[t]$ is an \underline{annihilator polynomial} if $p(\alpha)$ gives the zero map.
+\end{definition}
+The set of all such polynomials in $\F[t]$ is called the \underline{annihilator ideal} or just \underline{annihilator} of $\alpha$ and is denoted $I_\alpha$. For more about ideals, see the course IB Groups, Rings and Modules.
+
+This section is now devoted to understanding some important members of this set.
+\begin{example}[Examples of annihilator polynomials]
+    Clearly the zero polynomial is inside $I_\alpha$.
+
+    We can find a non-zero example by noting that $\dim(\L(V, V)) = n^2$, so the set $\{\Id_V, \alpha, \alpha^2, \cdots, \alpha^{n^2}\}$ is linearly dependent. Therefore, there exist coefficients $\mu_i$ not all zero such that:
+    \begin{equation*}
+        0 = \sum_{i=0}^{n^2} \mu_i \alpha^i = p(\alpha)
+    \end{equation*}
+    This is therefore another annihilator polynomial.
+\end{example}
+\begin{warning}
+    This is not a standard definition. The idea of an annihilator used in this context is one from Ring Theory (see the course IB Groups, Rings and Modules), not the concept used in this course (although they are connected). This is my own definition to be able to talk about the set of these polynomials more succinctly.
+\end{warning}
+\begin{definition}{Minimal polynomial}
+    The \underline{minimal polynomial} $m_\alpha$ of a linear map $\alpha \in \L(V, V)$ for a finite-dimensional vector space $V$ is the monic polynomial $p \in \F[t]$ with least degree that satisfies:
+    \begin{equation*}
+        p(\alpha) = 0
+    \end{equation*}
+\end{definition}
+Then we want to show nice properties about this such as uniqueness, and we want to understand its roots.
+\begin{lemma}
+    For any $f \in I_\alpha$, $m_\alpha~\vline~f$.
+    \label{lemMinPolyDivides}
+\end{lemma}
+\begin{proof}
+    By proposition~\ref{propEuclidAlgPoly}, there exist $r, q \in \F[t]$ such that $\deg(r) < \deg(m_\alpha)$ and $f = q m_\alpha + r$. Then rearrange:
+    \begin{equation*}
+        r(\alpha) = f(\alpha) - q(\alpha) m_\alpha(\alpha) = 0
+    \end{equation*}
+    Therefore $r \in I_\alpha$ but by minimality of $\deg(m_\alpha)$, $r = 0$.
+\end{proof}
+\begin{theorem}
+    The minimal polynomial, $m_\alpha$, is unique.
+    \label{thmMinimalPolynomialUnique}
+\end{theorem}
+\begin{proof}
+    Let $\overline{m_\alpha}$ be another non-zero element of minimal degree in $I_\alpha$, and let it be monic (by perhaps dividing by the leading coefficient). By lemma~\ref{lemMinPolyDivides} we have that $m_\alpha~\vline~\overline{m_\alpha}$, but since they have the same degree we must have that one is a multiple of the other. Because both are monic, in fact they must be equal.
+\end{proof}
+\begin{remark}
+    Because $m_\alpha$ and $\overline{m_\alpha}$ were monic, this theorem tells us that $m_\alpha$ is unique in $I_\alpha$ up to multiplication by a constant.
+\end{remark}
+\begin{theorem}[Cayley-Hamilton Theorem]
+    Let $V$ be a finite-dimensional vector space and let $\alpha \in \L(V, V)$. Let $\chi_\alpha$ be the characteristic polynomial for $\alpha$.
+    \begin{equation*}
+        \chi_\alpha(\alpha) = 0
+    \end{equation*}
+    \label{thmCayleyHamilton}
+\end{theorem}
+\begin{remark}
+    Equivalently, $\chi_\alpha \in I_\alpha$.
+\end{remark}
+\begin{proof}[for $\F = \C$]
+    By theorem~\ref{thmComplexTriangular}, there exists a basis $B = \{v_1, \cdots, v_n\}$ for $V$ such that:
+    \begin{equation*}
+        [\alpha]_B^B =
+        \begin{pmatrix}
+            \lambda_1 &  & \star \\
+             & \ddots &  \\
+            0 &  & \lambda_n
+        \end{pmatrix}
+    \end{equation*}
+    Then the characteristic polynomial is a product of linear factors $\chi_\alpha(t) = \prod_{i=1}^{n} (t - \lambda_i)$.
+
+    Define $U_j = \spn{v_1, \cdots, v_j}$ so that $U_0 = \{\zv\}$ and $U_n = V$. Then for $1 \leq j \leq n$,
+    \begin{equation*}
+        (\alpha - \lambda_j \Id_V)(U_j) \leq U_{j-1}
+    \end{equation*}
+    because $(\alpha - \lambda_j \Id_V)(v_j) = \zv$.
+
+    Therefore:
+    \begin{align*}
+        \chi_\alpha(\alpha) (V)&= (\alpha - \lambda_1 \Id_V) \circ \cdots \circ (\alpha - \lambda_n \Id_V)U_n \\
+        &= U_0 = \{\zv\} \text{ by telescoping product.}
+    \end{align*}
+    Therefore, $\chi_\alpha(\alpha)$ must be the zero map, as required.
+\end{proof}
+\begin{remark}
+    The only time we needed $\C$ was for triangularisability, so we have in fact proved that every triangularisable linear map satisfies its own characteristic polynomial.
+\end{remark}
+\begin{corollary}
+    For $V$ finite-dimensional, $\alpha \in \L(V, V)$, $m_\alpha~\vline~\chi_\alpha$.
+    \label{corMinPolyDividesCharPoly}
+\end{corollary}
+\begin{proof}
+    This is a direct consequence of lemma~\ref{lemMinPolyDivides}, because we now have $\chi_\alpha \in I_\alpha$ by theorem~\ref{thmCayleyHamilton}.
+\end{proof}
+\begin{definition}{Algebraic multiplicity}
+    Let $V$ be a finite-dimensional vector space over $\F$ and let $\alpha \in \L(V, V)$. The  \underline{algebraic multiplicity} of an eigenvalue $\lambda \in \F$, $a_\lambda$, is the multiplicity of $\lambda$ as a root of $\chi_\alpha(t)$. That is, the largest power of $(t - \lambda)$ that divides $\chi_\alpha$.
+\end{definition}
+\begin{definition}{Geometric multiplicity}
+    Let $V$ be a finite-dimensional vector space over $\F$ and let $\alpha \in \L(V, V)$. The \underline{geometric multiplicity} of $\lambda$, $g_{\lambda}$, is the dimension of its eigenspace.
+\end{definition}
+\begin{proposition}[The other AM-GM inequality]
+    For $V$ a finite-dimensional vector space over $\F$, $\alpha \in \L(V, V)$ and $\lambda \in \F$ an eigenvalue of $\alpha$,
+    \begin{equation}
+        g_\lambda \leq a_\lambda.
+        \label{eqnAMGM}
+    \end{equation}
+    \label{propAMGM}
+\end{proposition}
+\begin{proof}
+    let $\{v_1, \cdots, v_k\}$ be a basis for $V_\lambda$. Extend to a basis $B = \{v_1, \cdots, v_n\}$ of $V$. Then:
+    \begin{equation*}
+        [\alpha]_B^B =
+        \begin{pmatrix}
+            \lambda I_k & \star \\
+            0 & C
+        \end{pmatrix},~~C \in M_{(n-k) \times (n-k)}(\F).
+    \end{equation*}
+    Then we have that $\chi_\alpha(t) = (t - \lambda)^k \chi_C(t)$ where $\chi_C(t)$ may contain another factor of $(t - \lambda)^k$ so we have that $a_\lambda \geq k = g_\lambda$.
+\end{proof}
+\begin{propositions}{
+        Let $V$ be a finite-dimensional vector space over $\F$ and let $\alpha \in \L(V, V)$. Let the eigenvalues of $\alpha$ be $\lambda_1, \cdots, \lambda_k \in \F$.
+        \label{propsAMGMIneqs}
+    }
+    \item $\sum_{i=1}^{k} g_{\lambda_i} \leq \dim(V)$ with equality if and only if $\alpha$ is diagonalisable. \label{propCompleteIffDiag}
+    \item $\sum_{i = 1}^k a_{\lambda_i} \leq \dim(V)$ with equality if and only if $\alpha$ is triangularisable.
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item We have this result by applying propositions~\ref{propsEigenspaces}.
+        \item We write:
+            \begin{equation*}
+                \chi_\alpha(t) = f(t) \prod_{i=1}^{k}(t - \lambda_i)^{a_{\lambda_i}}.
+            \end{equation*}
+            Now note that if $f(t)$ has a linear factor, then this is an eigenvalue of $\alpha$ which is not already counted which is a contradiction, so it must not have any linear factors. Moreover,
+            \begin{align*}
+                \dim(V) &= \deg(\chi_\alpha) \\
+                &= \deg(f) + \sum_{i=1}^{k} a_{\lambda_i} \\
+                &\leq \sum_{i=1}^{k} a_{\lambda_i}
+            \end{align*}
+            With equality if and only if in fact $f$ is constant, in which case $\chi_\alpha$ is a product of linear factors. By proposition~\ref{propTriangularFactorise} this is equivalent to triangularisability.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $V$ be a finite-dimensional vector field over $\C$. A linear map $\alpha \in \L(V, V)$ is diagonalisable if and only if $a_\lambda = g_\lambda$ for every eigenvalue $\lambda$ of $\alpha$.
+    \label{propDiagIfNotDegenerate}
+\end{proposition}
+\begin{proof}
+    By theorem~\ref{thmComplexTriangular}, $\alpha$ is triangularisable and so $\chi_\alpha$ is a product of factors. By proposition~\ref{propAMGM},
+    \begin{equation*}
+        \sum_{i=1}^{k}g_{\lambda_i} \leq \sum_{i=1}^{k} a_{\lambda_i} = \dim(V)
+    \end{equation*}
+    So the only way we can get equality (note that diagonalisability is equivalent to the sum of geometric multiplicities being $\dim(V)$) is if in fact $\alpha_\lambda = g_\lambda$ for all eigenvalues $\lambda$.
+\end{proof}
+\begin{remark}
+    For $p(t) = \sum_{i=1}^{n}\mu_i t^i$, $v \in V_\lambda$,
+    \begin{equation*}
+        (p(\alpha))(v) = \sum_{i=1}^n \mu_i \alpha^i(v) = \sum_{i=1}^{n} \mu_i \lambda^i v = p(\lambda) v
+    \end{equation*}
+\end{remark}
+\begin{lemma}
+    For $\lambda \in \F$,
+    \begin{equation*}
+        \lambda \text{ is a root of } m_\alpha \iff \lambda \text{ is a root of } \chi_\alpha
+    \end{equation*}
+    \label{lemMinPolyCharPolySameRoots}
+\end{lemma}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Let $\lambda$ be a root of $m_\alpha$}
+        We have that $(t - \lambda)$ divides $\chi_\alpha$. By corollary~\ref{corMinPolyDividesCharPoly}, we must also have that $(t - \lambda)$ divides $\chi_\alpha$, or equivalently that $\lambda$ is a root of $\chi_\alpha$.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Let $\lambda$ be a root of $\chi_{\alpha}$}
+        We have that $\lambda$ is an eigenvalue so $\alpha(v) = \lambda v$ for a non-zero eigenvector $v$.
+        \begin{align*}
+            (m_\alpha(\alpha))(v)&= m_\alpha(\lambda) v \text{ by the above remark}
+        \end{align*}
+        But since $m_\alpha \in I_\alpha$, the LHS of this equation is zero. Since $v \neq \zv$, we must instead have that $m_{\alpha}(\lambda) = 0$.
+    \end{proofdirection}
+\end{proof}
+\begin{definition}{Minimal multiplicity}
+    For $V$ a finite-dimensional vector space over $\F$ and $\alpha \in \L(V, V)$, the \underline{minimal multiplicity} of an eigenvalue $\lambda$, $c_\lambda$, is the multiplicity of $\lambda$ as a root of the minimal polynomial.
+\end{definition}
+\begin{remark}
+    By theorem~\ref{thmCayleyHamilton}, $1 \leq c_\lambda \leq a_\lambda$.
+\end{remark}
+\begin{examples}{
+        
+    }
+    \item Let $A = \lambda I_n$. Then $\chi_A(t) = (t - \lambda)^n$, and $V_\lambda = \F^n$. However, the minimal polynomial is $m_\alpha(t) = t - \lambda$, so the multiplicities are $a_\lambda = n, g_\lambda = n, c_\lambda = 1$.
+    \item Let $A$ be the matrix:
+        \begin{equation*}
+            \begin{pmatrix}
+                \lambda & 1 & 0 & \cdots & 0 \\
+                0 & \lambda & 1 & \cdots & 0 \\
+                0 & 0 & \ddots & \ddots & \vdots \\
+                \vdots & \vdots & & \lambda & 1 \\
+                0 & 0 & \cdots & 0 & \lambda
+            \end{pmatrix}
+        \end{equation*}
+        Then $\chi_A(t) = (t - \lambda)^n$ because $A$ is upper-triangular, but if we consider the eigenspace of this eigenvalue we get only:
+        \begin{equation*}
+            V_\lambda = \spn{\begin{pmatrix} 1 \\ 0 \\ \vdots \\ 0\end{pmatrix}}
+        \end{equation*}
+        We know that the minimal polynomial must have the form $m_A(A) = (A - \lambda I)^k$ for some $1 \leq k \leq n$. In order to find $k$, consider:
+        \begin{equation*}
+            A - \lambda I =
+            \begin{pmatrix}
+                0 & 1 & 0 & \cdots & 0 \\
+                0 & 0 & 1 & & \vdots \\
+                \vdots & \vdots & & \ddots & 0 \\
+                0 & 0 & 0 & 0 & 1 \\
+                0 & 0 & 0 & 0 & 0
+            \end{pmatrix}
+        \end{equation*}
+        By multiplying this matrix out, we find that each power shifts the diagonal of 1s up each time, so the smallest $k$ for which this is zero is in fact $n$. That is, $m_A = \chi_A$.
+
+        This gives us that $a_\lambda = 1, g_\lambda = 1, c_\lambda = n$.
+\end{examples}
 \end{document}
