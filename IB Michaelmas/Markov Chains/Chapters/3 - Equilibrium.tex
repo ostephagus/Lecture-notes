@@ -277,7 +277,7 @@ and so, for normalisability, we require that this is finite.
         \pi(i) &= \sum_j \pi(j) P(i, j) \\
         &= \frac12 \pi(i-1) + \frac12 \pi(i + 1)
     \end{align*}
-    Then setting $\pi(i) = 1~\forall i \in \Z$ gives a solution. Since this chain is irreducible and recurrent, we have that by proposition~\ref{findtheref} all other invariant distributions are multiples of $\pi$.
+    Then setting $\pi(i) = 1~\forall i \in \Z$ gives a solution. Since this chain is irreducible and recurrent, we have that by theorem~\ref{thmInvMeasureUnique} all other invariant distributions are multiples of $\pi$.
 
     However, this cannot be normalised to an invariant distribution! Therefore we get that $\chain{X}$ has an invariant measure but no invariant distribution. This is because $\chain{X}$ is not positive-recurrent.
 \end{example}
@@ -432,4 +432,152 @@ Equation~\ref{eqnDetailedBalance} are called the \underline{detailed balance equ
         &= \frac{d(y)}{2|E|} \frac{1}{d(y)} = \pi(y) P(y, x)
     \end{align*}
 \end{example}
+\section{Fundamental Convergence Theorem}
+The goal of this section is to understand the conditions required for a Markov chain to converge to a limit distribution. We want to avoid the following problematic cases:
+\begin{itemize}
+    \item Irreducibility: if a Markov chain is reducible, we can therefore reduce it into irreducible components. Therefore, we can assume irreducibility without loss of generality.
+    \item Periodic phenomena: if a random walk has periodic phenomena, such as a state only being reachable at time that are a multiple of 2, we want to discount this case
+    \item No limit: We are going to require that the Markov chain has an invariant distribution to converge to.
+\end{itemize}
+\begin{definition}{Period}
+    The \underline{period} of a state $i \in I$ in a Markov chain $\chain{X}$ with transition matrix $P$ is:
+    \begin{equation*}
+        d_i = \operatorname{hcf}\subsetselect{n \geq 1}{p_{ii}(n) > 0}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Aperiodicity}
+    Consider a Markov chain $\chain{X}$ with transition matrix $P$. A state $i$ is \underline{aperiodic} if $d_i = 1$. The transition matrix $P$ is \underline{aperiodic} if all states are aperiodic.
+\end{definition}
+\begin{lemma}
+    Suppose that the set $A$ consisting of non-negative integers is such that $m, n \in A \implies m + n \in A$ (that is, $A$ is closed under addition). If $\operatorname{hcf}(A) = 1$ then there is a number $N$ such that all $n \geq N$ are contained within $A$.
+    \label{lemHCFSet}
+\end{lemma}
+\begin{remark}
+    We will not provide a proof of this statement. We also remark that the converse holds, if we have a subset of $\N$ closed under addition, then the $\operatorname{hcf}$ will be $1$ if there exists a number $N \in \N$ such that the subset contains all numbers after $N$.
+\end{remark}
+\begin{corollary}
+    A state $i \in I$ is aperiodic if and only if there exists an $N_i \in \N$ such that $p_{ii}(n) > 0$ for all $n \geq N_i$.
+    \label{corAperiodicEquiv}
+\end{corollary}
+\begin{lemma}
+    If $P$ is an irreducible transition matrix and a state $i$ is aperiodic, then $P$ is aperiodic (all states are aperiodic).
+    \label{lemOneAperiodicAllAperiodic}
+\end{lemma}
+\begin{proof}
+    Fix $j \in I$. By irreducibility there exists $m \in \N$ such that $p_{ij}(m) > 0$  and there exists $k$ such that $p_{ji}(k) > 0$. Then:
+    \begin{align*}
+        p_{ij}(k + n + m) &\geq p_{ji}(k) p_{ii}(n) p_{ij}(m) \\
+        &> 0 \text{ for $n \geq N_i$ from corollary~\ref{corAperiodicEquiv}.}        
+    \end{align*}
+\end{proof}
+\begin{theorem}[Fundamental Convergence Theorem of Markov Chains]
+    Suppose that $\chain{X}$ is a Markov chain with transition matrix $P$ and initial distribution $\lambda$. If $P$ is irreducible and aperiodic with invariant distribution $\pi$ then:
+    \begin{equation*}
+        \P(X_n = j) \to \pi(j) \text{ as $n \to \infty$ for all $j \in I$.}
+    \end{equation*}
+    In particular, taking $\lambda = \delta_i$ then we get:
+    \begin{equation*}
+        p_{ij}(n) \to \pi(j) \text{ as $n \to \infty$ for all $i, j \in I$.}
+    \end{equation*}
+    \label{thmFundamentalConvergence}
+\end{theorem}
+\begin{proof}
+    The proof proceeds by the \textit{coupling method}. We want to take the Markov chain $\chain{X}$, and also a new independent Markov chain $\chain{Y} \sim \operatorname{Markov}(\pi, P)$. Then we will show that after these two Markov chains reach the same state then they have the same distribution.
+
+    Define $\chain{W} = \left(W_n\right)_{n \geq 0}$ as $W_n = (X_n, Y_n)$. Then this is a Markov chain on $I \times I$ with transition matrix:
+    \begin{equation*}
+        \tilde{P}((x, y), (x', y')) = P(x, x')P(y, y')
+    \end{equation*}
+    Define also $\tilde{\pi}(x, y) = \pi(x) \pi(y)$.
+    \begin{subproof}{$\tilde{\pi}$ is invariant for $\tilde{P}$.}
+        Consider the invariance equations:
+        \begin{align*}
+            \sum_{(x, y) \in I \times I} &\tilde{\pi}(x, y) \tilde{P}((x, y), (x', y')) \\
+            &= \sum_{(x, y) \in I \times I} \pi(x) \pi(y) P(x, x') P(y, y') \\
+            &= \sum_{x \in I} \pi(x) P(x, x') \sum_{y \in I} \pi(y) P(y, y') \\
+            &= \pi(x') \pi(y') = \pi(x', y')
+        \end{align*}
+    \end{subproof}
+    \begin{subproof}{$\chain{W}$ is irreducible.}
+        Let $(x, y), (x' ,y')$ be states in $I \times I$. The probability to get between them in $n$ steps is:
+        \begin{align*}
+            \tilde{P}^n&((x, y), (x', y')) = p_{xx'}(n) p_{yy'}(n) \\
+            &\geq p_{xx'}(k) p_{x'x'}(n-k) p_{yy'}(l) p_{y'y'}(n-l)
+        \end{align*}
+        then by irreducibility of $\chain{X}$, we can choose $k, l$ such that $p_{xx'}(k), p_{yy'}(l) > 0$ and by aperiodicity if $n - k \geq N_{x'}$ and $n - l \geq N_{y'}$ then the other two terms are positive so:
+        \begin{equation*}
+            \tilde{P}^n((x, y), (x', y')) > 0 \text{ for $n$ large enough.}
+        \end{equation*}
+    \end{subproof}
+    Fix $a \in I$ and define:
+    \begin{equation*}
+        T = \inf\subsetselect{n \geq 1}{W_n = (a, a)}
+    \end{equation*}
+    This is the point from which the chains $\chain{X}$ and $\chain{Y}$ are coupled. Since we have an invariant distribution we know, by theorem~\ref{thmPosRecurEquivs}, that $\tilde{P}$ must be positive recurrent, and so the state $(a, a)$ is reached in finite time: $\P(T < \infty) = 1$.
+
+    Define $\chain{Z}$ to be the Markov chain that follows $\chain{X}$ initially, until $\chain{X}$ and $\chain{Y}$ meet, and then follows $\chain{Y}$:
+    \begin{equation*}
+        Z_n = \begin{cases}
+            X_n & n < T \\
+            Y_n & n \geq T
+        \end{cases}
+    \end{equation*}
+    \begin{subproof}{$Z \sim \operatorname{Markov}(\lambda, P)$}
+        Since $T \geq 1$, by definition $Z_0 = X_0 \sim \lambda$.
+        For the Markov property, define the event $B$:
+        \begin{equation*}
+            B = \{Z_0 = z_0, \cdots, Z_{n-1} = z_{n-1}\}
+        \end{equation*}
+        We consider transition probabilities for $Z$:
+        \begin{align*}
+            &\P(Z_{n+1} = y | Z_n = x, B) \\
+            &= \P(Z_{n+1} = y, T > n | Z_n = x, B)\\
+                &\qquad+ \P(Z_{n+1} = y, T \leq n | Z_n = x, B) \\
+            &= \P(Z_{n+1} = y | T > n, Z_n = x, B) \P(T > n | Z_n = x, B) \\
+                &\qquad+ \P(Z_{n+1} = y | T \leq n, Z_n = x, B) \P(T \leq n | Z_n = x, B) \\
+            \intertext{Define probabilities $C$ and $D$:}
+            &= C \times \P(T > n | Z_n = x, B) + D \times \P(T \leq n | Z_n = x, B)
+        \end{align*}
+        Using the Strong Markov property, we can find $C$.
+        \begin{align*}
+            C &= \P(Z_{n+1} = y | T > n, Z_n = x, B)\\
+            C &= \P(X_{n+1} = y | T > n, X_n = x, B) \text{ because $T \leq n+1$} \\
+            &= \sum_{z \in I} \P(X_{n+1} = y | T > n, X_n = x, Y_n = z, B) \\
+                &\qquad\times \P(Y_n = z | T > n, X_n = x, B)\\
+            \intertext{Then by the Strong Markov property for $W$,}
+            &= \sum_{z \in I} P(x, y) \P(Y_n = z | T > n, X_n = x, B)\\
+            &= \sum_{z \in I} P(x, y) \P(Y_n = z)\;\parbox{15em}{because none of the conditions apply to $Y_n$}\\
+            &= P(x, y)
+        \end{align*}
+        We can similarly find:
+        \begin{align*}
+            D &= \P(Z_n = y | T \leq n, Z_n = x, B)\\
+            &= P(x, y)
+        \end{align*}
+        by swapping $X_n$ and $Y_n$.
+
+        Then we return to $\P(Z_{n+1} = y | Z_n = x, B)$:
+        \begin{align*}
+            &=P(x, y) \P(T > n | Z_n = x, B) + P(x, y) \P(T \leq n | Z_n = x, B) \\
+            &= p(x, y)
+        \end{align*}
+        so indeed $\chain{Z} \sim \operatorname{Markov}(\lambda, P)$.
+    \end{subproof}
+    We can now tie this all together. Fix $y \in I$. Since $\chain{X}$ and $\chain{Z}$ have the same distribution, and $\chain{Y}$ is a stationary chain,
+    \begin{align*}
+        |\P(X_n = y) - \pi(y)| &= |\P(Z_n = y) - \pi(y)| \\
+        &= |\P(Z_n = y) - \P(Y_n = y)| \\
+        &= |\P(Z_n = y, T > n) + \P(Z_n = y, T \leq n)\\
+            &\qquad- \P(Y_n = y, T > n) - \P(Y_n = y, T \leq n)| \\
+        &= |\P(X_n = y, T > n) + \P(Y_n = y, T \leq n)\\
+            &\qquad- \P(Y_n = y, T > n) - \P(Y_n = y, T \leq n)| \\
+        &= |\P(X_n = y, T > n) - \P(Y_n = y, T > n)| \\
+        &\leq \max\{\P(X_n = y, T > n), \P(Y_n = y, T > n)\} \\
+        &\leq \P(T > n)
+    \end{align*}
+    Therefore, since $\P(T < \infty) = 1$, this final quantity tends to zero. We have therefore found:
+    \begin{equation*}
+        \P(X_n = y) \to \pi(y) \text{ as $n \to \infty$.}
+    \end{equation*}
+\end{proof}
 \end{document}
