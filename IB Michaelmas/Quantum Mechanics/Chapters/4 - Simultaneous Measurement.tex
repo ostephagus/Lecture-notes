@@ -74,4 +74,187 @@ Once a measurement has been performed, we have the projection postulate which de
         Then $\hat{B}$ maps the eigenspace $E_i$ of $\hat{A}$ with eigenvalue $a_i$ into itself. Therefore, the restricted map $B|_{E_i}$ is a Hermitian operator of $E_i$. Similarly, because the $E_i$ are complete and thus span $\hilb$, we can find a basis of joint eigenfunctions of $\hat{A}$ and $\hat{B}$.
     \end{proofdirection}
 \end{proof}
+\section{Uncertainty of Simultaneous Measurement}
+\begin{definition}{Uncertainty}
+    The \underline{uncertainty} in a measurement of an observable $O$ on a state $\psi$ is defined as:
+    \begin{equation*}
+        \Delta_\psi O = \sqrt{(\Delta_\psi O)}
+    \end{equation*}
+    where:
+    \begin{align*}
+        (\Delta_\psi O)^2 &= \E{(\op - \E{op}_\psi \hat{I})}_\psi \\
+        &= \E{\op^2}_\psi - \left(\E{\op}_\psi\right)^2
+    \end{align*}
+\end{definition}
+Note that the two definitions are equivalent:
+\begin{align*}
+    \E{(\hat{A} - \E{\hat{A}}_\psi \hat{I})^2}&= \inn{\psi}{(\hat{A} - \E{\hat{A}}_\psi \hat{I})^2\psi} \\
+    &= \inn{\psi}{\left(\hat{A}^2 - 2\E{\hat{A}}_\psi \hat{A} + \left(\E{\hat{A}}_\psi\right)^2\hat{I}\right)\psi} \\
+    &= \inn{\psi}{\hat{A}^2 \psi - 2\E{\hat{A}}_\psi \hat{A}\psi + \left(\E{\hat{A}}_\psi\right)^2\psi} \\
+    &= \inn{\psi}{\hat{A}^2 \psi} - 2\E{\hat{A}}_\psi \inn{\psi}{\hat{A}\psi} + \left(\E{\hat{A}}_\psi\right)^2\inn{\psi}{\psi} \\
+    &= \E{\hat{A}^2}_\psi - 2\left(\E{\hat{A}}_\psi\right)^2 + \left(\E{\hat{A}}_\psi\right)^2 \\
+    &= \E{\hat{A}^2}_\psi - \left(\E{\hat{A}}_\psi\right)^2
+\end{align*}
+\begin{lemma}
+    Let $\psi$ be a state in $\hilb$ and $A$ an observable. Then $(\Delta_{\psi} A)^2 \geq 0$ with equality if and only if $\psi$ is an eigenfunction of $\hat{A}$.
+    \label{lemUncProps}
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        (\Delta_\psi A)^2 &= \inn{\psi}{(\hat{A} - \E{\hat{A}}_\psi \hat{I})^2 \psi} \\
+        &= \inn{(\hat{A} - \E{\hat{A}}_\psi \hat{I})\psi}{(\hat{A} - \E{\hat{A}}_\psi \hat{I})\psi} \text{ because $A$ is Hermitian} \\
+        &= ||(\hat{A} - \E{\hat{A}}_\psi \hat{I})\psi||^2 \\
+        &= ||\phi||^2 \geq 0
+    \end{align*}
+    Then this new state $\phi$ as defined above has zero norm if and only if it is in fact zero.
+    For the second part, consider both directions:
+    \begin{proofdirection}{$\Rightarrow$}{Suppose that $\phi = 0$.}
+        Then $\psi$ obeys:
+        \begin{equation*}
+            \hat{A} \psi = \E{\hat{A}}_\psi \psi
+        \end{equation*}
+        so $\psi$ must be an eigenfunction.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that $\psi$ is an eigenfunction of $\hat{A}$, with eigenvalue $a$.}
+        Then $\E{\hat{A}}_\psi = \inn{\psi}{\hat{A}\psi} = a\inn{\psi}{\psi} = a$.
+
+        Similarly, $\E{\hat{A}^2}_\psi = \inn{\psi}{\hat{A}^2\psi} = a^2\inn{\psi}{\psi} = a^2$.
+
+        Then we have that $(\Delta_\psi A)^2 = \E{\hat{A}^2} - \left(\E{\hat{A}}\right)^2 = 0$.
+    \end{proofdirection}
+\end{proof}
+\begin{lemma}[Cauchy-Schwarz inequality]
+    For states $\psi, \phi \in \hilb$,
+    \begin{equation*}
+        |\inn{\psi}{\phi}|^2 \leq ||\psi||^2 ||\phi||^2
+    \end{equation*}
+    with equality only if $\phi = a\psi$ for $a \in \C, |a| = 1$. That is, they are equivalent states.
+    \label{lemStateCSIneq}
+\end{lemma}
+\begin{theorem}[Generalised Uncertainty Principle]
+    If $A$, $B$ are observables and $\psi \in \hilb$,
+    \begin{equation}
+        \left(\Delta_\psi A\right)\left(\Delta_\psi B\right) \geq \frac12 \left|\inn{\psi}{\cmmt{A}{B}\psi}\right|
+        \label{eqnUncertaintyPrinciple}
+    \end{equation}
+    \label{thmUncertaintyPrinciple}
+\end{theorem}
+\begin{proof}
+    First note that:
+    \begin{align*}
+        (\Delta_\psi A)^2 &= \inn{(\hat{A} - \E{\hat{A}}_\psi \hat{I})\psi}{(\hat{A} - \E{\hat{A}}_\psi \hat{I})\psi} \\
+        (\Delta_\psi B)^2 &= \inn{(\hat{B} - \E{\hat{B}}_\psi \hat{I})\psi}{(\hat{B} - \E{\hat{B}}_\psi \hat{I})\psi}
+    \end{align*}
+
+    Define also:
+    \begin{align*}
+        \hat{A}' &= \hat{A} - \E{\hat{A}}_\psi \hat{I} \\
+        \hat{B}' &= \hat{B} - \E{\hat{B}}_\psi \hat{I} \\
+        (\Delta_\psi A)^2 &= \inn{\hat{A}' \psi}{\hat{A}' \psi} \\
+        (\Delta_\psi B)^2 &= \inn{\hat{B}' \psi}{\hat{B}' \psi}
+    \end{align*}
+    By lemma~\ref{lemStateCSIneq},
+    \begin{equation}
+        \begin{split}
+            (\Delta_\psi A)^2 (\Delta_\psi B)^2 &\geq |\inn{\hat{A}'\psi}{\hat{B}'\psi}|^2 \\
+            &= |\inn{\psi}{\hat{A}'\hat{B}'\psi}
+            \label{eqnCSUncertainty}
+        \end{split}
+    \end{equation}
+    Define:
+    \begin{gather}
+        [\hat{A}', \hat{B}'] = \hat{A}' \hat{B}' - \hat{B}' \hat{A}' \label{eqnCommutator} \\
+        \{\hat{A}', \hat{B}'\} = \hat{A}' \hat{B}' + \hat{B}' \hat{A}' \label{eqnAntiCommutator}
+    \end{gather}
+    where here equation~\ref{eqnAntiCommutator} is the anti-commutator. Given that $\hat{A}'$ and $\hat{B}'$ are Hermitian:
+    \begin{equation}
+        \begin{split}
+            &[\hat{A}', \hat{B}']^\dagger = -[\hat{A}', \hat{B}'] \\
+            &\{\hat{A}', \hat{B}'\}^\dagger = \{\hat{A}', \hat{B}'\}
+        \end{split}
+        \label{eqnCommutatorHermitian}
+    \end{equation}
+    Now write:
+    \begin{equation}
+        \hat{A}' \hat{B}' = \frac12 \left([\hat{A}', \hat{B}'] + \{\hat{A}', \hat{B}'\}\right)
+        \label{eqnCommutatorSum}
+    \end{equation}
+    Note that, by equation~\ref{eqnCommutatorHermitian},
+    \begin{align*}
+        &\inn{\psi}{\{\hat{A}', \hat{B}'\}\psi} \text{ is real,} \\
+        &\inn{\psi}{[\hat{A}', \hat{B}']\psi} \text{ is pure imaginary.} \\
+    \end{align*}
+    Then substitute equation~\ref{eqnCommutatorSum} into equation~\ref{eqnCSUncertainty}:
+    \begin{align*}
+        (\Delta_\psi A)^2& (\Delta_\psi B)^2\geq \left|\inn{\psi}{\frac12 \left([\hat{A}', \hat{B}'] + \{\hat{A}', \hat{B}'\}\right)}\right|^2 \\
+        &= \frac14 \left|\inn{\psi}{[\hat{A}', \hat{B}']} + \inn{\psi}{\{\hat{A}', \hat{B}'\}}\right|^2 \\
+        &= \frac14 \left|\inn{\psi}{[\hat{A}', \hat{B}']}\right|^2 + \left|\inn{\psi}{\{\hat{A}', \hat{B}'\}}\right|^2 \text{ by real-imaginary} \\
+        &\geq \frac14 \left|\inn{\psi}{[\hat{A}', \hat{B}']}\right|^2 \\
+        &= \frac14 \left|\inn{\psi}{\cmmt{A}{B}}\right|^2 \\
+    \end{align*}
+    Then take square roots for the answer.
+\end{proof}
+\begin{corollary}
+    For two operators $\hat{A}, \hat{B}$ that commute ($\cmmt{A}{B} = 0$), if $\psi \in \hilb$ then $A$ and $B$ can be measured simultaneously on $\psi$ with theoretically zero uncertainty.
+    \label{corCommuteImpliesSimultaneous}
+\end{corollary}
+\begin{proof}
+    Observe that this fact drops out of the statement of theorem~\ref{thmUncertaintyPrinciple}
+\end{proof}
+\begin{corollary}[Heisenberg Uncertainty Principle]
+    For operators $\hat{x}$ and $\hat{p}$, the minimum uncertainty for a simultaneous measurement is:
+    \begin{equation*}
+        (\Delta_\psi x) (\Delta_\psi p) \geq \frac\hbar2
+    \end{equation*}
+    \label{corHeisenbergUncertainty}
+\end{corollary}
+\begin{proof}
+    We found earlier that $\cmmt{x}{p} = i \hbar \hat{I}$, so applying this to theorem~\ref{thmUncertaintyPrinciple} gives the result.
+\end{proof}
+We have shown that indeed this lower bound is achieved by the Gaussian Wavepacket. In fact, we have the following statements:
+\begin{proposition}
+    For $\psi \in \hilb$, $\psi$ is a state of minimum uncertainty with respect to $\hat{x}$ and $\hat{p}$ if and only if $\hat{x} \psi = i a \hat{p} \psi$ for $a \in \R$.
+
+    This condition is equivalent to:
+    \begin{equation*}
+        \psi(x) = C e^{-b x^2}
+    \end{equation*}
+    for $c \in \C, b \in \R^+$.
+    \label{propMinUncConditions}
+\end{proposition}
+\section{Ehrenfest Theorem}
+\begin{theorem}[Ehrenfest theorem]
+    The expectation of an operator $\hat{A}$ for a state $\psi \in \hilb$ evolves according to:
+    \begin{equation}
+        \frac{d}{dt} \E{\hat{A}}_\psi = \frac{i}{\hbar} \E{\cmmt{H}{A}}_\psi + \E{\frac{\partial \hat{A}}{\partial t}}_\psi
+        \label{eqnEhrenfest}
+    \end{equation}
+    \label{thmEhrenfest}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        \frac{d}{dt} \E{\hat{A}}_\psi &= \frac{d}{dt}\int_{-\infty}^{\infty} \psi^*(x, t) \hat{A} \psi(x, t) dx \\
+        &= \int_{-\infty}^{\infty} \frac{\partial}{\partial t} (\psi^* \hat{A} \psi) dx \\
+        &= \int_{-\infty}^{\infty} \left(\frac{\partial \psi^*}{\partial t} \hat{A} \psi + \psi^* \frac{\partial \hat{A}}{\partial t}\psi + \psi^* \hat{A} \frac{\partial \psi}{\partial t}\right) dx \\
+        \intertext{Apply TDSE:}
+        &=\int_{-\infty}^\infty \left(-\frac{i}{\hbar}\hat{H}\psi^*\right)^*\hat{A}\psi + \int_{-\infty}^{\infty} -\frac{i}{\hbar}\psi^* \hat{A}\hat{H}\psi dx + \E{\frac{\partial \hat{A}}{\partial t}}_\psi\\
+        &=\int_{-\infty}^\infty \frac{i}{\hbar}\psi^*\hat{H}\hat{A}\psi + \int_{-\infty}^{\infty} -\frac{i}{\hbar}\psi^* \hat{A}\hat{H}\psi dx + \E{\frac{\partial \hat{A}}{\partial t}}_\psi\\
+        &= \frac{i}{\hbar} \int_{-\infty}^{\infty} \psi^* (\hat{H} \hat{A} - \hat{A} \hat{H})\psi dx + \E{\frac{\partial \hat{A}}{\partial t}}_\psi \\
+        &= \frac{i}{\hbar} \E{\cmmt{H}{A}}_\psi + \E{\frac{\partial \hat{A}}{\partial t}}_\psi
+    \end{align*}
+\end{proof}
+\begin{examples}{
+        Considering different operators $\hat{A}$ in theorem~\ref{thmEhrenfest} gives us results that we can understand from Classical Mechanics:
+    }
+    \item Taking $\hat{A} = \hat{H}$ gives $\frac{dE}{dt} = 0$, conservation of energy.
+    \item Taking $\hat{A} = \hat{P}$ gives:
+        \begin{equation*}
+            \frac{d}{dt} \E{\hat{p}}_\psi = -\E{\frac{\partial U}{\partial t}}_\psi
+        \end{equation*}
+        where $U$ is the potential.
+    \item Taking $\hat{A} = \hat{x}$ gives:
+        \begin{equation*}
+            \frac{d\E{\hat{x}}_\psi}{dt} = \frac{\E{\hat{p}}_\psi}{m}
+        \end{equation*}
+\end{examples}
 \end{document}
