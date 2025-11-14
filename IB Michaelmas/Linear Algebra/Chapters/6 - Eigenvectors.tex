@@ -528,5 +528,198 @@ Then we want to show nice properties about this such as uniqueness, and we want 
         By multiplying this matrix out, we find that each power shifts the diagonal of 1s up each time, so the smallest $k$ for which this is zero is in fact $n$. That is, $m_A = \chi_A$.
 
         This gives us that $a_\lambda = 1, g_\lambda = 1, c_\lambda = n$.
+        \label{expJordanPolys}
 \end{examples}
+\begin{theorem}
+    Let $V$ be a finite-dimensional vector space over $\F$, and $\alpha \in \L(V, V)$. If there exists a polynomial $p \in I_\alpha$ which is a product of distinct linear factors, then $\alpha$ is diagonalisable.
+    \label{thmProdDistinctFactorsDiag}
+\end{theorem}
+\begin{proof}
+    We can assume that $p$ is monic by rescaling. Write $p$ in the form:
+    \begin{equation*}
+        p(t) = \prod_{i=1}^{k} (t - \mu_i) \text{ for distinct $\mu_i$.}
+    \end{equation*}
+    Define also $p_i(t) = \prod_{\substack{j = 1\\j \neq i}}^{k} (t - \mu_j)$, the polynomial excluding the root $\mu_i$. Then by corollary~\ref{corBezoutPolynom}, there exist $q_i \in \F[t]$ such that:
+    \begin{equation*}
+        1 = \sum_{i=1}^{k} p_i(t) q_i(t)
+    \end{equation*}
+    Where here $1$ represents the constant polynomial. Setting $\pi_i = p_i(\alpha) q_i(\alpha) \in \L(V, V)$, for $v \in V$,
+    \begin{equation*}
+        v = \Id_V(v) = \sum_{i=1}^{k} \pi_i(v)
+    \end{equation*}
+    Hence $V = \im(\pi_1) + \cdots, + \im(\pi_k)$. Further:
+    \begin{align*}
+        &p(t) = (t - \mu_i)p_i(t) \\
+        &\therefore p(\alpha) = (\alpha - \mu_i \Id_V)(p_i(\alpha)) = 0 \\
+        &\therefore (\alpha - \mu_i\Id_V) \circ \pi_i = 0
+    \end{align*}
+    And so $\im(\pi_i) \leq V_{\mu_i}$. Hence, $V = \sum_{i=1}^{k} \im(\pi_i) \leq \bigoplus_{i=1}^k V_{\mu_i} \leq V$.
+
+    Therefore. $V$ is a direct sum of eigenspaces, so $\alpha$ is diagonalisable.
+\end{proof}
+We provide a theorem to summarise our characterisation of diagonalisability:
+\begin{theorem}
+    Let $V$ be a finite-dimensional vector space over $\F$, and $\alpha \in \L(V, V)$. The following are equivalent:
+    \begin{enumerate}
+        \item $\alpha$ is diagonalisable.
+        \item $V$ has a basis consisting of eigenvectors of $\alpha$
+        \item There exists a non-zero polynomial $p \in I_\alpha$ that is a product of distinct linear factors.
+        \item $m_\alpha$ is a product of distinct linear factors.
+        \item {[Only in the case $\F = \C$]} $a_\lambda = g_\lambda$ for all eigenvalues $\lambda$.
+    \end{enumerate}
+    \label{thmDiagConditions}
+\end{theorem}
+\begin{proof}
+    Statement 1 is equivalent to statement 2 by proposition~\ref{propDiagIffBasis}, and statement 1 is equivalent to statement 5 (in the case of the complex field) by proposition~\ref{propDiagIfNotDegenerate}.
+
+    \begin{subproof}{Statement 3 is equivalent to statement 4}
+        Because $m_\alpha$ divides any polynomial in $I_\alpha$, if $p \in I_\alpha$ is a product of distinct linear factors then so is $m_\alpha$. If instead $m_\alpha$ is a product of distinct linear factors then take $p = m_\alpha$ in theorem~\ref{thmProdDistinctFactorsDiag}.
+    \end{subproof}
+    Statement 3 implies statement 1 by theorem~\ref{thmProdDistinctFactorsDiag} directly.
+    \begin{subproof}{Statement 1 implies statement 3}
+        Let $B$ be a basis for $V$ such that $[\alpha]_B^B$ is diagonal. After possibly rearranging the basis, ensure that vectors in the same eigenspace are next to each other. In this basis,
+        \begin{equation*}
+            [\alpha]_B^B =
+            \begin{pmatrix}
+                \lambda_1 I_{n_1} & 0 & 0 & \cdots & 0 \\
+                0 & \lambda_2 I_{n_2} & 0 & \cdots & 0 \\
+                0 & 0 & \lambda_3 I_{n_3} & & \vdots \\
+                \vdots & \vdots & & \ddots & 0 \\
+                0 & 0 & \cdots & 0 & \lambda_k I_{n_k}
+            \end{pmatrix}
+            \text{ where } n_k = g_{\lambda_k}
+        \end{equation*}
+        Then set $p(t) = \prod_{i=1}^{k} (t - \lambda_i)$. By considering the matrix $p([\alpha]_B^B)$, we see that each factor of $p$ deletes one of the blocks above. Since all blocks get deleted in one of the factors of $p$, and we are multiplying together diagonal matrices, we must have that indeed $p(\alpha) = 0$.
+    \end{subproof}
+\end{proof}
+\begin{definition}{Simultaneous diagonalisability}
+    Let $V$ be a finite-dimensional vector space over $\F$, and $\alpha, \beta \in \L(V, V)$. Then $\alpha$ and $\beta$ are \underline{simultaneously diagonalisable} if there exists a basis for $V$ such that in this basis both $[\alpha]_B^B$ and $[\beta]_B^B$ are diagonalisable.
+\end{definition}
+Before we prove a theorem about simultaneous diagonalisability, we need the following lemma:
+\begin{lemma}
+    Let $\alpha, \beta$ commute. Then for an eigenspace $V_\lambda$ of $\alpha$, $\beta(V_\lambda) = V_\lambda$.
+    \label{lemSimDiagSameEvecs}
+\end{lemma}
+\begin{proof}
+    Let $v \in V_\lambda$.
+    \begin{align*}
+        \alpha(\beta(v_\lambda))&= \beta(\alpha(v_\lambda)) \\
+        &= \beta(\lambda v_\lambda) \\
+        &= \lambda \beta(v)
+    \end{align*}
+    and hence $\beta(v) \in V_\lambda$.
+\end{proof}
+\begin{theorem}
+    Let $V$ be a finite-dimensional vector space over $\F$, and $\alpha, \beta \in \L(V, V)$.
+
+    $\alpha$ and $\beta$ are simultaneously diagonalisable if and only if they commute.
+    \label{thmSimDiag}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Let $\alpha$ and $\beta$ be simultaneously diagonalisable}
+        Choose the basis in which they are both diagonal. Then since diagonal matrices commute,
+        \begin{align*}
+            [\alpha \circ \beta]_B^B&= [\alpha]_B^B [\beta]_B^B \\
+            &= [\beta]_B^B [\alpha]_B^B \\
+            &= [\beta \circ \alpha]_B^B
+        \end{align*}
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that $\alpha$ and $\beta$ commute.}
+        $\alpha$ is diagonalisable and so take $V = V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}$ where the eigenvalues are distinct.
+        Let $p \in I_\beta$ be a product of distinct linear factors. By lemma~\ref{lemSimDiagSameEvecs}, we can define the restriction $\beta |_{V_{\lambda_i}}$. Note also that $p(\beta |_{V_{\lambda_i}}) = p(\beta)|_{V_{\lambda_i}} = 0$, and so this restriction is diagonalisable. Let the basis in which it is diagonalisable be $B_i$, consisting of eigenvectors of $\beta$.
+
+        The basis $B = \bigcup_{i=1}^k B_i$ is a basis for $V$, consisting of eigenvectors of both $\alpha$ and $\beta$. Therefore, we have constructed a basis in which $\alpha$ and $\beta$ are both diagonalisable.
+    \end{proofdirection}
+\end{proof}
+\section{Jordan Normal Form}
+In this section set $\F = \C$.
+\begin{definition}{Jordan Matrix}
+    For $\lambda \in \C$, the $(n \times n)$-\underline{Jordan matrix} is:
+    \begin{equation*}
+        J_n(\lambda) =
+        \begin{pmatrix}
+            0 & 1 & 0 & \cdots & 0 \\
+            0 & 0 & 1 & & \vdots \\
+            \vdots & \vdots & & \ddots & 0 \\
+            0 & 0 & 0 & 0 & 1 \\
+            0 & 0 & 0 & 0 & 0
+        \end{pmatrix}
+    \end{equation*}
+\end{definition}
+By example~\ref{expJordanPolys}, this has characteristic polynomial:
+\begin{equation*}
+    \chi_{J_n(\lambda)} = (t - \lambda_n) = m_{J_n(\lambda)}
+\end{equation*}
+and $\lambda$-eigenspace $\spn{\vec{e_1}}$.
+\begin{definition}{Jordan Normal Form}
+    A matrix $A \in M_{n \times n}(\C)$ is in \underline{Jordan normal form} if:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            J_{n_1}(\lambda_1) & 0 & 0 & \cdots & 0 \\
+            0 & J_{n_2}(\lambda_2) & 0 & \cdots & 0 \\
+            0 & 0 & J_{n_3}(\lambda_3) & & \vdots \\
+            \vdots & \vdots & & \ddots & 0 \\
+            0 & 0 & \cdots & 0 & J_{n_k}(\lambda_k)
+        \end{pmatrix}
+    \end{equation*}
+    for some $n_i \in \N$ summing to $n$, and some $\lambda_i \in \C$ (not necessarily distinct).
+
+    The $J_{n_i}(\lambda_i)$ are the \underline{Jordan blocks} of $A$. A Jordan block of size $1$ is just $\left(\begin{smallmatrix}\lambda\end{smallmatrix}\right)$.
+\end{definition}
+\begin{theorem}
+    Every matrix $A \in M_{n \times n}(\C)$ is similar to a matrix $\operatorname{JNF}(A)$ in Jordan Normal Form, unique up to rearranging the Jordan blocks.
+    \label{thmJNF}
+\end{theorem}
+The proof of this statement is non-examinable.
+\begin{example}[Jordan Normal Form for $2 \times 2$ matrices]
+    Let $\lambda_1, \lambda_2$ be distinct. The possible JNFs for $A \in M_{2 \times 2}(\C)$ are:
+    \begin{align*}
+    A &= &\begin{pmatrix}\lambda_1 & 1 \\ 0 & \lambda_1\end{pmatrix} && \begin{pmatrix}\lambda_1 & 0 \\ 0 & \lambda_2\end{pmatrix} && \begin{pmatrix}\lambda_1 & 0 \\ -0 & \lambda_2\end{pmatrix} \\
+    m_A(t) &= & (t - \lambda_1)^2 && (t - \lambda_1)(t - \lambda_2) && (t - \lambda_1)
+    \end{align*}
+\end{example}
+\begin{example}[Jordan Normal Form for $3 \times 3$ matrices]
+    Let $\lambda_1, \lambda_2, \lambda_3$ be distinct. The possible JNFs for $A \in M_{3 \times 3}(\C)$ are:
+    \begin{align*}
+    \begin{pmatrix}
+        \lambda_1 & 0 & 0 \\
+        0 & \lambda_2 & 0 \\
+        0 & 0 & \lambda_3
+    \end{pmatrix}
+    &&
+    \begin{pmatrix}
+        \lambda_1 & 0 & 0 \\
+        0 & \lambda_1 & 0 \\
+        0 & 0 & \lambda_2
+    \end{pmatrix}
+    &&
+    \begin{pmatrix}
+        \lambda_1 & 0 & 0 \\
+        0 & \lambda_1 & 0 \\
+        0 & 0 & \lambda_1
+    \end{pmatrix}
+    \\
+    \begin{pmatrix}
+        \lambda_1 & 1 & 0 \\
+        0 & \lambda_1 & 0 \\
+        0 & 0 & \lambda_2
+    \end{pmatrix}
+    &&
+    \begin{pmatrix}
+        \lambda_1 & 1 & 0 \\
+        0 & \lambda_1 & 0 \\
+        0 & 0 & \lambda_1
+    \end{pmatrix}
+    &&
+    \begin{pmatrix}
+        \lambda_1 & 1 & 0 \\
+        0 & \lambda_1 & 1 \\
+        0 & 0 & \lambda_1
+    \end{pmatrix}
+    \end{align*}
+\end{example}
+\begin{remark}
+    For $n \leq 3$, we find that all the JNFs have different minimal/characteristic polynomial combinations. This is not the case for larger $n$, we already have a counterexample for $n = 4$.
+\end{remark}
 \end{document}
