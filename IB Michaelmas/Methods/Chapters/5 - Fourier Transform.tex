@@ -164,4 +164,166 @@ And we can conclude:
         &= \hat{f}(\lambda) \hat{g}(\lambda).
     \end{align*}
 \end{proof}
+\section{Important Examples}
+We want to be able to use FTs to solve partial differential equations. To do this, we need to understand how it acts on certain functions.
+\subsection{Exponentials}
+Let $\sigma \in \C$ with $\Re(\sigma) > 0$. Let:
+\begin{equation*}
+    f(x) = H(x) e^{-\sigma x} =
+    \begin{cases}
+        e^{-\sigma x} & x \geq 0 \\
+        0 & x < 0
+    \end{cases}
+\end{equation*}
+Then we find the Fourier transform:
+\begin{align}
+    \hat{f}(\lambda) &= \int_{-\infty}^{\infty} f(x)e^{-i\lambda x} dx \nonumber \\
+    &= \int_{0}^{\infty} e^{-(\sigma + i \lambda) x} dx \nonumber \\
+    &= \frac{1}{\sigma + i \lambda} \label{eqnFTExp}
+\end{align}
+Note that indeed $|\hat{f}(\lambda)| \to 0$ as $|\lambda| \to \infty$, but only with $\frac1\lambda$. This fairly slow convergence is because the function has a discontinuity, and we recall that a ``less nice'' input function gives a slower decaying Fourier transform.
+
+From theorem~\ref{thmInverseFT},
+\begin{align*}
+    H(x) e^{-\sigma x} &= \frac{1}{2\pi} \int_{-\infty}^{\infty} \frac{e^{i \lambda x}}{\sigma + i \lambda} d\lambda \\
+    &= \frac{1}{2\pi i} \int_{-\infty}^{\infty} \frac{e^{i \lambda x}}{\lambda - i \sigma} dx
+\end{align*}
+This is easy to evaluate with ideas from IB Complex Methods. However, we will use differentiation under the integral sign to evaluate it:
+\begin{align*}
+    H(x) x^k e^{-\sigma x}&= \left(-\frac{\partial}{\partial \sigma}\right)\frac{1}{2\pi} \int_{-\infty}^{\infty} \frac{e^{i \lambda x}}{i \lambda + \sigma} d\lambda \\
+    &= \frac{k!}{2\pi} \int_{-\infty}^{\infty} \frac{e^{i \lambda x}}{(\sigma + i \lambda)^{k + 1}} d\lambda 
+\end{align*}
+Then we can see that as $k$ gets larger, the LHS gets more regular and the RHS decays faster as $\lambda$ gets large.
+\subsection{Gaussian}
+Consider $f(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2 / 2}$, the standard Gaussian.
+Then we try to evaluate:
+\begin{equation*}
+    \hat{f}(\lambda) = \frac{1}{2\pi} \int_{-\infty}^\infty e^{-i \lambda x - x^2 / 2} dx
+\end{equation*}
+This is difficult without IB Complex Methods. However, we can notice the following:
+\begin{align*}
+    \left(\frac{d}{dx}\right)f &= -x f \\
+    \implies (i \lambda) \hat{f} &= -\left(i \frac{d}{d\lambda}\right)\hat{f} \\
+    \implies \left(\frac{d}{dx}\right) \hat{f} &= -\lambda \hat{f}.
+\end{align*}
+And so:
+\begin{align*}
+    \hat{f}(\lambda) &=\hat{f}(0) e^{-\lambda^2 / 2} \\
+    \intertext{Because $f$ is a Gaussian,}
+    \hat{f}(0) &= \int_{-\infty}^{\infty} f(x) dx = 1 \\
+    \intertext{So:}
+    \hat{f}(\lambda) &= e^{-\frac{\lambda^2}{2}}
+\end{align*}
+And so Gaussians are eigenfunctions of the operator $\FT$. $\FT[f] = \sqrt{2\pi} f$. We have also evaluated our original integral:
+\begin{equation*}
+    e^{-\frac{\lambda^2}{2}} = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty e^{-i \lambda x - x^2 / 2} dx
+\end{equation*}
+\subsection{Dirac Delta Function}
+From the definition of $\delta(x)$,
+\begin{equation*}
+    \hat{\delta}(x) = \int_{-\infty}^{\infty} e^{-i \lambda x}\delta(x) dx = 1
+\end{equation*}
+From the inversion formula,
+\begin{equation*}
+    \delta(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda x} d\lambda
+\end{equation*}
+\section{Initial Value Problems, Revisited}
+Recall the initial value problem from the previous chapter:
+\begin{equation}
+    \begin{cases}
+        Ly = f(t) & t > 0 \\
+        y(0) = \dot{y}(0) = 0 &
+    \end{cases}
+    \tag{\ref{eqnInhomogIVP}}
+\end{equation}
+Now assume that $L$ has constant coefficients,
+\begin{equation*}
+    L = \alpha \frac{d^{2}}{dt^{2}} + \beta \frac{d}{dt} + \gamma
+\end{equation*}
+Then take $\alpha = 1$ without loss of generality (by dividing through). Extend the definition of $t \mapsto y(t)$ by taking $y = 0$ on $t < 0$. Same for $f$.
+
+Because we are dealing with time ($t$), it is customary to write $\omega$ rather than $\lambda$ for the parameter to the FT. Take the FT of the problem:
+\begin{equation*}
+    \left[(i \omega)^2 + \beta(i \omega) + \gamma\right] \hat{y}(\omega) = \hat{f}(\omega)
+\end{equation*}
+Therefore:
+\begin{equation*}
+    \hat{y}(\omega) = \frac{\hat{f}(\omega)}{P(\omega)},\quad P(\omega) = (i \omega)^2 + \beta(i \omega) + \gamma
+\end{equation*}
+Then write $P$ in terms of its roots, $P(\omega) = (i \omega + \sigma_1)(i \omega + \sigma_2)$. Assume that these have positive real parts, and initially assume that the roots are distinct. Apply partial fraction decomposition:
+\begin{align*}
+    \frac{1}{P(\omega)} &= \frac{1}{\sigma_2 - \sigma_1} \left[\frac{1}{i \omega + \sigma_1} - \frac{1}{i \omega + \sigma_2}\right] \\
+    \intertext{And by the section on exponentials,}
+    &= \frac{1}{\sigma_2 - \sigma_1} \left[\FT[H(t)e^{-\sigma_1 t}] - \FT[H(t) e^{-\sigma_2t}]\right]
+\end{align*}
+If we define the \underline{response function}:
+\begin{equation*}
+    R(t) = H(t) \left[\frac{e^{-\sigma_1 t} - e^{-\sigma_2 t}}{\sigma_2 - \sigma_1}\right]
+\end{equation*}
+Then $\hat{R}(\omega) = \frac{1}{P(\omega)}$ and so:
+\begin{equation*}
+    \hat{y}(\omega) = \hat{R}(\omega) \hat{f}(\omega)
+\end{equation*}
+In the degenerate case $\sigma_1 = \sigma_2$, detuning (taking the limit as $\sigma_2 \to \sigma_1$) gives that instead $R(t) = H(t) te^{-\sigma t}$. In either case, by proposition~\ref{propFTConvol},
+\begin{align*}
+    y(t) &= R \star f(t) \\
+    &= \int_{-\infty}^{\infty} R(t - \tau) f(\tau) d\tau \\
+    &= \int_{0}^{t} R(t - \tau)f(\tau) d\tau 
+\end{align*}
+Now $R$ looks like a Green's function for the problem, $R(t - \tau) = G(t;\tau)$.
+
+Note that we did not explicitly apply the initial conditions. We did, however, \textit{implicitly} use them:
+\begin{align*}
+    &\int_{0}^{\infty} \left(\ddot{y} + \beta \dot{y} + \gamma y\right) e^{-i \omega t} dt \\
+    &= \int_{0}^{\infty} \ddot{y} e^{-i \omega t} dt + \int_0^\infty \beta \dot{y} e^{-i \omega t}dt + \int_0^\infty \gamma y e^{-i \omega t} dt \\
+    &= \left[\dot{y}(t) e^{-i \omega t}\right]_0^\infty + (i\omega) \int_{0}^{\infty} \dot{y}(t) e^{-i \omega t} dt + \left[\beta y(t) e^{-i \omega t}\right]_0^\infty \\
+        &\qquad + (i\omega) \int_{0}^{\infty} \beta y(t) e^{-i \omega t} dt + \int_{0}^{\infty} \gamma y e^{-i \omega t} dt \\
+    \intertext{Use initial conditions:}
+    &= 0 + (i\omega) \int_{0}^{\infty} \dot{y}(t) e^{-i \omega t} dt + 0 + (i\omega) \int_{0}^{\infty} \beta y(t) e^{-i \omega t} dt\\
+        &\qquad+ \int_{0}^{\infty} \gamma y e^{-i \omega t} dt \\
+    &= (i \omega)^2 \int_{0}^{\infty} y(t) e^{-i \omega t} dt + (i\omega) \int_{0}^{\infty} y(t) e^{-i \omega t} dt + \int_{0}^{\infty} \gamma y e^{-i \omega t} dt \\
+    &= \left[(i \omega)^2 + \beta(i \omega) + \gamma\right] \hat{f}(\omega)
+\end{align*}
+This problem arose because we dealt with the domain $[0, \infty)$, rather than the real line where the boundary terms are zero without further assumption on $y$.
+\begin{example}[Damped SHM]
+    Consider the problem:
+    \begin{equation*}
+        \begin{cases}
+            \ddot{y} + 2\gamma \dot{y} + y = f(t) & t > 0 \\
+            y(0) = \dot{y} = 0 & t \leq 0
+        \end{cases}
+    \end{equation*}
+    for $\gamma > 0$.
+
+    By FT,
+    \begin{equation*}
+        \hat{y}(\omega) = \frac{\hat{f}(\omega)}{P(\omega)},\quad P(\omega) = \left(i \omega + \gamma + \sqrt{\gamma^2 - 1}\right) \times \left(i \omega + \gamma - \sqrt{\gamma^2 - 1}\right)
+    \end{equation*}
+    Note that the real part of both roots is positive, so we can use our result.
+
+    In the case $\gamma > 1$, set $\sigma_{\pm} = \gamma \pm \sqrt{\gamma^2 -1}$
+    \begin{align*}
+        R(t) &= H(t) \left[\frac{e^{-\sigma_- t} - e^{-\sigma_+ t}}{\sigma_+ - \sigma_-}\right] \\
+        &= H(t) e^{-\gamma t} \frac{\sinh(t\sqrt{\gamma^2 - 1})}{\sqrt{\gamma^2 - 1}}
+    \end{align*}
+    and this is overdamping.
+
+    In the case $\gamma < 1$,
+    \begin{equation*}
+        R(t) = H(t) e^{-\gamma t} \frac{\sin(t \sqrt{1 - \gamma^2})}{\sqrt{1 - \gamma^2}}
+    \end{equation*}
+    this is underdamping.
+
+    For $\gamma = 1$, we can take a limit:
+    \begin{equation*}
+        R(t) = H(t) te^{-t}
+    \end{equation*}
+    and this is critical damping.
+\end{example}
+\section{Solving Partial Differential Equations}
+For PDEs on bounded domains, we often found solutions of the form:
+\begin{equation*}
+    f(x) = \sum_{n=1}^{\infty} \hat{f}_n Y_n(x)
+\end{equation*}
+In an unbounded domain, we need to instead take a continuous set of eigenfunctions, using an integral rather than a sum. This is closely linked to the Fourier Transform.
 \end{document}
