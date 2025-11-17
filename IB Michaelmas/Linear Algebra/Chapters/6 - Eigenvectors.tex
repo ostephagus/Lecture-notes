@@ -21,7 +21,7 @@ Define $\F[t]$ to be the vector space over $\F$ of all polynomials. We have the 
 We define addition and multiplication for any polynomials $f, g \in \F[t]$
 \begin{align*}
     (f + g)(t) &= \sum_{i=0}^{\max\{\deg(f), \deg(g)\}} (a_i + b_i)t^i \\
-    (fg)(t) &= \sum_{i=0}^{\deg(f) + \deg(g)} \left(\sum_{k=0}^{i} a_kb_{i-k}\right)t^i
+    (fg)(t) &= \sum_{i=0}^{\deg(f) + \deg(g)} \left(\sum_{k=0}^{i} a_kb_{k-i}\right)t^i
 \end{align*}
 Note that the degree of $f + g$ is at most $\max\{\deg(f), \deg(g)\}$ (because the leading coefficient can cancel), but the degree of $fg$ is exactly $\deg(f) + \deg(g)$.
 
@@ -638,19 +638,22 @@ In this section set $\F = \C$.
     \begin{equation*}
         J_n(\lambda) =
         \begin{pmatrix}
-            0 & 1 & 0 & \cdots & 0 \\
-            0 & 0 & 1 & & \vdots \\
-            \vdots & \vdots & & \ddots & 0 \\
-            0 & 0 & 0 & 0 & 1 \\
-            0 & 0 & 0 & 0 & 0
+            \lambda & 1 & 0 & \cdots & 0 \\
+            0 & \lambda & 1 & & \vdots \\
+            \vdots & \vdots & \ddots & \ddots & 0 \\
+            0 & 0 & 0 & \lambda & 1 \\
+            0 & 0 & 0 & 0 & \lambda
         \end{pmatrix}
     \end{equation*}
 \end{definition}
-By example~\ref{expJordanPolys}, this has characteristic polynomial:
-\begin{equation*}
-    \chi_{J_n(\lambda)} = (t - \lambda_n) = m_{J_n(\lambda)}
-\end{equation*}
-and $\lambda$-eigenspace $\spn{\vec{e_1}}$.
+\begin{remark}
+    By example~\ref{expJordanPolys}, this has characteristic polynomial:
+    \begin{equation*}
+        \chi_{J_n(\lambda)} = (t - \lambda)^n = m_{J_n(\lambda)}
+    \end{equation*}
+    and $\lambda$-eigenspace $\spn{\vec{e_1}}$.
+    \label{remJordanBlockMults}
+\end{remark}
 \begin{definition}{Jordan Normal Form}
     A matrix $A \in M_{n \times n}(\C)$ is in \underline{Jordan normal form} if:
     \begin{equation*}
@@ -667,11 +670,99 @@ and $\lambda$-eigenspace $\spn{\vec{e_1}}$.
 
     The $J_{n_i}(\lambda_i)$ are the \underline{Jordan blocks} of $A$. A Jordan block of size $1$ is just $\left(\begin{smallmatrix}\lambda\end{smallmatrix}\right)$.
 \end{definition}
+\begin{propositions}{
+        Let $A$ be a matrix in $M_{n \times n}(\C)$ in Jordan Normal Form.
+        \label{propsJNFMults}
+    }
+    \item The algebraic multiplicity of an eigenvalue $\lambda$ in $A$ is the sum of the sizes of each $\lambda$-Jordan block in $A$. \label{propJNFAMult}
+    \item The geometric multiplicity of an eigenvalue $\lambda$ in $A$ is the number of $\lambda$-Jordan blocks in $A$. \label{propJNFGMult}
+    \item The minimal multiplicity of an eigenvalue $\lambda$ is the size of the largest $\lambda$-Jordan block in $A$. \label{propGNFCMult}
+\end{propositions}
+\begin{proof}
+    Let $B$ be a Jordan block,
+    \begin{equation*}
+        J_n(\lambda) =
+        \begin{pmatrix}
+            \lambda & 1 & 0 & \cdots & 0 \\
+            0 & \lambda & 1 & & \vdots \\
+            \vdots & \vdots & \ddots & \ddots & 0 \\
+            0 & 0 & 0 & \lambda & 1 \\
+            0 & 0 & 0 & 0 & \lambda
+        \end{pmatrix}
+    \end{equation*}
+    then by remark~\ref{remJordanBlockMults}, $a_\lambda = n$, $g_{\lambda} = 1$, $c_\lambda = n$. Using this,
+    \begin{align*}
+        \chi_A(t) &= \prod_{i=1}^{k} \chi_{A_i}(t), \text{ so }a_{\lambda} = \sum_{i=1}^{k}a_\lambda(A_i) \\
+        g_\lambda(A) &= \sum_{i=1}^{k} g_{\lambda}(A_i) \\
+        m_A(t) &= \operatorname{lcm}(M_{A_1}(t), \cdots, M_{A_k}(t)), \text{ so }c_\lambda(A) = \max_{i} (c_\lambda(A_i))
+    \end{align*}
+\end{proof}
 \begin{theorem}
     Every matrix $A \in M_{n \times n}(\C)$ is similar to a matrix $\operatorname{JNF}(A)$ in Jordan Normal Form, unique up to rearranging the Jordan blocks.
     \label{thmJNF}
 \end{theorem}
-The proof of this statement is non-examinable.
+\begin{proof}[Of uniqueness only]
+    Assume existence of JNF, so define $\bar{A} = \operatorname{JNF}(A)$. For these matrices, define:
+    \begin{equation*}
+        R_{\lambda, r}(\bar{A}) = \text{ number of $\lambda$ Jordan blocks in $\bar{A}$ of size $\geq r$.}
+    \end{equation*}
+    Then the $R_{\lambda, r}$ uniquely determine $\overline{A}$ up to rearranging the Jordan blocks.
+    \begin{subproof}{$R_{\lambda, r}(A) = rk((A - \lambda I)^{r-1}) - rk((A - \lambda I)^r)$}
+        For $P \in GL_n(\C)$,
+        \begin{align*}
+            P(A - \lambda I)^k P^{-1} &= (P(A - \lambda I)P^{-1})^k \\
+            &= (PAP^{-1} - \lambda I)^k
+        \end{align*}
+        Thus, for similar matrices with change-of-basis matrix $P$,
+        \begin{equation*}
+            rk((PAP^{-1} - \lambda I)^k) = rk(A - \lambda I)^k
+        \end{equation*}
+        Now consider $PAP^{-1} = \bar{A}$ in JNF.
+        Recall that:
+        \begin{equation*}
+            J_l(\lambda) - \lambda I = 
+            \begin{pmatrix}
+                0 & 1 & 0 & \cdots & 0 \\
+                0 & 0 & 1 & & \vdots \\
+                \vdots & \vdots & & \ddots & 0 \\
+                0 & 0 & 0 & 0 & 1 \\
+                0 & 0 & 0 & 0 & 0
+            \end{pmatrix}
+        \end{equation*}
+        And increasing the power of this moves the diagonal of $1$s up, reducing the rank by 1 each time. Therefore:
+        \begin{equation*}
+            rk((J_l(\lambda) - \lambda I)^k) =
+            \begin{cases}
+                l - k & k \leq l \\
+                0 & \text{otherwise}
+            \end{cases}
+        \end{equation*}
+        For $\mu \neq \lambda$, $J_l(\mu) - \lambda I = J_l(\mu - \lambda)$ which is invertible. Then:
+        \begin{align*}
+            rk((\bar{A} &- \lambda I)^k) \\
+            &= n - k \times (\text{ number of Jordan blocks of $\bar{A}$ of size $\geq k$}) \\
+                &\quad -(\text{ sum of sizes of Jordan blocks of $\bar{A}$ of size $< k$})
+        \end{align*}
+        And so taking the difference of two adjacent values for $k$, $r$ and $r-1$, in this formula:
+        \begin{align*}
+            & - n + r \times (\text{ number of Jordan blocks of $\bar{A}$ of size $\geq r$}) \\
+                &\quad +(\text{ sum of sizes of Jordan blocks of $\bar{A}$ of size $< r$}) \\
+                &\quad + n - (r-1) \times (\text{ number of Jordan blocks of $\bar{A}$ of size $\geq r-1$}) \\
+                &\quad -(\text{ sum of sizes of Jordan blocks of $\bar{A}$ of size $< r-1$}) \\
+            & 1 \times (\text{ number of Jordan blocks of $\bar{A}$ of size $\geq r$}) \\
+                &\quad +(\text{ sum of sizes of Jordan blocks of $\bar{A}$ of size $< r$}) \\
+                &\quad - (r-1) \times (\text{ number of Jordan blocks of $\bar{A}$ of size $r-1$}) \\
+                &\quad -(\text{ sum of sizes of Jordan blocks of $\bar{A}$ of size $< r-1$}) \\
+            & 1 \times (\text{ number of Jordan blocks of $\bar{A}$ of size $\geq r$}) \\
+                &\quad +(\text{ sum of sizes of Jordan blocks of $\bar{A}$ of size $< r$}) \\
+                &\quad -(\text{ sum of sizes of Jordan blocks of $\bar{A}$ of size $< r$}) \\
+            &= \text{number of Jordan blocks of $\bar{A}$ of size $\geq r$} \\
+            &= R_{\lambda, r}
+        \end{align*}
+    \end{subproof}
+    Now we can easily reach a contradiction:
+    Suppose $A$ is similar to two matrices $B$ and $C$ in JNF. Then by the claim they will have the same values for $R_{\lambda, r}$ for each value of $r$ and each eigenvalue $\lambda$ of $A$. Therefore, $B$ and $C$ must be same matrix in JNF, up to rearrangement of the Jordan blocks.
+\end{proof}
 \begin{example}[Jordan Normal Form for $2 \times 2$ matrices]
     Let $\lambda_1, \lambda_2$ be distinct. The possible JNFs for $A \in M_{2 \times 2}(\C)$ are:
     \begin{align*}
@@ -718,8 +809,119 @@ The proof of this statement is non-examinable.
         0 & 0 & \lambda_1
     \end{pmatrix}
     \end{align*}
+    \label{expJNF3}
 \end{example}
 \begin{remark}
     For $n \leq 3$, we find that all the JNFs have different minimal/characteristic polynomial combinations. This is not the case for larger $n$, we already have a counterexample for $n = 4$.
 \end{remark}
+\begin{example}
+    Consider the following matrix:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            3 & -2 & 0 \\
+            1 & 0 & 0 \\
+            1 & 0 & 1
+        \end{pmatrix}
+    \end{equation*}
+    Then we want $P \in GL_3(\C)$ such that $PAP^{-1}$ is in JNF. We calculate:
+    \begin{equation*}
+        \chi_A(t) = (t-1)^2 (t-2)
+    \end{equation*}
+    Example~\ref{expJNF3} that the only possible JNFs are:
+    \begin{equation*}
+        \begin{pmatrix}
+            1 & 0 & 0 \\
+            0 & 1 & 0 \\
+            0 & 0 & 2
+        \end{pmatrix}
+        \text{ or }
+        \begin{pmatrix}
+            1 & 1 & 0 \\
+            0 & 1 & 0 \\
+            0 & 0 & 2
+        \end{pmatrix}
+    \end{equation*}
+    The difference between these are the geometric multiplicities of the eigenvalue 1. Considering $A - I$:
+    \begin{equation*}
+        \begin{pmatrix}
+            2 & -2 & 0 \\
+            1 & -1 & 0 \\
+            1 & 0 & 0
+        \end{pmatrix}
+    \end{equation*}
+    This has rank 2, so the geometric multiplicity of the eigenvalue $1$ is $1$, and we are in the second case. To find the required basis, set $\vec{v_1} = \begin{pmatrix}0 \\ 0 \\ 1\end{pmatrix}$ and $\vec{v_3} = \begin{pmatrix}2 \\ 1 \\ 2\end{pmatrix}$ because it is an eigenvector with eigenvalue $2$. Finally, we need to solve $A \vec{v_2} = \vec{v_1} + \vec{v_2}$. This is not uniquely determined, but we find that:
+    \begin{equation*}
+        \vec{v_2} = \begin{pmatrix}1 \\ 1 \\ 0\end{pmatrix}
+    \end{equation*}
+    solves the equation.
+
+    Our basis is:
+    \begin{equation*}
+        \left\{\begin{pmatrix}0 \\ 0 \\ 1\end{pmatrix}, \begin{pmatrix}1 \\ 1 \\ 0\end{pmatrix}, \begin{pmatrix}2 \\ 1 \\ 2\end{pmatrix}\right\}
+    \end{equation*}
+\end{example}
+\begin{definition}{Generalised eigenspace}
+    Let $V$ be a finite-dimensional vector space over $\C$, and let $\alpha \in \L(V, V)$. Write:
+    \begin{equation*}
+        m_\alpha(t) = (t - \lambda_1)^{c_1} \cdots (t - \lambda_k)^{c_k}
+    \end{equation*}
+    Then the \underline{generalised $\lambda_i$-eigenspace} of $\alpha$ is:
+    \begin{equation*}
+        \gespace{V}{\lambda_i} = \ker\left(\left(\alpha - \lambda_i \Id_V\right)^{c_i}\right)\leq V
+    \end{equation*}
+\end{definition}
+\begin{theorem}[Generalised Eigenspace Decomposition Theorem]
+    $V$ is a direct sum of its generalised eigenspaces:
+    \begin{equation*}
+        V = \bigoplus_{i=1}^k \gespace{V}{\lambda_i}
+    \end{equation*}
+    \label{thmGenESpaceDecompose}
+\end{theorem}
+\begin{proof}
+    The proof is on the example sheet. Note the following lemma:
+    Non-zero elements of distinct generalised eigenspaces are linearly independent. We can prove this:
+
+    Let $0 \leq d_i < c_i$ be such that:
+    \begin{align*}
+        \zv \neq w_i &= (\alpha - \lambda_i \Id_V)^{d_i} (v_i) \\
+        \text{but } &(\alpha - \lambda_i \Id_V)^{d_i + 1}(v_i) = \zv
+    \end{align*}
+    Then $w_i$ is a $\lambda_i$ eigenvector of $\alpha$ so the $w_i$ with different eigenvalues are linearly independent.
+
+    We can also define:
+    \begin{equation*}
+        \beta = \prod_{j=1}^{k} (\alpha - \lambda_j \Id_V)^{d_j}
+    \end{equation*}
+    Then because these factors commute:
+    \begin{align*}
+        \beta(v_i) &= \left(\prod_{\substack{j=1 \\ j \neq i}}^k (\alpha - \lambda_j \Id_v)^{d_j}\right)w_i \\
+        &= \left(\prod_{j \neq i} (\lambda_i - \lambda_j)^{d_j}\right)w_i \\
+        &= \mu_i w_i \neq \zv
+    \end{align*}
+    Then suppose that a linear combination of the $v_i$ sum to zero:
+    \begin{align*}
+        \zv &= \sum_{i=1}^{k}\nu_i v_i \\
+        &= \beta\left(\sum_{i=1}^{k} \nu_i v_i\right) \\
+        &= \sum_i \mu_i \nu_i w_i \\
+        &\implies \nu_i = 0~\forall i
+    \end{align*}
+\end{proof}
+We can now provide a \textbf{non-examinable} sketch proof of the existence of JNF.
+\begin{proof}
+    Note that $A$ must commute with $A - \lambda_i I$ so $A$ preserves the generalised eigenspace $\gespace{V}{\lambda_i}$. Therefore, $A$ is similar to:
+    \begin{equation*}
+        \begin{pmatrix}
+            A_1 &  & 0 \\
+             & \ddots &  \\
+            0 &  & A_k
+        \end{pmatrix}
+        \text{ where } m_{A_i}(t) = (t - \lambda_i)^{c_i}
+    \end{equation*}
+    by theorem~\ref{thmGenESpaceDecompose}.
+
+    Therefore, we can restrict to the case that $A$ has only one eigenvalue.
+
+
+\end{proof}
 \end{document}
