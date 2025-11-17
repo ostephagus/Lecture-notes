@@ -186,7 +186,7 @@ Note that indeed $|\hat{f}(\lambda)| \to 0$ as $|\lambda| \to \infty$, but only 
 From theorem~\ref{thmInverseFT},
 \begin{align*}
     H(x) e^{-\sigma x} &= \frac{1}{2\pi} \int_{-\infty}^{\infty} \frac{e^{i \lambda x}}{\sigma + i \lambda} d\lambda \\
-    &= \frac{1}{2\pi i} \int_{-\infty}^{\infty} \frac{e^{i \lambda x}}{\lambda - i \sigma} dx
+    &= \frac{1}{2\pi i} \int_{-\infty}^{\infty} \frac{e^{i \lambda x}}{\lambda - i \sigma} d\lambda
 \end{align*}
 This is easy to evaluate with ideas from IB Complex Methods. However, we will use differentiation under the integral sign to evaluate it:
 \begin{align*}
@@ -326,4 +326,148 @@ For PDEs on bounded domains, we often found solutions of the form:
     f(x) = \sum_{n=1}^{\infty} \hat{f}_n Y_n(x)
 \end{equation*}
 In an unbounded domain, we need to instead take a continuous set of eigenfunctions, using an integral rather than a sum. This is closely linked to the Fourier Transform.
+\section{Important Examples}
+\subsection{Poisson Summation Formula}
+\begin{proposition}
+    For a suitable function $f$,
+    \begin{equation*}
+        \sum_{n \in\Z} f(x + n) = \sum_{n \in \Z} \hat{f}(2 \pi n) e^{2 \pi n x}
+    \end{equation*}
+    \label{propPoissonSum}
+\end{proposition}
+\begin{proof}
+    First note that the LHS and RHS are periodic in $x$ with period 1. Let the LHS be $F$, and RHS be $G$. Therefore, they have a Fourier series:
+    \begin{align*}
+        \hat{F}_n &= \int_{0}^{1} e^{-2 \pi i n x} F(x) dx \\
+        &= \sum_{m \in \Z} e^{-2 \pi i n x} f(x + m) dx \\
+        &= \sum_{m \in \Z} \int_{m}^{m+1} e^{-2 \pi inx} f(x) dx \\
+        &= \int_{-\infty}^{\infty} e^{-2 \pi i n x} f(x) dx \\
+        &= \hat{f}(2 \pi n)
+    \end{align*}
+    Therefore $\hat{F}_n = \hat{G}_n$, so $F(x) = G(x)$.
+\end{proof}
+\begin{example}
+    Consider $f(x) = H(x) x e^{-\sigma x}$ with $\Re(\sigma) > 0$.
+
+    Computing the Fourier Transform:
+    \begin{align*}
+        \text{Let } g(x) &= H(x) e^{-\sigma x} \\
+        \text{So } f(x) &= x f(x) \\
+        \hat{f}(x) &= i \frac{d}{d\lambda} \hat{g}(\lambda) \text{ by proposition~\ref{propFTMult}} \\
+        &= i \frac{d}{d\lambda} \left(\frac{1}{\sigma + i \lambda}\right) \\
+        &= i \frac{-i}{(\sigma + i \lambda)^2} \\
+        &= (\sigma + i \lambda)^{-2}
+    \end{align*}
+    Now apply proposition~\ref{propPoissonSum} with $x = 0$:
+    \begin{align*}
+        \sum_{n \in \Z} \hat{f}(2 \pi n) e^{2 \pi n} &= \sum_{n \in \Z} f(n) \\
+        \sum_{n \in \Z} \frac{e^{2 \pi n}}{(2 \pi i n + \sigma)^2} &= \sum_{n \in \Z} n e^{-\sigma n} \\
+        &= \frac{e^{\sigma}}{(1 - e^\sigma)^2} \\
+        &= \frac{4}{\sinh^2\left(\frac{\sigma}{2}\right)}
+    \end{align*}
+\end{example}
+\begin{example}
+    Setting $f(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}$, we recall that $\hat{f}(\lambda) = e^{-\frac{\lambda^2}{2}}$. Applying this:
+    \begin{equation*}
+        \frac{1}{\sqrt{2\pi}} \sum_{n \in \Z} e^{-(x + n)^2 / 2} = \sum_{n \in \Z} e^{-(2 \pi n)^2 / 2} e^{2 \pi i n x}
+    \end{equation*}
+\end{example}
+\subsection{Heisenberg Uncertainty Principle}
+\begin{proposition}
+    If $\psi$ is a normalised eigenfunction, $\int_{-\infty}^{\infty} |\psi(x, t)|^2 dx = 1$,
+    \begin{equation*}
+        \left(\int_{-\infty}^{\infty} x^2 |\psi(x, t)|^2 dx \right)\left(\int_{-\infty}^{\infty} \lambda^2 |\hat{\psi}(\lambda, t)|^2 d\lambda \right) \geq \frac{\pi}{2}
+    \end{equation*}
+    \label{propHeisUncertainty}
+\end{proposition}
+\begin{proof}
+    Start with $1 = \int_{-\infty}^{\infty} 1 \times \psi(x, t) \overline{\psi}(x, t) dx$.
+    We can integrate by parts:
+    \begin{align*}
+        1 &= -\int_{-\infty}^{\infty} x \frac{\partial}{\partial x}\left(\psi \overline{\psi}\right) dx  \\
+        &= -\int_{-\infty}^{\infty} x \psi \overline{\psi}' + x \psi' \overline{\psi} dx \\
+        \intertext{Then by triangle inequality:}
+        &\leq 2 \int_{-\infty}^{\infty} x|\psi||\psi'| dx \\
+        &\leq 2 \left(\int_{-\infty}^{\infty} x^2 |\psi|^2 dx \right)^\frac12 \left(\int_{-\infty}^{\infty} |\psi'|^2 dx \right)^\frac12 
+    \end{align*}
+    Recall the product rule for Fourier transforms, $\FT[f'(x)] = (i \lambda) \FT[f(x)]$.
+    \begin{align*}
+        \int_{-\infty}^{\infty} |f(x)|^2 dx &= \frac{1}{2\pi} \int_{-\infty}^{\infty} |\hat{f}(\lambda)|^2 d\lambda \\
+        \implies \int_{-\infty}^{\infty} |f'(x)|^2 dx &= \frac{1}{2\pi} \int_{-\infty}^{\infty} \lambda^2 |\hat{f}(\lambda)|^2 d\lambda
+    \end{align*}
+    And hence:
+    \begin{equation*}
+        1 \leq \left(\int_{-\infty}^{\infty} x^2 |\psi|^2 dx \right)^\frac12 \left(\frac{1}{2\pi}\int_{-\infty}^{\infty} \lambda^2|\hat{\psi}|^2 d\lambda \right)^\frac12 
+    \end{equation*}
+    and the result follows.
+\end{proof}
+Note now that replacing $\psi(x, t)$ with $e^{- i \lambda_0x} \psi(x + x_0, t)$,
+\begin{align*}
+    \left(\int_{-\infty}^{\infty} x^2 |\psi(x + x_0, t)|^2 dx \right)^\frac12 \left(\frac{1}{2\pi}\int_{-\infty}^{\infty} \lambda^2|\hat{\psi}(\lambda + \lambda_0, t)|^2 d\lambda \right)^\frac12 &\geq \frac\pi2 \\
+    \left(\int_{-\infty}^{\infty} (x - x_0)^2|\psi(x, t)|^2 dx \right)^\frac12 \left(\frac{1}{2\pi}\int_{-\infty}^{\infty} (\lambda - \lambda_0)^2|\hat{\psi}(\lambda, t)|^2 d\lambda \right)^\frac12 &\geq \frac\pi2 \\
+\end{align*}
+And then choosing:
+\begin{align*}
+    x_0 &= \int_{-\infty}^{\infty} x |\psi(x, t)|^2 dx \\
+    \lambda_0 &= \int_{-\infty}^{\infty} \lambda |\hat{\psi}(\lambda, t)|^2 d\lambda
+\end{align*}
+gives the Heisenberg uncertainty principle.
+\subsection{Extending Fourier Series to Fourier Transforms}
+Consider a smooth function $f : \R \mapsto \C$ and assume that $f(x)$ is identically zero outside $(-L, L)$. Then on the interval $(-L, L)$, we can construct the Fourier series:
+\begin{align*}
+    f(x) &= \sum_{n \in \Z} \hat{f}_n e^{- \pi nx / L} \\
+    \hat{f}_n &= \frac{1}{2L} \int_{-L}^{L} e^{-i\pi nx/L}f(x) dx \\
+    &= \frac{1}{2L} \int_{-\infty}^{\infty} e^{-i\pi nx/L}f(x) dx
+\end{align*}
+because $f$ is zero outside the considered range $(-L, L)$.
+
+Now write $\lambda_n = \frac{n \pi }{L}$, $\delta \lambda_n = \lambda_{n+1} - \lambda_n = \frac{\pi}{L}$. Then:
+\begin{equation*}
+    \hat{f}_n = \frac{1}{2\pi}\delta \lambda_n \hat{f}(\lambda_n).
+\end{equation*}
+Now for $x \in (-L, L)$,
+\begin{align*}
+    f(x) &= \frac{1}{2\pi} \sum_{n \in \Z} e^{i \lambda_n x} \hat{f}(\lambda_n) \delta \lambda_n\\
+    \intertext{Now take $l \to \infty$, and so $\delta \lambda_n \to 0$:}
+    &= \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda x} \hat{f}(\lambda) d\lambda 
+\end{align*}
+Also, from Parseval's theorem:
+\begin{align*}
+    \int_{-L}^{L} |f(x)|^2 dx &= 2L \sum_{n \in \Z} |\hat{f}_n|^2 \\
+    &= \frac{1}{2\pi} \sum_{n \in \Z} |\hat{f}(\lambda_n)|^2 \delta \lambda_n \\
+    \intertext{then taking $L \to \infty$:}
+    \int_{-\infty}^{\infty} |f(x)|^2 dx &= \frac{1}{2\pi} \int_{-\infty}^{\infty} |\hat{f}(\lambda)|^2 d\lambda
+\end{align*}
+So we can derive Parseval's theorem for Fourier Transforms from Parseval's theorem for Fourier Series.
+\subsection{Central Limit Theorem}
+Let $X_1, \cdots, X_n$ be independent and identically distributed random variables with expectation $\mu$ and variance $\sigma^2$. WLOG, after possibly shifting each random variable, let $\mu = 0$.
+
+Define $S_n = \frac{1}{\sqrt{n}} \sum_{i = 1}^n X_i$.
+
+Denote the probability density function of $S_n$ by $f(x)$.
+\begin{align*}
+    \hat{f}_n(\lambda) &=\E\left(e^{-i \lambda S_n}\right) \\
+    &=\E\left(e^{-i \lambda (X_1 + \cdots + X_n) / \sqrt{n}}\right) \\
+    &= \prod_{i=1}^{n} \E\left(e^{- i \lambda X_i / \sqrt{n}}\right) \\
+    &= \left(\E\left(e^{-i \lambda X_1 / \sqrt{n}}\right)\right)^n \\
+    &= \varphi_{X_1}\left(\frac{\lambda}{\sqrt{n}}\right)^n
+\end{align*}
+where $\varphi$ is the moment generating function for $X_1$.
+Now notice:
+\begin{align*}
+    \varphi_{X_1}(0) &= 1 \\
+    \varphi_{X_1}'(0) &= \mu = 0 \\
+    \varphi_{X_1}''(0) &= -\sigma^2
+\end{align*}
+For ease, set $\sigma = 1$. Now the Fourier transform is:
+\begin{align*}
+    \hat{f}_n(\lambda) &= \left(1 - \frac12 \frac{\lambda^2}{n} + o\left(\frac{1}{n}\right)\right)^n \\
+    &= e^{-\lambda^2 / 2} + o(1) \text{ as $n \to \infty$}
+\end{align*}
+Now recall that the Gaussian is an eigenfunction of the Fourier Transform, so by the Inverse Fourier Transform:
+\begin{align*}
+    \lim_{n \to \infty} f_n(x) &= \lim_{n \to \infty} \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{i \lambda x} \hat{f}_n(\lambda) d\lambda  \\
+    &= \frac{1}{\sqrt{2\pi}} e^{-x^2 / 2}
+\end{align*}
+That is, $S_n$ tends to a Gaussian random variable in distribution.
 \end{document}
