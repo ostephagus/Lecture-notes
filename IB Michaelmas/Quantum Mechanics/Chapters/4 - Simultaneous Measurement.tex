@@ -257,4 +257,60 @@ We have shown that indeed this lower bound is achieved by the Gaussian Wavepacke
             \frac{d\E{\hat{x}}_\psi}{dt} = \frac{\E{\hat{p}}_\psi}{m}
         \end{equation*}
 \end{examples}
+\nonexaminablesection{Harmonic Oscillator, Revisited}
+Write the Hamiltonian operator in terms of $\hat{p}$ and $\hat{x}$:
+\begin{equation*}
+    \hat{H} = \frac{\hat{p}^2}{2m} + \frac12 m \omega^2 \hat{x}^2
+\end{equation*}
+Then we want to know the eigenvalues and eigenfunctions of the Hamiltonian. We can re-write as:
+\begin{align*}
+    \hat{H} &= \frac{1}{2m}\left(\hat{p} + i m \omega \hat{x}\right)(\hat{p} - i m \omega \hat{x}) + \frac{i \omega}{2} \cmmt{p}{x} \\
+    &= \frac{1}{2m}\left(\hat{p} + i m \omega \hat{x}\right)(\hat{p} - i m \omega \hat{x}) + \frac{\hbar \omega}{2} \hat{I}
+\end{align*}
+Define the \underline{ladder operators}:
+\begin{align*}
+    \hat{a} &= \frac{1}{\sqrt{2m}} (\hat{p} - i \omega \hat{x}) \\
+    \hat{a}^\dagger &= \frac{1}{\sqrt{2m}} (\hat{p} + i \omega \hat{x})
+\end{align*}    
+Therefore we can rewrite the Hamiltonian once again:
+\begin{equation*}
+    \hat{H} = \hat{a}^\dagger \hat{a} + \frac{\hbar \omega}{2} \hat{I}
+\end{equation*}
+Then we commute the following commutators:
+\begin{align*}
+    [\hat{a}, \hat{a}^\dagger] &= \frac{1}{2m} [\hat{p} - i m \omega \hat{x}, \hat{p} + i m \omega \hat{x}] \\
+    &\qquad= -\frac{i m \omega}{2m} \cmmt{x}{p} + \frac{i m \omega}{2m} \cmmt{p}{x} \\
+    &\qquad= \hbar \omega \hat{I} \\
+    \cmmt{H}{a} &= [\hat{a}^\dagger \hat{a}, \hat{a}] = -\hbar \omega \hat{a} \\
+    [\hat{H}, \hat{a}^\dagger] &= [\hat{a}^\dagger \hat{a}, \hat{a}^\dagger] = \hbar \omega \hat{a}^\dagger
+\end{align*}
+Now suppose that $\chi$ is an eigenfunction of $\hat{H}$ with eigenvalue $E$. Then $\hat{H} \chi = E\chi$. Now take $\hat{a} \chi$ and consider its energy:
+\begin{align*}
+    \hat{H}(\hat{a}\chi) &= \hat{H} \hat{a} \chi = \cmmt{H}{a} \chi + \hat{a} \hat{H} \chi \\
+    &= -\hbar \omega \hat{a} \chi + E\hat{a} \chi \\
+    &= (E - \hbar \omega) \hat{a} \chi
+\end{align*}
+So we find that $\hat{a} \chi$ is an energy eigenfunction with eigenvalue $E - \hbar \omega$. We have found that $\hat{a}$ ``steps down'' an energy eigenstate. Analogously, $\hat{a}^\dagger \chi$ is an eigenfunction with energy $(E + \hbar \omega)$. This is why we called $\hat{a}$ and $\hat{a}^\dagger$ the \textit{ladder operators}.
+
+Then we can easily show (by induction), that:
+\begin{align*}
+    (\hat{a}^n \chi)&\text{ is an energy eigenstate with energy eigenvalue }E - n \hbar \omega \\
+    ((\hat{a}^\dagger)^n \chi)&\text{ is an energy eigenstate with energy eigenvalue }E + n \hbar \omega
+\end{align*}
+Using the fact that, for the Quantum Harmonic Oscillator, the energy must be non-negative, we can find the ground state by solving:
+\begin{equation*}
+    \hat{a} \chi_0 = 0
+\end{equation*}
+Solving this:
+\begin{align*}
+    0&= \frac{1}{\sqrt{2m}}(\hat{p} - i m \omega \hat{x}) \chi_0 \\
+    &= -i \hbar \frac{d\chi_0}{dx} - i m \omega x \chi_0 \\
+    \implies \chi_0(x) &= Ce^{-m \omega x^2 / 2\hbar} \\
+    \hat{H} \chi_0(x) &= \hat{a}^\dagger \hat{a} \chi_0 + \frac{\hbar \omega}{2} \hat{I} \chi_0 \\
+    &= 0 + \frac{\hbar \omega}{2} \chi_0
+\end{align*}
+So we have found the ground state with energy $\frac{\hbar \omega}{2}$ and eigenfunction $\chi_0(x) = Ce^{-m \omega x^2 / 2\hbar}$. To find the higher energy states, we can simply apply $\hat{a}$ to $\chi_0$ to get $\chi_1$, etc. We find, as we expect, that these will have energy eigenvalues:
+\begin{equation*}
+    E_n = \left(n + \frac12\right)\hbar \omega
+\end{equation*}
 \end{document}

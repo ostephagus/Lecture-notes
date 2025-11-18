@@ -10,7 +10,7 @@
 
 \usepackage{tabularx}
 
-\newcommand{\uvec}[1]{
+\newcommand{\opvec}[1]{
     \StrCut{#1}{_}\firstpart\secondpart
     \hat{\boldsymbol{\firstpart}}_{\secondpart}
 }
@@ -23,14 +23,14 @@
     \ddot{\boldsymbol{\firstpart}}_{\secondpart}
 }
 
-\newcommand{\duvec}[1]{
-    \StrCut{#1}{_}\firstpart\secondpart
-    \dot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
-}
-\newcommand{\dduvec}[1]{
-    \StrCut{#1}{_}\firstpart\secondpart
-    \ddot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
-}
+%\newcommand{\duvec}[1]{
+%    \StrCut{#1}{_}\firstpart\secondpart
+%    \dot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
+%}
+%\newcommand{\dduvec}[1]{
+%    \StrCut{#1}{_}\firstpart\secondpart
+%    \ddot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
+%}
 
 \newcommand{\ybar}{\bar{\psi}}
 \newcommand{\hilb}{\mathcal{H}}% Hilbert space
@@ -56,5 +56,6 @@
 \chapter{Simultaneous Measurement}
 \subfile{Chapters/4 - Simultaneous Measurement.tex}
 \chapter{Schr\"odinger Equation II}
+\subfile{Chapters/5 - Schrodinger II.tex}
 
 \end{document}
