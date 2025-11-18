@@ -580,4 +580,149 @@ The goal of this section is to understand the conditions required for a Markov c
         \P(X_n = y) \to \pi(y) \text{ as $n \to \infty$.}
     \end{equation*}
 \end{proof}
+\section{Name?}
+\begin{theorem}
+    Let $P$ be a transition matrix for a Markov chain, and suppose that it is irreducible, aperiodic, and null recurrent. Then:
+    \begin{equation*}
+        p_{xy}(n) \to 0 \text{ as } n \to infty
+    \end{equation*}
+    for all states $x, y$.
+    \label{thmNullRecToZero}
+\end{theorem}
+\begin{proof}
+    Consider again the bivariate transition matrix $\tilde{P}$:
+    \begin{equation*}
+        \tilde{P}((x, y), (x', y')) = P(x, x') P(y, y')
+    \end{equation*}
+    \begin{case}{$\tilde{P}$ is transient}
+        Then by definition:
+        \begin{align*}
+            \infty &> \sum_{n \geq 0} \tilde{P}^n((x, y), (x, y)) \\
+            &= \sum_{n \geq 0} p_{xy}(n)^2
+        \end{align*}
+        Then $p_{xy}(n) \to 0$ as $n \to \infty$.
+    \end{case}
+    \begin{case}{$\tilde{P}$ is recurrent}
+        Consider, for a fixed $y \in I$,
+        \begin{equation*}
+            \nu_y(x) \E_y\left[\sum_{n=0}^{T_y-1} \ind{X_n = x}\right]
+        \end{equation*}
+        Then since $P$ is irreducible and recurrent, $\nu_y$ is invariant for $P$. Since $P$ is also null recurrent, $\E_y(T_y)$ is infinite.
+        \begin{align*}
+            \E_y(T_y)&= \sum_{x \in I} \nu_y(x) \\
+            &= \nu_y(I)
+        \end{align*}
+        Then for any $M > 0$, there exists a finite subset $A \subseteq I$ such that $\nu_y(A) \geq M$. If not, we could not have $\nu_y(I)$ infinite. Using this, define a new distribution:
+        \begin{equation*}
+            \mu(x) = \nu_y(x | A) = \frac{\nu_y(x)}{\nu_y(A)} \ind{x \in A}
+        \end{equation*}
+        so $\mu(x) = 0$ if $x \notin A$.
+
+        Define the independent Markov chains:
+        \begin{align*}
+            \chain{X} &\sim \operatorname{Markov}(\mu, P) \\
+            \chain{Y} &\sim \operatorname{Markov}(\delta_x, P)
+        \end{align*}
+        define also $T = \inf\subsetselect{n \geq 1}{(X_n, Y_n) = (x, x)}$, the time at which the chains meet. As in the proof of theorem~\ref{thmFundamentalConvergence}, $T < \infty$ with probability 1. Define, as before,
+        \begin{equation*}
+            Z_n = \begin{cases}
+                X_n & n < T \\
+                Y_n & n \geq T
+            \end{cases}
+        \end{equation*}
+        and we have already seen that $Z \sim \operatorname{Markov}(\mu, P)$.
+
+        \begin{align*}
+            (\mu P^n)_y &= \sum_{z \in I} \mu(z) P^n(z, y) \\
+            &= \sum_{z \in I} \frac{\nu_y(z)}{\nu_y(A)} \ind{z \in A} P^n(z, y) \\
+            &\leq \sum_{z \in I} \frac{\nu_y(z)}{\nu_y(A)} P^n(z, y) \\
+            &= \frac{1}{\nu_y(A)} \nu_y(z) \text{ because $\nu_y$ is invariant for $P$} \\
+            &= \frac{1}{\nu_y(A)} \leq \frac{1}{M}
+        \end{align*}
+        Finally, 
+        \begin{align*}
+            p_{xy}(n) & = \P(Y_n = y) \\
+            &= \P(Y_n = y, T > n) + \P(Y_n = y, T \leq n) \\
+            &\leq \P(T > n) + \P(X_n = y) \\
+            &\leq \P(T > n) + \frac{1}{M}
+        \end{align*}
+        Taking the limit $n \to \infty$:
+        \begin{align*}
+            \lim_{n \to \infty} p_{xy}(n) &\leq \frac{1}{M} \\
+            \implies p_{xy}(n) &= 0 \text{ because we can take $M \to \infty$.}
+        \end{align*}
+    \end{case}
+\end{proof}
+\nonexaminablesection{Ergodic Theorem for Markov Chains}
+We can prove a theorem that is analogous to the Law of Large Numbers for a Markov chain:
+\begin{theorem}[Ergodic Theorem for Markov Chains]
+    Suppose $\chain{X} \sim \operatorname{Markov}(\vec{\lambda}, P)$ is irreducible and positive recurrent with invariant distribution $\pi$. Then:
+    \begin{equation*}
+        \frac1n \sum_{i=0}^{n-1} \ind{X_i = x} \to \pi(x) \text{ for all $x \in I$ as $n \to \infty$}
+    \end{equation*}
+    with probability 1.
+    \label{thmErgodic}
+\end{theorem}
+\begin{remark}
+    This gives us the Law of Large Numbers in its usual form. Suppose $f : I \mapsto \R$. Then:
+    \begin{align*}
+        \frac1n \sum_{i=0}^{n-1} f(X_i)&= \frac1n \sum_{i=0}^{n-1} \sum_{a \in I} \ind{X_i = a} f(a) \\
+        &= \sum_{a \in I} \left[\frac1n \sum_{i=-}^{n-1} \ind{X_i = a}\right] f(a)
+        &= \sum_{a \in I} \pi(a) f(a) \text{ as $n \to \infty$}
+    \end{align*}
+    Therefore we have:
+    \begin{equation*}
+        \frac1n \sum_{i = 0}^{n -1} f(X_i) \to \sum_{a \in I} \pi(a) f(a) = \E_\pi[f(X)]
+    \end{equation*}
+    with probability $1$.
+\end{remark}
+\begin{proof}
+    Recall the notation, for $x$ fixed:
+    \begin{equation*}
+        T_x^{(0)} = 0,\qquad T_x^{(k+1)} = \inf\subsetselect{n > T_x^{(k)}}{X_n = x}
+    \end{equation*}
+    And let $V_n(x)$ be the total number of visits to $x$ by time $n$:
+    \begin{equation*}
+        V_n(x) = \sum_{i=0}^{n-1} \ind{X_i = x}
+    \end{equation*}
+    So we are interested in the limit of $\frac1n V_n(x)$ as $n \to \infty$.
+
+    Since $\chain{X}$ is positive recurrent, $E_x(T_x) < \infty$, where $T_x = T_x^{(1)}$. By the Strong Markov Property, 
+    \begin{equation*}
+        (X_0, X_1, \cdots, X_{T_x}) \text{ are independent of } (X_{T_x + n})_{n \geq 0}
+    \end{equation*}
+    And so $(X_{T_x + n}) \sim \operatorname{Markov}(\delta_x, P)$.
+
+    Therefore, without loss of generality, we can consider only the case $\vec{\lambda} = \delta_x$.
+
+    Define the sequences:
+    \begin{equation*}
+        S_x^{(k)} =
+        \begin{cases}
+            T_x^{(k)} = T_x^{(k-1)} & T_x^{(k-1)} \text{ is finite} \\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    Again by the strong Markov property, we have that the sequences are independent and identically distributed, with:
+    \begin{equation*}
+        \E(S_x^{(k)}) = \E(T_x) = \frac1{\pi(x)}
+    \end{equation*}
+    and let this be $m_x$.
+
+    By the definitions, %TODO: check
+    we have:
+    \begin{equation*}
+        S_x^{(1)} + \cdots + S_x^{(V_n(x) - 1)} \leq n \leq S_x^{(1)} + \cdots + S_x^{(V_n(x))}
+    \end{equation*}
+    Then by the standard Strong Law of Large Numbers we know, as $n \to \infty$,
+    \begin{equation*}
+        \frac1n \sum_{k=1}^{n} S_x^{(k)} \to m_x \text{ with probability $1$.}
+    \end{equation*}
+    We also know that $V_n(x) \to \infty$ as $n \to \infty$, so:
+    \begin{align*}
+        \frac{S_x^{(1)} + \cdots + S_x^{(V_n(x) - 1)}}{V_n(x)} &\leq \frac{n}{V_n(x)} \leq \frac{S_x^{(1)} + \cdots + S_x^{(V_n(x))}}{V_n(x)} \\
+        \frac{V_n(x)}{n} &= \frac{1}{n} \sum_{i=0 }^{n-1} \ind{X_i = x} \to \frac{1}{m_\lambda} = \pi(x)
+    \end{align*}
+    as $n \to \infty$ with probability $1$.
+\end{proof}
 \end{document}
