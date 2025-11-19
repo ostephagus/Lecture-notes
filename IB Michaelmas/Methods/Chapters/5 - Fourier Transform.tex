@@ -470,4 +470,149 @@ Now recall that the Gaussian is an eigenfunction of the Fourier Transform, so by
     &= \frac{1}{\sqrt{2\pi}} e^{-x^2 / 2}
 \end{align*}
 That is, $S_n$ tends to a Gaussian random variable in distribution.
+\section{The Discrete Fourier Transform}
+\subsection{Definition and Connection with Continuous FT}
+The discrete Fourier transform does what the Fourier Transform does but to sequences. That is, it allows us to define a new sequence with possibly different properties.
+
+\begin{definition}{Discrete Fourier transform}
+    Given a sequence $(X_n)_{n = 0}^{N-1} \in \C^{N}$, define the \underline{discrete Fourier transform} (DFT) of this sequence by the new sequence $(\hat{X}_k)_{k = 0}^{N-1}$ defined by:
+    \begin{equation*}
+        \hat{X}_k = \sum_{n=0}^{N-1} X_n e^{-(\frac{2\pi n}{N})k}
+    \end{equation*}
+\end{definition}
+Now let $f : [0, 2\pi) \mapsto \C$ be given and suppose that $X_n = f(x_n)$ where $(x_n)$ is the sequence:
+\begin{equation*}
+    x_n = \frac{2\pi n}{N} \in [0, 2\pi)
+\end{equation*}
+Further, setting $\delta x_n = x_{n+1} - x_n = \frac{2\pi }{N}$,
+\begin{align*}
+    \hat{X}_k&= \frac{N}{2\pi} \sum_{n=0}^{N-1} f(x_n) e^{-ikx_n} \delta x_n
+\end{align*}
+If we then extend $f(x) = 0$ when $x \notin [0, 2\pi)$, we find:
+\begin{equation*}
+    \hat{X}_k \approx \frac{N}{2\pi} \int_{-\infty}^{\infty}  e^{-ikx} f(x) dx = \frac{N}{2\pi} \hat{f}(k)
+\end{equation*}
+Then for $N$ large,
+\begin{equation*}
+    \hat{f}(k) \approx \frac{2\pi}{N} \hat{X}_k
+\end{equation*}
+So indeed we have that the DFT is the discrete analogue of the normal, continuous Fourier transform.
+\subsection{The Inverse DFT}
+\begin{proposition}
+    Given $(\hat{X}_k)_{k = 0}^{N-1}$, the series $(X_n)_{n = 0}^{N-1}$ given by:
+    \begin{equation*}
+        X_n = \frac{1}{N} \sum_{k=0}^{N-1} \hat{X}_k e^{i \frac{2\pi k}{N}n}
+    \end{equation*}
+    is such that $(\hat{X}_k)$ is the DFT of $(X_n)$.
+    \label{propInverseDFT}
+\end{proposition}
+\begin{proof}
+    By direct computation:
+    \begin{align*}
+        &\sum_{k=0}^{N-1} \hat{X}_k e^{i \frac{2\pi n}{N}k} \\
+        &= \sum_{k=0}^{N-1} \sum_{m=0}^{N-1} X_m e^{2 \pi i (n - m) k / N} \\
+        \intertext{Write $\omega_N = e^{2 \pi i / N}$:}
+        &= \sum_{m=0}^{N-1} X_m \sum_{k=0}^{N-1} \omega_N^{n-m}k
+    \end{align*}
+    Then for each term, if $n = m$ then the term is 1. When summed, this gives $N$. If they are different, the sum is given by:
+    \begin{align*}
+        \sum_{k=0}^{N-1} \omega_N^{n-m}k &= \frac{1 - \omega_N^{n-m}N}{1 - \omega_N^{n-m}} \\
+        &= \frac{1 - 1}{1 - \omega_N^{n-m}} = 0
+    \end{align*}
+    Therefore,
+    \begin{align*}
+        \sum_{k=0}^{N-1} \hat{X}_k e^{2\pi i k n / N}&= \sum_{m = 0}^{N-1} X_m N \delta_{nm} \\
+        &= N X_n
+    \end{align*}
+\end{proof}
+\subsection{Connection to Linear Algebra}
+We can also represent these finite sequences as vectors in $\C^N$. Therefore:
+\begin{equation*}
+    \hvec{X} = \FT \vec{X}
+\end{equation*}
+and so $\FT$, in this case, is an $N \times N$ matrix, with elements given by:
+\begin{equation*}
+    \FT_{kn} = e^{-i \frac{2\pi n}{N} k}
+\end{equation*}
+From the previous, we know that:
+\begin{equation*}
+    \FT \FT^\dagger = \FT^\dagger \FT = N I_N
+\end{equation*}
+and so $\FT$ is \textit{almost} unitary. In fact, the matrix $\frac{1}{\sqrt{n}}\FT$ is unitary.
+\begin{example}
+    Take $X_n$ to be the binomial coefficients, $X_n = \binom{N-1}{n}$. Taking the DFT:
+    \begin{equation*}
+        \hat{X}_k = \sum_{n=0}^{N-1} \binom{N-1}{n} e^{-i (2\pi i n / N)k} = (1 + e^{-2 \pi i k / N})^{N-1}
+    \end{equation*}
+\end{example}
+\subsection{Properties of the DFT}
+\begin{proposition}[Parseval's theorem for DFT]
+    \begin{equation*}
+        \sum_{n=0}^{N-1} X_n \overline{Y_n} = \frac{1}{N} \sum_{k=0}^{N-1} \hat{X}_k \overline{\hat{Y}_k}
+    \end{equation*}
+    \label{propParsevalDFT}
+\end{proposition}
+\begin{proof}
+    Starting from the RHS, and using the matrix form:
+    \begin{align*}
+        &= \frac{1}{N} (\FT \vec{X})\cdot(\FT \vec{Y}) \\
+        &= \left(\frac{1}{\sqrt{n}} \FT \vec{X}\right) \cdot \left(\frac{1}{\sqrt{n}} \FT\vec{Y}\right) \\
+        &= \vec{X} \cdot \vec{Y} \text{ because $\frac1{\sqrt{n}}\FT$ is unitary}
+    \end{align*}
+\end{proof}
+\begin{corollary}
+    \begin{equation*}
+        \sum_{n=0}^{N-1} |X_n|^2 = \frac1n \sum_{k=0}^{N-1} |\hat{X}_k|^2
+    \end{equation*}
+    \label{corParsevalDFT}
+\end{corollary}
+\begin{example}
+    Again take $X_n$ to be the binomial coefficients, $X_n = \binom{N-1}{n}$. Use proposition~\ref{propParsevalDFT}:
+    \begin{align*}
+        \sum_{n=0}^{N-1} \binom{N-1}{n}^2 &= \frac1N \sum_{k=0}^{N-1} (1 + e^{-2 \pi i k / N})^{N-1} (1 + e^{2 \pi i k / N})^{N-1} \\ 
+        &= \frac1n \sum_{k=0}^{N-1} \left(e^{i \pi k / N} + e^{- i \pi k / N}\right)^{2N-2} \\
+        &= \frac1n \sum_{k=0}^{N-1} \left(2 \cos\left(\frac{n \pi}{k}\right)\right)^{2N-2}
+    \end{align*}
+    Then by IA Numbers and Sets, we can simplify the LHS:
+    \begin{align*}
+        &= \sum_{n=0}^{N-1} \binom{N-1}{n} \binom{N-1}{n} \\
+        &= \sum_{n=0}^{N-1} \binom{N-1}{n} \binom{N-1}{N-1-n} \\
+        &= \binom{2N-2}{N-1}
+    \end{align*}
+    Therefore, setting $M = N-1$:
+    \begin{equation*}
+        \frac{1}{2^{2M}} \binom{2M}{M} = \frac{1}{M+1} \sum_{k=0}^{M} \cos^{2M}\left(\frac{\pi k}{M+1}\right)
+    \end{equation*}
+    And we note that this is the probability of getting exactly $M$ heads after tossing a fair coin $2M$ times.
+\end{example}
+As with the continuous Fourier Transform, we can define the convolution of sequences:
+\begin{definition}{Convolution (of sequences)}
+    Given sequences $(X_n)_{n = 0}^{N-1}$ and $(Y_n)_{n = 0}^{N-1}$, define the \underline{convolution} as:
+    \begin{equation*}
+        (X \star Y)_n = \sum_{m=0}^{N-1} X_{(n - m) \operatorname{mod} N}Y_m
+    \end{equation*}
+\end{definition}
+\begin{proposition}
+    \begin{equation*}
+        \left[\FT(X \star Y)\right]_k = \hat{X}_k \hat{Y}_k
+    \end{equation*}
+    \label{propConvProdDFT}
+\end{proposition}
+\begin{proof}
+    Compute directly:
+    \begin{align*}
+        \text{LHS } &=\sum_{n=0}^{N-1} \left(\sum_{m=0}^{N-1} X_{(n - m) \operatorname{mod} N}Y_m\right)e^{-i \left(\frac{2\pi n}{N}\right)k} \\
+        &= \sum_{m=0}^{N-1} Y_m e^{-i (2 \pi m / N)k} \sum_{n=0}^{N-1} X_{(n - m) \operatorname{mod} N} e^{-i (2\pi (n-m) / N)k} \\
+        &= \sum_{m=0}^{N-1} Y_m e^{-i (2 \pi m / N)k} \hat{X}_k \\
+        &= \hat{X}_k \hat{Y}_k
+    \end{align*}
+\end{proof}
+\nonexaminablesubsection{Computational Complexity and FFT}
+The Discrete Fourier transform, given by:
+\begin{equation*}
+    \hat{X}_k = \sum_{n=0}^{N-1} X_n e^{-(2 \pi n / N) k}
+\end{equation*}
+has (if computed directly), a time complexity of $O(n^2)$, consistent with matrix multiplication. However, in the 1960s it was discovered that there exists an algorithm (the Fast Fourier Transform, FFT) which can perform the computation in time complexity $O(N \log_2(N))$. This was an enormous speedup. Incidentally, Gauss actually discovered this all the way back in 1820.
+
+In the 1990s, with the advent of (theoretical) quantum computing, a Quantum algorithm was developed that can do this in time complexity $O((\log_2(N))^2)$. This is fast enough to break RSA encryption, but practial limitations mean that such an algorithm will not run for many years on quantum computers.
 \end{document}

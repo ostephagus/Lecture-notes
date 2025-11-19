@@ -14,6 +14,11 @@
 \renewcommand{\Im}{\operatorname{Im}}
 \newcommand{\E}{\mathbb{E}}
 
+\newcommand{\hvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \hat{\boldsymbol{\firstpart}}_{\secondpart}
+}
+
 \begin{document}
 \maketitle
 \tableofcontents
