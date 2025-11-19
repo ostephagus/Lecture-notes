@@ -920,8 +920,47 @@ We can now provide a \textbf{non-examinable} sketch proof of the existence of JN
     \end{equation*}
     by theorem~\ref{thmGenESpaceDecompose}.
 
-    Therefore, we can restrict to the case that $A$ has only one eigenvalue.
+    Now we can restrict to this block-diagonal form, with the $A_i$ having only one eigenvalue. Therefore, we want to prove that these $A_i$ are in JNF, and this is enough to show that in fact $A$ can be put in JNF. For ease of notation, let $A$ have only one eigenvalue (let $A$ be one of these blocks $A_i$).
 
+    Further, we can re-label $A - \lambda_i I$ to $A$, to consider only the case where the one eigenvalue is zero.
 
+    Therefore, because now $A$ has a zero eigenvalue, we can assume that there exists $m$ such that $A^m = 0$. Such a matrix is called \underline{nilpotent}.
+
+    Now consider a matrix $B$ in JNF with all zero eigenvalues. We have that the diagonal one above the main diagonal will have either 1s or zeroes, represented by $\mu_i \in \{0,1\}$:
+    \begin{equation*}
+        B =
+        \begin{pmatrix}
+            0 & \mu_1 & 0 & \cdots & 0 \\
+            0 & 0 & \mu_2 & & \vdots \\
+            \vdots & \vdots & & \ddots & 0 \\
+            0 & 0 & 0 & 0 & \mu_{n-1} \\
+            0 & 0 & 0 & 0 & 0
+        \end{pmatrix}
+    \end{equation*}
+    Note in particular what happens to the basis vectors under this matrix. For a basis vector $\vec{e_i}$, these will either map to the zero vector $\zv$ or to the previous basis vector $\vec{e_{i-1}}$. We claim that we can find a basis such that $\alpha$, the linear map represented in the standard basis by $A$, also has this property and is therefore in JNF.
+    \begin{subproof}{There exists a basis $B$ for $\alpha$ such that $\alpha(b_i) \in \{b_{i-1}, \zv\}$}
+        \induction{$\dim(V) = 1$}{
+            In this case we must have $A = \left( 0 \right)$, which sends the basis vector $1$ to $0$.
+        }{$\dim(V) < k$}{
+            Assume that there exists a basis for $\alpha$ such that $\alpha(b_i) \in \{b_{i-1}, \zv\}$.
+        }{$\dim(V) = k$}{
+            Let $W$ be $\im(\alpha)$. We know that $\dim(W) < \dim(V)$ because $A$ is nilpotent. We know also that $\alpha(W) \leq W$, so we can define the restriction:
+            \begin{equation*}
+                \alpha |_W : W \mapsto W
+            \end{equation*}
+            which is also nilpotent. By induction, we have a basis:
+            \begin{align*}
+                B' = \{&\alpha^{l_1}(w_1), \alpha^{l_1 - 1}(w_1), \cdots, \alpha(w_1), w_1 \\
+                &\alpha^{l_2}(w_2), \alpha^{l_2 - 1}(w_2), \cdots, \alpha(w_2), w_2 \\
+                &\vdots \\
+                &\alpha^{l_k}(w_k), \alpha^{l_k - 1}(w_k), \cdots, \alpha(w_k), w_k\}
+            \end{align*}
+            and this is made up of $k$ chains of basis vectors all mapping to the previous basis vector (or zero in the case of $\alpha^{l_i}(w_i)$).
+            Now we want to extend this to a basis for $V$, but we must be careful about how we do this. We write $w_i = \alpha(v_i)$ for some $v_i \in V$, because $W = \im(\alpha)$. However, we also need the basis vectors that correspond to Jordan blocks of size 1, so extend the kernel of $\alpha|_W$ to a basis of $\kera$.
+
+            We can show that this is what we want, although the proof is non-examinable so it's not worth doing.
+        }
+    \end{subproof}
+    Now we have bases for the individual generalised eigenspaces of $A$, so putting these together we get a basis for $A$ such that it is in JNF.
 \end{proof}
 \end{document}

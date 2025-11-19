@@ -1,0 +1,188 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definitions and Examples}
+\begin{definition}{Bilinear form}
+    A \underline{bilinear form} is a function $\varphi : U \times V \mapsto \F$ such that, for each fixed $u_0 \in U$ and $v_0 \in V$, the functions:
+    \begin{align*}
+        \varphi_{u_0} : V &\mapsto \F & \varphi^{v_0} : U &\mapsto \F \\
+        v &\mapsto \varphi(u_0, v) & u &\mapsto \varphi(u, v_0)
+    \end{align*}
+    are linear.
+\end{definition}
+\begin{examples}[Examples of Bilinear functions]{
+        
+    }
+    \item $U = V = \F^n$, $\varphi(\vec{x}, \vec{y}) = \sum_{i=1}^{n} x_i y_i$. In the case $\F = \R$, this is the inner product.
+    \item $A \in M_{m \times n}(\F)$, the function:
+        \begin{align*}
+            \varphi : \F^m \times \F^n &\mapsto \F\\
+            (\vec{x}, \vec{y}) &\mapsto \vec{x}^T A \vec{y}
+        \end{align*}
+    \item For $U = V = C[0, 1]$, the integral inner product given by:
+        \begin{equation*}
+            \varphi(f, g) = \int_{0}^{1} f(x)g(x) dx
+        \end{equation*}
+    \item The function:
+        \begin{align*}
+            \varphi : V \times V^* &\mapsto \F\\
+            (v, \theta) &\mapsto \theta(v)
+        \end{align*}
+\end{examples}
+\begin{definition}{Matrix of Bilinear Form}
+    For $U, V$ finite-dimensional vector spaces over a field $\F$, with bases $B = \{b_1, \cdots, b_m\}$ and $C = \{c_1, \cdots, c_n\}$, and a bilinear form $\varphi$, the \underline{matrix of $\varphi$} with respect to $B$ and $C$ is:
+    \begin{equation*}
+        [\varphi]_{B, C} = \left(\varphi(b_i, c_j)\right)_{i, j} \in M_{m \times n}(\F)
+    \end{equation*}
+\end{definition}
+\begin{proposition}
+    The matrix $[\varphi]_{B, C}$ as defined in the above definition satisfies:
+    \begin{equation}
+        \left([u]_B\right)^T [\varphi]_{B, C} [v]_C = \varphi(u, v)
+        \label{eqnBFMatProduct}
+    \end{equation}
+    for all $u \in U, v \in V$. Further, $[\varphi]_{B, C}$ is the only matrix satisfying equation~\ref{eqnBFMatProduct}.
+    \label{propBFMatProducts}
+\end{proposition}
+\begin{proof}
+    Fix any $u \in U, v \in V$. Find their linear combinations:
+    \begin{equation*}
+        u = \sum_{i=1}^{m} \lambda_i b_i,\qquad v = \sum_{j=1}^{n} \mu_i c_i
+    \end{equation*}
+    So that $[u]_B = \vec{\lambda}$, and $[v]_C = \vec{\mu}$.
+
+    Then we can find $\varphi(u, v)$:
+    \begin{align*}
+        \varphi(u, v) &= \sum_{i=1}^{m}\sum_{j=1}^{n} \varphi(\lambda_i b_i, \mu_i c_i) \\
+        &= \sum_{i=1}^{m}\sum_{j=1}^{n} \lambda_i \mu_i\varphi(b_i, c_i) \\
+        &= \vec{\lambda}^T \left(\varphi(b_i, c_i)\right)_{ij} \vec{\mu}
+    \end{align*}
+    as required. If now $A \in M_{m \times n}(\F)$ satisfies equation~\ref{eqnBFMatProduct}, for all $u \in U, v \in V$:
+    \begin{align*}
+        \varphi(b_i, c_j)&= \left([b_i]_B\right)^T A [c_j]_C \\
+        &= \vec{e_i}^T A \vec{e_j} \\
+        &= a_{ij}
+    \end{align*}
+    Therefore $A$ and $[\varphi]_{B, C}$ are equal on every component, so they are equal.
+\end{proof}
+\begin{corollary}
+    If $B, B'$ are bases for $U$ and $C, C'$ are bases for $V$, then the change of basis formula for the matrix of $\varphi$ is:
+    \begin{equation*}
+        [\varphi]_{B', C'} = \left([\Id_U]_B^{B'}\right)^T [\varphi]_{B, C} [\Id_V]_C^{C'}
+    \end{equation*}
+    \label{corBFChangeBasis}
+\end{corollary}
+\begin{proof}
+    For each $u \in U, v \in V$,
+    \begin{align*}
+        \left([u]_{B'}\right)^T&\left([\Id_U]_B^{B'}\right)^T [\varphi]_{B, C} [\Id_V]_C^{C'}[v]_{C'} \\
+        &= \left([\Id_U]_B^{B'} [v]_B'\right)^T [\varphi]_{B, C} [v]_C \\
+        &= \left([v]_B\right)^T [\varphi]_{B, C} [v]_C \\
+        &= \phi(u, v)
+    \end{align*}
+    Then by proposition~\ref{propBFMatProducts}, the matrix representing $\varphi$ in any basis is unique, so we have the required formula.
+\end{proof}
+\begin{definition}{Rank of a bilinear form}
+    For a bilinear form $\varphi : U \times V \mapsto \F$ with $U, V$ finite-dimensional, the \underline{rank} of $\varphi$ is the rank of the matrix $[\varphi]_{B, C}$ with respect to any bases $B, C$.
+\end{definition}
+The matrices representing $\varphi$ in different bases are similar, and since similar matrices have the same rank we have that the rank of $\varphi$ is well-defined (same in all bases).
+
+For $U = V$, and $B, B'$ bases for $U$, we have that there exists $P \in GL_{\dim(V)}(\F)$ such that:
+\begin{equation*}
+    [\varphi]_{B, B'} = P^T [\varphi]_{B, B} P
+\end{equation*}
+We can more concretely define this relation:
+\begin{definition}{Congruent matrices}
+    For matrices $A, A' \in M_{n \times n}(\F)$, these are \underline{congruent} if there exists an invertible matrix $P$ such that $A' = P^T A P$.
+\end{definition}
+\begin{proposition}
+    Congruence of matrices is an equivalence relation over $M_{n \times n}(\F)$.
+    \label{propCongruenceEquiv}
+\end{proposition}
+\begin{proof}
+    Clearly for any matrix $A$ we have $A$ is congruent to itself by setting $P = I$.
+
+    Further, if $A$ is congruent to $B$ then $B$ is congruent to $A$ because $B = (P^{-1})^T A P^{-1}$.
+
+    Now suppose $A = P^T B P, B = Q^T C Q$. Then we also know that $A$ is congruent to $C$ because:
+    \begin{equation*}
+        A = (QP)^T C (QP)
+    \end{equation*}
+    and the product of invertible matrices is still invertible.
+\end{proof}
+\begin{definition}{Left and right linear map}
+    For a bilinear form $\varphi : V \times W \mapsto \F$, define the \underline{left linear map} of $\varphi$ to be:
+    \begin{align*}
+        \varphi_L : U &\mapsto V^*\\
+        u &\mapsto \varphi_L(u) \text{ such that } (\varphi_L(u))(v) = \varphi(u, v).
+    \end{align*}
+    Similarly define the \underline{right linear map} of $\varphi$ to be:
+    \begin{align*}
+        \varphi_R : V &\mapsto U^*\\
+        v &\mapsto \varphi_R(v) \text{ such that } (\varphi_R(v))(u) = \varphi(u, v)
+    \end{align*}
+\end{definition}
+\begin{lemma}
+    $\varphi_L : U \mapsto V^*$ and $\varphi_R : V \mapsto U^*$ are linear.
+    \label{lemLRBFLinear}
+\end{lemma}
+\begin{proof}
+    This follows immediately from the linearity of $\varphi$ in each argument.
+\end{proof}
+\begin{definition}{Left and right kernels}
+    Let $\varphi : U \times V \mapsto \F$ be a bilinear form. The set $\ker{\varphi_L}$ is the \underline{left kernel} of $\varphi$, which is a subspace of $U$. 
+    The set $\ker{\varphi_R}$ is the \underline{right kernel} of $\varphi$, which is a subspace of $V$.
+\end{definition}
+\begin{proposition}
+    Let $U$ and $V$ be finite-dimensional vector spaces over $\F$. Let $B$ and $C$ be bases for the respective spaces, with dual bases $B^*, C^*$. Then:
+    \begin{align*}
+        [\varphi_L]_{C^*}^B &= [\varphi]_{B, C} \\
+        [\varphi_R]_{B^*}^C &= \left([\varphi]_{B, C}\right)^T
+    \end{align*}
+    \label{propLRMapsMatrices}
+\end{proposition}
+\begin{proof}
+    Set $B = \{b_1, \cdots, b_m\}$ and $C = \{c_1, \cdots, c_n\}$. Let $A = [\varphi]_{B, C}$ and write:
+    \begin{equation*}
+        \varphi_L(b_i) = \sum_{j=1}^{n} a_{ij}' c_j^*
+    \end{equation*}
+    Then $a_{ij}' = (\varphi_L(b_i))(c_j) = \varphi(b_i, c_j) = a_{ij}$, so the required matrices are the same.
+
+    The proof for the right map is similar.
+\end{proof}
+\begin{corollary}
+    $rk(\varphi_L) = rk(\varphi) = rk(\varphi_R)$.
+    \label{corRankLRMap}
+\end{corollary}
+\begin{definition}{Perpendiculars}
+    For vector spaces $U$ and $V$ with subsets $S \subseteq U$, $T \subseteq V$, the \underline{perpendicular} of $S$ and $V$ are given by:
+    \begin{align*}
+        S^\perp &= \subsetselect{v \in V}{\forall s\in S, \varphi(s, v) = 0} \\
+        \lperp{T} &= \subsetselect{u \in U}{\forall t \in T, \varphi(t, u) = 0}
+    \end{align*}
+\end{definition}
+\begin{remarks}
+    \item $S^\perp \leq V$ and $\lperp{T} \leq U$ by the subspace test.
+    \item If $S_1 \subseteq S_2 \subseteq U$, then $S_2^\perp \leq S_1^\perp \leq V$. Similar for subsets of $V$.
+    \item $U^\perp = \ker(\varphi_L)$, $\lperp{V} = \ker(\varphi_R)$.
+\end{remarks}
+\begin{definition}{Degeneracy}
+    A bilinear form $\varphi$ is \underline{degenerate} if one of the perpendiculars $U^\perp$ or $\lperp{V}$ are nontrivial.
+\end{definition}
+\begin{proposition}
+    For $U$, $V$ finite-dimensional, $B$, $C$ respective bases, $\varphi$ is non-degenerate if and only if:
+    \begin{itemize}
+        \item $U$ and $V$ have the same dimension, and
+        \item $[\varphi]_{B, C}$ is invertible.
+    \end{itemize}
+    \label{propDegeneracyConditions}
+\end{proposition}
+\begin{proof}
+    We provide the following chain of equivalences:
+    \begin{align*}
+        \text{Non-degeneracy} &\iff \ker{\varphi_L}, \ker{\varphi_R} \text{ are trivial} \\
+        &\iff \dim(U) = rk(\varphi_L) = rk(\varphi) = rk(\varphi_R) = \dim(V) \\
+        &\iff \dim(U) = \dim(V) \text{ and } [\varphi]_{B, C} \text{ invertible.}
+    \end{align*}
+\end{proof}
+\end{document}
