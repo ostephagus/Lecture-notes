@@ -25,8 +25,8 @@ Recall the different volume integrals:
 \end{align*}
 We will consider only spherical potentials $U(\vec{x}) = U(r)$.
 
-\section{Three-Dimensional Operators}
-\subsection{Angular Momentum}
+\section{Angular Momentum}
+\subsection{Definition and Commutativity}
 In classical mechanics, we used the constant angular momentum to simplify 3-dimensional problems with a central potential into 2-dimensional ones. We will also define the angular momentum in Quantum Mechanics:
 \begin{definition}{Angular momentum}
     The \underline{angular momentum} in Quantum mechanics is an operator:
@@ -94,10 +94,167 @@ We can prove that the commutator is:
 \begin{equation*}
     [\hat{L}^2, \hat{L}_i] = 0
 \end{equation*}
-This tells us that we can find the magnitude of $\opvec{L}$ and one of its components with arbitrary precision. We generally find the $z$-component of the angular momentum and its magnitude. This is equivalent to simultaneously diagonalising the two operators. To find the joint set of eigenfunctions of $\hat{L}^2$ and $\hat{L}_3$, we write $\opvec{L}$ in spherical coordinates. This results in:
+This tells us that we can find the magnitude of $\opvec{L}$ and one of its components with arbitrary precision. We generally find the $z$-component of the angular momentum and its magnitude. This is equivalent to simultaneously diagonalising the two operators.
+\subsection{Eigenfunctions of Angular Momentum}
+To find the joint set of eigenfunctions of $\hat{L}^2$ and $\hat{L}_3$, we write $\opvec{L}$ in spherical coordinates. This results in:
 \begin{align*}
     \hat{L}_3 &= -i \hbar \frac{\partial}{\partial \phi} \\
     \hat{L}^2 &= -\frac{\hbar^2}{\sin^2{\theta}} \left[\sin{\theta} \frac{\partial}{\partial \theta}\left(\sin{\theta} \frac{\partial}{\partial \theta}\right) + \frac{\partial^{2}}{\partial \phi^{2}}\right]
 \end{align*}
 Then we find $Y(\theta, \phi)$, the joint eigenfunctions of these operators.
+The equations for $Y$ are:
+\begin{gather}
+    -i\hbar \frac{\partial }{\partial \phi} Y(\theta, \phi) = \hbar m Y(\theta, \phi) \label{eqnAngMomEFunc1} \\
+    -\frac{\hbar^2}{\sin^2{\theta}} \left[\sin{\theta} \frac{\partial}{\partial \theta}\left(\sin{\theta} \frac{\partial}{\partial \theta}\right) + \frac{\partial^{2}}{\partial \phi^{2}}\right] Y(\theta, \phi) = \lambda Y(\theta, \phi) \label{eqnAngMomEFunc2}
+\end{gather}
+Now we can look for separable solutions:
+\begin{equation*}
+    U(\theta, \phi) = \Theta(\theta) \Phi(\phi)
+\end{equation*}
+Substituting this into equation~\ref{eqnAngMomEFunc1},
+\begin{align*}
+    -i \hbar \Phi'(\phi) \Theta(\theta) &= \hbar m \Phi(\phi) \Theta(\theta) \\
+    \Phi'(\phi) &= im \Phi(\phi) \\
+    \therefore \Phi(\phi) &= e^{i m \phi}
+\end{align*}
+Now we note that the wavefunction $Y$ must be single-valued on $\R^3$, so we need invariance under $\phi \mapsto \phi + 2\pi$. Therefore, $m$ must be an integer (quantisation).
+
+Now we can solve for $\Theta$. Using the separable solution in equation~\ref{eqnAngMomEFunc2}:
+\begin{align}
+    -\frac{\hbar^2}{\sin^2{\theta}}&\left[\sin{\theta} \frac{\partial}{\partial \theta}\left(\sin{\theta} \Theta'(\theta)\right)\Phi(\phi) + \Theta(\theta)\Phi''(\phi)\right] = \lambda \Theta(\theta) \Phi(\phi)\nonumber \\
+    &= -\frac{\hbar^2}{\sin{\theta}} \frac{\partial }{\partial \theta} \left(\sin(\theta) \Theta'(\theta)\right) \Phi(\phi) +\frac{m^2 \hbar^2}{\sin^2{\theta}} \Phi(\phi) \Theta(\theta)
+\end{align}
+by substituting in $\Phi(\phi)$. Then divide through by $-\hbar^2 \Phi(\phi)$:
+\begin{equation}
+    \frac{1}{\sin{\theta}} \frac{\partial }{\partial \theta} \left(\sin(\theta) \Theta'(\theta)\right) -\frac{m^2}{\sin^2{\theta}} \Theta(\theta) = -\frac{\lambda}{\hbar^2} \Theta(\theta)
+    \label{eqnAssocLegendre}
+\end{equation}
+This is similar to the Legendre equation from IB Methods. In fact, equation~\ref{eqnAssocLegendre} is the \textit{associated Legendre Equation}. Its solutions are the \textit{associated Legendre functions}:
+\begin{align*}
+    \Theta(\theta) &= P_{l, m} (\cos(\theta)) \\
+    &= (\sin{\theta})^{|m|} \frac{d^{|m|}}{d(\cos(\theta))^{|m|}} P_l(\cos(\theta))
+\end{align*}
+where the $P_l(\cos(\theta))$ are the normal Legendre Polynomials.
+
+Note that, if $|m| > l$, we have that $y(\theta) = 0$ because these polynomials have degree $l$ so taking too many derivatives means that the output is zero. This gives us a bound on $m$ in terms of $l$:
+\begin{equation*}
+    -l \leq m \leq l
+\end{equation*}
+Then the eigenvalues of $\hat{L}^2$ are given by:
+\begin{equation*}
+    \lambda = \hbar^2 l(l+1)
+\end{equation*}
+Putting everything together:
+\begin{align*}
+    Y_{l,m}(\theta, \phi) &= P_{l, m}(\cos(\theta)) e^{i m \phi} \\
+    \hat{L}^2 Y_{l, m}(\theta, \phi) &= \hbar^2 l(l+1)Y_{l, m}(\theta, \phi) \\
+    \hat{L}_3 Y_{l, m}(\theta, \phi) &= \hbar mY_{l, m}(\theta, \phi)
+\end{align*}
+These are called \underline{spherical harmonics}.
+
+The parameters $l, m$ are quantum numbers that characterise the total angular momentum ($l$), and the $z$ component of angular momentum ($m$, the \underline{azimuthal number}).
+
+The first few states are:
+\begin{align*}
+    Y_{0, 0}(\theta, \phi) &= \frac{1}{\sqrt{4\pi}} \\
+    Y_{1, 0}(\theta, \phi) &= \sqrt{\frac{3}{4\pi}} \cos(\theta) \\
+    Y_{1, \pm 1}(\theta, \phi) &= \mp \sqrt{\frac{3}{8\pi}} \sin(\theta) e^{\pm \phi} \\
+\end{align*}
+Then like all eigenfunctions, we have an orthogonality relation:
+\begin{equation*}
+    \inn{Y_{l, m}}{Y_{l', m'}} = \delta_{ll'} \delta_{mm'}
+\end{equation*}
+\section{Spherically Symmetric Potential}
+In spherical coordinates, the Laplacian is:
+\begin{equation*}
+    \nabla^2 = \frac{1}{r^2} \frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right) + \frac{1}{r^2 \sin{\theta}} \frac{\partial }{\partial \theta}\left(\sin{\theta} \frac{\partial}{\partial \theta}\right)
+\end{equation*}
+Then looking at the definition of $\hat{L}^2$, we observe:
+\begin{equation*}
+    -\hbar^2 \nabla^2 = \frac{\hbar^2}{r^2} \frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right) + \frac{\hat{L}^2}{r^2}
+\end{equation*}
+Then the Hamiltonian operator is:
+\begin{equation}
+    \hat{H} = \frac{\hbar^2}{2mr^2} \frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right) + \frac{\hat{L}^2}{2mr^2} + U(\vec{x})
+    \label{eqnHamiltonianAngMom}
+\end{equation}
+\begin{proposition}
+    For a spherically symmetric potential $U(\vec{x}) = U(r)$,
+    \begin{equation*}
+        [\hat{H}, \hat{L}^2] = 0, \qquad [\hat{H}, \hat{L}_i] = 0
+    \end{equation*}
+    \label{propHamiltonianCommutes}
+\end{proposition}
+\begin{proof}
+    We need to look at the following commutators:
+    \begin{align*}
+        [\hat{L}_i, \hat{x}_j]&= [\epsilon_{imn} \hat{x}_m \hat{p}_n, \hat{x}_j] \\
+        &= \epsilon_{imn} \left(\hat{x}_m [\hat{p}_n, \hat{x}_j] + [\hat{x}_m, \hat{x}_j] \hat{p}_n\right) \\
+        &= \epsilon_{imn} \left(\hat{x}_m [\hat{p}_n, \hat{x}_j] + 0\right)
+    \end{align*}
+    Note also that we found $[\hat{p}_n, \hat{x}_j] = -i\hbar \delta_{nj}$:
+    \begin{align*}
+        [\hat{L}_i, \hat{x}_j]&= -i \hbar\epsilon_{imj} \hat{x}_m \\
+        &= i \hbar \epsilon_{ijk} \hat{x}_k
+    \end{align*}
+    Similarly we find:
+    \begin{align*}
+        [\hat{L}_i, \hat{x}_j^2] &= [\hat{L}_i, \hat{x}_j]\hat{x}_j + \hat{x}_j [\hat{L}_i, \hat{x}_j] \\
+        &= i \hbar \epsilon_{ijk} \left(\hat{x}_k \hat{x}_j + \hat{x}_j \hat{x}_k\right) \\
+        &= 0
+    \end{align*}
+    because this is a product of an antisymmetric tensor with a symmetric tensor.
+    Therefore, since $U(r)$ is a function containing only $\hat{x}_i^2$,
+    \begin{equation*}
+        [\hat{L}_i, U(r)] = 0
+    \end{equation*}
+\end{proof}
+\begin{remark}
+    We can analogously find:
+    \begin{align*}
+        [\hat{L}_i, \hat{P}_j] &= i \epsilon_{ijk} \hat{p}_k \\
+        [\hat{L}_i, \hat{P}_j^2] &= 0 \\
+        [\hat{L}_i, \hat{p}^2] &= [\hat{L}_i, \hat{P}_1^2 + \hat{p}_2^2 + \hat{p}_3^2] = 0 \\
+    \end{align*}
+    and note also that $\hat{p}^2 = -\hbar^2 \nabla^2$. This tells us that:
+    \begin{align*}
+        [\hat{H}, \hat{L}^2] &= 0 \\
+        [\hat{H}, \hat{L}_i] &= 0
+    \end{align*}
+\end{remark}
+In particular we find that $\{\hat{H}, \hat{L}^2, \hat{L}_i\}$ is a set of \underline{mutually commuting}\\\underline{operators}. This means we can find joint eigenstates of these three operators, that form a basis of $\hilb$.
+
+Further, this means that the eigenvalues $E, |\vec{L}|^2, L_z$ can be simultaneously measured, with arbitrary precision.
+
+It is very hard to prove, but is true, that this set of operators is \underline{maximal}. That is, we cannot construct another nontrivial operator that commutes with elements in this set.
+\subsection{Solving for Zero Angular Momentum}
+We will start by looking for the solutions of the TISE such that $\chi(r)$ satisfies $\hat{L}^2 \chi(r) = 0$.
+
+Substituting this in:
+\begin{align}
+    \nabla^2 \chi(r) &= \frac{1}{r} \frac{d^{2}}{d x^{2}}(r\chi(r)) \nonumber \\
+    \implies -\frac{\hbar^2}{2m} &\left(\frac{d^{2}\chi(r)}{dr^{2}}+ \frac{2}{r} \frac{d\chi(r)}{dr}\right) + U(r) \chi(r) = E\chi(r) \label{eqnTISESpherical}
+\end{align}
+We must also consider the normalisation conditions for $\chi$. These are slightly more complex in 3 dimensions. We need:
+\begin{align*}
+    1 &= \int_{\R^3} |\chi(r)|^2 dV \\
+    &= 4\pi \int_{0}^\infty |\chi(r)|^2 r^2 dr
+\end{align*}
+Then for this to hold, require that the eigenfunction $\chi(r)$ goes to $0$ as $r \to \infty$ sufficiently fast. This we have used often for 1-dimensional solutions.
+
+However, we also require that $\chi$ is well-behaved at $0$. We can be fairly relaxed with this condition, because we are multiplying by $r$ and then squaring, so we can permit, at worst, solutions containing terms like $\frac{1}{r}$.
+
+To solve equation~\ref{eqnTISESpherical}, we define $\sigma(r) = r \chi(r)$. Then:
+\begin{equation}
+    -\frac{\hbar^2}{2m} \frac{d^{2}\sigma(r)}{dr^{2}} + U(r) \sigma(r) = E\sigma(r)
+    \label{eqnTISESpherical2}
+\end{equation}
+This looks very familiar! However, we only define it on $r \geq 0$, and the normalisation condition is instead:
+\begin{equation*}
+    \int_{0}^{\infty} |\sigma(r)|^2 dr = \frac{1}{4\pi}
+\end{equation*}
+Then we want to impose boundary conditions:
+\begin{equation*}
+    \sigma(0) = 0,\quad \sigma'(0) \text{ is finite}
+\end{equation*}
 \end{document}
