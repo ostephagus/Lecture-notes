@@ -3,7 +3,7 @@
 \begin{document}
 \section{Definitions and Examples}
 \begin{definition}{Bilinear form}
-    A \underline{bilinear form} is a function $\varphi : U \times V \mapsto \F$ such that, for each fixed $u_0 \in U$ and $v_0 \in V$, the functions:
+    A \underline{bilinear form} is a function $\varphi : U \times V \mapsto \F$ that is linear in both arguments. That is, for each fixed $u_0 \in U$ and $v_0 \in V$, the functions:
     \begin{align*}
         \varphi_{u_0} : V &\mapsto \F & \varphi^{v_0} : U &\mapsto \F \\
         v &\mapsto \varphi(u_0, v) & u &\mapsto \varphi(u, v_0)
@@ -180,9 +180,291 @@ We can more concretely define this relation:
 \begin{proof}
     We provide the following chain of equivalences:
     \begin{align*}
-        \text{Non-degeneracy} &\iff \ker{\varphi_L}, \ker{\varphi_R} \text{ are trivial} \\
+        \text{Non-}&\text{degeneracy} \iff \ker{\varphi_L}, \ker{\varphi_R} \text{ are trivial} \\
         &\iff \dim(U) = rk(\varphi_L) = rk(\varphi) = rk(\varphi_R) = \dim(V) \\
         &\iff \dim(U) = \dim(V) \text{ and } [\varphi]_{B, C} \text{ invertible.}
     \end{align*}
 \end{proof}
+\section{Symmetric Bilinear Forms}
+We now consider bilinear forms where both arguments are in the same vector space.
+\begin{definition}{Symmetric bilinear form}
+    For a vector space $V$ over $\F$, a bilinear form $\varphi : V \times V \mapsto \F$ is \underline{symmetric} if for all $v_1, v_2 \in V$,
+    \begin{equation*}
+        \varphi(v_1, v_2) = \varphi(v_2, v_1)
+    \end{equation*}
+\end{definition}
+\begin{definition}{Symmetric matrix}
+    A matrix $A \in M_{n \times n}(\F)$ is \underline{symmetric} if $A = A^T$.
+\end{definition}
+\begin{proposition}
+    In a finite-dimensional vector space $V$, a bilinear form $\varphi$ is symmetric if and only if in a basis $B$, $[\varphi]_{B, B}$ is a symmetric matrix.
+    \label{propSymMatrixIffBF}
+\end{proposition}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Suppose that $\varphi$ is symmetric}
+        Then, in any basis $B$ of $V$, and for vectors $u, v \in V$,
+        \begin{align*}
+            \varphi(u, v) &= \varphi(v, u) \\
+            \left([u]_B\right)^T [\varphi]_B^B [v]_B &= \left([v]_B\right)^T [\varphi]_{B, B} [u]_B \\
+            &= \left(\left([u]_B\right)^T \left([\varphi]_{B, B}\right)^T [v]_B\right)^T \\
+            &= \left([u]_B\right)^T \left([\varphi]_{B, B}\right)^T [v]_B \\
+        \end{align*}
+        because scalars are invariant under transpose.
+
+        Since this is the case for all $u$ and $v$, $[\varphi]_{B, B}$ must be equal to its transpose.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that $\varphi$ can be represented by a symmetric matrix}
+        Consider the basis $B$ in which the matrix of $\varphi$ is symmetric. Then for any vectors $u, v \in V$,
+        \begin{align*}
+            \varphi(u, v) &=\left([u]_B\right)^T [\varphi]_B^B [v]_B  \\
+            &= \left(\left([u]_B\right)^T [\varphi]_B^B [v]_B\right)^T \text{ by same logic as above} \\
+            &= \left([v]_B\right)^T \left([\varphi]_B^B\right)^T [u]_B \\
+            &= \left([v]_B\right)^T [\varphi]_B^B [u]_B \text{ by symmetric matrix} \\
+            &= \varphi(v, u)
+        \end{align*}
+    \end{proofdirection}
+\end{proof}
+\begin{proposition}
+    Let $V$ be a vector space over $\F$, and let $\varphi$ be a symmetric bilinear form.
+    For any subset $S \subseteq V$, $\lperp{S} = S^\perp$.
+
+    In particular, the left and right kernels are equal.
+    \label{propBFSymPerpendicular}
+\end{proposition}
+The \underline{kernel} of a symmetric bilinear form is the left kernel or the right kernel (since they are equal).
+\begin{definition}{Quadratic form}
+    A \underline{quadratic form} on a vector space $V$ is a function $Q : V \mapsto \F$ such that there exists a bilinear form $\varphi : V \times V \mapsto \F$ with the property that $\varphi(v, v) = Q(v)$ for all $v \in V$.
+\end{definition}
+\begin{example}
+    Consider $V = \R^2$. For $A \in M_{2 \times 2}(\R)$, define the quadratic form:
+    \begin{equation*}
+        Q_A(\vec{x}) = \vec{x}^T A \vec{x}
+    \end{equation*}
+    Then we consider a corresponding bilinear form:
+    \begin{equation*}
+        \varphi(\vec{x}, \vec{y}) = \vec{x}^T A \vec{y}
+    \end{equation*}
+    Then note that $Q_A = Q_{\frac12 (A + A^T)}$.
+\end{example}
+\begin{proposition}[Polarisation Identity]
+    Suppose that, in $\F$, $1 + 1 \neq 0$. This excludes, for example, $\F = \Z / 2\Z$.
+
+    Let $Q : V \mapsto \F$ be a quadratic form. Then there exists a unique symmetric bilinear form:
+    \begin{equation}
+        \begin{split}
+            \psi : V \times V &\mapsto \F \\
+            \text{such that } Q(v) &= \psi(v, v)~\forall v \in V.
+        \end{split}
+        \label{eqnBFSymDef}
+    \end{equation}
+
+    In fact, $\psi$ is given by:
+    \begin{equation}
+        \psi(u, v) = \frac12 \left(Q(u + v) - Q(u) - Q(v)\right)
+        \label{eqnPolarisationId}
+    \end{equation}
+    \label{propPolarisationId}
+\end{proposition}
+\begin{proof}
+    \begin{subproof}{$\psi$ exists.}
+        Consider the bilinear form $\varphi$ from the definition of a quadratic form, so $\varphi(v, v) = Q(v)$ for all $v \in V$. Then define $\psi$ by symmetrising:
+        \begin{equation*}
+            \psi(u, v) = \frac12 (\varphi(u, v) + \varphi(v, u))
+        \end{equation*}
+    \end{subproof}
+    \begin{subproof}{$\psi$ is unique.}
+        Suppose that $\psi$ is a symmetric bilinear form satisfying equation~\ref{eqnBFSymmDef}. Then:
+        \begin{align*}
+            Q(u + v) &= \psi(u + v, u + v) \\
+            &= \psi(u, u) + \psi(u, v) + \psi(v, u) + \psi(v, v) \\
+            &= Q(u) + 2\psi(u, v) + Q(v) \text{ by symmetry} \\
+        \end{align*}
+        Then since we can divide by $2$, we can rearrange to get equation~\ref{eqnPolarisationId}. That is, all symmetric bilinear forms satisfying equation~\ref{eqnBFSymDef} must in fact be defined by equation~\ref{eqnPolarisationId}.
+    \end{subproof}
+\end{proof}
+\begin{theorem}
+    Suppose again that, in $\F$, $1 + 1 \neq 0$.
+
+    Let $V$ be a finite-dimensional vector space with $\varphi$ a symmetric bilinear form. Then there exists a basis $B$ for $V$ that $[\varphi]_{B, B}$ is a diagonal matrix.
+    \label{thmBFSymImpliesDiag}
+\end{theorem}
+\begin{remark}
+    The assumption that $\varphi$ is symmetric is necessary here. If instead there existed a basis such that the diagonal matrix $D$ represented a non-symmetric bilinear form, then because every diagonal matrix is symmetric we would get that $\varphi$ was symmetric by proposition~\ref{propSymMatrixIffBF}.
+\end{remark}
+\begin{proof}
+    Let $n = \dim(V)$.
+    \induction{$n = 1$}{
+        A 1-dimensional matrix is always diagonal.
+    }{$n = k$}{
+        Assume that, in a $k$-dimensional vector space, for any symmetric bilinear form there exists a basis in which its matrix is diagonal.
+    }{$n = k + 1$}{
+        If, for all $v \in V$, $Q(v) = 0$, then $[\varphi]_B^B = 0$ in any basis, which is diagonal.
+        If not, there exists a non-zero vector $v_1 \in V$ such that $\varphi(v_1, v_1) \neq 0$.
+
+        Define $U = \spn{v_1}^\perp = \ker(\varphi_L(v_1))$. Note that $v_1 \notin U$.
+
+        By theorem~\ref{thmRankNullity}, the dimension of $U$ is $k$, and $V = \spn{v_1} \oplus U$. Apply the inductive hypothesis, since $\varphi |_U : U \times U \mapsto \F$ is a symmetric bilinear form. Then we have a basis $B'$ for $U$ in which $[\varphi|_U]_{B, B}$ is diagonal.
+
+        Set $B = \{v_1\} \cup B'$, so $v_1$ is now the first vector in the basis. Then, since all elements of $U$ are in the perpendicular to $v_1$,
+        \begin{equation*}
+            [\varphi]_{B, B} =
+            \begin{pmatrix}
+                \varphi(v_1, v_1) &  & 0 \\
+                 & \ddots &  \\
+                0 &  & \varphi(v_n, v_n)
+            \end{pmatrix}
+        \end{equation*}
+    }
+\end{proof}
+\begin{corollary}
+    For fields with $1 + 1 \neq 0$, every symmetric matrix is congruent to a diagonal matrix.
+    \label{corSymImpliesDiag}
+\end{corollary}
+\begin{proof}
+    A symmetric matrix represents a symmetric bilinear form, which is represented by a diagonal matrix in a different basis. Since the change-of-basis formula for bilinear forms is a congruence relation, we have that any symmetric matrix is congruent to a diagonal one.
+\end{proof}
+\begin{example}
+    In practice, we generally do not have to use this inductive algorithm to find a basis in which $[\varphi]$ is diagonal.
+
+    Consider the Quadratic form:
+    \begin{align*}
+        Q(\vec{x}) &= x_1^2 - 4x_2 x_3 + x_3^2 \\
+        &= x_1^2 + (x_3 - 2x_2)^2 - (2x_2)^2 \\
+        &= z_1^2 + z_2^2 - z_3^2
+    \end{align*}
+    where we define $\vec{z}$:
+    \begin{equation*}
+        \vec{z} =
+        \begin{pmatrix}
+            1 & 0 & 0 \\
+            0 & -2 & 1 \\
+            0 & 2 & 0
+        \end{pmatrix}
+        \vec{x}
+    \end{equation*}
+    Let this matrix be $P^{-1}$, $\vec{z} = P^{-1} \vec{x}$.
+
+    Then let $Q(\vec{x}) = \varphi(\vec{x}, \vec{x})$, where:
+    \begin{equation*}
+        \varphi(\vec{x}, \vec{y}) = x_1 y_1 - 2(x_2 y_3 + x_3 y_2) + x_3 y_3
+    \end{equation*}
+    With respect to the standard basis, $\varphi$ has the matrix:
+    \begin{equation*}
+        [\varphi]_{E, E} =
+        \begin{pmatrix}
+            1 & 0 & 0 \\
+            0 & 0 & -2 \\
+            0 & -2 & 1
+        \end{pmatrix}
+    \end{equation*}
+    and $P^T A P$ is:
+    \begin{equation*}
+        [\varphi]_{B, B} =
+        \begin{pmatrix}
+            1 & 0 & 0 \\
+            0 & 1 & 0 \\
+            0 & 0 & -1
+        \end{pmatrix}
+    \end{equation*}
+\end{example}
+\begin{corollary}
+    Suppose that $V$ is a finite-dimensional vector space over $\F$, and $\varphi$ is a symmetric bilinear form. Then for the following fields, there exists a basis $B = \{v_1, \cdots, v_n\}$ such that:
+    \begin{enumerate}
+        \item In the case $\F = \C$,
+            \begin{equation*}
+                [\varphi]_{B, B} = \begin{pmatrix}
+                    I_r & 0 \\
+                    0 & 0
+                \end{pmatrix}
+                \text{ where } r = rk(\varphi)
+            \end{equation*}
+        \item In the case $\F = \R$,
+            \begin{equation*}
+                [\varphi]_{B,B} =
+                \begin{pmatrix}
+                    I_p & 0 & 0 \\
+                    0 & -I_q & 0 \\
+                    0 & 0 & 0
+                \end{pmatrix}
+                \text{ where } p + q = rk(\varphi)
+            \end{equation*}
+    \end{enumerate}
+    \label{corBFNiceDiag}
+\end{corollary}
+\begin{proof}
+    Choose a basis $C = \{c_1, \cdots, c_n\}$ such that $[\varphi]_C^C$ is diagonal, by theorem~\ref{thmBFSymImpliesDiag}. After possibly re-labelling, assume that the diagonal entries of $[\varphi]_{C, C}$ are:
+    \begin{equation*}
+        \begin{cases}
+            a_i & i \leq r \\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    If $\F = \R$, also re-label such that the $p$ positive diagonal entries come before the $q = r - p$ negative entries.
+
+    \begin{case}{$\F = \C$}
+        Define:
+        \begin{equation*}
+            v_i =
+            \begin{cases}
+                \frac{1}{\sqrt{a_i}}c_i & i \leq r \\
+                c_i & \text{otherwise}
+            \end{cases}
+        \end{equation*}
+        Then in this new basis all diagonal elements are 1.
+    \end{case}
+    \begin{case}{$\F = \R$}
+        Define:
+        \begin{equation*}
+            v_i =
+            \begin{cases}
+                \frac{1}{\sqrt{a_i}}c_i & i \leq p \\
+                \frac{1}{\sqrt{|a_i|}}c_i & p < i \leq r \\
+                c_i & \text{otherwise}
+            \end{cases}
+        \end{equation*}
+        Then in this new basis all diagonal elements are $1$ or $-1$, in the required form.
+    \end{case}
+\end{proof}
+\subsection{Definiteness}
+\begin{definition}{Definiteness}
+    Let $V$ be a real vector space, and $\varphi : V \times V \mapsto \R$.
+    \begin{enumerate}
+        \item $\varphi$ is \underline{positive-definite} if $\varphi(v, v) > 0$ for all $v \in V$.
+        \item $\varphi$ is \underline{positive semi-definite} if $\varphi(v, v) \geq 0$ for all $v \in V$.
+        \item $\varphi$ is \underline{negative definite} if $\varphi(v, v) < 0$ for all $v \in V$.
+        \item $\varphi$ is \underline{negative semi-definite} if $\varphi(v, v) \leq 0$ for all $v \in V$.
+        \item $\varphi$ is \underline{indefinite} otherwise.
+    \end{enumerate}
+\end{definition}
+We have similar definitions for quadratic forms.
+
+In the case $V$ is finite-dimensional, then we can use the representation given by corollary~\ref{corBFNiceDiag} to characterise these definitions:
+\begin{itemize}
+    \item If $q = 0$, then the bilinear form is positive semi-definite.
+    \item If further $p = r$, then the bilinear form is positive definite.
+    \item The other characterisations are similar.
+\end{itemize}
+\begin{definition}{Signature}
+    The \underline{signature} of a real symmetric bilinear form, $\sigma(\varphi)$, is $p - q$ in the representation given by corollary~\ref{corBFNiceDiag}.
+\end{definition}
+We can show that this is well-defined:
+\begin{theorem}[Sylvester's Law of Inertia]
+    For $V$ a finite-dimensional vector space and $\varphi$ a symmetric bilinear form, if $B$ and $B'$ are bases for $V$ such that:
+    \begin{equation*}
+        [\varphi]_{B, B} =
+        \begin{pmatrix}
+            I_p & 0 & 0 \\
+            0 & -I_q & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+        , \qquad [\varphi]_{B', B'} =
+        \begin{pmatrix}
+            I_{p'} & 0 & 0 \\
+            0 & -I_{q'} & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+    \end{equation*}
+    then $p = p', q = q'$. That is, the above representation is unique.
+    \label{thmSylvesterInertia}
+\end{theorem}
 \end{document}
