@@ -1,0 +1,167 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Well-Posedness}
+\begin{definition}{Well-posedness}
+    A problem is \underline{well-posed} if:
+    \begin{enumerate}
+        \item A solution exists
+        \item The solution is unique
+        \item The solution depends continuously on the given data (such as boundary conditions and initial conditions).
+    \end{enumerate}
+\end{definition}
+Conditions 1 and 2 are obvious, but 3 is more subtle: to mention continuity implicitly means that we have to assign some topology which permits this definition.
+
+For example, if we have an IBVP whose initial data and boundary data lie in a space $X$, and a time $t > 0$ the solution to this problem $u(x, t)$ belongs to another space $Y$, we get some abstract map:
+\begin{equation*}
+    S_t : X \mapsto Y
+\end{equation*}
+and we need to know whether this map is continuous. This depends on the metrics of $X$ and $Y$. Further, we want to have \textit{sensible} metrics - the discrete metric (assigning distance 1 to nonequal points, and 0 to equal points) will not do.
+\begin{example}
+    Consider the initial-value problem:
+    \begin{equation*}
+        \frac{dx}{dt} = -x,\qquad x(0) = x_0
+    \end{equation*}
+    Then clearly the first and second requirements of well-posedness are satisfied. The solution is:
+    \begin{equation*}
+        X_0(t) = x_0 e^{-t}
+    \end{equation*}
+    Now consider a different initial condition, $x(0) = x_1$. This has solution $X_1(t) = x_1 e^{-t}$. The difference in these solutions at time $t$ is:
+    \begin{equation*}
+        |X_1(t) - X_0(t)| = e^{-t}|x_1 - x_0| \leq |x_1 - x_0|
+    \end{equation*}
+    So, in the sense of the Euclidean norm, the problem is well-posed.
+\end{example}
+\begin{example}
+    We can try to find an ill-posed problem by looking at the heat equation. This has the behaviour that two different initial conditions give similar solutions after sufficient time, because the heat simply spreads out. However, we can reverse the direction of time and this means that two similar initial solutions will evolve very differently.
+
+    Consider the IBVP on $\Omega = (0, \pi)$:
+    \begin{equation*}
+        \begin{cases}
+            \phi_t + \phi_{xx} = 0 & \Omega \times (0, \infty) \\
+            \phi = 0 & \partial \Omega \times (0, \infty) \\
+            \phi = f & \Omega \times \{t = 0\}
+        \end{cases}
+    \end{equation*}
+    Then if $f(x) = 0$, we get the solution $\phi(x, t) = 0$.
+
+    If we take instead $f(x) = f_n(x) = \frac{1}{n} \sin(nx)$, we get the solution:
+    \begin{equation*}
+        \phi_n(x, t) = \frac{1}{n} e^{n^2 t} \sin(nx)
+    \end{equation*}
+    We see here that two initial conditions that are close give two solutions that are far apart. Consider the supremum norm on $(0, \pi)$:
+    \begin{align*}
+        ||f - f_n||_\infty &= \sup_{(0, \pi)} |f(x) - f_n(x)| = \frac1n \to 0 \\
+        ||\phi(x, t) - \phi_n(x, t)|_\infty &= \frac{1}{n} e^{n^2 t} \to \infty
+    \end{align*}
+    Then this is ill-posed. We have another notion (local well-posedness) when we consider initial conditions that are close together, and time not too long. However, this problem is not even locally well-posed.
+\end{example}
+\section{The Method of Characteristics}
+We want to solve a PDE of the following form:
+\begin{equation*}
+    a(x, y) \frac{\partial u}{\partial x} + b(x, y) \frac{\partial u}{\partial y} = c(x, y, u)
+\end{equation*}
+This is a quasi-linear problem, because the nonlinearity occurs only on the RHS.
+
+We consider this equation, along with initial conditions $u(x, y, 0) = \phi(x, y)$ on a curve $C \subseteq \R^2$.
+
+The key idea for this is attributed to Bernhard Riemann. This idea is to look at curves $(x, y) = (x(t), y(t))$ defined by:
+\begin{gather*}
+    \frac{dx}{dt} = a(x, y) \\
+    \frac{dy}{dt} = b(x, y) \\
+    (x(0),y(0)) \in C
+\end{gather*}
+We call these the \underline{characteristic curves}. Using these, we get a whole family of solutions determined by starting point $(x(0), y(0))$. Consider the evolution of $u(x, y)$ along a given characteristic. Set:
+\begin{equation*}
+    z(t) = u(x(t), y(t))
+\end{equation*}
+By the chain rule:
+\begin{align*}
+    \frac{dz}{dt} &= \frac{\partial u}{\partial x} \frac{dx}{dt} + \frac{\partial u}{\partial y} \frac{dy}{dt} \\
+    &= a(x, t) \frac{\partial u}{\partial x} + b(x, t) \frac{\partial u}{\partial y} \\
+    &= c(x, y, z) \text{ where $x, y, z$ are all functions of $t$.}
+\end{align*}
+Now we have an ordinary differential equation for $z$, with initial condition:
+\begin{equation*}
+    z(0) = u(x(0), y(0)) = \phi(x(0), y(0)) \text{ which is given.}
+\end{equation*}
+Instead of $(x(0), y(0))$, we will consider the curve $C$ to be parameterised by $s$, so then any point $(x, y) \in \R^2$ is given by $(s, t)$, where $s$ defines the characteristic and $t$ defines the point on the characteristic. We want to invert the relationship between $(x, y)$ and $(s, t)$.
+
+\begin{example}
+    Consider the problem:
+    \begin{equation*}
+        \frac{\partial u}{\partial x} + \frac{\partial u}{\partial y} = u,\qquad u(x, 0) = f(x)
+    \end{equation*}
+    Therefore our curve $C$ is $\{(s, 0), s \in \R\}$.
+
+    The derivatives $\frac{dx}{dt}$ and $\frac{dy}{dt}$ are both $1$, so the characteristic curves are:
+    \begin{equation*}
+        \left\{
+        \begin{split}
+            x &= t + x_0  \\
+            y &= t + y_0
+        \end{split}
+        \right.
+    \end{equation*}
+    We want $(x_0, y_0) \in C$ so take $(x_0, y_0) = (s, 0)$. Then $x = t + s, y = t$.
+    \begin{align*}
+        \frac{dz}{dt} &=c(x, y, z) \\
+        &= z \\
+        \therefore z(t) &= z_0 e^t \\
+        z_0 &= u(x_0, y_0) \\
+        &= u(s, 0) = f(s) \\
+        \therefore z(t, s) &= f(s) e^t
+    \end{align*}
+    We now want to invert the relationship between $(x, y)$ and $(s, t)$ to get $s$ and $t$ in terms of $x$ and $y$:
+    \begin{equation*}
+        t = y,\qquad s = x - y
+    \end{equation*}
+    Then our final solution is:
+    \begin{equation*}
+        u(x, y) = z(t(x, y), s(x, y)) = f(x - y) e^y
+    \end{equation*}
+\end{example}
+\begin{example}
+    Consider the problem:
+    \begin{equation*}
+        (1 + x^2) \frac{\partial u}{\partial x} + \frac{\partial u}{\partial y} = u + 1, \qquad u(0, y) = f(y)
+    \end{equation*}
+    Then our curve $C$ is $\{(0, s), s \in \R\}$.
+
+    The time derivatives for $x$ and $y$ are $\dot{x} = (1 + x^2)$, $\dot{y} = 1$, so:
+    \begin{equation*}
+        x(t) = \tan(t + \arctan(x_0)), \qquad y(y) = t + y_0
+    \end{equation*}
+    Then we need $(x_0, y_0) \in C$, $(x_0, y_0) = (0, s)$.
+    \begin{equation*}
+        \left\{
+        \begin{split}
+            x &= \tan(t) \\
+            y &= t + s
+        \end{split}
+        \right.
+    \end{equation*}
+    Then we find $z$:
+    \begin{align*}
+        \frac{dz}{dt}&= z + 1 \\
+        z(t) &= -1 + [z_0 + 1]e^t \\
+        z_0 &= u(x_0, y_0) = f(s) \\
+        \intertext{Hence}
+        z(t, s) &= -1 + \left[f(s) + 1\right]e^t
+    \end{align*}
+    Then inverting the $(t, s) \mapsto (x, t)$ map:
+    \begin{equation*}
+        \left\{
+        \begin{split}
+            t &= \arctan(x) \\
+            s &= y - \arctan(x)
+        \end{split}
+        \right.
+    \end{equation*}
+    We get our solution:
+    \begin{equation*}
+        u(x, y) = -1 + \left[f(y - \arctan(x)) + 1\right] e^{\arctan{x}}
+    \end{equation*}
+\end{example}
+However, we have a problem: what if the characteristic curves cross? In this case we would have two different characteristics for a single point, which means that the solution would take multiple values at that point. In fact this tells us that the problem has non-unique solutions, so is not well-posed.
+\end{document}
