@@ -527,7 +527,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
         \end{equation*}
         By multiplying this matrix out, we find that each power shifts the diagonal of 1s up each time, so the smallest $k$ for which this is zero is in fact $n$. That is, $m_A = \chi_A$.
 
-        This gives us that $a_\lambda = 1, g_\lambda = 1, c_\lambda = n$.
+        This gives us that $a_\lambda = n, g_\lambda = 1, c_\lambda = n$.
         \label{expJordanPolys}
 \end{examples}
 \begin{theorem}
@@ -597,7 +597,7 @@ We provide a theorem to summarise our characterisation of diagonalisability:
 \end{definition}
 Before we prove a theorem about simultaneous diagonalisability, we need the following lemma:
 \begin{lemma}
-    Let $\alpha, \beta$ commute. Then for an eigenspace $V_\lambda$ of $\alpha$, $\beta(V_\lambda) = V_\lambda$.
+    Let $\alpha, \beta$ commute. Then for an eigenspace $V_\lambda$ of $\alpha$, $\beta(V_\lambda) \leq V_\lambda$.
     \label{lemSimDiagSameEvecs}
 \end{lemma}
 \begin{proof}

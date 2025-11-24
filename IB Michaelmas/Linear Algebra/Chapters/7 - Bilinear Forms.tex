@@ -429,10 +429,10 @@ The \underline{kernel} of a symmetric bilinear form is the left kernel or the ri
 \begin{definition}{Definiteness}
     Let $V$ be a real vector space, and $\varphi : V \times V \mapsto \R$.
     \begin{enumerate}
-        \item $\varphi$ is \underline{positive-definite} if $\varphi(v, v) > 0$ for all $v \in V$.
-        \item $\varphi$ is \underline{positive semi-definite} if $\varphi(v, v) \geq 0$ for all $v \in V$.
-        \item $\varphi$ is \underline{negative definite} if $\varphi(v, v) < 0$ for all $v \in V$.
-        \item $\varphi$ is \underline{negative semi-definite} if $\varphi(v, v) \leq 0$ for all $v \in V$.
+        \item $\varphi$ is \underline{positive-definite} if $\varphi(v, v) > 0$ for all non-zero $v \in V$.
+        \item $\varphi$ is \underline{positive semi-definite} if $\varphi(v, v) \geq 0$ for all non-zero $v \in V$.
+        \item $\varphi$ is \underline{negative definite} if $\varphi(v, v) < 0$ for all non-zero $v \in V$.
+        \item $\varphi$ is \underline{negative semi-definite} if $\varphi(v, v) \leq 0$ for all non-zero $v \in V$.
         \item $\varphi$ is \underline{indefinite} otherwise.
     \end{enumerate}
 \end{definition}
@@ -444,6 +444,19 @@ In the case $V$ is finite-dimensional, then we can use the representation given 
     \item If further $p = r$, then the bilinear form is positive definite.
     \item The other characterisations are similar.
 \end{itemize}
+\begin{lemma}
+    Let $U, W$ be subsets of a vector space $V$.
+
+    If $\varphi |_U$ is positive definite and $\varphi |_W$ is negative semi-definite, then $U \cap W = \{\zv\}$.
+
+    Similarly, if $\varphi |_U$ is negative definite and $\varphi |_W$ is positive semi-definite, then $U \cap W = \{\zv\}$.
+    \label{lemBFRestrictDefness}
+\end{lemma}
+\begin{proof}
+    For all $v \in U \cap W$, we must have that, if $v \in \zv$, $\varphi(v, v) > 0$ and $\varphi(v, v) \leq 0$. \contradiction
+
+    The proof is similar for the second claim.
+\end{proof}
 \begin{definition}{Signature}
     The \underline{signature} of a real symmetric bilinear form, $\sigma(\varphi)$, is $p - q$ in the representation given by corollary~\ref{corBFNiceDiag}.
 \end{definition}
@@ -467,4 +480,198 @@ We can show that this is well-defined:
     then $p = p', q = q'$. That is, the above representation is unique.
     \label{thmSylvesterInertia}
 \end{theorem}
+\begin{proof}
+    \begin{subproof}{$p$ and $q$ are independent of the basis chosen.}
+        We will show that $p$ is the maximal dimension of a subspace $U$ such that $\varphi |_U$ is positive-definite, and same for $q$ with negative definite.
+
+        Let $B = \{v_1, \cdots, v_n\}$, and we know that in this basis:
+        \begin{equation*}
+            [\varphi]_{B, B} =
+            \begin{pmatrix}
+                I_p & 0 & 0 \\
+                0 & -I_q & 0 \\
+                0 & 0 & 0
+            \end{pmatrix}
+        \end{equation*}
+        Now define $U = \spn{v_1, \cdots, v_p}$ and $W = \spn{v_{p+1}, v_q}$. Then we know that $\varphi |_U$ is positive-definite, and $\varphi |_W$ is negative definite. To show that these are the largest such, suppose that $U'$ is another subspace such that $\varphi |_{U'}$ is positive definite, and with dimension $p' > p$.
+
+        We must have that $U, U', W$ are all subsets of the space $U + W$ where $\varphi$ is not trivially zero. By the sum intersection formula,
+        \begin{align*}
+            \dim(U' + W)&= \dim(U') + \dim(W) - \dim(U' \cap W) \\
+            &= p' + q - \dim(U' \cap W) \leq p + q
+        \end{align*}
+        This implies that $\dim(U' \cap W) \geq 1$, which contradicts lemma~\ref{lemBFRestrictDefness}
+        The case for $q$ is similar.
+    \end{subproof}
+    Then we have that $p$ and $q$ are invariant under change of basis.
+\end{proof}
+\begin{definition}{Totally isotropic subspace}
+    A subspace $T \leq V$ is \underline{totally isotropic} for a bilinear form $\varphi : V \times V \mapsto \F$ if, for all $u, v \in T$, $\varphi(u, v) = 0$.
+\end{definition}
+\begin{remark}
+    A totally isotropic subspace $T$ must intersect trivially with any subspace over which $\varphi$ is positive definite or negative definite.
+\end{remark}
+\begin{proposition}
+    Let $V$ be an $n$-dimensional vector space over $\F$. The maximal dimension of a totally isotropic subspace for a bilinear form $\varphi$ is $n - \max\{p, q\}$.
+    \label{propTISMaxDim}
+\end{proposition}
+\begin{proof}
+    Let $B = \{v_1, \cdots, v_n\}$ be a basis in which:
+    \begin{equation*}
+        [\varphi]_{B, B} =
+        \begin{pmatrix}
+            I_p & 0 & 0 \\
+            0 & -I_q & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+    \end{equation*}
+    Let $p \geq q$. The argument for the reverse is exactly symmetric, so we can do this without loss of generality.
+
+    Then let $T = \spn{v_1 + v_{p + 1}, v_2 + v_{p + 2}, \cdots, v_q + v_{p + q}, v_{p + 1 + 1}, \cdots, v_n}$.
+    Then this is a totally isotropic subspace of dimension $n - p$. Suppose $T'$ is another totally isotropic such that $\dim(T') > n - p$. Now set $U = \spn{v_1, \cdots, v_p}$. Now $\varphi |_U$ is positive definite, but by the sum-intersection formula,
+    \begin{align*}
+        \dim(U + T') &= \dim(U) + \dim(T') - \dim(U \cap T') \leq n \\
+        &= p + \dim(T') - \dim(U \cap T') \\
+        \implies &\dim(T') - \dim(U \cap T') \leq n - p
+    \end{align*}
+    But since $\dim(T') > n - p$, we have that $\dim(U \cap T') \geq 1$, which is a contradiction of the remark above.
+\end{proof}
+\section{Sesquilinear and Hermitian Forms}
+For this section, take $\F = \C$.
+\begin{example}
+    In the previous chapter, we defined the real dot product,
+    \begin{equation*}
+        \sum_{i = 1}^n x_i y_i
+    \end{equation*}
+    We also know about the complex dot product,
+    \begin{equation*}
+        \sum_{i=1}^{n} x_i \overline{y_i},
+    \end{equation*}
+    but we note that this is not linear in the second argument. Instead, we have \textit{conjugate linearity} which we will make rigorous in this section.
+\end{example}
+\begin{definition}{Sesquilinear form}
+    A \underline{sesquilinear form} on complex vector spaces $V$ and $W$ is a map $V \times W \mapsto \C$ such that, for any $v, v_1, v_2 \in V$, $w, w_1, w_2 \in W$, and $\lambda, \mu \in \C$,
+    \begin{enumerate}
+        \item $\varphi(\lambda v_1 + v_2, w) = \lambda \varphi(v_1, w) + \varphi(v_2, w)$
+        \item $\varphi(v, \mu w_1 + w_2) = \overline{\mu} \varphi(v, w_1) + \varphi(v, w_2)$
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    Sesquilinear forms can also be defined for fields that admit an operation akin to complex conjugation, but we will assume we are working in $\C$ when we discuss sesquilinear forms.
+\end{remark}
+Many of our results carry over from bilinear forms.
+
+\begin{definition}{Matrix of bilinear form}
+    Suppose $V, W$ are finite-dimensional vector spaces and $\varphi : V \times W \mapsto \C$ is a sesquilinear form. Given bases $B$ and $C$ for $V$ and $W$, the \underline{matrix of $\varphi$} is the matrix with elements:
+    \begin{equation*}
+        ([\varphi]_{B, C})_{i, j} = \varphi(b_i, c_j)
+    \end{equation*}
+\end{definition}
+\begin{proposition}
+    For vector spaces $V, W$ with bases $B, C$, $[\varphi]_{B, C}$ is the unique matrix satisfying:
+    \begin{equation}
+        \varphi(v, w) = \left([v]_B\right)^T [\varphi]_{B, C} \overline{[w]_C}
+        \label{eqnCFMatProduct}
+    \end{equation}
+    for all $v \in V, w \in W$.
+    \label{propCFMatProducts}
+\end{proposition}
+\begin{proof}
+    The proof is similar to that of proposition~\ref{propBFMatProducts}
+\end{proof}
+\begin{corollary}
+    Let $V, W$ be vector spaces with bases $B, C$. If $B', C'$ are different bases for $V, W$ respectively, then the change-of-basis formula for the matrix of $\varphi$ is:
+    \begin{equation*}
+        [\varphi]_{B', C'} = \left([\Id_V]_B^{B'}\right)^T [\varphi]_{B, C} \overline{[\Id_W]_{C}^{C'}}
+    \end{equation*}
+    \label{corCFChangeBasis}
+\end{corollary}
+As we found that symmetric forms were especially nice for the real case, we find that the appropriate symmetry condition is conjugate symmetry.
+\begin{definition}{Hermitian form}
+    A sesquilinear form $\varphi : V \times V \mapsto \C$ is a \underline{Hermitian form} if:
+    \begin{equation*}
+        \varphi(u, v) = \overline{\varphi(v, u)}
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item For $\varphi$ Hermitian, $\varphi(v, v) \in \R$ for all vectors $v$.
+    \item $\varphi(\lambda v, \lambda v) = |\lambda|^2$, so it makes sense to assign the same definitions of definiteness to Hermitian forms.
+    \item $\varphi(v, u) = 0$ if and only if $\varphi(u, v) = 0$, so the left and right perpendicular are the same.
+\end{remarks}
+\begin{definition}{Hermitian matrix}
+    $A \in M_{n \times n}(\C)$ is \underline{Hermitian} if:
+    $A = A^\dagger = \overline{A^T}$.
+\end{definition}
+\begin{lemma}
+    For a finite-dimensional vector space $V$, a sesquilinear form $\varphi : V \times V \mapsto \C$ is Hermitian if and only if there exists a basis such that the matrix of $\varphi$ is Hermitian.
+    \label{lemSFHermitIffMat}
+\end{lemma}
+\begin{proof}
+    Let $B = \{v_1, \cdots, v_n\}$, and let $A = [\varphi]_{B, B}$.
+    \begin{proofdirection}{$\Rightarrow$}{Suppose that $\varphi$ is Hermitian}
+        \begin{align*}
+            a_{ij} &= \varphi(b_i, b_j) \\
+            &= \overline{\varphi(b_j, b_i)} \\
+            &= \overline{a_{ji}}
+        \end{align*}
+        \begin{proofdirection}{$\Leftarrow$}{Assume that $A$ is Hermitian}
+            For vectors $u, w \in V$,
+            \begin{align*}
+                \varphi(u, w) &= \left([v]_B\right)^T A \overline{[w]_B} \\
+                &= \left(\left([v]_B\right)^T A \overline{[w]_B}\right)^T \text{ because this a scalar} \\
+                &= \left([w]_B\right)^\dagger A^T [v]_B \\
+                &= \left([w]_B\right)^\dagger \overline{A} [v]_B \\
+                &= \overline{\left([w]_B\right)^T A \overline{[v]_B}} \\
+                &= \overline{\varphi(w, u)}
+            \end{align*}
+        \end{proofdirection}
+    \end{proofdirection}
+\end{proof}
+We now provide an equivalent Polarisation Identity:
+\begin{proposition}[Sesquilinear Polarisation Identity]
+    Let $V$ be a complex vector space and $\varphi$ a Hermitian form over $V$.
+
+    Then $\varphi$ is uniquely determined by:
+    \begin{align*}
+        Q : V &\mapsto \R\\
+        v &\mapsto \varphi(v, v)
+    \end{align*}
+    by the expression:
+    \begin{equation}
+        \varphi(u, v) = \frac14 \left(Q(u + v) - Q(u - v) + iQ(u + iv) - iQ(u - iv)\right)
+        \label{eqnPolarisationIdC}
+    \end{equation}
+    \label{propPolarisationIdC}
+\end{proposition}
+\begin{proof}
+    The proof is just by multiplying out.
+\end{proof}
+\begin{theorem}
+    Let $V$ be finite-dimensional and $\varphi$ a Hermitian form. Then there exists a basis $B$ for $V$ such that:
+    \begin{equation*}
+        [\varphi]_{B, B} =
+        \begin{pmatrix}
+            I_p & 0 & 0 \\
+            0 & I_q & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+    \end{equation*}
+    and this is unique.
+    \label{thmSFNiceMatrix}
+\end{theorem}
+\begin{proof}
+    The proof is similar to the case of a real symmetric bilinear form.
+
+    We first show that this matrix exists:
+    \induction{$\dim(V) = 1$}{
+        A 1-dimensional matrix is always diagonal.
+    }{$\dim(V) = k$}{
+        Assume that a bilinear form of a $k$-dimensional can be expressed like above.
+    }{$\dim(V) = k + 1$}{
+        If $\varphi \equiv 0$, then we are done. Otherwise, there exists a vector $v_1$ such that $\varphi(v_1, v_1) \neq 0$ by proposition~\ref{propPolarisationIdC}. Let $U = \spn{v_1}^\perp$. Like in the proof of theorem~\ref{thmBFSymImpliesDiag}, we find that $V = U \oplus \spn{v_1}$ and apply the inductive hypothesis to $\varphi |_U$ to get that $[\varphi]_{B, B}$ is diagonal.
+    }
+    Then, once we have a basis in which $[\varphi]_{B, B}$ is diagonal, we can rescale the basis vectors to get the required form.
+
+    As in the proof of theorem~\ref{thmSylvesterInertia}, we can then characterise $p$ and $q$ based on the definiteness of the largest possible subspace, and so they are invariant under change of basis. That is, the representation is unique.
+\end{proof}
 \end{document}
