@@ -164,4 +164,156 @@ Instead of $(x(0), y(0))$, we will consider the curve $C$ to be parameterised by
     \end{equation*}
 \end{example}
 However, we have a problem: what if the characteristic curves cross? In this case we would have two different characteristics for a single point, which means that the solution would take multiple values at that point. In fact this tells us that the problem has non-unique solutions, so is not well-posed.
+\section{Classifying Second-Order PDEs}
+We will classify PDEs of the form $Lu = g$ where the operator $L$ is given by:
+\begin{equation}
+    a(x, y) \frac{\partial^{2}}{\partial x^{2}} + 2b(x, y) \frac{\partial^{2}}{\partial x\partial y} + c(x, y) \frac{\partial^{2}}{\partial y^{2}} + d(x, y) \frac{\partial }{\partial x} + e(x, y) \frac{\partial }{\partial y} + f(x, y)
+    \label{eqnGeneralSOPDE}
+\end{equation}
+The terms we most want to control are the higher-order terms, the second derivatives. We will focus on these, and introduce a change of variables $(x, y) \mapsto (\xi, \eta)$ to simplify the problem.
+
+Introduce vectors:
+\begin{equation*}
+    \vec{x} = \begin{pmatrix}x \\ y\end{pmatrix} = \begin{pmatrix}x_1 \\ x_2\end{pmatrix},\quad \vec{\xi} = \begin{pmatrix}\xi \\ \eta\end{pmatrix} = \begin{pmatrix}\xi_1 \\ \xi_2\end{pmatrix}
+\end{equation*}
+Then with this new notation the operator $L$ is:
+\begin{equation*}
+    L = \sum_{i, j = 1}^2 a_{ij} \frac{\partial^{2}u}{\partial x_i\partial x_j} + \text{lower order terms}
+\end{equation*}
+where $(a_{ij})$ is a matrix given by:
+\begin{equation*}
+    (a_{ij})(x, y) = \begin{pmatrix}
+        a(x, y) & b(x, y) \\
+        b(x, y) & c(x, y)
+    \end{pmatrix}
+\end{equation*}
+The following proposition tells us what happens under this coordinate transform:
+\begin{proposition}
+    Consider any transform $\vec{x} \mapsto \vec{\xi}$.
+    Let $U(\vec{\xi}) = u(\vec{x})$.
+    Then the operator $L$ for $u$ transforms to the operator $\tilde{L}$ for $U$ defined by:
+    \begin{equation*}
+        \tilde{L}U = \sum_{p, q = 1}^{2} A_{pq} \frac{\partial^{2}U}{\partial \xi_p\partial \xi_q}
+    \end{equation*}
+    where:
+    \begin{equation*}
+        A_{pq} = \sum_{i, j = 1}^{2} a_{ij} \frac{\partial \xi_p}{\partial x_i} \frac{\partial \xi_q}{\partial x_j}
+    \end{equation*}
+    \label{propTransformPDE}
+\end{proposition}
+\begin{proof}
+    Use summation convention. Then by the chain rule:
+    \begin{equation*}
+        \frac{\partial u}{\partial x_i} = \frac{\partial u}{\partial \xi_p} \frac{\partial \xi_p}{\partial x_i}
+    \end{equation*}
+    and so,
+    \begin{align*}
+        a_{ij} \frac{\partial^{2}u}{\partial x_i\partial x_j}&= a_{ij} \frac{\partial^{2}U}{\partial \xi_p\partial \xi_q} \frac{\partial \xi_p}{\partial x_i} \frac{\partial \xi_q}{\partial x_j} + a_{ij} \frac{\partial U}{\partial \xi_p} \frac{\partial^{2}\xi_p}{\partial x_i\partial x_j} \\
+        &= A_{pq} \frac{\partial^{2}U}{\partial \xi_p\partial \xi_q} + \text{lower order terms}
+    \end{align*}
+\end{proof}
+Then we use proposition~\ref{propTransformPDE} to get the elements of the matrix $(A_{pq})$, back in terms of $\xi$ and $\eta$:
+\begin{equation*}
+    (A_{pq}) =
+    \begin{pmatrix}
+        a \xi_x^2 + 2b \xi_x \xi_y + c\xi_y^2 & a\xi_x\eta_x + b(\xi_x \eta_y + \xi_y \eta_x) + c \xi_y \eta_y \\
+        a\xi_x\eta_x + b(\xi_x \eta_y + \xi_y \eta_x) + c \xi_y \eta_y & a\eta_x^2 + 2b\eta_x\eta_y + c^2 \eta_y^2
+    \end{pmatrix}
+\end{equation*}
+We can simplify the PDE greatly if we can make $A_{11}$ and $A_{22}$ zero. This happens when the variables $M = \xi_x / \xi_y$ or $N = \eta_x / \eta_y$ satisfy the quadratic equation:
+\begin{equation*}
+    az^2 + 2bz + c = 0
+\end{equation*}
+Then by the quadratic formula, the solutions are:
+\begin{equation*}
+    z = \frac{-b \pm \sqrt{b^2 - ac}}{a}
+\end{equation*}
+When $M$ or $N$ are chosen to satisfy this equation we call $\xi(x, y) = \text{const}$ and $\eta(x, y) = \text{const}$ the \underline{characteristic curves} of the PDE. When such curves exist, along them we have:
+\begin{equation*}
+    \xi_x + \frac{dy}{dx} \xi_y = 0,\qquad \eta_x + \frac{dy}{dx} \eta_y = 0
+\end{equation*}
+We can alternatively write this as $(x, y) = (x, y(x))$ where $y(x)$ is defined implicitly $\xi(x, y(x)) = \text{const}$ or $\eta(x, y(x)) = \text{const}$.
+
+We then have a family of characteristic curves defined by:
+\begin{equation}
+    \frac{dy}{dx} = -\frac{-b \pm \sqrt{b^2 - ac}}{a}
+    \label{eqnCCurvesImplicit}
+\end{equation}
+Then we can, at last, provide classifications for the PDE in equation~\ref{eqnGeneralSOPDE}:
+\begin{definition}{Ellipitic, parabolic, hyperbolic operators}
+    \begin{itemize}
+        \item If $b^2 < ac$ then $L$ is an \underline{elliptic operator}, with no real characteristic curves.
+        \item If $b^2 = ac$ then $L$ is a \underline{parabolic operator}, with 1 family of real characteristic curves.
+        \item If $b^2 > ac$ then $L$ is a \underline{hyperbolic operator}, with 2 families of real characteristic curves.
+    \end{itemize}
+\end{definition}
+The case of a hyperbolic operator is when we introduce the coordinates $(\xi, \eta)$ defined by equation~\ref{eqnCCurvesImplicit}, giving us the new partial differential operator of the form:
+\begin{equation*}
+    \tilde{L} = \frac{\partial^{2}}{\partial \xi\partial \eta} + \text{lower order terms}
+\end{equation*}
+and the new problem $\tilde{L}U = G(\xi, \eta)$ where $G(\xi, \eta) = g(x, y)$.
+\begin{example}[Hyperbolic operator: wave equation]
+    Consider the wave equation with speed $c = 1$:
+    \begin{equation*}
+        \frac{\partial^{2}u}{\partial x^{2}} - \frac{\partial^{2}u}{\partial y^{2}} = 0
+    \end{equation*}
+    Then our coefficient functions are, $a = 1, b = 0, c = -1$ and $b^2 - ac = 1$. This is greater than $0$, so the problem is hyperbolic. Because this holds for all $x$, we say the problem is \underline{globally hyperbolic}. The characteristic curves are defined by equation~\ref{eqnCCurvesImplicit}, which becomes, in this case,
+    \begin{equation*}
+        \frac{dy}{dx} = \mp 1
+    \end{equation*}
+    Integrating these to find the characteristic curves:
+    \begin{equation*}
+        y \pm x = \text{const}
+    \end{equation*}
+    Then we introduce the coordinates $\xi(x, y) = x - y$, $\eta(x, y) = x + y$. In these coordinates we indeed have $A_{11} = A_{22} = 0$, and the off-diagonal entries are:
+    \begin{equation*}
+        A_{12} = A_{21} = 2
+    \end{equation*}
+    Then for the new function $U(\xi, \eta) = u(x, y)$, the problem becomes:
+    \begin{equation*}
+        4 \frac{\partial^{2}U}{\partial x\partial y} = 0
+    \end{equation*}
+    which has solutions $U(\xi, \eta) = A(\xi) + B(\eta)$, where $A$ and $B$ are arbitrary functions. We can then find the solution for $u(x, y)$:
+    \begin{equation*}
+        u(x, y) = A(x - y) + B(x + y)
+    \end{equation*}
+    Now suppose we want to solve the initial value problem for $u(x, t)$ on a domain $\Omega = \R$:
+    \begin{equation*}
+        \begin{cases}
+            Lu = 0 & \Omega \times (0, \infty) \\
+            u = f & \Omega \times \{t = 0\} \\
+            u_t = g &\Omega \times \{t = 0\} 
+        \end{cases}
+    \end{equation*}
+    Now we know that the solution must have the form:
+    \begin{equation*}
+        u(x, t) = A(x - t) + B(x + t)
+    \end{equation*}
+    Matching the initial conditions, we find:
+    \begin{equation*}
+        u(x, t) = \frac12 \left[f(x + t) - f(x - t)\right] + \frac12 \int_{x - t}^{x + t} g(s) ds 
+    \end{equation*}
+\end{example}
+\begin{example}[Locally hyperbolic operator]
+    Consider the partial differential equation:
+    \begin{equation*}
+        xy \frac{\partial^{2}u}{\partial x^{2}} - \frac{\partial^{2}u}{\partial y^{2}} = 0
+    \end{equation*}
+    Then our coefficient functions are $a = xy, b = 0, c = 1$. The discriminant $b^2 - ac$ is $xy$, so we have that the PDE is hyperbolic only on the region $xy > 0$. In these two quarters of the plane we have the characteristic curves defined by the differential equation:
+    \begin{equation*}
+        \frac{dy}{dx} = \mp \frac{1}{\sqrt{xy}}
+    \end{equation*}
+    Integrating this up:
+    \begin{equation*}
+        \frac13 y^{3/2} \pm x^{1/2} = \text{const}
+    \end{equation*}
+    therefore, introduce the new coordinates $(\xi, \eta)$:
+    \begin{equation*}
+        \xi(x, y) = \frac13 y^{3/2} + x^{1/2},\quad\eta(x, y) = \frac13 y^{3/2} - x^{1/2}
+    \end{equation*}
+    Then our new PDE is:
+    \begin{equation*}
+        -\frac12 y \frac{\partial^{2}U}{\partial \xi\partial \eta} + \text{lower order terms} = 0
+    \end{equation*}
+\end{example}
 \end{document}
