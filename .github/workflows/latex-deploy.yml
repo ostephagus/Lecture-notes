@@ -40,13 +40,8 @@ jobs:
           echo "::group::Compiling $filename"
           echo "Compiling $file in $dir"
           cd "$dir"
-          # Clean auxiliary files BEFORE compiling
-          rm -f \
-            *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz \
-            *.lof *.lot *.lol *.bbl *.blg *.run.xml *.nav *.snm *.vrb || true
-        
-          latexmk -pdf -interaction=nonstopmode Main.tex || true
-          cp Main.pdf "${{ github.workspace }}/output/$filename.pdf"
+          latexmk -pdf -interaction=nonstopmode -jobname="$filename" Main.tex || true
+          cp "$filename.pdf" "${{ github.workspace }}/output/$filename.pdf"
           cd - > /dev/null
           echo "::endgroup::"
         done
