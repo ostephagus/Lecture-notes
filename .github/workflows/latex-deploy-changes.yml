@@ -91,10 +91,17 @@ jobs:
           filename=$(basename "$dir")
           echo "::group::Compiling $filename"
           echo "Compiling $file in $dir"
-          cd "$dir"
+          
+          tmpdir=$(mktemp -d)
+
+          # Copy source directory into the temp dir
+          rsync -a "$dir/" "$tmpdir/"
+          cd "$tmpdir"
           latexmk -pdf -interaction=nonstopmode Main.tex || true
+
           cp Main.pdf "${{ github.workspace }}/output/$filename.pdf"
           cd - > /dev/null
+          rm -rf "$tmpdir"
           echo "::endgroup::"
         done
         
