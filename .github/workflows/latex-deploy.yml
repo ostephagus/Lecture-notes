@@ -1,5 +1,12 @@
 name: latex-deploy
 
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "**.tex"
+
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
