@@ -39,15 +39,15 @@ jobs:
           filename=$(basename "$dir")
           echo "::group::Compiling $filename"
           echo "Compiling $file in $dir"
-          tmpdir=$(mktemp -d)
-          rsync -a "$dir/" "$tmpdir/$filename/"
-          cp "${{ github.workspace }}/Header.tex" "$tmpdir/$filename/"
-          cd "$tmpdir/$filename"
+          cd "$dir"
+          # Clean auxiliary files BEFORE compiling
+          rm -f \
+            *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz \
+            *.lof *.lot *.lol *.bbl *.blg *.run.xml *.nav *.snm *.vrb || true
+        
           latexmk -pdf -interaction=nonstopmode Main.tex || true
-
           cp Main.pdf "${{ github.workspace }}/output/$filename.pdf"
           cd - > /dev/null
-          rm -rf "$tmpdir"
           echo "::endgroup::"
         done
         
