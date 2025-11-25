@@ -96,6 +96,7 @@ We can prove that the commutator is:
 \end{equation*}
 This tells us that we can find the magnitude of $\opvec{L}$ and one of its components with arbitrary precision. We generally find the $z$-component of the angular momentum and its magnitude. This is equivalent to simultaneously diagonalising the two operators.
 \subsection{Eigenfunctions of Angular Momentum}
+\label{secSphericalHarmonics}
 To find the joint set of eigenfunctions of $\hat{L}^2$ and $\hat{L}_3$, we write $\opvec{L}$ in spherical coordinates. This results in:
 \begin{align*}
     \hat{L}_3 &= -i \hbar \frac{\partial}{\partial \phi} \\
@@ -227,7 +228,7 @@ In particular we find that $\{\hat{H}, \hat{L}^2, \hat{L}_i\}$ is a set of \unde
 Further, this means that the eigenvalues $E, |\vec{L}|^2, L_z$ can be simultaneously measured, with arbitrary precision.
 
 It is very hard to prove, but is true, that this set of operators is \underline{maximal}. That is, we cannot construct another nontrivial operator that commutes with elements in this set.
-\subsection{Solving for Zero Angular Momentum}
+
 We will start by looking for the solutions of the TISE such that $\chi(r)$ satisfies $\hat{L}^2 \chi(r) = 0$.
 
 Substituting this in:
@@ -253,8 +254,124 @@ This looks very familiar! However, we only define it on $r \geq 0$, and the norm
 \begin{equation*}
     \int_{0}^{\infty} |\sigma(r)|^2 dr = \frac{1}{4\pi}
 \end{equation*}
-Then we want to impose boundary conditions:
+To understand our boundary conditions, we have to exclude an important case.
+\begin{proposition}
+    If $\sigma(r)$, as above defined, tends to a non-zero constant $a$ as $r \to 0$, the Hamiltonian operator $\hat{H}$ is not Hermitian.
+    \label{propSigmaConstNoHerm}
+\end{proposition}
+\begin{proof}
+    For $\hat{H}$ to be Hermitian we want $\inn{\phi}{\hat{H}\chi} = \inn{\hat{H} \phi}{\chi}$ for all $\phi, \chi \in \hilb$.
+
+    We have bound states, so we can assume that the above $\phi, \chi$ are real (by possibly rotating to an equivalent state).
+    \begin{align*}
+        \inn{\phi}{\hat{H} \chi} &= \int_{0}^{\infty} \phi(r) \hat{H} \chi(r) r^2 dr \\
+        &= -\frac{\hbar^2}{2m} \int_{0}^{\infty} \phi(r) \frac{d}{dr}\left(r^2 \chi \frac{d\chi}{dr}\right) dr \\
+        &= -\frac{\hbar^2}{2m} \left[r^2 \phi \frac{d\chi}{dr} - r^2 \chi \frac{d\phi}{dr}\right]_0^\infty \\
+        &\qquad - \frac{\hbar^2}{2m} \int_{0}^{\infty} \frac{d}{dr} \left(r^2 \frac{d\phi}{dr}\right)\chi(r) dr \\
+        &= -\frac{\hbar^2}{2m} \left[r^2 \phi \frac{d\chi}{dr} - r^2 \chi \frac{d\phi}{dr}\right]_0^\infty + \inn{\hat{H} \phi}{\chi}
+    \end{align*}
+    %TODO: Check, what happens to potential?
+    So we need the boundary term to vanish, and this is only if $r\chi(r) \to 0$ as $r\to 0$, so when $\sigma(0) = 0$.
+\end{proof}
+Now our boundary conditions are:
 \begin{equation*}
     \sigma(0) = 0,\quad \sigma'(0) \text{ is finite}
 \end{equation*}
+
+The easiest way to solve this is to extend the potential $U(r)$ to negative values of $r$ by an even extension, $U(-r) = -U(r)$. We then look for $\sigma$ defined on the whole real line. Only odd solutions will suffice, because we have the condition $\sigma(0) = 0$
+\begin{example}[3D spherically symmetric finite potential well]
+    Consider a potential $U(r)$ defined on $r \geq0$:
+    \begin{equation*}
+        U(r) =
+        \begin{cases}
+            0 & r \leq a \\
+            U_0 & r > a
+        \end{cases}
+    \end{equation*}
+    Then we use an even extension to extend $U$ to $\R$:
+    \begin{equation*}
+        U'(r) =
+        \begin{cases}
+            0 & -a \leq r \leq a \\
+            U_0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    Then we solve this exactly as we have done before, but we must also observe the boundary condition $\sigma(0) = 0$.
+
+    We look for bound states, which have energy $E \in [0, U_0]$.
+
+    We define $k$ and $\bar{k}$ as we did in the 1D case:
+    \begin{equation*}
+        k = \sqrt{\frac{2mE}{\hbar^2}},\qquad \bar{k} = \sqrt{\frac{2m(U_0 - E)}{\hbar^2}}
+    \end{equation*}
+    Then we find the solution for $\sigma(r)$ is as in the 1D case:
+    \begin{equation*}
+        \sigma(r) =
+        \begin{cases}
+            A\sin(kr) + B\cos(kr) & |r| \leq a \\
+            Ce^{-\bar{k}r} & r > a \\
+            De^{\bar{k}r} & r < -a
+        \end{cases}
+    \end{equation*}
+    Then applying the boundary condition (different from the 1D case), we have $B = 0$. Therefore, we find $\sigma$ is odd and $D = -C$. The standard boundary conditions, applying at $r = \pm a$,
+    \begin{align*}
+        \sigma(a) \text{ cts}& \implies A \sin(ka) = Ce^{-\bar{k}a} \\
+        \sigma'(a) \text{ cts}& \implies kA \cos(ka) = -\bar{k}Ce^{-\bar{k}a}
+    \end{align*}
+    Then taking the ratio, $-k \cot(ka) = \bar{k}$. From the definition of $k$ and $\bar{k}$, we have that $k^2 + \bar{k}^2 = \frac{2mU_0}{\hbar^2}$. This was considered in Ex2Q3, and we find that the solutions are the intersections of these two curves. See figure~\ref{figFPWellOddSoln}.
+
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}[scale=1]
+            \begin{axis}[
+                axis lines=middle,
+                xmin=-0.5,xmax=4,ymin=-0.5,ymax=4,
+                xlabel={$ak$},
+                ylabel={$a\bar{k}$},
+                extra x ticks={1.5708},
+                extra x tick labels={$\frac\pi2$}
+            ]
+            \addplot[samples=50, domain=0:3] {-cot(deg(x))} node[right]{$y=-cot(ka)$};
+            \addplot[samples at={-0.05, -0.04, ..., 2.1}, domain=-0.1:3] {sqrt(4.1 - x * x)} node[pos=0.2, anchor=south west] {$k^2 + \hat{k}^2 = r^2$};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Graph of odd solutions of finite potential well}
+        \label{figFPWellOddSoln}
+    \end{figure} 
+
+    We require a minimum value for $U_0$, $U_0 \geq \frac{\pi^2 \hbar^2}{8ma^2}$. Below this, we do not have a bound state in the 3-dimensional case. Now we have found $\sigma$, we can find the wavefunction $\chi$:
+    \begin{equation*}
+        \chi(r) = 
+        \begin{cases}
+            \frac{A\sin(kr)}{r} & r < a \\
+            \frac{Ce^{-\bar{k}r}}{r} & r \geq a
+        \end{cases}
+    \end{equation*}
+\end{example}
+\section{The Hydrogen Atom}
+This section deals with the Quantum description of the hydrogen atom. We found that the various classical descriptions of the atom were insufficient, and so as a culmination of the various ideas of this course, we will provide a better mathematical understanding using the operators $\hat{L}^2, \hat{L}_z, \hat{H}$.
+
+We will model the hydrogen atom as a stationary nucleus of one proton at the origin. The electrostatic force is given by:
+\begin{align}
+    F_{\text{Coulomb}}(r) &= -\frac{e^2}{4\pi \epsilon_0} \frac{1}{r^2} = -\frac{\partial U_{\text{Coulomb}}}{\partial r} \label{eqnCoulombForce} \\
+    U_{\text{Coulomb}}(r) &= -\frac{e^2}{4\pi \epsilon_0} \frac{1}{r} \label{eqnCoulombPot}
+\end{align}
+We look for bound states with energy less than $0$ (note that the potential is negative, and tends to $0$ as $r \to \infty$). The TISE is:
+\begin{equation*}
+    -\frac{\hbar^2}{2m_e} \nabla^2 \chi(r, \theta, \phi) - \frac{e^2}{4\pi \epsilon_0} \frac{1}{r} \chi(r, \theta, \phi) = E\chi(r, \theta, \phi)
+\end{equation*}
+writing this in terms of  the angular momentum:
+\begin{equation*}
+    E\chi = -\frac{\hbar^2}{2m_e} \frac{1}{r} \frac{\partial^{2}}{\partial r^{2}} \left(r \chi\right) + \frac{\hat{L}^2}{2m_e r^2} \chi - \frac{e^2}{4\pi \epsilon_0 r} \chi
+\end{equation*}
+Then because $\chi$ must be also an eigenfunction for $\hat{L}^2$ and $\hat{L}_z$, we can separate variables and look for solutions:
+\begin{equation*}
+    \chi(r, \theta, \phi) = R(r) Y_{l, m}(\theta, \phi)
+\end{equation*}
+where $Y_{l, m}$ are the spherical harmonics as found in section~\ref{secSphericalHarmonics}. After separating variables, we find the equation for $R$:
+\begin{equation}
+    -\frac{\hbar^2}{2m_e} \left(\frac{d^{2}R}{dr^{2}} + \frac{2}{r}\frac{dR}{dr}\right) + \frac{\hbar^2 l(l+1)}{2m_er^2}R(r) - \frac{e^2}{4\pi \epsilon_0} \frac{R(r)}{r} = ER(r)
+    \label{eqnHydrogenRadial}
+\end{equation}
+Here we can notice that we have an \textit{effective potential}, as in the classical orbits case, that depends on the angular momentum.
 \end{document}
