@@ -39,8 +39,9 @@ jobs:
           filename=$(basename "$dir")
           echo "::group::Compiling $filename"
           echo "Compiling $file in $dir"
-          rsync -a --relative "./$dir/" "$tmpdir/"
-          cd "$tmpdir"
+          tmpdir=$(mktemp -d)
+          rsync -a "$dir/" "$tmpdir/$filename/"
+          cd "$tmpdir/$filename"
           latexmk -pdf -interaction=nonstopmode Main.tex || true
 
           cp Main.pdf "${{ github.workspace }}/output/$filename.pdf"
