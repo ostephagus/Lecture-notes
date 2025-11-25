@@ -41,6 +41,7 @@ jobs:
           echo "Compiling $file in $dir"
           tmpdir=$(mktemp -d)
           rsync -a "$dir/" "$tmpdir/$filename/"
+          cp "${{ github.workspace }}/Header.tex" "$tmpdir/$filename/"
           cd "$tmpdir/$filename"
           latexmk -pdf -interaction=nonstopmode Main.tex || true
 
