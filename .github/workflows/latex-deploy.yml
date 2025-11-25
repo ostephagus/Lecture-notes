@@ -1,11 +1,5 @@
 name: latex-deploy
 
-on:
-  workflow_dispatch:
-  push:
-    paths:
-      - "**.tex"
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -38,7 +32,7 @@ jobs:
           filename=$(basename "$dir")
           echo "::group::Compiling $filename"
           echo "Compiling $file in $dir"
-          rsync -a "$dir/" "$tmpdir/"
+          rsync -a --relative "./$dir/" "$tmpdir/"
           cd "$tmpdir"
           latexmk -pdf -interaction=nonstopmode Main.tex || true
 
