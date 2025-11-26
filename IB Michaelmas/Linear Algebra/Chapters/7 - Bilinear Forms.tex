@@ -273,7 +273,7 @@ The \underline{kernel} of a symmetric bilinear form is the left kernel or the ri
         \end{equation*}
     \end{subproof}
     \begin{subproof}{$\psi$ is unique.}
-        Suppose that $\psi$ is a symmetric bilinear form satisfying equation~\ref{eqnBFSymmDef}. Then:
+        Suppose that $\psi$ is a symmetric bilinear form satisfying equation~\ref{eqnBFSymDef}. Then:
         \begin{align*}
             Q(u + v) &= \psi(u + v, u + v) \\
             &= \psi(u, u) + \psi(u, v) + \psi(v, u) + \psi(v, v) \\
@@ -674,4 +674,212 @@ We now provide an equivalent Polarisation Identity:
 
     As in the proof of theorem~\ref{thmSylvesterInertia}, we can then characterise $p$ and $q$ based on the definiteness of the largest possible subspace, and so they are invariant under change of basis. That is, the representation is unique.
 \end{proof}
+\section{Inner Product Spaces}
+As alluded to with examples, we can provide a special symmetric bilinear (or Hermitian) form that defines concepts like orthogonality and linear dependence.
+
+\begin{definition}{Inner product}
+    An \underline{inner product} on a vector space $V$ is a positive symmetric bilinear form (if $\F = \R$) or a Hermitian sesquilinear form (if $\F = \C$) $\varphi$ on $V$.
+
+    The pair $(V, \varphi)$ is an \underline{inner product space}.
+\end{definition}
+For vectors $v, w \in V$, we denote the inner product as $\inn{v}{w} = \varphi(v, w)$.
+\begin{examples}{
+        We have already seen a few examples of inner products:
+    }
+    \item On $\R^n$, we have the standard dot product:
+        \begin{equation*}
+            \inn{u}{v} = \sum_{i = 1}^n u_i v_i
+        \end{equation*}
+        and we have the complex dot product where we conjugate the second argument.
+    \item From IB Methods, we have the integral inner product for functions in $C([0, 1])$:
+        \begin{equation*}
+            \inn{f}{g} = \int_{0}^{1} f(x)g(x) dx
+        \end{equation*}
+        and we also have the weighted inner product for $w \in V$:
+        \begin{equation*}
+            \inn{f}{g}_w = \int_{0}^{1} f(x)g(x)w(x) dx
+        \end{equation*}
+\end{examples}
+\begin{definition}{Length of a vector}
+    For an inner product space $(V, \varphi)$, the \underline{length} of a vector under this inner product is:
+    \begin{equation*}
+        ||v|| = \sqrt{\inn{v}{v}}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Distance between vectors}
+    For an inner product space $(V, \varphi)$, the \underline{distance} between two vectors $u$ and $v$ is:
+    \begin{equation*}
+        ||v - u|| = \sqrt{\inn{v - u}{v - u}}
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item The zero vectors is the only vector with length $0$.
+    \item The function $||~\cdot~||$ returning the length of a vector fully determines the inner product by proposition~\ref{propPolarisationId}.
+\end{remarks}
+\begin{lemma}[Cauchy-Schwarz Inequality]
+    For an inner product space $(V, \varphi)$ over $\R$ or $\C$, and for any vectors $v, w \in V$,
+    \begin{equation}
+        |\inn{v}{w}| \leq ||v||~||w||
+        \label{eqnCauchySchwarz}
+    \end{equation}
+    \label{lemCauchyScwarz}
+\end{lemma}
+\begin{proof}
+    If $v = \zv$ then done. Therefore, assume not.
+
+    For $t \in \F$,
+    \begin{align*}
+        0 &\leq ||tv + w||^2 = \inn{tv + w}{tv + w} \\
+        &= |t|^2 \inn{v}{v} + t\inn{v}{w} + \bar{t} \inn{w}{v} + \inn{w}{w} \\
+        &= |t|^2 ||v||^2 + t\inn{v}{w} + \bar{t} \overline{\inn{v}{w}} + ||w||^2
+    \end{align*}
+    Then set $t = -\frac{\overline{\inn{v}{w}}}{||v||^2}$:
+    \begin{equation*}
+        0 \leq -\frac{|\inn{v}{w}|^2}{||v||^2} + ||w||^2
+    \end{equation*}
+    Which rearranges to equation~\ref{eqnCauchySchwarz}.
+\end{proof}
+\begin{remarks}
+    \item From the proof, we have equality in equation~\ref{eqnCauchySchwarz} if and only if the dimension of the space spanned by $v$ and $w$ is in fact 1. That is, when $v$ and $w$ are linearly dependent.
+    \item For $\F = \R$, we can define the angle between two vectors to be $\theta$ given by:
+        \begin{equation*}
+            \cos(\theta) = \frac{\inn{v}{w}}{||v||~||w||}
+        \end{equation*}
+        and this is in $[-1, 1]$ by the above lemma.
+\end{remarks}
+\begin{corollary}[Triangle inequality]
+    For all $v, w$ in an inner product space $V$,
+    \begin{equation}
+        ||v + w|| \leq ||v|| + ||w||
+        \label{eqnTriangleIneq}
+    \end{equation}
+    \label{corTriangleIneq}
+\end{corollary}
+\begin{proof}
+    \begin{align*}
+        ||v + w||^2&= \inn{v + w}{v + w} \\
+        &= ||v||^2 + ||w||^2 + \inn{v}{w} + \overline{\inn{v}{w}} \\
+        &\leq ||v||^2 + ||w||^2 + 2 ||v||~||w|| \\
+        &= (||v|| + ||w||)^2
+    \end{align*}
+    Then taking the square root of both sides gives the triangle inequality.
+\end{proof}
+\begin{remark}
+    We therefore have that $d(v, w) = ||v - w||$ is a metric on $V$.
+\end{remark}
+\subsection{Orthogonality}
+\begin{definition}{Orthogonality}
+    For an inner product space $(V, \varphi)$, a set $E \subseteq V$ is \underline{orthogonal} if, for any distinct $d, e \in E$, $\inn{d}{e} = 0$.
+
+    If further all vectors in $E$ satisfy $||e|| = 1$, then the set $E$ is also \underline{orthonormal}.
+\end{definition}
+\begin{remark}
+    For $V$ finite-dimensional, $B$ a basis of $V$ such that, in $B$, 
+    \begin{equation*}
+        [\varphi]_{B, B} = I,
+    \end{equation*}
+    then $B$ is an \underline{orthonormal basis} for $V$.
+\end{remark}
+\begin{propositions}{
+        Let $(V, \varphi)$ be an inner product space and $E \subseteq V$. Let $E$ be an orthogonal set with $\zv \notin E$.
+        \label{propsOrthogSet}
+    }
+    \item $E$ is a linearly independent set. \label{propOrthogIsLI}
+    \item For any $v \in \spn{E}$,
+        \begin{equation*}
+            v = \finitesum_{e \in E} \left(\frac{\inn{v}{e}}{\inn{e}{e}}\right)e
+        \end{equation*}
+        \label{propOrthogBasisFormula}
+\end{propositions}
+\begin{proof}
+    %TODO: Part 1?
+    For $v \in \spn{E}$, write $v = \finitesum_{e \in E} \lambda_e e$. Then for $d \in E$,
+    \begin{equation*}
+        \inn{v}{d} = \finitesum_{e \in E} \lambda_e\inn{e}{d} = \inn{d}{d} \lambda_d
+    \end{equation*}
+    therefore $\lambda_d$ is as required.
+\end{proof}
+\begin{corollary}[Parseval's Identity]
+    If $E$ is an orthonormal basis for $V$, then for all $v, w \in V$,
+    \begin{equation}
+        \inn{v}{w} = \finitesum_{e \in E} \inn{v}{e} \overline{\inn{w}{e}}
+        \label{eqnParseval}
+    \end{equation}
+    \label{corParseval}
+\end{corollary}
+\begin{proof}
+    \begin{align*}
+        \inn{v}{w} &= \inn{\finitesum_{e \in E} \inn{v}{e} e}{\finitesum_{e \in E} \inn{w}{d} d} \\
+        &=\finitesum_{\substack{e \in E \\ d \in E}} \inn{v}{e} \overline{\inn{w}{d}} \inn{e}{d} \\
+        &=\finitesum_{e \in E} \inn{v}{e} \overline{\inn{w}{e}} \\
+    \end{align*}
+\end{proof}
+\begin{theorem}[Gram-Schmidt Orthogonalisation]
+    Let $(V, \varphi)$ be an inner product space. Suppose there exists a set $\{v_1, \cdots, v_n\} \in V$ of linearly independent vectors. Then there exists an orthonormal set $E = \{e_1, \cdots, e_n\} \subseteq V$ of size $n$ such that:
+    \begin{equation*}
+        \spn{e_1, \cdots, e_k} = \spn{v_1, \cdots, v_k} \qquad \forall 1 \leq k \leq n
+    \end{equation*}
+    \label{thmGramSchmidt}
+\end{theorem}
+\begin{proof}
+    \induction{$k = 1$}{
+        For $k = 1$, we must have that $v_1 \neq \zv$, so set:
+        \begin{equation*}
+            e_1 = \frac{1}{||v_1||} v_1.
+        \end{equation*}
+    }{$k = j$}{
+        Suppose that $e_1, \cdots, e_j$ are orthonormal and with the same span as $v_1, \cdots, v_j$.
+    }{$k = j + 1$}{
+        Define $\tilde{e}_{j + 1} = v_{j + 1} - \sum_{i=1}^{j} \inn{v_{j + 1}}{e_i} e_i$. Then we know that $\tilde{e}_{j + 1} \neq \zv$, because $v_{j + 1}$ is L.I. of the previous vectors. Further, $\tilde{e}_{j + 1}$ is orthogonal to all previous vectors $e_i$. Similarly, the span is as required:
+        \begin{equation*}
+            \spn{e_1, \cdots, e_j, \tilde{e}_{j + 1}} = \spn{v_1, \cdots, v_{j + 1}}
+        \end{equation*}
+        Then normalise $\tilde{e}_{j + 1}$ to get $e_{j + 1}$:
+        \begin{equation*}
+            e_{j + 1} = \frac{\tilde{e}_{j + 1}}{||\tilde{e}_{j + 1}||}
+        \end{equation*}
+    }
+\end{proof}
+\begin{remark}
+    If $\{v_1, \cdots, v_k\}$ is already orthonormal, then it is unchanged by Gram-Schmidt Orthogonalisation.
+\end{remark}
+\begin{corollary}
+    Now require $V$ finite-dimensional. If $E$ is an orthonormal set, there exists an orthonormal basis extension to the whole of $V$ that contains $E$.
+    \label{corOrthonBasisExtend}
+\end{corollary}
+\begin{proof}
+    As $E$ is orthonormal, it is L.I. Therefore, extend to a basis $B$ of $V$. Apply Gram-Schmidt to $B$, which by the remark leaves the subset $E$ unchanged.
+\end{proof}
+\subsection{Orthogonal Complements}
+\begin{definition}{Orthogonal direct sum}
+    For $(V, \varphi)$ an inner product space, and subspaces $U, W$, then $V$ is the \underline{orthogonal direct sum} of $U$ and $W$ if:
+    \begin{enumerate}
+        \item $V = U + W$ ($V$ is the direct sum of $U$ and $W$),
+        \item For all $u \in U$, $w \in W$, $\inn{u}{w} = 0$.
+    \end{enumerate}
+    For this we write $V = U \perpplus W$.
+\end{definition}
+\begin{lemma}
+    If $V$ is a finite-dimensional vector space with an inner product, then for any subspace $W$,
+    \begin{equation*}
+        V = W \perpplus W^\perp
+    \end{equation*}
+    \label{lemPerpSupspacesComplement}
+\end{lemma}
+\begin{proof}
+    We already have the second condition, so we need to check $V = W + W^\perp$.
+
+    Let $E_W$ be an orthonormal basis for $W$. Extend to an orthonormal basis for $V$, $E_V$. Then:
+    \begin{align*}
+        V &= \spn{E_W \cup (E_V \backslash E_W)} \\
+        &= W + \spn{E_V \backslash E_W}
+    \end{align*}
+    and $E_V \backslash E_W \subseteq W^\perp$.
+\end{proof}
+\begin{corollary}
+    \begin{equation*}
+        \dim(W^\perp) = \dim(V) - \dim(W)
+    \end{equation*}
+    \label{corDimPerp}
+\end{corollary}
 \end{document}
