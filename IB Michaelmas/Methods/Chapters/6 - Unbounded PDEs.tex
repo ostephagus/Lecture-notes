@@ -316,4 +316,166 @@ and the new problem $\tilde{L}U = G(\xi, \eta)$ where $G(\xi, \eta) = g(x, y)$.
         -\frac12 y \frac{\partial^{2}U}{\partial \xi\partial \eta} + \text{lower order terms} = 0
     \end{equation*}
 \end{example}
+\section{Fourier Transform in Higher Dimensions}
+\begin{definition}{Fourier Transform ($\R^n)$}
+    For $f : \R^n \mapsto \C$, define the \underline{Fourier transform} of $f$ as:
+    \begin{equation*}
+        \hat{f}(\vec{\lambda}) = \int_{\R^n} e^{-i \vec{\lambda} \cdot \vec{x}} d^n \vec{x}
+    \end{equation*}
+    and define the inverse Fourier Transform:
+    \begin{equation*}
+        f(\vec{x}) = \frac{1}{(2\pi)^n} \int_{\R^n} e^{i \vec{\lambda} \cdot \vec{x}} \hat{f}(\vec{\lambda}) d^n \vec{\lambda}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Convolution ($\R^n$)}
+    For functions $f, g : \R^n \mapsto \C$, define the \underline{convolution} of $f$ and $g$:
+    \begin{equation*}
+        f \star g(\vec{x}) = \int_{\R^n} f(\vec{x} - \vec{y}) g(\vec{y}) d^n \vec{y}
+    \end{equation*}
+\end{definition}
+Then we have the usual convolution theorem:
+\begin{equation*}
+    \FT[f \star g(\vec{x})] = \hat{f}(\vec{\lambda}) \hat{g}(\vec{\lambda})
+\end{equation*}
+and we also know what happens to derivatives of $f$:
+\begin{equation*}
+    \FT\left[\left(\frac{\partial}{\partial x_1}\right)^{\alpha_1} \cdots \left(\frac{\partial}{\partial x_n}\right)^{\alpha_n} f(\vec{x})\right] = (i \lambda_1)^{\alpha_1} \cdots (i\lambda_n)^{\alpha_n} \hat{f}(\vec{\lambda})
+\end{equation*}
+\begin{example}
+    We can take the Fourier transform of $\Delta f(\vec{x})$:
+    \begin{align*}
+        \Delta f(\vec{x}) &= \left(\frac{\partial}{\partial x_1}\right)^{2} \cdots \left(\frac{\partial}{\partial x_n}\right)^{2} f(\vec{x}) \\
+        \FT[\Delta f(\vec{x})]&= (-\lambda_1^2 - \lambda_2^2 - \cdots - \lambda_n^2) \hat{f}(\vec{\lambda}) \\
+        &= -|\lambda|^2 \hat{f}(\vec{\lambda})
+    \end{align*}
+\end{example}
+We can also find a higher-dimensional analogue of the Dirac delta function. We let this be the function (actually, distribution) that satisfies $\delta(\vec{x}) = 0$ for $\vec{x} \neq \vec{0}$, and
+\begin{equation*}
+    \int_{|\vec{x}| < \epsilon} \delta(\vec{x}) d^n \vec{x} = 1~\forall \epsilon > 0.
+\end{equation*}
+Then we get the sampling property that we recognise from 1D, and the Fourier transform is:
+\begin{equation*}
+    \hat{\delta}(\vec{\lambda}) = \int_{\R^n} e^{- \vec{\lambda} \cdot \vec{x}} \delta(\vec{x}) d^n \vec{x} = 1
+\end{equation*}
+Also, by the inversion formula,
+\begin{equation*}
+    \delta(\vec{x}) = \frac{1}{(2\pi)^n} \int_{\R^n} e^{i \vec{\lambda} \cdot \vec{x}} d^n \vec{\lambda}
+\end{equation*}
+\begin{example}[Multidimensional Gaussian]
+    Recall that, if $g(x) = \frac{1}{\sqrt{2\pi}} e^{x^2 / 2}$, then $\hat{g}(\lambda) = \sqrt{2\pi} g(\lambda)$. We can find a similar result for the multidimensional Gaussian.
+
+    Let $g(\vec{x}) = \frac{1}{(2\pi)^{n / 2}} e^{-|\vec{x}|^2 / 2}$. Then we have the result we want:
+    \begin{align*}
+        \hat{g}(\vec{\lambda})&= \frac1{(2\pi)^{n / 2}} \int_{\R^n} e^{-i \vec{\lambda} \cdot \vec{x}} e^{-|\vec{x}|^2 / 2} d^n \vec{x}\\
+        %See photo.
+    \end{align*}
+\end{example}
+\section{Heat Equation}
+We want to solve:
+\begin{equation}
+    \begin{cases}
+        u_t = \kappa \Delta u = F(\vec{x}, t) & (x, t) \in \R^n \times (0, \infty) \\
+        u(\vec{x}, 0) = f(\vec{x}) & \vec{x} \in \R^n
+    \end{cases}
+    \label{eqnHeatUnbounded}
+\end{equation}
+Then we can split the problem and superpose later. We can consider the two problems:
+\begin{itemize}
+    \item Zero forcing ($F = 0$), arbitrary initial data to make the algebra nicer,
+    \item Zero initial data ($f = 0$), arbitrary forcing to make the algebra nicer.
+\end{itemize}
+To solve, we will use the \textit{heat kernel}. This is defined as:
+\begin{equation}
+    k(\vec{x};t) = \frac{1}{(4 \pi \kappa t)^{n / 2}} \exp\left[-\frac{|\vec{x}|^2}{4 \kappa t}\right]
+    \label{eqnHeatKernel}
+\end{equation}
+\begin{proposition}
+    Taking the Fourier transform of the heat kernel gives:
+    \begin{equation*}
+        \hat{k}(\vec{\lambda};t) = e^{-\kappa t |\vec{\lambda}|^2}
+    \end{equation*}
+    \label{propHeatKernelFT}
+\end{proposition}
+\begin{proof}
+    Denote the multivariate Gaussian by $g(\vec{x})$,
+    \begin{align*}
+        g(\vec{x}) &= \frac{1}{(2\pi)^{n / 2}} e^{-|\vec{x}|^2 / 2} \\
+        \hat{g}(\vec{\lambda}) &= e^{-|\vec{\lambda}|^2 / 2} \\
+    \end{align*}
+    \begin{align*}
+        \hat{k}(\vec{\lambda};t) &= \int_{\R^n} e^{-i \vec{\lambda} \cdot \vec{x}} k(\vec{x};t) d^n\vec{x} \\
+        &= \frac{1}{(4\pi \kappa t)^{n/2}} \int_{\R^n} e^{-i \vec{\lambda} \cdot \vec{x}} e^{|\vec{x}|^2 / 4\kappa t} d^n \vec{x} \\
+        \intertext{Now define the new variable $\vec{y}$ with $\vec{x} = \sqrt{2\kappa t} \vec{y}$:}
+        &= \frac{1}{(4\pi \kappa t)^{n/2}} \int_{\R^n} e^{-i \vec{\lambda} \cdot \sqrt{2 \kappa t}\vec{y}} e^{|\vec{y}|^2 / 2} (2\kappa t)^{n / 2}d^n \vec{y} \\
+        &= \frac{1}{(2\pi)^{n/2}} \int_{\R^n} e^{-i (\sqrt{2\kappa t}\vec{\lambda}) \cdot \vec{y}} e^{|\vec{y}|^2 / 2} d^n \vec{y} \\
+        &= \int_{\R^n} e^{-i (\sqrt{2\kappa t}\vec{\lambda}) \cdot \vec{y}} g(\vec{x}) d^n \vec{y} \\
+        &= \hat{g}(\sqrt{2 \kappa t} \vec{\lambda}) \\
+        &= e^{-\kappa t |\vec{\lambda}|^2}
+    \end{align*}
+\end{proof}
+\begin{remark}
+    As $t \to 0+$, $\hat{k}(\vec{\lambda};t) \to 1$, and we can say that, as $t \to 0$, $k(\vec{x}, t) \to \delta(\vec{x})$.
+\end{remark}
+\begin{proposition}
+    The solution to the problem of zero forcing in the heat equation is:
+    \begin{equation*}
+        u(\vec{x}, t) = k(\vec{x};t) \star f(\vec{x}).
+    \end{equation*}
+    \label{propHeatUnboundedSoln}
+\end{proposition}
+\begin{proof}
+    Take the Fourier Transform of the heat equation:
+    \begin{equation*}
+        \frac{\partial \hat{u}}{\partial t} + \kappa |\vec{\lambda}|^2 \hat{u} - 0,\qquad \hat{u}(\vec{\lambda}, 0) = \hat{f}(\vec{\lambda}).
+    \end{equation*}
+    Now we can solve the ordinary differential equation:
+    \begin{align*}
+        \hat{u}(\vec{\lambda}, t) &= \hat{u}(\vec{\lambda}, 0) e^{-\kappa |\vec{\lambda}|^2 t} \\
+        &= \hat{f}(\lambda) \hat{k}(\vec{\lambda};t)
+    \end{align*}
+    Then the convolution theorem gives the required result.
+\end{proof}
+\begin{proposition}
+    The solution to the heat equation with zero initial data is:
+    \begin{equation*}
+        u(\vec{x}, t) = \int_{\tau = 0}^{t} \int_{y \in \R^n} k(\vec{x} - \vec{y};t-\tau) F(\vec{y}, \tau)d^n \vec{y} d\tau 
+    \end{equation*}
+    \label{propHeadUnboundedSolnForced}
+\end{proposition}
+\begin{proof}
+    Taking the Fourier Transform again:
+    \begin{equation*}
+        \frac{\partial \hat{u}}{\partial t} + \kappa |\vec{\lambda}|^2 \hat{u} = \hat{F}(\vec{\lambda}, t),\qquad \hat{u}(\vec{\lambda}, 0) = 0
+    \end{equation*}
+    Then we can use an integrating factor $e^{\kappa |\vec{\lambda}|^2 t}$:
+    \begin{align*}
+        \frac{\partial}{\partial t} \left[\hat{u}(\vec{\lambda}, t) e^{\kappa |\vec{\lambda}|^2 t}\right]&= \hat{F}(\vec{\lambda}, t) e^{\kappa |\vec{\lambda}|^2 t} \\
+        \intertext{Integrate with respect to $t$:}
+        \hat{u}(\vec{\lambda}, t) e^{\kappa |\vec{\lambda}|^2 t} &= \int_{0}^{t} \hat{F}(\lambda, \tau) e^{\kappa |\vec{\lambda}|^2 \tau} d\tau \\
+        \hat{u}(\vec{\lambda}, t) &= \int_{0}^{t} e^{-\kappa |\vec{\lambda}|^2 (t - \tau)}\hat{F}(\lambda, \tau) d\tau \\
+        \hat{u}(\vec{\lambda}, t) &= \int_{0}^{t} \hat{k}(\vec{\lambda};t-\tau)\hat{F}(\lambda, \tau) d\tau \\
+    \end{align*}
+    Then by the convolution theorem, we have the required result.
+\end{proof}
+Therefore, our finished solution to equation~\ref{eqnHeatUnbounded} is:
+\begin{equation}
+    u(\vec{x}, t) = \left(k(\cdot; t) \star f\right)(\vec{x}) + \int_{\tau = 0}^{t} \int_{y \in \R^n} k(\vec{x} - \vec{y};t-\tau) F(\vec{y}, \tau)d^n \vec{y} d\tau 
+    \label{eqnHeatUnboundedSoln}
+\end{equation}
+If we focus on the second part, we can define:
+\begin{equation*}
+    G(\vec{x}, t;\vec{y}, \tau) = H(t - \tau) k(\vec{x} - \vec{y}; t - \tau)
+\end{equation*}
+Then if we set $F(\vec{x}, t) = 0$ on $t < 0$, the solution to the problem with zero initial data is:
+\begin{equation*}
+    u(\vec{x}, t) = \int_{\tau = 0}^{t} \int_{y \in \R^n} G(\vec{x}, t;\vec{y}, \tau) F(\vec{y}, \tau)d^n \vec{y} d\tau 
+\end{equation*}
+then $G$ is a Green's function for the heat equation with zero initial data. We can show that:
+\begin{equation*}
+    \frac{\partial G}{\partial t} - \kappa \Delta G = \delta(t - s) \delta(\vec{x} - \vec{y})
+\end{equation*}
+or, equivalently,
+\begin{equation*}
+    \frac{\partial \hat{G}}{\partial t} + \kappa |\vec{\lambda}|^2 \hat{G} = e^{-\vec{\lambda} \cdot \vec{y}} \delta(t - s)
+\end{equation*}
 \end{document}
