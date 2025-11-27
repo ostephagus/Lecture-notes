@@ -358,11 +358,11 @@ We will model the hydrogen atom as a stationary nucleus of one proton at the ori
 \end{align}
 We look for bound states with energy less than $0$ (note that the potential is negative, and tends to $0$ as $r \to \infty$). The TISE is:
 \begin{equation*}
-    -\frac{\hbar^2}{2m_e} \nabla^2 \chi(r, \theta, \phi) - \frac{e^2}{4\pi \epsilon_0} \frac{1}{r} \chi(r, \theta, \phi) = E\chi(r, \theta, \phi)
+    -\frac{\hbar^2}{2m} \nabla^2 \chi(r, \theta, \phi) - \frac{e^2}{4\pi \epsilon_0} \frac{1}{r} \chi(r, \theta, \phi) = E\chi(r, \theta, \phi)
 \end{equation*}
 writing this in terms of  the angular momentum:
 \begin{equation*}
-    E\chi = -\frac{\hbar^2}{2m_e} \frac{1}{r} \frac{\partial^{2}}{\partial r^{2}} \left(r \chi\right) + \frac{\hat{L}^2}{2m_e r^2} \chi - \frac{e^2}{4\pi \epsilon_0 r} \chi
+    E\chi = -\frac{\hbar^2}{2m} \frac{1}{r} \frac{\partial^{2}}{\partial r^{2}} \left(r \chi\right) + \frac{\hat{L}^2}{2m r^2} \chi - \frac{e^2}{4\pi \epsilon_0 r} \chi
 \end{equation*}
 Then because $\chi$ must be also an eigenfunction for $\hat{L}^2$ and $\hat{L}_z$, we can separate variables and look for solutions:
 \begin{equation*}
@@ -370,8 +370,162 @@ Then because $\chi$ must be also an eigenfunction for $\hat{L}^2$ and $\hat{L}_z
 \end{equation*}
 where $Y_{l, m}$ are the spherical harmonics as found in section~\ref{secSphericalHarmonics}. After separating variables, we find the equation for $R$:
 \begin{equation}
-    -\frac{\hbar^2}{2m_e} \left(\frac{d^{2}R}{dr^{2}} + \frac{2}{r}\frac{dR}{dr}\right) + \frac{\hbar^2 l(l+1)}{2m_er^2}R(r) - \frac{e^2}{4\pi \epsilon_0} \frac{R(r)}{r} = ER(r)
+    -\frac{\hbar^2}{2m} \left(\frac{d^{2}R}{dr^{2}} + \frac{2}{r}\frac{dR}{dr}\right) + \left(U(r) + \frac{\hbar^2 l (l+1)}{2mr^2}\right) = ER(r)
     \label{eqnHydrogenRadial}
 \end{equation}
 Here we can notice that we have an \textit{effective potential}, as in the classical orbits case, that depends on the angular momentum.
+\subsection{Solution for Zero Angular Momentum}
+For $l = 0$ the effective potential is equal to the normal $U(r)$.
+We introduce the new variables:
+\begin{align*}
+    \nu^2 &= -\frac{2mE}{\hbar^2} \\
+    \beta &= \frac{e^2m}{2\pi \epsilon_0\hbar^2}
+\end{align*}
+Then the TISE becomes:
+\begin{equation}
+    \frac{d^{2}R}{dr^{2}} + \frac{2}{r} \frac{dR}{dr} + \left(\frac{\beta}{r}-\nu^2\right)R = 0
+    \label{eqnZeroLTISE}
+\end{equation}
+We first look at the asymptotic behaviour. As $r \to \infty$, we find that equation~\ref{eqnZeroLTISE} becomes:
+\begin{equation*}
+    \frac{d^{2}R}{dr^{2}} - \nu^2 R = 0
+\end{equation*}
+Which tells us that $R(r) \sim e^{\pm \nu r}$, but by normalisation condition we find that in fact $R(r) \sim e^{-\nu r}$.
+
+We also know that at $r = 0$, $R$ has to be finite. By considering the asymptotic behaviour, we consider the trial solution $R(r) = f(r) e^{-\nu r}$. Equation~\ref{eqnZeroLTISE} becomes:
+\begin{equation}
+    f''(r) + \frac{2}{r} (1 - \nu r) f'(r) + \frac1r(\beta - 2\nu) f(r) = 0
+    \label{eqnZeroLPowerSeriesDE}
+\end{equation}
+Then this is a homogeneous linear ordinary differential equation with a regular singular point at $r = 0$. We use our standard power series methods, with the solution:
+\begin{equation*}
+    f(r) = r^c \sum_{n=0}^{\infty} a_n r^n
+\end{equation*}
+By substituting into equation~\ref{eqnZeroLPowerSeriesDE}, we first find that $c$ must satisfy:
+\begin{equation*}
+    c(c+1) = 0 \implies c \in \{-1, 0\}
+\end{equation*}
+But $c = -1$ would imply that $\chi \sim \frac1r$ as $r \to 0$, which is not physical. We instead must choose $c = 0$.
+
+Now we have the recurrence relation for the coefficients $a_n$:
+\begin{equation*}
+    a_n = \frac{2\nu n - \beta}{n(n+1)}a_{n-1}
+\end{equation*}
+To understand how to proceed, we use the following proposition:
+\begin{proposition}
+    If $f(r) = \sum_{n = 0}^\infty a_n r^n$ does not terminate, $R(r)$ is not normalisable.
+    \label{propZeroLSeriesMustStop}
+\end{proposition}
+\begin{remark}
+    The statement and proof of this proposition are very similar to that of proposition~\ref{propQHMSeriesFinite}.
+\end{remark}
+\begin{proof}
+    Consider the asymptotic behaviour of the series:
+    \begin{equation*}
+        \frac{a_n}{a_{n-1}} \to \frac{2\nu}{n} \text{ as $n \to \infty$.}
+    \end{equation*}
+    Then this is the same asymptotic behaviour as:
+    \begin{equation*}
+        g(r) = e^{2\nu r} = \sum_{n=0}^{\infty} \frac{(2\nu)^n}{n!}r^n,
+    \end{equation*}
+    since if we define $b_n = \frac{(2\nu)^2}{n!}$ we find that the asymptotic behaviour of the ratio of terms is:
+    \begin{equation*}
+        \frac{b_n}{b_{n-1}} \to \frac{(2\nu)^n}{(2\nu)^{n-1}} \frac{(n-1)!}{n!} = \frac{2\nu}{n}
+    \end{equation*}
+    Therefore, as $n \to \infty$, $f(r) \sim g(r) = e^{2\nu r}$, which is not normalisable.
+\end{proof}
+Therefore, the series for $f$ must terminate, there exists $N$ such that $a_N = 0$ where $a_{N-1} \neq 0$. This is exactly when $\nu = \frac{\beta}{2N}$.
+
+Substituting $\nu, \beta$ back we get:
+\begin{equation*}
+    E_n = -\frac{e^4 m}{32\pi^2 \epsilon_0^2 \hbar^2} \frac{1}{N^2}
+\end{equation*}
+Recall that this was exactly the form predicted by Bohr -  see chapter 1.
+This means the coefficients of $f$, for given $N$, obey the recurrence relation:
+\begin{equation*}
+    a_n = \left(-2\nu \frac{N - n}{n(n+1)}\right)a_{n-1}
+\end{equation*}
+Therefore, $R_N(r) = f_N(r) e^{-\nu r}$, where $f_N$ is a polynomial of degree $N$.
+\begin{align*}
+    R_1(r) &= A_1 e^{-\nu r} \\
+    R_2(r) &= A_2 (1 - \nu r)e^{- \nu r} \\
+    R_3(r) &= A_3 \left(1 - 2 \nu r + \frac23 \nu^2 r^2\right) e^{- \nu r}
+\end{align*}
+These polynomials have a name. $R(r) = L_N(\nu r) e^{-\nu r}$ where $L_N$ is the $(N-1)$th-order Laguerre polynomial.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        \def\nu{1.2}
+        \def\A{3.5}
+
+        \begin{axis}[
+            % Axis Setup
+            axis lines = middle,
+            axis line style = {-latex, very thick, line cap=round}, % Arrows and thick lines
+            xlabel = {$r$},
+            ylabel = {$R_N(r)$},
+            xmin=0, xmax=6.5,
+            ymin=-2, ymax=5,
+        ]
+
+        % --- Plot n=1 (Black) ---
+        \addplot[
+            domain=0:6, 
+            samples=100, 
+            smooth, 
+            thick, 
+            black
+        ] 
+        {\A * exp(-\nu * x)} 
+        node[pos=0.15, above right, font=\bfseries] {$n=1$};
+
+        % --- Plot n=2 (Red) ---
+        \addplot[
+            domain=0:6, 
+            samples=100, 
+            smooth, 
+            thick, 
+            red!85!black
+        ] 
+        {\A * (1 - \nu * x) * exp(-\nu * x)} 
+        node[pos=0.6, below, font=\bfseries, yshift=-5pt] {$n=2$};
+
+        % --- Plot n=3 (Blue) ---
+        \addplot[
+            domain=0:6, 
+            samples=150, 
+            smooth, 
+            thick, 
+            blue!60!black
+        ] 
+        {\A * (1 - 2*\nu * x + (2/3) * (\nu * x)^2) * exp(-\nu * x)} 
+        node[pos=0.75, above, font=\bfseries, xshift=2pt] {$n=3$};
+
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Plot of Solutions to zero angular momentum problem}
+    \label{figZeroLSolutions}
+\end{figure}
+\subsection{Solutions for Positive Angular Momentum}
+Now our effective potential is different from our standard potential. Recall the TISE:
+\begin{equation}
+    -\frac{\hbar^2}{2m} \left(\frac{d^{2}R}{dr^{2}} + \frac{2}{r}\frac{dR}{dr}\right) + \left(U(r) + \frac{\hbar^2 l (l+1)}{2mr^2}\right) = ER(r)
+    \tag{\ref{eqnHydrogenRadial}}
+\end{equation}
+We use a similar method. We have the same asymptotic behaviour as the $l = 0$ case, $R(r) \sim e^{-\nu r}$. We use the power series:
+\begin{equation}
+    g(r) = r^\sigma \sum_{n=0}^{\infty} a_n r^n
+    \label{eqnPosLPowerSeries}
+\end{equation}
+Again we use the lowest power of $r$ to get the value of $\sigma$:
+\begin{equation*}
+    \sigma(\sigma + 1) = l(l+1) \implies \sigma \in \{-(l+1), l\}
+\end{equation*}
+We again discount the negative solution because it would give unphysical behaviour as $r \to 0$. Therefore, $\sigma = l$.
+The recurrence relation for the coefficients of $g$ is:
+\begin{equation}
+    a_n = \frac{2\nu(n + l) - \beta}{n(n+2l-1)} a_{n-1}
+    \label{eqnPosLPolyCoeffts}
+\end{equation}
+Then we require, as before, that $g$ is a polynomial. This requires a value $n_{\text{max}}$ such that $a_{n_{\text{max}}} = 0, a_{n_{\text{max}} - 1} \neq 0$.
 \end{document}
