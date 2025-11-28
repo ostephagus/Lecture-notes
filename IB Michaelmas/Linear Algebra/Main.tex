@@ -33,18 +33,18 @@
 \newcommand{\finitesum}{\sideset{}{'}\sum}
 
 \newcommand{\perpplus}{
-  \mathbin{
-    \mathchoice
-      {\perpplusaux\displaystyle}
-      {\perpplusaux\textstyle}
-      {\perpplusaux\scriptstyle}
+  \mathbin{%
+    \mathchoice%
+      {\perpplusaux\displaystyle}%
+      {\perpplusaux\textstyle}%
+      {\perpplusaux\scriptstyle}%
       {\perpplusaux\scriptscriptstyle}%
   }
 }
-\newcommand{\perpplusaux}[1]{%
+\newcommand{\perpplusaux}[1]{
   \ooalign{%
-    $#1\scaleobj{0.8}{\bigcirc}$\cr
-    \hfil$#1\scaleobj{0.8}{\perp}$\hfil\cr
+    $#1\scaleobj{0.8}{\bigcirc}$\cr%
+    \hfil$#1\scaleobj{0.8}{\perp}$\hfil\cr%
   }%
 }
 
@@ -66,4 +66,6 @@
 \subfile{Chapters/6 - Eigenvectors.tex}
 \chapter{Bilinear Forms}
 \subfile{Chapters/7 - Bilinear Forms.tex}
+\chapter{Inner Product Spaces}
+\subfile{Chapters/8 - Inner Products.tex}
 \end{document}

@@ -1,0 +1,406 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Inner Products}
+As alluded to with examples, we can provide a special symmetric bilinear (or Hermitian) form that defines concepts like orthogonality and linear dependence.
+
+\begin{definition}{Inner product}
+    An \underline{inner product} on a vector space $V$ is a positive symmetric bilinear form (if $\F = \R$) or a Hermitian sesquilinear form (if $\F = \C$) $\varphi$ on $V$.
+
+    The pair $(V, \varphi)$ is an \underline{inner product space}.
+\end{definition}
+For vectors $v, w \in V$, we denote the inner product as $\inn{v}{w} = \varphi(v, w)$.
+\begin{examples}{
+        We have already seen a few examples of inner products:
+    }
+    \item On $\R^n$, we have the standard dot product:
+        \begin{equation*}
+            \inn{u}{v} = \sum_{i = 1}^n u_i v_i
+        \end{equation*}
+        and we have the complex dot product where we conjugate the second argument.
+    \item From IB Methods, we have the integral inner product for functions in $C([0, 1])$:
+        \begin{equation*}
+            \inn{f}{g} = \int_{0}^{1} f(x)g(x) dx
+        \end{equation*}
+        and we also have the weighted inner product for $w \in V$:
+        \begin{equation*}
+            \inn{f}{g}_w = \int_{0}^{1} f(x)g(x)w(x) dx
+        \end{equation*}
+\end{examples}
+\begin{definition}{Length of a vector}
+    For an inner product space $(V, \varphi)$, the \underline{length} of a vector under this inner product is:
+    \begin{equation*}
+        ||v|| = \sqrt{\inn{v}{v}}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Distance between vectors}
+    For an inner product space $(V, \varphi)$, the \underline{distance} between two vectors $u$ and $v$ is:
+    \begin{equation*}
+        ||v - u|| = \sqrt{\inn{v - u}{v - u}}
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item The zero vectors is the only vector with length $0$.
+    \item The function $||~\cdot~||$ returning the length of a vector fully determines the inner product by proposition~\ref{propPolarisationId}.
+\end{remarks}
+\begin{lemma}[Cauchy-Schwarz Inequality]
+    For an inner product space $(V, \varphi)$ over $\R$ or $\C$, and for any vectors $v, w \in V$,
+    \begin{equation}
+        |\inn{v}{w}| \leq ||v||~||w||
+        \label{eqnCauchySchwarz}
+    \end{equation}
+    \label{lemCauchyScwarz}
+\end{lemma}
+\begin{proof}
+    If $v = \zv$ then done. Therefore, assume not.
+
+    For $t \in \F$,
+    \begin{align*}
+        0 &\leq ||tv + w||^2 = \inn{tv + w}{tv + w} \\
+        &= |t|^2 \inn{v}{v} + t\inn{v}{w} + \bar{t} \inn{w}{v} + \inn{w}{w} \\
+        &= |t|^2 ||v||^2 + t\inn{v}{w} + \bar{t} \overline{\inn{v}{w}} + ||w||^2
+    \end{align*}
+    Then set $t = -\frac{\overline{\inn{v}{w}}}{||v||^2}$:
+    \begin{equation*}
+        0 \leq -\frac{|\inn{v}{w}|^2}{||v||^2} + ||w||^2
+    \end{equation*}
+    Which rearranges to equation~\ref{eqnCauchySchwarz}.
+\end{proof}
+\begin{remarks}
+    \item From the proof, we have equality in equation~\ref{eqnCauchySchwarz} if and only if the dimension of the space spanned by $v$ and $w$ is in fact 1. That is, when $v$ and $w$ are linearly dependent.
+    \item For $\F = \R$, we can define the angle between two vectors to be $\theta$ given by:
+        \begin{equation*}
+            \cos(\theta) = \frac{\inn{v}{w}}{||v||~||w||}
+        \end{equation*}
+        and this is in $[-1, 1]$ by the above lemma.
+\end{remarks}
+\begin{corollary}[Triangle inequality]
+    For all $v, w$ in an inner product space $V$,
+    \begin{equation}
+        ||v + w|| \leq ||v|| + ||w||
+        \label{eqnTriangleIneq}
+    \end{equation}
+    \label{corTriangleIneq}
+\end{corollary}
+\begin{proof}
+    \begin{align*}
+        ||v + w||^2&= \inn{v + w}{v + w} \\
+        &= ||v||^2 + ||w||^2 + \inn{v}{w} + \overline{\inn{v}{w}} \\
+        &\leq ||v||^2 + ||w||^2 + 2 ||v||~||w|| \\
+        &= (||v|| + ||w||)^2
+    \end{align*}
+    Then taking the square root of both sides gives the triangle inequality.
+\end{proof}
+\begin{remark}
+    We therefore have that $d(v, w) = ||v - w||$ is a metric on $V$.
+\end{remark}
+\section{Orthogonality}
+\begin{definition}{Orthogonality}
+    For an inner product space $(V, \varphi)$, a set $E \subseteq V$ is \underline{orthogonal} if, for any distinct $d, e \in E$, $\inn{d}{e} = 0$.
+
+    If further all vectors in $E$ satisfy $||e|| = 1$, then the set $E$ is also \underline{orthonormal}.
+\end{definition}
+\begin{remark}
+    For $V$ finite-dimensional, $B$ a basis of $V$ such that, in $B$, 
+    \begin{equation*}
+        [\varphi]_{B, B} = I,
+    \end{equation*}
+    then $B$ is an \underline{orthonormal basis} for $V$.
+\end{remark}
+\begin{propositions}{
+        Let $(V, \varphi)$ be an inner product space and $E \subseteq V$. Let $E$ be an orthogonal set with $\zv \notin E$.
+        \label{propsOrthogSet}
+    }
+    \item $E$ is a linearly independent set. \label{propOrthogIsLI}
+    \item For any $v \in \spn{E}$,
+        \begin{equation*}
+            v = \finitesum_{e \in E} \left(\frac{\inn{v}{e}}{\inn{e}{e}}\right)e
+        \end{equation*}
+        \label{propOrthogBasisFormula}
+\end{propositions}
+\begin{proof}
+    %TODO: Part 1?
+    For $v \in \spn{E}$, write $v = \finitesum_{e \in E} \lambda_e e$. Then for $d \in E$,
+    \begin{equation*}
+        \inn{v}{d} = \finitesum_{e \in E} \lambda_e\inn{e}{d} = \inn{d}{d} \lambda_d
+    \end{equation*}
+    therefore $\lambda_d$ is as required.
+\end{proof}
+\begin{corollary}[Parseval's Identity]
+    If $E$ is an orthonormal basis for $V$, then for all $v, w \in V$,
+    \begin{equation}
+        \inn{v}{w} = \finitesum_{e \in E} \inn{v}{e} \overline{\inn{w}{e}}
+        \label{eqnParseval}
+    \end{equation}
+    \label{corParseval}
+\end{corollary}
+\begin{proof}
+    \begin{align*}
+        \inn{v}{w} &= \inn{\finitesum_{e \in E} \inn{v}{e} e}{\finitesum_{e \in E} \inn{w}{d} d} \\
+        &=\finitesum_{\substack{e \in E \\ d \in E}} \inn{v}{e} \overline{\inn{w}{d}} \inn{e}{d} \\
+        &=\finitesum_{e \in E} \inn{v}{e} \overline{\inn{w}{e}} \\
+    \end{align*}
+\end{proof}
+\begin{theorem}[Gram-Schmidt Orthogonalisation]
+    Let $(V, \varphi)$ be an inner product space. Suppose there exists a set $\{v_1, \cdots, v_n\} \in V$ of linearly independent vectors. Then there exists an orthonormal set $E = \{e_1, \cdots, e_n\} \subseteq V$ of size $n$ such that:
+    \begin{equation*}
+        \spn{e_1, \cdots, e_k} = \spn{v_1, \cdots, v_k} \qquad \forall 1 \leq k \leq n
+    \end{equation*}
+    \label{thmGramSchmidt}
+\end{theorem}
+\begin{proof}
+    \induction{$k = 1$}{
+        For $k = 1$, we must have that $v_1 \neq \zv$, so set:
+        \begin{equation*}
+            e_1 = \frac{1}{||v_1||} v_1.
+        \end{equation*}
+    }{$k = j$}{
+        Suppose that $e_1, \cdots, e_j$ are orthonormal and with the same span as $v_1, \cdots, v_j$.
+    }{$k = j + 1$}{
+        Define $\tilde{e}_{j + 1} = v_{j + 1} - \sum_{i=1}^{j} \inn{v_{j + 1}}{e_i} e_i$. Then we know that $\tilde{e}_{j + 1} \neq \zv$, because $v_{j + 1}$ is L.I. of the previous vectors. Further, $\tilde{e}_{j + 1}$ is orthogonal to all previous vectors $e_i$. Similarly, the span is as required:
+        \begin{equation*}
+            \spn{e_1, \cdots, e_j, \tilde{e}_{j + 1}} = \spn{v_1, \cdots, v_{j + 1}}
+        \end{equation*}
+        Then normalise $\tilde{e}_{j + 1}$ to get $e_{j + 1}$:
+        \begin{equation*}
+            e_{j + 1} = \frac{\tilde{e}_{j + 1}}{||\tilde{e}_{j + 1}||}
+        \end{equation*}
+    }
+\end{proof}
+\begin{remark}
+    If $\{v_1, \cdots, v_k\}$ is already orthonormal, then it is unchanged by Gram-Schmidt Orthogonalisation.
+\end{remark}
+\begin{corollary}
+    Now require $V$ finite-dimensional. If $E$ is an orthonormal set, there exists an orthonormal basis extension to the whole of $V$ that contains $E$.
+    \label{corOrthonBasisExtend}
+\end{corollary}
+\begin{proof}
+    As $E$ is orthonormal, it is L.I. Therefore, extend to a basis $B$ of $V$. Apply Gram-Schmidt to $B$, which by the remark leaves the subset $E$ unchanged.
+\end{proof}
+\begin{definition}{Orthogonal direct sum}
+    For $(V, \varphi)$ an inner product space, and subspaces $U, W$, then $V$ is the \underline{orthogonal direct sum} of $U$ and $W$ if:
+    \begin{enumerate}
+        \item $V = U + W$ ($V$ is the direct sum of $U$ and $W$),
+        \item For all $u \in U$, $w \in W$, $\inn{u}{w} = 0$.
+    \end{enumerate}
+    For this we write $V = U \perpplus W$.
+\end{definition}
+\begin{lemma}
+    If $V$ is a finite-dimensional vector space with an inner product, then for any subspace $W$,
+    \begin{equation*}
+        V = W \perpplus W^\perp
+    \end{equation*}
+    \label{lemPerpSupspacesComplement}
+\end{lemma}
+\begin{proof}
+    We already have the second condition, so we need to check $V = W + W^\perp$.
+
+    Let $E_W$ be an orthonormal basis for $W$. Extend to an orthonormal basis for $V$, $E_V$. Then:
+    \begin{align*}
+        V &= \spn{E_W \cup (E_V \backslash E_W)} \\
+        &= W + \spn{E_V \backslash E_W}
+    \end{align*}
+    and $E_V \backslash E_W \subseteq W^\perp$.
+\end{proof}
+\begin{corollary}
+    \begin{equation*}
+        \dim(W^\perp) = \dim(V) - \dim(W)
+    \end{equation*}
+    \label{corDimPerp}
+\end{corollary}
+\begin{definition}{Orthogonal projection}
+    For $V$ a finite-dimensional vector space with an inner product, and for any subspace $W$, the \underline{orthogonal projection} $\pi_W : V \mapsto V$ of $V$ onto $W$ is given by $\pi_W(v) = w$, where $v = w + u$ for $w \in W$, $u \in W^\perp$.
+\end{definition}
+This is well-defined by lemma~\ref{lemPerpSupspacesComplement}, and is a linear map.
+\begin{propositions}{
+        Consider $V$ as above defined, and $W$ a subspace. Then $\pi_W$ obeys:
+        \label{propsOrthoProj}
+    }
+    \item $\pi_W |_W = \Id_W$, so $\pi_W^2 = \pi_W$ \label{propOrthoProjSquare}
+    \item $\Id_V - \pi_W = \pi_{W^\perp}$ \label{propOrthoProjPerp}
+\end{propositions}
+\begin{proof}
+    For any $w \in W$, this can be represented uniquely as a sum of elements in $W$ and in $W^\perp$, $w + \zv$. Therefore, $\pi_W(w) = w$ for all $w \in W$, and so $\pi_W |_W = \Id_W$.
+
+    The image of $\pi_W$ is $W$, and so applying $\pi_W$ more than once does nothing after the first application of $\pi_W$.
+
+    For any $v \in V$, write as $v = w + u$ like above.
+    \begin{align*}
+        (\Id_V - \pi_W)(v) &= \Id_V(v) - \pi_W(v) \\
+        &= w + u - w \\
+        &= u = \pi_{W^\perp}(v).
+    \end{align*}
+\end{proof}
+\begin{proposition}[Closest-point projection]
+    For all $v \in V, w \in W$,
+    \begin{equation*}
+        \left\|v - \pi_W(v)\right\| \leq ||v - w||
+    \end{equation*}
+    with equality if and only if $w = \pi_W(v)$.
+    \label{propClosestPointProj}
+\end{proposition}
+\begin{remark}
+    This tells us that the projection of $v$ onto $w$ is the closest point in $W$ to $v$.
+\end{remark}
+\begin{proof}
+    Consider:
+    \begin{align*}
+        \nrm{v - w}^2 &= \nrm{\left(v - \pi_W(v)\right) + \left(\pi_W(v) - w\right)} \\
+        &= \nrm{v - \pi_W(v)}^2 + \nrm{\pi_W(v) - w}^2 \\
+        &\geq \nrm{v - \pi_W(v)}^2
+    \end{align*}
+    with equality if and only if the second term is in fact zero, $\nrm{\pi_W(v) - w} = 0$, which is exactly when $w = \pi_W(v)$.
+\end{proof}
+\begin{definition}{External orthogonal direct sum}
+    The \underline{external orthogonal direct sum} of two inner product spaces $(V_1, \varphi)$ and $(V_2, \psi)$ is the vector space $V_1 \times V_2$ with inner product defined by:
+    \begin{equation*}
+        \inn{(v_1, v_2)}{(v_1', v_2')} = \varphi(v_1, v_1') + \psi(v_2, v_2')
+    \end{equation*}
+\end{definition}
+\section{Maps of Inner Product Spaces}
+\subsection{Adjoint Maps}
+Consider, in $\F = \R$ or $\C$, $\vec{v} \in \F^n, \vec{w} \in \F^m$. For a matrix $A \in M_{m \times n}(\F)$,
+\begin{align*}
+    \inn{A\vec{v}}{\vec{w}} &= (A \vec{v})^T \overline{\vec{w}} \\
+    &= \vec{v}^T \overline{A^\dagger \vec{w}} \\
+    &= \inn{\vec{v}}{A^\dagger \vec{w}}
+\end{align*}
+We now want to investigate $A^\dagger$. In the case $\F = \R$, this is $A^T$.
+\begin{theorem}
+    Let $V, W$ be finite-dimensional inner product spaces. For $\alpha \in \L(V, W)$, there exists a unique linear map $\alpha^* : W \mapsto V$ satisfying:
+    \begin{equation}
+        \inn{\alpha(v)}{w}_W = \inn{v}{\alpha^*(w)}_V
+        \label{eqnAdjointDef}
+    \end{equation}
+    Further, for orthonormal bases $B, C$ for $V, W$,
+    \begin{equation*}
+        [\alpha^*]_B^C = \left([\alpha]_C^B\right)^\dagger
+    \end{equation*}
+    \label{thmAdjoint}
+\end{theorem}
+\begin{proof}
+    Let $B = \{b_1, \cdots, b_n\}$ and $C = \{c_1, \cdots, c_m\}$ and let $A = [\alpha]_C^B$.
+    Note that, in the respective basis, the matrix of the inner product for $V$ or $W$ is $I$.
+
+    Define $\alpha^* : W \mapsto V$ to be the unique linear extension of the map of bases:
+    \begin{equation*}
+        \alpha^*(c_i) = \sum_{i=1}^{n} \overline{A_{ji}} b_i
+    \end{equation*}
+    so indeed the matrix of $\alpha^*$ is $A^\dagger$.
+
+    \begin{subproof}{$\alpha^*$ satisfies equation~\ref{eqnAdjointDef}.}
+        \begin{align*}
+            \inn{\alpha(v)}{w}_W &= [\alpha(v)]_C^T \overline{[w]_C} \\
+            &= \left(A [v]_B\right)^T \overline{[w]_C} \\
+            &= [v]_B^T A^T \overline{[w]_C} \\
+            &= [v]_B^T \overline{A^\dagger [w]_C} \\
+            &= [v]_B^T \overline{[\alpha^*]_B^C [w]_C} \\
+            &= [v]_B^T \overline{[\alpha^*(w)]_B} \\
+            &=\inn{v}{\alpha^*(w)}_V
+        \end{align*}
+        So indeed $\alpha^*$ satisfies equation~\ref{eqnAdjointDef}
+    \end{subproof}
+    \begin{subproof}{$\alpha^*$ is the only map that satisfies equation~\ref{eqnAdjointDef}.}
+        Consider $\alpha' : W \mapsto V$ another linear map satisfying equation~\ref{eqnAdjointDef}. Let $A'$ be its matrix with respect to $B$ and $C$.
+        \begin{align*}
+            \inn{\alpha(b_i)}{c_j}_W &= (A\vec{e_i})^T \overline{\vec{e_j}} \\
+            &= a_{ij} \\
+            \inn{b_i}{\alpha'(c_j)}_W &= \vec{e_i}^T \overline{A' \vec{e_j}} \\
+            &= \overline{a_{ji}'}
+        \end{align*}
+        So now $A' = A^\dagger = [\alpha^*]_B^C$.
+    \end{subproof}
+\end{proof}
+\begin{definition}{Adjoint map}
+    The \underline{adjoint map} of a linear map $\alpha$ as defined in theorem~\ref{thmAdjoint} is $\alpha^*$, given by the same theorem.
+\end{definition}
+For $\F = \R$, we have a clean link between adjoint maps and dual maps. By lemma~\ref{lemLRBFLinear}, for any bilinear form $\varphi$, we have a corresponding element of the dual $\varphi_R(v)$ such that $(\varphi_R(v))(u) = \varphi(u, v)$. For the case of an inner product, we have the element of the dual:
+\begin{equation*}
+    \varphi_R(v) : u \mapsto \inn{u}{v}
+\end{equation*}
+We also find that the map $\varphi_R : V \mapsto V^*$ is linear.
+\begin{theorem}[Riesz Representation Theorem]
+    For $V$ a finite-dimensional real inner product space, the map:
+    \begin{align*}
+        \varphi_R : V &\mapsto V^*\\
+        v &\mapsto \varphi_R(v)
+    \end{align*}
+    is an isomorphism, where $\varphi_R(v)$ was defined as the map $u \mapsto \inn{u}{v}$ as above.
+    \label{thmReieszRep}
+\end{theorem}
+\begin{proof}
+    We have linearity of $\varphi_R$ by lemma~\ref{lemLRBFLinear}.
+
+    \begin{subproof}{$\varphi_R$ is injective}
+        Suppose $v \in \ker(\varphi_R)$. Then $\varphi_R(v) = \zv_{V^*}$. This means that:
+        \begin{align*}
+            (\varphi_R(v))(v)&= \inn{v}{v} \\
+            &= 0
+        \end{align*}
+        But this can only be the case if $v = \zv_V$, because the inner product is positive definite.
+    \end{subproof}
+    Then, since the spaces have the same dimension, $\varphi_R$ must be an isomorphism.
+\end{proof}
+We can represent this as a commutative diagram. See figure~\ref{figAdjMapDiagram}.
+\begin{definition}{Self-adjointness}
+    For a finite-dimensional inner product space $(V, \varphi)$, an endomorphism $\alpha$ is \underline{self-adjoint} if $\alpha^* = \alpha$.
+\end{definition}
+\begin{lemma}
+    For $V$ a real or complex vector space, $\alpha$ is self-adjoint if, in any orthonormal basis $B$ for $V$, $[\alpha]_B^B$ is Hermitian.
+    \label{lemSelfAdjIsHerm}
+\end{lemma}
+\begin{remark}
+    In the real case, we need $[\alpha]_B^B$ to be symmetric.
+\end{remark}
+\begin{proof}
+    Let $B$ be any orthonormal basis. In this basis,
+    \begin{align*}
+        \alpha\text{ self-adjoint} &\iff [\alpha]_B^B = [\alpha^*]_B^B \\
+        &\iff [\alpha]_B^B = \left([\alpha]_B^B\right)^\dagger \\
+        &\iff [\alpha]_B^B \text{ is Hermitian}
+    \end{align*}
+\end{proof}
+\subsection{Isometries}
+\begin{definition}{Isometry}
+    For $V, W$ inner product spaces, and $\alpha : V \mapsto W$ is an \underline{isometry} if, for all $u, v \in V$,
+    \begin{equation*}
+        \inn{\alpha(u)}{\alpha(v)}_W = \inn{u}{v}_V
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item By the polarisation identity, $\alpha$ as above defined is an isometry if and only if, for all $v \in V$,
+        \begin{equation*}
+            \nrm{\alpha(v)} = \nrm{v}.
+        \end{equation*}
+    \item Every isometry is injective. We can see this by:
+        \begin{equation*}
+            \nrm{\alpha(v) - \alpha(u)} = \nrm{v - u} = 0 \implies v = u
+        \end{equation*}
+    \item For $\alpha$ an isometry, $B$ an orthonormal subset of $V$, $\alpha(B)$ must be orthonormal in $W$.
+\end{remarks}
+\begin{proposition}
+    For $\alpha$ an invertible linear map of finite inner product spaces $V, W$, $\alpha$ is an isometry if and only if $\alpha^{-1} = \alpha^*$.
+    \label{propIsometryInvIsAdj}
+\end{proposition}
+\begin{proof}
+    \begin{proofdirection}{$\Leftarrow$}{Let $\alpha^* = \alpha^{-1}$.}
+        Then for any $u, v \in V$,
+        \begin{align*}
+            \inn{\alpha(u)}{\alpha(v)} &= \inn{\alpha^*(\alpha(u))}{v} \\
+            &= \inn{u}{v}
+        \end{align*}
+    \end{proofdirection}
+    \begin{proofdirection}{$\Rightarrow$}{Let $\alpha$ be an isometry}
+        First consider $\alpha^*(\alpha(v))$:
+        \begin{align*}
+            \inn{u}{\alpha^*(\alpha(v)) - v} &= \inn{u}{\alpha^*(\alpha(v))} - \inn{u}{v} \\
+            &= \inn{u}{v} - \inn{u}{v} = 0
+        \end{align*}
+        Therefore setting $u = \alpha^*(\alpha(v))-v$ gives $\nrm{\alpha^*(\alpha(v)) - v} = 0$, and so $\alpha^*(\alpha(v)) = v$. Since this is for all $v$, we conclude:
+        \begin{equation*}
+            \alpha^* \circ \alpha = \Id_V \iff \alpha^* = \alpha^{-1}
+        \end{equation*}
+    \end{proofdirection}
+\end{proof}
+\section{Eigenvectors and Eigenvalues}
+\end{document}
