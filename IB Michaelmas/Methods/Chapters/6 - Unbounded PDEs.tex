@@ -478,4 +478,167 @@ or, equivalently,
 \begin{equation*}
     \frac{\partial \hat{G}}{\partial t} + \kappa |\vec{\lambda}|^2 \hat{G} = e^{-\vec{\lambda} \cdot \vec{y}} \delta(t - s)
 \end{equation*}
+\section{Green's Function for Laplace's Equation}
+\subsection{The Free-Space Green's Function}
+We want to find $G = G(\vec{x}, \vec{y})$ such that for each fixed $\vec{y} \in \R^n$,
+\begin{equation*}
+    \Delta(G(\vec{x}, \vec{y})) = \delta(\vec{x} - \vec{y}),\qquad G(\vec{x}, \vec{y}) \to 0 \text{ as } |\vec{x}| \to\infty
+\end{equation*}
+This is the \underline{Free Space Green's Function} for Laplace's Equation. We can think of $G$ as the electric potential at $\vec{x}$ due to a point charge at point $\vec{y}$. By taking the Fourier Transform:
+\begin{equation*}
+    \hat{G}(\vec{\lambda}, \vec{y}) = \frac{-e^{i \vec{\lambda} \cdot \vec{y}}}{|\vec{\lambda}|^2}
+\end{equation*}
+\begin{proposition}
+    For $\alpha > 0, \vec{x} \in \R^n$,
+    \begin{equation*}
+        \FT[|\vec{x}|^{-\alpha}] = C_{n, \alpha} |\vec{\lambda}|^{\alpha - n}
+    \end{equation*}
+    where $C_{n, \alpha}$ is a constant.
+    \label{propFTOfModX}
+\end{proposition}
+\begin{proof}
+    Write $f_\alpha(\vec{x}) = |\vec{x}|^{-\alpha}$.
+    \begin{equation*}
+        \hat{f}_\alpha(\vec{\lambda}) = \int_{\R^n} e^{-i \vec{\lambda} \cdot \vec{x}} |\vec{x}|^{-\alpha} d^n\vec{x}
+    \end{equation*}
+    Then we make the substitution $\vec{x} = R^T\vec{x}'$, where $R \in \operatorname{SO}(n)$.
+    \begin{align*}
+        \hat{f}_\alpha(\vec{\lambda}) &= \int_{\R^n} e^{-i \vec{\lambda} \cdot R^T\vec{x}'}|R^T \vec{x}'|^{-\alpha} d^n \vec{x}' \\
+        &= \int_{\R^n} e^{-i (R\vec{\lambda}) \cdot \vec{x}'}|\vec{x}'|^{-\alpha} d^n \vec{x}' \\
+        &= \hat{f}_\alpha(R\vec{\lambda}).
+    \end{align*}
+    Therefore, $\hat{f}_\alpha$ is rotation invariant, so if $\vec{\lambda} = |\vec{\lambda}|\vec{m}$ where $\vec{m}$ is a unit vector, then $\hat{f}_\alpha$ is independent of $\vec{m}$.
+    Now make a substitution $|\vec{\lambda}|\vec{x} = \vec{x}'$.
+    \begin{align*}
+        \hat{f}_\alpha(\vec{\lambda}) &= \int_{\R^n} e^{-i |\vec{\lambda}| \vec{m} \cdot \vec{x}} |\vec{x}|^{-\alpha} d^n \vec{x} \\
+        &= \int_{\R^n} e^{-i \vec{m} \cdot \vec{x}'} |\vec{\lambda}|^\alpha|\vec{x}'|^{-\alpha} d^n \vec{x}' |\vec{\lambda}|^{-n} \\
+        &= \left(\int_{\R^n} e^{-i \vec{m} \cdot \vec{x}'} |\vec{x}'|^{-\alpha} d^n \vec{x}'\right) |\vec{\lambda}|^{\alpha - n} \\
+        &= C_{n, \alpha} |\vec{\lambda}|^{\alpha - n}
+    \end{align*}
+\end{proof}
+From this, we get the important result:
+\begin{equation*}
+    \frac{1}{|\vec{\lambda}|^2} = \FT[c_n |\vec{x}|^{2-n}]
+\end{equation*}
+\begin{proposition}
+    For $n > 2$,
+    \begin{equation*}
+        G(\vec{x}, \vec{y}) = -\frac{1}{(n-2) |S^{n-1}|} \frac{1}{|\vec{x} - \vec{y}|^{n-2}}
+    \end{equation*}
+    where $|S^{n-1}|$ is the area of $S^{n-1}$.
+    \label{propFreeGreen}
+\end{proposition}
+\begin{remark}
+    In $\R^3$,
+    \begin{equation*}
+        G(\vec{x}, \vec{y}) = -\frac{1}{4\pi} \frac{1}{|\vec{x} - \vec{y}|}
+    \end{equation*}
+\end{remark}
+\begin{proof}
+    Set $F(\vec{x}) = c_n |\vec{x}|^{2-n}$, so:
+    \begin{align*}
+        \hat{G}(\vec{\lambda}, \vec{y}) &= e^{-i \vec{\lambda} \cdot \vec{y}} \hat{F}(\lambda) \\
+        &= -\FT[F(\vec{x} - \vec{y})]
+    \end{align*}
+    Therefore $G(\vec{x}, \vec{y}) = -\frac{c_n}{|\vec{x} - \vec{y}|^{n-2}}$. Since also $\Delta G(\vec{x}, \vec{0}) = \delta(\vec{x})$, we have:
+    \begin{align*}
+        \frac1{c_n} \delta(\vec{x}) &= -\Delta[|\vec{x}|^{2-n}] \\
+        \intertext{Integrate over $|\vec{x}| \leq 1$, and use the divergence theorem:}
+        \frac1{c_n} &= -\int_{|\vec{x}| \leq 1} \Delta[|\vec{x}|^{2-n}] d^n \vec{x} \\
+        &= -\int_{|\vec{x}| = 1} \nabla[|\vec{x}|^{2-n}] \cdot \vec{dS} \\
+        &= (n-2)\int_{|\vec{x}| = 1} dS \\
+        &= (n-2) |S^{n-1}|
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    If $n = 2$, a Green's function for Laplace's equation is:
+    \begin{equation*}
+        G(\vec{x}, \vec{y}) = \frac1{2\pi} \log\left(|\vec{x} - \vec{y}|\right)
+    \end{equation*}
+    \label{propFreeGreenR2}
+\end{proposition}
+\begin{proof}
+    Take $\vec{y} = \vec{0}$ without loss of generality (the operator $\Delta$ is translation-invariant).
+
+    \begin{align*}
+        \Delta[\log(r)] &= \frac1r \frac{\partial}{\partial r} \left(r \frac{\partial \log(r)}{\partial r}\right) \\
+        &= \frac1r \frac{\partial}{\partial r} \left(0\right) \\
+        &= 0 \text{ for $r \neq 0$}
+    \end{align*}
+    Around $r = 0$, set $\epsilon > 0$ and use the divergence theorem:
+    \begin{align*}
+        \int_{|\vec{x}| \leq \epsilon} \Delta[\log(r)] d^2 \vec{x}&= \int_{|\vec{x}| = \epsilon} \nabla (\log(r)) \cdot \vec{dS} \\
+        &= \int_0^{2\pi} \frac{\vec{e_r}}{\epsilon} \cdot \vec{e_r} \epsilon d\theta \\
+        &= 2\pi
+    \end{align*}
+    So we have the requirements, when divided by $2\pi$.
+\end{proof}
+In summary, the free space Green's function for the Laplace equation is:
+\begin{equation}
+    G(\vec{x}, \vec{y}) =
+    \begin{cases}
+        \frac1{2\pi} \log(|\vec{x} - \vec{y}|) & n = 2 \\
+        -\frac{1}{(n-2) |S^{n-1}|} \frac{1}{|\vec{x} - \vec{y}|^{n-2}} & n > 2
+    \end{cases}
+    \label{eqnFreeGreen}
+\end{equation}
+As an aside, we can get to the $n = 2$ case by taking a limit of the dimension $n \to 2$ of the Green's function:
+\begin{equation*}
+    \lim_{n \to 2} -\frac{1}{n-2} \frac{1}{|S^{n-1}|} \left[\frac{1}{|\vec{x} - \vec{y}|^{n-2}} - 1\right] = \frac1{2\pi} \log(|\vec{x} - \vec{y}|)
+\end{equation*}
+\subsection{The Dirichlet Green's Function}
+We want to solve, on $\Omega \subseteq \R^n$:
+\begin{equation}
+    \begin{cases}
+        \Delta u = F & \vec{x} \in \Omega \\
+        u = 0 & x \in \partial \Omega
+    \end{cases}
+    \label{eqnLaplacianForcedUnbdd}
+\end{equation}
+To do this, we want to find the Dirichlet Green's function, defined for each $\vec{y} \in \Omega$ by:
+\begin{equation*}
+    \begin{cases}
+        \Delta \DGrn(\vec{x}, \vec{y}) = \delta(\vec{x} - \vec{y}) & \vec{x} \in \Omega \\
+        \DGrn(\vec{x}, \vec{y}) = 0 & \vec{x} \in \partial \Omega
+    \end{cases}
+\end{equation*}
+Then with such a Green's function we have the solution to $u$:
+\begin{equation*}
+    u(\vec{x}) = \int_{\Omega} \DGrn(\vec{x}, \vec{Y}) F(\vec{y}) d^n \vec{y}
+\end{equation*}
+To find $\DGrn$ we need a free-space Green's function $G(\vec{x}, \vec{y})$ along with an added harmonic function that satisfies $\DGrn(\vec{x}, \vec{y}) = 0$ on $\partial \Omega$.
+
+We introduce the \underline{Method of Images}. We want to add a series of point charges outside of $\Omega$ such that the total potential due to $\vec{y}$ and the point charges we add is zero on $\partial \Omega$.
+\begin{example}
+    Consider $\Omega = \subsetselect{\vec{x} \in \R^3}{x_3 > 0}$.
+    Considering a point charge at $\vec{y} \in \Omega$,
+    \begin{equation*}
+        \vec{y} = \begin{pmatrix}y_1 \\ y_2 \\ y_3\end{pmatrix}
+    \end{equation*}
+    we add another one the other side of the boundary $x_3 = 0$:
+    \begin{equation*}
+        \vec{y_0} = \begin{pmatrix}y_1 \\ y_2 \\ -y_3\end{pmatrix}
+    \end{equation*}
+    Therefore we make our guess:
+    \begin{equation*}
+        \DGrn(\vec{x}, \vec{y}) = G(\vec{x}, \vec{y}) + \left[-G(\vec{x}, \vec{y_0})\right]
+    \end{equation*}
+    Then for each $\vec{x} \in \Omega$:
+    \begin{align*}
+        \Delta \DGrn(\vec{x}, \vec{y}) &= \delta(\vec{x} - \vec{y}) - \delta(\vec{x} - \vec{y_0}) \\
+        &= \delta(\vec{x} - \vec{y}) \text{ on $x \in \Omega$.}
+    \end{align*}
+    Here we see the importance of the extra point charges being \underline{outside of $\Omega$}: if not, the $\delta(\vec{x} - \vec{y_0})$ would not disappear.
+
+    We also need to check the boundary conditions. For that we need the result:
+    \begin{equation*}
+        G(\vec{x}, \vec{y}) = -\frac{1}{4\pi} \frac{1}{|\vec{x} - \vec{y}|}
+    \end{equation*}
+    For $x \in \partial \Omega$,
+    \begin{align*}
+        \DGrn(\vec{x}, \vec{y}) &= -\frac{1}{4\pi} \left[\frac{1}{\sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + (0 - y_3)^2}} \right. \\
+        &\left. - \frac{1}{\sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + (0 + y_3)^2}}\right] \\
+        &= 0
+    \end{align*}
+\end{example}
 \end{document}
