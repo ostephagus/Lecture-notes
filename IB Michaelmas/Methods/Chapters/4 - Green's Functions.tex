@@ -38,6 +38,66 @@ For the third remark, we simply take $N > \frac1\epsilon$. This results in:
     &= \frac1\alpha \int_{-1}^{1} \exp\left[-\frac{1}{1-y^2}\right] dy \text{ by taking }y = nx \\
     &= 1
 \end{align*}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=0.7, >=Stealth, thick]
+        % --- Left Plot (Low n) ---
+        \begin{scope}[local bounding box=leftplot]
+            % Axes
+            \draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};
+            \draw[->] (0,-0.5) -- (0,3.5) node[above] {$y$};
+            
+            % Origin label
+            \node[below left] at (0,0) {$0$};
+
+            % The Curve (approximate normal distribution)
+            % Using a smooth plot for the bell curve
+            \draw[line width=1.2pt] plot[domain=-2.5:2.5, samples=100] (\x, {2.5*exp(-1*(\x)^2)});
+            
+            % Label on the curve
+            \node[above right] at (0.8, 1.8) {$y = \delta_n(x)$};
+
+            % Peak label on y-axis
+            \draw (-0.2, 2.5) -- (0.2, 2.5);
+            \node[left] at (-0.2, 2.5) {$\approx n$};
+
+            % X-axis ticks (moved outwards)
+            \draw (-2.5, 0.1) -- (-2.5, -0.1) node[below] {$-\frac{1}{n}$};
+            \draw (2.5, 0.1) -- (2.5, -0.1) node[below] {$\frac{1}{n}$};
+
+            % Dimension line below (moved outwards)
+            \draw[|-|] (-2.5, -1.2) -- (2.5, -1.2) node[midway, below] {$\frac{2}{n}$};
+        \end{scope}
+
+        % --- Transition Arrow ---
+        \draw[->, line width=1pt] (4, 2) -- (7, 2) node[midway, above] {$n$ increases};
+
+        % --- Right Plot (High n) ---
+        \begin{scope}[shift={(10,0)}, local bounding box=rightplot]
+            % Axes
+            \draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};
+            \draw[->] (0,-0.5) -- (0,3.5) node[above] {$y$};
+            
+            % Origin label
+            \node[below right] at (0,0) {$0$};
+
+            % The Curve (sharper normal distribution)
+            \draw[line width=1.2pt] plot[domain=-1:1, samples=100] (\x, {3.3*exp(-15*(\x)^2)});
+            
+            % Label on the curve
+            \node[above right] at (0.5, 1.8) {$y = \delta_n(x)$};
+
+            % Peak tick (implied higher)
+            \draw (-0.2, 3.3) -- (0.2, 3.3); 
+
+            % X-axis ticks (moved outwards relative to the sharper curve)
+            \draw (-0.8, 0.1) -- (-0.8, -0.1) node[below] {$-\frac{1}{n}$};
+            \draw (0.8, 0.1) -- (0.8, -0.1) node[below] {$\frac{1}{n}$};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Graph of $\delta_n$ as $n$ increases}
+    \label{figDiracDeltaGraph}
+\end{figure}
 Now consider figure~\ref{figDiracDeltaGraph}. We see that $\lim_{n \to \infty} \delta_n(x) = 0$ if $x \neq 0$ and, for $\epsilon > 0$, we have the required integral property.
 
 Therefore, this \underline{almost} gives us the limit:

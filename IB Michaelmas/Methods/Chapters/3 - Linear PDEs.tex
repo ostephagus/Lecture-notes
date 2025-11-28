@@ -274,8 +274,108 @@ Consider a taut string, under constant tension $\tau$, clamped at its ends $x = 
 \end{align*}
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=0.5]
-        %TODO: Get picture from onenote.
+    \begin{tikzpicture}[
+        >=Latex, % Use LaTeX style arrowheads
+        thick,
+        font=\large
+    ]
+
+        % ==========================================
+        % TOP DIAGRAM: The Sine Wave
+        % ==========================================
+        \begin{scope}[shift={(0, 5)}]
+            % Axes
+            \draw[->] (0,-1.5) -- (0, 2) node[above] {$y$};
+            \draw[->] (-0.5,0) -- (8.5, 0) node[right] {$x$};
+            
+            % Wave (Sine approximation)
+            \draw[line width=1.2pt] plot[domain=0:8, samples=100] (\x, {sin(\x*50)});
+            
+            % Origin point
+            \fill (0,0) circle (3pt);
+            
+            % L point (at 2pi approx 7.2 in this scale, visually placed to match)
+            \coordinate (L) at (7.2, 0);
+            \fill (L) circle (3pt);
+            \node[below=3pt] at (L) {$L$};
+            
+            % The Circle for the "Zoom" area
+            % Located on the rising slope
+            \coordinate (ZoomCenter) at (1.2, {sin(1.2*50)});
+            \draw[line width=1pt] (ZoomCenter) circle (0.2cm);
+            
+            % Coordinate for the arrow start
+            \coordinate (ArrowStart) at ($(ZoomCenter) + (-70:0.2)$);
+        \end{scope}
+
+
+        % ==========================================
+        % BOTTOM DIAGRAM: The Zoomed Segment
+        % ==========================================
+        \begin{scope}[shift={(1, -1)}]
+            
+            % Define the curve points
+            \coordinate (A) at (0, 0);       % Left point
+            \coordinate (B) at (4, 2);       % Right point
+            \coordinate (M) at (2, 1.2);     % Middle point (approx)
+            
+            % Draw the curve segment
+            \draw[line width=1.5pt] (A) to[out=40, in=200] (B);
+            
+            % Points on curve
+            \fill (A) circle (3pt);
+            \fill (B) circle (3pt);
+            \fill (M) circle (3pt);
+            
+            % --- LEFT POINT (A) DETAILS ---
+            % Tangent Force Vector (Tau) - Pointing backwards/down-left
+            \draw[->, line width=1.2pt] (A) -- +(-140:1.5cm) node[left] {$\tau$};
+            
+            % Horizontal dashed line
+            \draw[dashed] (A) -- +(1.5, 0);
+            
+            % Angle Theta A
+            % Draw arc
+            \draw (A) +(35:0.6cm) arc (30:0:0.6cm); % Actually angle is vertically opposite usually, but matching sketch
+            % Sketch shows angle between Horizontal and Tangent
+            %\draw (0.6,0) arc (0:40:0.6); % Visual placeholder for the "slope" angle
+            \node at (1.2, 0.3) {$\theta_A$};
+            
+            % Vertical dashed line to axis
+            \draw[dashed, line width=0.8pt] (A) -- (0, -2) node[below] {$x_A$};
+            
+            
+            % --- MIDDLE POINT (M) DETAILS ---
+            \draw[dashed, line width=0.8pt] (M) -- (2, -2) node[below] {$x$};
+            
+            
+            % --- RIGHT POINT (B) DETAILS ---
+            % Tangent Force Vector (Tau) - Pointing forwards/up-right
+            \draw[->, line width=1.2pt] (B) -- +(20:1.5cm) node[above right] {$\tau$};
+            
+            % Horizontal dashed line
+            \draw[dashed] (B) -- +(1.5, 0);
+            % Angle Theta B
+            \draw (B) +(1.0,0) arc (0:20:1.0);
+            \node (ThetaB) at ($(B) + (0.3, 1)$) {$\theta_B$};
+            \draw[->] (ThetaB.south) -- ($(B) + (10:0.7)$);
+            
+            % Vertical dashed line to axis
+            \draw[dashed, line width=0.8pt] (B) -- (4, -2) node[below] {$x_B$};
+            
+            
+            % --- BOTTOM AXIS / DELTA X ---
+            % The horizontal distance marker
+            \draw[<->, line width=1pt] (0, -1.5) -- (4, -1.5)
+                node[above, pos=0.6] {$\delta x$};
+            
+        \end{scope}
+
+        % ==========================================
+        % CONNECTING ARROW
+        % ==========================================
+        \draw[->, line width=1.2pt, shorten >= 10pt] (ArrowStart) -- ($(M) + (0, 1)$);
+
     \end{tikzpicture}
     \caption{Forces on an oscillating string}
     \label{figOscString}
