@@ -379,7 +379,7 @@ We can represent this as a commutative diagram. See figure~\ref{figAdjMapDiagram
     \item For $\alpha$ an isometry, $B$ an orthonormal subset of $V$, $\alpha(B)$ must be orthonormal in $W$.
 \end{remarks}
 \begin{proposition}
-    For $\alpha$ an invertible linear map of finite inner product spaces $V, W$, $\alpha$ is an isometry if and only if $\alpha^{-1} = \alpha^*$.
+    For $\alpha$ an invertible linear map of finite inner product spaces $V, W$, $\alpha$ is an isometry if and only if $\alpha^{-1} = \alpha^*$. % Do we need finite-dimensionality?
     \label{propIsometryInvIsAdj}
 \end{proposition}
 \begin{proof}
@@ -402,5 +402,187 @@ We can represent this as a commutative diagram. See figure~\ref{figAdjMapDiagram
         \end{equation*}
     \end{proofdirection}
 \end{proof}
+In order to work in terms of orthogonality, we define the following:
+\begin{definition}{Orthogonal matrix}
+    $A \in M_{n \times n}(\R)$ is \underline{orthogonal} if $A A^T = I$. The set of all such matrices forms a group, $O(n)$. See IA Groups for proof.
+\end{definition}
+\begin{definition}{Unitary matrix}
+    $A \in M_{n \times n}(\C)$ is \underline{unitary} if $A A^\dagger = I$. The set of all such matrices forms a group, $U(n)$. See IA Groups for proof.
+\end{definition}
+\begin{corollary}
+    Let $\F = \C$. For $V$ a finite-dimensional vector space over $\F$, $\alpha$ is an isometry if and only if for any orthonormal basis $B$ for $V$, $[\alpha]_B^B$ is a unitary matrix.
+    \label{corIsomOrthogMatrix}
+\end{corollary}
+\begin{remark}
+    If $\F = \R$, we replace ``unitary'' with ``orthogonal''.
+\end{remark}
+\begin{proof}
+    By proposition~\ref{propIsometryInvIsAdj},
+    \begin{align*}
+        \text{$\alpha$ an isometry} &\iff \alpha \circ \alpha^* = \Id_V \\
+        &\iff [\alpha]_B^B [\alpha^*]_B^B = I \\
+        &\iff [\alpha]_B^B \left([\alpha]_B^B\right)^\dagger = I
+    \end{align*}
+\end{proof}
+We can now characterise orthogonal and unitary linear maps independent of basis. We define $O(V)$, for a finite-dimensional real vector space $V$, to be the set:
+\begin{equation*}
+    O(V) = \subsetselect{\alpha \in \L(V, V)}{\text{$\alpha$ is an isometry}}
+\end{equation*}
+Similarly, $U(V)$ has exactly the same definition, for $V$ a complex vector space.
+
+We can very easily define an isomorphism between these new groups and our previous definitions:
+\begin{align*}
+    O(V) &\mapsto O(\dim(V)) \\
+    \alpha &\mapsto [\alpha]_B^B
+\end{align*}
+for any orthonormal basis $B$ for $V$. The same isomorphism works for complex vector spaces $U(V) \mapsto U(\dim(V))$.
+\begin{remark}
+    For $A \in M_{n \times n}(\F)$, $A \in U(n)$ (or $O(n)$ for a real vector space) if and only if the columns of $A$ form an orthonormal basis for $\F^n$.
+
+    Interpreting this in the context of group theory,
+    Let $T_n(\F)$ be the group of invertible, upper-triangular matrices. $T_n(\F) \leq GL_n(\F)$. As seen in IA Groups, we can write any invertible matrix as the product of a unitary matrix and a matrix in $T_n(\F)$. The proof of this is by applying Gram-Schmidt to the columns of any invertible matrix.
+\end{remark}
+\begin{example}[Orthogonal projections]
+    Recall that, for a finite-dimensional vector space $V$ and a subspace $W$, the orthogonal projection is given by:
+    \begin{align*}
+        \pi_W : V &\mapsto V\\
+        u + w &\mapsto w
+    \end{align*}
+    where $u \in U, w \in W$.
+
+    Note that this is self-adjoint:
+    \begin{align*}
+        \inn{v_1}{\pi(v_2)} &= \inn{u_1 + w_1}{\pi(u_2 + w_2)} \\
+        &= \inn{u_1 + w_1}{w_2} \\
+        &= \underbrace{\inn{u_1}{w_2}}_{0} + \inn{w_1}{w_2} \\
+        &= \inn{w_1}{u_2 + w_2} \\
+        &= \inn{\pi(u_1 + u_2)}{u_2 + w_2} \\
+        &= \inn{\pi(v_1)}{v_2}
+    \end{align*}
+    This turns out to be unique!
+    
+    Suppose that $\alpha$ is a self-adjoint linear map on $V$, with $\alpha^2 = \alpha$. By Ex1Q4, $V = \im(\alpha) \oplus \kera$. By the self-adjointness of $\alpha$, we see that in fact this is an orthogonal direct sum. Suppose $w = \alpha(v)$ for $v \in V$ and $u \in \kera$.
+    \begin{align*}
+        \inn{w}{u} &= \inn{\alpha(v)}{u} \\
+        &= \inn{v}{\alpha(u)} \\
+        &= \inn{v}{0} = 0
+    \end{align*}
+    Hence in fact $V = \im(\alpha) \perpplus \kera$.
+
+    Finally, $\alpha(\alpha(v) + u) = \alpha^2(v) = \alpha(v)$, so indeed $\alpha$ is an orthogonal projection onto its image.
+\end{example}
 \section{Eigenvectors and Eigenvalues}
+In this section, let $V$ be a finite-dimensional vector space with an inner product, over a field $\F = \R$ or $\C$. Let $\alpha$ be an endomorphism of $V$. We will build up the necessary lemmas to prove the \textit{spectral theorem}, which tells us that we can diagonalise the matrix of $\alpha$, along with other interesting properties.
+\begin{propositions}{
+        Let $\alpha$ be self-adjoint.
+        \label{propsSelfAdjEVecs}
+    }
+    \item All eigenvalues of $\alpha$ are real, \label{propSelfAdjEValsReal}
+    \item Eigenvectors corresponding to distinct eigenvalues are orthogonal. \label{propSelfAdjEVecsOrtho}
+\end{propositions}
+\begin{proof}
+    First let $v$ be a non-zero eigenvector with eigenvalue $\lambda$.
+    \begin{align*}
+        \lambda \inn{v}{v} &= \inn{\lambda v}{v} \\
+        &= \inn{\alpha(v)}{v} \\
+        &= \inn{v}{\alpha(v)} \text{ by self-adjointness} \\
+        &= \inn{v}{\lambda v} \\
+        &= \overline{\lambda} \inn{v}{v}
+    \end{align*}
+    but since $\inn{v}{v} \neq 0$ we conclude $\lambda = \overline{\lambda}$.
+
+    Now suppose $w$ is an eigenvector with eigenvalue $\mu \neq \lambda$.
+    \begin{align*}
+        \lambda \inn{v}{w} &= \inn{\lambda v}{w} \\
+        &= \inn{\alpha(v)}{w} \\
+        &= \inn{v}{\alpha(w)} \\
+        &= \mu \inn{v}{w}
+    \end{align*}
+    but since $\lambda \neq \mu$, we must have $\inn{v}{w} = 0$.
+\end{proof}
+\begin{corollary}
+    If $A \in M_{n \times n}(\C)$ is Hermitian, every eigenvalue of $A$ is real.
+    \label{corHermitianEVals}
+\end{corollary}
+\begin{lemma}
+    For any subspace $W$ of $V$, if $\alpha(W) \leq W$ then also $\alpha^*(W^\perp) \leq W^\perp$.
+    \label{lemAdjPresevesSubspaces}
+\end{lemma}
+\begin{proof}
+    Let $w \in W$ and $u \in W^\perp$.
+    \begin{equation*}
+        \inn{w}{\alpha^*(u)} = \inn{\alpha(w)}{u} = 0
+    \end{equation*}
+    since $\alpha(w) \in W$.
+
+    This holds for any $w$ and $u$ in $W$ and $W^\perp$, so we have the required result.
+\end{proof}
+\begin{lemma}
+    Let $\alpha$ be self-adjoint. Then $\alpha$ has a real eigenvector.
+    \label{lemSelfAdjEVecExists}
+\end{lemma}
+\begin{remark}
+    This is unnecessary in $\F = \C$, because we have the Fundamental Theorem of Algebra.
+\end{remark}
+\begin{proof}
+    Let $B$ to be an orthonormal basis for $V$. Let $A = [\alpha]_B^B$, this is Hermitian. Consider the characteristic polynomial $\chi_A(t)$ as a complex polynomial, so we can invoke the Fundamental Theorem of Algebra to get at least one root $\lambda \in \C$. 
+
+    Since $A$ is Hermitian, we use lemma~\ref{corHermitianEVals} to get that $\lambda$ is real. Therefore, there must exist an eigenvector $v$ with real eigenvalue $\lambda$. Let $v = a + i b$,
+    \begin{equation*}
+        Aa + i A b = A(a + i b) = \lambda a + i \lambda b
+    \end{equation*}
+    Then take the real part of the above equation, $a$ is a real eigenvector with real eigenvalue $\lambda$.
+\end{proof}
+\begin{theorem}[Spectral Theorem for Self-Adjoint Endomorphisms]
+    If $\alpha$ is self-adjoint, $V$ has an orthonormal basis consisting of eigenvectors of $\alpha$. Further, the eigenvectors are always real.
+    \label{thmSpectral}
+\end{theorem}
+\begin{proof}
+    Let $n$ be the dimension of $V$.
+    \induction{$n = 1$}{
+        All matrices of size 1 are diagonal, and if the map is self adjoint it must simply be multiplication by a real number.
+    }{$n = k$}{
+        Suppose that, in $k$ dimensional space, the theorem holds.
+    }{$n = k + 1$}{
+        Let $v_1$ be an eigenvector of $\alpha$, which must exist by lemma~\ref{lemSelfAdjEVecExists}. After possibly rescaling, let $v_1$ have length 1.
+
+        Then $\alpha(\spn{v_1}) \leq v_1$, so we invoke lemma~\ref{lemAdjPresevesSubspaces} to get:
+        \begin{equation*}
+            \alpha(\spn{v_1}^\perp) \leq \spn{v_1}^\perp
+        \end{equation*}
+        Now let $\beta = \alpha |_{\spn{v_1}^\perp}$, $\beta : \spn{v_1}^\perp \mapsto \spn{v_1}^\perp$. We must ensure that $\beta$ is self-adjoint. Consider $u, v \in \spn{v_1}^\perp$:
+        \begin{align*}
+            \inn{\beta(u)}{v} &= \inn{\alpha(u)}{v} \\
+            &= \inn{u}{\alpha(v)} \\
+            &= \inn{i}{\beta{v}}
+        \end{align*}
+        as required.
+
+        Now we apply induction to $\beta$ and $\spn{v_1}^\perp$. $\spn{v_1}^\perp$ has an orthonormal basis $B'$ of eigenvectors of $\beta$, which are also eigenvectors of $\alpha$. We extend the basis to $B = \{v_1\} \cup B'$. 
+
+        Note that by proposition~\ref{propSelfAdjEValsReal}, all the eigenvectors are real.
+    }
+\end{proof}
+\begin{corollary}
+    For any matrix $A \in M_{n \times n}(\C)$, if $A$ is Hermitian then there exists a unitary matrix $P$ such that $P^\dagger A P$ is diagonal.
+    \label{corSpectralTheoremMatrices}
+\end{corollary}
+\begin{remark}
+    In the case $A \in M_{n \times n}(\R)$, we have an orthogonal transform for symmetric matrices.
+\end{remark}
+\begin{proof}
+    We apply theorem~\ref{thmSpectral} to the vector space $\R^n$ with the standard dot product. $A$ is the self-adjoint linear map.
+
+    This gives that there exists $\{\vec{v_1}, \cdots, \vec{v_n}\}$ eigenvectors of $A$ with real eigenvalues.
+
+    Now let $P$ be the matrix with columns $\{\vec{v_1}, \cdots, \vec{v_n}\}$. This is unitary because:
+    \begin{equation*}
+        \left(P^\dagger P\right)_{ij} = v_i^\dagger v_j = \delta_{ij}
+    \end{equation*}
+    Then similarly,
+    \begin{equation*}
+        \left(P^\dagger A P\right)_{ij} = \inn{v_j}{\lambda_i v_i}
+    \end{equation*}
+    which corresponds to a diagonal matrix, with eigenvalues in the diagonal entries.
+\end{proof}
 \end{document}
