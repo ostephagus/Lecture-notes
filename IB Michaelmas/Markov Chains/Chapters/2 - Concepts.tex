@@ -315,26 +315,27 @@ Then the power of this theorem is that we can break a Markov chain down into ind
     \begin{equation*}
         \P_i(X_n = i \text{ for infinitely many }n) = 1
     \end{equation*}
+    For this, we will write $\P_i(X_n = i \io) = 1$.
 \end{definition}
 Then the matrix $P$ is \underline{recurrent} if all states are recurrent.
 \begin{definition}{Transient state}
     A state $i$ is \underline{transient} if:
     \begin{equation*}
-        \P_i(X_n = i \text{ for infinitely many }n) = 0
+        \P_i(X_n = i \io) = 0
     \end{equation*}
-    For this, we will write $\P_i(X_n = i \io) = 1$. Here i.o. stands for infinitely often.
 \end{definition}
 Then the matrix $P$ is \underline{transient} if all states are transient.
 \begin{definition}{Return time}
-    The \underline{return time} to $i$, $T_i^{(k)}$ are defined by:
+    The \underline{$k$th return time} to $i$, $T_i^{(k)}$ is defined by:
     \begin{equation*}
         T_i^{(k)} =
         \begin{cases}
             0 & k=0 \\
-            \inf\subsetselect{n>T_i^{(k)}}{X_n = i} & k > 0
+            \inf\subsetselect{n>T_i^{(k-1)}}{X_n = i} & k > 0
         \end{cases}
     \end{equation*}
 \end{definition}
+Then the previously defined first return time $T_i = T_i^{(1)}$.
 \begin{definition}{Return probability}
     The \underline{return probability} for a state $i$ is $f_i = \P_i(T_i < \infty)$.
 \end{definition}
@@ -345,7 +346,7 @@ Then the matrix $P$ is \underline{transient} if all states are transient.
     \end{equation*}
 \end{definition}
 \begin{lemma}
-    For each $v \geq 0$, $v_i$ satisfies:
+    For each $r \in \N$, $v_i$ satisfies:
     \begin{equation*}
         \P_i(v_i > r) = f_i^v,~v_i \sim Geo(1-f_i)
     \end{equation*}
@@ -473,7 +474,7 @@ Then the matrix $P$ is \underline{transient} if all states are transient.
 
     \begin{align*}
         \sum_{n \geq 0} p_{00}(n) &= \sum_{n \geq 0} p_{00}(2n) \\
-        &= \sum_{n \geq 0} \binom{2n}{n} \left(\frac{1}{2}\right)^2n
+        &= \sum_{n \geq 0} \binom{2n}{n} \left(\frac{1}{2}\right)^{2n}
     \end{align*}
     Recall Stirling's formula,
     \begin{equation*}
@@ -486,7 +487,7 @@ Then the matrix $P$ is \underline{transient} if all states are transient.
     This sum is infinite. Therefore, the state $0$ is recurrent. Since the whole chain is irreducible we must have that $\chain{X}$ is recurrent.
 \end{proof}
 \begin{remark}
-    The same computation shows that the simple asymmetric random walk on $\Z$ is transient. Let $P(0, 1) = 1$ and $P(x, x_{+1}) = p$, $P(x, x-1) = q = 1-p$. Ensure $p \neq 0 \neq \frac12$.
+    The same computation shows that the simple asymmetric random walk on $\Z$ is transient. Let and $P(x, x+1) = p$, $P(x, x-1) = q = 1-p$. Ensure $p \neq 0 \neq \frac12$.
     \begin{align*}
         \sum_{n\geq 0}p_{00}(n)&= \sum_{n\geq 0} p_{00}(2n) \\
         &= \sum_{n \geq 0} \binom{2n}{n} p^n q^n \\
@@ -497,7 +498,7 @@ Then the matrix $P$ is \underline{transient} if all states are transient.
 \begin{lemma}
     Let $f(x, y)$ be the projection of $x, y$ onto the lines $y = x$ and $y = -x$. That is,
     \begin{equation*}
-        f(x, y) = \left(\frac{x + y}{\sqrt{2}}, \frac{x=y}{\sqrt{2}}\right)
+        f(x, y) = \left(\frac{x + y}{\sqrt{2}}, \frac{x-y}{\sqrt{2}}\right)
     \end{equation*}
     Let $(X_n^+, X_n^-) = f(X_n)$. Then $(X_n^+)$ and $(X_n^-)$ are independent SSRWs.
     \label{lemProjectionRW}
@@ -547,7 +548,7 @@ Then the matrix $P$ is \underline{transient} if all states are transient.
     \end{equation*}
     This will show that $0$ is transient, and since the chain is irreducible then the whole chain must be transient. Recall that $P_{00}(n) = 0$ if $n$ odd.
     \begin{align*}
-        p_{00}(2n) &= \sum_{i, j, k \geq 0, i + j + k = n} \binom{2n}{i~i~j~j~k~k} \left(\frac{1}{6}\right)^{2n} \\
+        p_{00}(2n) &= \sum_{\substack{i, j, k \geq 0\\i + j + k = n}} \binom{2n}{i~i~j~j~k~k} \left(\frac{1}{6}\right)^{2n} \\
         &= \binom{2n}{n} \sum_{i, j, k} \binom{n}{i~j~k}^2 \left(\frac16\right)^{2n}
     \end{align*}
     Now we consider cases based on $n$ mod $3$.

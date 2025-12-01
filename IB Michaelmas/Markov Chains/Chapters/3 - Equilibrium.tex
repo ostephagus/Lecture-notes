@@ -326,7 +326,7 @@ and so, for normalisability, we require that this is finite.
 
     Then $\chain{Y} = (Y_n)_{0 \leq n \leq N}$ defined as $Y_n = X_{N - n}$ is a Markov chain with transition matrix:
     \begin{equation}
-        \hat{P}(x, y) = P(Y, x) \frac{\pi(y)}{\pi(x)}
+        \hat{P}(x, y) = P(y, x) \frac{\pi(y)}{\pi(x)}
         \label{eqnReverseTransitionMat}
     \end{equation}
     Moreover, $\hat{P}$ is also irreducible and $\pi$ is invariant for $\hat{P}$.
@@ -432,7 +432,8 @@ Equation~\ref{eqnDetailedBalance} are called the \underline{detailed balance equ
         &= \frac{d(y)}{2|E|} \frac{1}{d(y)} = \pi(y) P(y, x)
     \end{align*}
 \end{example}
-\section{Fundamental Convergence Theorem}
+\section{Convergence of Markov Chains}
+\subsection{Conditions for Convergence}
 The goal of this section is to understand the conditions required for a Markov chain to converge to a limit distribution. We want to avoid the following problematic cases:
 \begin{itemize}
     \item Irreducibility: if a Markov chain is reducible, we can therefore reduce it into irreducible components. Therefore, we can assume irreducibility without loss of generality.
@@ -470,6 +471,7 @@ The goal of this section is to understand the conditions required for a Markov c
         &> 0 \text{ for $n \geq N_i$ from corollary~\ref{corAperiodicEquiv}.}        
     \end{align*}
 \end{proof}
+\subsection{Fundamental Convergence Theorem}
 \begin{theorem}[Fundamental Convergence Theorem of Markov Chains]
     Suppose that $\chain{X}$ is a Markov chain with transition matrix $P$ and initial distribution $\lambda$. If $P$ is irreducible and aperiodic with invariant distribution $\pi$ then:
     \begin{equation*}
@@ -580,11 +582,11 @@ The goal of this section is to understand the conditions required for a Markov c
         \P(X_n = y) \to \pi(y) \text{ as $n \to \infty$.}
     \end{equation*}
 \end{proof}
-\section{Name?}
+\subsection{A Consequence of Null Recurrence}
 \begin{theorem}
     Let $P$ be a transition matrix for a Markov chain, and suppose that it is irreducible, aperiodic, and null recurrent. Then:
     \begin{equation*}
-        p_{xy}(n) \to 0 \text{ as } n \to infty
+        p_{xy}(n) \to 0 \text{ as } n \to \infty
     \end{equation*}
     for all states $x, y$.
     \label{thmNullRecToZero}
