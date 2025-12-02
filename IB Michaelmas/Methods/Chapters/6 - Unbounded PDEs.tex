@@ -414,7 +414,7 @@ To solve, we will use the \textit{heat kernel}. This is defined as:
     \end{align*}
 \end{proof}
 \begin{remark}
-    As $t \to 0+$, $\hat{k}(\vec{\lambda};t) \to 1$, and we can say that, as $t \to 0$, $k(\vec{x}, t) \to \delta(\vec{x})$.
+    As $t \to 0^+$, $\hat{k}(\vec{\lambda};t) \to 1$, and we can say that, as $t \to 0$, $k(\vec{x}, t) \to \delta(\vec{x})$.
 \end{remark}
 \begin{proposition}
     The solution to the problem of zero forcing in the heat equation is:
@@ -641,4 +641,194 @@ We introduce the \underline{Method of Images}. We want to add a series of point 
         &= 0
     \end{align*}
 \end{example}
+\section{Green's Function for The Wave Equation}
+We want to solve the initial boundary value problem:
+\begin{equation}
+    \begin{cases}
+        u_{tt} - c^2 \Delta u = F(\vec{x}, t) & (\vec{x}, t) \in \R^n \times (0, \infty) \\
+        u(\vec{x}, 0) = f(\vec{x}) & \vec{x} \in \R^n  \\
+        u_t(\vec{x}, 0) = g(\vec{x}) & \vec{x} \in \R^n
+    \end{cases}
+    \label{eqnWaveManyDim}
+\end{equation}
+We want to solve the two separate problems, and then superpose them.
+\begin{enumerate}
+    \item Zero forcing ($F = 0$), given initial data
+    \item Zero initial data ($f = g = 0$), given forcing term.
+\end{enumerate}
+To solve this, define the function $\Phi_t(\vec{x})$, defined by its Fourier Transform:
+\begin{equation*}
+    \hat{\Phi}_t(\vec{\lambda}) = \frac{\sin(c|\vec{\lambda} t)}{c|\vec{\lambda}|}
+\end{equation*}
+Then, by the inversion formula,
+\begin{equation*}
+    \Phi_t(\vec{x}) = \frac{1}{(2\pi)^n} \int_{\R^n} e^{i \vec{\lambda} \cdot \vec{x}} \frac{\sin(c|\vec{\lambda}|t)}{c|\vec{\lambda}|}
+\end{equation*}
+This is difficult to calculate in arbitrary dimensions, and behaves very differently depending on whether $n$ is even or odd.
+\begin{proposition}
+    When $n = 1$,
+    \begin{equation}
+        \Phi_t(\vec{x}) = \frac1{2c} \left[H(x + ct) - H(x - ct)\right]
+        \label{eqnWaveFuncOneDim}
+    \end{equation}
+    \label{propWaveFuncOneDim}
+\end{proposition}
+\begin{proof}
+    Note that:
+    \begin{equation*}
+        H(x + ct) - H(x - ct) = \begin{cases}
+            0 & x < -ct \\
+            1 & |x| < ct \\
+            0 & x > ct
+        \end{cases}
+    \end{equation*}
+    And therefore:
+    \begin{align*}
+        \hat{\Phi}_t(\lambda) &= \frac1{2c} \int_{-ct}^{ct} e^{-i\lambda x} dx \\
+        &= -\frac{1}{2ci\lambda} \left[e^{-i\lambda c t} - e^{i \lambda c t}\right] \\
+        &= \frac{\sin(c\lambda t)}{c\lambda} \\
+        &= \frac{\sin(c|\lambda|t)}{c|\lambda|}
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    When $n = 3$,
+    \begin{equation}
+        \Phi_t(\vec{x}) = \frac{1}{4\pi c |\vec{x}|} \left[\delta(|\vec{x}| - ct) - \delta(|\vec{x}| + ct)\right]
+        \label{eqnWaveFunc3Dim}
+    \end{equation}
+    \label{propWaveFunc3Dim}
+\end{proposition}
+\begin{proof}
+    Use spherical polar coordinates.
+    \begin{equation*}
+        \vec{\lambda} = (r\sin\theta \cos\phi, r\sin\theta\sin\phi, r\cos\theta).
+    \end{equation*}
+    Without loss of generality, we can align the $\lambda_3$ axis with the direction of $\vec{x}$. Therefore, the dot product gives:
+    \begin{equation*}
+        \vec{x} \cdot \vec{\lambda} = |\vec{x}||\vec{\lambda}|\cos(\theta) = |\vec{x}| r \cos(\theta)
+    \end{equation*}
+    Let $r \in (0, R)$, in order to eventually let $R \to \infty$.
+
+    \begin{align*}
+        \int_{|\vec{\lambda}| < R}&\hat{\Phi}_t(\vec{\lambda}) e^{i \vec{\lambda} \cdot \vec{x}} d^3 \vec{\lambda} \\
+        &= \int_{0}^{2\pi} \int_{0}^{\pi} \int_{0}^{R} e^{i|\vec{x}|r \cos(\theta)} \frac{\sin(c r t)}{cr} r^2 \sin(\theta) dr~d\theta~d\phi \\
+        &= 2\pi \int_{0}^{\pi} \int_{0}^{R} e^{i|\vec{x}|r \cos(\theta)} \frac{\sin(c r t)}{cr} r^2 \sin(\theta) dr~d\theta \\
+        &= 2\pi \int_{0}^{R} \int_{0}^{\pi} \frac{\sin(crt)}{i|\vec{x}| c} \frac{\partial}{\partial \theta} \left(e^{i|\vec{x}| r \cos(\theta)}\right) d\theta~dr \\
+        &= \frac{2\pi}{-ic |\vec{x}|} \int_{0}^{R} \sin(crt) \left[e^{-i |\vec{x}| r} - e^{i |\vec{x}| r}\right] dr \\
+        &= \frac{4\pi}{c |\vec{x}|} \int_{0}^{R} \sin(crt) \sin(r|\vec{x}|) dr
+    \end{align*}
+    Now use the formula:
+    \begin{align*}
+        \sin(A) \sin(B) &= \frac12 \left[\cos(A - B) - \cos(A + B)\right] \\
+        &= \frac12 \Re(e^{i(A - B)} - e^{i(A + B)})
+    \end{align*}
+    Since the integrand in $r$ is even, we extend the domain to $[-R, R]$ and halve the integrand. We can now drop the $\Re$, because the imaginary part is odd and so will disappear with the symmetric domain.
+
+    Therefore,
+    \begin{align*}
+        \Phi_t(\vec{x}) &= \frac{1}{(2\pi)^3} \lim_{R \to \infty} \int_{|\vec{\lambda}| < R} e^{i \vec{\lambda} \cdot \vec{x}} \hat{\Phi}_t(\vec{\lambda}) d^n \vec{\lambda} \\
+        &= \frac{1}{(2\pi)^3} \lim_{R \to \infty}\frac{\pi}{c|\vec{x}|} \int_{-R}^{R} \left(e^{ir(|\vec{x}| - ct)} e^{ir(|\vec{x}| + ct)}\right) dr  \\
+        \intertext{Then as $R \to \infty$,}
+        &= \frac{\pi}{(2\pi)^3c|\vec{x}|} \left[2\pi \delta(|\vec{x}| - ct) - 2\pi \delta(|\vec{x}| + ct)\right] \\
+        &= \frac{1}{4\pi c|\vec{x}|} \left[\delta(|\vec{x}| - ct) - \delta(|\vec{x}| + ct)\right]
+    \end{align*}
+\end{proof}
+In both cases, we have that $\Phi_t$ has the form:
+\begin{equation*}
+    \Phi_t(\vec{x}) = \Phi_t^+(\vec{x}) - \Phi_t^-(\vec{x})
+\end{equation*}
+Where these are the \underline{advanced} and \underline{retarded} parts. For example, for $n = 3$,
+\begin{equation*}
+    \Phi_t^\pm(\vec{x}) = \frac1{4\pi c|\vec{x}|} \delta(|\vec{x}| \mp ct)
+\end{equation*}
+\begin{proposition}
+    The solution to equation~\ref{eqnWaveManyDim} with zero forcing ($F = 0$) is:
+    \begin{equation}
+        u(\vec{x}, t) = (\Phi_t \star g)(\vec{x}) + \frac{\partial}{\partial t} \left[(\Phi_t \star f)(\vec{x})\right]
+        \label{eqnWaveSolutionZeroForce}
+    \end{equation}
+    \label{propWaveSolutionZeroForce}
+\end{proposition}
+\begin{proof}
+    Taking the Fourier transform of the PDE and its initial conditions turns it into an ordinary differential equation in $t$:
+    \begin{gather*}
+        \hat{u}_{tt} + c^2 |\vec{\lambda}|^2 \hat{u} = 0 \\
+        \hat{u}(\vec{\lambda}, 0) = \hat{f}(\vec{\lambda}) \\
+        \hat{u}(\vec{\lambda}, 0) = \hat{g}(\vec{\lambda})
+    \end{gather*}
+    Then the general solution to the differential equation is:
+    \begin{equation*}
+        \hat{u}(\vec{\lambda}, t) = A(\vec{\lambda}) \sin(c|\vec{\lambda}|t) + B(\vec{\lambda})\cos(c|\vec{\lambda}|t)
+    \end{equation*}
+    Then the initial conditions give $B(\vec{\lambda}) = \hat{f}(\lambda)$, $c|\vec{\lambda}| A(\vec{\lambda}) = \hat{g}(\lambda)$.
+    Therefore,
+    \begin{align*}
+        \hat{u}(\vec{\lambda}, t) &= \frac{\sin(c|\vec{\lambda}|t)}{c|\vec{\lambda}|} \hat{g}(\vec{\lambda}) + \cos(c|\vec{\lambda}|t) \hat{f}(\vec{\lambda}) \\
+        &= \hat{\Phi}_t(\vec{\lambda}) \hat{g}(\vec{\lambda}) + \frac{\partial}{\partial t} \left(\hat{\Phi}_t(\vec{\lambda}) f(\vec{\lambda})\right) \text{ because $\hat{f}$ does not depend on $t$}.
+    \end{align*}
+    Then applying the convolution theorem gives the required result.
+\end{proof}
+Looking at one term,
+\begin{equation*}
+    (\Phi_t \star g)(\vec{x}) = \int_{\R^n} \Phi_t(\vec{x} - \vec{y}) g(\vec{y}) d^n \vec{y}
+\end{equation*}
+Considering the contribution from the advanced part $\Phi_t^+$,
+\begin{align*}
+    (\Phi_t^+ \star g)(\vec{x}) &= \frac{1}{4\pi c} \int_{\R^n} \frac{\delta(|\vec{y}| - ct)}{|\vec{y}|} g(\vec{x} - \vec{y}) d^n \vec{y} \\
+    &= \frac1{4\pi c^2 t} \int_{|\vec{y}| = ct} g(\vec{x} - \vec{y}) dS \\
+    &= \frac{t}{4\pi(ct)^2} \int_{|\vec{x} - \vec{y}| = ct} g(\vec{y}) dS
+\end{align*}
+and this is $t$ times the average of $g$ over a sphere of radius $ct$, centre $\vec{x}$.
+
+Then this suggests that a flash of light at a position $\vec{x_0}$ will reach the origin in a time $|\vec{x_0}| / c$, which turns out to be a general result in odd-dimensional space. However, in even dimensions the propagation of light is completely different. For example, this experiment would not give a flash of light at the origin but rather a slowly decaying beam of light. See Huygens' Principle.
+\begin{proposition}
+    The solution to equation~\ref{eqnWaveManyDim} with zero initial conditions ($f = g = 0$) is:
+    \begin{equation*}
+        u(\vec{x}, t) = \int_{0}^{t} \int_{\R^n} \Phi_{t - s}(\vec{x} - \vec{y})F(\vec{y}, s)d^n \vec{y}~ds 
+    \end{equation*}
+    \label{propWaveSolutionZeroInitial}
+\end{proposition}
+\begin{proof}
+    Take the Fourier transform of the differential equation and initial conditions:
+    \begin{gather*}
+        \hat{u}_{tt} + c^2 |\vec{\lambda}|^2 \hat{u} = \hat{F}(\vec{\lambda}, t) \\
+        \hat{u}(\vec{\lambda}, 0) = 0 \\
+        \hat{u}(\vec{\lambda}, 0) = 0
+    \end{gather*}
+    To solve this differential equation, we need the Green's function for the differential operator:
+    \begin{equation*}
+        L = \frac{d^{2}}{dt^{2}} + c^2 |\vec{\lambda}|^2
+    \end{equation*}
+    And we get:
+    \begin{align*}
+        G(t;s) &=
+        \begin{cases}
+            0 & t<s \\
+            \frac{\sin\left[c|\vec{\lambda}|(t - s)\right]}{c|\vec{\lambda}} & t > s
+        \end{cases} \\
+        &=
+        \begin{cases}
+            0 & t<s \\
+            \Phi_{t - s}(\vec{\lambda}) & t > s
+        \end{cases}
+    \end{align*}
+    The solution to this ordinary differential equation is:
+    \begin{equation*}
+        \hat{u}(\vec{\lambda}, t) = \int_0^t \hat{\Phi}_{t - s} (\vec{\lambda}) \hat{F}(\vec{\lambda}, s) ds
+    \end{equation*}
+    and the required result is from the convolution theorem.
+\end{proof}
+As with the heat equation, if we define $F(\vec{x}, t) = 0$ for $t < 0$, and introduce:
+\begin{equation*}
+    G(\vec{x}, t;\vec{y}, s) = H(t - s) \Phi_{t - s}(\vec{x} - \vec{y})
+\end{equation*}
+then the solution to the problem with zero initial data is given by:
+\begin{equation*}
+    u(\vec{x}, t) = \int_0^t \int_{\R^n} G(\vec{x}, t; \vec{y}, s) F(\vec{y}, s) d^n \vec{y}~ds
+\end{equation*}
+This is the Green's function for the wave equation on $\R^n$.
+
+It satisfies $G_{tt} - c^2 \Delta G = \delta(\vec{x} - \vec{y})\delta(t - s)$, as we expect from a Green's function.
+\section{The Wave Equation on the Half-Line}
+
 \end{document}
