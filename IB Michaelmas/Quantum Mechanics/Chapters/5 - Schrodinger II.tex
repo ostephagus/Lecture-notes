@@ -434,7 +434,11 @@ To understand how to proceed, we use the following proposition:
     \end{equation*}
     Therefore, as $n \to \infty$, $f(r) \sim g(r) = e^{2\nu r}$, which is not normalisable.
 \end{proof}
-Therefore, the series for $f$ must terminate, there exists $N$ such that $a_N = 0$ where $a_{N-1} \neq 0$. This is exactly when $\nu = \frac{\beta}{2N}$.
+Therefore, the series for $f$ must terminate, there exists $N$ such that $a_N = 0$ where $a_{N-1} \neq 0$. This is exactly when:
+\begin{equation}
+    \nu = \frac{\beta}{2N}.
+    \label{eqnNuQuantisation}
+\end{equation}
 
 Substituting $\nu, \beta$ back we get:
 \begin{equation*}
@@ -528,4 +532,59 @@ The recurrence relation for the coefficients of $g$ is:
     \label{eqnPosLPolyCoeffts}
 \end{equation}
 Then we require, as before, that $g$ is a polynomial. This requires a value $n_{\text{max}}$ such that $a_{n_{\text{max}}} = 0, a_{n_{\text{max}} - 1} \neq 0$.
+
+This is when $2\nu (n_{\text{max}} + l) - \beta = 0$. We define $N = n_{\text{max}} + l$, in order to recover equation~\ref{eqnNuQuantisation}, the same as the case $l = 0$. We use the definition of $\nu$:
+\begin{equation*}
+    E_n = -\frac{e^4 m}{32\pi^2 \epsilon_0^2 \hbar^2} \frac{1}{N^2}
+\end{equation*}
+Therefore the eigenvalues are exactly the same as in the $l = 0$ case. However, the degeneracy is larger. For each $N = n_{\text{max}} + l$, we can have $N-1$ different values for $l$, and we also have $m_l \in [-l, l]$. The degeneracy is therefore:
+\begin{equation*}
+    D(N) = \sum_{l=0}^{N-1} \sum_{m=-l}^{l} 1 = N^2
+\end{equation*}
+So for each energy level $N$ we have $N^2$ different energy eigenfunctions. Putting this all together:
+\begin{align*}
+    \chi_{N, l, m}(r, \theta, \phi) &= R_{N, l}(r) Y_{l, m}(\theta, \phi) \\
+    &= r^l g_{N, l}(r) e^{-\frac{\beta r}{2N}} Y_{l, m}(\theta, \phi)
+\end{align*}
+where $g$ is a polynomial of degree $N - l - 1$ defined by:
+\begin{equation*}
+    g_{N, l}(r) = \sum_{k=0}^{N- l - 1} a_{k}^{(N, l)}r^k
+\end{equation*}
+with coefficients given by:
+\begin{equation*}
+    a_{k}^{(N, l)} = \frac{2\nu}{k} \frac{k + l - N}{k + 2l + 1} a_{k - 1}^{(N, l)}.
+\end{equation*}
+These are the \underline{generalised Laguerre polynomials}.
+\nonexaminablesubsection{Link to Chemistry}
+In Chemistry, we have the $s$, $p$, and $d$ orbitals. We can show how these arise from different quantum numbers in the above equations.
+
+The $1s$ orbital has $N = 1, l = 0$. It is given by the equation:
+\begin{equation*}
+    \chi_{1, 0, 0} = a_0^{(1, 0)} e^{-\frac{r\beta}{2}}
+\end{equation*}
+and this is a single spherical region of positive probability.
+
+The $2s$ orbital has $N = 2, l = 0$. It is given by:
+\begin{equation*}
+    \chi_{2, 0, 0} = \left(a_0^{(2, 0)} + a_1^{(2, 0)}r\right) e^{-\frac{r\beta}{4}}
+\end{equation*}
+This has spherical symmetry, but the probability density is positive in a sphere around the origin, zero in disc around this, and then positive again in a larger disc before tending to 0.
+% Find a good image to show this - perhaps the uploaded notes will contain one.
+
+The $3s$ orbital how has 3 discs of positive probability, and this pattern continues.
+
+The $1p$ orbital does not exist, because we impose $l < N$. The $2p$ orbital is given by:
+\begin{align*}
+    \chi_{2, 1, \pm 1} &= r a_0^{(2, 1)} e^{-\frac{r\beta}{3}} \sin(\theta) e^{\pm i \phi} \\
+    \chi_{2, 1, 0} &= r a_0^{(2, 1)} e^{-\frac{r\beta}{3}} \cos(\theta)
+\end{align*}
+For the shapes of these, see figure~\ref{figOrbitals}.
+
+We know have the required knowledge to critique the Bohr model of the Hydrogen atom.
+
+Bohr correctly predicted the energy of each eigenstate, and the Bohr radius is proportional to the actual value - we found in Ex1Q6b that the actual value is $\frac32 a_0$.
+
+However, the quantisation of angular momentum was incorrect. Bohr's model gives $L^2 = N^2 \hbar^2$, whereas we find that there are far more angular momentum values for each energy level, $L^2 = \hbar^2 l(l+1)$. Because of this, Bohr's predicted degeneracy of $N$ was incorrect, and we have shown that it is $N^2$.
+
+To understand larger atoms, with more than one particle in the nucleus and more than one electron, we can consider a product of eigenfunctions for each electron, and the energy as the sum of the energies of each electron. However, this is a poor approximation because it does not account for the interactions between electrons and the exclusion principle (electrons cannot occupy the same eigenstate).
 \end{document}

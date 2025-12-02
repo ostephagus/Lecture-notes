@@ -353,7 +353,64 @@ We compute the probability current $J_k$:
 \end{align*}
 Then we interpret this as the average flux of particles - the average density multiplied by the average speed.
 \section{Scattering States}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[>=Latex, thick]
+        % Define custom colors to match the image
+        \definecolor{potentialBlue}{RGB}{0, 85, 150}
+        \definecolor{reflectedRed}{RGB}{220, 20, 30}
+        \definecolor{transmittedGreen}{RGB}{0, 140, 60}
+        \definecolor{axisBlack}{RGB}{0, 0, 0}
 
+        % --- Axes ---
+        % X-axis
+        \draw[->, axisBlack, line width=1.5pt] (-5.5, 0) -- (7, 0) node[right] {\Large $x$};
+        % Y-axis
+        \draw[->, axisBlack, line width=1.5pt] (0, -1.2) -- (0, 4.5);
+
+        % --- Potential Barrier U(x) ---
+        % Drawn in Blue
+        \draw[potentialBlue, line width=2pt] (0,0) -- (0,3.5) -- (2.5,3.5) node[midway, above] {\Large $U(x)$} -- (2.5,0);
+        
+        % Label U_0 on y-axis
+        \draw[axisBlack, line width=1.5pt] (-0.15, 3.5) -- (0.15, 3.5);
+        \node[left] at (-0.1, 3.5) {\Large $U_0$};
+
+        % Label 'a' on x-axis
+        \draw[axisBlack, line width=1.5pt] (2.5, 0.15) -- (2.5, -0.15);
+        \node[below, font=\bfseries\Large] at (2.5, -0.1) {$a$};
+
+        % --- Incident Wavepacket (Black) ---
+        % Tall, narrow Gaussian on the far left
+        \draw[black, line width=1.5pt, samples=100, domain=-5:-2] 
+            plot (\x, {2.5 * exp(-(\x + 4)^2 / 0.2)});
+        
+        % Label
+        \node[align=center, anchor=south, black] at (-4, 2.8) {\Large Incident \\ \Large wavepacket};
+        \draw[->, black, line width=1.5pt] (-4.5, 2.8) -- (-3.5, 2.8);
+
+        % --- Reflected Wavepacket (Red) ---
+        % Shorter, wider Gaussian, moving left
+        \draw[reflectedRed, line width=1.5pt, samples=100, domain=-3:0] 
+            plot (\x, {1.5 * exp(-(\x + 1.5)^2 / 0.5)});
+        
+        % Label
+        \node[align=center, anchor=south, reflectedRed] at (-1.5, 2.0) {\Large Reflected \\ \Large wavepacket};
+        \draw[->, reflectedRed, line width=1.5pt] (-1.0, 2.0) -- (-2.0, 2.0);
+
+        % --- Transmitted Wavepacket (Green) ---
+        % Shorter, wider Gaussian, moving right
+        \draw[transmittedGreen, line width=1.5pt, samples=100, domain=2.5:6.5] 
+            plot (\x, {1.5 * exp(-(\x - 4.5)^2 / 0.6)});
+        
+        % Label
+        \node[align=center, anchor=south, transmittedGreen] at (4.5, 2.2) {\Large Transmitted \\ \Large wavepacket};
+        \draw[->, transmittedGreen, line width=1.5pt] (4.0, 2.2) -- (5.0, 2.2);
+
+    \end{tikzpicture}
+    \caption{Diagram of Gaussian wavepackets interacting with a potential barrier}
+    \label{figPotentialBarrier}
+\end{figure}
 \begin{definition}{Reflection coefficient}
     For a setup as in figure~\ref{figPotentialBarrier}, the probability for an incoming particle to be reflected is given by the \underline{reflection coefficient}:
     \begin{equation}
