@@ -585,4 +585,123 @@ In this section, let $V$ be a finite-dimensional vector space with an inner prod
     \end{equation*}
     which corresponds to a diagonal matrix, with eigenvalues in the diagonal entries.
 \end{proof}
+\begin{corollary}[Simultaneously diagonal forms]
+    Let $V$ be a finite-dimensional vector space over $\R$ or $\C$. Let $\varphi, \psi$ be Hermitian forms over $V$.
+
+    Suppose $\varphi$ is positive-definite, then there exists a basis $B$ for $V$ such that $[\varphi]_{B, B}$ and $[\psi]_{B, B}$ are diagonal. In fact, $[\varphi]_{B, B} = I$.
+    \label{corSimDiagForms}
+\end{corollary}
+\begin{proof}
+    Let $\tilde{B} = \{\tilde{b}_1, \cdots, \tilde{b}_n\}$ be an orthonormal basis with respect to $\varphi$. Then $[\varphi]_{\tilde{B}, \tilde{B}} = I$. Let $A = [\psi]_{\tilde{B}, \tilde{B}}$, and note that this is Hermitian.
+
+    Now by corollary~\ref{corSpectralTheoremMatrices}, there exists a unitary matrix $P$ such that $D = PAP^\dagger$ is a diagonal matrix.
+
+    Define $b_i \in V$ such that their coordinate vectors are:
+    \begin{equation*}
+        [b_i]_{\tilde{B}} = P^\dagger [\tilde{b}_i]_{\tilde{B}} = \text{ $i$th row of $P$}
+    \end{equation*}
+    Now we have that $B = \{b_1, \cdots, b_n\}$ is an orthonormal basis with respect to $\varphi$:
+    \begin{align*}
+        \varphi(b_i, b_j)&= \left([b_i]_{\tilde{B}}\right)^T I \overline{[b_j]_{\tilde{B}}} \\
+        &= \delta_{ij}
+    \end{align*}
+    Moreover,
+    \begin{align*}
+        \psi(b_i, b_j) &= \left([b_i]_{\tilde{B}}\right)^T A \overline{[b_i]_{\tilde{B}}} \\
+        &= \vec{e_i}^\dagger PAP^\dagger \vec{e_j} \\
+        &= \vec{e_i}^\dagger D \vec{e_j} \\
+        &= d_{ij}
+    \end{align*}
+    so the matrix $[\psi]_{B, B}$ is diagonal.
+\end{proof} % Ensure transpose, dagger and overline are all correct.
+\begin{remark}
+    For $B, C$ orthonormal bases for a vector space $V$ as defined above, let $P = [\Id_V]_B^C$.
+    \begin{align*}
+        I &= [\varphi]_C \\
+        &= P^T [\varphi]_B \overline{P} \\
+        &= P^T \overline{P} \\
+        &= I
+    \end{align*}
+    Therefore $P$ is unitary.
+\end{remark}
+\begin{example}[Positive-definiteness is necessary in corollary~\ref{corSimDiagForms}]
+    Consider the matrices:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            1 & 0 \\
+            0 & -1
+        \end{pmatrix}
+        \qquad B =
+        \begin{pmatrix}
+            0 & 1 \\
+            1 & 0
+        \end{pmatrix}
+    \end{equation*}
+    Then there is no $P \in GL_n(\R)$ such that $P A P^T$ and $PBP^T$ are both diagonal.
+\end{example}
+\begin{theorem}[Spectral Theorem for Unitary Matrices]
+    Let $V$ be a finite-dimensional complex inner product space. Let $\alpha \in U(V)$. Then $V$ has an orthogonal basis of eigenvectors of $\alpha$, with all eigenvalues of the form $\lambda_i = e^{i \theta_i}$.
+    \label{thmSpectralUnitary}
+\end{theorem}
+\begin{proof}
+    \begin{subproof}{All eigenvalues of $\alpha$ have modulus 1}
+        Let $v$ be a non-zero eigenvector with eigenvalue $\lambda$.
+        \begin{align*}
+            \inn{v}{v} &= \inn{\alpha(v)}{\alpha(v)} \\
+            &= \inn{\lambda v}{\lambda v} \\
+            &= |\lambda|^2 \inn{v}{v}
+        \end{align*}
+        So indeed $|\lambda| = 1$.
+    \end{subproof}
+    \begin{subproof}{Eigevectors of distinct eigenvalues are orthogonal}
+        Let $v, w \in V \backslash \{0\}$, such that $\alpha(v) = \lambda v$, $\alpha(w) = \mu w$. Suppose further that $\lambda \neq \mu$.
+        \begin{align*}
+            \inn{v}{w} &= \inn{\alpha(v)}{\alpha(w)} \\
+            &= \inn{\lambda v}{\mu w} \\
+            &= \lambda \overline{\mu} \inn{v}{w} \\
+            &= \frac{\lambda}{\mu} \inn{v}{w} \text{ by first claim}
+        \end{align*}
+        Then since $\lambda \neq \mu$, and so $\frac{\lambda}{\mu} \neq 1$, we have $\inn{v}{w} = 0$.
+    \end{subproof}
+    %TODO: Finish once Ex4 done.
+\end{proof}
+\begin{example}[No spectral theorem for orthogonal matrices]
+    We can provide a simple counterexample of an orthogonal matrix that cannot be diagonalised over the field $\R$:
+    \begin{equation*}
+        \text{Rot}(\theta) =
+        \begin{pmatrix}
+            \cos\theta & \sin\theta \\
+            -\sin\theta & \cos\theta
+        \end{pmatrix}
+    \end{equation*}
+\end{example}
+\begin{definition}{Normal map}
+    Let $V$ be a finite-dimensional complex inner product space. An endomorphism $\alpha$ of $V$ is \underline{normal} if $\alpha \alpha^* = \alpha^* \alpha$.
+\end{definition}
+Both self-adjoint maps and unitary maps are examples of normal maps.
+
+In Ex4Q8, we prove that normal matrices have a spectral theorem.
+\begin{remarks}
+    \item Diagonal matrices commute, so this is the largest class of maps with a spectral theorem (over $\C$).
+    \item We can decompose a normal matrix:
+        \begin{equation*}
+            \underbrace{\begin{pmatrix}
+                r_1 e^{i \theta_1} &  & 0 \\
+                 & \ddots &  \\
+                0 &  & r_n e^{-\theta_n}
+            \end{pmatrix}}_{\text{Normal}}
+            =
+            \underbrace{\begin{pmatrix}
+                r_1  &  & 0 \\
+                 & \ddots &  \\
+                0 &  & r_n
+            \end{pmatrix}}_{\text{Self-adjoint}}
+            \underbrace{\begin{pmatrix}
+                e^{i \theta_1}  &  & 0 \\
+                 & \ddots &  \\
+                0 &  & e^{i \theta_n}
+            \end{pmatrix}}_{\text{Unitary}}
+        \end{equation*}
+\end{remarks}
 \end{document}
