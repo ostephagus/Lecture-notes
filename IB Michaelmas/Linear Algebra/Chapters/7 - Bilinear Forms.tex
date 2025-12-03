@@ -41,7 +41,7 @@
         \left([u]_B\right)^T [\varphi]_{B, C} [v]_C = \varphi(u, v)
         \label{eqnBFMatProduct}
     \end{equation}
-    for all $u \in U, v \in V$. Further, $[\varphi]_{B, C}$ is the only matrix satisfying equation~\ref{eqnBFMatProduct}.
+    for all $u \in U, v \in V$. Further, $[\varphi]_{B, C}$ is the only matrix satisfying \eqnref{eqnBFMatProduct}.
     \label{propBFMatProducts}
 \end{proposition}
 \begin{proof}
@@ -57,7 +57,7 @@
         &= \sum_{i=1}^{m}\sum_{j=1}^{n} \lambda_i \mu_i\varphi(b_i, c_i) \\
         &= \vec{\lambda}^T \left(\varphi(b_i, c_i)\right)_{ij} \vec{\mu}
     \end{align*}
-    as required. If now $A \in M_{m \times n}(\F)$ satisfies equation~\ref{eqnBFMatProduct}, for all $u \in U, v \in V$:
+    as required. If now $A \in M_{m \times n}(\F)$ satisfies \eqnref{eqnBFMatProduct}, for all $u \in U, v \in V$:
     \begin{align*}
         \varphi(b_i, c_j)&= \left([b_i]_B\right)^T A [c_j]_C \\
         &= \vec{e_i}^T A \vec{e_j} \\
@@ -80,7 +80,7 @@
         &= \left([v]_B\right)^T [\varphi]_{B, C} [v]_C \\
         &= \phi(u, v)
     \end{align*}
-    Then by proposition~\ref{propBFMatProducts}, the matrix representing $\varphi$ in any basis is unique, so we have the required formula.
+    Then by \thmref{propBFMatProducts}, the matrix representing $\varphi$ in any basis is unique, so we have the required formula.
 \end{proof}
 \begin{definition}{Rank of a bilinear form}
     For a bilinear form $\varphi : U \times V \mapsto \F$ with $U, V$ finite-dimensional, the \underline{rank} of $\varphi$ is the rank of the matrix $[\varphi]_{B, C}$ with respect to any bases $B, C$.
@@ -273,13 +273,13 @@ The \underline{kernel} of a symmetric bilinear form is the left kernel or the ri
         \end{equation*}
     \end{subproof}
     \begin{subproof}{$\psi$ is unique.}
-        Suppose that $\psi$ is a symmetric bilinear form satisfying equation~\ref{eqnBFSymDef}. Then:
+        Suppose that $\psi$ is a symmetric bilinear form satisfying \eqnref{eqnBFSymDef}. Then:
         \begin{align*}
             Q(u + v) &= \psi(u + v, u + v) \\
             &= \psi(u, u) + \psi(u, v) + \psi(v, u) + \psi(v, v) \\
             &= Q(u) + 2\psi(u, v) + Q(v) \text{ by symmetry} \\
         \end{align*}
-        Then since we can divide by $2$, we can rearrange to get equation~\ref{eqnPolarisationId}. That is, all symmetric bilinear forms satisfying equation~\ref{eqnBFSymDef} must in fact be defined by equation~\ref{eqnPolarisationId}.
+        Then since we can divide by $2$, we can rearrange to get \eqnref{eqnPolarisationId}. That is, all symmetric bilinear forms satisfying \eqnref{eqnBFSymDef} must in fact be defined by \eqnref{eqnPolarisationId}.
     \end{subproof}
 \end{proof}
 \begin{theorem}
@@ -289,7 +289,7 @@ The \underline{kernel} of a symmetric bilinear form is the left kernel or the ri
     \label{thmBFSymImpliesDiag}
 \end{theorem}
 \begin{remark}
-    The assumption that $\varphi$ is symmetric is necessary here. If instead there existed a basis such that the diagonal matrix $D$ represented a non-symmetric bilinear form, then because every diagonal matrix is symmetric we would get that $\varphi$ was symmetric by proposition~\ref{propSymMatrixIffBF}.
+    The assumption that $\varphi$ is symmetric is necessary here. If instead there existed a basis such that the diagonal matrix $D$ represented a non-symmetric bilinear form, then because every diagonal matrix is symmetric we would get that $\varphi$ was symmetric by \thmref{propSymMatrixIffBF}.
 \end{remark}
 \begin{proof}
     Let $n = \dim(V)$.
@@ -303,7 +303,7 @@ The \underline{kernel} of a symmetric bilinear form is the left kernel or the ri
 
         Define $U = \spn{v_1}^\perp = \ker(\varphi_L(v_1))$. Note that $v_1 \notin U$.
 
-        By theorem~\ref{thmRankNullity}, the dimension of $U$ is $k$, and $V = \spn{v_1} \oplus U$. Apply the inductive hypothesis, since $\varphi |_U : U \times U \mapsto \F$ is a symmetric bilinear form. Then we have a basis $B'$ for $U$ in which $[\varphi|_U]_{B, B}$ is diagonal.
+        By \thmref{thmRankNullity}, the dimension of $U$ is $k$, and $V = \spn{v_1} \oplus U$. Apply the inductive hypothesis, since $\varphi |_U : U \times U \mapsto \F$ is a symmetric bilinear form. Then we have a basis $B'$ for $U$ in which $[\varphi|_U]_{B, B}$ is diagonal.
 
         Set $B = \{v_1\} \cup B'$, so $v_1$ is now the first vector in the basis. Then, since all elements of $U$ are in the perpendicular to $v_1$,
         \begin{equation*}
@@ -392,7 +392,7 @@ The \underline{kernel} of a symmetric bilinear form is the left kernel or the ri
     \label{corBFNiceDiag}
 \end{corollary}
 \begin{proof}
-    Choose a basis $C = \{c_1, \cdots, c_n\}$ such that $[\varphi]_C^C$ is diagonal, by theorem~\ref{thmBFSymImpliesDiag}. After possibly re-labelling, assume that the diagonal entries of $[\varphi]_{C, C}$ are:
+    Choose a basis $C = \{c_1, \cdots, c_n\}$ such that $[\varphi]_C^C$ is diagonal, by \thmref{thmBFSymImpliesDiag}. After possibly re-labelling, assume that the diagonal entries of $[\varphi]_{C, C}$ are:
     \begin{equation*}
         \begin{cases}
             a_i & i \leq r \\
@@ -438,7 +438,7 @@ The \underline{kernel} of a symmetric bilinear form is the left kernel or the ri
 \end{definition}
 We have similar definitions for quadratic forms.
 
-In the case $V$ is finite-dimensional, then we can use the representation given by corollary~\ref{corBFNiceDiag} to characterise these definitions:
+In the case $V$ is finite-dimensional, then we can use the representation given by \thmref{corBFNiceDiag} to characterise these definitions:
 \begin{itemize}
     \item If $q = 0$, then the bilinear form is positive semi-definite.
     \item If further $p = r$, then the bilinear form is positive definite.
@@ -458,7 +458,7 @@ In the case $V$ is finite-dimensional, then we can use the representation given 
     The proof is similar for the second claim.
 \end{proof}
 \begin{definition}{Signature}
-    The \underline{signature} of a real symmetric bilinear form, $\sigma(\varphi)$, is $p - q$ in the representation given by corollary~\ref{corBFNiceDiag}.
+    The \underline{signature} of a real symmetric bilinear form, $\sigma(\varphi)$, is $p - q$ in the representation given by \thmref{corBFNiceDiag}.
 \end{definition}
 We can show that this is well-defined:
 \begin{theorem}[Sylvester's Law of Inertia]
@@ -500,7 +500,7 @@ We can show that this is well-defined:
             \dim(U' + W)&= \dim(U') + \dim(W) - \dim(U' \cap W) \\
             &= p' + q - \dim(U' \cap W) \leq p + q
         \end{align*}
-        This implies that $\dim(U' \cap W) \geq 1$, which contradicts lemma~\ref{lemBFRestrictDefness}
+        This implies that $\dim(U' \cap W) \geq 1$, which contradicts \thmref{lemBFRestrictDefness}
         The case for $q$ is similar.
     \end{subproof}
     Then we have that $p$ and $q$ are invariant under change of basis.
@@ -577,7 +577,7 @@ Many of our results carry over from bilinear forms.
     \label{propCFMatProducts}
 \end{proposition}
 \begin{proof}
-    The proof is similar to that of proposition~\ref{propBFMatProducts}
+    The proof is similar to that of \thmref{propBFMatProducts}
 \end{proof}
 \begin{corollary}
     Let $V, W$ be vector spaces with bases $B, C$. If $B', C'$ are different bases for $V, W$ respectively, then the change-of-basis formula for the matrix of $\varphi$ is:
@@ -668,10 +668,10 @@ We now provide an equivalent Polarisation Identity:
     }{$\dim(V) = k$}{
         Assume that a bilinear form of a $k$-dimensional can be expressed like above.
     }{$\dim(V) = k + 1$}{
-        If $\varphi \equiv 0$, then we are done. Otherwise, there exists a vector $v_1$ such that $\varphi(v_1, v_1) \neq 0$ by proposition~\ref{propPolarisationIdC}. Let $U = \spn{v_1}^\perp$. Like in the proof of theorem~\ref{thmBFSymImpliesDiag}, we find that $V = U \oplus \spn{v_1}$ and apply the inductive hypothesis to $\varphi |_U$ to get that $[\varphi]_{B, B}$ is diagonal.
+        If $\varphi \equiv 0$, then we are done. Otherwise, there exists a vector $v_1$ such that $\varphi(v_1, v_1) \neq 0$ by \thmref{propPolarisationIdC}. Let $U = \spn{v_1}^\perp$. Like in the proof of \thmref{thmBFSymImpliesDiag}, we find that $V = U \oplus \spn{v_1}$ and apply the inductive hypothesis to $\varphi |_U$ to get that $[\varphi]_{B, B}$ is diagonal.
     }
     Then, once we have a basis in which $[\varphi]_{B, B}$ is diagonal, we can rescale the basis vectors to get the required form.
 
-    As in the proof of theorem~\ref{thmSylvesterInertia}, we can then characterise $p$ and $q$ based on the definiteness of the largest possible subspace, and so they are invariant under change of basis. That is, the representation is unique.
+    As in the proof of \thmref{thmSylvesterInertia}, we can then characterise $p$ and $q$ based on the definiteness of the largest possible subspace, and so they are invariant under change of basis. That is, the representation is unique.
 \end{proof}
 \end{document}

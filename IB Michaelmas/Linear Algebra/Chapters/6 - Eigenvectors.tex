@@ -49,7 +49,7 @@ For $\lambda \in \F$ we can \underline{evaluate} $f$ at $\lambda$ by:
 
     If $n \geq m$ we can perform an induction by setting $\tilde{f}(t) = f(t) - \left(\frac{a_n}{b_m}\right)t^{n-m} g(t)$, which has degree less than $\deg(f)$.
 \end{proof}
-\begin{corollary}[B\'ezout's Lemma for Polynomials]
+\begin{corollary}[Bezout's Lemma for Polynomials]
     If $f_1, \cdots, f_k$ are polynomials with no non-constant common divisor, then:
     \begin{equation*}
         \exists q_1, \cdots, q_n \in \F[t] \text{ s.t. } 1 = \sum_{i=1}^{k} f_i q_i
@@ -159,7 +159,7 @@ then $\alpha(v_i) = \lambda_i v_i$.
     \begin{equation*}
         \beta = \prod_{i=2}^{k}(\alpha - \lambda_i \Id_V)
     \end{equation*}
-    Then by proposition~\ref{propEValDifferentKernel},
+    Then by \thmref{propEValDifferentKernel},
     \begin{align*}
         \beta(v_j) &= \left(\prod_{i=2}^{k}(\lambda_j - \lambda_i)\right) v_j \\
         &\neq 0 \text{ if and only if } j = 1. \\
@@ -174,7 +174,7 @@ then $\alpha(v_i) = \lambda_i v_i$.
     \label{corFinitelyManyEVals}
 \end{corollary}
 \begin{proof}
-    Let $\alpha$ have $m$ eigenvalues $\lambda_1, \cdots, \lambda_m$. Then each eigenvalue has a corresponding eigenvector $v_i$, and by lemma~\ref{lemEVecLI}, these form a linearly independent set. By theorem~\ref{thmSteinitzExchange}, a linearly independent set of $V$ can have size at most $n$. Therefore, there can be at most $n$ eigenvectors and, because each eigenvalue has at least one eigenvector, at most $n$ eigenvalues.
+    Let $\alpha$ have $m$ eigenvalues $\lambda_1, \cdots, \lambda_m$. Then each eigenvalue has a corresponding eigenvector $v_i$, and by \thmref{lemEVecLI}, these form a linearly independent set. By \thmref{thmSteinitzExchange}, a linearly independent set of $V$ can have size at most $n$. Therefore, there can be at most $n$ eigenvectors and, because each eigenvalue has at least one eigenvector, at most $n$ eigenvalues.
 \end{proof}
 \begin{propositions}{
         Let $V$ be a finite-dimensional vector space over $\F$. Let $\alpha \in \L(V, V)$ with eigenvalues $\lambda_1, \cdots, \lambda_k \in F$.
@@ -185,14 +185,14 @@ then $\alpha(v_i) = \lambda_i v_i$.
 \end{propositions}
 \begin{proof}
     \begin{enumerate}
-        \item Recall that the map in proposition~\ref{propMapDSToSum} is surjective, so $\spn{\bigcup_{i = 1}^k V_{\lambda_k}} \geq \bigoplus_{i = 1}^k V_{\lambda_k}$. If it is not also injective, there exists a vector in the kernel of this map. That is, there exists a linear combination:
+        \item Recall that the map in \thmref{propMapDSToSum} is surjective, so $\spn{\bigcup_{i = 1}^k V_{\lambda_k}} \geq \bigoplus_{i = 1}^k V_{\lambda_k}$. If it is not also injective, there exists a vector in the kernel of this map. That is, there exists a linear combination:
             \begin{equation*}
                 \sum_{i=1}^{k} v_j = \zv
             \end{equation*}
-            but not all the $v_j$ are zero. This contradicts lemma~\ref{lemEVecLI}.
+            but not all the $v_j$ are zero. This contradicts \thmref{lemEVecLI}.
         \item
             \begin{proofdirection}{$\Rightarrow$}{Suppose that $\alpha$ is diagonalisable}
-                By proposition~\ref{propDiagIffBasis}, we have a basis of eigenvectors. Then this means $V$ is a direct sum of the spaces spanned by each of these eigenvectors, which are the $V_{\lambda_i}$.
+                By \thmref{propDiagIffBasis}, we have a basis of eigenvectors. Then this means $V$ is a direct sum of the spaces spanned by each of these eigenvectors, which are the $V_{\lambda_i}$.
             \end{proofdirection}
             \begin{proofdirection}{$\Leftarrow$}{Suppose that $V$ is a direct sum}
                 Because we are in finite-dimensional space, each $V_{\lambda_i}$ has a basis $B_i$. By Ex1Q8, the union $B = \bigcup_{i = 1}^k B_i$ is a basis for $V$. That is, $\alpha$ has a basis of eigenvectors, so $[\alpha]_B^B$ is diagonal.
@@ -233,7 +233,7 @@ We make concrete the remark we made earlier:
     \label{propTriangularFactorise}
 \end{proposition}
 \begin{proof}
-    Consider the basis $B$ in which $[\alpha]_B^B$ is triangular. Call this matrix $A$. By proposition~\ref{propTriangularDet}, $\det(t\Id_V - \alpha)$ is the product of the diagonal elements of $tI - A$, and this is precisely:
+    Consider the basis $B$ in which $[\alpha]_B^B$ is triangular. Call this matrix $A$. By \thmref{propTriangularDet}, $\det(t\Id_V - \alpha)$ is the product of the diagonal elements of $tI - A$, and this is precisely:
     \begin{equation*}
         \chi_\alpha(t) = \prod_{i=1}^{n} (t - a_{ii})
     \end{equation*}
@@ -261,7 +261,7 @@ We make concrete the remark we made earlier:
     \label{thmComplexTriangular}
 \end{theorem}
 \begin{proof}
-    By theorem~\ref{thmFundamentalAlgebra}, $\chi_A(t)$ has a root $\lambda \in C$.
+    By \thmref{thmFundamentalAlgebra}, $\chi_A(t)$ has a root $\lambda \in C$.
 
     \induction{$n = 2$}{
         There exists a non-zero vector $v \in V$ such that $\alpha(v) = \lambda v$. Extend to a basis $B = \{v, w\}$ of $V$. With respect to this basis, $\alpha$ is given by:
@@ -345,7 +345,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
     \label{lemMinPolyDivides}
 \end{lemma}
 \begin{proof}
-    By proposition~\ref{propEuclidAlgPoly}, there exist $r, q \in \F[t]$ such that $\deg(r) < \deg(m_\alpha)$ and $f = q m_\alpha + r$. Then rearrange:
+    By \thmref{propEuclidAlgPoly}, there exist $r, q \in \F[t]$ such that $\deg(r) < \deg(m_\alpha)$ and $f = q m_\alpha + r$. Then rearrange:
     \begin{equation*}
         r(\alpha) = f(\alpha) - q(\alpha) m_\alpha(\alpha) = 0
     \end{equation*}
@@ -356,7 +356,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
     \label{thmMinimalPolynomialUnique}
 \end{theorem}
 \begin{proof}
-    Let $\overline{m_\alpha}$ be another non-zero element of minimal degree in $I_\alpha$, and let it be monic (by perhaps dividing by the leading coefficient). By lemma~\ref{lemMinPolyDivides} we have that $m_\alpha~\vline~\overline{m_\alpha}$, but since they have the same degree we must have that one is a multiple of the other. Because both are monic, in fact they must be equal.
+    Let $\overline{m_\alpha}$ be another non-zero element of minimal degree in $I_\alpha$, and let it be monic (by perhaps dividing by the leading coefficient). By \thmref{lemMinPolyDivides} we have that $m_\alpha~\vline~\overline{m_\alpha}$, but since they have the same degree we must have that one is a multiple of the other. Because both are monic, in fact they must be equal.
 \end{proof}
 \begin{remark}
     Because $m_\alpha$ and $\overline{m_\alpha}$ were monic, this theorem tells us that $m_\alpha$ is unique in $I_\alpha$ up to multiplication by a constant.
@@ -372,7 +372,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
     Equivalently, $\chi_\alpha \in I_\alpha$.
 \end{remark}
 \begin{proof}[for $\F = \C$]
-    By theorem~\ref{thmComplexTriangular}, there exists a basis $B = \{v_1, \cdots, v_n\}$ for $V$ such that:
+    By \thmref{thmComplexTriangular}, there exists a basis $B = \{v_1, \cdots, v_n\}$ for $V$ such that:
     \begin{equation*}
         [\alpha]_B^B =
         \begin{pmatrix}
@@ -404,7 +404,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
     \label{corMinPolyDividesCharPoly}
 \end{corollary}
 \begin{proof}
-    This is a direct consequence of lemma~\ref{lemMinPolyDivides}, because we now have $\chi_\alpha \in I_\alpha$ by theorem~\ref{thmCayleyHamilton}.
+    This is a direct consequence of \thmref{lemMinPolyDivides}, because we now have $\chi_\alpha \in I_\alpha$ by \thmref{thmCayleyHamilton}.
 \end{proof}
 \begin{definition}{Algebraic multiplicity}
     Let $V$ be a finite-dimensional vector space over $\F$ and let $\alpha \in \L(V, V)$. The  \underline{algebraic multiplicity} of an eigenvalue $\lambda \in \F$, $a_\lambda$, is the multiplicity of $\lambda$ as a root of $\chi_\alpha(t)$. That is, the largest power of $(t - \lambda)$ that divides $\chi_\alpha$.
@@ -440,7 +440,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
 \end{propositions}
 \begin{proof}
     \begin{enumerate}
-        \item We have this result by applying propositions~\ref{propsEigenspaces}.
+        \item We have this result by applying \thmref{propsEigenspaces}.
         \item We write:
             \begin{equation*}
                 \chi_\alpha(t) = f(t) \prod_{i=1}^{k}(t - \lambda_i)^{a_{\lambda_i}}.
@@ -451,7 +451,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
                 &= \deg(f) + \sum_{i=1}^{k} a_{\lambda_i} \\
                 &\leq \sum_{i=1}^{k} a_{\lambda_i}
             \end{align*}
-            With equality if and only if in fact $f$ is constant, in which case $\chi_\alpha$ is a product of linear factors. By proposition~\ref{propTriangularFactorise} this is equivalent to triangularisability.
+            With equality if and only if in fact $f$ is constant, in which case $\chi_\alpha$ is a product of linear factors. By \thmref{propTriangularFactorise} this is equivalent to triangularisability.
     \end{enumerate}
 \end{proof}
 \begin{proposition}
@@ -459,7 +459,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
     \label{propDiagIfNotDegenerate}
 \end{proposition}
 \begin{proof}
-    By theorem~\ref{thmComplexTriangular}, $\alpha$ is triangularisable and so $\chi_\alpha$ is a product of factors. By proposition~\ref{propAMGM},
+    By 	\thmref{thmComplexTriangular}, $\alpha$ is triangularisable and so $\chi_\alpha$ is a product of factors. By \thmref{propAMGM},
     \begin{equation*}
         \sum_{i=1}^{k}g_{\lambda_i} \leq \sum_{i=1}^{k} a_{\lambda_i} = \dim(V)
     \end{equation*}
@@ -480,7 +480,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
 \end{lemma}
 \begin{proof}
     \begin{proofdirection}{$\Rightarrow$}{Let $\lambda$ be a root of $m_\alpha$}
-        We have that $(t - \lambda)$ divides $m_\alpha$. By corollary~\ref{corMinPolyDividesCharPoly}, we must also have that $(t - \lambda)$ divides $\chi_\alpha$, or equivalently that $\lambda$ is a root of $\chi_\alpha$.
+        We have that $(t - \lambda)$ divides $m_\alpha$. By \thmref{corMinPolyDividesCharPoly}, we must also have that $(t - \lambda)$ divides $\chi_\alpha$, or equivalently that $\lambda$ is a root of $\chi_\alpha$.
     \end{proofdirection}
     \begin{proofdirection}{$\Leftarrow$}{Let $\lambda$ be a root of $\chi_{\alpha}$}
         We have that $\lambda$ is an eigenvalue so $\alpha(v) = \lambda v$ for a non-zero eigenvector $v$.
@@ -494,7 +494,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
     For $V$ a finite-dimensional vector space over $\F$ and $\alpha \in \L(V, V)$, the \underline{minimal multiplicity} of an eigenvalue $\lambda$, $c_\lambda$, is the multiplicity of $\lambda$ as a root of the minimal polynomial.
 \end{definition}
 \begin{remark}
-    By theorem~\ref{thmCayleyHamilton}, $1 \leq c_\lambda \leq a_\lambda$.
+    By \thmref{thmCayleyHamilton}, $1 \leq c_\lambda \leq a_\lambda$.
 \end{remark}
 \begin{examples}{
         
@@ -539,7 +539,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
     \begin{equation*}
         p(t) = \prod_{i=1}^{k} (t - \mu_i) \text{ for distinct $\mu_i$.}
     \end{equation*}
-    Define also $p_i(t) = \prod_{\substack{j = 1\\j \neq i}}^{k} (t - \mu_j)$, the polynomial excluding the root $\mu_i$. Then by corollary~\ref{corBezoutPolynom}, there exist $q_i \in \F[t]$ such that:
+    Define also $p_i(t) = \prod_{\substack{j = 1\\j \neq i}}^{k} (t - \mu_j)$, the polynomial excluding the root $\mu_i$. Then by \thmref{corBezoutPolynom}, there exist $q_i \in \F[t]$ such that:
     \begin{equation*}
         1 = \sum_{i=1}^{k} p_i(t) q_i(t)
     \end{equation*}
@@ -570,12 +570,12 @@ We provide a theorem to summarise our characterisation of diagonalisability:
     \label{thmDiagConditions}
 \end{theorem}
 \begin{proof}
-    Statement 1 is equivalent to statement 2 by proposition~\ref{propDiagIffBasis}, and statement 1 is equivalent to statement 5 (in the case of the complex field) by proposition~\ref{propDiagIfNotDegenerate}.
+    Statement 1 is equivalent to statement 2 by \thmref{propDiagIffBasis}, and statement 1 is equivalent to statement 5 (in the case of the complex field) by \thmref{propDiagIfNotDegenerate}.
 
     \begin{subproof}{Statement 3 is equivalent to statement 4}
-        Because $m_\alpha$ divides any polynomial in $I_\alpha$, if $p \in I_\alpha$ is a product of distinct linear factors then so is $m_\alpha$. If instead $m_\alpha$ is a product of distinct linear factors then take $p = m_\alpha$ in theorem~\ref{thmProdDistinctFactorsDiag}.
+        Because $m_\alpha$ divides any polynomial in $I_\alpha$, if $p \in I_\alpha$ is a product of distinct linear factors then so is $m_\alpha$. If instead $m_\alpha$ is a product of distinct linear factors then take $p = m_\alpha$ in \thmref{thmProdDistinctFactorsDiag}.
     \end{subproof}
-    Statement 3 implies statement 1 by theorem~\ref{thmProdDistinctFactorsDiag} directly.
+    Statement 3 implies statement 1 by \thmref{thmProdDistinctFactorsDiag} directly.
     \begin{subproof}{Statement 1 implies statement 3}
         Let $B$ be a basis for $V$ such that $[\alpha]_B^B$ is diagonal. After possibly rearranging the basis, ensure that vectors in the same eigenspace are next to each other. In this basis,
         \begin{equation*}
@@ -626,7 +626,7 @@ Before we prove a theorem about simultaneous diagonalisability, we need the foll
     \end{proofdirection}
     \begin{proofdirection}{$\Leftarrow$}{Suppose that $\alpha$ and $\beta$ commute.}
         $\alpha$ is diagonalisable and so take $V = V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}$ where the eigenvalues are distinct.
-        Let $p \in I_\beta$ be a product of distinct linear factors. By lemma~\ref{lemSimDiagSameEvecs}, we can define the restriction $\beta |_{V_{\lambda_i}}$. Note also that $p(\beta |_{V_{\lambda_i}}) = p(\beta)|_{V_{\lambda_i}} = 0$, and so this restriction is diagonalisable. Let the basis in which it is diagonalisable be $B_i$, consisting of eigenvectors of $\beta$.
+        Let $p \in I_\beta$ be a product of distinct linear factors. By \thmref{lemSimDiagSameEvecs}, we can define the restriction $\beta |_{V_{\lambda_i}}$. Note also that $p(\beta |_{V_{\lambda_i}}) = p(\beta)|_{V_{\lambda_i}} = 0$, and so this restriction is diagonalisable. Let the basis in which it is diagonalisable be $B_i$, consisting of eigenvectors of $\beta$.
 
         The basis $B = \bigcup_{i=1}^k B_i$ is a basis for $V$, consisting of eigenvectors of both $\alpha$ and $\beta$. Therefore, we have constructed a basis in which $\alpha$ and $\beta$ are both diagonalisable.
     \end{proofdirection}
@@ -647,7 +647,7 @@ In this section set $\F = \C$.
     \end{equation*}
 \end{definition}
 \begin{remark}
-    By example~\ref{expJordanPolys}, this has characteristic polynomial:
+    By \thmref{expJordanPolys}, this has characteristic polynomial:
     \begin{equation*}
         \chi_{J_n(\lambda)} = (t - \lambda)^n = m_{J_n(\lambda)}
     \end{equation*}
@@ -828,7 +828,7 @@ In this section set $\F = \C$.
     \begin{equation*}
         \chi_A(t) = (t-1)^2 (t-2)
     \end{equation*}
-    Example~\ref{expJNF3} that the only possible JNFs are:
+    We know by \thmref{expJNF3} that the only possible JNFs are:
     \begin{equation*}
         \begin{pmatrix}
             1 & 0 & 0 \\
@@ -918,7 +918,7 @@ We can now provide a \textbf{non-examinable} sketch proof of the existence of JN
         \end{pmatrix}
         \text{ where } m_{A_i}(t) = (t - \lambda_i)^{c_i}
     \end{equation*}
-    by theorem~\ref{thmGenESpaceDecompose}.
+    by \thmref{thmGenESpaceDecompose}.
 
     Now we can restrict to this block-diagonal form, with the $A_i$ having only one eigenvalue. Therefore, we want to prove that these $A_i$ are in JNF, and this is enough to show that in fact $A$ can be put in JNF. For ease of notation, let $A$ have only one eigenvalue (let $A$ be one of these blocks $A_i$).
 
