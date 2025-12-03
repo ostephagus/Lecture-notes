@@ -41,7 +41,7 @@ For vectors $v, w \in V$, we denote the inner product as $\inn{v}{w} = \varphi(v
 \end{definition}
 \begin{remarks}
     \item The zero vectors is the only vector with length $0$.
-    \item The function $||~\cdot~||$ returning the length of a vector fully determines the inner product by proposition~\ref{propPolarisationId}.
+    \item The function $||~\cdot~||$ returning the length of a vector fully determines the inner product by \thmref{propPolarisationId}.
 \end{remarks}
 \begin{lemma}[Cauchy-Schwarz Inequality]
     For an inner product space $(V, \varphi)$ over $\R$ or $\C$, and for any vectors $v, w \in V$,
@@ -64,10 +64,10 @@ For vectors $v, w \in V$, we denote the inner product as $\inn{v}{w} = \varphi(v
     \begin{equation*}
         0 \leq -\frac{|\inn{v}{w}|^2}{||v||^2} + ||w||^2
     \end{equation*}
-    Which rearranges to equation~\ref{eqnCauchySchwarz}.
+    Which rearranges to \eqnref{eqnCauchySchwarz}.
 \end{proof}
 \begin{remarks}
-    \item From the proof, we have equality in equation~\ref{eqnCauchySchwarz} if and only if the dimension of the space spanned by $v$ and $w$ is in fact 1. That is, when $v$ and $w$ are linearly dependent.
+    \item From the proof, we have equality in \eqnref{eqnCauchySchwarz} if and only if the dimension of the space spanned by $v$ and $w$ is in fact 1. That is, when $v$ and $w$ are linearly dependent.
     \item For $\F = \R$, we can define the angle between two vectors to be $\theta$ given by:
         \begin{equation*}
             \cos(\theta) = \frac{\inn{v}{w}}{||v||~||w||}
@@ -211,7 +211,7 @@ For vectors $v, w \in V$, we denote the inner product as $\inn{v}{w} = \varphi(v
 \begin{definition}{Orthogonal projection}
     For $V$ a finite-dimensional vector space with an inner product, and for any subspace $W$, the \underline{orthogonal projection} $\pi_W : V \mapsto V$ of $V$ onto $W$ is given by $\pi_W(v) = w$, where $v = w + u$ for $w \in W$, $u \in W^\perp$.
 \end{definition}
-This is well-defined by lemma~\ref{lemPerpSupspacesComplement}, and is a linear map.
+This is well-defined by \thmref{lemPerpSupspacesComplement}, and is a linear map.
 \begin{propositions}{
         Consider $V$ as above defined, and $W$ a subspace. Then $\pi_W$ obeys:
         \label{propsOrthoProj}
@@ -288,7 +288,7 @@ We now want to investigate $A^\dagger$. In the case $\F = \R$, this is $A^T$.
     \end{equation*}
     so indeed the matrix of $\alpha^*$ is $A^\dagger$.
 
-    \begin{subproof}{$\alpha^*$ satisfies equation~\ref{eqnAdjointDef}.}
+    \begin{subproof}{$\alpha^*$ satisfies \eqnref{eqnAdjointDef}.}
         \begin{align*}
             \inn{\alpha(v)}{w}_W &= [\alpha(v)]_C^T \overline{[w]_C} \\
             &= \left(A [v]_B\right)^T \overline{[w]_C} \\
@@ -298,10 +298,10 @@ We now want to investigate $A^\dagger$. In the case $\F = \R$, this is $A^T$.
             &= [v]_B^T \overline{[\alpha^*(w)]_B} \\
             &=\inn{v}{\alpha^*(w)}_V
         \end{align*}
-        So indeed $\alpha^*$ satisfies equation~\ref{eqnAdjointDef}
+        So indeed $\alpha^*$ satisfies \eqnref{eqnAdjointDef}
     \end{subproof}
-    \begin{subproof}{$\alpha^*$ is the only map that satisfies equation~\ref{eqnAdjointDef}.}
-        Consider $\alpha' : W \mapsto V$ another linear map satisfying equation~\ref{eqnAdjointDef}. Let $A'$ be its matrix with respect to $B$ and $C$.
+    \begin{subproof}{$\alpha^*$ is the only map that satisfies \eqnref{eqnAdjointDef}.}
+        Consider $\alpha' : W \mapsto V$ another linear map satisfying \eqnref{eqnAdjointDef}. Let $A'$ be its matrix with respect to $B$ and $C$.
         \begin{align*}
             \inn{\alpha(b_i)}{c_j}_W &= (A\vec{e_i})^T \overline{\vec{e_j}} \\
             &= a_{ij} \\
@@ -312,9 +312,9 @@ We now want to investigate $A^\dagger$. In the case $\F = \R$, this is $A^T$.
     \end{subproof}
 \end{proof}
 \begin{definition}{Adjoint map}
-    The \underline{adjoint map} of a linear map $\alpha$ as defined in theorem~\ref{thmAdjoint} is $\alpha^*$, given by the same theorem.
+    The \underline{adjoint map} of a linear map $\alpha$ as defined in \thmref{thmAdjoint} is $\alpha^*$, given by the same theorem.
 \end{definition}
-For $\F = \R$, we have a clean link between adjoint maps and dual maps. By lemma~\ref{lemLRBFLinear}, for any bilinear form $\varphi$, we have a corresponding element of the dual $\varphi_R(v)$ such that $(\varphi_R(v))(u) = \varphi(u, v)$. For the case of an inner product, we have the element of the dual:
+For $\F = \R$, we have a clean link between adjoint maps and dual maps. By \thmref{lemLRBFLinear}, for any bilinear form $\varphi$, we have a corresponding element of the dual $\varphi_R(v)$ such that $(\varphi_R(v))(u) = \varphi(u, v)$. For the case of an inner product, we have the element of the dual:
 \begin{equation*}
     \varphi_R(v) : u \mapsto \inn{u}{v}
 \end{equation*}
@@ -329,7 +329,7 @@ We also find that the map $\varphi_R : V \mapsto V^*$ is linear.
     \label{thmReieszRep}
 \end{theorem}
 \begin{proof}
-    We have linearity of $\varphi_R$ by lemma~\ref{lemLRBFLinear}.
+    We have linearity of $\varphi_R$ by \thmref{lemLRBFLinear}.
 
     \begin{subproof}{$\varphi_R$ is injective}
         Suppose $v \in \ker(\varphi_R)$. Then $\varphi_R(v) = \zv_{V^*}$. This means that:
@@ -368,7 +368,7 @@ We can represent this as a commutative diagram. See figure~\ref{figAdjMapDiagram
     \end{equation*}
 \end{definition}
 \begin{remarks}
-    \item By the polarisation identity, $\alpha$ as above defined is an isometry if and only if, for all $v \in V$,
+    \item By \thmref{propPolarisationId}, $\alpha$ as above defined is an isometry if and only if, for all $v \in V$,
         \begin{equation*}
             \nrm{\alpha(v)} = \nrm{v}.
         \end{equation*}
@@ -417,7 +417,7 @@ In order to work in terms of orthogonality, we define the following:
     If $\F = \R$, we replace ``unitary'' with ``orthogonal''.
 \end{remark}
 \begin{proof}
-    By proposition~\ref{propIsometryInvIsAdj},
+    By \thmref{propIsometryInvIsAdj},
     \begin{align*}
         \text{$\alpha$ an isometry} &\iff \alpha \circ \alpha^* = \Id_V \\
         &\iff [\alpha]_B^B [\alpha^*]_B^B = I \\
@@ -527,7 +527,7 @@ In this section, let $V$ be a finite-dimensional vector space with an inner prod
 \begin{proof}
     Let $B$ to be an orthonormal basis for $V$. Let $A = [\alpha]_B^B$, this is Hermitian. Consider the characteristic polynomial $\chi_A(t)$ as a complex polynomial, so we can invoke the Fundamental Theorem of Algebra to get at least one root $\lambda \in \C$. 
 
-    Since $A$ is Hermitian, we use lemma~\ref{corHermitianEVals} to get that $\lambda$ is real. Therefore, there must exist an eigenvector $v$ with real eigenvalue $\lambda$. Let $v = a + i b$,
+    Since $A$ is Hermitian, we use \thmref{corHermitianEVals} to get that $\lambda$ is real. Therefore, there must exist an eigenvector $v$ with real eigenvalue $\lambda$. Let $v = a + i b$,
     \begin{equation*}
         Aa + i A b = A(a + i b) = \lambda a + i \lambda b
     \end{equation*}
@@ -544,9 +544,9 @@ In this section, let $V$ be a finite-dimensional vector space with an inner prod
     }{$n = k$}{
         Suppose that, in $k$ dimensional space, the theorem holds.
     }{$n = k + 1$}{
-        Let $v_1$ be an eigenvector of $\alpha$, which must exist by lemma~\ref{lemSelfAdjEVecExists}. After possibly rescaling, let $v_1$ have length 1.
+        Let $v_1$ be an eigenvector of $\alpha$, which must exist by \thmref{lemSelfAdjEVecExists}. After possibly rescaling, let $v_1$ have length 1.
 
-        Then $\alpha(\spn{v_1}) \leq v_1$, so we invoke lemma~\ref{lemAdjPresevesSubspaces} to get:
+        Then $\alpha(\spn{v_1}) \leq v_1$, so we invoke \thmref{lemAdjPresevesSubspaces} to get:
         \begin{equation*}
             \alpha(\spn{v_1}^\perp) \leq \spn{v_1}^\perp
         \end{equation*}
@@ -560,7 +560,7 @@ In this section, let $V$ be a finite-dimensional vector space with an inner prod
 
         Now we apply induction to $\beta$ and $\spn{v_1}^\perp$. $\spn{v_1}^\perp$ has an orthonormal basis $B'$ of eigenvectors of $\beta$, which are also eigenvectors of $\alpha$. We extend the basis to $B = \{v_1\} \cup B'$. 
 
-        Note that by proposition~\ref{propSelfAdjEValsReal}, all the eigenvectors are real.
+        Note that by \thmref{propSelfAdjEValsReal}, all the eigenvectors are real.
     }
 \end{proof}
 \begin{corollary}
@@ -571,7 +571,7 @@ In this section, let $V$ be a finite-dimensional vector space with an inner prod
     In the case $A \in M_{n \times n}(\R)$, we have an orthogonal transform for symmetric matrices.
 \end{remark}
 \begin{proof}
-    We apply theorem~\ref{thmSpectral} to the vector space $\R^n$ with the standard dot product. $A$ is the self-adjoint linear map.
+    We apply \thmref{thmSpectral} to the vector space $\R^n$ with the standard dot product. $A$ is the self-adjoint linear map.
 
     This gives that there exists $\{\vec{v_1}, \cdots, \vec{v_n}\}$ eigenvectors of $A$ with real eigenvalues.
 
