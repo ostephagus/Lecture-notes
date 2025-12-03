@@ -830,5 +830,127 @@ This is the Green's function for the wave equation on $\R^n$.
 
 It satisfies $G_{tt} - c^2 \Delta G = \delta(\vec{x} - \vec{y})\delta(t - s)$, as we expect from a Green's function.
 \section{The Wave Equation on the Half-Line}
+We will now solve:
+\begin{equation}
+    \begin{cases}
+        v_{tt} - c^2 v_{xx} = P(x, t) & x > 0, t > 0 \\
+        v(0, t) = p(t) & t > 0 \\
+        v(x, 0) = q(x) & x > 0 \\
+        v_t(x, 0) = r(x) & x > 0
+    \end{cases}
+    \label{eqnWaveHL}
+\end{equation}
+along with the \underline{compatibility conditions}:
+\begin{equation*}
+    p(0) = q(0),\qquad p'(0) = r(0)
+\end{equation*}
+\begin{proposition}
+    Equation~\ref{eqnWaveHL} is equivalent to:
+    \begin{equation}
+        \begin{cases}
+            u_{tt} - c^2 u_{xx} = F(x, t)  & x > 0, t > 0 \\
+            u(0, t) = 0 & t > 0 \\
+            u(x, 0) = f(x) & x > 0 \\
+            u_t(x, 0) = g(x) & x > 0 \\
+        \end{cases}
+        \label{eqnWaveHLSimple}
+    \end{equation}
+    \label{propWaveHLSimple}
+\end{proposition}
+\begin{proof}
+    Let $v(x, t), P(x, t), p(x)$ be as in equation~\ref{eqnWaveHL}. Define:
+    \begin{equation*}
+        u(x, t) = v(x, t) - \left[p\left(t + \frac{x}{c}\right) + Q(t) - Q\left(t + \frac{x}{c}\right)\right]
+    \end{equation*}
+    where $Q(t) = \int_{0}^{t} (t - s) P(0, s) ds$.
+    Note that:
+    \begin{equation*}
+        Q(0) = 0,\qquad Q'(0) = 0,\qquad Q''(t) = P(0,t)
+    \end{equation*}
+    Now apply the operator $L = \frac{\partial^{2}}{\partial t^{2}} - c^2 \frac{\partial^{2}}{\partial x^{2}}$ to $u$:
+    \begin{align*}
+        u_{tt} - c^2 u_{xx} &= P(x, t) - Q''(t) \\
+        &= \underbrace{P(x, t) - P(0, t)}_{F(x, t)}
+    \end{align*}
+    Note that the other functions are of $x + ct$, so are zero when $L$ is applied to them.
 
+    Now note that:
+    \begin{align*}
+        u(0, t) &= p(t) - p(t) = 0 \\
+        u(x, 0) &= q(x) - p\left(\frac{x}{t}\right) + Q\left(\frac{x}{c}\right) = f(x) \\
+        u_t(x, 0) &= r(x) - p'\left(\frac{x}{c}\right) + Q'\left(\frac{x}{c}\right) = g(x)
+    \end{align*}
+    We see that:
+    \begin{equation*}
+        f(0) = q(0) - p(0) = 0, \qquad g(0) = r(0) - p'(0) = 0
+    \end{equation*}
+    So we have compatibility conditions automatically.
+
+    Therefore, $u$ satisfies equation~\ref{eqnWaveHLSimple} if and only if $v$ satisfies equation~\ref{eqnWaveHL}.
+\end{proof}
+We now concentrate on equation~\ref{eqnWaveHLSimple}. Consider the two problems:
+\begin{enumerate}
+    \item Zero forcing ($F = 0$)
+    \item Zero initial conditions ($f = g = 0$)
+\end{enumerate}
+To solve the first problem, we imagine a semi-infinite string clamped at $x = 0$. We can understand this by trying to extend this to the full real line. To do this, we need to somehow balance out the motion of the half-line string around $x = 0$.
+
+We let the initial data be $f_{\text{odd}}$ and $g_{\text{odd}}$, the odd extension of $f$ and $g$. This is going to be continuous, because both $f$ and $g$ are zero at $x = 0$.
+\begin{proposition}
+    The solution to equation~\ref{eqnWaveHLSimple} with zero forcing is:
+    \begin{equation}
+        u(x, t) = \left(\Phi_t \star g_{\text{odd}}\right)(x) + \frac{\partial}{\partial t} \left(\Phi_t \star f_{\text{odd}}\right)(x)
+        \label{eqnWaveHLZeroForce}
+    \end{equation}
+    \label{propWaveHLZeroForce}
+\end{proposition}
+\begin{proof}
+    Consider the new problem on the full real line:
+    \begin{equation*}
+        \begin{cases}
+            w_{tt} - c^2 w_{xx} = 0 & x \in \R, t > 0 \\
+            w(x, 0) = f_{\text{odd}} & x \in \R \\
+            w_t(x, 0) = g_{\text{odd}} & x \in \R
+        \end{cases}
+    \end{equation*}
+    We have, from the previous section, that this has solution:
+    \begin{equation*}
+        w(x, t) = \left(\Phi_t \star g_{\text{odd}}\right)(x) + \frac{\partial}{\partial t} \left(\Phi_t \star f_{\text{odd}}\right)(x)
+    \end{equation*}
+    This is equivalent to:
+
+    \begin{equation*}
+        \hat{w}(\lambda, t) = \hat{\Phi}_t(\lambda) \hat{g}_{\text{odd}}(\lambda) + \frac{\partial}{\partial t} \left(\hat{\Phi}_t(\lambda) \hat{f}_{\text{odd}}(\lambda)\right)
+    \end{equation*}
+    and we can show that the Fourier Transform respects evenness/oddness, so indeed $\hat{w}(\lambda, t)$ is odd, and so $w(x,t)$ is odd in $x$. Therefore:
+    \begin{equation*}
+        u(x, t) = w(x, t) |_{x > 0, t > 0}
+    \end{equation*}
+\end{proof}
+\begin{proposition}
+    The solution to equation~\ref{eqnWaveHLSimple} with zero initial data is:
+    \begin{equation*}
+        u(x, t) = \int_{0}^{t} \int_{-\infty}^{\infty} \Phi_{t - s}(x - y) F_{\text{odd}}(y,s) dy~ds 
+    \end{equation*}
+    \label{propWaveHLZeroInit}
+\end{proposition}
+\begin{proof}
+    Consider the problem in $w$ on the whole real line:
+    \begin{equation*}
+        \begin{cases}
+            w_{tt} - c^2 w_{xx} = F_{\text{odd}}(x, t) & x \in \R, t > 0 \\
+            w(x, 0) = 0 & x \in \R \\
+            w_t(x, 0) = 0 & x \in \R
+        \end{cases}
+    \end{equation*}
+    Then the solution is, from the previous section,
+    \begin{equation*}
+        w(x, t) = \int_{0}^{t} \int_{-\infty}^{\infty} \Phi_{t - s}(x - y) F_{\text{odd}}(y, s) dy~ds 
+    \end{equation*}
+    Then this is equivalent to:
+    \begin{equation*}
+        \hat{w}(x, t) = \int_{0}^{t} \hat{\Phi}_{t - s}(\lambda) \hat{F}_{\text{odd}}(\lambda) ds
+    \end{equation*}
+    and we again conclude that $\hat{w}$ is odd, so $w$ must be odd, and so $u$ is the function required, $w$ restricted to the half-line.
+\end{proof}
 \end{document}
