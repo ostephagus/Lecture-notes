@@ -342,6 +342,66 @@ We also find that the map $\varphi_R : V \mapsto V^*$ is linear.
     Then, since the spaces have the same dimension, $\varphi_R$ must be an isomorphism.
 \end{proof}
 We can represent this as a commutative diagram. See figure~\ref{figAdjMapDiagram}.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+            node distance=3cm and 7cm, % Controls vertical and horizontal spacing respectively
+            >={Stealth[length=2.5mm]}, % Define a nice arrow tip style
+            every node/.style={font=\large}, % Set global font size for nodes
+            thick % Set global line thickness
+        ]
+
+        % --- Inner Commutative Diagram (Black) ---
+
+        % Define the four main corners of the diagram
+        \node (W) {$W$};
+        \node (V) [right=of W] {$V$};
+        \node (Ws) [below=of W] {$W^*$};
+        \node (Vs) [below=of V] {$V^*$};
+
+        % Draw the arrows and labels for the inner diagram
+        % |-> denotes a "mapsto" arrow, -> denotes a standard arrow
+        \draw[|->] (W) -- node[below=5pt] {$\alpha^*$, adjoint map} (V);
+        \draw[|->] (Ws) -- node[above=5pt] {$\alpha^*$, dual map} (Vs);
+        \draw[->] (W) -- node[right=5pt] {$\varphi_R$ in $W$} (Ws);
+        \draw[->] (V) -- node[left=5pt] {$\varphi_R$ in $V$} (Vs);
+
+
+        % --- Outer Diagram Elements (Blue) ---
+
+        % Use a scope to apply common styling (color, thickness, rounded corners)
+        \begin{scope}[color=blue!80!black, very thick]
+
+            % Define the outer nodes containing the elements
+            \node (w) [above left=0.5cm and 0.5cm of W] {$w$};
+            \node (aw) [right=9cm of w] {$\alpha^*(w)$};
+            \node (phiw) [below=5cm of w] {$\varphi_R(w)$};
+
+            % Define the complex terms on the bottom right as two separate nodes for alignment
+            \node (term1) [anchor=north west, below=3.5cm of aw, xshift=1cm, align=left]
+                {$\varphi_R(\alpha^*(w)) :$\\$v \mapsto \inn{v}{\alpha^*(w)}$};
+            \node (term2) [right=8cm of phiw, align=left]
+                {$\varphi_R(w) \circ \alpha :$\\$v \mapsto \inn{\alpha(v)}{w}$};
+
+
+            % Top horizontal arrow: w -> alpha^*(w)
+            \draw[|->] (w.east) -- (aw.west);
+
+            % Left vertical arrow: w -> phi_R(w)
+            \draw[|->] (w.south) --  (phiw.north);
+
+            % Right vertical arrow: alpha^*(w) -> term1
+            \draw[|->] (aw.south) -- ($(aw.south) + (0, -3.5)$);
+
+            % Bottom horizontal arrow: phi_R(w) -> term2
+            \draw[|->] (phiw.east) -- (term2.west);
+
+        \end{scope}
+
+    \end{tikzpicture}
+    \caption{Commutative diagram of adjoint and dual maps}
+    \label{figAdjMapDiagram}
+\end{figure}
 \begin{definition}{Self-adjointness}
     For a finite-dimensional inner product space $(V, \varphi)$, an endomorphism $\alpha$ is \underline{self-adjoint} if $\alpha^* = \alpha$.
 \end{definition}
