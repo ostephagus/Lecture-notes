@@ -871,41 +871,59 @@ In this section set $\F = \C$.
         \gespace{V}{\lambda_i} = \ker\left(\left(\alpha - \lambda_i \Id_V\right)^{c_i}\right)\leq V
     \end{equation*}
 \end{definition}
-\begin{theorem}[Generalised Eigenspace Decomposition Theorem]
-    $V$ is a direct sum of its generalised eigenspaces:
-    \begin{equation*}
-        V = \bigoplus_{i=1}^k \gespace{V}{\lambda_i}
-    \end{equation*}
-    \label{thmGenESpaceDecompose}
-\end{theorem}
+\begin{lemma}
+    Non-zero elements of distinct generalised eigenspaces are linearly independent.
+    \label{lemGELIVectors}
+\end{lemma}
 \begin{proof}
-    The proof is on the example sheet. Note the following lemma:
-    Non-zero elements of distinct generalised eigenspaces are linearly independent. We can prove this:
+    Suppose there exist $k$ generalised eigenspaces with eigenvectors $\lambda_1, \cdots, \lambda_k$.
 
-    Let $0 \leq d_i < c_i$ be such that:
+    Let $0 \leq d_i \leq c_i$ be such that:
     \begin{align*}
         \zv \neq w_i &= (\alpha - \lambda_i \Id_V)^{d_i} (v_i) \\
         \text{but } &(\alpha - \lambda_i \Id_V)^{d_i + 1}(v_i) = \zv
     \end{align*}
-    Then $w_i$ is a $\lambda_i$ eigenvector of $\alpha$ so the $w_i$ with different eigenvalues are linearly independent.
-
-    We can also define:
+    Now $w_i$ is an eigenvector with eigenvalue $\lambda_i$. By \thmref{lemEVecLI}, these are linearly independent. Further, define:
     \begin{equation*}
         \beta = \prod_{j=1}^{k} (\alpha - \lambda_j \Id_V)^{d_j}
     \end{equation*}
     Then because these factors commute:
     \begin{align*}
         \beta(v_i) &= \left(\prod_{\substack{j=1 \\ j \neq i}}^k (\alpha - \lambda_j \Id_v)^{d_j}\right)w_i \\
-        &= \left(\prod_{j \neq i} (\lambda_i - \lambda_j)^{d_j}\right)w_i \\
-        &= \mu_i w_i \neq \zv
+        &= \underbrace{\left(\prod_{j \neq i} (\lambda_i - \lambda_j)^{d_j}\right)}_{\mu_i} w_i
     \end{align*}
+    where $\mu_i$ is a non-zero scalar.
+
     Then suppose that a linear combination of the $v_i$ sum to zero:
     \begin{align*}
         \zv &= \sum_{i=1}^{k}\nu_i v_i \\
         &= \beta\left(\sum_{i=1}^{k} \nu_i v_i\right) \\
-        &= \sum_i \mu_i \nu_i w_i \\
-        &\implies \nu_i = 0~\forall i
+        &= \sum_i \mu_i \nu_i w_i 
     \end{align*}
+    However, the $\mu_i$ are non-zero, and the $w_i$ are linearly independent so we must have that $\nu_i = 0$ for all $i$.
+
+    That is, the $v_i$ are linearly independent, as required.
+\end{proof}
+\begin{theorem}[Generalised Eigenspace Decomposition Theorem]
+    $V$ is a direct sum of its generalised eigenspaces:
+    \begin{equation*}
+        V = \bigoplus_{i=1}^k \gespace{V}{\lambda_i}
+    \end{equation*}
+    \label{thmGEDecompose}
+\end{theorem}
+\begin{proof}
+    By \thmref{lemGELIVectors}, we must only show that the dimension of the eigenspaces sum to the dimension of $V$.
+    \begin{subproof}{$\dim(\gespace{V}{\lambda_i}) = a_{\lambda_i}$}
+        First we find a basis $B$ such that $A = [\alpha]_B^B$ is in Jordan Normal Form. For each eigenvalue $\lambda_i$, $A$ has $g_{\lambda_i}$ Jordan blocks, of sizes all at most $c_{\lambda_i}$.
+        
+        Now consider $(A - \lambda_i I)^{c_{\lambda_i}}$. All the $\lambda_i$ Jordan blocks now have a zero eigenvalue, and from IA Vectors and Matrices this means they obey $J^m = 0$ for $m$ greater than or equal to the size of the block. Since the blocks are at most of size $c_{\lambda_i}$, this exponent is sufficient to ensure that all the blocks are zero. Therefore, the dimension of the kernel of $(A - \lambda_i I)$ is at least the sum of the sizes of all the blocks, $\dim(\gespace{V}{\lambda_i}) \geq a_{\lambda_i}$.
+
+        Since also the generalised eigenspaces all contain linearly independent vectors, we must have:
+        \begin{equation*}
+            \sum_{i=1}^{k} \dim(\gespace{V}{\lambda_i}) \leq \dim(V)
+        \end{equation*}
+        This restricts to $\dim(\gespace{V}{\lambda_i}) = a_{\lambda_i}$ because, over $\C$, $\sum_{i = 1}^k a_{\lambda_i} = n$.
+    \end{subproof}
 \end{proof}
 We can now provide a \textbf{non-examinable} sketch proof of the existence of JNF.
 \begin{proof}
@@ -918,7 +936,7 @@ We can now provide a \textbf{non-examinable} sketch proof of the existence of JN
         \end{pmatrix}
         \text{ where } m_{A_i}(t) = (t - \lambda_i)^{c_i}
     \end{equation*}
-    by \thmref{thmGenESpaceDecompose}.
+    by \thmref{thmGEDecompose}.
 
     Now we can restrict to this block-diagonal form, with the $A_i$ having only one eigenvalue. Therefore, we want to prove that these $A_i$ are in JNF, and this is enough to show that in fact $A$ can be put in JNF. For ease of notation, let $A$ have only one eigenvalue (let $A$ be one of these blocks $A_i$).
 
