@@ -62,27 +62,28 @@ Once a measurement has been performed, we have the projection postulate which de
         \end{align*}
     \end{proofdirection}
     \begin{proofdirection}{$\Leftarrow$}{Suppose that the commutator is zero}
-        Let $\psi_i$ be the eigenfunctions of $\hat{A}$ with eigenvalues $a_i$.
+        Let $\psi_i$ be an eigenfunction of $\hat{A}$ with eigenvalue $a_i$.
         \begin{align*}
             0 &= \cmmt{A}{B}\psi_i = \hat{A} \hat{B} \psi_i - \hat{B} \hat{A} \psi_i \\
-            &= \hat{A} \hat{B} \psi_i = a_i \hat{B} \psi_i
+            &= \hat{A} \hat{B} \psi_i - a_i \hat{B} \psi_i
         \end{align*}
         That is,
         \begin{equation*}
             \hat{A}(\hat{B}\psi_i) = a_i \hat{B} \psi_i
         \end{equation*}
-        Then $\hat{B}$ maps the eigenspace $E_i$ of $\hat{A}$ with eigenvalue $a_i$ into itself. Therefore, the restricted map $B|_{E_i}$ is a Hermitian operator of $E_i$. Similarly, because the $E_i$ are complete and thus span $\hilb$, we can find a basis of joint eigenfunctions of $\hat{A}$ and $\hat{B}$.
+        Since this is true for any eigenfunction $\psi_i$, we conclude that $\hat{B}$ maps any eigenspace $E_i$ of eigenfunctions of $\hat{A}$ with eigenvalue $a_i$ onto itself. 
+        Therefore, the restricted map $B|_{E_i}$ is a Hermitian operator of $E_i$. Similarly, because the $E_i$ are complete and thus span $\hilb$, we can find a basis of joint eigenfunctions of $\hat{A}$ and $\hat{B}$.
     \end{proofdirection}
 \end{proof}
 \section{Uncertainty of Simultaneous Measurement}
 \begin{definition}{Uncertainty}
     The \underline{uncertainty} in a measurement of an observable $O$ on a state $\psi$ is defined as:
     \begin{equation*}
-        \Delta_\psi O = \sqrt{(\Delta_\psi O)}
+        \Delta_\psi O = \sqrt{(\Delta_\psi O)^2}
     \end{equation*}
     where:
     \begin{align*}
-        (\Delta_\psi O)^2 &= \E{(\op - \E{op}_\psi \hat{I})}_\psi \\
+        (\Delta_\psi O)^2 &= \E{(\op - \E{\op}_\psi \hat{I})}_\psi \\
         &= \E{\op^2}_\psi - \left(\E{\op}_\psi\right)^2
     \end{align*}
 \end{definition}
@@ -153,7 +154,7 @@ Note that the two definitions are equivalent:
         (\Delta_\psi A)^2 &= \inn{\hat{A}' \psi}{\hat{A}' \psi} \\
         (\Delta_\psi B)^2 &= \inn{\hat{B}' \psi}{\hat{B}' \psi}
     \end{align*}
-    By lemma~\ref{lemStateCSIneq},
+    By \thmref{lemStateCSIneq},
     \begin{equation}
         \begin{split}
             (\Delta_\psi A)^2 (\Delta_\psi B)^2 &\geq |\inn{\hat{A}'\psi}{\hat{B}'\psi}|^2 \\
@@ -199,7 +200,7 @@ Note that the two definitions are equivalent:
     \label{corCommuteImpliesSimultaneous}
 \end{corollary}
 \begin{proof}
-    Observe that this fact drops out of the statement of theorem~\ref{thmUncertaintyPrinciple}
+    Observe that this fact drops out of the statement of \thmref{thmUncertaintyPrinciple}
 \end{proof}
 \begin{corollary}[Heisenberg Uncertainty Principle]
     For operators $\hat{x}$ and $\hat{p}$, the minimum uncertainty for a simultaneous measurement is:
@@ -209,7 +210,7 @@ Note that the two definitions are equivalent:
     \label{corHeisenbergUncertainty}
 \end{corollary}
 \begin{proof}
-    We found earlier that $\cmmt{x}{p} = i \hbar \hat{I}$, so applying this to theorem~\ref{thmUncertaintyPrinciple} gives the result.
+    We found earlier that $\cmmt{x}{p} = i \hbar \hat{I}$, so applying this to \thmref{thmUncertaintyPrinciple} gives the result.
 \end{proof}
 We have shown that indeed this lower bound is achieved by the Gaussian Wavepacket. In fact, we have the following statements:
 \begin{proposition}
@@ -244,7 +245,7 @@ We have shown that indeed this lower bound is achieved by the Gaussian Wavepacke
     \end{align*}
 \end{proof}
 \begin{examples}{
-        Considering different operators $\hat{A}$ in theorem~\ref{thmEhrenfest} gives us results that we can understand from Classical Mechanics:
+        Considering different operators $\hat{A}$ in \thmref{thmEhrenfest} gives us results that we can understand from Classical Mechanics:
     }
     \item Taking $\hat{A} = \hat{H}$ gives $\frac{dE}{dt} = 0$, conservation of energy.
     \item Taking $\hat{A} = \hat{P}$ gives:
@@ -256,6 +257,7 @@ We have shown that indeed this lower bound is achieved by the Gaussian Wavepacke
         \begin{equation*}
             \frac{d\E{\hat{x}}_\psi}{dt} = \frac{\E{\hat{p}}_\psi}{m}
         \end{equation*}
+        then this finally gives the intuition for why we call $\hat{p}$ the momentum operator.
 \end{examples}
 \nonexaminablesection{Harmonic Oscillator, Revisited}
 Write the Hamiltonian operator in terms of $\hat{p}$ and $\hat{x}$:
