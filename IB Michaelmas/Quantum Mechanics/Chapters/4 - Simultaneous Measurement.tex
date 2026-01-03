@@ -83,7 +83,7 @@ Once a measurement has been performed, we have the projection postulate which de
     \end{equation*}
     where:
     \begin{align*}
-        (\Delta_\psi O)^2 &= \E{(\op - \E{\op}_\psi \hat{I})}_\psi \\
+        (\Delta_\psi O)^2 &= \E{(\op - \E{\op}_\psi \hat{I})^2}_\psi \\
         &= \E{\op^2}_\psi - \left(\E{\op}_\psi\right)^2
     \end{align*}
 \end{definition}
@@ -158,7 +158,7 @@ Note that the two definitions are equivalent:
     \begin{equation}
         \begin{split}
             (\Delta_\psi A)^2 (\Delta_\psi B)^2 &\geq |\inn{\hat{A}'\psi}{\hat{B}'\psi}|^2 \\
-            &= |\inn{\psi}{\hat{A}'\hat{B}'\psi}
+            &= |\inn{\psi}{\hat{A}'\hat{B}'\psi}|^2
             \label{eqnCSUncertainty}
         \end{split}
     \end{equation}
@@ -250,7 +250,7 @@ We have shown that indeed this lower bound is achieved by the Gaussian Wavepacke
     \item Taking $\hat{A} = \hat{H}$ gives $\frac{dE}{dt} = 0$, conservation of energy.
     \item Taking $\hat{A} = \hat{P}$ gives:
         \begin{equation*}
-            \frac{d}{dt} \E{\hat{p}}_\psi = -\E{\frac{\partial U}{\partial t}}_\psi
+            \frac{d}{dt} \E{\hat{p}}_\psi = -\E{\frac{\partial U}{\partial x}}_\psi
         \end{equation*}
         where $U$ is the potential.
     \item Taking $\hat{A} = \hat{x}$ gives:
