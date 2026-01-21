@@ -20,11 +20,11 @@ For vectors $v, w \in V$, we denote the inner product as $\inn{v}{w} = \varphi(v
         and we have the complex dot product where we conjugate the second argument.
     \item From IB Methods, we have the integral inner product for functions in $C([0, 1])$:
         \begin{equation*}
-            \inn{f}{g} = \int_{0}^{1} f(x)g(x) dx
+            \inn{f}{g} = \int_{0}^{1} f(x)\overline{g(x)} dx
         \end{equation*}
         and we also have the weighted inner product for $w \in V$:
         \begin{equation*}
-            \inn{f}{g}_w = \int_{0}^{1} f(x)g(x)w(x) dx
+            \inn{f}{g}_w = \int_{0}^{1} f(x)\overline{g(x)}w(x) dx
         \end{equation*}
 \end{examples}
 \begin{definition}{Length of a vector}
@@ -180,7 +180,7 @@ For vectors $v, w \in V$, we denote the inner product as $\inn{v}{w} = \varphi(v
 \begin{definition}{Orthogonal direct sum}
     For $(V, \varphi)$ an inner product space, and subspaces $U, W$, then $V$ is the \underline{orthogonal direct sum} of $U$ and $W$ if:
     \begin{enumerate}
-        \item $V = U + W$ ($V$ is the direct sum of $U$ and $W$),
+        \item $V = U \oplus W$ ($V$ is the direct sum of $U$ and $W$),
         \item For all $u \in U$, $w \in W$, $\inn{u}{w} = 0$.
     \end{enumerate}
     For this we write $V = U \perpplus W$.
@@ -200,7 +200,7 @@ For vectors $v, w \in V$, we denote the inner product as $\inn{v}{w} = \varphi(v
         V &= \spn{E_W \cup (E_V \backslash E_W)} \\
         &= W + \spn{E_V \backslash E_W}
     \end{align*}
-    and $E_V \backslash E_W \subseteq W^\perp$.
+    and $\spn{E_V \backslash E_W} \subseteq W^\perp$.
 \end{proof}
 \begin{corollary}
     \begin{equation*}
@@ -508,7 +508,7 @@ for any orthonormal basis $B$ for $V$. The same isomorphism works for complex ve
         \pi_W : V &\mapsto V\\
         u + w &\mapsto w
     \end{align*}
-    where $u \in U, w \in W$.
+    where $u \in W^\perp, w \in W$.
 
     Note that this is self-adjoint:
     \begin{align*}
@@ -614,7 +614,7 @@ In this section, let $V$ be a finite-dimensional vector space with an inner prod
         \begin{align*}
             \inn{\beta(u)}{v} &= \inn{\alpha(u)}{v} \\
             &= \inn{u}{\alpha(v)} \\
-            &= \inn{i}{\beta{v}}
+            &= \inn{u}{\beta{v}}
         \end{align*}
         as required.
 
@@ -749,7 +749,7 @@ In Ex4Q8, we prove that normal matrices have a spectral theorem.
             \underbrace{\begin{pmatrix}
                 r_1 e^{i \theta_1} &  & 0 \\
                  & \ddots &  \\
-                0 &  & r_n e^{-\theta_n}
+                0 &  & r_n e^{\theta_n}
             \end{pmatrix}}_{\text{Normal}}
             =
             \underbrace{\begin{pmatrix}

@@ -85,11 +85,11 @@
 \begin{definition}{Rank of a bilinear form}
     For a bilinear form $\varphi : U \times V \mapsto \F$ with $U, V$ finite-dimensional, the \underline{rank} of $\varphi$ is the rank of the matrix $[\varphi]_{B, C}$ with respect to any bases $B, C$.
 \end{definition}
-The matrices representing $\varphi$ in different bases are similar, and since similar matrices have the same rank we have that the rank of $\varphi$ is well-defined (same in all bases).
+The matrices representing $\varphi$ in different bases are equivalent, and since equivalent matrices have the same rank we have that the rank of $\varphi$ is well-defined (same in all bases).
 
 For $U = V$, and $B, B'$ bases for $U$, we have that there exists $P \in GL_{\dim(V)}(\F)$ such that:
 \begin{equation*}
-    [\varphi]_{B, B'} = P^T [\varphi]_{B, B} P
+    [\varphi]_{B', B'} = P^T [\varphi]_{B, B} P
 \end{equation*}
 We can more concretely define this relation:
 \begin{definition}{Congruent matrices}
@@ -111,7 +111,7 @@ We can more concretely define this relation:
     and the product of invertible matrices is still invertible.
 \end{proof}
 \begin{definition}{Left and right linear map}
-    For a bilinear form $\varphi : V \times W \mapsto \F$, define the \underline{left linear map} of $\varphi$ to be:
+    For a bilinear form $\varphi : U \times V \mapsto \F$, define the \underline{left linear map} of $\varphi$ to be:
     \begin{align*}
         \varphi_L : U &\mapsto V^*\\
         u &\mapsto \varphi_L(u) \text{ such that } (\varphi_L(u))(v) = \varphi(u, v).
@@ -136,19 +136,24 @@ We can more concretely define this relation:
 \begin{proposition}
     Let $U$ and $V$ be finite-dimensional vector spaces over $\F$. Let $B$ and $C$ be bases for the respective spaces, with dual bases $B^*, C^*$. Then:
     \begin{align*}
-        [\varphi_L]_{C^*}^B &= [\varphi]_{B, C} \\
-        [\varphi_R]_{B^*}^C &= \left([\varphi]_{B, C}\right)^T
+        [\varphi_L]_{C^*}^B &= \left([\varphi]_{B, C}\right)^T \\
+        [\varphi_R]_{B^*}^C &= [\varphi]_{B, C}
     \end{align*}
     \label{propLRMapsMatrices}
 \end{proposition}
 \begin{proof}
-    Set $B = \{b_1, \cdots, b_m\}$ and $C = \{c_1, \cdots, c_n\}$. Let $A = [\varphi]_{B, C}$ and write:
+    Set $B = \{b_1, \cdots, b_m\}$ and $C = \{c_1, \cdots, c_n\}$. Let $A = [\varphi]_{B, C}$ and consider:
+    \begin{align*}
+        [\varphi(b_i)](c_i)&= \varphi(b_i, c_i) = A_{ij} \\
+        &= \left(\sum_{l=1}^{n} A_{il} c_l^*\right) c_j \\
+    \end{align*}
+    and so:
     \begin{equation*}
-        \varphi_L(b_i) = \sum_{j=1}^{n} a_{ij}' c_j^*
+        \varphi_L(b_i) = \sum_{l=1}^n A_{li}^T c_l^*
     \end{equation*}
-    Then $a_{ij}' = (\varphi_L(b_i))(c_j) = \varphi(b_i, c_j) = a_{ij}$, so the required matrices are the same.
+    and so $[\varphi_L]_{C^*}{B} = A^T$.
 
-    The proof for the right map is similar.
+    The proof is similar for the right linear map.
 \end{proof}
 \begin{corollary}
     $rk(\varphi_L) = rk(\varphi) = rk(\varphi_R)$.
@@ -164,7 +169,7 @@ We can more concretely define this relation:
 \begin{remarks}
     \item $S^\perp \leq V$ and $\lperp{T} \leq U$ by the subspace test.
     \item If $S_1 \subseteq S_2 \subseteq U$, then $S_2^\perp \leq S_1^\perp \leq V$. Similar for subsets of $V$.
-    \item $U^\perp = \ker(\varphi_L)$, $\lperp{V} = \ker(\varphi_R)$.
+    \item $U^\perp = \ker(\varphi_R)$, $\lperp{V} = \ker(\varphi_L)$.
 \end{remarks}
 \begin{definition}{Degeneracy}
     A bilinear form $\varphi$ is \underline{degenerate} if one of the perpendiculars $U^\perp$ or $\lperp{V}$ are nontrivial.
@@ -445,7 +450,7 @@ In the case $V$ is finite-dimensional, then we can use the representation given 
     \item The other characterisations are similar.
 \end{itemize}
 \begin{lemma}
-    Let $U, W$ be subsets of a vector space $V$.
+    Let $U, W$ be subspaces of a vector space $V$.
 
     If $\varphi |_U$ is positive definite and $\varphi |_W$ is negative semi-definite, then $U \cap W = \{\zv\}$.
 
@@ -453,7 +458,7 @@ In the case $V$ is finite-dimensional, then we can use the representation given 
     \label{lemBFRestrictDefness}
 \end{lemma}
 \begin{proof}
-    For all $v \in U \cap W$, we must have that, if $v \in \zv$, $\varphi(v, v) > 0$ and $\varphi(v, v) \leq 0$. \contradiction
+    For all $v \in U \cap W$, we must have that, if $v \neq \zv$, $\varphi(v, v) > 0$ and $\varphi(v, v) \leq 0$. \contradiction
 
     The proof is similar for the second claim.
 \end{proof}
@@ -493,14 +498,15 @@ We can show that this is well-defined:
                 0 & 0 & 0
             \end{pmatrix}
         \end{equation*}
-        Now define $U = \spn{v_1, \cdots, v_p}$ and $W = \spn{v_{p+1}, v_q}$. Then we know that $\varphi |_U$ is positive-definite, and $\varphi |_W$ is negative definite. To show that these are the largest such, suppose that $U'$ is another subspace such that $\varphi |_{U'}$ is positive definite, and with dimension $p' > p$.
+        Now define $U = \spn{v_1, \cdots, v_p}$ and $W = \spn{v_{p+1}, \cdots, v_q}$. Then we know that $\varphi |_U$ is positive-definite, and $\varphi |_W$ is negative definite. To show that these are the largest such, suppose that $U'$ is another subspace such that $\varphi |_{U'}$ is positive definite, and with dimension $p' > p$.
 
         We must have that $U, U', W$ are all subsets of the space $U + W$ where $\varphi$ is not trivially zero. By the sum intersection formula,
         \begin{align*}
             \dim(U' + W)&= \dim(U') + \dim(W) - \dim(U' \cap W) \\
             &= p' + q - \dim(U' \cap W) \leq p + q
         \end{align*}
-        This implies that $\dim(U' \cap W) \geq 1$, which contradicts \thmref{lemBFRestrictDefness}
+        This implies that $\dim(U' \cap W) \geq 1$, which contradicts \thmref{lemBFRestrictDefness}.
+
         The case for $q$ is similar.
     \end{subproof}
     Then we have that $p$ and $q$ are invariant under change of basis.
@@ -561,7 +567,7 @@ For this section, take $\F = \C$.
 \end{remark}
 Many of our results carry over from bilinear forms.
 
-\begin{definition}{Matrix of bilinear form}
+\begin{definition}{Matrix of sesquilinear form}
     Suppose $V, W$ are finite-dimensional vector spaces and $\varphi : V \times W \mapsto \C$ is a sesquilinear form. Given bases $B$ and $C$ for $V$ and $W$, the \underline{matrix of $\varphi$} is the matrix with elements:
     \begin{equation*}
         ([\varphi]_{B, C})_{i, j} = \varphi(b_i, c_j)
