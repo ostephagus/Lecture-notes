@@ -1,0 +1,29 @@
+\documentclass[british,11pt,a4paper]{report}
+
+\def\course{Statistics}
+\def\degreepart{IB}
+\def\term{Lent}
+\def\academicyear{2026}
+\def\lecturer{Prof P-L. Loh}
+
+\input{../../Header.tex}
+
+\newcommand{\samplespace}{\mathcal{X}}
+\newcommand{\F}{\mathcal{F}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+
+\DeclareMathOperator{\Po}{Po}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Estimation}
+\subfile{Chapters/1 - Estimation.tex}
+\chapter{Hypothesis Testing}
+\chapter{Linear Regression}
+
+\end{document}

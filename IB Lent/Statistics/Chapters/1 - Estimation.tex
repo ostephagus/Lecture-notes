@@ -1,0 +1,98 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Probability Review}
+Let $X : \Omega \mapsto \R$ be a random variable defined on the probability space $(\Omega, \F, \P)$. Here $\Omega$ is the sample space, $\F$ is the set of events and $\P$ is the probability measure, $\P : \F \mapsto [0, 1]$.
+\subsection{Distribution Functions}
+Let the random variable $X$ be as above defined.
+\begin{definition}{Cumulative distribution function}
+    The \underline{cumulative distribution function} (cdf) of $X$ is $F_X(x) = \P(X \leq x)$.
+\end{definition}
+\begin{definition}{Discrete random variable}
+    A \underline{discrete random variable} takes values in a countable set $\samplespace$ and has \underline{probability mass function} (pmf) $p_X(x) = \P(X = x)$.
+\end{definition}
+\begin{definition}{Continuous random variable}
+    A \underline{continuous random variable} has a \underline{probability density function} $f_X$ satisfying:
+    \begin{equation*}
+        \P(X \in A) = \int_A f_X(x) dx
+    \end{equation*}
+    for measurable sets $A$.
+\end{definition}
+\begin{definition}{Independence}
+    A sequence of random variables $X_1, \cdots, X_n$ are \underline{independent} if:
+    \begin{equation*}
+        \P(X_1 \leq x_1, \cdots, X_n \leq x_n) = \P(X_1, \leq x_1) \cdot \cdots \cdot \P(X_n \leq x_n)
+    \end{equation*}
+    for all vectors $(x_1, \cdots, x_n)$.
+
+    If each $X_i$ has pdf/pmf $F_{X_i}(x)$ then this is equivalent to:
+    \begin{equation*}
+        f_{\vec{X}}(\vec{x}) = \prod_{i=1}^{n} f_{X_i}(x_i)
+    \end{equation*}
+\end{definition}
+\subsection{Moments}
+\begin{definition}{Expectation}
+    The \underline{expectation} of $X$ is:
+    \begin{equation*}
+        \E[X] =
+        \begin{cases}
+            \sum_{x \in \samplespace} x p_X(x) & \text{if $X$ is discrete} \\
+            \int_{-\infty}^{\infty} xf_X(x) dx  & \text{if $X$ is continuous}
+        \end{cases}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Variance}
+    The \underline{variance} of $X$ is $\Var(X) = \E\left[(X - E[X])^2\right]$
+\end{definition}
+\begin{definition}{Moment generating function}
+    The \underline{moment generating function} (mgf) of $X$ is $M(t) = \E\left[e^{tX}\right]$, and satisfies:
+    \begin{equation*}
+        \E[X^n] = \left.\frac{d^{n}}{dx^{n}} M(t) \right|_{t = 0}
+    \end{equation*}
+    Further, under mild conditions, equality of mgf is sufficient for random variables to have the same distribution.
+\end{definition}
+
+Recall the following properties of expectation and variance:
+\begin{gather*}
+    \E\left[a_1 X_1 + \cdots + a_n X_n\right] = a_1 \E[X_1] + \cdots + a_n \E[X_n] \\
+    \Var(a_1 X_1 + \cdots + a_n X_n) = \sum_{i, j = 1}^n a_i a_j \Cov(X_i X_j)
+\end{gather*}
+or, in vector notation:
+\begin{gather*}
+    \E\left[\vec{a}^T \vec{X}\right] = \vec{a}^T \E[\vec{X}] \\
+    \Var(\vec{a}^T \vec{X}) = \vec{a}^T \Var(\vec{X}) \vec{a}
+\end{gather*}
+\subsection{Conditional Probability}
+\begin{definition}{Conditional probability mass function}
+If $X$ and $Y$ are discrete random variables with joint pmf $P_{X, Y}(x, y) = \P(X = x, Y = y)$, and marginal pmf $p_Y(y) = \P(Y = y) = \sum_{x \in \samplespace} p_{X, Y}(x, y)$, then the \underline{conditional pmf} is:
+\begin{equation*}
+    P_{X | Y}(x, y) = \P(X = x | Y = y) = \frac{p_{X, Y}(x, y)}{p_Y(y)}
+\end{equation*}
+\begin{definition}{Law of Total Expectation}
+    The \underline{Law of Total Expectation} is:
+    \begin{equation}
+        \E[X] = \E[\E[X | Y]]
+        \label{eqnTotalExpectation}
+    \end{equation}
+\end{definition}
+\end{definition}
+
+\section{Parametric Estimation}
+Consider observing multiples samples $X_1, \cdots, X_n$, which are independent and identically distributed. Let these exist in the sample space $\samplespace$. Let $\vec{X}$ be the vector of the $X_i$.
+
+\begin{definition}{Statistical model}
+    A \underline{statistical model} is a pair $(\Omega, \mathcal{P})$ where $\Omega$ is the sample space and $\mathcal{P}$ is a set of possible probability distributions. These are parameterised by the vector $\vec{\theta}$, $\mathcal{P} = \subsetselect{f(x;\vec{\theta})}{\vec{\theta} \in \Theta}$.
+\end{definition}
+
+Assume that $X_1$ belongs to a \underline{statistical model} $\subsetselect{p(x;\theta)}{\theta \in \Theta}$.
+\begin{examples}{}
+    \item Suppose $X_1 \sim \Po(\lambda)$, then $\theta = \lambda \in \Theta = (0, \infty)$.
+    \item Suppose $X_1 \sim N(\mu, \sigma^2)$, then $\vec{\theta} = (\mu, \sigma^2) \in \Theta = \R \times (0, \infty)$.
+\end{examples}
+We then want to be able to:
+\begin{itemize}
+    \item Given an estimate $\hat{\theta} : \samplespace^n \mapsto \Theta$ of the true value of $\theta$.
+    \item Give an interval estimator $(\hat{\theta}_1(X), \hat{\theta}_2(X))$ of $\theta$.
+    \item Test some hypothesis about $\theta$.
+\end{itemize}
+\end{document}
