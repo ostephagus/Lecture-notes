@@ -1,0 +1,132 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Complex Numbers}
+\begin{definition}{Imaginary unit}
+    The \underline{imaginary unit} $i$ is defined to be $\sqrt{-1}$.
+\end{definition}
+\begin{definition}{Complex number}
+    A number $z$ is a \underline{complex number} if $z$ can be written as $z = x + iy$ for $x, y \in \R$ and $y \neq 0$. The set of complex numbers is denoted $\C$.
+\end{definition}
+$z$ can also be written as $re^{i\phi} = r\cos(\phi) + r i \sin(\phi)$. Note that $\phi$ is $2\pi$-periodic and $r \geq 0$.
+
+We may regard $(x, y)$ and $(r, \phi)$ as Cartesian and polar coordinates on $\R^2$, respectively.
+
+\begin{definition}{Real/imaginary part}
+    The \underline{real part} of a complex number $z = x + i y = re^{i \phi}$ is:
+    \begin{equation*}
+        \Re(z) = x = r \cos(\phi).
+    \end{equation*}
+    The \underline{imaginary part} is:
+    \begin{equation*}
+        \Im(z) = y = r \sin(\phi).
+    \end{equation*}
+\end{definition}
+\begin{definition}{Principal argument}
+    The \underline{principal argument} of a complex number $z$ is the value $\arg(z) = \phi$ such that $\phi \in (-\pi, \pi]$. In terms of $x = \Re(z)$ and $y = \Im(z)$,
+    \begin{equation*}
+        \arg(z) =
+        \begin{cases}
+            \arctan\left(\frac{y}{x}\right) & x > 0 \\
+            \arctan\left(\frac{y}{x}\right) + \pi & x < 0, y \geq 0 \\
+            \arctan\left(\frac{y}{x}\right) - \pi & x < 0, y < 0 \\
+            \frac\pi2 & x = 0, y \geq 0 \\
+            -\frac\pi2 & x = 0, y < 0 \\
+            \text{undefined} & x = y = 0
+        \end{cases}
+    \end{equation*}
+    This is also known as $\text{atan2}(x, y)$.
+\end{definition}
+\begin{definition}{Complex conjugate}
+    The \underline{complex conjugate} of a complex number $z = x + iy$ is $\bar{z} = x - iy$.
+\end{definition}
+This new notation simplifies some existing notation:
+\begin{align*}
+    r^2 &= z\bar{z} & \Re(z) &= \frac12 \left(z + \bar{z}\right) & \Im(z) &= \frac{1}{2i}\left(z - \bar{z}\right)
+\end{align*}
+The triangle inequality applies for complex numbers:
+\begin{equation}
+    |z_1 + z_2| \leq |z_1| = |z_2|
+    \label{eqnTriangle}
+\end{equation}
+However, setting $z_1 = \xi_1 + \xi_2$, $z_2 = -\xi_2$ gives $|\xi_1| - |\xi_2| \leq |\xi_1 + \xi_2$.
+Similarly, setting $z_1 = \xi_1 + \xi_2$, $z_2 = -\xi_1$ gives $|\xi_2| - |\xi_1| \leq |\xi_1 + \xi_2$.
+We can package this together to give: $\left|~|\xi_1| - |\xi_2|~\right| \leq |\xi_1 + \xi_2|$
+\begin{proposition}[Geometric series]
+    For $z \in \C$, $z \neq 1$ and $m \in \N$,
+    \begin{equation*}
+        \sum_{k = 0}^m z^k = \frac{1 - z^{m+1}}{1-z}
+    \end{equation*}
+    \label{propGeomSeries}
+\end{proposition}
+\begin{proof}
+    We perform a simple induction. For $m = 0$, we get a trivial equality.
+    \begin{align*}
+        \sum_{k = 0}^{m+1} z^k &= z^{m+1} + \sum_{k = 0}^m z^k \\
+        &= z^{m+1} + \frac{1 - z^{m+1}}{1-z} \text{ by inductive step} \\
+        &= \frac{1 - z^{m+2}}{1-z}
+    \end{align*}
+\end{proof}
+Now for $|z| < 1$, we have:
+\begin{equation*}
+    \sum_{k=0}^{\infty} z^k = \frac{1}{1-z}
+\end{equation*}
+\begin{definition}{Open set}
+    A set $X \in \C$ is an \underline{open set} if:
+    \begin{equation*}
+        \forall z_0 \in X~\exists \epsilon > 0 \text{ such that } |z - z_0| < \epsilon \implies z \in X
+    \end{equation*}
+\end{definition}
+A neighbourhood of $z \in \C$ is an open set $X$ that contains $z$. We will need Euler's formula:
+\begin{align*}
+    e^{i \phi} &= \cos(\phi) + i \sin(\phi) \\
+    e^{-i \phi} &= \cos(\phi) - i \sin(\phi) \\
+    \therefore \cos(\phi) &= \frac12 \left(e^{i \phi} + e^{-i \phi}\right) \\
+    \therefore \sin(\phi) &= \frac1{2i} \left(e^{i \phi} - e^{-i \phi}\right)
+\end{align*}
+and similarly,
+\begin{align*}
+    \cosh(x) &= \frac12 \left(e^x + e^{-x}\right) \\
+    \sinh(x) &= \frac12 \left(e^x - e^{-x}\right)
+\end{align*}
+These are related by $\cos(ix) = \cosh(x), \sin(ix) = i\sinh(x)$.
+
+We will also need the following:
+\begin{align*}
+    \cos(\alpha + \beta) &= \cos(\alpha) \cos(\beta) - \sin(\alpha) \sin(\beta) \\
+    \sin(\alpha + \beta) &= \sin(\alpha) \cos(\beta) + \cos(\alpha) \sin(\beta)
+\end{align*}
+\section{Calculus of Multivariate Functions}
+We will often be interested in functions over the complex plane. This naturally leads us to think of functions of two variables $(x, y)$.
+
+\begin{definition}{$C^k$ spaces}
+    $C^m(\Omega)$ is defined as the set of functions $f : \Omega \subseteq \R^m \mapsto \R$ whose partial derivatives up to order $m$ exist and are continuous.
+\end{definition}
+
+\begin{definition}{Differentiable functions}
+    A function $F : \Omega \subseteq \R^n \mapsto \R$ is \underline{differentiable} at $x \in \Omega$ if there exists a linear function $A : \R^n \mapsto \R$ with:
+    \begin{equation*}
+        f(\vec{x} + \vec{\delta x}) - f(\vec{x}) = A(\vec{\delta x}) + n(\vec{\delta x})
+    \end{equation*}
+    with the requirement:
+    \begin{equation*}
+        \lim_{||\vec{\delta x}|| \to 0} \frac{n(\vec{\delta x})}{||\vec{\delta x}||} = 0
+    \end{equation*}
+\end{definition}
+$f$ is \underline{continuously differentiable} if also the partial derivatives are continuous, $f \in C^1$. We have the following chain of implications:
+\begin{align*}
+    \text{$f$ is continuously differentiable} &\iff \frac{\partial f}{\partial x_j} \text{ continuous} \\
+    &\implies \text{$f$ is differentiable} \\
+    &\implies \text{$f$ is continuous and all partial derivatives exist}
+\end{align*}
+\begin{definition}{Uniform convergence}
+    Let $f_k : \Omega \subseteq \R^n \mapsto \R$ for $k \in \N$ be a sequence of functions. Then the sequence $(f_k)$ is \underline{uniformly convergent} with limit $f : \Omega \mapsto \R$ if, for any $\epsilon > 0$, there exists $N \in \N$ such that:
+    \begin{equation*}
+        k \geq N \implies \sup_{x \in \Omega} |f_k(x) - f(x)| < \epsilon
+    \end{equation*}
+\end{definition}
+This definition is very important for exchanging limits and integrals or infinite sums and integrals:
+\begin{equation*}
+    \lim_{m \to \infty} \int_{a}^{b} f_m(x) dx = \int_{a}^{b} f(x) dx
+\end{equation*}
+\end{document}
