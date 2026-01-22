@@ -1,0 +1,107 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Charges and Currents}
+\underline{Electric charge} is a physical property of elementary particles.
+\begin{itemize}
+    \item It is a signed quantity, so can be positive, negative, or zero.
+    \item It is quantised, always an integer multiple of the elementary charge $e$.
+    \item It is conserved, even if the particles carrying the charge are created or destroyed.
+\end{itemize}
+By convention, $e$ is a positive quantity and the electron has charge $-e$ and the proton has charge $e$. The neutron has charge $0$.
+
+This quantisation is small enough that on macroscopic scales the charge can be considered to have a continuous \underline{electric charge density} $\rho$.
+
+The total charge in a volume $V$ is:
+\begin{equation*}
+    Q = \int_V \rho dV
+\end{equation*}
+The \underline{electric current density} $\vec{J}(\vec{x}, t)$ is the flux of electric charge per unit area. The current flowing through a surface $S$ is:
+\begin{equation*}
+    I = \int_S \vec{J} \cdot d\vec{S}
+\end{equation*}
+Consider a time-independent volume $V$ with boundary $S = \partial V$. Since charge is conserved,
+\begin{gather*}
+    \frac{dQ}{dt} = -I \\
+    \frac{d}{dt} \int_V \rho dV + \int_S \vec{J} \cdot d\vec{S} = 0 \\
+    \int_V \left(\frac{\partial\rho}{\partial t} + \nabla \cdot \vec{J}\right) dV = 0
+\end{gather*}
+Then since this is for any time-independent volume $V$, in fact the integrand must be zero:
+\begin{equation}
+    \frac{\partial \rho}{\partial t} + \nabla \cdot \vec{J} = 0
+    \label{eqnChargeConserve}
+\end{equation}
+This is the \underline{equation of charge conservation}. It has the standard form of a conservation law, the time derivative of a conserved quantity's density added to the flux of the charge is zero.
+
+The discrete charge distribution of a single particle of charge $q_i$ and position vector $\vec{x_i}(t)$ is:
+\begin{align*}
+    \rho(\vec{x}, t) &= q_i \delta(\vec{x} - \vec{x_i}(t)) \\
+    \vec{J}(\vec{x}, t) &= q_i \dvec{x_i} \delta(\vec{x} - \vec{x_i}(t))
+\end{align*}
+Therefore, for $N$ particles it is:
+\begin{align*}
+    \rho(\vec{x}, t) &= \sum_{i = 1}^N q_i \delta(\vec{x} - \vec{x_i}(t)) \\
+    \vec{J}(\vec{x}, t) &= \sum_{i = 1}^N q_i \dvec{x_i} \delta(\vec{x} - \vec{x_i}(t))
+\end{align*}
+\section{Fields and Forces}
+Electromagnetism is a \textit{field theory} - charged particles interact by generating fields around them which are experienced by other charged particles.
+
+In general we have two time-dependent vector fields, the electric field $\vec{E}(\vec{x}, t)$ and the magnetic field $\vec{B}(\vec{x}, t)$.
+
+\begin{definition}{Lorentz Force}
+    The \underline{Lorentz Force} on a particle of charge $q$ and velocity $\vec{v}$ is:
+    \begin{equation*}
+        \vec{F} = q(\vec{E} + \vec{v} \times \vec{B})
+    \end{equation*}
+\end{definition}
+\section{Maxwell's Equations}
+In this course we will explore the many consequences of \underline{Maxwell's Equations}:
+\begin{align}
+    \nabla \cdot \vec{E} &= \frac{\rho}{\epsilon_0} \label{eqnMED}\\
+    \nabla \cdot \vec{B} &= 0 \label{eqnMBD} \\
+    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t} \label{eqnMEC} \\
+    \nabla \times \vec{B} &= \mu_0 \left(\vec{J} + \epsilon_0 \frac{\partial \vec{E}}{\partial t}\right) \label{eqnMBC}
+\end{align}
+These are coupled linear PDEs in space and time. They involve two positive constants:
+\begin{align*}
+    \epsilon_0&\text{ (vacuum permittivity)} \\
+    \mu_0&\text{ (vacuum permeability)} \\
+\end{align*}
+Charges ($\rho$) and currents ($\vec{J}$) are the sources of the EM fields.
+
+Each equation has an equivalent integral form (see later), related via the divergence theorem or Stokes's theorem.
+
+These are the vacuum equations, that apply on microscopic scales or in a vacuum. There are related macroscopic versions that apply in media. For this, see the course II Electrodynamics.
+
+The equations are consistent, both with each other and with charge conservation. We can see this by taking the divergence of \eqnref{eqnMEC} and the time derivative of \eqnref{eqnMBD}, both give that $\frac{\partial}{\partial t} (\nabla \cdot \vec{B}) = 0$. We can also evaluate the left-hand side of \eqnref{eqnChargeConserve}:
+\begin{align*}
+    \frac{\partial \rho}{\partial t} + \nabla \cdot \vec{J} &= \frac{\partial}{\partial t} \left(\epsilon_0 \nabla \cdot \vec{E}\right) + \nabla \cdot \left(-\epsilon_0 \frac{\partial E}{\partial t} + \frac{1}{\mu_0} \nabla \times \vec{B}\right) \\
+    &= \frac{\partial}{\partial t} \left(\epsilon_0 \nabla \cdot \vec{E}\right) + \nabla \cdot \left(-\epsilon_0 \frac{\partial E}{\partial t}\right) \\
+    &= 0
+\end{align*}
+\section{Units}
+The SI unit of electric charge is the Coulomb ($C$). Since 2019, this has been defined using the elementary charge, so the elementary charge is an exact number of Coulombs:
+\begin{equation*}
+    e = 1.602176634\times10^{-19}
+\end{equation*}
+The SI unit of electric current is the Ampere or amp ($A$), equal to $1 C s^{-1}$. This is an SI base unit. The other SI base units needed for electromagnetism are the second ($s$), metre ($m$), and kilogram ($kg$).
+
+From the Lorentz force law, we see that the units of $\vec{E}$ and $\vec{B}$ must be:
+\begin{align*}
+    [\vec{E}] &= kg~m~s^{-3}A^{-1} & [\vec{B}] &= kg~s^{-2}~A^{-1}
+\end{align*}
+The unit for $\vec{B}$ is also known as the Tesla, $T$.
+
+From Maxwell's equations we can find the units of $\epsilon_0$ and $\mu_0$. These are, along with their experimentally-determined values:
+\begin{align*}
+    \epsilon_0&= 8.854\dots\times10^{-12}~kg^{-1}~m^{-3}~s^4~A^2 \\
+    \mu_0&= 1.256\dots\times10^{-6}~kg~m~s^{-2}~A^{-2} \\
+    &\approx 4\pi \times10^{-7}
+\end{align*}
+The fact that $\mu_0 \approx 4\pi\times10^{-7}$ is that previously this defined the units, but this is no longer the case so this is now an approximation.
+
+The speed of light is an exact integer quantity in SI units,
+\begin{equation*}
+    c = \frac{1}{\sqrt{\mu_0 \epsilon_0}} = 299792458~m~s^{-1}
+\end{equation*}
+\end{document}
