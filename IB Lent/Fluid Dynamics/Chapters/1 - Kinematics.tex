@@ -1,0 +1,73 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Streamlines and Pathlines}
+There are two natural ways to think of flow:
+\begin{enumerate}
+    \item A stationay observer watching flow go past. This is the Eulerian perspective.
+    \item A moving observer travelling along with the flow. This is the Lagrangian perspective.
+\end{enumerate}
+The first approach will be used throughout the course, [because the second approach is very difficult to study]. We consider a continuous velocity field $\vec{u}(x, t)$, fixed on the lab frame.
+\begin{definition}{Streamline}
+    A \underline{streamline} is a curve that is everywhere parallel to the flow of the fluid at a given instant in time.
+\end{definition}
+A streamline through a point $\vec{x_0}$ at a time $t_0$ is given in parametric form:
+\begin{equation*}
+    \vec{x} = \vec{x}(s, \vec{x_0}, t_0)
+\end{equation*}
+It solves:
+\begin{equation*}
+    \quad\frac{d\vec{x}}{ds} = \vec{u}(\vec{x}, t_0),\quad \vec{x}(0, \vec{x_0}, t_0) = \vec{x_0}
+\end{equation*}
+The set of streamlines shows the direction of flow at a given instant in time.
+\begin{example}
+    Consider a velocity field in two dimensions, $\vec{u}(\vec{x}, t) = (1, t)$. Then the streamlines are horizontal at $t = 0$, and diagonal at $t = 1$.
+    \label{expStreamlines}
+\end{example}
+\begin{definition}{Pathline}
+    A \underline{pathline} is the trajectory of the fluid particle $\vec{x} = \vec{x}(\vec{x_0}, t)$ which is at $\vec{x_0}$ at $t = 0$.
+
+    Pathlines are also known as Lagrangian trajectories.
+\end{definition}
+Here we say that a ``fluid particle'' is a very small bit of fluid. Experiments have shows that around 10 molecules is appropriate.
+
+The pathline solves:
+\begin{equation*}
+    \frac{d\vec{x}}{dt} = \vec{u}(\vec{x}, t);\quad x(\vec{x_0}, t_0) = \vec{x_0}
+\end{equation*}
+\begin{example}
+    Return to example~\ref{expStreamlines}. We solve:
+    \begin{align*}
+        \frac{dx}{dt} &= 1 &\implies x &= x_0 + t \\
+        \frac{dy}{dt} &= t &\implies y &= y_0 + \frac{t^2}{2}
+    \end{align*}
+    Then this is a parabola, $y - y_0 = \frac12 (x - x_0)^2$.
+\end{example}
+\begin{definition}{Steady flow}
+    A fluid flow is \underline{steady} if the velocity field $\vec{u}$ does not depend on time.
+\end{definition}
+In the case of steady flow, pathlines and streamlines are the same.
+\section{The Material Derivative}
+we would like to characterise the rate of change of quantities moving with a fluid.
+
+Consider a quantity (scalar field) $F(\vec{x}, t)$ in a fluid flow. We compute the rate of change of $F$ (in time) seen by a moving observer. We denote this $\frac{DF}{Dt}$.
+
+Over a small time interval $\delta t$:
+\begin{align*}
+    \delta F &= F(\vec{x} + \vec{\delta x}, t + \delta t) - F(\vec{x}, t) \\
+    &= \delta t \frac{\partial F}{\partial t} + (\vec{\delta x} \cdot \nabla) F + O((\delta t)^2)
+\end{align*}
+Now divide by $\delta t$ and take the limit $\delta t \to 0$. Note that $\vec{\delta x} = \vec{u} \delta t$.
+\begin{equation}
+    \frac{DF}{Dt} = \underbrace{\frac{\partial F}{\partial t}}_{\text{local derivative}} + \underbrace{(\vec{u} \cdot \nabla) F}_{\text{advected derivative}}
+    \label{eqnMatDerivative}
+\end{equation}
+The local derivative is simply the change due to $F$. However, we must also consider the change in $F$ \textit{in the direction of the flow}, which gives rise to the advected derivative term.
+
+Later in the course we will see how to apply this to vector fields.
+\section{Conservation of Mass}
+Let $\rho(\vec{x}, t)$ be the mass density, with units $\frac{M}{L^3}$. The relationship between $\vec{u}$ and $\rho$ can be considered by thinking of a fixed volume $V$. Then the mass in this volume can only change due to fluid flowing across the boundary $\partial V$. The volume of fluid that flows out of a small surface area $\delta A$ in a small time $\delta t$ is $(\vec{u} \cdot \vec{n}) \delta A~\delta t$. Then the mass out is $\rho$ times this.
+\begin{equation*}
+    \frac{dM}{dt} = -\int_{\partial V} \rho \vec{u} \cdot \vec{dS}
+\end{equation*}
+\end{document}
