@@ -426,7 +426,7 @@ To solve, we will use the \textit{heat kernel}. This is defined as:
 \begin{proof}
     Take the Fourier Transform of the heat equation:
     \begin{equation*}
-        \frac{\partial \hat{u}}{\partial t} + \kappa |\vec{\lambda}|^2 \hat{u} - 0,\qquad \hat{u}(\vec{\lambda}, 0) = \hat{f}(\vec{\lambda}).
+        \frac{\partial \hat{u}}{\partial t} + \kappa |\vec{\lambda}|^2 \hat{u} = 0,\qquad \hat{u}(\vec{\lambda}, 0) = \hat{f}(\vec{\lambda}).
     \end{equation*}
     Now we can solve the ordinary differential equation:
     \begin{align*}
@@ -451,9 +451,9 @@ To solve, we will use the \textit{heat kernel}. This is defined as:
     \begin{align*}
         \frac{\partial}{\partial t} \left[\hat{u}(\vec{\lambda}, t) e^{\kappa |\vec{\lambda}|^2 t}\right]&= \hat{F}(\vec{\lambda}, t) e^{\kappa |\vec{\lambda}|^2 t} \\
         \intertext{Integrate with respect to $t$:}
-        \hat{u}(\vec{\lambda}, t) e^{\kappa |\vec{\lambda}|^2 t} &= \int_{0}^{t} \hat{F}(\lambda, \tau) e^{\kappa |\vec{\lambda}|^2 \tau} d\tau \\
-        \hat{u}(\vec{\lambda}, t) &= \int_{0}^{t} e^{-\kappa |\vec{\lambda}|^2 (t - \tau)}\hat{F}(\lambda, \tau) d\tau \\
-        \hat{u}(\vec{\lambda}, t) &= \int_{0}^{t} \hat{k}(\vec{\lambda};t-\tau)\hat{F}(\lambda, \tau) d\tau \\
+        \hat{u}(\vec{\lambda}, t) e^{\kappa |\vec{\lambda}|^2 t} &= \int_{0}^{t} \hat{F}(\vec{\lambda}, \tau) e^{\kappa |\vec{\lambda}|^2 \tau} d\tau \\
+        \hat{u}(\vec{\lambda}, t) &= \int_{0}^{t} e^{-\kappa |\vec{\lambda}|^2 (t - \tau)}\hat{F}(\vec{\lambda}, \tau) d\tau \\
+        \hat{u}(\vec{\lambda}, t) &= \int_{0}^{t} \hat{k}(\vec{\lambda};t-\tau)\hat{F}(\vec{\lambda}, \tau) d\tau \\
     \end{align*}
     Then by the convolution theorem, we have the required result.
 \end{proof}
@@ -591,7 +591,7 @@ We want to solve, on $\Omega \subseteq \R^n$:
 \begin{equation}
     \begin{cases}
         \Delta u = F & \vec{x} \in \Omega \\
-        u = 0 & x \in \partial \Omega
+        u = 0 & \vec{x} \in \partial \Omega
     \end{cases}
     \label{eqnLaplacianForcedUnbdd}
 \end{equation}
@@ -658,7 +658,7 @@ We want to solve the two separate problems, and then superpose them.
 \end{enumerate}
 To solve this, define the function $\Phi_t(\vec{x})$, defined by its Fourier Transform:
 \begin{equation*}
-    \hat{\Phi}_t(\vec{\lambda}) = \frac{\sin(c|\vec{\lambda} t)}{c|\vec{\lambda}|}
+    \hat{\Phi}_t(\vec{\lambda}) = \frac{\sin(c|\vec{\lambda}| t)}{c|\vec{\lambda}|}
 \end{equation*}
 Then, by the inversion formula,
 \begin{equation*}
@@ -764,8 +764,10 @@ Where these are the \underline{advanced} and \underline{retarded} parts. For exa
     Therefore,
     \begin{align*}
         \hat{u}(\vec{\lambda}, t) &= \frac{\sin(c|\vec{\lambda}|t)}{c|\vec{\lambda}|} \hat{g}(\vec{\lambda}) + \cos(c|\vec{\lambda}|t) \hat{f}(\vec{\lambda}) \\
-        &= \hat{\Phi}_t(\vec{\lambda}) \hat{g}(\vec{\lambda}) + \frac{\partial}{\partial t} \left(\hat{\Phi}_t(\vec{\lambda}) f(\vec{\lambda})\right) \text{ because $\hat{f}$ does not depend on $t$}.
+        &= \hat{\Phi}_t(\vec{\lambda}) \hat{g}(\vec{\lambda}) + \frac{\partial}{\partial t} \left(\hat{\Phi}_t(\vec{\lambda}) f(\vec{\lambda})\right)
     \end{align*}
+    because $\hat{f}$ does not depend on $t$.
+
     Then applying the convolution theorem gives the required result.
 \end{proof}
 Looking at one term,
