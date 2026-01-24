@@ -1,0 +1,138 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{A Note on Computational Complexity}
+\begin{definition}{Computational Complexity}
+    The \underline{computational complexity} of an algorithm is defined as the number of elementary operations ($+$, $-$, $\times$, $\div$).
+\end{definition}
+In general, the complexity is a function of some metric $n$ of the size of the input to the algorithm $C(n)$. We are interested only in the leading term of $C(n)$ as $n \to \infty$, and therefore we use ``big O'' notation: $O(f(n))$ meaning that $C(n)$ is bounded by fixed multiples of $f(n)$.
+\section{Polynomial Interpolation}
+Let $\P_n[x]$ be the vector space of polynomials of degree at most $n$ in $x$. This space has $(n+1)$ dimensions. Consider the following problem:
+
+\begin{equation}
+    \begin{split}
+        \text{ Given $n+1$ distinct points } (x_i)_{i=0}^n \text{ and } (f_i)_{i=0}^n \\
+        \text{Find } p \in P_n[x] \text{ such that } p(x_i) = f_i~\forall 0 \leq i \leq n.
+    \end{split}
+    \label{eqnInterpProblem}
+\end{equation}
+\subsection{Lagrange Polynomials}
+\begin{definition}{Lagrange polynomial}
+    The $k$th \underline{Lagrange polynomial} is defined to be:
+    \begin{equation}
+        L_k(x) = \prod_{\substack{l = 0\\l \neq k}}^{n} \frac{x - x_l}{x_k - x_l} \in \P_n[x]
+        \label{eqnLagrangePoly}
+    \end{equation}
+\end{definition}
+This has the property:
+\begin{equation}
+    L_k(x_l) =
+    \begin{cases}
+        1 & i = k \\
+        0 & i \neq k
+    \end{cases}
+    \label{eqnLagrangeProperty}
+\end{equation}
+Then we find that the solution to \eqnref{eqnInterpProblem} is given by:
+\begin{equation}
+    p(x) = \sum_{k=0}^{n} f_k L_k(x) \in \P_n[x]
+    \label{eqnInterpWithLagrange}
+\end{equation}
+\begin{proposition}
+    The solution to the problem in equation~\ref{eqnInterpProblem} is unique.
+    \label{propInterpUnique}
+\end{proposition}
+\begin{proof}
+    Consider $p$, $q$ polynomials that satisfy $p(x_i) = q(x_i) = f_i$.
+
+    Then consider the polynomials $p - q$. At the $x_i$, $(p - q)(x_i) = 0$. however, this is $(n+1)$ distinct zeroes and so the only such polynomial in $P_n[x]$ is the zero polynomial.
+\end{proof}
+We have now found a valid solution the the interpolation problem. What is the time complexity of the solution in \eqnref{eqnInterpWithLagrange}?
+
+We must calculate $(n+1)$ multiplications of $f_k$ with $L_k(x)$. Then to find $L_k$ we require 3 elementary operations for each term and there are $n$ terms (which also need to be multiplied), giving a complexity of $4n$. Then the total complexity is:
+\begin{align*}
+    C(n) &= 4n(n+1) + n + 1 \\
+    &= 4n^2 + 5n + 1 = O(n^2)
+\end{align*}
+Therefore we say that the computation via Lagrange polynomials has complexity $O(n^2)$.
+\subsection{Error in Polynomial Interpolation}
+Let $C[a, b]$ be the space of continuous functions on $[a, b]$. Let $C^s[a, b]$ be the space of $s$-times continuously differentiable functions on $[a, b]$.
+
+\begin{theorem}[Polynomial Interpolation Error Theorem]
+    Let $f \in C^{n+1}[a, b]$, and $x_0, \cdots, x_n$ be distinct points in $[a, b]$. Let $p \in \P_n[x]$ be the polynomial interpolation such that $p(x_i) = f(x_i)$.
+
+    Then for all $x \in [a, b]$, there exists $\xi \in [a, b]$ such that:
+    \begin{equation}
+        f(x) - p(x) = \frac{1}{(n+1)!} f^{(n+1)}(\xi) \prod_{i=0}^{n} (x - x_i)
+        \label{eqnInterpError}
+    \end{equation}
+    \label{thmInterpError}
+\end{theorem}
+\begin{proof}
+    If $x = x_i$ for some $i$, then both sides of \eqnref{eqnInterpError} are trivially zero. Therefore, assume not.
+
+    Define an auxiliary function:
+    \begin{equation*}
+        \phi(t) = f(t) - p(t) - (f(x) - p(x)) \frac{\prod_{i=0}^{n} (t - x_i)}{\prod_{i=0}^{n} (x - x_i)}
+    \end{equation*}
+    Then we want to understand the zeroes of this function. Note that $\phi(x_i) = 0$ and also $\phi(x) = 0$. Therefore $\phi$ has at least $(n+2)$ distinct zeroes. Then, since $\phi \in C^{n+1}[a, b]$, we have the conditions required for Rolle's theorem and so $\phi'$ must have at least $(n+1)$ distinct zeroes (one between each zero of $\phi$). Applying Rolle's theorem $n$ more times, we find that $\phi^{(n+1)}$ has at least one zero, $\phi^{(n+1)}(\xi) = 0$.
+    \begin{equation*}
+        0 = \phi^{(n+1)}(\xi) = f^{(n+1)}(\xi) - (f(x) - p(x)) \frac{(n+1)!}{\prod_{i=0}^{n} (x - x_i)}
+    \end{equation*}
+    and this rearranges to \eqnref{eqnInterpError}.
+\end{proof}
+\begin{example}
+    Consider $f(x) = \frac{1}{1 + x^2}$, interpolated over equally spaced points in $[-5, 5]$: $x_j = -5 + 10\frac{d}{n}$.
+
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}[mark size=0]
+            \begin{axis}[
+                    axis lines=middle,
+                    xlabel={$x$},
+                    ylabel={$y$},
+                    legend entries={Function, $n = 5$, $n = 15$}
+                ]
+                \addplot table {Plot data/ExampleFunction.dat};
+                \addplot table {Plot data/ExampleFunctionInterp1.dat};
+                \addplot table {Plot data/ExampleFunctionInterp2.dat};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Interpolation of example function with different values of $n$}
+        \label{figInterpExp}
+    \end{figure}
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}[mark size=0]
+            \begin{axis}[
+                    axis lines=middle,
+                    xlabel={$x$},
+                    ylabel={$y$},
+                    legend entries={$n = 5$, $n = 15$}
+                ]
+                \addplot table {Plot data/ExampleFunctionError1.dat};
+                \addplot table {Plot data/ExampleFunctionError2.dat};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Errors in interpolation of example function with different values of $n$}
+        \label{figInterpExpErr}
+    \end{figure}
+
+    Figure~\ref{figInterpExp} gives the output of polynomial interpolation with different values of $n$. We see that it breaks down near the endpoints, and this is clearly illustrated in the error plot of figure~\ref{figInterpExpErr}. These large spikes in error are called Runge spikes (or Runge's phenomena).
+
+    We see that, in general, equally spaced points give poor output.
+\end{example}
+In order to provide good approximations, \thmref{thmInterpError} tells us that we should minimise:
+\begin{equation*}
+    \max_{x \in [a, b]} \left|\prod_{i=0}^{n} (x - x_i)\right|
+\end{equation*}
+The solution is given by the \textit{Chebyshev points}:
+\begin{equation*}
+    x_j = 5\cos\left(\frac{(n - j)\pi}{n}\right)
+\end{equation*}
+In the general case of a function on $[a, b]$, we would use:
+\begin{equation}
+    x_j = \frac{b + a}{2} + \frac{b - a}{2}\cos\left(\frac{(n - j)\pi}{n}\right)
+    \label{eqnChebyshevPoints}
+\end{equation}
+\end{document}
