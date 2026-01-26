@@ -70,4 +70,108 @@ Let $\rho(\vec{x}, t)$ be the mass density, with units $\frac{M}{L^3}$. The rela
 \begin{equation*}
     \frac{dM}{dt} = -\int_{\partial V} \rho \vec{u} \cdot \vec{dS}
 \end{equation*}
+We use the divergence theorem to re-write the right-hand side of this:
+\begin{equation*}
+    \frac{dM}{dt} = -\int_{V} \nabla \cdot (\rho \vec{u})
+\end{equation*}
+Then because this is valid for any fixed volume $V$,
+\begin{equation}
+    \frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \vec{u}) = 0
+    \label{eqnMassConserve}
+\end{equation}
+\begin{remark}
+    The quantity $\rho \vec{u}$ is also known as the \textit{mass flux}.
+\end{remark}
+By expanding out the mass flux term, we rewrite as:
+\begin{equation*}
+    \frac{D \rho}{D t} = -\rho \nabla \cdot \vec{u}
+\end{equation*}
+\begin{definition}{Incompressible flow}
+    A fluid flow is \underline{incompressible} if $\frac{D \rho}{D t} = 0$. Since density is non-zero, this is equivalent to $\nabla \cdot \vec{u} = \vec{0}$.
+\end{definition}
+In this course, we will take $\rho(\vec{x}, t) = \rho$ constant. This implies that $\nabla \cdot \vec{u} = 0$.
+\section{Kinematic Boundary Conditions (KBC)}
+We use boundary conditions to enforce mass conservation at the boundary of a fluid.
+
+Consider the material boundary of a body of fluid having velocity $\vec{U}(\vec{x}, t)$ (where $\vec{U}$ is defined only on the boundary). At a point $\vec{x}$ on the boundary, the fluid velocity relative to the surface is $\vec{u} - \vec{U}$. The mass crossing the interface over a small surface element $\delta A$ in time $\delta t$ is given by:
+\begin{equation*}
+    \rho (\vec{u} - \vec{U}) \cdot \vec{n}~\delta A~\delta t = 0
+\end{equation*}
+Therefore at the interface, we require:
+\begin{equation}
+    \vec{u} \cdot \vec{n} = \vec{U} \cdot \vec{n}
+    \label{eqnKBC}
+\end{equation}
+This is the kinematic boundary condition.
+\begin{remark}
+    In equation~\ref{eqnKBC}, $\vec{n}$ appears on both sides, so there is no need to normalise it (as long as it is the same on both sides).
+\end{remark}
+\begin{examples}{We consider some consequences of this.}
+    \item If the boundary is fixed, $\vec{U} = \vec{0}$, then $\vec{u} \cdot \vec{n} = 0$.
+    \item Consider an air-water interface (an example of a free surface) defined by $z = \zeta(x, y, t)$. Equivalently, the surface could be defined by $F(x, y, z, t) = 0$ with:
+        \begin{equation*}
+            F = z - \zeta(x, y, t)
+        \end{equation*}
+        Then $\vec{n}$ is parallel to $\nabla F$ given by:
+        \begin{equation*}
+            n \parallel \nabla F = (-\zeta_x, -\zeta_y, 1)
+        \end{equation*}
+        Then given the velocities:
+        \begin{equation*}
+            \vec{u} = (u, v, w)^T,\qquad \vec{U} = (0, 0, \zeta_t)^T
+        \end{equation*}
+        we find a KBC:
+        \begin{equation*}
+            -u \zeta_x - v\zeta_y + w = \zeta_t.
+        \end{equation*}
+        Equivalently,
+        \begin{equation*}
+            w = \zeta_t + u \zeta_x + v \zeta_y = \frac{D \zeta}{D t}
+        \end{equation*}
+        Or, $\frac{D F}{D t} = 0$.
+\end{examples}
+\section{Streamfunction for 2D Incompressible Flow}
+Recall that incompressible flow means $\nabla \cdot \vec{u} = 0$. Therefore, there exists a vector potential such that $u = \nabla \times \vec{A}$.
+
+\subsection{2D Cartesian Coordinates}
+Consider the flow in 2 dimensions:
+\begin{align*}
+    \vec{u} &= (u, v, 0)^T & \vec{A} &= (0, 0, \psi(x, y)) \\
+    \therefore u &= \frac{\partial \psi}{\partial y} & v &= -\frac{\partial \psi}{\partial x}
+\end{align*}
+Then the dimension of the streamfunction is $[\psi] = \frac{L^2}{T}$.
+\begin{example}
+    Consider the flow $\vec{u} = (y, x, 0)$. Then indeed we have $\nabla \cdot \vec{u} = 0$.
+
+    We find $\psi$ by integrating:
+    \begin{align*}
+        \frac{\partial \psi}{\partial y} &= u = y \\
+        \therefore \psi &= \frac12 y^2 + f(x) \\
+        \frac{\partial \psi}{\partial x} &= -x \\
+        \therefore \psi &= \frac12 (y^2 - x^2) + C
+    \end{align*}
+\end{example}
+\begin{propositions}{
+        Consider a streamfunction $\psi$.
+        \label{propsStreamfunction}
+    }
+    \item Streamlines are given by $\psi = \text{constant}$.
+    \item $|\vec{u}| = |\nabla \psi|$. That is, the flow is faster if the streamlines are closer.
+    \item For two points $\vec{x_0}, \vec{x_1}$, then the flow rate between these two points is:
+        \begin{equation*}
+            \int_{\vec{x_0}}^{\vec{x_1}} \vec{u} \cdot \vec{n}~d\ell = \psi(\vec{x_1}) - \psi(\vec{x_0})
+        \end{equation*}
+        Note that this is independent of the path from $\vec{x_0}$ to $\vec{x_1}$.
+    \item $\psi$ is constant at a rigid boundary.
+\end{propositions}
+\subsection{2D Polar Coordinates}
+Now consider the components of $\vec{u}$ and $\vec{A}$.
+\begin{align*}
+    \vec{u} &= (u_r(r, \theta), u_\theta(r, \theta), 0)^T \\
+    \vec{A} &= \phi(r, \theta) \vec{e_z}
+\end{align*}
+Then:
+\begin{equation*}
+    \vec{u} = \nabla \times \vec{A} = \left(\frac1r \frac{\partial \psi}{\partial \theta}, -\frac{\partial \psi}{\partial r}, 0\right)^T
+\end{equation*}
 \end{document}
