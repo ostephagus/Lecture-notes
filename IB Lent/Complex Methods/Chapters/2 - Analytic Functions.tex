@@ -1,0 +1,177 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{The Complex Plane}
+We can identify $\C$ with $\R^2$, as seen in the previous chapter. We have the addition operation, which works as in $\R^2$:
+\begin{equation*}
+    z = z_1 + z_2 \iff (x, y) = (x_1 + x_2, y_1 + y_2)
+\end{equation*}
+But we also have multiplication:
+\begin{equation*}
+    z = z_1 z_2 \iff (x, y) = (x_1 x_2 - y_1 y_2, x_1 y_2 + x_2 y_1)
+\end{equation*}
+All of the above work in the normal way with $i^2 = -1$.
+
+However, for many applications $\C$ is not enough. We require the extended complex plane, including the single point at infinity.
+\begin{definition}{Extended complex plane}
+    The \underline{extended complex plane} is defined as:
+    \begin{equation*}
+        \Cstar = \C \cup \{\infty\}
+    \end{equation*}
+    where the point $\infty$ is reached by going off in any direction on the plane and all directions are equivalent.
+\end{definition}
+This can be visualised using the Riemann Sphere. See figure~\ref{figRiemannSphere}.
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{{Riemann sphere.png}}
+    \caption{Diagram of the Riemann Sphere}
+    \label{figRiemannSphere}
+\end{figure}
+Any point $Z$ on the sphere is mapped onto $\C$ via the line from the top of the sphere through $Z$. The point at which it intersects the plane $w = 0$ is $z \in \C$. The single point at infinity is identified with $Z = (0, 0, 1)$.
+\section{Complex Differentiation}
+\begin{definition}{Differentiability}
+    A function $f : \C \mapsto \C$ is \underline{differentiable} at $z \in \C$ if:
+    \begin{equation*}
+        f'(z) = \lim_{\delta z \to 0} \frac{f(z + \delta z) - f(z)}{\delta z}
+    \end{equation*}
+    exists and is independent of the direction of approach.
+\end{definition}
+\begin{remark}
+    Being independent of the direction of approach is very restrictive!
+\end{remark}
+\begin{definition}{Neighbourhood}
+    A \underline{neighbourhood} $V$ around a point $z \in \C$ is a set for which there exists $r > 0$ such that the ball $B_r(z) = \subsetselect{w \in \C}{|w - z| < r}$ is contained within $V$.
+\end{definition}
+\begin{remark}
+    We can understand a neighbourhood as a set that allows for movement a small (but non-zero) distance in any direction from the point $z$.
+\end{remark}
+\begin{definition}{Analytic function}
+    A function $f : \C \mapsto \C$ is \underline{analytic} at a point $z$ if there exists a neighbourhood of $z$ for which $f'(z)$ exists.
+\end{definition}
+\begin{definition}{Entire}
+    A function $f : \C \mapsto \C$ is \underline{entire} if it is analytic throughout $\C$.
+\end{definition}
+\begin{remarks}
+    \item If a function is analytic around a point, it is infinitely differentiable there [not proven in this course]
+    \item A bounded, entire function must be constant [to be proved later].
+\end{remarks}
+Consider functions of the form:
+\begin{align*}
+    f : \C &\mapsto \C\\
+    x + i y &\mapsto u(x, y) + i v(x, y)
+\end{align*}
+where $u, v : \R^2 \mapsto \R$.
+
+Suppose that $f$ is differentiable at $z = x + iy$. Then we can take $\delta z$ in any direction we like. Take $\delta z = \delta x$:
+\begin{align*}
+    f'(z) &= \lim_{\delta x \to 0} \frac{f(z + \delta x)-f(x)}{\delta x} \\
+    &= \lim_{\delta x \to 0} \frac{i(x + \delta x, y) + i v(x + \delta x, y) - u(x, y) - iv(x, y)}{\delta x} \\
+    &= \frac{\partial u}{\partial x} + i \frac{\partial v}{\partial x}
+\end{align*}
+Now instead taking $\delta z = i\delta y$:
+\begin{align*}
+    f'(z) &= \lim_{\delta y \to 0} \frac{f(z + i \delta y) - f(z)}{i\delta y} \\
+    &= \lim_{\delta y \to 0} \frac{u(x, y + \delta y) + i v(x, y + \delta y) - u(x, y) - iv(x, y)}{i \delta y} \\
+    &= \frac{\partial v}{\partial y} - i \frac{\partial u}{\partial y}
+\end{align*}
+And so for differentiability we require:
+\begin{equation*}
+    \frac{\partial u}{\partial x} + i \frac{\partial v}{\partial x} = \frac{\partial v}{\partial y} - i \frac{\partial u}{\partial y}
+\end{equation*}
+\begin{proposition}[Cauchy-Riemann Identities]
+    A differentiable function $f = u + i v$ satisfies the Cauchy-Riemann identities:
+    \begin{equation}
+        \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}\qquad\frac{\partial v}{\partial x} = -\frac{\partial u}{\partial y}
+        \label{eqnCRIds}
+    \end{equation}
+    \label{propCRIds}
+\end{proposition}
+\begin{proposition}
+    If $f = u + iv$ satisfies \eqnref{eqnCRIds} at $z = z_0$, and the partial derivatives are continuous in a neighbourhood around $z$, then $f$ is differentiable at $z_0$.
+    \label{propCRIdsConverse}
+\end{proposition}
+\begin{proof}
+    See the course IB Complex Analysis.
+\end{proof}
+\begin{propositions}{
+        Suppose that $f$ and $g$ are differentiable complex functions.
+        \label{propsComplexDiffRules}
+    }
+    \item $\frac{d}{dz} (f(z) g(z)) = f'(x) g(x) + f(x) g'(x)$ \label{propProductRule}
+    \item $\frac{d}{dx}(f \circ g)(z) = f'(g(z)) g'(z)$ \label{propChainRule}
+\end{propositions}
+\begin{proof}
+    Define:
+    \begin{align*}
+        \varpi &= \frac{f(z + h) - f(z)}{h} - f'(z) \implies f(z + h) = f(z) + h (\varpi + f') \\
+        \overline{\varpi} &= \frac{g(z + h) - g(z)}{h} - g'(z) \implies g(z + h) = g(z) + h (\overline{\varpi} + g')
+    \end{align*}
+    By definition, $\lim_{h \to 0} \varpi = \lim_{h \to 0} \overline{\varpi} = 0$.
+    \begin{align*}
+        \frac{d}{dz} f(z) g(z) &= \lim_{h \to 0} \frac{f(z + h) g(z + h) - f(z) g(z)}{h} \\
+        &= \lim_{h \to 0} \frac{\left[f(z) + h \varpi + hf'(z)\right] \left[g(z) + h \overline{\varpi} + h g'(z)\right]}{h} \\
+        &= \lim_{h \to 0}\left(\frac{f(z) (\overline{\varpi} + g'(z))h + h(\varpi + f'(z))g(z)}{h} + O(h)\right) \\
+        &= f'(z) g(z) + f(z) g'(z)
+    \end{align*}
+    To prove the chain rule, we change the notation for $\varpi$ and $\overline{\varpi}$ as follows:
+    \begin{align*}
+        \varpi[z, h] &= \frac{f(z + h) - f(z)}{h} \\
+        \overline{\varpi}[z, h] &= \frac{g(z + h) - g(z)}{h}
+    \end{align*}
+    Then:
+    \begin{align*}
+        \frac{d}{dz}&f(g(z))= \lim_{h \to 0} \frac{f(g(z + h)) - f(g(z))}{h} \\
+        &= \lim_{h \to 0} \frac{f(g(z) + h (\overline{\varpi}[z, h] + g'(z))) - f(g(z))}{h} \\
+        &= \lim_{h \to 0} \frac{h(\overline{\varpi}[z, h] + g'(z))(\varpi[g(z), h(\overline{\varpi}[z, h] + g'(z))] + f'(g(z)))}{h} \\
+        &= \lim_{h \to 0} (\overline{\varpi}[z, h] + g'(z))(\varpi[g(z), h(\overline{\varpi}[z, h] + g'(z))] + f'(g(z))) \\
+        &= \lim_{h \to 0}\left\{ \overline{\varpi}[z, h]\varpi[g(z), h(\overline{\varpi}[z, h] + g'(z))] + \overline{\varpi}[z, h]f'(g(z))\right.\\
+        &\qquad\left.+ g'(z)\varpi[g(z), h(\overline{\varpi}[z, h] + g'(z))] + f'(g(z))g'(z)\right\}\\
+        &= f'(g(z))g'(z)
+    \end{align*}
+    since this is the only term without $\varpi$ or $\overline{\varpi}$.
+\end{proof}
+In Ex1, we find that analyticity implies that:
+\begin{equation*}
+    \text{$f$ analytic} \iff \frac{\partial f}{\partial \overline{z}}
+\end{equation*}
+Such functions are also called holomorphic.
+\begin{examples}[Examples of analytic functions]{
+        Consider the following functions.
+        \label{exAnalyticFuncs}
+    }
+    \item $f(z) = z$. Then we check \eqnref{eqnCRIds}:
+        \begin{align*}
+            \frac{\partial u}{\partial x} &= 1 & \frac{\partial v}{\partial y} &= 1 \\
+            \frac{\partial u}{\partial y} &= 0 & -\frac{\partial u}{\partial y} &= 0 \\
+        \end{align*}
+    \item $f(z) = e^z = e^x(\cos(y) + i\sin(y))$.
+        \begin{align*}
+            \frac{\partial u}{\partial x} &= e^x\cos(y) & \frac{\partial v}{\partial y} &= e^x \cos(y) \\
+            \frac{\partial u}{\partial y} &= -e^x \sin(y) & -\frac{\partial u}{\partial y} &= -e^x\sin(y) \\
+        \end{align*}
+    \item $f(z) = z^m$ follows from induction, with $f'(z) = mz^{m-1}$. Note that a linear combination of analytic functions is still analytic. With this, we see that polynomials are analytic.
+    \item $f(z) = \frac1z = \frac{x - iy}{x^2 + y^2}$.
+        \begin{align*}
+            \frac{\partial u}{\partial x} &= \frac{y^2 - x^2}{(x^2 + y^2)} = \frac{\partial v}{\partial y} \\
+            %TODO
+        \end{align*}
+        However, at the origin this fails.
+\end{examples}
+\begin{examples}[Examples of non-analytic functions]{
+        Consider the following functions.
+    }
+    \item $f(z) = \Re(z)$
+        Here $u(x, y) = x, v(x, y) = 0$. Therefore,
+        \begin{equation*}
+            \frac{\partial u}{\partial x} = 1,\quad \frac{\partial v}{\partial y} = 0
+        \end{equation*}
+        which violates \eqnref{eqnCRIds}.
+    \item $f(z) = |z|$ Here we have the same problem as last time, where $v = 0$ and $u \neq 0$. However, at $z = 0$ \eqnref{eqnCRIds} is satisfied. This is still not analytic because we require that this is satisfied in a neighbourhood around a point, which is not the case.
+    \item $f(z) = \overline{z}$
+        Here $u(x, y) = x, v(x, y) = -y$. Therefore,
+        \begin{equation*}
+            \frac{\partial u}{\partial x} = 1,\quad \frac{\partial v}{\partial y} = -1
+        \end{equation*}
+        which violates \eqnref{eqnCRIds}.
+\end{examples}
+\end{document}
