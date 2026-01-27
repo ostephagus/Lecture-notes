@@ -63,11 +63,35 @@ or, in vector notation:
     \Var(\vec{a}^T \vec{X}) = \vec{a}^T \Var(\vec{X}) \vec{a}
 \end{gather*}
 \subsection{Conditional Probability}
-\begin{definition}{Conditional probability mass function}
-If $X$ and $Y$ are discrete random variables with joint pmf $P_{X, Y}(x, y) = \P(X = x, Y = y)$, and marginal pmf $p_Y(y) = \P(Y = y) = \sum_{x \in \samplespace} p_{X, Y}(x, y)$, then the \underline{conditional pmf} is:
+\begin{definition}{Joint pmf/pdf}
+    The \underline{joint pmf} of two discrete random variables is the function $p_{X, Y}(x, y) = \P(X = x, Y = y)$.
+
+    The \underline{joint pdf} of two discrete random variables is the function that satisfies:
+    \begin{equation*}
+        \P(X \leq x, Y \leq y) = \int_{-\infty}^{x} \int_{-\infty}^{y} f_{X, Y}(u, v) dv~du 
+    \end{equation*}
+\end{definition}
+The \underline{marginal pdf} of $Y$ is:
 \begin{equation*}
-    P_{X | Y}(x, y) = \P(X = x | Y = y) = \frac{p_{X, Y}(x, y)}{p_Y(y)}
+    f_Y(y) = \int_{-\infty}^{\infty} f_{X, Y}(x, y) dx 
 \end{equation*}
+\begin{definition}{Conditional probability mass function}
+    If $X$ and $Y$ are discrete random variables with joint pmf $P_{X, Y}(x, y) = \P(X = x, Y = y)$, and marginal pmf $p_Y(y) = \P(Y = y) = \sum_{x \in \samplespace} p_{X, Y}(x, y)$, then the \underline{conditional pmf} is:
+    \begin{equation*}
+        P_{X | Y}(x, y) = \P(X = x | Y = y) = \frac{p_{X, Y}(x, y)}{p_Y(y)}
+    \end{equation*}
+\end{definition}
+The conditional pdf looks similar (for the continuous case), replacing $p$ with $f$.
+\begin{definition}{Conditional expectation}
+    The \underline{conditional expectation} of $X$ given $Y$ is:
+    \begin{equation*}
+        E[X | Y] =
+        \begin{cases}
+            \sum_{x \in \samplespace} x p_{X | Y}(x | Y) & \text{discrete case} \\
+            \int_{-\infty}^{\infty} x f(x | Y) dx & \text{continuous case}
+        \end{cases}
+    \end{equation*}
+\end{definition}
 \begin{definition}{Law of Total Expectation}
     The \underline{Law of Total Expectation} is:
     \begin{equation}
@@ -75,9 +99,74 @@ If $X$ and $Y$ are discrete random variables with joint pmf $P_{X, Y}(x, y) = \P
         \label{eqnTotalExpectation}
     \end{equation}
 \end{definition}
-\end{definition}
+This is a consequence of the law of total probability.
+\begin{proposition}[Law of Total Variance]
+    For $X$ and $Y$ random variables,
+    \begin{equation*}
+        \Var(X) = E[\Var(X | Y)] + \Var(E[X | Y])
+    \end{equation*}
+    \label{propTotalVar}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \Var(X) &= E[X^2] - (E[X])^2 \\
+        &= E[E[X^2 | Y]] - E[E[X | Y]] \\
+        &= E[E[X^2|Y] - (E[X^2 | Y])^2] + E[(E[X | Y])^2] - (E[E[X | Y]])^2 \\
+        &= \Var(X | Y) + \Var(E[X | Y])
+    \end{align*}
+\end{proof}
+\begin{proposition}[Change of Variables Formula]
+    Given a differentiable bijection:
+    \begin{align*}
+        \phi : \R^2 &\mapsto \R^2\\
+        (x, y) &\mapsto (u, v)
+    \end{align*}
+    For random variables $X, Y$, the probability density function for $(U, V) = \phi(X, Y)$ is given by:
+    \begin{equation*}
+        f_{U, V}(u, v) = f_{X, Y}(x(u, v), y(u, v)) |\det(J)|
+    \end{equation*}
+    where $J$ is the Jacobian:
+    \begin{equation*}
+        J = 
+        \begin{pmatrix}
+            \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
+            \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+        \end{pmatrix}
+    \end{equation*}
+    \label{propChangeVars}
+\end{proposition}
+\subsection{Limit Theorems}
+\begin{theorem}[Law of Large Numbers]
+    Suppose that $(X_i)_{i = 1}^n$ are independent and identically distributed random variables with expectation $\mu$ and variance $\sigma^2$.
 
+    Define the sum and sample mean:
+    \begin{align*}
+        S_n &= \sum_{i=1}^{n} X_i & \overline{X_n} &= \frac{S_n}{n}
+    \end{align*}
+    Then we have the following:
+    \begin{itemize}
+        \item \textbf{Weak LLN:} $\overline{X_n} \xrightarrow{p} \mu$, meaning $\P(|\overline{X_n} - \mu| > \epsilon) \to 0$ as $n \to \infty$ for any $\epsilon > 0$.
+        \item \textbf{Strong LLN:} $\overline{X_n} \xrightarrow{a.s.} \mu$, meaning $\P(\lim_{n \to \infty} \overline{X_n} = \mu) = 1$.
+    \end{itemize}
+    \label{thmLLN}
+\end{theorem}
+\begin{theorem}[Central Limit Theorem]
+    Using the above definitions, define:
+    \begin{equation*}
+        Z_n = \frac{S_n - n \mu}{\sigma \sqrt{n}}.
+    \end{equation*}
+    Then this is approximately $N(0, 1)$ for large $n$. We write $S_n \approx N(n \mu, n \sigma^2)$.
+
+    Precisely,
+    \begin{equation*}
+        \P(Z_n \leq z) \to \Phi(z)~\forall z\in\R
+    \end{equation*}
+    where $\Phi$ is the cdf of the standard normal $N(0, 1)$.
+    \label{thmCentralLim}
+\end{theorem}
+%TODO: Table of common distributions.
 \section{Parametric Estimation}
+\subsection{Estimators and Bias}
 Consider observing multiples samples $X_1, \cdots, X_n$, which are independent and identically distributed. Let these exist in the sample space $\samplespace$. Let $\vec{X}$ be the vector of the $X_i$.
 
 \begin{definition}{Statistical model}
@@ -95,4 +184,56 @@ We then want to be able to:
     \item Give an interval estimator $(\hat{\theta}_1(X), \hat{\theta}_2(X))$ of $\theta$.
     \item Test some hypothesis about $\theta$.
 \end{itemize}
+\begin{definition}{Estimator/statistic}
+    An \underline{estimator/statistic} is a function of the data $T(\vec{X}) = \hat{\theta}$ which we use to approximate the true parameter $\theta$. The distribution of $T(\vec{X})$ is the \underline{sampling distribution}.
+\end{definition}
+\begin{example}
+    Suppose $X_i$ are normally distributed, $N(\mu, 1)$. Let $\hat{\mu} = T(\vec{X}) = \frac1n \sum_{i=1}^n X_i$, simply the average of the output of the random variables. Then the sampling distribution of $\hat{\mu}$ is:
+    \begin{equation*}
+        T(\vec{X}) \sim N\left(\mu, \frac1n\right)
+    \end{equation*}
+    \label{expNormalEstimator}
+\end{example}
+\begin{definition}{Estimator bias}
+    The \underline{bias} of a random variable $T(\vec{X})$ is:
+    \begin{equation*}
+        \bias(\hat{\theta}) = \E_\theta[\hat{\theta}] -\theta
+    \end{equation*}
+    where the expectation is taken over the $X_i$.
+    
+    We say that $\thhat$ is \underline{unbiased} if $\bias(\hat{\theta}) = 0$.
+\end{definition}
+\begin{warning}
+    In general, $\bias(\hat{\theta})$ can be a function of $\theta$, which is not explicit in notation.
+\end{warning}
+\begin{example}[Continuation of example~\ref{expNormalEstimator}]
+    We note that the estimator $\hat{\mu}$ is unbiased for $\mu$:
+    \begin{equation*}
+        E_\mu[\hat{\mu}] = \frac1n \sum_{i=1}^{n} \E_\mu[X_i] = \mu
+    \end{equation*}
+\end{example}
+\subsection{Bias-Variance Decomposition}
+\begin{definition}{Mean-squared error}
+    The \underline{mean-squared error} (MSE) of an estimator $\hat{\theta}$ is:
+    \begin{equation*}
+        \mse{\hat{\theta}} = \E_\theta[(\hat{\theta} - \theta)^2]
+    \end{equation*}
+\end{definition}
+\begin{proposition}[Bias-Variance Decomposition]
+    For an estimator $\thhat$ like above,
+    \begin{equation*}
+        \mse{\thhat} = (\bias(\thhat))^2 + \Var_\theta (\thhat)
+    \end{equation*}
+    \label{propBiasVarDecomp}
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \mse(\thhat) &= \E_\theta[(\thhat - \theta)^2] \\
+        &= \E_\theta[(\thhat - E_\theta[\thhat] + E_\theta[\thhat] - \theta)^2] \\
+        &= \E_\theta[(\thhat - E_\theta[\thhat])^2 + 2(\thhat - E_\theta[\thhat])(E_\theta[\thhat] - \theta) + (E_\theta[\thhat] - \theta)^2] \\
+        &= \E_\theta[(\thhat - \E_\theta(\thhat))^2] + (E_\theta[\thhat] - \theta)^2 + 2(\E_{\theta}[\thhat] - \theta) \E_\theta[\thhat - \E_\theta[\thhat]] \\
+        &= \Var_\theta(\thhat) + (\bias(\thhat))^2 + 2(E_\theta[\thhat] - \theta) (\E_\theta[\thhat] - \E_\theta[\thhat]) \\
+        &= \Var_\theta(\thhat) + (\bias(\thhat))^2 
+    \end{align*}
+\end{proof}
 \end{document}
