@@ -164,7 +164,6 @@ This is a consequence of the law of total probability.
     where $\Phi$ is the cdf of the standard normal $N(0, 1)$.
     \label{thmCentralLim}
 \end{theorem}
-%TODO: Table of common distributions.
 \section{Parametric Estimation}
 \subsection{Estimators and Bias}
 Consider observing multiples samples $X_1, \cdots, X_n$, which are independent and identically distributed. Let these exist in the sample space $\samplespace$. Let $\vec{X}$ be the vector of the $X_i$.
@@ -236,4 +235,159 @@ We then want to be able to:
         &= \Var_\theta(\thhat) + (\bias(\thhat))^2 
     \end{align*}
 \end{proof}
+\begin{example}
+    Suppose $X \sim \text{Bin}(n, \theta)$ where $n$ is known, $\theta \in [0, 1]$.
+
+    We consider an estimator $T_u = \frac{X}{n}$. The mean of this estimator is:
+    \begin{equation*}
+        \E_\theta[T_u] = \frac{E[X]}{n} = \theta
+    \end{equation*}
+    Therefore, $T_u$ is unbiased. Therefore, the mean-squared error is:
+    \begin{align*}
+        \mse(T_u) &= \Var(T_u) + \left(\bias{T_u}\right)^2 \\
+        &= \frac{1}{n^2} \Var_\theta(X) \\
+        &= \frac{\theta(1-\theta)}{n}
+    \end{align*}
+    
+    Now consider a biased estimator $T_b = \frac{X + 1}{n + 2} = \omega \frac{X}{n} + (1 - \omega) \frac12$ where $\omega = \frac{n}{n+2}$.
+
+    \begin{align*}
+        \bias(T_b) &= E_\theta[T_b] - \theta \\
+        &= \frac{E[X] + 1}{n + 2} - \theta \\
+        &= (1 - \omega)\left(\frac12 - \theta\right) \\
+        \Var(T_b) &= \frac{\Var_\theta(X)}{(n + 2)^2} \\
+        &= \frac{\omega^2 \theta(1-\theta)}{n}
+    \end{align*}
+    Then the mean-squared error is:
+    \begin{equation*}
+        \mse(T_b) = \omega^2\underbrace{\frac{\theta(1-\theta)}{n}}_{\mse(T_u)} + (1 - \omega)^2 \left(\frac12 - \theta\right)^2 \\
+    \end{equation*}
+    These errors are plotted in figure~\ref{figEstimatorErrorPlot}. We see that, further from $\theta = \frac12$, the biased estimator has the greater error. However, since we have biased it towards $\frac12$, it is more accurate than the unbiased estimator closer to $\theta = \frac12$.
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[mark size=0, domain=0:1]
+        \begin{axis}[
+                axis lines=middle,
+                xmin=-0.2,xmax=1.2,
+                xlabel={$x$},
+                ylabel={$\mse$},
+                legend entries={$T_u$, $T_b$},
+                legend pos=outer north east
+            ]
+            \pgfmathsetmacro{\n}{10}
+            \pgfmathsetmacro{\w}{\n / (\n + 2)}
+            \addplot {x * (1-x) / \n};
+            \addplot {\w * \w * x * (1-x) / \n + (1 - \w) * (1 - \w) * (0.5 - x) * (0.5-x)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Comparison of mse with biased and unbiased estimators}
+    \label{figEstimatorErrorPlot}
+\end{figure}
+\section{Sufficient Statistics}
+Suppose $X_1, \cdots, X_n$ are independent, identically distributed random variables taking values in $\samplespace$, with pdf (or pmf) $f_X(\cdot, \theta)$. Consider $\theta$ fixed. Let $\vec{X}$ be the vector of the $X_i$.
+\begin{definition}{Sufficient statistic}
+    A statistic $T$ is \underline{sufficient} for $\theta$ if the conditional distribution $\vec{X} | T(\vec{X})$ does not depend on $\theta$.
+\end{definition}
+\begin{remark}
+    The parameter $\theta$ and the sufficient statistic may be vectors, $\vec{\theta}$, and $\vec{T}(\vec{X})$
+\end{remark}
+\begin{example}
+    Suppose $X_i \sim \text{Ber}(\theta)$ for $\theta \in [0, 1]$. Then:
+    \begin{align*}
+        f_{\vec{X}}(\vec{x}, \theta) &= \prod_{i=1}^{n} \theta^{x_i}(1 - x_i) \\
+        &= \theta^{\sum_{i=1}^n X_i} (1 - \theta)^{n - \sum_{i=1}^n X_i}
+    \end{align*}
+    Then we see that only the sum of the $X_i$ is needed. Therefore, consider a statistic $T(\vec{X}) = \sum_{i=1}^n X_i$.
+    \begin{align*}
+        f_{\vec{X} | T = t}(\vec{x} | T = t) &= \frac{\P_\theta(\vec{X} = \vec{x}, T(\vec{X}) = t)}{\P_\theta(T(\vec{X}) = t)} \\
+        &= \frac{\P_\theta(\vec{X} = \vec{x})}{\P_\theta(T(\vec{X}) = t)} \\
+        &= \frac{\theta^{\sum_{i=1}^n X_i} (1-\theta)^{n-\sum_{i=1}^n X_i}}{\binom{n}{t} \theta^t (1 - \theta)^t} \\
+        &= \left[\binom{n}{t}\right]^{-1}
+    \end{align*}
+    \label{expBerSuffStat}
+\end{example}
+\begin{theorem}[Factorisation Criterion]
+    A statistic $T$ is sufficient for $\theta$ if and only if:
+    \begin{equation*}
+        f_{\vec{X}}(\vec{x}, \theta) = g(T(\vec{x}, \theta))h(\vec{x})
+    \end{equation*}
+    for suitable functions $g$ and $h$.
+    \label{thmFactorisationCriterion}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Rightarrow$}{Let the pmf factorise}
+        Consider first the case that $X_i$ are all discrete.
+
+        Compute the function $f_{\vec{X} | T = t}$:
+        \begin{align*}
+            f_{\vec{X}|T = t}(\vec{x} | T = t) &= \frac{\P_\theta(\vec{X} = \vec{x}, T(\vec{x}) = t)}{\P_\theta(T(\vec{x}) = t)} \\
+            &= \frac{g(T(\vec{x}), \theta) h(\vec{x})}{\sum_{\vec{x}' \in \samplespace} g(t, \theta)h(x')} \\
+            &= \frac{h(\vec{x})}{\sum_{\vec{x}' \in \samplespace} h(\vec{x}')} \\
+        \end{align*}
+        and this does not depend on $\theta$, so $T(\vec{X})$ is sufficient.
+
+        In the continuous case, we would have an integral instead of the sum in the denominator.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose that $T(\vec{X})$ is sufficient.}
+        We can write:
+        \begin{align*}
+            \P_\theta(\vec{X} = \vec{x}) &= \P_\theta(\vec{X} = \vec{x}, T(\vec{X}) = T(\vec{x})) \\
+            &= \underbrace{\P_\theta(\vec{X} = \vec{x} | T(\vec{X}) = t(\vec{x}))}_{h(\vec{x})} \underbrace{\P_\theta(T(\vec{X}) = t(\vec{x}))}_{g(T(\vec{x}, \theta))}
+        \end{align*}
+        And by assumption the term identified with $h(\vec{x})$ is independent of $\theta$.
+    \end{proofdirection}
+\end{proof}
+\begin{example}[Example~\ref{expBerSuffStat} continued]
+    Then $T(x) = \sum_{i=1}^n X_i$, and we find that $f_{\vec{X}}$ is only a function of $t$ and $\theta$, so we write $g = f_{\vec{X}}$ and $h = 1$.
+\end{example}
+\begin{example}
+    Let $X_i \sim \text{Unif}[0, \theta]$ for $i = 1$ to $n$. $\theta \in (0, \infty)$. The density function is:
+    \begin{align*}
+        f_{\vec{X}}(\vec{x}, \theta) &= \prod_{i=1}^{n} \frac1\theta \ind{X_i \in [0, \theta]} \\
+        &= \underbrace{\frac{1}{\theta^n} \ind{\max_i X_i \leq \theta}}_{g(T(\vec{x}), \theta)} \underbrace{\ind{\min_i X_i \geq 0}}_{h(\vec{x})}
+    \end{align*}
+    so by \thmref{thmFactorisationCriterion}, $T = \max_i X_i$ is sufficient.
+\end{example}
+\subsection{Minimal Sufficiency}
+\begin{definition}{Minimal sufficient statistic}
+    A sufficient statistic $T(\vec{X})$ is \underline{minimal sufficient} if it is a function of every other sufficient statistic. That is, if $R(\vec{X})$ is also sufficient,
+    \begin{equation*}
+        R(\vec{x}) = R(\vec{y}) \implies T(\vec{x}) = T(\vec{y})~\forall \vec{x}, \vec{y} \in \samplespace.
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    Minimal sufficient statistics are unique up to bijection.
+\end{remark}
+\begin{theorem}[Minimality Criterion]
+    Suppose $T(\vec{X})$ is a statistic such that:
+    \begin{equation*}
+        \frac{f_{\vec{X}}(\vec{x}, \theta)}{f_{\vec{X}}(\vec{y}, \theta)} \text{ is constant} \iff T(\vec{x}) = T(\vec{y})
+    \end{equation*}
+    Then $T$ is a minimal sufficient statistic.
+    \label{thmMinCriterion}
+\end{theorem}
+\begin{proof}
+    We need to show that such a statistic is sufficient and minimal. Let $z_t$ be a representative element of $\subsetselect{\vec{x}}{T(\vec{x}) = t}$. We then write:
+    \begin{equation*}
+        f_{\vec{X}}(\vec{x}, \theta) = f_X(z_{T(\vec{x})}, \theta) \frac{f_{\vec{X}}(\vec{x}, \theta)}{f_{\vec{X}}(z_{T(\vec{x})}, \theta)}
+    \end{equation*}
+    [\textbf{To be completed next lecture.}]
+\end{proof}
+\begin{example}
+    Suppose $X_i \sim N(\mu, \sigma^2)$ for $i = 1$ to $n$. Now our parameter is a vector, $\vec{\theta} = (\mu, \sigma^2)^T$.
+
+    \begin{align*}
+        \frac{f_{\vec{X}}(\vec{x}, \mu, \sigma^2)}{f_{\vec{X}}(\vec{y}, \mu, \sigma^2)}&= \frac{(2\pi\sigma^2)^{-n / 2} \exp\left[\frac{-1}{2\sigma^2} \sum_{i=1}^n (x_i - \mu)^2\right]}{(2\pi\sigma^2)^{-n / 2} \exp\left[\frac{-1}{2\sigma^2} \sum_{i=1}^n (y_i - \mu)^2\right]} \\
+        &= \exp\left[-\frac{1}{2\sigma^2} \left(\sum_{i=1}^n X_i^2 - \sum_{i=1}^n Y_i^2\right) + \frac{\mu}{\sigma^2} \left(\sum_{i=1}^n X_i - \sum_{i=1}^{n} Y_i\right)\right]
+    \end{align*}
+    Then this is constant in $(\mu, \sigma^2)$ if and only if:
+    \begin{equation*}
+        \sum_{i=1}^n X_i = \sum_{i=1}^n Y_i \text{ and } \sum_{i=1}^n X_i^2 = \sum_{i=1}^n Y_i^2
+    \end{equation*}
+    So a minimal sufficient statistic is:
+    \begin{equation*}
+        T(X) = \left(\sum_{i=1}^n X_i, \sum_{i=1}^n X_i^2\right)
+    \end{equation*}
+\end{example}
 \end{document}
