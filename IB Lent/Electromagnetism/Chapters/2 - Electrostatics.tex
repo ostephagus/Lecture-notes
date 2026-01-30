@@ -80,7 +80,7 @@ We apply Gauss's law to a ``Gaussian pillbox'' of height $2z$ and over an arbitr
 \end{align*}
 Then for any area $A$:
 \begin{equation*}
-    E(z) =
+    \vec{E}(z) =
     \begin{cases}
         \frac{\sigma}{2\epsilon_0} \vec{e_z} & z > d \\
         -\frac{\sigma}{2\epsilon_0} \vec{e_z} & z < -d
@@ -94,4 +94,141 @@ Let $\vec{n}$ be a unit vector normal to the charged surface, pointing from regi
     \label{eqnSurfaceChargeDcty}
 \end{equation}
 where $\sigma$ is the surface charge per unit area and $[X] = X_2 - X_1$ denotes a discontinuity.
+
+The tangential components of the electric field are continuous:
+\begin{equation}
+    [\vec{n} \times \vec{E}] = \vec0
+    \label{eqnSurfaceChargeCty}
+\end{equation}
+Note that equations \ref{eqnSurfaceChargeDcty} and \ref{eqnSurfaceChargeCty} hold for more general surfaces. For \eqnref{eqnSurfaceChargeDcty}, this can be seen by considering a small area $\delta A$ on the surface, and then applying the above ideas to this small area.
+
+For \eqnref{eqnSurfaceChargeCty}, consider a rectangle with two sides parallel to the surface (at heights $h$ and $-h$ above it) and two sides intersecting the surface orthogonally.
+Use \eqnref{eqnMTEC} and Stokes' Theorem:
+\begin{equation*}
+    \oint_C \vec{E} \cdot \vec{dx} = \int_{S_C} \nabla \times \vec{E} \cdot \vec{dS} = 0
+\end{equation*}
+and therefore $[\vec{E}\cdot \vec{dS}] = 0$. Apply the same idea to a rectangle turned $\frac\pi2$ radians about $\vec{n}$ to get the other component of $[\vec{E} \times \vec{n}] = 0$.
+\section{Electrostatic Potential}
+For general $\rho(\vec{x})$ we cannot determine $\vec{E}(\vec{x})$ using Gauss's Law alone. \Eqnref{eqnMTEC} implies that $\vec{E}$ can be written in terms of a potential:
+\begin{definition}{Electrostatic potential}
+    The \underline{electrostatic potential} or \underline{electric potential} is a scalar field $\Phi(\vec{x})$ defined by:
+    \begin{equation}
+        \vec{E}(\vec{x}) = - \nabla \Phi(\vec{x})
+        \label{eqnElecPotDef}
+    \end{equation}
+\end{definition}
+\begin{definition}{Potential difference}
+    The \underline{potential difference} (or \underline{voltage}) between two points $\vec{x_1}$ and $\vec{x_2}$ is:
+    \begin{align*}
+        \Phi(\vec{x_2}) - \Phi(\vec{x_1}) &= \int d\Phi \\
+        &= -\int_{\vec{x_1}}^{\vec{x_{2}}} \vec{E} \cdot \vec{dx}
+    \end{align*}
+\end{definition}
+The electric force on a particle of charge $q$ is:
+\begin{equation*}
+    \vec{F} = q\vec{E} = -q \nabla \Phi
+\end{equation*}
+and therefore this is a conservative force associated with the \underline{potential energy}:
+\begin{equation*}
+    U(\vec{x}) = q\Phi(\vec{x})
+\end{equation*}
+
+\Eqnref{eqnMTED} implies that $\Phi$ satisfies Poisson's equation:
+\begin{equation*}
+    -\nabla^2 \Phi = \frac{\rho}{\epsilon_0}
+\end{equation*}
+Including boundary conditions $\Phi(\vec{x}) \to 0$ as $|\vec{x}| \to \infty$, we get the solution:
+\begin{equation}
+    \Phi(\vec{x}) = \frac{1}{4\pi \epsilon_0} \int_{\R^3} \frac{\rho(\vec{y})}{|\vec{x} - \vec{y}|} d^3 \vec{y}
+    \label{eqnPoissonIntegralSoln}
+\end{equation}
+For the derivation, see the course IB Methods. This is the convolution of $\rho(\vec{x})$ with the potential of a unit point charge, $[4\pi \epsilon_0 |\vec{x}|]^{-1}$, which is the solution of:
+\begin{equation*}
+    -\nabla^2 \Phi = \frac{\delta(\vec{x})}{\epsilon_0}
+\end{equation*}
+\begin{remark}
+    $\vec{E}$ is unaffected if we add an arbitrary constant to $\Phi$. We usually choose this such that $\Phi \to 0$ as $|\vec{x}| \to \infty$ %TODO: Clarify the remark above that says the same thing.
+    If $\rho(\vec{x})$ does not decay sufficiently rapidly, this may not be possible, as in the case of a line charge where $E_r \propto r^{-1}$ and $\Phi \propto \log(r)$.
+\end{remark}
+\subsection{Point Charge}
+The potential due to a point charge at the origin is:
+\begin{equation*}
+    \Phi(\vec{x}) = \frac{q}{4\pi \epsilon_0 |\vec{x}|} = \frac{q}{4 \pi \epsilon_0 r}
+\end{equation*}
+\subsection{Electric Dipole}
+Consider two equal and opposite charges at different positions. Without loss of generality, let a charge $-q$ be at $\vec{x} = \vec0$, and a charge $q$ be at $\vec{x} = \vec{d}$.
+The potential due to the dipole is then:
+\begin{equation*}
+    \Phi(\vec{x}) = \frac{q}{4\pi \epsilon_0} \left(-\frac{1}{|\vec{x}|} + \frac{1}{|\vec{x} - \vec{d}|}\right)
+\end{equation*}
+In the case $\vec{d} \to \vec0$, we apply Taylor's Theorem for a scalar field,
+\begin{equation*}
+    f(\vec{x} + \vec{h}) = f(\vec{x}) + (\vec{h} \cdot \nabla)f(\vec{x}) + \frac12 (\vec{h} \cdot \nabla)^2 f(\vec{x}) + O(|\vec{h}|^3)
+\end{equation*}
+Then this gives:
+\begin{align*}
+    \Phi(\vec{x}) &= \frac{q}{4 \pi \epsilon_0} \left(-\frac{1}{r} + \frac{1}{r} - (\vec{d} \cdot \nabla) \frac1r + O(|\vec{d}|^3)\right) \\
+    &= \frac{q}{4\pi \epsilon_0} \frac{\vec{d} \cdot \vec{x}}{|\vec{x}|^3} + O(|\vec{d}|^2)
+\end{align*}
+Now take $\lim_{|\vec{d}| \to 0}$ but with $q \vec{d}$ finite. We obtain a \underline{point dipole} with\\\underline{electric dipole moment}:
+\begin{equation*}
+    \vec{p} = q\vec{d}.
+\end{equation*}
+Its potential is:
+\begin{equation*}
+    \Phi(\vec{x}) = \frac{\vec{p} \cdot \vec{x}}{4\pi \epsilon_0 |\vec{x}|^3}
+\end{equation*}
+Then the electric field generated by this is:
+\begin{equation*}
+    \vec{E} = - \nabla \Phi = \frac{4(\vec{p} \cdot \vec{x}) \vec{x} - |\vec{x}|^2 \vec{p}}{4\pi \epsilon_0 |\vec{x}|^5} \\
+\end{equation*}
+We may wish to consider spherical polar coordinates, aligned with $\vec{p} = p \vec{e_z}$.
+\begin{align*}
+    \Phi &= \frac{p \cos(\theta)}{4\pi \epsilon_0 r^2} \\
+    E_r &= -\frac{\partial \Phi}{\partial r} = \frac{2p\cos\theta}{4\pi\epsilon_0 r^3} \\
+    E_\theta &= -\frac1r\frac{\partial \Phi}{\partial \theta} = \frac{p\sin\theta}{4\pi\epsilon_0 r^3} \\
+    E_\phi &= 0
+\end{align*}
+\begin{remarks}
+    \item $\Phi$ and $\vec{E}$ are not spherically symmetric.
+    \item They decrease more rapidly with $r$ than for a point charge.
+\end{remarks}
+The charge distribution of the point dipole can be written in terms of delta functions. For a point dipole at the origin,
+\begin{align*}
+    \rho(\vec{x}) &= -\vec{p} \cdot \nabla \delta(\vec{x}) \\
+    \Phi(\vec{x}) &= \vec{p} \cdot \nabla \left(\frac{1}{4\pi \epsilon_0 |\vec{x}|}\right)
+\end{align*}
+\subsection{Field Lines and Equipotentials}
+\begin{definition}{Electric field line}
+    \underline{Electric field lines} are the integral curves of $\vec{E}$, the curves that are everywhere tangent to $\vec{E}$.
+\end{definition}
+\begin{remarks}
+    \item Since $\nabla \cdot \vec{E} = \frac{\rho}{\epsilon_0}$, field lines begin at positive charges and end at negative charges.
+    \item In electrostatics, $\vec{E} = -\nabla \Phi$, so the field lines are perpendicular to the \underline{equipotential surfaces} $\Phi(\vec{x}) = \text{const}$.
+\end{remarks}
+\subsection{Dipole in an External Field}
+Consider a dipole $\vec{p}$ in an external electric field $\vec{E} = -\nabla \Phi$ generated by distant charges. With $-q$ at $\vec{x}$ and $q$ at $\vec{x} + \vec{d}$, the potential energy of the dipole due to the external field is:
+\begin{equation*}
+    U = -q \Phi(\vec{x}) + q \Phi(\vec{x} + \vec{d})
+\end{equation*}
+When $\vec{d}$ is small, we find:
+\begin{align*}
+    U &=\lim_{\vec{d} \to \vec0} q (\vec{d} \cdot \nabla) \Phi(\vec{x}) + O(|\vec{d}|^2) \\
+    &= \vec{p} \cdot \nabla \Phi = -\vec{p} \cdot \vec{E}
+\end{align*}
+Then this energy is minimised when the electric dipole is aligned along $\vec{E}$.
+\subsection{Multipole Expansion}
+For a general charge distribution $\rho(\vec{x})$, confined to a ball $V$ of radius $R$ centred on the origin.
+\begin{equation*}
+    \Phi(\vec{x}) = \frac{1}{4\pi \epsilon_0} \int_{|\vec{x}| < R} \frac{\rho(\vec{y})}{|\vec{x} - \vec{y}|} d^3 \vec{y}
+\end{equation*}
+Then consider the external potential for when $|\vec{x}| < R$. Consider an expansion:
+\begin{align*}
+    \frac{1}{|\vec{x} - \vec{y}|} &= \frac1r - (\vec{y} \cdot \nabla)\frac1r + \frac12 (\vec{y} \cdot \nabla)^2 \frac1r + O(|\vec{y}|^3) \\
+    &= \frac1r \left[1 + \frac{\vec{y} \cdot \vec{x}}{r^2} + \frac{3(\vec{y} \cdot \vec{x}) - |\vec{y}|^2 |\vec{x}|^2}{2r^4} + O\left(\frac{R^3}{r^3}\right)\right]
+\end{align*} 
+Then this leads to the \underline{multipole expansion} fo the potential, as seen in Ex1Q11.
+\begin{equation*}
+    \Phi(\vec{x}) = \frac{1}{4\pi \epsilon_0} \left(\frac{Q}{r} + \frac{\vec{p} \cdot \vec{x}}{r^3} + \frac12 \frac{Q_{ij} x_i x_j}{r^5} + \cdots\right)
+\end{equation*}
 \end{document}
