@@ -23,7 +23,7 @@ However, for many applications $\C$ is not enough. We require the extended compl
 This can be visualised using the Riemann Sphere. See figure~\ref{figRiemannSphere}.
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{{Riemann sphere.png}}
+    \includegraphics[width=\linewidth]{Riemann sphere}
     \caption{Diagram of the Riemann Sphere}
     \label{figRiemannSphere}
 \end{figure}
@@ -152,8 +152,8 @@ Such functions are also called holomorphic.
     \item $f(z) = z^m$ follows from induction, with $f'(z) = mz^{m-1}$. Note that a linear combination of analytic functions is still analytic. With this, we see that polynomials are analytic.
     \item $f(z) = \frac1z = \frac{x - iy}{x^2 + y^2}$.
         \begin{align*}
-            \frac{\partial u}{\partial x} &= \frac{y^2 - x^2}{(x^2 + y^2)} = \frac{\partial v}{\partial y} \\
-            %TODO
+            \frac{\partial u}{\partial x} &= \frac{y^2 - x^2}{(x^2 + y^2)^2} = \frac{\partial v}{\partial y} \\
+            \frac{\partial v}{\partial x} &= \frac{2xy}{(x^2 + y^2)^2} = -\frac{\partial u}{\partial y}
         \end{align*}
         However, at the origin this fails.
 \end{examples}
@@ -174,4 +174,128 @@ Such functions are also called holomorphic.
         \end{equation*}
         which violates \eqnref{eqnCRIds}.
 \end{examples}
+\section{Harmonic Functions}
+\begin{definition}{Harmonic conjugate}
+    Two functions $u, v : \R^2 \mapsto \R$ satisfying equation~\ref{eqnCRIds} (Cauchy-Riemann Equations) are called \underline{harmonic conjugates}.
+\end{definition}
+If we know either $u$ or $v$, we can find the other up to a constant.
+\begin{example}
+    Take $u(x, y) = x^2 - y^2$. Then we have:
+    \begin{align*}
+        \frac{\partial v}{\partial y} &= 2x \implies 2xy + \hat{v}(x) \\
+        \frac{\partial v}{\partial u} &= 2y \implies \hat{v}'(x) = 0
+    \end{align*}
+    Therefore $v = 2xy + \alpha$ where $\alpha \in \R$ is a constant.
+
+    Now our complex-valued function $f$ is given by:
+    \begin{align*}
+        f(x + iy) &= x^2 - y^2 + 2iyx + i\alpha \\
+        &= (x + iy)^2 + i\alpha \\
+        &= z^2 + i\alpha
+    \end{align*}
+    Then this is analytic because it depends only on $z$ and not $\bar{z}$.
+\end{example}
+\begin{definition}{Harmonic function}
+    A function $f(x, y) : \R^2 \mapsto \R$ is \underline{harmonic} if it satisfies the \underline{Laplace equation}:
+    \begin{equation}
+        \Delta f = \left(\frac{\partial^{2}}{\partial x^{2}} + \frac{\partial^{2}}{\partial y^{2}}\right) f = 0
+        \label{eqnLaplace}
+    \end{equation}
+\end{definition}
+\begin{proposition}
+    The real and imaginary parts of an analytic function are harmonic.
+    \label{propAnaGivesHrm}
+\end{proposition}
+\begin{proof}
+    Let $f = u + iv$, as in the above. Let $f$ be analytic, so we can use equation~\ref{eqnCRIds}:
+    \begin{align*}
+        \frac{\partial^{2}u}{\partial x^{2}} &= \frac{\partial}{\partial x} \left(\frac{\partial v}{\partial y}\right) \\
+        &= \frac{\partial}{\partial y} \left(\frac{\partial v}{\partial x}\right) \\
+        &= \frac{\partial}{\partial y} \left(-\frac{\partial u}{\partial y}\right) = -\frac{\partial^{2}u}{\partial y^{2}}.
+    \end{align*}
+    Therefore $\Delta u = 0$. The same applies for $v$.
+\end{proof}
+\section{Multivalued Functions}
+In this section, we study multivalued functions and use the example of $\log(z)$ throughout.
+
+For $z = re^{i\theta}$, we define $\log(z) = \log(r) + i\theta$. However, $\theta$ can take infinitely many values to give the same $z$.
+
+As an example, $\log(i)$ takes many values: $i \frac{\pi}{2}, \frac{5\pi}{2} i, \cdots$. Therefore $\log$ has to be multivalued. In principle this it fine, but we must be careful (and consistent).
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw[->] (-5, 0) -- (5, 0) node[right] {$\Re$};
+        \draw[->] (0, -3) -- (0, 5) node[above] {$\Im$};
+        \begin{scope}[every node/.style={fill, circle, minimum size=2mm, inner sep=0pt}]
+            \node at (3, 3) (Z1) [label=below left:$z_1$] {};
+            \node at (-3, 0) (Z2) [label=below right:$z_2$] {};
+            \node at (0, 0) (Z3) [label=below left:$0$] {};
+        \end{scope}
+        \draw (Z1) circle[radius=1.75];
+        \draw ($(Z1) + (1.5, 1.5)$) node{$C_1$};
+        \draw (Z2) circle[radius=1.5];
+        \draw ($(Z2) + (0, 1.7)$) node{$C_2$};
+        \draw (Z3) circle[radius=1];
+        \draw ($(Z3) + (1, -0.7)$) node{$C_3$};
+    \end{tikzpicture}
+    \caption{Diagram of $\log$, with different circles}
+    \label{figLogPlot}
+\end{figure}
+
+Consider figure~\ref{figLogPlot}. We see that, on $C_1$, $\arg(x) \in \left(0, \frac\pi2\right)$, and so $\log$ is single valued here. Similarly, $\arg(z)$ takes values $\left(\frac\pi2, \frac{3\pi}{2}\right)$ on $C_3$, so again $\log$ is single-valued.
+
+A problem arises with $C_3$. We find that, as we go around the circle, $\arg(z)$ keeps increasing and so does $\Im(\log(z))$, so $\log$ is multivalued on this circle.
+
+\subsection{Branch Points}
+\begin{definition}{Branch point}
+    A \underline{branch point} of a function $f : \C \mapsto \C$ is a point $z_0$ such that no closed curve $C$ contained in an arbitrarily small neighbourhood around $z_0$ and encircling $z_0$ exists such that $f$ is single valued and continuous on $C$.
+\end{definition}
+\begin{examples}{
+        
+    }
+    \item $f(z) = \log(z - a)$ for $a \in \C$ has a branch point at $a$. We see this by taking a circle $|z - a| = r$, and evaluating log there.
+    \item Consider $f(z) = z^\alpha$, where $\alpha \in \R \backslash \Z$. Then $f(z) = r^\alpha r^{i \alpha \theta}$ along a circle of radius $r$ around $z = 0$.
+        \begin{itemize}
+            \item $\theta = 0 \implies f(z) = r^\alpha$
+            \item $\theta = 2\pi \implies f(z) = r^\alpha e^{2 \pi i \alpha} \neq r^\alpha$.
+        \end{itemize}
+        So we have a branch point at $z = 0$. In $\Cstar$, there is a branch point at $\infty$. We know this by considering $f(\frac1\xi)$, and this also has a branch point at $\xi = 0$.
+    \item $f(z) = \log\left(\frac{z-1}{z+1}\right) = \log(z-1) - \log(z+1)$. By the first example we must have at least two branch points, at $z = \pm 1$.
+    \item We have another branch point of $\log$ on $\Cstar$. We can see this easily by taking $g(\xi) = f(\frac1\xi) = -\log(\xi)$, and we know this has a branch point at $0$. What about the third function, $f(z) = \log\left(\frac{z-1}{z+1}\right)$? Change variable:
+        \begin{align*}
+            f\left(\frac1\xi\right) &= \log\left(\frac{1 - \xi}{1 + \xi}\right) \\
+            &= -2\xi + O(\xi)^2
+        \end{align*}
+        Which behaves nicely as $\xi \to 0$.
+\end{examples}
+\subsection{Branch Cuts}
+If we wish to make $\log(z)$ continuous and single-valued, we must forbid any curve from encircling the origin (where the branch point is). We do this by drawing a boundary curve that the function may not cross.
+\begin{definition}{Branch cut}
+    A \underline{branch cut} is a curve that connects two branch points. Curves on which the function is defined may not cross the branch cut.
+\end{definition}
+Continuing the example of $\log(z) = \log(|z|) + i \arg(z)$, we can take the branch cut along the negative real axis. This is permissible because it connects $z = 0$ with $z = \infty$.
+
+Now $\log$ is continuous, single-valued and differentiable on any curve that does not cross the cut. Its derivative is:
+\begin{equation*}
+    \frac{d}{dz} \log(z) = \frac1z
+\end{equation*}
+\begin{definition}{Branch}
+    For a multivalued function $f$ defined on $\Cstar$ with a branch cut, the \underline{branch} of the function is the value of $f$ assigned to the domain that remains.
+\end{definition}
+\begin{examples}{
+        We have different ways to denote the function's branch and branch cut.
+    }
+    \item $\log(z) = \log(|z|) + i \arg(z),\quad \arg \in (-\pi, \pi)$.
+        Then this defines the branch cut (along $\arg(z) = \pi$) and the branch (by giving a range of values of $\arg$).
+    \item We can specify the branch cut, and give the value of the function at a point not on the cut.
+    \item \textbf{Non-Examinable:} Riemann Surfaces. Riemann imagined something more clever than this abrupt jump. Instead, consider the branches as different copies of $\Cstar$ and ``glue them together'' along the branch cuts. See figure~\ref{figRiemannSurface}
+\end{examples}
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Riemann surfaces}
+    \caption{Image of the Riemann surfaces of $\log$}
+    \label{figRiemannSurface}
+\end{figure}
+
 \end{document}
