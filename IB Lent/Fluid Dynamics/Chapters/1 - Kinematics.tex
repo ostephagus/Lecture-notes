@@ -167,11 +167,11 @@ Then the dimension of the streamfunction is $[\psi] = \frac{L^2}{T}$.
 \subsection{2D Polar Coordinates}
 Now consider the components of $\vec{u}$ and $\vec{A}$.
 \begin{align*}
-    \vec{u} &= (u_r(r, \theta), u_\theta(r, \theta), 0)^T \\
+    \vec{u} &= u_r(r, \theta)\vec{e_r} + u_\theta(r, \theta) \vec{e_\theta} \\
     \vec{A} &= \phi(r, \theta) \vec{e_z}
 \end{align*}
 Then:
-\begin{equation*}
-    \vec{u} = \nabla \times \vec{A} = \left(\frac1r \frac{\partial \psi}{\partial \theta}, -\frac{\partial \psi}{\partial r}, 0\right)^T
-\end{equation*}
+\begin{align*}
+    \frac1r \frac{\partial \phi}{\partial \theta} = u_r(r, \theta),\qquad -\frac{\partial \phi}{\partial r} = u_\theta(r, \theta)
+\end{align*}
 \end{document}

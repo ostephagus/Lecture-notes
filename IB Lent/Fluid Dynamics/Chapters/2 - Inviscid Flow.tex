@@ -7,7 +7,75 @@ There exist two types of forces that are exerted on a fluid:
     \item forces proportional to the volume, such as gravity;
     \item forces proportional to surface area, such as pressure and viscous stresses (discussed later).
 \end{enumerate}
-Volume forces, or body forces, will be denoted with $\bdforce$. Defined $\bdforce~\delta V$ to be the force acting on a small volume element $\delta V$. This has dimensions $[\bdforce] = \frac{F}{L^3}$. For example, gravity gives $\bdforce = \rho \vec{g}$.
+Volume forces, or body forces, will be denoted with $\bdforce$. Define $\bdforce~\delta V$ to be the force acting on a small volume element $\delta V$. This has dimensions $[\bdforce] = \frac{F}{L^3}$. For example, gravity gives $\bdforce = \rho \vec{g}$.
 
 Often we have conservative forces where $\bdforce = - \nabla \chi$. In the case of gravity, $\chi = \rho g z$.
+
+\begin{definition}{Surface force}
+    Consider a small element of area $\vec{n} \delta A$ where $\vec{n}$ is the normal of the surface. Let one side be the positive side, and one side be the negative side (the choice is arbitrary). Then the \underline{surface force} exerted by the positive side on the negative side is given by:
+    \begin{equation*}
+        \vec{\tau}(\vec{x}, t, \vec{n})\delta A
+    \end{equation*}
+\end{definition}
+$\vec{\tau}$ is called the \underline{stress} acting on a surface element. Its units are $[\tau] = \frac{F}{L^2} = M L^{-1} T^{-2}$.
+
+By Newton's 3rd Law, we require $\vec{\tau}(\vec{x}, t, -\vec{n}) = -\vec{\tau}(\vec{x}, t, \vec{n})$.
+
+There are many phenomena where friction inside the fluid (viscous stress) is negligible. For example, in a 10cm box of water, it takes hours for viscosity to bring the fluid to rest.
+\begin{definition}{Inviscid flow}
+    A fluid is \underline{inviscid} if we can neglect viscosity on the timescales under consideration. We use the idealisation of an \underline{inviscid flow}, which has no internal friction.
+\end{definition}
+For inviscid flow, the stress $\vec{\tau}$ has \textit{no tangential component} and its magnitude is independent of the orientation. Therefore, we can write:
+\begin{equation}
+    \vec{\tau}(\vec{x}, t, \vec{n}) = -p(\vec{x}, t) \vec{n}
+    \label{eqnPressure}
+\end{equation}
+where $p(\vec{x}, t)$ is the \underline{pressure}. The negative sign in \eqnref{eqnPressure} is because the positive side pushes with pressure $p$ towards the negative side when $p > 0$.
+
+\textbf{For the rest of the chapter, assume inviscid flow.}
+\section{The Euler Momentum Equation}
+We would like to perform a similar calculation to mass conservation, but this time with momentum.
+
+Consider any fixed volume $V$ with boundary $\partial V$. It has total momentum:
+\begin{equation*}
+    \int_V \rho \vec{u} dV
+\end{equation*}
+This can change via:
+\begin{enumerate}
+    \item flux of momentum across the boundary $\partial V$;
+    \item due to forces acting on $V$ or $\partial V$ (Newton's 2nd Law).
+\end{enumerate}
+The volume of fluid out of a small area $\delta A \subseteq \partial V$ in a small time $\delta t$ is $\vec{u} \cdot \vec{n}~\delta A~\delta t$. Then the momentum out of the same area of fluid is $\rho \vec{u} (\vec{u} \cdot \vec{n}) \delta A~\delta t$. The change of momentum is:
+\begin{equation}
+    \frac{d}{dt} \int_V \rho \vec{u} dV = \underbrace{-\int_{\partial V} \rho \vec{u} (\vec{u} \cdot \vec{n}) dS}_{\text{Momentum flux}} + \underbrace{\int_V \bdforce dV}_{\text{volume force}} + \underbrace{\int_{\partial V} -p \vec{dS}}_{\text{surface force}} \\
+    \label{eqnEulerMomInt}
+\end{equation}
+\Eqnref{eqnEulerMomInt} is called the \underline{Euler momentum integral equation}. In component form, this is:
+\begin{equation*}
+    \int_V \frac{\partial}{\partial t} (\rho u_i) dV =-\int_{\partial V} \underbrace{\rho u_i u_j}_{\substack{\text{Momentum}\\\text{flux tensor}}} n_j dS + \int_{\partial V} -pn_i dS + \int_V f_i dV
+\end{equation*}
+Then using the divergence theorem:
+\begin{equation*}
+    \int_V \frac{\partial}{\partial t} (\rho u_i) dV = \int_V \left[-\frac{\partial}{\partial x_j} \left(\rho u_i u_j\right) - \frac{\partial p}{\partial x_i}\right] + \int_V f_i dV
+\end{equation*}
+Since now this is true for any fixed volume $V$, we can remove the integral signs:
+\begin{equation*}
+    \frac{\partial}{\partial t} (\rho u_i) + \frac{\partial}{\partial x_j} \left(\rho u_i u_j\right) = \frac{\partial p}{\partial x_i} + f_i
+\end{equation*}
+Then we can expand this out and group as follows.
+\begin{equation*}
+    u_i \underbrace{\left[\frac{\partial \rho}{\partial t} + \frac{\partial}{\partial x_j}(\rho u_j)\right]}_{\text{0 by conservation of mass}} + \rho \left[\frac{\partial u_i}{\partial t} + u_j \frac{\partial}{\partial j}u_i\right] = -\frac{\partial p}{\partial x_i} + f_i
+\end{equation*}
+Note also that the remaining LHS term is $\rho \frac{D u_i}{D t}$. Returning to the vector form for the above equation we now find:
+\begin{equation}
+    \rho \frac{D \vec{u}}{D t} = -\nabla p + \bdforce
+    \label{eqnEulerMomDiv}
+\end{equation}
+This is the Euler momentum equation, the equation of motion for inviscid fluid flow. We see that each term can be identified with a term in the standard $F = ma$ from kinematics. We see that accelerations in the fluid flow are caused only by body forces and differences in pressure.
+\begin{remark}
+    At a fluid boundary, the stress exerted by the fluid on the surface is $p \vec{n}$, and the stress exerted by the boundary on the fluid is still the familiar $-p\vec{n}$.
+\end{remark}
+\begin{example}[Flow through a bent pipe]
+    Consider a pipe with a right-angle bend and an otherwise spherical cross-section. Suppose that fluid flow in and out with speed $u$. Assume stead flow (independent of time) and disregard gravity.
+\end{example}
 \end{document}
