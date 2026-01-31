@@ -169,7 +169,6 @@ In the general case of a function on $[a, b]$, we would use:
         \begin{equation*}
             r(x) = \frac{(x_{k+1} - x) p(x) + (x - x_0) q(x)}{x_{k+1}} \in \P_{k+1}[x]
         \end{equation*}
-        %TODO: Check interpolates, correct degree
         Now note that $r(x_i) = f(x_i)~\forall i \in \{0, \cdots, k+1\}$. Therefore, by definition, $f[x_0, \cdots, x_{k+1}]$ is the leading coefficient of $r$. Then given the formula for $r$, this is:
         \begin{align*}
             f[x_0, \cdots, x_{k+1}] &= \frac{-(\text{leading coeff't of }p) + (\text{leading coeff't of }q)}{x_{k+1} - x_0} \\
@@ -296,6 +295,166 @@ This is the Horner scheme, with total complexity of $O(n)$.
         (f, g) &\mapsto \int_{a}^{b} f(x)g(x) w(x) dx 
     \end{align*}
     where $w$ is a \underline{weight function}, that must be strictly positive on $(a, b)$.
-
 \end{example}
+\begin{definition}{Orthogonal sequence}
+    Given an inner product $\inn\cdot\cdot$, a sequence $p_0, p_1, \cdots$ is a  \underline{sequence of orthogonal polynomials} if:
+    \begin{enumerate}
+        \item $\inn{p_i}{p_j} = 0$
+        \item $\deg(p_i) = i$
+    \end{enumerate}
+\end{definition}
+\begin{theorem}
+    For any $n \geq 0$, there exists a unique monic orthogonal polynomial of degree $n$.
+    \label{thmUniqueOrthoSequence}
+\end{theorem}
+\begin{proof}
+    \induction{$n = 0$}{
+        There is a unique monic polynomial of degree $0$, $p_0(x) = 1$.
+    }{$n = k$}{
+        Assume that $p_0, \cdots, p_k$ are a sequence of orthogonal monic polynomials.
+    }{$n = k + 1$}{
+        We use a Gram-Schmidt process on the polynomial $q(x) = x^{k+1}$. Define:
+        \begin{equation*}
+            p_{k+1} = q - \sum_{m=0}^{k} \frac{\inn{q}{p_m}}{\inn{p_m}{p_m}}
+        \end{equation*}
+        We know that $p_{k+1}$ is monic because the $x^{k+1}$ coefficient only comes from $q$, so is $1$.
+
+        For $i \leq k$,
+        \begin{align*}
+            \inn{p_{k+1}}{p_i} &= \inn{q}{p_i} - \sum_{m=0}^{k} \frac{\inn{q}{p_m}}{\inn{p_m}{p_m}} \inn{p_m}{p_i} \\
+            &= \inn{q}{p_i} - \frac{\inn{q}{p_i}}{\inn{p_i}{p_i}} \inn{p_i}{p_i} \\
+            &= \inn{q}{p_i} - \inn{q}{p_i} \\
+            &= 0
+        \end{align*}
+        \begin{subproof}{$p_{k+1}$ is unique}
+            Assume that $\tilde{p}_{k+1}$ is another monic orthogonal polynomial. Let $p = \tilde{p}_{k+1} - p_{k+1}$. Then subtracting these two polynomials gives a polynomial of degree $k$ because both are monic.
+
+            That is, $p \in \P_k[x]$, but also we know that $p$ is orthogonal to $p_0, \cdots, p_k$. That is, it is orthogonal to a basis of $\P_k[x]$, so it must be the zero vector (it resides in a space of dimension 0).
+        \end{subproof}
+    }
+\end{proof}
+\begin{example}
+    Considering the inner product:
+    \begin{equation*}
+        \inn{p}{q} = \int_{-1}^{1} p(x) q(x) dx 
+    \end{equation*}
+    We find the orthogonal polynomials are the \underline{Legendre polynomials}.
+
+    \begin{tabular}{|c c|}
+        \hline
+        $i$ & $p_i$ \\
+        \hline
+        $0$ & $1$ \\
+        $1$ & $x$ \\
+        $2$ & $x^2 - \frac13$ \\
+        $3$ & $x^3 - \frac35 x$ \\
+        \hline
+    \end{tabular}
+\end{example}
+\begin{example}
+    Now consider a more general inner product,
+    \begin{equation*}
+        \inn{p}{q} = \int_{a}^{b} p(x) q(x) w(x) dx 
+    \end{equation*}
+    where $w(x) > 0$ is a weight function.
+
+    \begin{tabular}{|c c c|}
+        \hline
+        $w(x)$ & Interval & Polynomials \\
+        \hline
+        $1$ & $[-1, 1]$ & Legendre Polynomials \\
+        $\frac{1}{\sqrt{1 - x^2}}$ & $[-1, 1]$ & Chebyshev polynomials \\
+        $e^{-x}$ & $[0, \infty)$ & Laguerre polynomials \\
+        $e^{-x^2}$ & $\R$ & Hermite polynomials \\
+        \hline
+    \end{tabular}
+\end{example}
+\subsection{Three-Term Recurrence Relation}
+Under mild assumptions on the inner product, we can prove an interesting result.
+\begin{theorem}[Three-Term Recurrence]
+    Suppose that an inner product $\inn\cdot\cdot$ satisfies, for all $p, q \in \P_n[x]$,
+    \begin{equation*}
+        \inn{xp}{q} = \inn{p}{xq}.
+    \end{equation*}
+    Let $(p_i)_{i = 1}^\infty$ be the sequence of monic polynomials for this inner product. Then for all $n \in \N$,
+
+    \begin{equation}
+        p_{n+1} = (x - \alpha_n) p_n - \beta_n p_{n-1}
+        \label{eqn3TermRecur}
+    \end{equation}
+    where:
+    \begin{align*}
+        p_0 &= 1, p_{-1} = 0 \text{ (notationally)} \\
+        \alpha_n &= \frac{\inn{xp_n}{p_n}}{\inn{p_n}{p_n}},\quad \beta_n = \frac{\inn{p_n}{p_n}}{\inn{p_{n-1}}{p_{n-1}}} > 0
+    \end{align*}    
+    \label{thm3TermRecur}
+\end{theorem}
+\begin{remark}
+    All weighted integral inner products of the form above have this property, so we already have a large class of inner products on which this theorem holds.
+\end{remark}
+\begin{proof}
+    Let $\psi = p_{n+1} - (x - \alpha_n) p_n + \beta_n p_{n-1}$. Note that since the $p_i$ are monic, the $x^{n+1}$ term cancels and $\psi \in \P_n[x]$. Now we show that $\inn{\psi}{p_m} = 0~\forall m \leq n$.
+
+    \begin{align}
+        \inn{\psi}{p_m} &= \inn{p_{n+1}}{p_m} - \inn{(x - \alpha_n) p_n}{p_m} + \beta_n \inn{p_{n-1}}{p_m} \nonumber \\
+        &= -\inn{(x - \alpha_n) p_n}{p_m} + \beta_n \inn{p_{n-1}}{p_m} \label{eqn3TermInnProd}
+    \end{align}
+    Consider first $m < n-1$.
+    \begin{align*}
+        (\ref{eqn3TermInnProd}) &= -\inn{(x - \alpha_n)p_n}{p_m} \\
+        &= -\inn{xp_n}{p_m} + \alpha_n \inn{p_n}{p_m} \\
+        &= -\inn{p_n}{xp_m}
+    \end{align*}
+    Then since $xp_m \in \P_{n-1}[x]$, the inner product is zero.
+
+    Consider now $m = n-1$.
+    \begin{align*}
+        (\ref{eqn3TermInnProd}) &= -\inn{(x - \alpha_n)p_n}{p_{n-1}} + \beta_n \inn{p_{n-1}}{p_{n-1}} \\
+        &= -\inn{x p_n}{p_{n-1}} + \inn{p_n}{p_n} \\
+        &= -\inn{p_n}{x p_{n-1}} + \inn{p_n}{p_n} \\
+        \intertext{Note that $x p_{n-1}$ is a monic polynomial. Write as a linear combination of $p_i$}
+        &= -\inn{p_n}{p_n} + \inn{p_n}{p_n} + \sum_{i=0}^{n-1} \inn{c_i p_i}{p_n} \\
+        &= 0
+    \end{align*}
+
+    Now consider $m = n$.
+    \begin{align*}
+        (\ref{eqn3TermInnProd}) &= -\inn{(x - \alpha_n)}{p_n} + \beta_n \inn{p_{n-1}}{p_n} \\
+        &= -\inn{xp_n}{p_n} + \alpha_n \inn{p_n}{p_n} \\
+        &= -\inn{xp_n}{p_n} + \inn{x p_n}{p_n} \\
+        &= 0
+    \end{align*}
+\end{proof}
+\begin{example}[Chebyshev polynomials]
+    Consider the inner product:
+    \begin{equation*}
+        \inn{p}{q} = \int_{-1}^{1} \frac{p(x) q(x)}{\sqrt{1 + x^2}} dx
+    \end{equation*}
+    Let $T_0, T_1, \cdots$ be the a set of orthogonal polynomials with respect to this inner product. These are the \underline{Chebyshev polynomials}, defined by:
+    \begin{equation*}
+        T_n(\cos\theta) = \cos(n\theta)
+    \end{equation*}
+    and have leading coefficients $2^{n-1}$.
+    \begin{align*}
+        &\cos((n+1)\theta) + \cos((n-1)\theta) = 2\cos(n\theta) \cos(\theta) \\
+        \therefore &T_{n+1}(x) + T_{n-1}(x) = 2T_n(x) x \\
+        &T_{n+1} = 2x T_n(x) - T_{n-1}
+    \end{align*}
+    Now let $\hat{T}_n(x)$ be the monic versions. Note that $\hat{T}_n(x) = 2^{1-n} T_n(x)$. The 3-term recurrence is:
+    \begin{equation*}
+        \hat{T}_{n+1}(x) = x \hat{T}_n(x) - \frac14 \hat{T}_{n-1}(x)
+    \end{equation*}
+    and therefore $\alpha_n = 0, \beta_n = \frac14$.
+\end{example}
+\subsection{Least-Squares Polynomial Fitting}
+We now return to the study of polynomial approximation. Now we have an inner product on $C[a, b]$, we want to find the polynomial $p$ of degree $n$ that minimises $\norm{f - p}$ for any $f \in C[a, b]$.
+\begin{theorem}[Least-Squares Polynomial Theorem]
+    The polynomial $p \in \P_n[x]$ that minimises, for $f \in C[a, b]$, $\norm{f - p}$ is given by:
+    \begin{equation}
+        p = \sum_{k=0}^{n} \frac{\inn{f}{p_k}}{\inn{p_k}{p_k}} p_k
+        \label{eqnLeastSquaresPoly}
+    \end{equation}
+    where $(p_k)_{i=0}^n$ are the first $n$ monic orthogonal polynomials for the given inner product.
+    \label{thmLeastSquaresPoly}
+\end{theorem}
 \end{document}
