@@ -75,7 +75,270 @@ This is the Euler momentum equation, the equation of motion for inviscid fluid f
 \begin{remark}
     At a fluid boundary, the stress exerted by the fluid on the surface is $p \vec{n}$, and the stress exerted by the boundary on the fluid is still the familiar $-p\vec{n}$.
 \end{remark}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[>=Stealth, thick, line width=1pt]
+
+        % Define geometry
+        \def\R{1.5} % Bend radius
+        \def\W{1.0} % Pipe width
+        \def\Wr{0.5} % Pipe radius
+        \def\Hlen{2.5} % Horizontal straight length
+        \def\Vlen{2.5} % Vertical straight length
+
+        % Coordinates
+        % Start at top left
+        \coordinate (Start) at (0, \Vlen+\R);
+        \coordinate (BendStart) at (\Hlen, \Vlen+\R);
+        \coordinate (BendCenter) at (\Hlen, \Vlen);
+        \coordinate (BendEnd) at (\Hlen+\R, \Vlen);
+        \coordinate (End) at (\Hlen+\R, 0);
+
+        % Draw Pipe
+        % Top/Outer Wall
+        \draw[line width=1.2pt] (0, \Vlen+\R+\Wr) -- (\Hlen, \Vlen+\R+\Wr) arc (90:0:\R+\Wr) -- (\Hlen+\R+\Wr, 0);
+        % Bottom/Inner Wall
+        \draw[line width=1.2pt] (0, \Vlen+\R-\Wr) -- (\Hlen, \Vlen+\R-\Wr) arc (90:0:\R-\Wr) -- (\Hlen+\R-\Wr, 0);
+
+        % Draw End 1 (Inlet)
+        \draw[line width=1.2pt, fill=white] (Start) ellipse ({0.2} and \Wr);
+
+        % Draw End 2 (Outlet)
+        \draw[line width=1.2pt, fill=white] (End) ellipse [x radius=\Wr, y radius=0.2];
+
+        % Normal Vectors
+        % normal at End 1
+        \draw[->, line width=1pt] (Start) -- ++(-1.2, 0) node[left] {$\vec{n_1}$};
+        % normal at End 2
+        \draw[->, line width=1pt] (End) -- ++(0, -1.2) node[below] {$\vec{n_2}$};
+        % n at Bend (45 degrees)
+        \draw[->, line width=1pt] ($(BendCenter) + (45:\R+\Wr)$) -- ++(45:1.0) node[above right] {$\vec{n_3}$};
+
+        % Labels
+        % End 1
+        \node (end1) at (0, \Vlen+\R+1.2) {\Large End 1};
+        \draw[->, line width=0.8pt] (end1.south) -- ($(Start)+(0, \Wr)$);
+
+        % End 2
+        \node (end2) at (\Hlen+\R+2.0, 0.5) {\Large End 2};
+        \draw[->, line width=0.8pt] (end2.west) -- ($(End)+(\Wr, 0)$);
+
+        % Walls
+        \node (walls) at (\Hlen+\R+1.8, \Vlen) {\Large Walls};
+        \draw[->, line width=0.8pt, bend left=20] (walls.west) to (\Hlen+\R+\Wr, \Vlen-0.5);
+
+        % Circled Numbers
+        \node[circle, draw, line width=1.5pt, inner sep=4pt] at (0, \Vlen+\R-1.5) {\Large 1};
+        \node[circle, draw, line width=1.5pt, inner sep=4pt] at (\Hlen+\R-1.2, 0.5) {\Large 2};
+
+        % Flow Arrows
+        \draw[->, line width=1pt] (\Hlen-0.5, \Vlen+\R) -- (\Hlen+0.5, \Vlen+\R)
+            node[pos=0.5, anchor=north] {$U$};
+
+        \draw[->, line width=1pt] (\Hlen+\R, \Vlen+0.5) -- (\Hlen+\R, \Vlen-0.5)
+            node[pos=0.5, anchor=east] {$U$};
+    \end{tikzpicture}
+    \caption{Diagram of flow through a bent pipe}
+    \label{figBentPipe}
+\end{figure}
 \begin{example}[Flow through a bent pipe]
-    Consider a pipe with a right-angle bend and an otherwise spherical cross-section. Suppose that fluid flow in and out with speed $u$. Assume stead flow (independent of time) and disregard gravity.
+    Consider a pipe with a right-angle bend and an otherwise spherical cross-section. See figure~\ref{figBentPipe}.
+    Suppose that fluid flows in and out with speed $U$. Assume steady flow (independent of time) and disregard gravity.
+    
+    Let the pressures at the ends 1 and 2 be $p_1$ and $p_2$. Define the areas of the ends as $A_1$ and $A_2$.
+
+    Now consider the Euler integral momentum equation:
+    \begin{equation*}
+        \underbrace{\frac{d}{dt} \int_V \rho \vec{u} dV}_{0 \text{ by steady flow}} = - \int_{\partial V} \rho \vec{u} (\vec{u} \cdot \vec{n}) dS + \int_{\partial v} -p \vec{n} dS + \underbrace{\int_V \bdforce dV}_{0 \text{ no body forces}}
+    \end{equation*}
+    So now:
+    \begin{equation*}
+        \int_{\partial V} \left(\rho \vec{u} (\vec{u} \cdot \vec{n}) + p \vec{n}\right)dS = \vec0
+    \end{equation*}
+    Consider the surface $\partial V$ as the walls and the ends. The integral over the walls gives:
+    \begin{equation*}
+        \int_{\text{walls}} \left[\rho \vec{u} \underbrace{(\vec{u} \cdot \vec{n})}_{\text{ $0$ by KBC}} + p \vec{n}\right] dS = \int_{\text{walls}} p \vec{dS} = \vec{F}
+    \end{equation*}
+    Then this is the force exerted by the fluid flow on the pipe. The integral over the ends is:
+    \begin{align*}
+        \int_{\text{End }1 + \text{ end } 2}& \left[\rho u (\vec{u} \cdot \vec{n}) + p \vec{n}\right] dS\\
+        &= \underbrace{\left[\rho (-U)(-U \vec{n_1}) + p_1 \vec{n_1}\right]A_1}_{\text{End }1} \underbrace{\left[\rho (U)(U \vec{n_2}) + p_2 \vec{n_2}\right]A_2}_{\text{End }2} \\
+        \intertext{Then make the assumptions $A_1 = A_2 = A$, $p_1 = p_2 = p$:}
+        &= A\left[\rho U^2 \vec{n_1} + p\vec{n_1} + \rho U^2 \vec{n_2} + p\vec{n_2}\right] \\
+        &= A \left[(p + \rho U^2)(\vec{n_1} + \vec{n_2})\right]
+    \end{align*}
+    Then finally, we can add these two together to get zero:
+    \begin{align*}
+        \vec0 &= \vec{F} + A \left[(p + \rho U^2)(\vec{n_1} + \vec{n_2})\right] \\
+        \vec{F} &= A (p + \rho U^2) (-\vec{n_1} - \vec{n_2})
+    \end{align*}
+    Then this acts along the vector $\vec{n_3}$ on the diagram.
+\end{example}
+\section{Bernoulli Equation for Steady Flows with Potential Forces}
+There are two Bernoulli equations in this course. Here we will consider steady flows and potential (conservative) forces.
+
+We provide the derivation, starting from the Euler momentum equation~\ref{eqnEulerMomDiv}.
+\begin{equation*}
+    \rho \frac{D \vec{u}}{D t} = -\nabla p + \bdforce
+\end{equation*}
+We need the following assumptions:
+\begin{itemize}
+    \item Steady flow, $\frac{\partial u}{\partial t} = 0$.
+    \item $\rho$ is constant (note that this assumption holds for the whole course, but we did not need it for the Euler equations).
+    \item Any forces are conservative, $\bdforce = -\nabla \chi$.
+\end{itemize}
+\begin{align*}
+    -\nabla (p + \chi) &= \rho (\vec{u} \cdot \nabla) \vec{u} \\
+    &= \rho \left(\nabla \frac12 |\vec{u}|^2\right) - \vec{u} \times (\nabla \times \vec{u}) \\
+    \intertext{Then substitute this into \eqnref{eqnEulerMomDiv}:}
+    &= \rho \left[\nabla \left(\frac12 |\vec{u}|^2\right) - \vec{u} \times (\nabla \times \vec{u})\right]
+\end{align*}
+Let $\omega = \nabla \times \vec{u}$. This is the \underline{vorticity}.
+
+Then bringing the gradients together:
+\begin{equation*}
+    \nabla \left[\frac12 \rho |\vec{u}|^2 + p + \chi\right] \rho \vec{u} \times \vec{\omega}
+\end{equation*}
+Then taking an inner product with $\vec{u}$:
+\begin{equation}
+    \vec{u} \cdot \nabla \underbrace{\left[\frac12 \rho |\vec{u}|^2 + p + \chi\right]}_{H} = 0
+    \label{eqnBernoulliSteady}
+\end{equation}
+This tells us that $H$ is constant along streamlines. We also see that when $|\vec{u}|$ increases, the pressure decreases (when the force is roughly constant). This is the \textit{Bernoulli effect}.
+\begin{example}
+    Consider a tank full of fluid, with a very small hole at the bottom through which the fluid is emptying. We want to know the speed of the fluid as it exits. First assume that the hole is so small that the flow is approximately steady (in order to use \eqnref{eqnBernoulliSteady}). We know that at the top of the fluid and at the hole, the pressure is $p_{\text{atm}}$.
+
+    Let the height of the tank be $h$, so if $\chi = 0$ at the top of the tank, $\chi = -\rho g h$ at the bottom.
+    We consider a streamline from the top of the fluid to the hole. At the top, $H = \frac12 \rho |\vec{u}|^2$ and at the bottom it is $\rho g h$. Therefore, we find the speed:
+    \begin{equation*}
+        |\vec{u}| = \sqrt{2gh}
+    \end{equation*}
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[thick]
+        % Define colors matching the image
+        \definecolor{penblue}{RGB}{20, 80, 160}
+        
+        % Parameters for geometry
+        \def\inletR{1.5}
+        \def\throatR{0.4}
+        \def\tubeOneX{0.8}
+        \def\tubeTwoX{4.0}
+        \def\tubeW{0.25}
+        \def\levelOne{2.5}
+        \def\levelTwo{1.5}
+        
+        % --- Manometer Liquid (Hatching) ---
+        % Tube 1 (Left)
+        \fill[pattern=north east lines, pattern color=penblue] 
+            (\tubeOneX - \tubeW/2, \inletR) rectangle (\tubeOneX + \tubeW/2, \levelOne);
+        
+        % Tube 2 (Throat)
+        \fill[pattern=north east lines, pattern color=penblue] 
+            (\tubeTwoX - \tubeW/2, \throatR) rectangle (\tubeTwoX + \tubeW/2, \levelTwo);
+
+        % --- Pipe Walls (Black) ---
+        % Top Wall
+        \draw[black, very thick] (-0.5, \inletR) 
+            to[out=0, in=180] (1.5, \inletR) 
+            to[out=0, in=180] (3.0, \throatR) 
+            -- (5.0, \throatR) 
+            to[out=0, in=180] (6.5, \inletR) 
+            -- (8.5, \inletR);
+            
+        % Bottom Wall
+        \draw[black, very thick] (-0.5, -\inletR) 
+            to[out=0, in=180] (1.5, -\inletR) 
+            to[out=0, in=180] (3.0, -\throatR) 
+            -- (5.0, -\throatR) 
+            to[out=0, in=180] (6.5, -\inletR) 
+            -- (8.5, -\inletR);
+
+        % --- Manometer Tubes (Blue Outlines) ---
+        % Tube 1
+        \draw[penblue, thick] (\tubeOneX - \tubeW/2, \inletR) -- (\tubeOneX - \tubeW/2, 3.5);
+        \draw[penblue, thick] (\tubeOneX + \tubeW/2, \inletR) -- (\tubeOneX + \tubeW/2, 3.5);
+        % Liquid Top 1
+        \draw[penblue, thick] (\tubeOneX - \tubeW/2, \levelOne) -- (\tubeOneX + \tubeW/2, \levelOne);
+        
+        % Tube 2
+        \draw[penblue, thick] (\tubeTwoX - \tubeW/2, \throatR) -- (\tubeTwoX - \tubeW/2, 3.5);
+        \draw[penblue, thick] (\tubeTwoX + \tubeW/2, \throatR) -- (\tubeTwoX + \tubeW/2, 3.5);
+        % Liquid Top 2
+        \draw[penblue, thick] (\tubeTwoX - \tubeW/2, \levelTwo) -- (\tubeTwoX + \tubeW/2, \levelTwo);
+
+        % --- Streamlines (Blue) ---
+        % Center
+        \draw[penblue, very thick] (-0.5, 0) -- (8.5, 0);
+        % Upper
+        \draw[penblue, very thick] (-0.5, 0.75) 
+            to[out=0, in=180] (1.5, 0.75) 
+            to[out=0, in=180] (3.0, 0.2) 
+            -- (5.0, 0.2) 
+            to[out=0, in=180] (6.5, 0.75) 
+            -- (8.5, 0.75);
+        % Lower
+        \draw[penblue, very thick] (-0.5, -0.75) 
+            to[out=0, in=180] (1.5, -0.75) 
+            to[out=0, in=180] (3.0, -0.2) 
+            -- (5.0, -0.2) 
+            to[out=0, in=180] (6.5, -0.75) 
+            -- (8.5, -0.75);
+
+        % --- Cross Sections (Dashed) ---
+        % A1
+        \draw[dashed, thin, black] (\tubeOneX, 0) ellipse [x radius=0.5, y radius=\inletR];
+        \node[font=\large] at (\tubeOneX + 0.1, 0.5) {$A_1$};
+        
+        % A2
+        \draw[dashed, thin, black] (\tubeTwoX, 0) ellipse [x radius=0.15, y radius=\throatR];
+        \node[font=\large] at (\tubeTwoX, -0.8) {$A_2$};
+
+        % --- Height Indication h ---
+        % Dotted line from level 1 to right
+        \draw[dotted, penblue, thick] (\tubeOneX + \tubeW/2, \levelOne) -- (\tubeTwoX - 0.5, \levelOne);
+        
+        % Vertical dimension line
+        \draw[black, thick] (\tubeTwoX - 0.4, \levelOne) -- (\tubeTwoX - 0.4, \levelTwo);
+        % Ticks
+        \draw[black, thick] (\tubeTwoX - 0.5, \levelOne) -- (\tubeTwoX - 0.3, \levelOne);
+        \draw[black, thick] (\tubeTwoX - 0.5, \levelTwo) -- (\tubeTwoX - 0.3, \levelTwo);
+        % Label
+        \node[left, font=\large] at (\tubeTwoX - 0.4, {(\levelOne + \levelTwo)/2}) {$h$};
+
+        % --- Circled Numbers ---
+        \node[circle, draw=black, very thick, inner sep=3pt, font=\Large\bfseries] at (\tubeOneX, -2.3) {1};
+        \node[circle, draw=black, very thick, inner sep=3pt, font=\Large\bfseries] at (\tubeTwoX, -2.3) {2};
+
+    \end{tikzpicture}
+    \caption{Diagram of Venturi Meter}
+    \label{figVenturiMeter}
+\end{figure}
+\begin{example}[Venturi meter]
+    The Venturi meter is a device to measure flow rate with no moving parts. It is based only on the changing pressure due to changing flow speeds.
+
+    We ignore gravity, and assume that the flow is uniform across cross-sections. This assumption requires that the cross-sectional area does not change too rapidly.
+
+    Consider figure~\ref{figVenturiMeter}. Let the velocity and pressure in region $1$ be $\vec{u_1}$ and $\vec{p_1}$, and define $\vec{u_2}$ and $p_2$ in region 2.
+
+    Conservation of mass implies:
+    \begin{equation*}
+        \text{ Flow rate } = Q = A_1 |\vec{u_1}| = A_2 |\vec{u_2}|
+    \end{equation*}
+    Then consider \eqnref{eqnBernoulliSteady} on a streamline (blue lines in figure~\ref{figVenturiMeter}):
+    \begin{gather*}
+        \frac12 \rho |\vec{u_1}|^2 + p_1 = \frac12 \rho |\vec{u_2}| + p_2 \\
+        \therefore p_1 - p_2 = \frac12 \rho |\vec{u}|^2 = \frac12 \rho |\vec{u_1}|^2 \\
+        = \frac12 \rho |\vec{u_1}|^2 \left(\frac{A_1^2}{A_2^2} - 1\right)
+    \end{gather*}
+    Then in order to measure $h$, we use hydrostatics: $\rho g h = p_1 - p_2$:
+    \begin{equation*}
+        h = \frac12 \frac{|\vec{u_1}|^2}{g} \left(\frac{A_1^2}{A_2^2} - 1\right)
+    \end{equation*}
+    Now we can find the flow rate:
+    \begin{equation*}
+        Q = A_1 |\vec{u_1}| = \sqrt{2gh} \frac{A_1 A_2}{\sqrt{A_1^2 - A_2^2}}
+    \end{equation*}
 \end{example}
 \end{document}
