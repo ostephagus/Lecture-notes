@@ -147,7 +147,8 @@ For the derivation, see the course IB Methods. This is the convolution of $\rho(
     -\nabla^2 \Phi = \frac{\delta(\vec{x})}{\epsilon_0}
 \end{equation*}
 \begin{remark}
-    $\vec{E}$ is unaffected if we add an arbitrary constant to $\Phi$. We usually choose this such that $\Phi \to 0$ as $|\vec{x}| \to \infty$ %TODO: Clarify the remark above that says the same thing.
+    $\vec{E}$ is unaffected if we add an arbitrary constant to $\Phi$. We usually choose this such that $\Phi \to 0$ as $|\vec{x}| \to \infty$, as in the solution above.
+
     If $\rho(\vec{x})$ does not decay sufficiently rapidly, this may not be possible, as in the case of a line charge where $E_r \propto r^{-1}$ and $\Phi \propto \log(r)$.
 \end{remark}
 \subsection{Point Charge}
@@ -225,10 +226,109 @@ For a general charge distribution $\rho(\vec{x})$, confined to a ball $V$ of rad
 Then consider the external potential for when $|\vec{x}| < R$. Consider an expansion:
 \begin{align*}
     \frac{1}{|\vec{x} - \vec{y}|} &= \frac1r - (\vec{y} \cdot \nabla)\frac1r + \frac12 (\vec{y} \cdot \nabla)^2 \frac1r + O(|\vec{y}|^3) \\
-    &= \frac1r \left[1 + \frac{\vec{y} \cdot \vec{x}}{r^2} + \frac{3(\vec{y} \cdot \vec{x}) - |\vec{y}|^2 |\vec{x}|^2}{2r^4} + O\left(\frac{R^3}{r^3}\right)\right]
+    &= \frac1r \left[1 + \frac{\vec{y} \cdot \vec{x}}{r^2} + \frac{3(\vec{y} \cdot \vec{x})^2 - |\vec{y}|^2 |\vec{x}|^2}{2r^4} + O\left(\frac{R^3}{r^3}\right)\right]
 \end{align*} 
-Then this leads to the \underline{multipole expansion} fo the potential, as seen in Ex1Q11.
+Then this leads to the \underline{multipole expansion} for the potential, as seen in Ex1Q11.
 \begin{equation*}
     \Phi(\vec{x}) = \frac{1}{4\pi \epsilon_0} \left(\frac{Q}{r} + \frac{\vec{p} \cdot \vec{x}}{r^3} + \frac12 \frac{Q_{ij} x_i x_j}{r^5} + \cdots\right)
 \end{equation*}
+These are the first three \underline{multipole moments} of the charge distribution:
+\begin{enumerate}
+    \item the \underline{monopole moment}: total charge $Q = \int_V \rho(\vec{x}) d^3 \vec{x}$;
+    \item the \underline{electric dipole moment}: $\vec{p} = \int_V \vec{x} \rho(\vec{x}) d^3 \vec{x}$;
+    \item the \underline{electric quadrupole moment}: this is a traceless symmetric 2nd-order tensor given by
+        \begin{equation*}
+            Q_{ij} = \int_V \left(3 x_i x_j |\vec{x}|^2 - \delta_{ij}\right) \rho(\vec{x}) d^3 \vec{x}
+        \end{equation*}
+\end{enumerate}
+For $r \gg R$, $\Phi$ and $\vec{E}$ look increasingly like those for a point charge $Q$, unless $Q = 0$, in which case the next term dominates.
+\section{Electrostatic Energy}
+The work done against the electric force $\vec{F} = q\vec{E}$ in bringing a particle of charge $q$ from infinity (where $\Phi = 0$) to a position $\vec{x}$ is:
+\begin{equation}
+    - \int_{\infty}^{\vec{x}} \vec{F} \cdot \vec{dx} = q \int_\infty^{\vec{x}} \nabla \Phi \cdot \vec{dx} = q \Phi(\vec{x})
+    \label{eqnElectroWork}
+\end{equation}
+Consider assembling a configuration of $N$ point charges one by one. Particle $i$ of charge $q_i$ is brought to $\vec{x_i}$ from $\infty$ while all the previous particles remain fixed.
+
+For particle $1$, no work is done. $W_1 = 0$.
+
+For particle $2$, the work is $W_2 = q_2 \left(\frac{q_1}{4\pi \epsilon_0 |\vec{x_2} - \vec{x_1}|}\right)$.
+
+For particle $3$, the work is:
+\begin{equation*}
+    W_3 = \frac{q_3}{4\pi \epsilon_0} \left(\frac{q_1}{|\vec{x_1} - \vec{x_3}|} + \frac{q_2}{|\vec{x_2} - \vec{x_3}|}\right)
+\end{equation*}
+Indeed, for particle $i$,
+\begin{equation*}
+    W_i = \frac{q_i}{4\pi \epsilon_0}\sum_{j=1}^{i-1} \frac{q_j}{|\vec{x_i} - \vec{x_j}|}
+\end{equation*}
+And so the total work done is:
+\begin{align*}
+    U &= \sum_{i=1}^{N} W_i = \sum_{i=2}^{N} \sum_{j=1}^{i-1} \frac{q_i q_j}{4\pi \epsilon_0 |\vec{x_i} - \vec{x_j}|} \\
+    U &= \frac12 \sum_{i=1}^{N} \sum_{\substack{j=1\\j \neq i}}^{N} \frac{q_i q_j}{4\pi \epsilon_0 |\vec{x_i} - \vec{x_j}|} \\
+    &= \frac12 \sum_{i=1}^{N} q_i \Phi(\vec{x_i})
+\end{align*}
+And then, for a continuous charge distribution over a finite volume $V$:
+\begin{equation}
+    U = \frac12 \int_V \rho(\vec{x}) \Phi(\vec{x}) dV
+    \label{eqnElectroEnergyDisc}
+\end{equation}
+Now we use \eqnref{eqnMTED}:
+\begin{align*}
+    U &= \frac12 \int_V (\epsilon_0 \nabla \cdot \vec{E}) \Phi dV \\
+    &= \frac{\epsilon_0}{2} \int_V \left(\nabla \cdot (\Phi\vec{E}) - E \cdot \nabla \Phi\right) dV \\
+    &= \frac{\epsilon_0}{2} \int_{\partial V} \Phi\vec{E} \cdot \vec{dS} + \frac{\epsilon_0}{2}\int_V |\vec{E}|^2 dV
+\end{align*}
+Now let $S = \partial V$ be a sphere of radius $R \to \infty$. Then $\Phi = O(R^{-1})$ and $\vec{E} = O(R^{-2})$ on $S$, while the area of $S$ is $O(R^2)$. Therefore, the above integral over $S$ is $O(R^{-1})$ and tends to $0$ as $R \to \infty$.
+Therefore,
+\begin{equation}
+    U = \int_{\R^3} \frac{\epsilon_0 |\vec{E}|^2}{2}
+    \label{eqnElectroEnergyCts}
+\end{equation}
+This implies that energy is stored in the electric field, even in a vacuum. %TODO: Why?
+
+Any expression for $U$ suggests that the self-energy for a point charge is infinite. However, we can freely discard this because it causes no force.
+\section{Conductors}
+In a conductor, such as a metal, some charges (usually electrons) can move freely. Therefore, the electric field is zero in a conductor. This is because the charges will move to balance out any electric field applied to them. This also gives us:
+\begin{equation*}
+    \Phi = \text{constant},\quad \rho = 0
+\end{equation*}
+A surface charge density $\sigma$ \textit{can exist} on the surface of the conductor, which is an equipotential. Taking $\vec{n}$ pointing out of the conductor, apply \eqnref{eqnSurfaceChargeDcty} to get that just outside the conductor we get:
+\begin{equation*}
+    \vec{n} \cdot \vec{E} = \frac{\sigma}{\epsilon_0}
+\end{equation*}
+because the electric field is zero inside the conductor. The constant potential of a conductor can be set by connecting it to a battery or another conductor.
+\begin{definition}{Earthed conductor}
+    An \underline{earthed/grounded conductor} is a conductor connected to the ground and is taken to have $\Phi = 0$.
+\end{definition}
+To find $\Phi(\vec{x})$ and $\vec{E}(\vec{x})$ due to a charge distribution $\rho(\vec{x})$ in the presence of conductors, with surfaces $S_i$ and potentials $\Phi_i$, we solve Poisson's equation:
+\begin{equation*}
+    - \nabla^2 \Phi = \frac{\rho}{\epsilon_0}
+\end{equation*}
+with Dirichlet boundary conditions $\Phi = \Phi_i$ on $S_i$.
+\begin{remark}
+    The solution of this problem depends linearly on $\rho$ and all the $\Phi_i$.
+\end{remark}
+\begin{example}
+    Consider a point charge $q$ at a position $(0, 0, h)^T$ in a half-space $\{z > 0\}$ bounded by an earthed conducting wall. That is, $\Phi = 0$ on $z = 0$. We recall from the course IB Methods the Method of Images. That is, we place a virtual point charge $-q$ at position $(0, 0, -h)^T$ which produces the same potential and electric field on $\{z > 0\}$ as the conducting wall would.
+\end{example}
+\subsection{Capacitors}
+A simple capacitor consists of two separate conductors with equal and opposite charge $\pm Q$. If the potential difference between them is $V$, then the capacitance is defined as:
+\begin{equation}
+    C = \frac{Q}{V}
+    \label{eqnCapacitance}
+\end{equation}
+and this depends only on the geometry because $\Phi$ depends linearly on $Q$.
+\begin{example}[Parallel plate capacitor]
+    Consider a capacitor made up of two (approximately) infinite parallel plates, separated by a distance $d$. Let the plate surfaces be at $z = 0$ and $z = d$, with surface charge densities $\pm \sigma$. Then:
+    \begin{equation*}
+        \vec{E}(\vec{x}) = E(z) \vec{e_z}
+    \end{equation*}
+    We also find that $E(z) = E$ is constant, because at every point we have $\Phi$ changing constantly with $z$. Therefore, using the boundary condition, $E = \frac{\sigma}{\epsilon_0}$ inside the gap and zero inside the conductors. The potential difference is then:
+    \begin{equation*}
+        V = E d = \frac{\sigma d}{\epsilon_0}
+    \end{equation*}
+
+    The same solution holds approximately for real parallel plate capacitors, with $A \gg d^2$ and with negligible end effects.
+\end{example}
 \end{document}
