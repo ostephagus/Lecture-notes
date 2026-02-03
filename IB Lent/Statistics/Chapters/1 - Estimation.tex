@@ -307,10 +307,11 @@ Suppose $X_1, \cdots, X_n$ are independent, identically distributed random varia
     \end{align*}
     \label{expBerSuffStat}
 \end{example}
+\subsection{Characterising Sufficiency}
 \begin{theorem}[Factorisation Criterion]
     A statistic $T$ is sufficient for $\theta$ if and only if:
     \begin{equation*}
-        f_{\vec{X}}(\vec{x}, \theta) = g(T(\vec{x}, \theta))h(\vec{x})
+        f_{\vec{X}}(\vec{x}, \theta) = g(T(\vec{x}), \theta)h(\vec{x})
     \end{equation*}
     for suitable functions $g$ and $h$.
     \label{thmFactorisationCriterion}
@@ -348,6 +349,7 @@ Suppose $X_1, \cdots, X_n$ are independent, identically distributed random varia
         &= \underbrace{\frac{1}{\theta^n} \ind{\max_i X_i \leq \theta}}_{g(T(\vec{x}), \theta)} \underbrace{\ind{\min_i X_i \geq 0}}_{h(\vec{x})}
     \end{align*}
     so by \thmref{thmFactorisationCriterion}, $T = \max_i X_i$ is sufficient.
+    \label{expUnifSuffStat}
 \end{example}
 \subsection{Minimal Sufficiency}
 \begin{definition}{Minimal sufficient statistic}
@@ -362,17 +364,38 @@ Suppose $X_1, \cdots, X_n$ are independent, identically distributed random varia
 \begin{theorem}[Minimality Criterion]
     Suppose $T(\vec{X})$ is a statistic such that:
     \begin{equation*}
-        \frac{f_{\vec{X}}(\vec{x}, \theta)}{f_{\vec{X}}(\vec{y}, \theta)} \text{ is constant} \iff T(\vec{x}) = T(\vec{y})
+        \frac{f_{\vec{X}}(\vec{x}, \theta)}{f_{\vec{X}}(\vec{y}, \theta)} \text{ is constant (in $\theta$)} \iff T(\vec{x}) = T(\vec{y})
     \end{equation*}
     Then $T$ is a minimal sufficient statistic.
     \label{thmMinCriterion}
 \end{theorem}
 \begin{proof}
-    We need to show that such a statistic is sufficient and minimal. Let $z_t$ be a representative element of $\subsetselect{\vec{x}}{T(\vec{x}) = t}$. We then write:
-    \begin{equation*}
-        f_{\vec{X}}(\vec{x}, \theta) = f_X(z_{T(\vec{x})}, \theta) \frac{f_{\vec{X}}(\vec{x}, \theta)}{f_{\vec{X}}(z_{T(\vec{x})}, \theta)}
-    \end{equation*}
-    [\textbf{To be completed next lecture.}]
+    We need to show that such a statistic is sufficient and minimal.
+    \begin{subproof}{$T$ is a sufficient statistic}
+        Let $\vec{y}$ be an element of $\samplespace$ with $T(\vec{x}) = T(\vec{y})$. Choose $\vec{y}$ independently of $\vec{x}$ in the set $\subsetselect{\vec{z}}{T(\vec{z}) = T(\vec{x})}$.
+        \begin{equation*}
+            f_{\vec{X}}(\vec{x}, \theta) = \underbrace{f_{\vec{X}}(\vec{y}, \theta)}_{g(T(\vec{x}), \theta)} \underbrace{\frac{f_{\vec{X}}(\vec{x}, \theta)}{f_{\vec{X}}(\vec{y}, \theta)}}_{h(\vec{x})}
+        \end{equation*}
+        Then this meets the criterion in \thmref{thmFactorisationCriterion} because $\vec{y}$ was chosen from $\subsetselect{\vec{z}}{T(\vec{z}) = T(\vec{x})}$ independently of $\vec{x}$ (so $g$ depends only on $T(\vec{x})$), and $h$ is independent of $\theta$ by hypothesis.
+    \end{subproof}
+    \begin{subproof}{$T$ is minimal}
+        Suppose that $S$ is another sufficient statistic. Then by \thmref{thmFactorisationCriterion}, there exist $g_S$ and $h_S$ such that:
+        \begin{equation*}
+            f_{\vec{X}}(\vec{x}, \theta) = g_S(T(\vec{x}), \theta) h_S(\vec{x})
+        \end{equation*}
+        Then suppose $S(\vec{x}) = S(\vec{y})$. Then:
+        \begin{align*}
+            \frac{f_{\vec{X}}(\vec{x}, \theta)}{f_{\vec{X}}(\vec{y}, \theta)}&= \frac{g_S(S(\vec{x}), \theta) h_S(\vec{x})}{g_S(S(\vec{y}), \theta) h_S(\vec{y})} \\
+            &= \frac{h_S(\vec{x})}{h_S(\vec{y})}
+        \end{align*}
+        Then this is independent of $\theta$, and so by hypothesis, this means $T(\vec{x}) = T(\vec{y})$.
+
+        Since $S$ was arbitrary, any sufficient statistic $S$ gives:
+        \begin{equation*}
+            S(\vec{x}) = S(\vec{y}) \implies T(\vec{x}) = T(\vec{y})
+        \end{equation*}
+        And so $T$ is minimal.
+    \end{subproof}
 \end{proof}
 \begin{example}
     Suppose $X_i \sim N(\mu, \sigma^2)$ for $i = 1$ to $n$. Now our parameter is a vector, $\vec{\theta} = (\mu, \sigma^2)^T$.
@@ -389,5 +412,94 @@ Suppose $X_1, \cdots, X_n$ are independent, identically distributed random varia
     \begin{equation*}
         T(X) = \left(\sum_{i=1}^n X_i, \sum_{i=1}^n X_i^2\right)
     \end{equation*}
+    Because we can perform a bijection without losing minimal sufficiency, consider instead the statistic:
+    \begin{align*}
+        S(\vec{X}) &= (\overline{\vec{X}}, S_{XX}),\\
+        \text{Where }&\overline{\vec{X}} = \frac1n \sum_{i=1}^{n} X_i,\quad S_{XX} = \sum_{i=1}^{n} (X_i - \overline{X})^2
+    \end{align*}
 \end{example}
+\begin{theorem}[Rao-Blackwell Theorem]
+    Let $T$ be a sufficient statistic for $\theta$, and let $\tilde{\theta}$ be an estimator for $\theta$ with $\E_\theta[(\tilde{\theta})^2]$ finite for all $\theta$.
+
+    Define a new estimator $\hat{\theta} = \E_\theta[\tilde{\theta} | T(\vec{X})]$. Then for all $\theta$,
+    \begin{equation}
+        \mse(\hat{\theta}) \leq \mse(\tilde{\theta})
+        \label{eqnRaoBlackwellIneq}
+    \end{equation}
+    and the inequality is strict unless $\tilde{\theta}$ is a function of $T(\vec{X})$.
+    \label{thmRaoBlackwell}
+\end{theorem}
+\begin{remark}
+    We have a problem if in fact any of the estimators depend on $\theta$, since then we cannot use our estimator. We can resolve this, but in the notation above this is not clear.
+
+    In the continuous case,
+    \begin{equation*}
+        \hat{\theta} = \int \tilde{\theta}(\vec{x}) f_{\vec{X} | T(\vec{x})}(\vec{x}, T) d^n \vec{x}
+    \end{equation*}
+    Then by sufficiency of $T$, the conditional pmf does not depend on $\theta$, and so $\hat{\theta}$ does not depend on $\theta$.
+\end{remark}
+\begin{proof}
+    In this proof we will drop the subscript $\theta$ for expectations.
+    \begin{align*}
+        \E[\hat{\theta}] &= \E[\E[\hat{\theta} | T]] = \E[\tilde{\theta}] \\
+        \therefore \bias(\hat{\theta}) &= \bias(\tilde{\theta})
+    \end{align*}
+    Then by the conditional variance formula,
+    \begin{align*}
+        \Var(\hat{\theta}) &= \E[\Var(\tilde{\theta} | T)] + \Var(\E[\tilde{\theta} | T]) \\
+        &= \E[\Var(\tilde{\theta} | T)] + \Var(\hat{\theta}) \\
+        &\geq \Var(\hat{\theta})
+    \end{align*}
+    Therefore, by \thmref{propBiasVarDecomp}, 
+    \begin{equation}
+        \mse(\tilde{\theta}) \geq \mse(\hat{\theta})
+        \tag{\ref{eqnRaoBlackwellIneq}}
+    \end{equation}
+
+    Note that the above inequality is strict unless $\E[\Var(\tilde{\theta} | T)] = 0$, which is exactly when the distribution $\tilde{\theta} | T$ is constant, so exactly when $\tilde{\theta}$ is a function of $T$.
+\end{proof}
+\begin{example}
+    Suppose $X_i$ are independent and identically distributed Poisson random variables (with parameter $\lambda$). Suppose we have $\theta = \P(X_i = 0) = e^{-\lambda}$.
+    \begin{align*}
+        f_{\vec{X}} &= \frac{e^{-n \lambda} \lambda^{\sum_{i=1}^n X_i}}{\prod_{i=1}^{n} (X_i)!} \\
+        &= \frac{\theta^n (-\log(\theta))^{\sum_{i=1}^n X_i}}{\prod_{i=1}^{n} (X_i)!}
+    \end{align*}
+    Then we see, by factorising, that $T = \sum_{i=1}^{n} X_i$ is a sufficient statistic. Note that by the property of a Poisson distribution, $T \sim \operatorname{Po}(n\lambda)$. In order to use \thmref{thmRaoBlackwell}, start with a simple estimator $\tilde{\theta} = \ind{X_1 = 0}$.
+
+    \begin{align*}
+        \hat{\theta} &= \E[\tilde{\theta} | T = t] \\
+        &= \P(X_1 = 0 | \sum_{i=1}^{n} X_i = t) \\
+        &= \frac{\P\left(X_1 = 0, \sum_{i=2}^{n} X_i = t\right)}{\P\left(\sum_{i=1}^{n} X_i = t\right)} \\
+        &= \frac{\P\left(X_1 = 0\right)\P\left(\sum_{i=2}^{n} X_i = t\right)}{\P\left(\sum_{i=1}^{n} X_i = t\right)} \\
+        &= \frac{e^{-\lambda} e^{-(n-1)\lambda} \frac{((n-1) \lambda)^t}{t!}}{e^{-n\lambda} \frac{(n\lambda)^t}{t!}} \\
+        &= \left(\frac{n-1}{n}\right)^t
+    \end{align*}
+    And therefore $\hat{\theta} = \left(1 - \frac1n\right)^{\sum_{i=1}^n X_i}$.
+\end{example}
+\begin{example}
+    Let $X_i$ be independent and identically distributed uniform random variables over $[0, \theta]$. Suppose we want to estimate $\theta$. In example~\ref{expUnifSuffStat}, we saw $T = \max_i X_i$ is sufficient for $\theta$. Let $\tilde{\theta} = 2X_1$, an unbiased estimator that only takes into account the first value.
+    \begin{align*}
+        \hat{\theta} &= \E[\tilde{\theta} | T] \\
+        &= 2E[X_1 | \max_i X_i = t] \\
+        &= 2E[X_1 | \max_i X_i = t, X_1 = \max_i X_i] \\
+        &\qquad \times \P(X_1 = \max_i X_i | \max_i X_i = t) \\
+        &\quad + 2E[X_1 | \max_i X_i = t, X_1 \neq \max_i X_i] \\
+        &\qquad \times \P(X_1 \neq \max_i X_i | \max_i X_i = t) \\
+        &= 2t \times \frac1n + 2\E[X_1 | X_1 < t, \max_{i>1} = t] \left(\frac{n-1}{n}\right) \\
+        &= 2t \times \frac1n + 2\left(\frac{t}{2}\right) \left(\frac{n-1}{n}\right) \\
+        &= \frac{n+1}{n} t
+    \end{align*}
+    Therefore we have a new estimator $\hat{\theta} = \frac{n+1}{n} \max_i X_i$.
+\end{example}
+\subsection{Maximum Likelihood Estimators}
+Let $\vec{X} = (X_1, \cdots, X_n)^T$ have joint pdf (or pmf) $f_{\vec{X}} (\vec{x}, \theta)$.
+\begin{definition}{Likelihood}
+    The \underline{likelihood} of $\theta$ is the function:
+    \begin{equation*}
+        L : \theta \mapsto f_{\vec{X}} (\vec{x}, \theta)
+    \end{equation*}
+\end{definition}
+\begin{definition}{Maximum likelihood estimator}
+    The \underline{maximum likelihood estimator} is the value of $\theta$ maximising $L$.
+\end{definition}
 \end{document}
