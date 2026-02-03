@@ -7,11 +7,16 @@
 \def\lecturer{Prof J. Santos}
 
 \input{../../Header.tex}
-%\usepackage{mathrsfs}
+
+\usetikzlibrary{decorations.pathmorphing}
+
+\tikzset{branchcut/.style={color=blue, decorate, decoration={zigzag, segment length=3mm}}}
 
 \renewcommand{\Re}{\operatorname{Re}}
 \renewcommand{\Im}{\operatorname{Im}}
 \newcommand{\Cstar}{\C^*}
+\newcommand{\moeb}{M\"obius~}
+\newcommand{\abs}[1]{\left|#1\right|}
 
 %\DeclareMathOperator{\arg}{arg}
 

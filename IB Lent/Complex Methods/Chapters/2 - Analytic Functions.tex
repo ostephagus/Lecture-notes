@@ -220,7 +220,7 @@ In this section, we study multivalued functions and use the example of $\log(z)$
 
 For $z = re^{i\theta}$, we define $\log(z) = \log(r) + i\theta$. However, $\theta$ can take infinitely many values to give the same $z$.
 
-As an example, $\log(i)$ takes many values: $i \frac{\pi}{2}, \frac{5\pi}{2} i, \cdots$. Therefore $\log$ has to be multivalued. In principle this it fine, but we must be careful (and consistent).
+As an example, $\log(i)$ takes many values: $i \frac{\pi}{2}, \frac{5\pi}{2} i, \cdots$. Therefore, $\log$ has to be multivalued. In principle this it fine, but we must be careful (and consistent).
 
 \begin{figure}
     \centering
@@ -289,7 +289,7 @@ Now $\log$ is continuous, single-valued and differentiable on any curve that doe
     \item $\log(z) = \log(|z|) + i \arg(z),\quad \arg \in (-\pi, \pi)$.
         Then this defines the branch cut (along $\arg(z) = \pi$) and the branch (by giving a range of values of $\arg$).
     \item We can specify the branch cut, and give the value of the function at a point not on the cut.
-    \item \textbf{Non-Examinable:} Riemann Surfaces. Riemann imagined something more clever than this abrupt jump. Instead, consider the branches as different copies of $\Cstar$ and ``glue them together'' along the branch cuts. See figure~\ref{figRiemannSurface}
+    \item \textbf{Non-Examinable:} Riemann Surfaces. Riemann imagined something more clever than this abrupt jump. Instead, consider the branches as different copies of $\Cstar$ and ``glue them together'' along the branch cuts. See figure~\ref{figRiemannSurface}.
 \end{examples}
 \begin{figure}
     \centering
@@ -297,5 +297,151 @@ Now $\log$ is continuous, single-valued and differentiable on any curve that doe
     \caption{Image of the Riemann surfaces of $\log$}
     \label{figRiemannSurface}
 \end{figure}
+So far we have mostly considered branch points at $z = 0$ and $z = \infty$. We would also like to be able to deal with cases with branch points at different places, and more than 2 branch points.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+    \draw[->] (-3, 0) -- (5, 0) node[right] {$\Re$};
+    \draw[->] (0, -3) -- (0, 3) node[above] {$\Im$};
+    
+    \draw[branchcut] (-3, 0) -- (0, 0);
+    \draw[branchcut] (1.5, 0) -- (5, 0);
 
+    \begin{scope}[every node/.style={fill, circle, minimum size=2mm, inner sep=0pt}]
+        \node at (1.5, 0) [label=below left:$z_1$] {};
+        \node at (0, 0) [label=below left:$0$] {};
+    \end{scope}
+
+    \end{tikzpicture}
+    \caption{Branch cut for a function with 3 branch points}
+    \label{figThreePointBranchCuts}
+\end{figure}
+\begin{example}
+    Consider $f(z) = [z(z-1)]^{\frac13}$. We suspect that there are branch points at $z \in \{0, 1, \infty\}$. Indeed, we can check that this is true. We can define a branch cut to be the lines from $z=0$ along $\arg(z) = \pi$, and from $z = 1$ along $\arg(z) = 0$. See figure~\ref{figThreePointBranchCuts}.
+
+    In order to define the branch, we consider $z_0 = re^{i \theta}$ and $z_1 = 1 + r_1 e^{i\theta_1}$. Therefore,
+    \begin{equation*}
+        f(z) = (r r_1)^{\frac12} e^{\frac{i(\theta + \theta_1)}{3}}, \theta \in (-\pi, \pi], \theta_1 \in [0, 2\pi)
+    \end{equation*}
+    Then to change the branch, we would change the ranges of $\theta$ and $\theta_1$.
+\end{example}
+\begin{example}
+    Return to the example of:
+    \begin{equation*}
+        f(z) = \log\left(\frac{z-1}{z+1}\right)
+    \end{equation*}
+    We saw that $f$ has branch points at $z = \pm 1$. We can check, also, that it does not have a branch point at $z = \infty$. We then can consider two different branch cuts:
+    \begin{itemize}
+        \item The simplest branch cut, connecting $z = \pm 1$ with a straight line (through the origin)
+        \item A more complex branch cut, connecting $z = \pm 1$ with an infinite line through $z = \infty$, going the opposite way around the Riemann sphere. Note this is absolutely fine because we are \textit{passing through} the single point at infinity, not connecting to it as we have done previously (using half-lines).
+    \end{itemize}
+    We will take the first option. We define the branch using:
+    \begin{equation*}
+        z_0 = re^{i\theta},\quad z_1 = r_1 e^{i\theta_1}
+    \end{equation*}
+    Then we have the function $f$ defined:
+    \begin{equation*}
+        f(z) = \log\left(\frac{r_1}{r}\right) + i(\theta_1 - \theta)
+    \end{equation*}
+    where $r$ and $r_1$ are defined in terms of $\theta$ and $\theta_1$.
+
+    But what ranges should we permit for $\theta$ and $\theta_1$?
+    We must choose the same range for both, in order for the discontinuity in both $\theta$ and $\theta_1$ to cancel on the half-line $\arg(z-1) = 0$. Choose $\theta, \theta_1 \in [0, 2\pi)$.
+\end{example}
+\begin{definition}{Complete Branch Cut}
+    Let $f(z)$ have branch points $z_1, z_2, \cdots$. A \underline{complete branch cut} of $f$ is a set of cuts with:
+    \begin{enumerate}
+        \item every branch point has a branch cut ending on it;
+        \item both ends of a branch cut end on a branch point.
+    \end{enumerate}
+\end{definition}
+\section{\moeb Maps}
+\begin{definition}{\moeb map}
+    A \underline{\moeb map} is a map:
+    \begin{align*}
+        \mu : \C &\mapsto \C\\
+        z &\mapsto \frac{az + b}{cz + d}
+    \end{align*}
+    with $a, b, c, d \in \C$ with $ad \neq bc$.
+\end{definition}
+\begin{remarks}
+    \item If $ad = bc$, then $\mu$ maps $\C$ to a single point;
+    \item $\mu$ is analytic except for when $z = -\frac{d}{c}$.
+    \item Extending $\mu$ to $\Cstar \mapsto \Cstar$, $\mu$ is invertible with:
+        \begin{align*}
+            \mu^{-1} : \Cstar &\mapsto \Cstar\\
+            z &\mapsto \frac{-dz + b}{cz - a}
+        \end{align*}
+\end{remarks}
+\begin{definition}{Circline}
+    A \underline{circline} is either a line or a circle on $\C$. On the Riemann sphere, this is a circle. It becomes a line on $\C$ if the circle passes through $\infty$.
+\end{definition}
+A \underline{Circle of Apollonius} is defined by:
+\begin{equation*}
+    \abs{z - z_1} = \lambda \abs{z - z_2} \text{ where } z_1 \neq z_2, \lambda \in \R^+
+\end{equation*}
+\begin{proposition}
+    Let $\mu$ be a \moeb map. Then $\mu$ maps circlines to circlines.
+    \label{propMobCirclines}
+\end{proposition}
+\begin{proof}
+    A circline obeys:
+    \begin{equation*}
+        \abs{z - z_1} = \lambda \abs{z - z_2}
+    \end{equation*}
+    Then let $w = \mu(z)$.
+    \begin{align*}
+        \abs{-\frac{-dw + b}{cw - a} - z_1}&= \lambda \abs{\frac{-dw + b}{cw - a} - z_2} \\
+        \intertext{Multiply by $\abs{cw - a}$:}
+        \abs{-dw + b - z_1 (cw - a)} &= \lambda \abs{-dw + b - z_2(cw - a)} \\
+        \abs{-(d - c z_1)w + b + z_1 a} &= \lambda \abs{-(d + c z_2)w + b + a z_2} \\
+        \abs{w - \frac{b + z_1 a}{d + c z_1}} &= \lambda \frac{\abs{d + c z_2}}{\abs{c + d z_1}} \abs{w - \frac{b + a z_2}{d + c z_2}}
+    \end{align*}
+    Therefore we have found the required form $\abs{w - w_1} = \lambda^\star \abs{w - w_2}$.
+    $w_1 = \mu(z_1)$ and $w_2 = \mu(z_2)$. $\lambda^\star$ has a less nice form:
+    \begin{equation*}
+        \lambda^\star = \frac{\abs{c + d z_1}}{\abs{c + d z_2}} \lambda.
+    \end{equation*}
+\end{proof}
+Geometrically, we need 3 points in $\Cstar$ to define a circline.
+\begin{proposition}
+    Let $\alpha, \beta, \gamma$ be distinct points in $\C$. Let also $\tilde{\alpha}, \tilde{\beta}, \tilde{\gamma}$ be distinct point in $\C$. Then there exists a \moeb map that sends:
+    \begin{align*}
+        \alpha &\mapsto \tilde{\alpha} \\
+        \beta &\mapsto \tilde{\beta} \\
+        \gamma &\mapsto \tilde{\gamma}
+    \end{align*}
+    \label{propMobThreePoint}
+\end{proposition}
+\begin{proof}
+    Consider the map:
+    \begin{equation*}
+        \mu_{z_1, z_2, z_3}(z) = \frac{z_2 - z_3}{z_2 - z_1} \frac{z - z_1}{z - z_3}
+    \end{equation*}
+    Then this sends:
+    \begin{align*}
+        z_1 &\mapsto 0 \\
+        z_2 &\mapsto 1 \\
+        z_3 &\mapsto \infty
+    \end{align*}
+    Therefore, the composition required is:
+    \begin{equation*}
+        \mu = \mu_{\tilde{\alpha}, \tilde{\beta}, \tilde{\gamma}}^{-1} \circ \mu_{\alpha, \beta, \gamma}
+    \end{equation*}
+\end{proof}
+\section{Conformal Mappings}
+We would like to see how analytic functions map act on subsets of $\C$. We will give examples first to gain intuition, then we will formalise our notions.
+\begin{example}
+    Consider $f(z) = z^2$. By considering $z = re^{i\theta}$, we see that $f$ doubles the argument $\theta \mapsto 2\theta$, and stretches or squishes based on $|z|$, $r \mapsto r^2$.
+    \label{expSquare}
+\end{example}
+\begin{example}
+    Let $f(z) = e^z$. By considering $z = x + iy$, we see $f(z) = e^x e^{iy}$.
+
+    Therefore, the real part of $z$ determines the radius of $f(z)$, and the imaginary part determines the argument of $f(z)$.
+
+    Horizontal lines, $y = c$, map to lines of fixed $\theta$. Vertical lines, $x = c$, map to circle segments.
+
+    Therefore, a rectangle in $\C$ maps to a segment of an annulus under $f$.
+\end{example}
 \end{document}
