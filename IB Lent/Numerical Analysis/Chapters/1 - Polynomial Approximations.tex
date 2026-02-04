@@ -449,7 +449,7 @@ Under mild assumptions on the inner product, we can prove an interesting result.
 \subsection{Least-Squares Polynomial Fitting}
 We now return to the study of polynomial approximation. Now we have an inner product on $C[a, b]$, we want to find the polynomial $p$ of degree $n$ that minimises $\norm{f - p}$ for any $f \in C[a, b]$.
 \begin{theorem}[Least-Squares Polynomial Theorem]
-    The polynomial $p \in \P_n[x]$ that minimises, for $f \in C[a, b]$, $\norm{f - p}$ is given by:
+    Let $f \in C[a, b]$. The polynomial $p \in \P_n[x]$ that minimises $\norm{f - p}$ is given by:
     \begin{equation}
         p = \sum_{k=0}^{n} \frac{\inn{f}{p_k}}{\inn{p_k}{p_k}} p_k
         \label{eqnLeastSquaresPoly}
@@ -457,4 +457,124 @@ We now return to the study of polynomial approximation. Now we have an inner pro
     where $(p_k)_{i=0}^n$ are the first $n$ monic orthogonal polynomials for the given inner product.
     \label{thmLeastSquaresPoly}
 \end{theorem}
+\begin{remark}
+    We understand this as an orthogonal projection of $f$ in $C[a, b]$ onto the subspace $\P_n[x]$, since this minimises the norm.
+\end{remark}
+\begin{proof}
+    Any $p \in \P_n[x]$ can be expressed as:
+    \begin{equation*}
+        p = \sum_{k=0}^{n} c_k p_k
+    \end{equation*}
+    Then the goal is to find the coefficients $c_i$ such that $\norm{f - p}$ is minimal. Expanding out $\norm{f - p}^2$:
+    \begin{align*}
+        \norm{f - \sum_{k-0}^{n} c_k p_k}^2 &= \inn{f - \sum_{k=0}^n c_k p_k}{f - \sum_{k=0}^n c_k p_k} \\
+        &= \inn{f}{f} - 2 \inn{f}{\sum_{k=0}^{n} c_k p_k} - \sum_{k=0}^{n} \sum_{j=0}^{n} c_k c_j \inn{p_k}{p_j} \\
+        &= \inn{f}{f} - 2 \sum_{k=0}^{n}c_k \inn{f}{p_k} + \sum_{k=0}^{n} c_k^2 \inn{p_k}{p_k} \\
+        &= \inn{f}{f} \sum_{k=0}^{n}\left(c_k^2 \inn{p_k}{p_k} - 2 c_k \inn{f}{p_k}\right)
+    \end{align*}
+    The terms in the sum are independent of each other (with respect to the $c_i$), so we have $n$ independent minimisation problems:
+    \begin{equation*}
+        \text{Minimise } c_k^2 \inn{p_k}{p_k} - 2 c_k \inn{f}{p_k}
+    \end{equation*}
+    Which gives the result:
+    \begin{equation*}
+        c_k = \frac{\inn{f}{p_k}}{\inn{p_k}{p_k}}.
+    \end{equation*}
+\end{proof}
+The value of $\norm{f - p}$ is:
+\begin{equation*}
+    \norm{f - p} = \inn{f}{f} - \sum_{k=0}^{n} \frac{\inn{f}{p_k}^2}{\inn{p_k}{p_k}}
+\end{equation*}
+We would like to know that this error terms goes to $0$ as $n \to \infty$.
+
+\begin{theorem}
+    Let $[a, b]$ be a finite interval. Let $f \in C[a, b]$. Then for any $\epsilon > 0$, there exists a polynomial of sufficiently high degree such that:
+    \begin{equation*}
+        \norm{f - p}_{\infty} = \sup_{x \in [a, b]} \abs{f(x) - p(x)} \leq \epsilon
+    \end{equation*}
+    \label{thmLeastSquareInfNorm}
+\end{theorem}
+This theorem will be used without proof.
+\begin{theorem}
+    Given a finite interval $[a, b]$ and a function $f \in C[a, b]$, the least-squares polynomial $\hat{p}_n$ of degree $n$ has:
+    \begin{equation*}
+        \norm{f - \hat{p}_n}^2 \to 0 \text{ as } n \to \infty
+    \end{equation*}
+    \label{thmLeastSquareError}
+\end{theorem}
+\begin{proof}
+    Note that the norms are bounded as follows:
+    \begin{equation*}
+        \norm{f - p}^2 = \int_a^b w(x) (f(x) - p(x))^2 dx \leq \left(\sup_{x \in [a, b]} \abs{f(x) - p(x)}\right)^2
+    \end{equation*}
+    Now let $\delta > 0$. Then by \thmref{thmLeastSquareInfNorm} we have a polynomial of high enough degree $n$ such that
+    \begin{equation*}
+        \norm{f - p}_{\infty} \leq \sqrt{\frac{\delta}{\int_{a}^{b} w(x) dx }}.
+    \end{equation*}
+    Then let $\hat{p}_n$ be the polynomial given by \thmref{thmLeastSquaresPoly}. We know:
+    \begin{align*}
+        \norm{f - \hat{p}_n}^2 &\leq \norm{f - p}^2 \\
+        &\leq \norm{f - p}_\infty^2 \int_{a}^{b} w(x) dx \leq \delta
+    \end{align*}
+    Then since also $\norm{f - \hat{p}_n}^2$ is decreasing with $n$, it must go to $0$.
+\end{proof}
+\subsection{Least-Squares Fitting on Discrete Function Values}
+Consider the problem:
+\begin{equation*}
+    \min_{p \in \P_n[x]} \sum_{k=1}^{m} w_k (p(x_k) - f(x_k))^2 \text{ for $m > n$}
+\end{equation*}
+Then we define a pseudo-inner product:
+\begin{equation*}
+    \inn{g}{h} = \sum_{k=1}^{m} w_k g(x_k) h(x_k)
+\end{equation*}
+Then this does define a valid inner product, but only on $\P_{m-1}$. %TODO: What?
+
+Therefore, assuming $m > n$, we can still construct orthogonal polynomials $p_0, \cdots, p_n$ using \thmref{thm3TermRecur} and use the formula given in \thmref{thmLeastSquaresPoly}.
+\subsection{Gaussian Quadrature}
+Here we want to compute quantities of the form:
+\begin{equation}
+    \int_{a}^{b} w(x) f(x) dx \approx \sum_{k=1}^{\nu} \underbrace{b_k}_{\text{weights}} f(\underbrace{c_k}_{\text{nodes}})
+    \label{eqnGaussQuadrat}
+\end{equation}
+So we want to find a method to obtain the weights $b_k$ and the nodes $c_k$. We also want to find the ``best'' approximation. We will do this by ensuring equality for polynomials up to degree $n$, and trying to find the largest value for $n$.
+
+\begin{definition}{Order}
+    If \eqnref{eqnGaussQuadrat} is an equality for all $f \in \P_m[x]$, and $m$ is the largest such, $m$ is the \underline{order} of the quadrature formula.
+\end{definition}
+\begin{proposition}
+    The order of a quadrature formula must be less than $2\nu$.
+    \label{propOrderNotDouble}
+\end{proposition}
+\begin{proof}
+    We simply construct a polynomial of degree $2\nu$ that does not satisfy an equality in \eqnref{eqnGaussQuadrat}.
+
+    Define:
+    \begin{equation*}
+        f(x) = \prod_{k=1}^{\nu} (x - c_k)^2
+    \end{equation*}
+    We see that this has degree $2\nu$, and the integral must be positive (the function $f$ is non-zero and everywhere non-negative). However, sampling only at the nodes $c_k$ gives $0$.
+\end{proof}
+\begin{lemma}
+    Given a weighted inner product:
+    \begin{equation*}
+        \inn{p}{q} = \int_{a}^{b} w(x) p(x) q(x) dx,
+    \end{equation*}
+    let $(p_i)_{i=1}^n$ be the orthogonal polynomials with respect to this inner product.
+
+    Then for any $n \geq 1$, $p_n$ has $n$ distinct roots in $(a, b)$.
+    \label{lemOrthogNRoots}
+\end{lemma}
+\begin{proof}
+    Let $\xi_1, \cdots, \xi_m$ be the points in $(a, b)$ where $p_n$ changes sign. We want to prove that $m = n$. Define:
+    \begin{equation*}
+        q(x) = \prod_{i=1}^{m} (x - \xi_i) \in \P_m[x].
+    \end{equation*}
+    Note that the product $p(x) q(x)$ must be either non-positive or non-negative, since both polynomials change sign at the same point.
+    \begin{equation*}
+        \inn{p_n}{q} = \int_{a}^{b} \underbrace{w(x)}_{>0} \underbrace{p_n(x) q(x)}_{\geq 0 \text{ or } \leq 0} dx \neq 0  \\
+    \end{equation*}
+    Then since $\inn{p_n}{q} \neq 0$, we must have that $q \notin \P_{n-1}[x]$ because $p_n$ is orthogonal to this subspace.
+    Therefore $m \geq n$. However, %TODO: Continue. We end up with $m = n$.
+\end{proof}
+
 \end{document}
