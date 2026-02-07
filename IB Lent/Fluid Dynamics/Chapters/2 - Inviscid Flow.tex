@@ -341,4 +341,83 @@ This tells us that $H$ is constant along streamlines. We also see that when $|\v
         Q = A_1 |\vec{u_1}| = \sqrt{2gh} \frac{A_1 A_2}{\sqrt{A_1^2 - A_2^2}}
     \end{equation*}
 \end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        
+    \end{tikzpicture}
+    \caption{Diagram of a water jet hitting a plane}
+    \label{figWaterJet}
+\end{figure}
+\begin{example}
+    Consider a water jet with speed $U$ hitting an oblique plane. Consider a 2D setup and ignore gravity. See figure~\ref{figWaterJet}. Assume that the speed of the fluid is unchanged and $U$ throughout, and assume that $p = p_{\text{atm}}$ throughout.
+
+    By conservation of mass, $aU = a_1 U + a_2 U$, and so:
+    \begin{equation*}
+        a = a_1 + a_2
+    \end{equation*}
+    Consider the Euler momentum integral equation.
+    \begin{align*}
+        \frac{d}{dt} \int_V \rho \vec{u} dv &= -\int_{\partial V} \rho \vec{u} (\vec{u} \cdot \vec{n}) dS - \int_{\partial V} p \vec{dS} \\
+        &= 0 \text{ by steady flow}
+    \end{align*}
+    Note that $\vec{u} \cdot \vec{n} = 0$ both on the fluid boundary and on the wall, these are the kinematic boundary conditions. By considering the Euler momentum equation parallel to the surface:
+    \begin{align*}
+        \rho a U^2 \cos(\beta) &= \rho a_2 U^2 - \rho a_1 U^2 \\
+        a_2 &= a_1 + a\cos(\beta)
+    \end{align*}
+    Therefore, we use the other equation in $a$ to find $a_1 = \frac{a}{2} (1 - \cos(\beta))$, $a_2 = \frac{a}{2}(1 + \cos(\beta))$.
+
+    Considering the momentum equation perpendicular to the surface, we find the force on the surface:
+    \begin{equation*}
+        F = \int_{\partial V} p \vec{dS} = \rho a U^2 \sin(\beta)
+    \end{equation*}
+\end{example}
+\section{Hydrostatic Pressure}
+Consider equation~\ref{eqnEulerMomDiv} with no flow, $\vec{u} = \vec0$.
+\begin{equation*}
+    \vec0 = -\nabla p + \bdforce
+\end{equation*}
+This is the equation of fluid statics. Even with no flow, we may find a nontrivial distribution of pressure in the fluid, due to body forces. For conservative forces $\bdforce = -\nabla \chi$, we find:
+\begin{equation*}
+    p + \chi = \text{const}
+\end{equation*}
+In the case of gravity, $\chi = \rho g z$ and so:
+\begin{equation}
+    p = p_0 - \rho g z
+    \label{eqnHydroStaticPress}
+\end{equation}
+This is the \underline{Hydrostatic pressure}
+
+Consider a submerged body in a fluid with zero flow. Let $\vec{F}$ be the force exerted by the hydrostatic pressure field on the body. Let the body occupy a region $V$.
+\begin{align*}
+    \vec{F} &= \int_{\partial V} -p \vec{dS} \\
+    &= \int_{\partial V} -(p_0 - \rho g z) \vec{dS} \\
+    &= -\int_V \nabla \left(p_0 - \rho g z\right) \\
+    &= \int_V \rho g \vec{e_z} dV \\
+    &= \rho g V \vec{e_z}
+\end{align*}
+Then this is the result we expect. The weight of the displaced fluid is $\rho g V$, which is the same as the buoyancy force $\vec{F}$.
+\begin{remark}
+    Considering the Euler equation for a fluid under gravity:
+    \begin{equation*}
+        \rho \frac{D \vec{u}}{D t} = - \nabla p + \rho \vec{g}
+    \end{equation*}
+    Then we write $p = p_{\text{static}} + p'$ where $p'$ is the dynamic pressure. The Euler equation becomes:
+    \begin{equation*}
+        \rho \frac{D \vec{u}}{D t} = - \nabla p'
+    \end{equation*}
+    because we absorb the gravity term into the static pressure.
+\end{remark}
+\section{Vorticity}
+\begin{definition}{Vorticity}
+    The \underline{vorticity} of a fluid flow is $\vec{\omega} = \nabla \times \vec{u}$.
+\end{definition}
+\begin{examples}{
+        Consider the vorticity for the following flows:
+    }
+    \item Solid body rotation: consider the velocity field $\vec{u} = \vec{\Omega} \times \vec{x}$. Then the vorticity is $\Omega$.
+    \item Shear flow: $\vec{u} = (0, \gamma x, 0)^T$. Then the vorticity is $(0, 0, \gamma)^T$.
+    \item Line vortex: consider cylindrical polar coordinates, $\vec{u} = \frac{\kappa}{2\pi r} \vec{e_\phi}$. Then we find that $\vec{w} = \kappa \delta(r) \vec{e_z}$.
+\end{examples}
 \end{document}
