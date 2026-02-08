@@ -443,5 +443,131 @@ We would like to see how analytic functions map act on subsets of $\C$. We will 
     Horizontal lines, $y = c$, map to lines of fixed $\theta$. Vertical lines, $x = c$, map to circle segments.
 
     Therefore, a rectangle in $\C$ maps to a segment of an annulus under $f$.
+    \label{expExp}
 \end{example}
+\begin{definition}{Conformal map}
+    A \underline{conformal map} is a map $f : U \mapsto V$ between two open sets $U, V \subseteq C$ which is analytic and whose derivative $f'$ is non-zero throughout.
+\end{definition}
+\begin{remark}
+    Often, we require that the map is a bijection.
+\end{remark}
+\begin{proposition}
+    A conformal map preserves the magnitude of angles between intersecting lines.
+    \label{propConfMapPreserveAngles}
+\end{proposition}
+\begin{proof}
+    Let $z_1(t)$ be a curve in $\C$ with $z_0 = z_1(t_0)$. The curve $z_1(t)$ at $t = t_0$ makes an angle $\theta$ with the horizontal. $\theta = \arg(z_1'(t_0))$.
+
+    Let $f$ be a conformal map such that $\xi_1(t)$ is the image of $z_1(t)$ under $f$. Then the angle between this and the horizontal is $\alpha = \arg(\xi'(t_0))$.
+    \begin{equation*}
+        \xi_1'(t_0) = f'(z_0) z_1'(z_0)
+    \end{equation*}
+    Therefore:
+    \begin{equation*}
+        \alpha = \arg(z_1'(t_0) f'(z_0)) = \theta + \arg(f'(z_0))
+    \end{equation*}
+    Note that we require $f'(z_0) \neq 0$ for the argument to be defined.
+    
+    Now choose a different curve $z_2(t)$ which intersects $z_1$ at $t = t_0$. The angle between this and the horizontal is $\psi = \arg(z_2'(t_0))$. Under $f$, this angle becomes:
+    \begin{equation*}
+        \beta = \psi + \arg(f'(z_0))
+    \end{equation*}
+    And therefore:
+    \begin{equation*}
+        \alpha - \beta = \theta + \arg(f'(z_0)) - \psi - \arg(f'(z_0)) = \theta - \psi
+    \end{equation*}
+\end{proof}
+\begin{examples}{
+        Consider the following maps
+    }
+    \item $f(z) = az + b$, $a, b \in \C, a \neq 0$. Then this map is conformal because $f$ is analytic. This rotates by $\arg(a)$, translates by $b$ and rescales by $\abs{a}$.
+    \item $f(z) = z^2$ is a conformal map, except at zero. Consider the quarter-circle $U = \subsetselect{z \in \C}{\abs{z} < 1, \arg(z) \in (0, \pi / 2)}$. Then $V = f(U)$ gives the half-circle on the upper-half plane. Note that angles are not preserved at $z = 0$, because $f$ is not conformal there.
+    \item Consider a different problem, where we want to find a conformal map between two sets:
+        \begin{align*}
+            U &= \subsetselect{z}{\Re(z) < 0} \\
+            V &= \subsetselect{w}{\arg(w) \in (-\pi / 4, \pi / 4)}
+        \end{align*}
+        Then we need to half the angle, and so we consider $\tilde{f}(z) = z^\frac12$. However, this has a branch point at $z = 0$ so we need to define a branch cut and branch. We want the branch cut to lie outside of $U$, and so let it be the half-line $\arg(z) = -\frac{\pi}{2}$.
+
+        As currently defined, $\tilde{f}$ gives $\arg(\tilde{f}(z)) \in \left(\frac{\pi}{4}, \frac{3\pi}{4}\right)$. Therefore, we also need a rotation to get to $V$:
+        \begin{equation*}
+            g(\xi) = e^{-i\pi / 2}
+        \end{equation*}
+        and so the function we want is $f = g \circ \tilde{f}$. This is:
+        \begin{equation*}
+            f(z) = -i \sqrt{z}
+        \end{equation*}
+    \item $e^z$ takes rectangles to sectors of annuli. We saw this in example~\ref{expExp}.
+    \item Consider the \moeb map. We know that this maps circlines to circlines.
+        Consider the specific map:
+        \begin{equation*}
+            f(z) = \frac{z - 1}{z + 1}
+        \end{equation*}
+        acting on $\subsetselect{z \in \C}{|z| < 1}$.
+        We want to understand what happens to the boundaries, $\partial V = f(\partial U)$. We know $\partial U = e^{i\theta}$, so:
+        \begin{align*}
+            \partial V &= f(e^{i\theta}) \\
+            &= \frac{e^{i\theta} - 1}{e^{i\theta} + 1} \\
+            &= \frac{e^{i\theta / 2} - e^{-i\theta / 2}}{e^{i\theta / 2} + e^{-i\theta / 2}} \\
+            &= i\tan\left(\frac{\theta}{2}\right)
+        \end{align*}
+        Then, as $\theta$ varies, this traces the imaginary axis.
+
+        Now we want to know which side of the boundary $V$ is. Take the element $0 \in U$.
+        $f(z) = -1$, so we know $V$ is the left-half of the plane. There is a problem point at $z = -1$, which is sent to $\infty$.
+    \item Consider $U = \subsetselect{z \in \C}{\abs{z} < 1, \Im(z) > 0}$. We want to map this to $V = \subsetselect{z \in \C}{\abs{z} < 1}$.
+        We might first try $f(z) = z^2$. However, this leaves out the section of $\R$ in the middle of $V$ (because the boundary of $U$ is not included).
+        The way we have to find $f$ is by a composition of different maps. Consider:
+        \begin{align*}
+            f_1(z) &= \frac{z-1}{z+1} \\
+            f_2(z) &= z^2 \\
+            f_3(z) &= iz \\
+        \end{align*}
+        Then, as seen in figure~\ref{figConfMapsCompose}, we use:
+        \begin{equation*}
+            f = f_1 \circ f_3 \circ f_2 \circ f_1
+        \end{equation*}
+\end{examples}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \tikzset{region/.style={fill, color=blue, opacity=0.1}}
+        \begin{scope}[shift={(0, 0)}]
+            \draw [->] (-2, 0) -- (2, 0) node[above] {$\Re$};
+            \draw [->] (0, -2) -- (0, 2) node[right] {$\Im$};
+
+            \draw[region] (1, 0) arc[start angle=0, end angle=180, radius=1] -- cycle;
+        \end{scope}
+        \draw[->] (2.5, 1) -- (3.5, 1) node[pos=0.5, anchor=south] {$f_1$};
+        \begin{scope}[shift={(6, 0)}]
+            \draw [->] (-2, 0) -- (2, 0) node[above] {$\Re$};
+            \draw [->] (0, -2) -- (0, 2) node[right] {$\Im$};
+
+            \draw [region] (-2, 0) -- (0, 0) -- (0, 2) -- (-2, 2) -- cycle;
+        \end{scope}
+        \draw[->] (7, -2.5) -- (7, -3.5) node[pos=0.5, anchor=west] {$f_2$};
+        \begin{scope}[shift={(6, -6)}]
+            \draw [->] (-2, 0) -- (2, 0) node[above] {$\Re$};
+            \draw [->] (0, -2) -- (0, 2) node[right] {$\Im$};
+
+            \draw [region] (-2,0) -- (2, 0) -- (2, -2) -- (-2, -2) -- cycle;
+        \end{scope}
+        \draw[->] (3.5, -7) -- (2.5, -7) node[pos=0.5, anchor=south] {$f_3$};
+        \begin{scope}[shift={(0, -6)}]
+            \draw [->] (-2, 0) -- (2, 0) node[above] {$\Re$};
+            \draw [->] (0, -2) -- (0, 2) node[right] {$\Im$};
+
+            \draw [region] (0, 2) -- (2, 2) -- (2, -2) -- (0, -2) -- cycle;
+        \end{scope}
+        \draw [->] (0, -8.5) -- (0, -9.5) node[pos=0.5, anchor=west] {$f_1$};
+        \begin{scope}[shift={(0, -12)}]
+            \draw [->] (-2, 0) -- (2, 0) node[above] {$\Re$};
+            \draw [->] (0, -2) -- (0, 2) node[right] {$\Im$};
+
+            \draw[region] (0, 0) circle[radius=1];
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Diagram of a composition of conformal maps}
+    \label{figConfMapsCompose}
+\end{figure}
 \end{document}
