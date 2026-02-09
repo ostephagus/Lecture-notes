@@ -393,7 +393,7 @@ Consider a submerged body in a fluid with zero flow. Let $\vec{F}$ be the force 
 \begin{align*}
     \vec{F} &= \int_{\partial V} -p \vec{dS} \\
     &= \int_{\partial V} -(p_0 - \rho g z) \vec{dS} \\
-    &= -\int_V \nabla \left(p_0 - \rho g z\right) \\
+    &= -\int_V \nabla \left(p_0 - \rho g z\right) \text{ by divergence theorem} \\
     &= \int_V \rho g \vec{e_z} dV \\
     &= \rho g V \vec{e_z}
 \end{align*}
@@ -410,6 +410,7 @@ Then this is the result we expect. The weight of the displaced fluid is $\rho g 
     because we absorb the gravity term into the static pressure.
 \end{remark}
 \section{Vorticity}
+In the derivation of Bernoulli's Equation for steady flow, we saw (and disregarded) the vorticity term. We will now consider it in detail.
 \begin{definition}{Vorticity}
     The \underline{vorticity} of a fluid flow is $\vec{\omega} = \nabla \times \vec{u}$.
 \end{definition}
@@ -418,6 +419,97 @@ Then this is the result we expect. The weight of the displaced fluid is $\rho g 
     }
     \item Solid body rotation: consider the velocity field $\vec{u} = \vec{\Omega} \times \vec{x}$. Then the vorticity is $\Omega$.
     \item Shear flow: $\vec{u} = (0, \gamma x, 0)^T$. Then the vorticity is $(0, 0, \gamma)^T$.
-    \item Line vortex: consider cylindrical polar coordinates, $\vec{u} = \frac{\kappa}{2\pi r} \vec{e_\phi}$. Then we find that $\vec{w} = \kappa \delta(r) \vec{e_z}$.
+    \item Line vortex: consider cylindrical polar coordinates, $\vec{u} = \frac{\kappa}{2\pi r} \vec{e_\phi}$. Then we find that $\vec{\omega} = \kappa \delta(r) \vec{e_z}$.
 \end{examples}
+\subsection{Interpreting Vorticity}
+Consider a small line $\vec{\delta l}$ which flows in the fluid (a material line), so depends on time. See figure~\ref{figMaterialLine}.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \tikzset{dot/.style={fill, circle, inner sep=0pt, minimum width=0.1cm}}
+        \node[dot] (X) at (0, 0) [label=south west:$\vec{x}$] {};
+        \node[dot] (XL) at (1, 2) [label=north west:$\vec{x} + \vec{\delta l}$] {};
+        \draw[->] (X) -- (XL) node[pos=0.6, anchor=north west] {$\vec{\delta l}(t)$};
+
+        \draw[->] (2, 1) arc[start angle=110, end angle=70, radius=3] node[pos=0.5, anchor=south] {$\delta t$};
+
+        \node[dot] (XT) at (5, -1) [label=south:{$\vec{x} + \vec{u}(\vec{x}, t) \delta t$}] {};
+        \node[dot] (XLT) at (7, 1) [label=north:{$\vec{x} + \vec{\delta l} + \vec{u}(\vec{x} + \vec{\delta l}, t) \delta t$}] {};
+        \draw [->] (XT) -- (XLT) node[pos=0.6, anchor=north west] {$\vec{\delta l}(t + \delta t)$};
+    \end{tikzpicture}
+    \caption{Diagram of time evolution of a material line}
+    \label{figMaterialLine}
+\end{figure}
+We find:
+\begin{align*}
+    \vec{\delta l}(t + \delta t) &= \vec{x} + \vec{\delta l} + \vec{u} (\vec{x} + \vec{\delta l}, t) \delta t - \vec{x} - \vec{u}(\vec{x}, t) \delta t \\
+    &\approx \vec{\delta l} + (\vec{\delta l} \cdot \nabla) \vec{u} \delta t
+\end{align*}
+by Taylor expanding. Therefore, by definition of the material derivative,
+\begin{equation}
+    \frac{D}{D t} (\vec{\delta l}) = (\vec{\delta l} \cdot \nabla)\vec{u}
+    \label{eqnMaterialLine}
+\end{equation}
+In this equation, we consider the tensor $\frac{du_i}{dx_j}$, which can be thought of as the local rate of deformation. This tensor can be written as:
+\begin{equation*}
+    \frac{du_i}{dx_j} = \underbrace{\frac12 \left(\frac{du_i}{dx_j} + \frac{du_j}{dx_i}\right)}_{\text{symmetric term}} + \underbrace{\frac12 \left(\frac{du_i}{dx_j} - \frac{du_j}{dx_i}\right)}_{\text{antisymmetric term}}
+\end{equation*}
+The symmetric term, $\phi_{ij}$, is the \underline{rate of strain tensor}, see the course II Fluid Dynamics.
+
+We then want to understand the contribution of the antisymmetric part. We know from the course IA Vector Calculus that we can write an antisymmetric tensor in the form:
+\begin{equation*}
+    \frac12 \epsilon_{ijk} \omega_k
+\end{equation*}
+and indeed we see that $\vec{\omega} = \nabla \times \vec{u}$. Next, we can then evaluate the antisymmetric part of $(\vec{\delta l} \cdot \nabla) \vec{u}$:
+\begin{equation*}
+    \frac12 \epsilon_{ijk} \omega_k (\delta l)_{i} = \frac12 \left[\vec{\omega} \times \vec{\delta l}\right]_i
+\end{equation*}
+And so if there is no symmetric part,
+\begin{equation*}
+    \frac{D}{D t} (\vec{\delta l}) = \frac12 \vec{\omega} \times \vec{\delta l}
+\end{equation*}
+Then we recognise this as rigid body motion, with angular velocity $\vec{\Omega} = \frac12 \vec{\omega}$. This angular velocity represents the average flow rate of fluid particles.
+\begin{warning}
+    This is not the same as circular flow. The vorticity measures the rotation of individual fluid particles, rather than a flow with circular streamlines/pathlines.
+\end{warning}
+\subsection{Vorticity Equation}
+Recall the Euler Momentum equation:
+\begin{equation*}
+    \rho \left(\frac{\partial \vec{u}}{\partial t} + (\vec{u} \cdot \nabla)\vec{u}\right) = - \nabla p + \bdforce
+    \tag{\ref{eqnEulerMomDiv}}
+\end{equation*}
+We assume that $\rho$ is constant, and also that body forces are conservative ($\bdforce = -\nabla\chi$). Take the curl of \eqnref{eqnEulerMomDiv}:
+\begin{equation*}
+    \frac{\partial \vec{\omega}}{\partial t} - \nabla \times \left(\vec{u} \times \vec{\omega}\right) = \vec0
+\end{equation*}
+We simplify the second term:
+\begin{align*}
+    \left[\nabla \times (\vec{u} \times \vec{\omega})\right]_i &= \epsilon_{ijk} \frac{\partial}{\partial x_j} \left(\epsilon_{kmn} u_m \omega_n \right) \\
+    &= \left(\delta_{im} \delta_{jn} - \delta_{in}\delta_{jm}\right) \left(\frac{\partial u_m}{\partial x_j} \omega_n + u_m \frac{\partial \omega_n}{\partial x_j}\right) \\
+    &= \omega_j \frac{\partial u_i}{\partial x_j} - \omega_i \underbrace{\frac{\partial u_j}{\partial x_j}}_{\substack{0 \text{ by conservation}\\\text{of mass}}} + u_i \underbrace{\frac{\partial \omega_j}{\partial x_j}}_{\substack{0 \text{ by curl}\\\text{of divergence}}} - u_j \frac{\partial \omega_i}{\partial x_j} \\
+    &= \left[(\vec{\omega} \cdot \nabla)\vec{u} - (\vec{u} \cdot \nabla)\vec{\omega}\right]_i
+\end{align*}
+And we then find the \underline{vorticity equation}:
+\begin{align}
+    \frac{\partial \vec{\omega}}{\partial t} + (\vec{u} \cdot \nabla)\vec{\omega} &= (\vec{\omega} \cdot \nabla)\vec{u} \label{eqnVorticity}\\
+    \frac{D \vec{\omega}}{D t} &= \underbrace{(\vec{\omega} \cdot \nabla)\vec{u}}_{\text{vortex stretching}} \nonumber
+\end{align}
+\subsection{Vortex Stretching}
+Compare the Euler momentum equation for a material line, and the vorticity equation:
+\begin{align*}
+    \frac{D \vec{\delta l}}{D t} &= (\vec{\delta l} \cdot \nabla)\vec{u} \tag{\ref{eqnMaterialLine}}\\
+    \frac{D \vec{\omega}}{D t} &= (\vec{\omega} \cdot \nabla) \vec{u} \tag{\ref{eqnVorticity}}
+\end{align*}
+When moving with the fluid, $\vec{\omega}$ evolves as a material line initially parallel to $\vec{\omega}$. Further, if $\vec{\delta l}$ is stretched, then the vorticity must increase. This is conservation of angular momentum.
+\begin{example}
+    Consider a uniformly rotating fluid. Consider a cylinder with radius $a_1$ and height $l_1$. Assume that the fluid flow stretches and rotates the cylinder about its axis, to new radius $a_2$ and height $l_2 > l_1$.
+
+    By conservation of mass, $a_1^2 l_1 = a_2^2 l_2$.
+
+    By conservation of angular momentum (with $\vec{\omega}$ along the axis of rotation), $a_1^4l_1\omega_1 = a_2^4l_2\omega_2$, and so:
+    \begin{equation*}
+        \frac{\omega_2}{\omega_1} = \frac{l_2}{l_1}
+    \end{equation*}
+    So we see that, as expected, vorticity increases whenever fluid is stretched along it.
+\end{example}
 \end{document}
