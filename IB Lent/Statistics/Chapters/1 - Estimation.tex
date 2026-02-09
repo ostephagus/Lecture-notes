@@ -183,18 +183,21 @@ We then want to be able to:
     \item Give an interval estimator $(\hat{\theta}_1(X), \hat{\theta}_2(X))$ of $\theta$.
     \item Test some hypothesis about $\theta$.
 \end{itemize}
-\begin{definition}{Estimator/statistic}
-    An \underline{estimator/statistic} is a function of the data $T(\vec{X}) = \hat{\theta}$ which we use to approximate the true parameter $\theta$. The distribution of $T(\vec{X})$ is the \underline{sampling distribution}.
+\begin{definition}{Statistic}
+    A \underline{statistic} is a function $T : \samplespace \mapsto \R$. It is written $T(\vec{x})$ for the statistic applied to observed data, and written $T(\vec{X})$ when applied to a vector of random variables $\vec{X}$. $T(\vec{X})$ is a random variable and its distribution is the \underline{sampling distribution}.
+\end{definition}
+\begin{definition}{Estimator}
+    An \underline{estimator} is a statistic where we care about how close it is to the real parameter $\theta$. It is usually a random variable, written $\hat{\theta}$. An observed value from $\hat{\theta}$ is the \underline{estimate} for $\theta$.
 \end{definition}
 \begin{example}
-    Suppose $X_i$ are normally distributed, $N(\mu, 1)$. Let $\hat{\mu} = T(\vec{X}) = \frac1n \sum_{i=1}^n X_i$, simply the average of the output of the random variables. Then the sampling distribution of $\hat{\mu}$ is:
+    Suppose $X_i$ are normally distributed, $N(\mu, 1)$. Let $\hat{\mu} = \frac1n \sum_{i=1}^n X_i$, simply the average of the output of the random variables. Then the sampling distribution of $\hat{\mu}$ is:
     \begin{equation*}
-        T(\vec{X}) \sim N\left(\mu, \frac1n\right)
+        \hat{\mu} \sim N\left(\mu, \frac1n\right)
     \end{equation*}
     \label{expNormalEstimator}
 \end{example}
 \begin{definition}{Estimator bias}
-    The \underline{bias} of a random variable $T(\vec{X})$ is:
+    The \underline{bias} of an estimator $\hat{\theta}$ is:
     \begin{equation*}
         \bias(\hat{\theta}) = \E_\theta[\hat{\theta}] -\theta
     \end{equation*}
@@ -502,4 +505,138 @@ Let $\vec{X} = (X_1, \cdots, X_n)^T$ have joint pdf (or pmf) $f_{\vec{X}} (\vec{
 \begin{definition}{Maximum likelihood estimator}
     The \underline{maximum likelihood estimator} is the value of $\theta$ maximising $L$.
 \end{definition}
+For $n$ independent and identically distributed random variables, the likelihood is:
+\begin{equation*}
+    L(\theta) = \prod_{i=1}^{n} f_{X}(x_i, \theta)
+\end{equation*}
+Where $f_X$ is the distribution of all the $X_i$.
+\begin{definition}{Log likelihood}
+    The \underline{log likelihood} is the function:
+    \begin{equation*}
+        l(\theta) = \log(L(\theta)).
+    \end{equation*}
+\end{definition}
+The log likelihood is often easier to use, because the product that we would normally have when dealing with independent and identically distributed random variables is now a sum.
+\begin{example}
+    Let $X_i \sim \text{Ber}(p)$ for $i = 1$ to $n$.
+    \begin{align*}
+        l(p) &= \left(\sum_{i=1}^{n} X_i\right) \log(p) + \left(n - \sum_{i=1}^{n} X_i\right) \log(1-p) \\
+        \frac{dl}{dp} &= \frac{\sum_{i=1}^{n} X_i}{p} - \frac{n - \sum_{i=1}^{n} X_i}{1-p} 
+    \end{align*}
+    Then requiring $\frac{dl}{dp} = 0$ gives:
+    \begin{equation*}
+        p = \frac{\sum_{i=1}^{n} X_i}{n}
+    \end{equation*}
+    and this is the MLE. We note that it has expectation $p$, so it is unbiased.
+\end{example}
+\begin{example}
+    Now consider $n$ independent and identically distributed normal random variables.
+    \begin{align*}
+        l(\mu, \sigma^2) &= -\frac{n}{2} \log(2\pi) - \frac{n}{2} \log(\sigma^2) - \frac{1}{2\sigma^2} \sum_{i=1}^{n} \left(X_i - \mu\right)^2 \\
+        \frac{\partial l}{\partial \mu} &= -\frac{1}{\sigma^2} \left(X_i - \mu\right) \\
+        \frac{\partial l}{\partial \sigma^2} &= -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4} \sum_{i=1}^{n} (X_i - \mu)^2
+    \end{align*}
+    Then setting the derivatives to zero:
+    \begin{align*}
+        \mu &= \frac{1}{n} \sum_{i=1}^{n} X_i \\
+        \sigma^2 &= \frac1n \sum_{i=1}^{n} (X_i - \mu)^2
+    \end{align*}
+    Then the MLE $\hat{\mu}$ is unbiased, but $\hat{\sigma^2}$ is biased. We see this has the $\chi^2$ distribution, $\hat{\sigma^2} = \frac{\sigma^2}{n} \chi_{n-1}^2$. This has expectation:
+    \begin{equation*}
+        \E[\hat{\sigma^2}] = \frac{n-1}{n} \sigma^2
+    \end{equation*}
+    Then this is \underline{biased}, but \underline{asymptotically unbiased}.
+\end{example}
+\begin{example}
+    Now suppose $X_i \sim U[0, \theta]$.
+    \begin{equation*}
+        l(\theta) = \frac{1}{\theta^n} \ind{\max_i X_i \leq \theta}
+    \end{equation*}
+    Then the MLE is $\hat{\theta} = \max_i X_i$.
+
+    Using \ref{TODO}, %Find the ref for uniform Rao-Blackwell application
+    we know that $\E\left[\frac{n+1}{n} \max_i X_i\right]$ is unbiased. Therefore,
+    \begin{equation*}
+        \E[\hat{\theta}] = \frac{n+1}{n} \theta
+    \end{equation*}
+    Then again this is unbiased but asymptotically unbiased.
+\end{example}
+\begin{propositions}[MLE Properties]{
+        \label{propsMLEProperties}
+    }
+    \item If $T$ is a sufficient statistic, the MLE is a function of $T$ and we can factorise as follows:
+        \begin{equation*}
+            L(\theta) = g(T(\vec{x}), \theta) h(\vec{x})
+        \end{equation*}
+    \item If $\phi = h(\theta)$, for a bijection $h$, the MLE of $\phi$ is $\hat{\phi} = h(\hat{\theta})$.
+    \item Suppose that $\sqrt{n} \left(\hat{\theta} - \theta\right)$ is approximately normal for large $n$, with mean $0$. Then the covariance matrix is the ``smallest attainable'' (for more detail, see II Principles of Statistics).
+\end{propositions}
+\subsection{Stein's Paradox}
+Consider $n$ independent normal random variables, $X_i \sim N(\mu_i, 1)$. We want to estimate the vector $\vec{\mu}$.
+\begin{example}
+    Suppose:
+    \begin{align*}
+        \mu_1 &= \text{mean IQ of a Cambridge student}\\
+        \mu_2 &= \text{mean diameter of craters on the moon}\\
+        \mu_3 &= \text{Mean weight of New Zealand sheep}
+    \end{align*}
+    Our intuition tells us that the best estimator should be simply the observations: $\hat{\vec{\mu}} = X$. However, there exist unintuitive estimators with smaller mean-squared error.
+    
+    Consider the \underline{James-Stein estimator}:
+    \begin{equation*}
+        \hat{\mu}_{JS} = \left(1 - \frac{n-2}{\lVert X \rVert}\right) X.
+    \end{equation*}
+    Then this has lower MSE than our intuitive estimator! We can see this by considering a simplified estimator $\hat{\vec{\mu}}_{\lambda}$. Then we find the MSE:
+    \begin{equation}
+        \mse(\hat{\vec{\mu}}_{\lambda}) = \left(\bias(\hat{\vec{\mu}}_{\lambda})\right)^2 + \Var(\hat{\vec{\mu}}_{\lambda}) = (\lambda - 1)^2 + \lVert \mu \rVert_2^2 + \lambda^2 n
+    \end{equation}
+    As a function of $\lambda$, we see that for larger $n$ it is advantageous to choose smaller $\lambda$ to trade off bias and variance. The optimal $\lambda$ depends on $\lVert \mu \rVert^2$, but since we do not know this we use $\lVert X \rVert$ instead.
+\end{example}
+This is Stein's Paradox. In order to estimate $\mu_i$, the best estimator will make use of all the $X_i$, however this goes against our intuition.
+\section{Confidence Intervals}
+\begin{definition}{Confidence interval}
+    A $(1 - \gamma)$ \underline{confidence interval} for a parameter $\theta$ is a random interval $(A(\vec{X}), B(\vec{X}))$ such that:
+    \begin{equation*}
+        \P(A(\vec{X}) \leq \theta \leq B(\vec{X})) = \gamma
+    \end{equation*}
+    for some $\gamma \in (0, 1)$ and all values of the true parameter $\theta$.
+\end{definition}
+\begin{warning}
+    The following is an incorrect interpretation: having observed $\vec{X} = \vec{x}$, there is a $1 - \gamma$ probability that $\theta$ is in $(A(\vec{x}), B(\vec{x}))$.
+\end{warning}
+\begin{example}
+    Consider $n$ independent random variables with $X_i = N(\theta, 1)$.
+    We want to find a $95\%$ confidence interval for $\theta$. Consider:
+    \begin{equation*}
+        \overline{X} = \frac1n \sum_{i=1}^{n} X_i \sim N\left(\theta, \frac1n\right).
+    \end{equation*}
+    If we define $Z = \sqrt{n} \left(\overline{X} - \theta\right)$, then $Z \sim N(0, 1)$.
+
+    Let $z_1, z_2$ be numbers such that $\Phi(z_2) - \Phi(z_1) = 0.95$ (where $\Phi$ is the cumulative distribution function for the standard normal).
+    \begin{align*}
+        0.95 &= \P(z_1 \leq \sqrt{n} (\overline{X} - \theta) \leq z_2) \\
+        &= \P\left(\overline{X} - \frac{z_2}{\sqrt{n}} \leq \theta \leq \overline{X} - \frac{z_1}{\sqrt{n}}\right)
+    \end{align*}
+    And so our $95\%$ confidence interval is:
+    \begin{equation*}
+        \left(\overline{X} - \frac{z_2}{\sqrt{n}}, \overline{X} - \frac{z_1}{\sqrt{n}}\right)
+    \end{equation*}
+    And we can take $z_2 \approx 1.96$, $z_1 \approx -1.96$, so then our confidence interval is:
+    \begin{equation*}
+        \left(\overline{X} - \frac{1.96}{\sqrt{n}}, \overline{X} + \frac{1.96}{\sqrt{n}}\right)
+    \end{equation*}
+\end{example}
+From this example, we have a process for finding a confidence interval:
+\begin{enumerate}
+    \item Find a quantity $R(\vec{X}, \theta)$ such that the $\P_\theta$ distribution of $R$ does not depend on $\theta$. This is called a pivot.
+    \item Write down the statement:
+        \begin{equation*}
+            \P(c_1 \leq R(\vec{X}, \theta) \leq c_2) = \gamma
+        \end{equation*}
+        where $c_1, c_2$ are quantities of the distribution.
+    \item Rearrange the above to get the form required for a confidence interval.
+\end{enumerate}
+\begin{remark}
+    When $\theta$ is a vector, we consider confidence sets rather than confidence intervals.
+\end{remark}
 \end{document}
