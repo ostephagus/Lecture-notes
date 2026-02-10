@@ -493,6 +493,7 @@ Suppose $X_1, \cdots, X_n$ are independent, identically distributed random varia
         &= \frac{n+1}{n} t
     \end{align*}
     Therefore we have a new estimator $\hat{\theta} = \frac{n+1}{n} \max_i X_i$.
+    \label{expUnifMaxEstimator}
 \end{example}
 \subsection{Maximum Likelihood Estimators}
 Let $\vec{X} = (X_1, \cdots, X_n)^T$ have joint pdf (or pmf) $f_{\vec{X}} (\vec{x}, \theta)$.
@@ -554,8 +555,7 @@ The log likelihood is often easier to use, because the product that we would nor
     \end{equation*}
     Then the MLE is $\hat{\theta} = \max_i X_i$.
 
-    Using \ref{TODO}, %Find the ref for uniform Rao-Blackwell application
-    we know that $\E\left[\frac{n+1}{n} \max_i X_i\right]$ is unbiased. Therefore,
+    Using example~\ref{expUnifMaxEstimator}, we know that $\E\left[\frac{n+1}{n} \max_i X_i\right]$ is unbiased. Therefore,
     \begin{equation*}
         \E[\hat{\theta}] = \frac{n+1}{n} \theta
     \end{equation*}
@@ -595,14 +595,14 @@ Consider $n$ independent normal random variables, $X_i \sim N(\mu_i, 1)$. We wan
 This is Stein's Paradox. In order to estimate $\mu_i$, the best estimator will make use of all the $X_i$, however this goes against our intuition.
 \section{Confidence Intervals}
 \begin{definition}{Confidence interval}
-    A $(1 - \gamma)$ \underline{confidence interval} for a parameter $\theta$ is a random interval $(A(\vec{X}), B(\vec{X}))$ such that:
+    A $\gamma$ or $100\gamma\%$ \underline{confidence interval} for a parameter $\theta$ is a random interval $(A(\vec{X}), B(\vec{X}))$ such that:
     \begin{equation*}
         \P(A(\vec{X}) \leq \theta \leq B(\vec{X})) = \gamma
     \end{equation*}
     for some $\gamma \in (0, 1)$ and all values of the true parameter $\theta$.
 \end{definition}
 \begin{warning}
-    The following is an incorrect interpretation: having observed $\vec{X} = \vec{x}$, there is a $1 - \gamma$ probability that $\theta$ is in $(A(\vec{x}), B(\vec{x}))$.
+    The following is an incorrect interpretation: having observed $\vec{X} = \vec{x}$, there is a $\gamma$ probability that $\theta$ is in $(A(\vec{x}), B(\vec{x}))$.
 \end{warning}
 \begin{example}
     Consider $n$ independent random variables with $X_i = N(\theta, 1)$.
@@ -639,4 +639,90 @@ From this example, we have a process for finding a confidence interval:
 \begin{remark}
     When $\theta$ is a vector, we consider confidence sets rather than confidence intervals.
 \end{remark}
+\begin{example}
+    Consider $X_i \sim N(0, \sigma^2)$. We want a $95\%$ confidence interval for $\sigma^2$.
+
+    Note that $\frac{X_i}{\sigma} \sim N(0, 1)$, and so:
+    \begin{equation*}
+        \sum_{i=1}^{n} \frac{X_i^2}{\sigma^2} \sim \chi_n^2
+    \end{equation*}
+    Then $R(\vec{X}, \sigma^2) = \sum_{i=1}^{n} \frac{X_i^2}{\sigma^2}$ is the pivot. Letting $F(x)$ be the cumulative distribution function for the $\chi_n^2$ distribution, let $c_1 = F^{-1}(0.025)$ and $c_2 = F^{-1}(0.975)$. Therefore:
+    \begin{align*}
+        0.95 &= \P\left(c_1 \leq \sum_{i=1}^{n} \frac{X_i^2}{\sigma^2} \leq c_2\right) \\
+        &= \P\left(\frac{\sum_{i=1}^{n} X_i^2}{c_2} \leq \sigma^2 \leq \frac{\sum_{i=1}^{n} X_i^2}{c_1}\right)
+    \end{align*}
+\end{example}
+\begin{example}
+    Suppose $X_i \sim \text{Ber}(p)$, and suppose we want to consider a $95\%$ confidence interval. We consider the maximum likelihood estimator,
+    \begin{equation*}
+        \hat{p} = \frac{1}{n} \sum_{i=1}^{n} X_i
+    \end{equation*}
+    Then by the Central Limit Theorem, $\hat{p} \sim N(p, \frac{p(1-p)}{n})$ when $n$ is large. Therefore, we construct a standard normal:
+    \begin{equation*}
+        \frac{\sqrt{n}(\hat{p} - p)}{\sqrt{p(1-p)}} \sim N(0, 1)
+    \end{equation*}
+    Then this gives an approximate pivot. Let $z = \Phi^{-1}(0.025)$. Therefore,
+    \begin{equation*}
+        \P\left(-z \leq \frac{\sqrt{n} (\hat{p} - p)}{\sqrt{p(1-p)}} \leq z\right) \approx 0.95
+    \end{equation*}
+    Since we are making approximations anyway, we simplify the inversion by taking $p \approx \hat{p}$:
+    \begin{align*}
+        0.95 &\approx \P\left(-z \leq \frac{\sqrt{n} (\hat{p} - p)}{\sqrt{\hat{p}(1-\hat{p})}} \leq z\right) \\
+        &= \P\left(\hat{p} - z\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} \leq p \leq \hat{p} + z\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\right)
+    \end{align*}
+\end{example}
+\section{Bayesian Estimation}
+So far we have been using frequentist methods, wherein the parameter $\theta \in \Theta$ is fixed and unknown, and we draw data from a distribution to estimate $\theta$. We will now consider Bayesian methods where $\theta$ is treated as random with \underline{prior distribution} $\pi(\theta)$. Conditional on $\theta$, the data $\vec{X}$ has pdf $f_{\vec{X}}(\vec{x}, \theta)$.
+
+Given an observation $\vec{X} = \vec{x}$, we combine with the prior distribution to form the \underline{posterior distribution} $\pi(\theta | \vec{x})$.
+
+By Bayes' Rule,
+\begin{equation*}
+    \pi(\theta | x) = \frac{\pi(\theta) f_{\vec{X}}(\vec{x}, \theta)}{f_{\vec{X}}(\vec{x})}
+\end{equation*}
+where $f_{\vec{X}}(\vec{x})$ is the marginal distribution of $\vec{X}$,
+\begin{equation*}
+    f_{\vec{X}}(\vec{x}) =
+    \begin{cases}
+        \int_\Theta f_{\vec{X}} (\vec{x}, \theta) \pi(\theta) d\theta & \text{$\theta$ continuous} \\
+        \sum_{\theta \in \Theta} f_{\vec{X}} (\vec{x}, \theta) \pi(\theta) & \text{$\theta$ discrete} \\
+    \end{cases}
+\end{equation*}
+Given that, in Bayesian estimation, we treat $\vec{X} = \vec{x}$ as fixed, we can consider the denominator $f_{\vec{X}}(\vec{x})$ as simply a proportionality constant. Then:
+\begin{equation}
+    \pi(\theta | \vec{x}) \propto \pi(\theta) f_{\vec{X}}(\vec{x})
+    \label{eqnBayesDists}
+\end{equation}
+\begin{remark}
+    By the factorisation criterion, we can consider the posterior distribution as dependent on $\vec{x}$ only through a sufficient statistic. The dependence on $\vec{x}$ is treated simply as a proportionality constant.
+\end{remark}
+\begin{example}
+    Suppose that $\theta \in [0, 1]$ is the mortality rate for a procedure at a hospital. In the first 10 operations, there are no deaths. In other hospitals, the mortality rate is between $0.03$ and $0.2$ with an average of $0.1$.
+
+    Consider the prior distribution:
+    \begin{equation*}
+        \pi(\theta) \sim \text{Beta}(3, 27)
+    \end{equation*}
+    then this has mean $0.1$, and $\P(0.03 \leq \theta \leq 0.2) = 0.9$ under the distribution $\pi$.
+
+    Let $X_i \sim \text{Ber}(\theta)$ be the indicator for the $i$th patient. We have that $\vec{x} = \vec0$.
+    \begin{equation*}
+        f_{\vec{X}}(\vec{x}, \theta) = \theta^{\sum_{i=1}^n X_i} (1-\theta)^{\sum_{i=1}^{n} X_i}
+    \end{equation*}
+    and so the posterior distribution is given by:
+    \begin{align*}
+        \pi(\theta | \vec{x}) &\propto \theta^{a-1} (1-\theta)^{b-1} \theta^{\sum_{i=1}^{n} X_i} \theta^{n-\sum_{i=1}^{n} X_i} \\
+        &\propto \theta^{\sum_{i=1}^{n} X_i + a - 1} (1 - \theta)^{n - \sum_{i=1}^{n} X_i + b - 1} \\
+        &= \theta^{\sum_{i=1}^{n} X_i + 2} (1 - \theta)^{n - \sum_{i=1}^{n} X_i + 26} \\
+        &= \theta^{2} (1 - \theta)^{36} \\
+        &\sim \text{Beta}(3, 37)
+    \end{align*}
+    Now our mean is $\frac{3}{40}$, and the overall distribution has been biased further towards 0.
+
+    In this example, the prior and posterior were from the same family of distributions, known as conjugacy. This means we simply update the parameters of the prior distribution to get to the posterior, rather than ending up with a different and complicated distribution.
+\end{example}
+\subsection{Decision Theory}
+Suppose we must choose a decision $\delta \in D$, and consider a loss function $L(\theta, \delta)$ which gives loss incurred by making a decision $\delta$ when the true parameter is $\theta$.
+
+Then the Von-Neumann-Morgensten Theorem, says that, under certain assumptions, the best choice of $\delta$ is the minimiser of the expected loss under the posterior distribution.
 \end{document}
