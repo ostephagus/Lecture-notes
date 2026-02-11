@@ -1,0 +1,102 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Contours and Integrals}
+Given two points $a$ and $b$, we can find infinitely many paths from $a$ to $b$, and so we need to choose which path to integrate along (unless, as we will see later, the function is such that the integral is independent of the path).
+\begin{definition}{Curve}
+    A \underline{curve} $\gamma$ is a continuous map
+    \begin{equation*}
+        \gamma : [0, 1] \mapsto \C
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item We notationally take the interval $I$ over which $\gamma$ is defined to be $[0, 1]$. This is done without loss of generality, since we can map any interval to $[0, 1]$ by changing the parameter of the curve.
+    \item We often refer to the image of $\gamma$ as the curve itself.
+    \item Curves include a notion of direction from $\gamma(0)$ to $\gamma(1)$.
+\end{remarks}
+\begin{definition}{Closed curve}
+    A \underline{closed curve} is a curve $\gamma$ with $\gamma(0) = \gamma(1)$. It has the same point for the start and end
+\end{definition}
+\begin{definition}{Simple curve}
+    A \underline{simple curve} is a curve that does not intersect itself except at the endpoints (so a closed curve is still simple).
+\end{definition}
+\begin{definition}{Contour}
+    A \underline{contour} is a piecewise-differentiable curve.
+\end{definition}
+We introduce some notation:
+\begin{enumerate}
+    \item $-\gamma$: this defines the curve that traverses $\gamma$ in the opposite direction. $(-\gamma)(t) = \gamma(1-t)$;
+    \item $\gamma_1 + \gamma_2$: in the case that $\gamma_1(1) = \gamma_2(0)$, we can join curves
+        \begin{equation*}
+            (\gamma_1 + \gamma_2)(t) =
+            \begin{cases}
+                \gamma_1(2t) & t < \frac12 \\
+                \gamma_2(2t-1) & t \geq \frac12
+            \end{cases}
+        \end{equation*}
+\end{enumerate}
+\begin{definition}{Contour integral}
+    The \underline{contour integral} of a function $f$ over a contour $\gamma$ is:
+    \begin{equation*}
+        \int_{\gamma} f(z) dx = \int_0^1 f(\gamma(t)) \gamma'(t) dt
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    This is very similar to the integral in $\R^n$:
+    \begin{equation*}
+        \int_{C} \vec{F} \cdot \vec{dx} = \int_{A}^{B} \vec{F}(\vec{x}(t)) \cdot \vec{x}'(t) dt
+    \end{equation*}
+\end{remark}
+We also have the contour integral in terms of a Riemann sum. Dissecting the curve into:
+\begin{equation*}
+    0 = t_0 < t_1 < \cdot < t_m = 1
+\end{equation*}
+and let $\delta t_k = t_{k+1} - t_k$. Let $z_k = \gamma(t_k)$, and define $\delta z_k = z_{k+1} - z_k$.
+\begin{equation*}
+    \int_\gamma f(z) dz = \lim_{\Delta \to 0} \sum_{k=0}^{m-1} f(z_k) \delta z_m
+\end{equation*}
+where $\Delta = \max_{k = 0, \cdots, m-1} \delta t_k$.
+\begin{example}
+    Let $f(z) = \frac1z$ and $\gamma_1, \gamma_2$ be half circles from $-1$ to $1$, with $\gamma_1$ with positive imaginary part, $\gamma_2$ with negative imaginary part. Let both have the form $\gamma(\theta) = e^{-i\theta}$.
+    \begin{align*}
+        I_1 &= \int_{\gamma_1} f(z) dz = \int_{\pi}^0 \frac{ie^{i\theta}}{e^{i\theta}} d\theta = -i\pi \\
+        I_2 &= \int_{\gamma_2} f(z) dz = \int_{-\pi}^0 \frac{ie^{i\theta}}{e^{i\theta}} d\theta = i\pi \\
+    \end{align*}
+\end{example}
+\subsection{Rules of Integration}
+All the following results can be proved via standard properties of integration:
+\begin{enumerate}
+    \item Joining contours: suppose that $\gamma_1(1) = \gamma_2(0)$. Then:
+        \begin{equation*}
+            \int_{\gamma_1 + \gamma_2} f(z) dz = \int_{\gamma_1} f(z) dz + \int_{\gamma_2} f(z) dz.
+        \end{equation*}
+    \item Reversed contours:
+        \begin{equation*}
+            \int_{-\gamma} f(z) dz = -\int_\gamma f(z) dz.
+        \end{equation*}
+    \item Independence of contours: if $f$ is differentiable then:
+        \begin{equation*}
+            \int_\gamma f(z) dz = f(\gamma(1)) - f(\gamma(0))
+        \end{equation*}
+        that is, the integral depends only on the endpoints.
+    \item Integration by parts works.
+    \item We can find the length of a curve by integration:
+        \begin{equation*}
+            L_\gamma = \int_\gamma |dz| = \int_0^1 |\gamma'(t)| dt
+        \end{equation*}
+        from which it follows that if $|f(z)| < f_0$,
+        \begin{equation*}
+            \left|\int_\gamma f(z) dz\right| \leq f_0 L_\gamma
+        \end{equation*}
+\end{enumerate}
+As a convention, $\gamma$ moves anticlockwise, so the interior of $\gamma$ is on the left (with respect to the tangent of $\gamma$).
+\begin{definition}{Connected domain}
+    An open set $D$ is a \underline{connected domain} in $\C$ if every $z_1, z_2 \in D$ can be connected by a curve whose image is in $D$.
+\end{definition}
+\begin{definition}{Simply connected domain}
+    A connected domain $D$ is \underline{simply connected} if every curve in $D$ encloses curves $D$.
+\end{definition}
+\begin{remark}
+    This is the statement of ``no holes''. Removing a single point makes a domain not simply connected.
+\end{remark}
+\end{document}

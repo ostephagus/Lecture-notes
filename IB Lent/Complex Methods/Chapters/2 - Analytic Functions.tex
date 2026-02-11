@@ -477,6 +477,7 @@ We would like to see how analytic functions map act on subsets of $\C$. We will 
         \alpha - \beta = \theta + \arg(f'(z_0)) - \psi - \arg(f'(z_0)) = \theta - \psi
     \end{equation*}
 \end{proof}
+\subsection{Conformal Maps and Domains}
 \begin{examples}{
         Consider the following maps
     }
@@ -570,4 +571,47 @@ We would like to see how analytic functions map act on subsets of $\C$. We will 
     \caption{Diagram of a composition of conformal maps}
     \label{figConfMapsCompose}
 \end{figure}
+\subsection{Solving the Laplace Equation}
+We will solve the Laplace Equation using conformal maps. Consider the problem:
+\begin{equation}
+    \begin{cases}
+        \Delta \phi = 0 & (x, y) \in U \\
+        \phi = \phi_{\partial} & (x, y) \in \partial U
+    \end{cases}
+    \label{eqnLaplaceGeneralDomain}
+\end{equation}
+Then we use the following steps to solve this problem:
+\begin{enumerate}
+    \item find the conformal map $f$ that sends points in $U$ to $V$;
+        \begin{align*}
+            f : U &\mapsto V\\
+            z = x + iy &\mapsto \xi = u + i v
+        \end{align*}
+    \item translate the Dirichlet boundary condition on $\partial U$, $\phi(x, y) = \phi_\partial(x, y)$, to a Dirichlet boundary condition on $\partial V$;
+    \item solve Laplace's Equation $\Delta \Phi = 0$ on the domain $V$ with boundary conditions given in the previous step;
+    \item use the inverse of the conformal map to find $\phi$ from $\Phi$:
+        \begin{equation}
+            \phi(x, y) = \Phi(\Re(f(x + iy)), \Im(f(x + iy)))
+            \label{eqnLaplaceSolution}
+        \end{equation}
+\end{enumerate}
+Recall that if $G(\xi) = \Phi(u, v) + i \Psi(u, v)$ is analytic, then $\Phi$ and $\Psi$ satisfy the Laplace equation. Then the composition $g = G \circ f$ is analytic, so its real and imaginary parts satisfy the Laplace equation.
+\begin{example}
+    Let $U = \subsetselect{z \in \C}{\arg(z) \in \left(0, \frac\pi2\right)}$. We want to solve the Laplace equation on this domain with boundary conditions $\phi(x, 0) = 0$ and $\phi(0, y) = 1$. We choose $f(z) = \log(z)$ with the branch cut on the half-line $\arg(z) = -\frac\pi2$, and the principal branch. Under $f$, $V = f(U)$ is the strip:
+    \begin{equation*}
+        V = \subsetselect{\xi \in \C}{\Im(\xi) \in \left(0, \frac\pi2\right)}.
+    \end{equation*}
+    The real and imaginary parts are mapped as follows:
+    \begin{align*}
+        u(x, y) = \Re(\log(z)) = \log(|z|) && v(x, y) = \Im(\log(z)) = \arg(z)
+    \end{align*}
+    and so the boundary conditions are $\Phi(u, 0) = 0, \Phi(u, \pi / 2) = 1$. We find the solution:
+    \begin{equation*}
+        \Phi(u, v) = \frac2\pi v
+    \end{equation*}
+    and this gives the solution for $\phi$ on $U$:
+    \begin{equation*}
+        \phi(x, y) = \frac{2}{\pi} \arg(z) = \frac{2}{\pi} \arctan\left(\frac{y}{x}\right)
+    \end{equation*}
+\end{example}
 \end{document}
