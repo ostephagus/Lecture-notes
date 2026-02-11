@@ -1,0 +1,80 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+This chapter will be concerned with ordinary differential equations of the form:
+\begin{equation}
+    \begin{cases}
+        \frac{d\vec{y}}{dt} = \vec{f}(t, \vec{y})  & \vec{y}(t) \in \R^n, t \in \R \\
+        \vec{y}(0) = \vec{y_0} & 
+    \end{cases}
+    \label{eqnGeneralODE}
+\end{equation}
+\section{One-Step Explicit Methods}
+In this section we will try to find a formula that predicts $\vec{y}$ at $t_n$ based on $\vec{y}(t_{n-1})$. We split the $t$ domain into discrete points $t_n$ based on $t_n = nh$ for a step size $h$. Let $t_n$ run from $0$ to a final value $t^\star$.
+
+Denote the true solution of the ODE as $\vec{y}(t)$, and denote the output of a numerical algorithm $\vec{y_n}$ for the approximation of the function of $t_n$.
+\subsection{Quantifying Convergence}
+Consider a method that produces, for each $h > 0$, a sequence:
+\begin{equation*}
+    (y_n)_{n = 0}^{\lfloor t^\star  / h \rfloor}
+\end{equation*}
+that approximates the true solution $y(t_n) = y(nh)$.
+\begin{definition}{Convergent method}
+    We say that a method as given above is \underline{convergent} if:
+    \begin{equation*}
+        \max_{n = 0 \text{ to } \lfloor \frac{t^\star}{h}\rfloor} \norm{y_n - y(nh)} \xrightarrow[h \to 0]{} 0
+    \end{equation*}
+\end{definition}
+\subsection{Euler's Method}
+The simplest one-step method is Euler's Method. Consider a Taylor expansion:
+\begin{align*}
+    \vec{y}(t_{n+1}) &= \vec{y}(t_n) + ht'(t_n) + O(h^2) \\
+    &= \vec{y}(t_n) + h \vec{f}(t_n, \vec{y}(t_n)) O(h^2)
+\end{align*}
+So we take the approximation:
+\begin{equation}
+    \vec{y_{n+1}} = \vec{y_n} + h \vec{f}(t_n, \vec{y_n})
+    \label{eqnEulerMethod}
+\end{equation}
+\begin{theorem}[Convergence of Euler's Method]
+    Consider an ODE of the form in \eqnref{eqnGeneralODE} and assume that $f$ satisfies the \textit{Lipschitz condition}:
+    \begin{equation*}
+        \norm{f(t, \vec{u}) - f(t, \vec{w})} \leq \lambda \norm{\vec{u} - \vec{w}}
+    \end{equation*}
+    for all $t \in [0, t^\star]$ and $\vec{u}, \vec{w} \in \R^N$.
+
+    Then Euler's method is convergent.
+    \label{thmEulerConvergence}
+\end{theorem}
+\begin{proof}
+    Let $h > 0$ and let $\vec{e_n} = \vec{y_n} - \vec{y}(t_n)$.
+    \begin{align*}
+        \vec{e_{n+1}} &= \vec{y_{n+1}} - \vec{y}(t_{n+1}) \\
+        &= \vec{y_n} + h \vec{f}(t_n, \vec{y_n}) - \vec{y}(t_{n+1}) \\
+        &= \vec{y_n} - \vec{y}(t_n) + h\vec{f}(t_n, \vec{y_n}) - \left(\vec{y}(t_{n+1}) - \vec{y}(t_n)\right) \\
+        &= \vec{y_n} - \vec{y}(t_n) + h\vec{f}(t_n, \vec{y_n}) - h \vec{f}(t_n, \vec{y}(t_n))\\
+        &\qquad- \left(\vec{y}(t_{n+1}) - \vec{y}(t_n) - h \vec{f}(t_n, \vec{y}(t_n))\right) \\
+        &= \vec{e_n} + h\vec{f}(t_n, \vec{y_n}) - h \vec{f}(t_n \vec{y}(t_n)) - \left(\vec{y}(t_{n+1}) - \vec{y}(t_n) - h \vec{y}'(t_n)\right) \\
+        \intertext{Apply Taylor's Theorem to the final bracket, let $\xi \in [t_n, t_{n+1}]$}
+        &= \vec{e_n} + h\vec{f}(t_n, \vec{y_n}) - h \vec{f}(t_n \vec{y}(t_n)) - \frac{h^2}{2} \vec{y}''(\xi) \\
+        \norm{\vec{e_{n+1}}}&\leq \norm{\vec{e_n}} + h\norm{\vec{f}(t_n, \vec{y_n}) - h \vec{f}(t_n \vec{y}(t_n))} + ch^2 \\
+        &\leq \norm{\vec{e_n}} + h\lambda \norm{\vec{y_n} - \vec{y}(t_n)} + ch^2 \\
+        &\leq \norm{\vec{e_n}} + h\lambda \norm{\vec{e_n}} + ch^2 \\
+        &\leq (1 + \lambda h)\norm{\vec{e_n}} + ch^2
+    \end{align*}
+    Then we can recursively use this inequality:
+    \begin{align*}
+        \norm{\vec{e_n}} &=(1 + h \lambda) \norm{\vec{e_{n-1}}} + ch^2 \\
+        &\leq (1 + h\lambda) \left((1 + h\lambda) \norm{\vec{e_{n-2}}} + ch^2\right) + ch^2 \\
+        &\leq (1 + h\lambda) \underbrace{\norm{\vec{e_0}}}_0 + ch^2 \sum_{i=1}^{n} (1 + h\lambda)^{i-1} \\
+        &= ch^2 \frac{(1 + h\lambda)^n - 1}{h\lambda} \\
+        &\leq \frac{ch}{\lambda} (1 + h\lambda)^n \\
+        &\leq \frac{ch}{\lambda} e^{nh\lambda} \\
+        &\leq \frac{ch}{\lambda} e^{\lambda t^\star}
+    \end{align*}
+    Then finally we conclude that this tends to $0$ as $h \to 0$.
+\end{proof}
+\begin{remark}
+    The term $ch^2$ in the recursive error formula is called the \underline{local truncation}\\\underline{error}, it is a factor that is added to the error after every new timestep. We saw that this must be $O(h^2)$ or smaller for convergence. We will prove this more generally with a theorem.
+\end{remark}
+\end{document}

@@ -530,14 +530,16 @@ Then we define a pseudo-inner product:
 Then this does define a valid inner product, but only on $\P_{m-1}$. %TODO: What?
 
 Therefore, assuming $m > n$, we can still construct orthogonal polynomials $p_0, \cdots, p_n$ using \thmref{thm3TermRecur} and use the formula given in \thmref{thmLeastSquaresPoly}.
-\subsection{Gaussian Quadrature}
+\section{Gaussian Quadrature}
 Here we want to compute quantities of the form:
 \begin{equation}
-    \int_{a}^{b} w(x) f(x) dx \approx \sum_{k=1}^{\nu} \underbrace{b_k}_{\text{weights}} f(\underbrace{c_k}_{\text{nodes}})
+    \int_{a}^{b} w(x) f(x) dx \approx \sum_{k=1}^{\nu} b_k f(c_k)
     \label{eqnGaussQuadrat}
 \end{equation}
-So we want to find a method to obtain the weights $b_k$ and the nodes $c_k$. We also want to find the ``best'' approximation. We will do this by ensuring equality for polynomials up to degree $n$, and trying to find the largest value for $n$.
+where we say $b_k$ are the weights, and $c_k$ are the nodes.
 
+We want to find a method to obtain the weights $b_k$ and the nodes $c_k$. We also want to find the ``best'' approximation. We will do this by ensuring equality for polynomials up to degree $n$, and trying to find the largest value for $n$.
+\subsection{Finding the Largest Order}
 \begin{definition}{Order}
     If \eqnref{eqnGaussQuadrat} is an equality for all $f \in \P_m[x]$, and $m$ is the largest such, $m$ is the \underline{order} of the quadrature formula.
 \end{definition}
@@ -574,7 +576,177 @@ So we want to find a method to obtain the weights $b_k$ and the nodes $c_k$. We 
         \inn{p_n}{q} = \int_{a}^{b} \underbrace{w(x)}_{>0} \underbrace{p_n(x) q(x)}_{\geq 0 \text{ or } \leq 0} dx \neq 0  \\
     \end{equation*}
     Then since $\inn{p_n}{q} \neq 0$, we must have that $q \notin \P_{n-1}[x]$ because $p_n$ is orthogonal to this subspace.
-    Therefore $m \geq n$. However, %TODO: Continue. We end up with $m = n$.
+    Therefore $m \geq n$. However, $p_n$ is an $n$ degree polynomial so can have at most $n$ roots, so we conclude $m = n$.
 \end{proof}
+\begin{theorem}[Gaussian Quadrature]
+    Let $\nu \in \N$ and $w \in C[a, b]$ with $w(x) > 0~\forall x \in (a, b)$.
+    \begin{enumerate}
+        \item Let $c_1, \cdots, c_\nu$ be distinct points in $(a, b)$ and define the weights as follows:
+            \begin{equation*}
+                b_k = \int_{a}^{b} w(x) L_k(x) dx \text{ where } L_k(x) = \prod_{\substack{i=1\\i\neq k}}^{\nu} \frac{x - c_i}{c_k - c_i}
+            \end{equation*}
+            Then for all $f \in \P_{\nu - 1}[x]$, we have:
+            \begin{equation*}
+                \int_{a}^{b} w(x) f(x) dx = \sum_{k=1}^{\nu} b_k f(c_k)
+            \end{equation*}
+        \item If we choose the $c_i$ to be the $\nu$ roots of $p_{\nu}$, then:
+            \begin{equation*}
+                \int_{a}^{b} w(x) f(x) dx = \sum_{k=1}^{\nu} b_k f(c_k)
+            \end{equation*}
+            for all $f \in \P_{2\nu - 1}[x]$.
+    \end{enumerate}
+    \label{thmGaussQuadrat}
+\end{theorem}
+\begin{proof}
+    Let $f \in \P_{\nu - 1}[x]$. Consider:
+    \begin{equation*}
+        \tilde{f}(x) = \sum_{k=1}^{n} f(c_k) L_k(x)
+    \end{equation*}
+    and we want to show that $f = \tilde{f}$. Therefore, consider $f - \tilde{f}$. Since both $f$ and $\tilde{f}$ have degree $\nu - 1$, $\deg(f - \tilde{f}) \leq \nu - 1$. However, we can find $\nu$ roots of $f - \tilde{f}$, namely the $c_i$. Therefore, $f - \tilde{f}$ must be the zero polynomial, and $f = \tilde{f}$. We have therefore:
+    \begin{equation*}
+        \int_{a}^{b} w(x) f(x) dx = \int_{a}^{b} w(x) \sum_{k=1}^{\nu} f(c_k) L_k(x) dx  = \sum_{k=1}^{\nu} f(c_k) \underbrace{\int_{a}^{b} w(x) L_k(x) dx}_{b_k}
+    \end{equation*}
+    and we have proven point 1.
 
+    Now assume that $c_1, \cdots, c_\nu$ are the distinct roots of $p_{\nu}$. Let $f \in \P_{2\nu - 1}$. We apply the polynomial division algorithm and get:
+    \begin{equation*}
+        f = p_\nu q + r
+    \end{equation*}
+    where $q$ is the quotient with $\deg(q) \leq \nu - 1$, and $r$ is the remainder which also has $\deg(r) \leq \nu - 1$.
+    \begin{align*}
+        \int_{a}^{b} w(x) f(x) dx &= \int_{a}^{b} w(x) p_\nu(x) q(x) dx + \int_{a}^{b} w(x) r(x) dx \\
+        &= \underbrace{\inn{p_\nu}{q}}_{0} + \int_{a}^{b} w(x) r(x) dx \\
+        &= \sum_{k=1}^{\nu} b_k r(c_k) \text{ by point 1 of the theorem} \\
+        &= \sum_{k=1}^{\nu} b_k f(c_k) \text{ since $p_\nu(c_k) = 0$ so $f(c_k) = r(c_k)$}
+    \end{align*}
+    which is as required.
+\end{proof}
+\subsection{Peano Kernel Theorem}
+Consider the error of a quadrature formula:
+\begin{equation*}
+    L(f) = \int_{a}^{b} w(x) f(x) dx - \sum_{k=1}^{\nu} b_k f(c_k)
+\end{equation*}
+Then we want to find a bound for $L$ when $f \notin \P_n[x]$ (where $n$ is the order of the quadrature formula).
+Consider $f \in C^{n+1}[a, b]$. Then we use Taylor's Theorem with integral remainder:
+\begin{align*}
+    f(x) &= \underbrace{f(a) + (x - a) f'(a) + \frac{(x-a)^2}{2} f''(a) + \cdots + \frac{(x-a)^n}{n!} f^{(n)} (a)}_{g(x)}\\
+    &\qquad+ \underbrace{\frac{1}{n!} \int_{a}^{x} f^{n+1}(\theta)(x - \theta)^n d\theta}_{h(x)}
+\end{align*}
+then $g(x)$ is a polynomial of degree $n$. Therefore $L(g(x)) = 0$. So, by linearity of $L$, $L(f) = L(h)$. Similarly, we can simplify $h$:
+\begin{equation*}
+    \frac{1}{n!} \int_{a}^{b} f^{(n+1)}(\theta) \underbrace{\left(\max\{(x - \theta), 0\}\right)^n}_{h_\theta(x)} d\theta
+\end{equation*}
+where $h_\theta$ is another function of $\theta$ and $x$.
+
+At this point, we will provide a claim that uses the concept of infinite summation as integration, but the proof will not be provided.
+\begin{align*}
+    L(f) &= L(h) \\
+    &= \frac{1}{n!} f^{(n+1)}(\theta) \underbrace{L(h_\theta)}_{K(\theta)} d\theta
+\end{align*}
+here $K(\theta)$ is the \underline{Peano Kernel}.
+\begin{theorem}
+    Assume $L$ is a linear functional such that $L(f) = 0$ for all $f \in \P_n[x]$. Then for all $f \in C^{n+1}[a, b]$, we have:
+    \begin{equation}
+        L(f) = \frac{1}{n!} \int_{a}^{b} f^{(n+1)}(\theta) K(\theta) d\theta
+        \label{eqnPeanoKernel}
+    \end{equation}
+    where $K(\theta) = L\left(\left(\max\{x - \theta, 0\}\right)^n\right)$.
+    \label{thmPeanoKernel}
+\end{theorem}
+\begin{corollary}
+    \begin{equation*}
+        |L(f)| \leq \frac{1}{n!} \int_{a}^{b} \abs{f^{(n+1)}(\theta)} \abs{K(\theta)} d\theta \leq \frac{\norm{f^{(n+1)}}_\infty}{n!} \int_{a}^{b} \abs{K(\theta)} d\theta 
+    \end{equation*}
+    \label{corPeanoKernelBound}
+\end{corollary}
+\begin{example}
+    Consider Simpson's Rule, given by:
+    \begin{equation*}
+        \int_{-1}^{1} f(x) dx \approx \frac13 (f(-1) + 4f(0) + f(1))
+    \end{equation*}
+    Therefore our error functional is:
+    \begin{equation*}
+        L(f) = \int_{-1}^{1} f(x) dx - \frac13 (f(-1) + 4f(0) + f(1))
+    \end{equation*}
+    We can check that $L(f) = 0$ for $f \in \P_2[x]$.
+
+    Computing $K(\theta)$:
+    \begin{align*}
+        K(\theta) &= L\left(\left(\max\{x - \theta, 0\}\right)^2\right) \\
+        &= \int_{-1}^{1} h_\theta(x) dx - \frac13 \left(h_\theta(-1) + 4 h_\theta(0) + h_\theta(1)\right)
+    \end{align*}
+    Now, $h_\theta(-1) = 0$ and $h_\theta(1) = (1 - \theta)^2$.
+    \begin{equation*}
+        h_\theta(0) =
+        \begin{cases}
+            0 & \theta \geq 0 \\
+            \theta^2 & \theta \leq 0
+        \end{cases}
+    \end{equation*}
+    \begin{align*}
+        \int_{-1}^{1} h_\theta(x) dx &= \int_\theta^1 (x - \theta)^2 dx \\
+        &= \left[\frac{(x - \theta)^3}{3}\right]_\theta^1 \\
+        &= \frac{(1 - \theta)^3}{3}
+    \end{align*}
+    Putting all this together,
+    \begin{align*}
+        K(\theta) &=
+        \begin{cases}
+            \frac{(1 - \theta)^3}{3} - \frac13(4\theta^2 + (1 - \theta)^2) & \theta \leq 0 \\
+            \frac{(1 - \theta)^3}{3} - \frac13(1 - \theta)^2 & \theta \geq 0 \\
+        \end{cases}\\
+        &= \begin{cases}
+            -\frac13 \theta(1 + \theta)^2 & \theta \leq 0 \\
+            -\frac13 \theta(1 - \theta)^2 & \theta \geq 0
+        \end{cases}
+    \end{align*}
+    Then computing the integral to bound the error:
+    \begin{align*}
+        L(f) &= \frac{1}{2!} \int_{-1}^{1} f^{(3)}(\theta) K(\theta) d\theta \\
+        &\leq \norm{f^{(3)}}_\infty \frac12 \int_{-1}^{1} \abs{K(\theta)} d\theta \\
+        &= \frac{1}{36} \norm{f^{(3)}}_\infty
+    \end{align*}
+\end{example}
+\begin{example}
+    We can consider $L$ to be something other than a quadrature error.
+    \begin{equation*}
+        L(f) = f'(0) - \left(-frac32 f(0) + 2f(1) - frac12 f(2)\right)
+    \end{equation*}
+    Then indeed $L$ is a linear functional. We want to know what $L$ does to low-degree polynomials:
+    \begin{align*}
+        L(1) &= 0 - \left(-frac32 + 2 - \frac12\right) = 0 \\
+        L(x) &= 1 - \left(-\frac32 (0) + 2(1) - \frac12(2)\right) = 0
+        L(x^2) &= 0 - \left(-\frac32(0) + 2(1) - \frac12(4)\right) = 0
+        L(x^3) &= 0 - \left(-\frac32(0) + 2(1) - \frac12(8)\right) = -4 \neq 0
+    \end{align*}
+    Therefore we take $n = 2$. Therefore $L(f) = 0$ for $f \in \P_2[x]$. To compute the Peano kernel, we need $L(h_\theta)$:
+    \begin{align*}
+        h_\theta'(0) &= 0 \text{ if $\theta \geq 0$} \\
+        h_\theta(0) &= 0 \text{ if $\theta \geq 0$} \\
+        h_\theta(1) &=
+        \begin{cases}
+            0 & \theta \geq 1 \\
+            (1 - \theta)^2 & \theta \leq 1
+        \end{cases}\\
+        h_\theta(2) &=
+        \begin{cases}
+            0 & \theta \geq 2 \\
+            (2 - \theta)^2 & \theta \geq 2
+        \end{cases}
+    \end{align*}
+    \begin{align*}
+        L(h_\theta) &=
+        \begin{cases}
+            0 - \left(-\frac32(0) + 2(1 - \theta)^2 - \frac12 (2 - \theta)^2\right) & \theta \in [0, 1] \\
+            0 - \left(-\frac32(0) + 2(0) - \frac12 (2 - \theta)^2\right) & \theta \in [1, 2] \\
+            0 & \theta \geq 2
+        \end{cases}\\
+        &=
+        \begin{cases}
+            2\theta - \frac32\theta^2 & \theta \in [0, 1] \\
+            \frac12 (2-\theta)^2 & \theta \in [1, 2] \\
+            0 & \theta \geq 2
+        \end{cases}
+    \end{align*}
+\end{example}
 \end{document}
