@@ -870,7 +870,7 @@ Then we consider the density of $\vec{X}$. We have that in the one-dimensional c
 \begin{theorem}
     For an n-dimensional Gaussian vector with mean $\vec{\mu}$ and variance matrix $V$, the density function is:
     \begin{equation*}
-        f_{\vec{X}}(\vec{x}) = \frac{1}{\sqrt{(2\pi)^n} \det{V}} \text{exp} \left(-\frac{(\vec{x} - \vec{\mu})^T V^{-1} (\vec{x} - \vec{\mu})}{2}\right)
+        f_{\vec{X}}(\vec{x}) = \frac{1}{\sqrt{(2\pi)^n \det{V}}} \text{exp} \left(-\frac{(\vec{x} - \vec{\mu})^T V^{-1} (\vec{x} - \vec{\mu})}{2}\right)
     \end{equation*}
 \end{theorem}
 \begin{proof}
@@ -906,7 +906,7 @@ Then we consider the density of $\vec{X}$. We have that in the one-dimensional c
 
         Then we can now write $\vec{X} = \begin{pmatrix} \vec{Y} \\ \vec{\nu}\end{pmatrix}$ where $Y \sim N(\vec{\lambda}, U)$ and $\vec{Y}$ has density:
         \begin{equation*}
-            F_{\vec{Y}}(\vec{y}) = \frac{1}{\sqrt{(2\pi)^n} \det{U}} \exp\left(-\frac{(\vec{y} -\lambda)^T U^{-1} (\vec{y} - \vec{\lambda})}{2}\right)
+            F_{\vec{Y}}(\vec{y}) = \frac{1}{\sqrt{(2\pi)^n \det{U}}} \exp\left(-\frac{(\vec{y} -\lambda)^T U^{-1} (\vec{y} - \vec{\lambda})}{2}\right)
         \end{equation*}
         by case 1.
     \end{case}
@@ -926,9 +926,9 @@ Then we consider the density of $\vec{X}$. We have that in the one-dimensional c
 \begin{proof}[by factorising the density function]
     Let $V = \text{diag}(\lambda_1, \lambda_2, \cdots, \lambda_n)$, and note that these are all positive. Then the density function is:
     \begin{align*}
-        f_{\vec{X}}(\vec{x}) &= \frac{1}{\sqrt{(2\pi)^n} \det{V}} \text{exp} \left(-\frac{(\vec{x} - \vec{\mu})^T V^{-1} (\vec{x} - \vec{\mu})}{2}\right) \\
-        f_{\vec{X}}(\vec{x}) &= \frac{1}{\sqrt{(2\pi)^n} \det{V}} \text{exp} \left(-\frac{1}{2} \sum_{i = 1}^n \frac{(x_i - \mu_i)^2}{2\lambda_i}\right) \\
-        \prod_{i = 1}^n f_{\vec{X}}(\vec{x}) &= \frac{1}{\sqrt{(2\pi)^n} \det{V}} \text{exp} \left(-\frac{(x_i - \mu_i)^2}{4\lambda_i}\right)
+        f_{\vec{X}}(\vec{x}) &= \frac{1}{\sqrt{(2\pi)^n \det{V}}} \text{exp} \left(-\frac{(\vec{x} - \vec{\mu})^T V^{-1} (\vec{x} - \vec{\mu})}{2}\right) \\
+        f_{\vec{X}}(\vec{x}) &= \frac{1}{\sqrt{(2\pi)^n \det{V}}} \text{exp} \left(-\frac{1}{2} \sum_{i = 1}^n \frac{(x_i - \mu_i)^2}{2\lambda_i}\right) \\
+        \prod_{i = 1}^n f_{\vec{X}}(\vec{x}) &= \frac{1}{\sqrt{(2\pi)^n \det{V}}} \text{exp} \left(-\frac{(x_i - \mu_i)^2}{4\lambda_i}\right)
     \end{align*}
     So the density function factorises, and we have that the individual elements are normal random variables, $X_i \sim N(\mu_i, \lambda_i)$ as expected.
 \end{proof}
