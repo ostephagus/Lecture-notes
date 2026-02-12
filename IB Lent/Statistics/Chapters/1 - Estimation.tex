@@ -724,5 +724,72 @@ Given that, in Bayesian estimation, we treat $\vec{X} = \vec{x}$ as fixed, we ca
 \subsection{Decision Theory}
 Suppose we must choose a decision $\delta \in D$, and consider a loss function $L(\theta, \delta)$ which gives loss incurred by making a decision $\delta$ when the true parameter is $\theta$.
 
-Then the Von-Neumann-Morgensten Theorem, says that, under certain assumptions, the best choice of $\delta$ is the minimiser of the expected loss under the posterior distribution.
+Then the Von-Neumann-Morgensten Theorem, says that, under certain assumptions, the best choice of $\delta$ is the minimiser of the expected loss under the posterior distribution. Let $L(\theta, \delta)$ be the expected loss over the posterior distribution $\pi(\theta | \vec{x})$.
+
+\begin{definition}{Bayes estimator}
+    The \underline{Bayes estimator} $\hat{\theta}_{B}$ is defined by:
+    \begin{align*}
+        \hat{\theta}_B &= \argmin_{\delta \in D} h(\delta) \\
+        \text{Where } h(\delta) &= \int_{\Theta} L(\theta, \delta) \pi(\theta | \vec{x}) d\theta
+    \end{align*}
+\end{definition}
+\begin{example}
+    Consider the \underline{quadratic loss}:
+    \begin{equation*}
+        L(\theta, \delta) = (\theta - \delta)^2
+    \end{equation*}
+    The expected loss is then:
+    \begin{equation*}
+        h(\delta) = \int_{\Theta} (\theta - \delta)^2 \pi(\theta | \vec{x}) d\theta
+    \end{equation*}
+    and so differentiating this gives:
+    \begin{equation*}
+        \int_\Theta (\theta - \delta) \pi(\theta | \vec{x}) d\theta
+    \end{equation*}
+    and we find:
+    \begin{equation*}
+        \delta = \int_\Theta \theta \pi(\theta | \vec{x})
+    \end{equation*}
+    is the Bayes estimator. This is $\E[\theta]$ under $\pi(\theta | \vec{x})$.
+\end{example}
+\begin{example}
+    Consider the \underline{absolute loss}, $L(\theta, \delta) = |\theta - \delta|$.
+    \begin{align*}
+        h(\delta) &= \int_\Theta |\theta - \delta| \pi(\theta | \vec{x}) d\theta \\
+        &= \int_{-\infty}^{\delta} -(\theta - \delta) \pi(\theta | \vec{x}) d\theta + \int_{\delta}^{\infty} (\theta - \delta) \pi(\theta | \vec{x}) d\theta \\
+        &= \int_{-\infty}^{\delta} -\theta \pi(\theta | \vec{x}) d\theta + \int_{\delta}^{\infty} \theta \pi(\theta | \vec{x}) d\theta + \delta \int_{-\infty}^{\delta} \pi(\theta | \vec{x}) d\theta - \delta \int_{\delta}^{\infty} \pi(\theta | \vec{x}) d\theta
+    \end{align*}
+    Then differentiating with respect to $\delta$ gives:
+    \begin{equation*}
+        h'(\delta) = \int_{-\infty}^{\delta} \pi(\theta | \vec{x}) d\theta - \int_{\delta}^{\infty} \pi(\theta | \vec{x}) d\theta 
+    \end{equation*}
+    And so this is zero when $\delta$ is the median of the distribution.
+\end{example}
+\begin{example}
+    Consider $X_i \sim N(\mu, 1)$ for $i = 1$ to $n$.
+
+    Let the prior distribution of $\mu$ be $N(0, \tau^{-2})$ for known $\tau > 0$.
+    \begin{align*}
+        \pi(\mu | \vec{x}) &\propto f_{\vec{X}}(\vec{x}, \mu) \pi(\mu) \\
+        &\propto \exp\left(-\frac12 \sum_{i=1}^{n} (x_i - \mu)^2\right) \exp\left(-\frac{\mu^2\tau^2}{2}\right) \\
+        &\propto \exp\left(-\frac12 (n + \tau)^2 \left(\mu - \frac{\sum_{i=1}^{n} x_i}{n + \tau^2}\right)^2\right)
+    \end{align*}
+    and so we conclude that:
+    \begin{equation*}
+        \mu | \vec{x} \sim N\left(\frac{\sum_{i=1}^{n} x_i}{n + \tau^2}, \frac{1}{n+\tau^2}\right)
+    \end{equation*}
+    The posterior mean and median are both the same (since this is a normal distribution), so the quadratic and absolute loss functions would give the same estimator.
+
+    We can write this as a convex combination of $\hat{\theta}_{\text{MLE}}$ and zero:
+    \begin{equation*}
+        \hat{\theta}_B = \frac{n}{n+\tau^2} \underbrace{\frac{\sum_{i=1}^{n}x_i}{n}}_{\hat{\theta}_{\text{MLE}}} + \frac{\tau^2}{n + \tau^2} (0)
+    \end{equation*}
+    which tells us that the Bayesian estimator is biased towards zero for smaller $n$, which is the contribution from the prior distribution.
+\end{example}
+\begin{definition}{Credible interval}
+    A $\gamma$ or $100\gamma\%$ \underline{credible interval} $(A(\vec{X}), B(\vec{X}))$ satisfies:
+    \begin{equation*}
+        \pi(A(\vec{X}) \leq \theta \leq B(\vec{X}) | \vec{X} = \vec{x}) = \gamma
+    \end{equation*}
+\end{definition}
 \end{document}

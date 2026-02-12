@@ -1,0 +1,99 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definitions}
+\begin{definition}{Hypothesis}
+    A \underline{hypothesis} is an assumption about the distribution of data $\vec{X}$ taking values in $\samplespace$.
+\end{definition}
+\begin{definition}{Null hypothesis}
+    The \underline{null hypothesis}, $H_0$ is the base case or ``no effect'' hypothesis.
+\end{definition}
+\begin{definition}{Alternative hypothesis}
+    The \underline{alternative hypothesis}, $H_1$ is the hypothesis of a positive/negative effect.
+\end{definition}
+\begin{example}
+    Consider flipping coins, $X_i \sim \text{Ber}(\theta)$. The null hypothesis is $H_0 : \theta = \frac12$. Examples of alternative hypotheses could be:
+    \begin{itemize}
+        \item $\theta = \frac34$
+        \item $\theta \neq \frac12$
+        \item $\theta < \frac12$
+    \end{itemize}
+\end{example}
+\begin{example}[Goodness of Fit Test]
+    Suppose that $X_i$ are independent and identically distributed random variable for $i = 1$ to $n$.
+    We can then make hypotheses about the distribution function:
+    \begin{align*}
+        H_0:&X_i \text{ have pdf } f_1 \\
+        H_1:&X_i \text{ have pdf } f_2 \\
+    \end{align*}
+\end{example}
+\begin{example}
+    Suppose that $\vec{X}$ has a pdf $f_{\vec{X}}(\vec{x}, \theta)$ for some $\theta \in \Theta$. We can make hypotheses about $\theta$:
+    \begin{align*}
+        H_0:&\theta \in \Theta_0 \subset \Theta \\
+        H_1:&\theta \notin \Theta_0
+    \end{align*}
+\end{example}
+\begin{definition}{Simple hypothesis}
+    A hypothesis is \underline{simple} if it fully specifies the distribution of the data $\vec{X}$.
+
+    The opposite of a simple hypothesis is a \underline{composite hypothesis}.
+\end{definition}
+\begin{definition}{Hypothesis test}
+    A \underline{test} of a hypothesis $H_0$ is defined by a \underline{critical region} $C$. When $\vec{X} \in C$, we reject $H_0$. When $\vec{X} \notin C$, we do not reject $H_0$.
+\end{definition}
+\begin{remark}
+    Note that when $\vec{X} \notin C$, we do not \textit{accept} $H_0$. We are simply saying that there is not enough data to reject it.
+\end{remark}
+\begin{definition}{Type I/II errors}
+    A \underline{type I error} is the case of rejecting $H_0$ when $H_0$ was in fact true.
+    A \underline{type II error} is the case of failing to reject $H_0$ when $H_1$ was true.
+\end{definition}
+\begin{definition}{Power/size}
+    When $H_0$ and $H_1$ are simple hypotheses, the \underline{size} of the test is the probability of a type I error,
+    \begin{equation*}
+        \alpha = \P_{H_0}(H_0 \text{ rejected}) = \P_{H_0}(\vec{X} \in C).
+    \end{equation*}
+    The \underline{power} of the test is the probability of no type II errors. The power is $1 - \beta$ where:
+    \begin{equation*}
+        \beta = \P_{H_1}(H_0 \text{ not rejected}) = \P_{H_1}(\vec{X} \notin C)
+    \end{equation*}
+\end{definition}
+Usually, we set $\alpha$ at an acceptable level and choose a test that minimises $\beta$ subject to the condition on $\alpha$.
+\section{Neyman-Pearson Lemma}
+\begin{definition}{Likelihood ratio statistic}
+    Let $H_0$ and $H_1$ be simple, with $\vec{X}$ having pdf $f_i$ under $H_i$ ($i = 0$ or $1$). The \underline{likelihood ratio statistic} is:
+    \begin{equation*}
+        \Lambda_{\vec{X}}(H_0, H_1) = \frac{f_1(\vec{X})}{f_2(\vec{X})}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Likelihood ratio test}
+    A \underline{likelihood ratio test} rejects $H_0$ when $\vec{X} \in C = \subsetselect{\vec{x}}{\Lambda_{\vec{X}}(H_0, H_1) > k}$.
+\end{definition}
+\begin{theorem}[Neyman-Pearson Lemma]
+    Suppose $f_0$ and $f_1$ are non-zero on the same set and there exists $k$ such that the critical region:
+    \begin{equation*}
+        C_k = \subsetselect{\vec{x}}{\frac{f_1(\vec{x})}{f_2(\vec{x})} > k}
+    \end{equation*}
+    has size $\alpha$. Then for all tests with size $\leq \alpha$, the LRT is the test with smallest $\beta$.
+    \label{thmNeymanPearson}
+\end{theorem}
+\begin{proof}
+    Let $\overline{C}$ be the complement of $C$.
+    \begin{align*}
+        \alpha &= \P_{H_0}(\vec{X} \in C) = \int_C f_0(\vec{x}) d^n \vec{x} \\
+        \beta &= \P_{H_1}(\vec{X} \in \overline{C}) = \int_{\overline{C}} f_1(\vec{x}) d^n \vec{x}
+    \end{align*}
+    Then let $C^\star$ be the critical region of another test of size $\alpha^\star \leq \alpha$. We want to show that $\beta \leq \beta^\star$.
+    \begin{align*}
+        \beta - \beta^\star &= \int_{\overline{C}} f_1(\vec{x}) d^n \vec{x} - \int_{\overline{C^\star}} f_1(\vec{x}) d^n \vec{x}\\
+        &= \int_{\overline{C} \cap C^\star} f_1(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} f_1(\vec{x}) d^n\vec{x} \\
+        &= \int_{\overline{C} \cap C^\star} \underbrace{\frac{f_1(\vec{x})}{f_0(\vec{x})}}_{\text{$\leq k$ on $\overline{C}$}} f_0(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} \underbrace{\frac{f_1(\vec{x})}{f_0(\vec{x})}}_{\text{$> k$ on $C$}} f_0(\vec{x}) d^n\vec{x} \\
+        &\leq k\left(\int_{\overline{C} \cap C^\star} f_0(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} f_0(\vec{x}) d^n\vec{x}\right) \\
+        &= k\left(\int_{\overline{C} \cap C^\star} f_0(\vec{x}) d^n\vec{x} + \int_{C \cap C^\star} f_0(\vec{x}) d^n\vec{x} - \int_{C \cap C^\star} f_0(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} f_0(\vec{x}) d^n\vec{x}\right) \\
+        &= k\left(\int_{C^\star} f_0(\vec{x}) d^n\vec{x} - \int_C f_0(\vec{x}) d^n\vec{x}\right) \\
+        &= k(\alpha^\star - \alpha)
+    \end{align*}
+    Therefore, since we define $\alpha^\star \leq \alpha$, we find $\beta^\star \geq \beta$.
+\end{proof}
+\end{document}
