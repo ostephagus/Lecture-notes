@@ -99,4 +99,116 @@ As a convention, $\gamma$ moves anticlockwise, so the interior of $\gamma$ is on
 \begin{remark}
     This is the statement of ``no holes''. Removing a single point makes a domain not simply connected.
 \end{remark}
+\section{Cauchy's Theorem}
+We will need the following from IA Vector Calculus:
+\begin{theorem}[Green's Theorem in the Plane]
+    Let $P$ and $Q$ be continuous with continuous partial derivatives on $D \supseteq M$ where $M$ is the interior of a simple closed contour $\gamma$ in $\R^2$. Then:
+    \begin{equation}
+        \oint_\gamma (Pdx + Qdy) = \iint_M\left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right)dx~dy
+        \label{eqnGreen}
+    \end{equation}
+    \label{thmGreen}
+\end{theorem}
+\begin{theorem}[Cauchy's Theorem]
+    If $f(z)$ is analytic in a simply connected domain $D$, and $\gamma$ is a closed contour inside $D$,
+    \begin{equation}
+        \oint_\gamma f(z) dz = 0
+        \label{eqnCauchy}
+    \end{equation}
+    \label{thmCauchy}
+\end{theorem}
+\begin{proof}
+    Write $f(z) = u(x, y) + i v(x, y)$ where $z = x + iy$. By \thmref{thmGreen},
+    \begin{align*}
+        \oint_{\gamma} f(z) dz &= \oint_\gamma (u + i v)(dx + i dy) \\
+        &= \oint_\gamma (u cd - v dy) + i \oint_\gamma(v dx + u dy) \\
+        &= \iint_M \left(-\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}\right) dx~dy + i \iint_M \left(\frac{\partial u}{\partial x} - \frac{\partial y}{\partial y}\right) dx~dy \\
+        &= 0 \text{ by Cauchy-Riemann relations}.
+    \end{align*}
+\end{proof}
+\section{Deforming Contours}
+\begin{proposition}
+    Let $\gamma_1, \gamma_2$ be contours from $a \in \C$ to $b \in \C$. Let $f(z)$ be analytic on both contours and in the region enclosed by the contours. Then:
+    \begin{equation}
+        \int_{\gamma_1} f(z) dz = \int_{\gamma_2} f(z) dz
+        \label{eqnPathIndep}
+    \end{equation}
+    \label{propPathIndep}
+\end{proposition}
+\begin{proof}
+    Let $\gamma_1, \gamma_2$ not intersect each other except at the endpoints. Then $\gamma_1 - \gamma_2$ (the contour formed by $\gamma_1$ and then $-\gamma_2$) is a simple, closed contour.
+    
+    We have by \thmref{thmCauchy} that:
+    \begin{align*}
+        0 &= \oint_{\gamma_1 - \gamma_2} f(z) dz \\
+        &= \int_{\gamma_1} f(z) dz + \int_{-\gamma_2} f(z) dz \\
+        &= \int_{\gamma_1} f(z) dz - \int_{\gamma_2} f(z) dz \\
+    \end{align*}
+    and so the integrals are the same.
+
+    Now suppose that the curves intersect at $c_1, \cdots, c_n \in \C$. Then we consider the above for $a$ to $c_1$, $c_1$ to $c_2$ and so on to get the same result.
+\end{proof}
+\begin{remark}
+    We should compare this with exact differentials in $\R^2$. This is because:
+        \begin{align*}
+            df &=f(z) dz \\
+            &= (u + i v)(dx + i~dy) \\
+            &= \underbrace{(u + iv)}_{P}dx + \underbrace{(-v + i u)}_{Q} dy
+        \end{align*}
+        then Cauchy-Riemann implies that $\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$.
+\end{remark}
+Let $\gamma_1$ and $\gamma_2$ be closed contours that can be continuously deformed into each other. Let $f(z)$ be analytic on and in between $\gamma_1$ and $\gamma_2$.
+\begin{proposition}[Contour Shrinking]
+    Let $\gamma_1$ and $\gamma_2$ be closed contours that can be continuously deformed into each other. Let $f(z)$ be analytic on and in between $\gamma_1$ and $\gamma_2$. Then:
+    \begin{equation*}
+        \int_{\gamma_1} f(z) dz = \int_{\gamma_2} f(z) dz
+    \end{equation*}
+    \label{propContourShrink}
+\end{proposition}
+\begin{proof}
+    Consider figure~\ref{figContourShrink}. %TODO.
+\end{proof}
+\begin{theorem}[Cauchy Integral Formula]
+    Let $f$ be analytic on an open set $D \subseteq \C$. Let $z \in D$ and $\gamma$ be a simple, closed contour in $D$ that encloses $z_0 \in D$ (anticlockwise). Then:
+    \begin{equation*}
+        f(z_0) = \frac{1}{2\pi i} \oint_\gamma \frac{f(z)}{z - z_0} dz
+    \end{equation*}
+    and:
+    \begin{equation*}
+        f^{(m)}(z_0) = \frac{m!}{2\pi i} \oint_\gamma \frac{f(z)}{(z - z_0)^{m+1}} dz
+    \end{equation*}
+    \label{thmCauchyIntegral}
+\end{theorem}
+\begin{proof}[non-examinable]
+    Consider $z_0$ and a contour $\gamma$ that encloses it. 
+    The function $\frac{f(z)}{z - z_0}$ is analytic on and inside $\gamma$ except at $z_0$. We use \thmref{propContourShrink} to shrink $\gamma$ to a circle $\gamma_\epsilon$ of radius $\epsilon$ around $z_0$.
+    \begin{equation*}
+        \oint_\gamma \frac{f(z)}{z - z_0} dz = \oint_{\gamma_{\epsilon}} \frac{f(z)}{z - z_0} dz
+    \end{equation*}
+    We now evaluate the integral over $\gamma_\epsilon$. Let $z = z_0 + \epsilon e^{i\theta}$ and $dz = i \epsilon e^{i\theta}$.
+    \begin{align*}
+        \oint_{\gamma_\epsilon} \frac{f(z)}{z - z_0} dz &= \int_{0}^{2\pi} \frac{f(z_0 + i \epsilon e^{i\theta})}{\epsilon e^{i\theta}} i \epsilon e^{i\theta} d\theta \\
+        &= \int_{0}^{2\pi} if(z_0 + e\epsilon^{i\theta}) d\theta \\
+        \intertext{Take $\lim_{\epsilon \to 0}$:}
+        &= 2\pi i f(z_0)
+    \end{align*}
+    Then we have the required result. For the derivatives, we simply differentiate this expression $m$ times.
+\end{proof}
+\begin{remarks}
+    \item Knowing $f$ on $\gamma$ immediately gives us $f(z)$ at every point inside $\gamma$. This also gives an existence proof for the Laplace equation, because given Dirichlet boundary conditions for the Laplace equation (specifying $f$ on a contour), we can find $f$ at every point inside the contour, equivalent to solving the Laplace equation on this domain.
+    \item We simply imposed the condition that $f$ is analytic, and we get that all higher derivatives exist! This is remarkable, and does not exist for $\R$.
+\end{remarks}
+\begin{theorem}
+    If $f(z)$ is an entire function (analytic on $\C$) and bounded, then $f$ must be constant.
+    \label{thmEntireBddConst}
+\end{theorem}
+\begin{proof}[non-examinable]
+    Since $f$ is bounded, there exists some $c_0 \in \R$ such that $\abs{f(z)} \leq c_0$ for all $z \in \C$. Let $z_0 \in \C$ be arbitrary. Let $\gamma_r$ be the contour along a circle of radius $r$ around $z_0$ traversed anticlockwise. By \thmref{thmCauchyIntegral} with $m = 1$,
+    \begin{align*}
+        f'(z_0) &= \frac{1}{2\pi i} \oint_{\gamma_r}\frac{f(z)}{(z - z_0)^2} dz \\
+        \abs{f'(z_0)} &\leq \frac{1}{2\pi} \oint_{\gamma_r} \frac{c_0}{r^2} \abs{dz} \\
+        &= \frac{c_0}{r}
+    \end{align*}
+    Then taking $r \to \infty$, we find that $f'(z_0) = 0$. Since $z_0$ was any point in $\C$, we must have $f'(z) = 0$ for all $z$. That is, $f$ is constant.
+\end{proof}
 \end{document}
