@@ -512,4 +512,35 @@ When moving with the fluid, $\vec{\omega}$ evolves as a material line initially 
     \end{equation*}
     So we see that, as expected, vorticity increases whenever fluid is stretched along it.
 \end{example}
+\begin{example}[Applications of vortex stretching]
+    We see vortex stretching in the following applications:
+    \begin{itemize}
+        \item Bathtub vortex - as fluid flows downwards through a plug, the vortex around the plug is stretched.
+        \item Tornado/hurricane - warm air rises in the centre of the tornado and increases the vorticity there.
+    \end{itemize}
+\end{example}
+Consider a closed curve $\Gamma$. The circulation around $\Gamma$ is:
+\begin{equation*}
+    C(t) = \int_\Gamma \vec{u} \cdot \vec{dx}
+\end{equation*}
+By Stokes's Theorem, this is also:
+\begin{equation*}
+    C(t) = \int_S \vec{\omega} \cdot \vec{dS}
+\end{equation*}
+
+The following theorem is \textbf{non-examinable}.
+\begin{theorem}[Kelvin Circulation Theorem]
+    Suppose that $\rho$ is constant, the fluid is inviscid, and body forces are conservative.
+
+    Let $\Gamma$ be a material line (a line that flows with the fluid). Then:
+    \begin{equation*}
+        \frac{d}{dt} C = 0, C(t) \text{ const}.
+    \end{equation*}
+    \label{thmKelvinCirc}
+\end{theorem}
+The following corollary is \textbf{examinable}.
+\begin{corollary}
+    If fluid flow is irrotational ($\vec{\omega} = \vec0$) at time $t = 0$, then it remains irrotational at all time.
+    \label{corIrrot}
+\end{corollary}
 \end{document}

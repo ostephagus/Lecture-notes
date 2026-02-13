@@ -1,0 +1,57 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+Up to now, we have neglected any friction in the fluid flow. We assumed that the stress tensor was $\vec{\tau} = -p\vec{n}$. The Euler Momentum equation was:
+\begin{equation*}
+    \rho \frac{D \vec{U}}{D t} = - \nabla p + \bdforce
+\end{equation*}
+In this chapter, we will include \textit{viscosity}. We will need to include a component of the stress perpendicular to the normal, and a new term in the Euler momentum equation.
+
+In this course, we will focus on 2D parallel viscous flows. In Cartesian coordinates,
+\begin{equation*}
+    \vec{u} = (u(y, t), 0, 0)^T
+\end{equation*}
+Then this has horizontal streamlines, and we see $\nabla \cdot \vec{u} = 0$ immediately. Full treatment of 3D flows is in the course II Fluids.
+\section{Plane Couette (Shear) Flow}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \pgfmathsetmacro{\h}{2}
+        \pgfmathsetmacro{\flowlinespacing}{0.2}
+
+        \draw (0, 0) -- (5, 0);
+        \draw[->] (0, \h) -- (5, \h) node[right] {$U$};
+        \draw[|-|] (-0.5, 0) -- (-0.5, \h) node[anchor=east, pos=0.5] {$h$};
+
+        \pgfmathsetmacro{\numflowlines}{\h / \flowlinespacing - 1}
+
+        \foreach \n [evaluate=\n as \y using \n*\flowlinespacing] in {1, 2, ..., \numflowlines} {
+            \draw[->, blue] (2, \y) -- +(\y, 0);
+        }
+    \end{tikzpicture}
+    \caption{Diagram of the Couette Cell}
+    \label{figCouetteCell}
+\end{figure}
+Consider a simple thought experiment: steady flow between two parallel plates, driven only by the motion of the top plate (see figure~\ref{figCouetteCell}). This is called Newton's Experiment or the Couette Cell. Experimentally, we observe that for a wide variety of Newtonian fluids (e.g. air, water, honey, silicone oil, glycerol):
+\begin{enumerate}
+    \item fluid velocity near the upper plate is $U$;
+    \item fluid velocity near the bottom plate is $0$;
+    \item fluid flow velocity varies linearly between $0$ and $U$, that is,
+        \begin{equation*}
+            u(y) = U \frac{y}{h};
+        \end{equation*}
+    \item the tangential stress $\tau$ to move the top plate at speed $U$ is linear in $U$ and inversely proportional to $h$:
+    \begin{equation*}
+        \frac{F}{A} = \tau \propto \frac{U}{h}
+    \end{equation*}
+    and we call $U / h$ the \underline{shear rate}.
+\end{enumerate}
+Therefore, we write $\tau = \mu \frac{U}{h}$ and define $\mu$ to be the \underline{dynamic viscosity}. This is Newton's Empirical Law of Viscosity. We generalise this empirical law to include a derivative:
+\begin{equation*}
+    \tau = \mu \frac{\partial u}{\partial \vec{n}}
+\end{equation*}
+for cases where $u$ does not vary linearly with $h$.
+\section{2D Parallel Viscous Flow}
+\subsection{Steady Flow with No Body Force}
+Consider the Euler Momentum Equation on an infinitesimal volume of fluid $\delta x~\delta y$. Let the flow be $u(y) \vec{e_x}$. The viscous stress at $y$ is $-\mu \frac{\partial u}{\partial y}(y)$, and at $y + \delta y$ is $\mu \frac{\partial u}{\partial y} (y + \delta y)$.
+\end{document}
