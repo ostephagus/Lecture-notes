@@ -77,4 +77,137 @@ So we take the approximation:
 \begin{remark}
     The term $ch^2$ in the recursive error formula is called the \underline{local truncation}\\\underline{error}, it is a factor that is added to the error after every new timestep. We saw that this must be $O(h^2)$ or smaller for convergence. We will prove this more generally with a theorem.
 \end{remark}
+Often we perform this on a computer, and so we need to consider a rounding error. Let $\epsilon$ be the rounding error of the computer, and so we find:
+\begin{equation*}
+    \norm{\vec{e_n}} \leq (1 + \lambda h) \norm{\vec{e_{n-1}}} + ch^2 + \epsilon
+\end{equation*}
+For a computer using double-precision floating-point arithmetic, $\epsilon \approx 10^{-16}$.
+
+Following the computation through to find the magnitude of the error,
+\begin{equation*}
+    \norm{\vec{e_n}} \leq \left(\frac{ch}{\lambda} + \frac{\epsilon}{\lambda h}\right)e^{\lambda t^\star}.
+\end{equation*}
+This looks approximately linear for $h \gg \epsilon$, but as $h$ gets closer to $0$ the error increases again. The minimal value is attained when $h = \sqrt{\frac{\epsilon}{c}}$. This means $h \approx 10^{-8}$ is a good timestep.
+\section{Multistep Methods}
+\subsection{Definition and Examples}
+Consider a method that depends on $s$ previous timesteps:
+\begin{equation*}
+    \vec{y_{n+s}} = \vec{\phi}(\vec{y_n}, \cdots, \vec{y_{n+s-1}}) \\
+\end{equation*}
+We will consider only methods of the form:
+\begin{equation*}
+    \vec{y_{n + s}} = -\sum_{l = 0}^{s-1} \rho_l \vec{y_{n + l}} + h\left(\sum_{l = 0}^{s-1} \sigma_l \vec{f}(t_{n+l}, \vec{y_{n+l}}) + \sigma_s f(t_{n+s}, \vec{y_{n+s}})\right)
+\end{equation*}
+Then if $\sigma_s = 0$, the method is \underline{explicit}. If $\sigma_s \neq 0$, the method is \underline{implicit} and we need to solve a (possibly nonlinear) algebraic equation to get $\vec{y_{n+s}}$. This looks like:
+\begin{equation*}
+    \vec{y_{n+s}} - h \sigma_s \vec{f}(t_{n + s}, \vec{y_{n + s}}) = -\sum_{l=0}^{s-1} \rho_l \vec{y_{n + l}} + h \sum_{l = 0}^{s - 1}\sigma_l \vec{f}(t_{n + l}, \vec{y_{n + l}})
+\end{equation*}
+We can also write this multistep method as:
+\begin{equation}
+    \sum_{l=0}^{s} \rho_l \vec{y_{n + l}} = h\sum_{l=0}^{s} \sigma_l \vec{f}(t_{n + l}, \vec{y_{n + l}})
+    \label{eqnMultiStep}
+\end{equation}
+with the convention $\rho_s = 1$.
+
+We can give a few examples for methods:
+
+\begin{tabular}{|c|c|}
+    \hline
+    Name & Formula \\
+    \hline
+    Explicit Euler & $\vec{y_{n + 1}} - \vec{y_n} = h\vec{f}(t_n, \vec{y_n})$ \\
+    Implicit Euler & $\vec{y_{n + 1}} - \vec{y_n} = h\vec{f}(t_{n+1}, \vec{y_{n+1}})$ \\
+    Theta rule & $\vec{y_{n+1}} - \vec{y_n} = h\left[\theta \vec{f}(t_n, \vec{y_n}) + (1-\theta) \vec{f}(t_{n+1}, \vec{y_{n+1}})\right]$ \\
+    Adams-Bashforth & $\vec{y_{n+2}} - \vec{y_{n+1}} = h\left[\frac32 \vec{f}(t_{n+1}, \vec{y_{n+1}}) - \frac12 \vec{f}(t_n, \vec{y_{n}})\right]$ \\
+    \hline
+\end{tabular}
+then the first three methods are 1-step, and Adams-Bashforth is a 2-step method. The theta rule with $\theta = \frac12$ gives the trapezoid rule.
+\subsection{Local Truncation Error}
+Consider an explicit $s$-step method:
+\begin{equation*}
+    \vec{y_{n+s}} = -\sum_{l=0}^{s-1} \rho_l \vec{y_{n+l}} + h\sum_{l=0}^{s-1} \sigma_l \vec{f}(t_{n + l}, \vec{y_{n + l}})
+\end{equation*}
+\begin{definition}{Local truncation error}
+    For a numerical method evaluated at time $t_{n + s}$, $\vec{y_{n + s}}$, and a true solution $\vec{y}(t_{n + s})$, the \underline{local truncation error} is the difference:
+    \begin{equation*}
+        \vec{y}(t_{n + s}) - \vec{y_{n + s}}
+    \end{equation*}
+    where the numerical method computation is completed using exact values for $\vec{y_{n + l}}, l \in \{0, \cdots, s-1\}$.
+\end{definition}
+We can compute this error:
+\begin{align*}
+    \vec{y}(t_{n + s}) - \vec{y_{n + s}} &= \vec{y}(t_{n + s}) -\\
+    &\qquad \left(-\sum_{l=0}^{s-1} \rho_l \vec{y}(t_{n + l}) + h \sum_{l=0}^{s-1} \sigma_l \vec{f}(t_{n + l}, \vec{y}(t_{n + l}))\right) \\
+    &= \sum_{l=0}^{s} \rho_l \vec{y}(t_{n + l}) - h \sum_{l = 0}^{s-1} \sigma_l \underbrace{\vec{f}(t_{n + l}, \vec{y}(t_{n + l}))}_{\vec{y}'(t_{n + l})}
+\end{align*}
+\begin{definition}{Order}
+    A convergent $s$-step method with the form in equation \eqnref{eqnMultiStep} has \underline{order} $p$ if:
+    \begin{equation*}
+        \sum_{l=0}^{s} \rho_l \vec{y}(t_{n + l}) - h \sum_{l=0}^{s} \sigma_l \vec{y}'(t_{n + l}) = O(h^{p+1})
+    \end{equation*}
+\end{definition}
+\begin{examples}{
+        Consider the following methods and their orders:
+    }
+    \item Euler's Method:
+        \begin{align*}
+            \vec{y}(t_{n + 1}) - \vec{y}(t_n) &= h \vec{y}'(t_n)\\
+            &= \left(\vec{y}(t_n) + h \vec{y}'(t_n) + O(h^2)\right)\\
+            &\qquad- \left(\vec{y}(t_n) - h \vec{y}'(t_n)\right)
+        \end{align*}
+        and this is $O(h^2)$, so Euler's Method has order $1$.
+    \item Consider the $\theta$ rule:
+        \begin{equation*}
+            \vec{y_{n + 1}} - \vec{y_n} = \vec{h}\left[\theta \vec{f}(t_n, \vec{y_n}) + (1 - \theta)\vec{f}(t_{n+1}, \vec{y_{n+1}})\right]
+        \end{equation*}
+        Then we need to analyse the order of:
+        \begin{equation*}
+            \vec{y}(t_{n + 1}) - \vec{y}(t_n) -h\theta \vec{y}'(t_n) - h(1 - \theta) \vec{y}'(t_{n+1}) \\
+        \end{equation*}
+        Taylor expanding around $t_{n}$ gives:
+        \begin{align*}
+            &= \left(\vec{y}(t_n) + h \vec{y}'(t_n) + \frac{h^2}{2} \vec{y}''(t_n) + \frac{h^3}{6} \vec{y}'''(t_n) + O(h^6)\right)\\
+            &\qquad- \vec{y}(t_n) - h\theta \vec{y}'(t_n) \\
+            &\qquad-h(1-\theta) \left(\vec{y}'(t_n) + h\vec{y}''(t_n) + \frac{h^2}{2} \vec{y}'''(t_n) + O(h^3)\right) \\
+            &= (0) + (0)h + \left(\vec{y}''(t_n) \left[\frac12 - (1 - \theta)\right]\right)h^2\\
+            &\qquad+ \left(\vec{y}'''(t_n) \left[\frac16 - \frac{1-\theta}{2}\right]\right)h^3 + O(h^4) \\
+            &= h^2 \vec{y}''(t_n) \left(\theta - \frac12\right) + h^3 \vec{y}'''(t_n) \left(-\frac13 + \frac{\theta}{2}\right) + O(h^4)
+        \end{align*}
+        Then if $\theta = \frac12$ (trapezoidal rule), the method is order 2. Otherwise, it is of order 1.
+\end{examples}
+We can identify multistep methods with polynomials. For a method given by:
+\begin{equation*}
+    \sum_{l=0}^{s} \rho_l \vec{y_{n + l}} = h\sum_{l=0}^{s} \sigma_l \vec{f}(t_{n + l}, \vec{y_{n + l}})
+\end{equation*}
+then we can define polynomials:
+\begin{align*}
+    \rho(w) = \sum_{l=0}^{s} \rho_l w^l && \sigma(w) = \sum_{l=0}^{s} \sigma_l w^l
+\end{align*}
+This leads us to the following theorem:
+\begin{theorem}
+    For a multistep method specified with polynomials $\rho$ and $\sigma$ like above, the method has order $p$ if and only if:
+    \begin{equation*}
+        \rho(e^z) - z\sigma(e^z) = O(z^{p+1}) \text{ as } z \to 0
+    \end{equation*}
+    \label{thmODEMethodOrderExp}
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        &\sum_{l = 0}^s \rho_l \vec{y}(t_{n + l}) - h \sum_{l=0}^{s} \sigma_l \vec{y}'(t_{n + l}) \\
+        &= \sum_{l = 0}^{s} \rho_l \sum_{k=0}^{\infty} \frac{(lh)^k}{k!} \vec{y}^{(k)}(t_n) - h\sum_{l=0}^{s} \sigma_l \sum_{k=0}^{\infty} \frac{(lh)^k}{k!} \vec{y}^{(k+1)}(t_n) \\
+        &= \left(\sum_{l=0}^{s} p_l \right) \vec{y}(t_n) + \sum_{k=1}^{\infty} \frac{h^k \vec{y}^{(k)}(t_n)}{k!} \left[\sum_{l=0}^{s} \rho_l l^k - k \sum_{l=0}^{s} \sigma_l l^{k-1}\right]
+    \end{align*}
+    Then in order for the method to have order $p$,
+    \begin{align}
+        \sum_{l=0}^{s} \rho_l = 0&& \sum_{l = 0}^{s} (\rho_l l^k - k \sigma^l l^{k-1}) = 0 && \forall k = 1 \text{ to } p
+        \label{eqnExpConvergenceSubConditions}
+    \end{align}
+    Then to prove the theorem, we need to show that these conditions are equivalent to the conditions in terms of exponentials. 
+    \begin{align*}
+        \rho(e^z) - z\sigma(e^z) &= \sum_{l=0}^{s} \rho_l e^{lz} - z \sum_{l=0}^{s} \sigma_l e^{lz} \\
+        \rho(e^z) - z\sigma(e^z) &= \sum_{l=0}^{s} \rho_l \sum_{k=0}^{\infty} \frac{(lz)^k}{k!} - z \sum_{l=0}^{s} \sigma_l \sum_{k=0}^{\infty} \frac{(lz)^k}{k!} \\
+        &= \left(\sum_{l=0}^{s}\rho_l\right) + \sum_{k=1}^{\infty} \frac{z^k}{k!} \sum_{l=0}^{s} \left(\rho_l l^k - k \sigma_l l^k\right)
+    \end{align*}
+    and so for this to be of order $k$, the conditions are equivalent to those in \eqnref{eqnExpConvergenceSubConditions}
+\end{proof}
 \end{document}

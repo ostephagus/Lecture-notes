@@ -197,7 +197,7 @@ In the general case of a function on $[a, b]$, we would use:
     Let $x_0, \cdots, x_n$ be distinct points in $[a, b]$, $f \in C[a, b]$. Let $p \in \P_n[x]$ be the polynomial that interpolates $f$ at the points $x_i$. Then:
     \begin{equation}
         \begin{split}
-            p(x) = f[x_0] + f[x_0, x_n](x - x_0) + f[x_0, x_1, x_2] (x - x_0)(x - x_1) + \cdots \\
+            p(x) = f[x_0] + f[x_0, x_1](x - x_0) + f[x_0, x_1, x_2] (x - x_0)(x - x_1) + \cdots \\
             +f[x_0, \cdots, x_n] \prod_{j=1}^{n-1} (x - x_j)
         \end{split}
         \label{eqnNewtonInterp}
@@ -644,7 +644,7 @@ At this point, we will provide a claim that uses the concept of infinite summati
     &= \frac{1}{n!} f^{(n+1)}(\theta) \underbrace{L(h_\theta)}_{K(\theta)} d\theta
 \end{align*}
 here $K(\theta)$ is the \underline{Peano Kernel}.
-\begin{theorem}
+\begin{theorem}[Peano Kernel Theorem]
     Assume $L$ is a linear functional such that $L(f) = 0$ for all $f \in \P_n[x]$. Then for all $f \in C^{n+1}[a, b]$, we have:
     \begin{equation}
         L(f) = \frac{1}{n!} \int_{a}^{b} f^{(n+1)}(\theta) K(\theta) d\theta
@@ -714,9 +714,9 @@ here $K(\theta)$ is the \underline{Peano Kernel}.
     \end{equation*}
     Then indeed $L$ is a linear functional. We want to know what $L$ does to low-degree polynomials:
     \begin{align*}
-        L(1) &= 0 - \left(-frac32 + 2 - \frac12\right) = 0 \\
-        L(x) &= 1 - \left(-\frac32 (0) + 2(1) - \frac12(2)\right) = 0
-        L(x^2) &= 0 - \left(-\frac32(0) + 2(1) - \frac12(4)\right) = 0
+        L(1) &= 0 - \left(-\frac32 + 2 - \frac12\right) = 0 \\
+        L(x) &= 1 - \left(-\frac32 (0) + 2(1) - \frac12(2)\right) = 0 \\
+        L(x^2) &= 0 - \left(-\frac32(0) + 2(1) - \frac12(4)\right) = 0 \\
         L(x^3) &= 0 - \left(-\frac32(0) + 2(1) - \frac12(8)\right) = -4 \neq 0
     \end{align*}
     Therefore we take $n = 2$. Therefore $L(f) = 0$ for $f \in \P_2[x]$. To compute the Peano kernel, we need $L(h_\theta)$:
