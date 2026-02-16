@@ -352,11 +352,24 @@ Retaining only the zeroth order term (uniform field),
     \tau_i &\approx B_j(\vec0) \int_V x_j J_i d^3\vec{x} - B_i(\vec0) \int_V x_j J_j d^3\vec{x} \\
     &= B_j(\vec0) \epsilon_{ijk} m_k
 \end{align*}
-where we have used here the magnetic dipole moment vector $\vec{m}$. %TODO: Check.
+where we have used here the magnetic dipole moment vector $\vec{m}$.
 
 In general,
 \begin{equation*}
     \vec{\tau} = \vec{m} \times \vec{B}
 \end{equation*}
 where $\vec{B}$ is evaluated at the location of the dipole, and $\vec{\tau}$ is measured about this point.
+
+For the force, we need more terms in the expansion.
+\begin{align*}
+    \vec{F} &= \int_V \vec{J}(\vec{x}) \times \vec{B}(\vec{x}) d^3 \vec{x} \\
+    F_i &\approx \int_V \epsilon_{ijk} J_j(\vec{x}) \left(B_k(\vec0) + x_l \frac{\partial}{\partial x_l} B_k(\vec0)\right) d^3\vec{x} \\
+    &= \epsilon_{ijk} B_k(\vec0) \int_V J_j d^3\vec{x} + \epsilon_{ijk} \frac{\partial B_k}{\partial x_l}(\vec0) \int_V x_l J_j d^3\vec{x} \\
+    &= 0 + \epsilon_{ijk} \frac{\partial B_k}{\partial x_l}(\vec0) \epsilon_{ljn} m_n \\
+    &= \frac{\partial B_k}{\partial x_i} m_k - \frac{\partial B_k}{\partial x_k}(\vec0) m_i \\
+    &= \frac{\partial}{\partial x_i} \left(m_k B_k\right)(\vec0) \text{ because $\nabla \cdot \vec{B} = 0$}.
+\end{align*}
+Then we can bring the components together, $\vec{F} \approx \nabla(\vec{m} \cdot \vec{B}(\vec{x}))$.
+
+We note that this is a conservative force, and can be written as $\vec{F} = -\nabla U$ where $U = -\vec{m} \cdot \vec{B}$. This is the potential energy of a magnetic dipole in an external field. As in the electric case, this is minimised when $\vec{m}$ is aligned with $\vec{B}$.
 \end{document}
