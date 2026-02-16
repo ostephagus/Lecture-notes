@@ -54,4 +54,154 @@ for cases where $u$ does not vary linearly with $h$.
 \section{2D Parallel Viscous Flow}
 \subsection{Steady Flow with No Body Force}
 Consider the Euler Momentum Equation on an infinitesimal volume of fluid $\delta x~\delta y$. Let the flow be $u(y) \vec{e_x}$. The viscous stress at $y$ is $-\mu \frac{\partial u}{\partial y}(y)$, and at $y + \delta y$ is $\mu \frac{\partial u}{\partial y} (y + \delta y)$.
+This is a steady flow, so we must have that the forces sum to zero.
+
+Consider the forces along $\vec{e_x}$:
+\begin{equation*}
+    \left[p(x) - p(x + \delta x)\right] \delta y + \left[\mu \frac{\partial u}{\partial y} (y + \delta y) - \mu \frac{\partial u}{\partial y}(y)\right]\delta x = 0
+\end{equation*}
+We now consider a Taylor expansion up to $\delta x~\delta y$:
+\begin{align*}
+    0 &= \delta x~\delta y \left[-\frac{\partial p}{\partial x} + \mu \frac{\partial^{2}u}{\partial y^{2}}\right] \\
+    \implies& \mu \frac{\partial^{2}u}{\partial y^{2}} - \frac{\partial p}{\partial x} = 0
+\end{align*}
+In the $y$ direction, we do the same and find $\frac{\partial p}{\partial y} = 0$.
+\subsection{Unsteady Flow with Body Forces}
+We apply the same process (see Ex2Q1):
+\begin{equation}
+    \begin{split}
+    \rho \frac{\partial u}{\partial t} = \mu \frac{\partial^{2}u}{\partial y^{2}} - \frac{\partial p}{\partial x} + f_x \\
+    0 = -\frac{\partial p}{\partial y} + f_y
+    \end{split}
+    \label{eqnViscousFlowForces}
+\end{equation}
+Note that the ``acceleration'' term does not have the familiar $(\vec{u} \cdot \nabla)\vec{u}$ because $u$ is a flow along $\vec{e_x}$ and is a function only of $y$.
+\subsection{Boundary Conditions}
+So far, at boundaries, we have considered only the no penetration boundary condition $\vec{u} \cdot \vec{n} = \vec{U} \cdot \vec{n}$. We now have higher-order terms due to viscosity, and so we need another boundary condition.
+
+Experiments show that, for viscous flow at a rigid boundary, $\vec{u} = \vec{U}$. This is the \textit{no slip} boundary condition. This extends the no penetration boundary condition to include that the tangential components of $\vec{u}$ and $\vec{U}$ must match, not just the normal components.
+\subsection{Examples}
+\begin{example}[Poiseuille flow in a channel]
+    Pronunciation guide: pw\"osoi.
+
+    We are interested in flow between two stationary plates at $y = 0$ and $y = h$, filled with a viscous fluid. Let the pressure on the left be $p_1$ and on the right $p_0 < p_1$. Let the length of the channel being considered be $L$.
+
+    Ignoring body forces, the equations to solve are:
+    \begin{equation*}
+        \begin{cases}
+            \frac{\partial p}{\partial y} = 0, \frac{\partial p}{\partial x} = \mu \frac{\partial^{2}u}{\partial y^{2}} & (x, y) \in (0, L) \times (0, h) \\
+            u(0) = u(h) = 0 &
+        \end{cases}
+    \end{equation*}
+    Note that in the second equation (involving the $x$ derivative of pressure), we have a function in $x$ on the LHS, and a function of $y$ on the RHS. Therefore, both must be constant:
+    \begin{equation*}
+        \frac{\partial p}{\partial x} = -G, \mu \frac{\partial^{2}u}{\partial y^{2}} = -G
+    \end{equation*}
+    for a constant $G > 0$. This is interesting, it is not immediately obvious that the pressure would be linear over this range.
+    
+    We solve the second-order equation:
+    \begin{equation*}
+        \frac{\partial^{2}u}{\partial y^{2}} = -\frac{G}{\mu} \implies u(y) = \frac{G}{2\mu} y(h-y)
+    \end{equation*}
+    by applying boundary conditions. We can now calculate the flow rate (volume flux per unit length perpendicular to flow):
+    \begin{equation*}
+        q = \int_{0}^{h} u(y) dy = \frac{(p_1 - p_0)h^3}{12\mu L}
+    \end{equation*}
+
+    We can also consider the force balance on the whole fluid. The equations we just solved are for an infinitesimal region of fluid, so we check these apply to the whole fluid:
+    \begin{align*}
+        p_0 h - p_1 h &= L\tau_{\text{top}} - L\tau_{\text{bottom}} \\
+        &= L \frac{\partial u}{\partial y}(h) - L \frac{\partial u}{\partial y}(0) \\
+        &= L\frac{G}{2}h - -L\frac{G}{2}h \\
+        &= LGh = -(p_0 - p_1)h
+    \end{align*}
+    as required.
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[>=To, line cap=round, line join=round]
+
+        % Define parameters
+        \def\ang{20} % Angle of the slope
+        \def\L{8}    % Length of the slope
+        \def\h{0.6}  % Thickness of the fluid layer
+
+        % Define colors
+        \definecolor{customblue}{RGB}{0, 85, 145} 
+
+        % Coordinates
+        \coordinate (O) at (0,0); % Vertex
+        \coordinate (BaseLeft) at (-\L, 0);
+        \coordinate (SlopeTop) at ({-\L*cos(\ang)}, {\L*sin(\ang)});
+
+        % Draw the ground (Black)
+        \draw[very thick] (BaseLeft) -- (O);
+
+        % Draw the slope base (Black)
+        \draw[very thick] (SlopeTop) -- (O);
+
+        % Calculate top surface coordinates
+        % Normal vector to slope (pointing up-left) is (-sin(ang), cos(ang))
+        \coordinate (Shift) at ({-sin(\ang)*\h}, {cos(\ang)*\h});
+        \coordinate (TopStart) at ($(SlopeTop) + (Shift)$);
+        \coordinate (TopEnd) at ($(O) + (Shift)$);
+
+        % Draw the fluid layer hatching
+        \begin{scope}
+            \clip (SlopeTop) -- (O) -- (TopEnd) -- (TopStart) -- cycle;
+            % Draw diagonal lines manually
+            \foreach \x in {-10,-9.5,...,2} {
+                \draw[customblue, thick] (\x, -2) -- ({\x+4}, 4);
+            }
+        \end{scope}
+
+        % Draw the top surface line (Blue)
+        \draw[very thick, customblue] (TopStart) -- (TopEnd);
+
+        % Draw the angle alpha
+        \draw[thick] (-1.8,0) arc (180:{180-\ang}:1.8);
+        \node at (-2.3, 0.35) {\large $\alpha$};
+
+        % Coordinate System
+        % Position it above the midpoint
+        \coordinate (CSOrigin) at ($(SlopeTop)!0.45!(O) + (0.5, 2.5)$);
+        \begin{scope}[shift={(CSOrigin)}, rotate={-\ang}]
+            \draw[->, very thick] (0,0) -- (1.0,0) node[right] {\large $\vec{e_x}$};
+            \draw[->, very thick] (0,0) -- (0,1.0) node[above] {\large $\vec{e_y}$};
+        \end{scope}
+
+        % Velocity Vector u
+        % Position it slightly above the layer
+        \coordinate (UPos) at ($(TopStart)!0.55!(TopEnd) + (0, 0.4)$);
+        \begin{scope}[shift={(UPos)}, rotate={-\ang}]
+            \draw[->, very thick, customblue] (-0.6,0) -- (0.6,0) node[midway, above] {\large $u$};
+        \end{scope}
+
+    \end{tikzpicture}
+    \caption{Digram of fluid flow down an incline}
+    \label{figFluidIncline}
+\end{figure}
+\begin{example}[Viscous flow down an incline]
+    Consider viscous fluid flowing down an incline under the influence of gravity (figure~\ref{figFluidIncline}). Assume steady flow, $\vec{u} = u(y) \vec{e_x}$, and that the air does not exert shear stresses on the fluid. This is valid because $\mu_{\text{air}} << \mu_{\text{water}}$.
+    
+    Let the height of the fluid be $h$ (constant).
+    \begin{equation*}
+        \bdforce = \rho \vec{g} = \left(\rho g \sin(\alpha) - \rho g \cos(\alpha)\right) %TODO: Check
+    \end{equation*}
+    Balancing in the $y$ direction:
+    \begin{align*}
+        0&= -\frac{\partial p}{\partial y} - \rho g \cos(\alpha), p(h) = p_{atm} \\
+        \implies& p = p_{atm} + \rho g \cos(\alpha) (h - y)
+    \end{align*}
+    In the $x$ direction.
+    \begin{align*}
+        0 &= -\underbrace{\frac{\partial p}{\partial x}}_{0} + \mu \frac{\partial^{2}u}{\partial y^{2}} + \rho g \sin(\alpha) \\
+        \implies& \frac{\partial^{2}u}{\partial y^{2}} = -\frac{\rho g}{\mu} \sin(\alpha)
+    \end{align*}
+    But what are our boundary conditions? The no-slip on the plane gives $u(0) = 0$, and since there is no shear stress at the top we find $\mu \frac{\partial u}{\partial y}(h) = 0$. This gives the solution for $u$:
+    \begin{equation*}
+        u(y) = \frac{\rho g \sin(\alpha)}{2\mu}y(2h - y)
+    \end{equation*}
+    which is half of a parabola (such that the turning point is along $y = h$).
+\end{example}
 \end{document}
