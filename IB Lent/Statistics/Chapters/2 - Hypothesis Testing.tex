@@ -64,7 +64,7 @@ Usually, we set $\alpha$ at an acceptable level and choose a test that minimises
 \begin{definition}{Likelihood ratio statistic}
     Let $H_0$ and $H_1$ be simple, with $\vec{X}$ having pdf $f_i$ under $H_i$ ($i = 0$ or $1$). The \underline{likelihood ratio statistic} is:
     \begin{equation*}
-        \Lambda_{\vec{X}}(H_0, H_1) = \frac{f_1(\vec{X})}{f_2(\vec{X})}
+        \Lambda_{\vec{X}}(H_0, H_1) = \frac{f_1(\vec{X})}{f_0(\vec{X})}
     \end{equation*}
 \end{definition}
 \begin{definition}{Likelihood ratio test}
@@ -90,10 +90,109 @@ Usually, we set $\alpha$ at an acceptable level and choose a test that minimises
         &= \int_{\overline{C} \cap C^\star} f_1(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} f_1(\vec{x}) d^n\vec{x} \\
         &= \int_{\overline{C} \cap C^\star} \underbrace{\frac{f_1(\vec{x})}{f_0(\vec{x})}}_{\text{$\leq k$ on $\overline{C}$}} f_0(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} \underbrace{\frac{f_1(\vec{x})}{f_0(\vec{x})}}_{\text{$> k$ on $C$}} f_0(\vec{x}) d^n\vec{x} \\
         &\leq k\left(\int_{\overline{C} \cap C^\star} f_0(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} f_0(\vec{x}) d^n\vec{x}\right) \\
-        &= k\left(\int_{\overline{C} \cap C^\star} f_0(\vec{x}) d^n\vec{x} + \int_{C \cap C^\star} f_0(\vec{x}) d^n\vec{x} - \int_{C \cap C^\star} f_0(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} f_0(\vec{x}) d^n\vec{x}\right) \\
+        &= k\left(\int_{\overline{C} \cap C^\star} f_0(\vec{x}) d^n\vec{x} + \int_{C \cap C^\star} f_0(\vec{x}) d^n\vec{x} - \int_{C \cap C^\star} f_0(\vec{x}) d^n\vec{x}\right.\\
+        &\qquad\left. - \int_{\overline{C^\star} \cap C} f_0(\vec{x}) d^n\vec{x}\right) \\
         &= k\left(\int_{C^\star} f_0(\vec{x}) d^n\vec{x} - \int_C f_0(\vec{x}) d^n\vec{x}\right) \\
         &= k(\alpha^\star - \alpha)
     \end{align*}
     Therefore, since we define $\alpha^\star \leq \alpha$, we find $\beta^\star \geq \beta$.
 \end{proof}
+\begin{remark}
+    A likelihood ratio test with size $\alpha$ does not always exist for any given $\alpha$. However, we can always define a ``randomised'' test with exact size $\alpha$. That is, we define a region where $H_0$ is always rejected, and define a region where there is a certain probability that $H_0$ is rejected.
+\end{remark}
+\begin{example}
+    Suppose $X_i \sim N(\mu, \sigma_0^2)$ for $i = 1$ to $n$. Let $\sigma_0^2$ be fixed and known. Consider the hypotheses:
+    \begin{align*}
+        H_0: & \mu = \mu_0 \\
+        H_1: & \mu = \mu_1
+    \end{align*}
+    for fixed $\mu_1 > \mu_0$. The likelihood ratio is:
+    \begin{align*}
+        \Lambda_{\vec{X}}(H_0, H_1) &= \frac{(2\pi\sigma_0^2)^{-n / 2} \exp\left(-\frac{1}{2\sigma_0^2} \sum_{i=1}^{n} (X_i - \mu_1)^2\right)}{(2\pi\sigma_0^2)^{-n / 2} \exp\left(-\frac{1}{2\sigma_0^2} \sum_{i=1}^{n} (X_i - \mu_0)^2\right)} \\
+        &= \exp\left(\frac{\mu_1 - \mu_0}{\sigma_0^2} n \overline{X} + \frac{n(\mu_0^2 - \mu_1^2)}{2\sigma_0^2}\right)
+    \end{align*}
+    then since $\Lambda_{\vec{X}}(H_0, H_1)$ is monotone in $\overline{X}$,
+    \begin{equation*}
+        \Lambda_{\vec{X}}(H_0, H_1) > k \iff \overline{X} > c
+    \end{equation*}
+    By the same logic, define $Z = \frac{\sqrt{n}(\overline{X} - \mu_0)}{\sigma_0}$ which is standard normal under $\mu_0$. Therefore, the rejection region is $\{Z > c'\}$ Therefore, with size $\alpha$, we choose:
+    \begin{equation*}
+        C = \subsetselect{\vec{X}}{Z > \Phi^{-1}(1-\alpha)}
+    \end{equation*}
+\end{example}
+\section{\texorpdfstring{$p$}{p}-Values}
+\begin{definition}{$p$-value}
+    For a test with critical region of the form $\subsetselect{\vec{x}}{T(\vec{x}) > k}$, where $T$ is some statistic, the \underline{$p$-value} is:
+    \begin{equation*}
+        p = \P_{H_0}(T(\vec{X}) > T(\vec{x}^*))
+    \end{equation*}
+    where $\vec{x}^*$ is the observed data.
+\end{definition}
+\begin{remark}
+    This is the probability of observing more extreme data under $H_0$.
+\end{remark}
+\begin{proposition}
+    Under $H_0$, $p \sim U[0, 1]$.
+    \label{propPValUnif}
+\end{proposition}
+\begin{proof}
+    Let $F$ be the probability distribution function of $T$. Then:
+    \begin{align*}
+        \P_{H_0}(p < u) &= \P_{H_0}(1-F(T(\vec{X})) < u) \\
+        &= \P_{H_0}(F(T(\vec{X})) > 1-u) \\
+        &= \P_{H_0}(T(\vec{X}) > F^{-1}(1-u)) \\
+        &= 1 - F(F^{-1}(1-u)) = u.
+    \end{align*}
+\end{proof}
+\section{Tests and Confidence Intervals}
+\begin{definition}{Acceptance region}
+    The \underline{acceptance region} $A$ of a test is the complement of the critical region.
+\end{definition}
+\begin{theorem}
+    Let $\vec{X}$ have pdf $f_{\vec{X}}(\vec{x}, \theta)$ for some $\theta \in \Theta$.
+    \begin{enumerate}
+        \item Suppose that for each $\theta_0 \in \Theta$, there exists a test of $H_0: \theta = \theta_0$ of size $\alpha$ with acceptance region $A(\theta_0)$. Then the set
+            \begin{equation*}
+                I(\vec{X}) = \subsetselect{\theta}{\vec{X} \in A(\theta)}
+            \end{equation*}
+            is a $100(1-\alpha)\%$ confidence set.
+        \item Suppose that $I(\vec{X})$ is a $100(1-\alpha)$ confidence set for $\theta$. Then:
+            \begin{equation*}
+                A(\theta_0) = \subsetselect{\vec{x}}{\theta_0 \in I(\vec{x})}
+            \end{equation*}
+            is the acceptance region of a test of size $\alpha$ for $H_0 : \theta = \theta_0$.
+    \end{enumerate}
+    \label{thmTestsCIs}
+\end{theorem}
+\begin{proof}
+    In both cases, $\theta_0 \in I(\vec{X}) \iff \vec{X} \in A(\theta_0)$.
+
+    \begin{subproof}{$\P_{\theta_0}(\theta_0 \in I(\vec{X})) = 1-\alpha$}
+        Using the equivalence, the LHS is:
+        \begin{equation*}
+            \P_{\theta_0}(\vec{X} \in A(\theta_0)) = \P_{\theta_0}(\text{do not reject $H_0$}) = 1-\alpha
+        \end{equation*}
+    \end{subproof}
+    \begin{subproof}{$\P_{\theta_0}(\vec{X} \notin A(\theta_0)) = \alpha$}
+        Using the equivalence again,
+        \begin{equation*}
+            \P_{\theta_0}(\vec{X} \notin A(\theta_0)) = \P_{\theta_0}(\theta_0 \notin I(\vec{X})) = \alpha
+        \end{equation*}
+    \end{subproof}
+\end{proof}
+\begin{example}
+    Suppose $X_1, \cdots, X_n \sim N(\mu, \sigma_0^2)$ where $\sigma_0$ is known. We know a $100(1-\alpha)\%$ confidence interval for $\mu$:
+    \begin{equation*}
+        I(\vec{X}) = \overline{X} \pm \frac{\sigma_0^2}{\sqrt{n}} Z_{\frac{\alpha}{2}}
+    \end{equation*}
+    therefore we can use the second part of \thmref{thmTestsCIs} to construct a test of size $\alpha$ for $H_0: \mu = \mu_0$.
+    \begin{equation*}
+        A(\mu_0) = \subsetselect{\vec{x}}{\mu_0 \in I(\vec{x})}
+    \end{equation*}
+    and we can write instead that we reject $H_0$ when:
+    \begin{equation*}
+        \frac{\sqrt{n}|\mu_0-\overline{X}|}{\sigma_0} > z_{\alpha / 2}
+    \end{equation*}
+    Then this is a 2-sided LRT.
+\end{example}
 \end{document}
