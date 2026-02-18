@@ -1,0 +1,130 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+In this chapter we would like to generalise the concept of a Taylor Series. Recall that if $f \in C^\infty$, we have:
+\begin{equation*}
+    f(x) = \sum_{m=0}^{\infty} \frac{f(x_0)^{(m)}}{m!}(x - x_0)^m
+\end{equation*}
+In the complex plane, we will see that we do not even need the function to be differentiable at $x_0$!
+\section{Defining the Laurent Series}
+\begin{proposition}
+    Let a function $f(z)$ be analytic in an annulus:
+    \begin{equation*}
+        \subsetselect{z \in \C}{R_1 < |z - z_0| < R_2}.
+    \end{equation*}
+    Then it has a \underline{Laurent series},
+    \begin{equation*}
+        f(z) = \sum_{m=-\infty}^{\infty} a_m (z - z_0)^m
+    \end{equation*}
+    which is convergent within the annulus and uniformly convergent within compact subsets of the annulus. %TODO: What is a compact subset? And does this matter?
+
+    Further, if $f(z)$ is analytic at $z = z_0$ (so $R_1 = 0$), then it has a Taylor series:
+    \begin{equation*}
+        f(z) = \sum_{m=0}^{\infty} a_m (z - z_0)^m \text{ with } a_m = \frac{f^{(m)}(z_0)}{m!}
+    \end{equation*}
+    \label{propLaurent}
+\end{proposition}
+\begin{proof}
+    Let $z_0 = 0$ after possibly translating the argument. Let $z \in \C$ with $R_1 < r_1 < |z| < r_2 < R_2$. Let $\gamma_1, \gamma_2$ be a anticlockwise, circular contours of radii $r_1, r_2$.
+
+    As we have previously seen, we can bridge these two contours with radius lines in the opposite direction, to create $\gamma = \gamma_2 - \gamma_1$ in the limit as the bridge gets infinitely thin. %TODO: Diagram?
+    Now consider \thmref{thmCauchyIntegral} (setting $\xi$ to be $z$ and $z$ to be $z_0$):
+    \begin{align*}
+        f(z) &= \frac{1}{2\pi i} \oint_{\gamma} \frac{f(\xi)}{\xi - z} d\xi \\
+        &= \frac{1}{2\pi i} \oint_{\gamma_2} \frac{f(\xi)}{\xi - z}d\xi - \frac{1}{2\pi i} \oint_{\gamma_1} \frac{f(\xi)}{\xi - z} d\xi
+    \end{align*}
+    We now have two cases. For $\gamma_1$, we have that $\left|\frac{\xi}{z}\right| < 1$, so we can use a geometric series as follows:
+    \begin{align*}
+        I_1 &= -\frac{1}{2\pi i} \oint_{\gamma_1} \frac{f(\xi)}{\xi - z} d\xi \\
+        &= \frac{1}{2\pi i z} \oint_{\gamma_1} \frac{f(\xi)}{1 - \xi / z} d\xi \\
+        &= \frac{1}{2\pi i z} \oint_{\gamma_1} f(\xi) \sum_{n=0}^{\infty} \left(\frac{\xi}{z}\right)^n d\xi \\
+        &= \frac{1}{2\pi i z} \sum_{n=0}^{\infty} \left(\oint_{\gamma_1} f(\xi) \xi^n d\xi\right)z^{-n-1} \\
+        &=\sum_{m=-\infty}^{-1} \left(\frac{1}{2\pi i z} \oint_{\gamma_1} f(\xi) \xi^{-m-1} d\xi\right)z^m \\
+    \end{align*}
+    Note also that in the case that $f$ is analytic all the way to $z_0$, we find $I_1 = 0$.
+    
+    For $\gamma_2$, $\left|\frac{z}{\xi}\right|<1$ and so:
+    \begin{align*}
+        I_2 &= \frac{1}{2\pi i} \oint_{\gamma_2} \frac{f(\xi)}{\xi - z}d\xi \\
+        &= \frac{1}{2\pi i} \oint_{\gamma_2} \frac{f(\xi)}{\xi}\sum_{m=0}^{\infty} \left(\frac{z}{\xi}\right)^m d\xi \\
+        &= \sum_{m=0}^{\infty} \left(\frac{1}{2\pi i} \oint_{\gamma_2} f(\xi) \xi^{-m-1} d\xi\right)z^m
+    \end{align*}
+    Therefore putting these together gives the Laurent series. Note that in the case of $f$ analytic at $z_0$, $I_1 = 0$ and we recover the Taylor series.
+\end{proof}
+\begin{examples}{
+        Consider the Laurent series of the following series:
+    }
+    \item $f(z) = \frac{e^z}{z^3}$. Then we find:
+        \begin{equation*}
+            f(z) = z^{-3}\sum_{m=0}^{\infty} \frac{z^n}{m!} = \sum_{m=-3}^{\infty} \frac{z^n}{(m+3)!}
+        \end{equation*}
+    \item $f(z) = e^{\frac1z}$. We get:
+        \begin{equation*}
+            f(z) = \sum_{m=0}^{\infty} \frac{1}{z^n} \frac{1}{m!} = \sum_{m=-\infty}^{0} \frac{z^n}{(-n)!}
+        \end{equation*}
+    \item $f(z) = \frac1{z-a}$. If $|z| < |a|$,
+        \begin{equation*}
+            f(z) = -\frac{1}{a} \frac{1}{1 - z / a} = -\frac{1}{a} \sum_{m=0}^{\infty} \frac{z^n}{a^n}
+        \end{equation*}
+    \item An example to show that Laurent series get difficult to compute very fast.
+        Consider $f(z) = \frac{e^z}{z^2 - 1}$ around $z = 1$. Define $\xi = z - 1$ so that:
+        \begin{align*}
+            f(z) &= \frac{e^\xi e}{\xi(\xi +2)} \\
+            &= \frac{e e^\xi}{2\xi} \frac{1}{1 + \xi / 2} \\
+            &= \frac{e}{2\xi} \left(1 + \xi - \frac12 \xi^2 + \cdots\right)\left(1 - \frac{\xi}{2} + \left(\frac{\xi}{2}\right)^2 + \cdots\right)
+        \end{align*}
+        which is a multiplication of two infinite series, and is difficult to compute.
+\end{examples}
+\begin{remark}
+    Often, as with Taylor series for real functions, we are only interested in the first few terms of a series like this.
+\end{remark}
+\section{Multiplicity of Zeroes}
+\begin{theorem}[Fundamental Theorem of Algebra]
+    For a polynomial $p(z)$ of degree $m \geq 1$, there are exactly $m$ roots counting multiplicity. That is, $p$ can be written uniquely as:
+    \begin{equation*}
+        p(z) = A\sum_{j=1}^{k} (z - z_j)^{m_j}
+    \end{equation*}
+    where the $m_j$ sum to $m$.
+    \label{thmFundamentalAlgebra}
+\end{theorem}
+\begin{definition}{Zeroes}
+    The \underline{zeroes} of an analytic function are the points $z_0$ where $f(z_0) = 0$.
+\end{definition}
+\begin{definition}{Order of a zero}
+    A zero $z_0$ of an analytic function $f(z)$ has \underline{order} $m$ if in its Taylor expansion,
+    \begin{equation*}
+        f(z) = \sum_{k=m}^{\infty} a_k (z - z_0)^k,
+    \end{equation*}
+    the first non-zero coefficient is $a_m$.
+\end{definition}
+\begin{examples}{
+        We will consider the order of the zeroes of the following functions:
+    }
+    \item A polynomial. We verify that our definition of order matches with that for polynomials for the function $f(z) = z^3 + iz + i$.
+        \begin{equation*}
+            f(z) = (z + i)^2 (z - i)
+        \end{equation*}
+        then this has a simple zero at $z = i$ and a zero of order 2 at $z = -i$.
+    \item Consider $f(z) = \sinh(z) = \frac12(e^z - e^{-z})$. $f(z) = 0$ at $z = im\pi$. We consider the derivative of $f$, $\cosh(z)$ and we see that $\cosh(im\pi) = (-1)^m \neq 0$. That means that the zeroes of $\sinh$ are simple.
+    \item Consider $f(z) = \sinh^3(z)$.
+        We know from the previous examples that this has a zero at $i\pi$. We consider a Taylor expansion around this point by considering $z = \xi + i\pi$:
+        \begin{align*}
+            \sinh^3(\pi) &= \left[\sinh(\xi + i \pi)\right]^3 \\
+            &= \left[\sinh(\xi) \underbrace{\cosh(i\pi)}_{-1} + \cosh(\xi) \underbrace{\sinh(i\pi)}_{0} \right]^3 \\
+            &= (-\sinh(\xi))^3 = -\left(\xi + \frac{1}{3!}\xi^3 + \cdots\right)^3 \\
+            &= -\xi^3 - \frac12 \xi^5 + \cdots \\
+            &= i(z - i\pi)^3 -\frac12(x - i\pi)^5
+        \end{align*}
+        and so the root is of order 3.
+\end{examples}
+\section{Singularities}
+\begin{definition}{Singularity}
+    A \underline{singularity} of a function $f(z)$ is a point $z = z_0$ where $f$ is not analytic.
+\end{definition}
+\begin{definition}{Isolated singularity}
+    An \underline{isolated singularity} of a function $f$ is a singularity $z = z_0$ where the function is analytic in a neighbourhood around $z_0$. If no such neighbourhood exists, $z_0$ is a \underline{non-isolated singularity}
+\end{definition}
+\begin{example}
+    $f(z) = log(z)$ has a singularity at $z = 0$ and $z = \infty$. These are both non-isolated singularities, because there must be a branch cut between them which prevents a neighbourhood for which the function is analytic.
+\end{example}
+\end{document}
