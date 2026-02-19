@@ -124,7 +124,140 @@ In the complex plane, we will see that we do not even need the function to be di
 \begin{definition}{Isolated singularity}
     An \underline{isolated singularity} of a function $f$ is a singularity $z = z_0$ where the function is analytic in a neighbourhood around $z_0$. If no such neighbourhood exists, $z_0$ is a \underline{non-isolated singularity}
 \end{definition}
-\begin{example}
-    $f(z) = log(z)$ has a singularity at $z = 0$ and $z = \infty$. These are both non-isolated singularities, because there must be a branch cut between them which prevents a neighbourhood for which the function is analytic.
-\end{example}
+\begin{examples}{}
+    \item $f(z) = log(z)$ has a singularity at $z = 0$ and $z = \infty$. These are both non-isolated singularities, because there must be a branch cut between them which prevents a neighbourhood for which the function is analytic.
+    \item $f(z) = \frac{1}{\sinh(z)}$ has singularities at $z = in\pi$ for $n \in \Z$. These are isolated, because $f$ is analytic around these points.
+    \item $f(z) = \frac{1}{\sinh\left(\frac{1}{z}\right)}$. This has singularities at $z = \frac{1}{in\pi}$ for $n \in \Z$. Then for $n \neq 0$, these singularities are isolated. However, at $n = 0$ we cannot find a neighbourhood free from singularities. We can intuitively understand this as all the singularities clustering at $0$ as $n \to \infty$.
+\end{examples}
+\begin{remarks}
+    \item So far we have seen that non-isolated singularities can be caused by branch cuts or by ``clustering'' of singularities
+    \item Isolated singularities are useful because we can use Laurent series with the inner radius tending to $0$ around the singularity to approximate the function.
+\end{remarks}
+\subsection{Categorising Singularities}
+Given a function $f$ and a singularity $z_0$, we can do the following to classify it:
+\begin{enumerate}
+    \item check whether $z_0$ is a branch point;
+    \item if not, check whether $z_0$ is a different non-isolated singularity;
+    \item if neither, find the Laurent series and check:
+    \begin{enumerate}
+        \item if $a_m$ = 0 for all negative $m$, then $f(z)$ is equal to its Taylor series and we have a removable singularity. $f(z_0) = a_0$;
+        \item if there exists $N > 0$ such that for all $m < -N-1$ then $a_m = 0$, and $a_{-N}$ (that is, the Laurent series terminates for negative $N$), then $f$ has a pole of order $N$ at $z = z_0$;
+        \item if none of the above is true, $f$ has an \underline{essential singularity} at $z = z_0$.
+    \end{enumerate}
+\end{enumerate}
+\begin{examples}{
+        We can now classify singularities of different functions.
+    }
+    \item The function $f(z) = \frac{1}{z-i}$ has a simple pole (order 1) at $z = i$.
+    \item $f(z) = \frac{\cos(z)}{z}$ has a simple pole at $0$.
+        \begin{equation*}
+            f(z) = \sum_{m=0}^{\infty} (-1)^m \frac{z^{2m-1}}{m!}
+        \end{equation*}
+    \item $g(z) = \frac{z^3}{(z-1)^3(z-i)^2}$. We can simply read off a triple pole (order 3) at $z = 1$ and a double pole at $z = i$. We find here that the order of the poles are exactly the multiplicities of the zeroes of the denominator.
+    \item $f(z) = z^2$. This has no singularities on $\C$, but on $\Cstar$ it has a double pole at $\infty$. $f(\frac{1}{\xi})$ has a double pole at $0$.
+    \item $f(z) = e^{1 / z}$. The Laurent series is:
+        \begin{align*}
+            f(z) &= \sum_{m=0}^{\infty} \frac{1}{z^n} \frac{1}{m!} \\
+            &= \sum_{m=-\infty}^{0} \frac{1}{m!}z^m
+        \end{align*}
+        which does not terminate as $m \to -\infty$. Therefore there is an essential singularity at $z = 0$.
+    \item $f(z) = \sin(1 / z)$ also has an essential singularity at $z = 0$.
+    \item $f(z) = \frac{e^z - 1}{z}$ has a removable singularity at $z = 0$. We find the Laurent series:
+        \begin{align*}
+            f(z) &= \frac1z \left(\sum_{m=0}^{\infty} \frac{1}{m!} z^m - 1\right) \\
+            &= \frac{1}{z} \sum_{m=1}^{\infty} \frac{z^m}{m!} \\
+            &= \sum_{m=0}^{\infty} \frac{z^m}{(m+1)!}
+        \end{align*}
+        and we see that $a_m = 0$.
+    \item $f(z) = \frac{\sin(z)}{z}$ is a famous example of a removable singularity.
+    \item Consider the rational function:
+        \begin{equation*}
+            f(z) = \frac{P(z)}{Q(z)}
+        \end{equation*}
+        where $P$ and $Q$ are polynomials. If $Q(z)$ has a zero of order $n > 0$ and if $P(z)$ has a zero of order $m \geq n$ at $z = z_0$, then $f$ has a removable singularity at $z = z_0$,
+        \begin{equation*}
+            f(z_0) = \frac{P^{(n)}(z_0)}{Q^{(n)}(z_0)}
+        \end{equation*}
+\end{examples}
+\begin{proposition}
+    Let $f : \C \mapsto \C$ and suppose that $f$ has a zero of order $m$ at $z_0$. Then the reciprocal function $g(z) = \frac{1}{f(z)}$ has a pole of order $m$ there.
+    \label{propZeroesSingsInverse}
+\end{proposition}
+\begin{proof}
+    TODO %TODO
+\end{proof}
+\begin{proposition}
+    Let $f(z)$ have an essential singularity at $z = z_0$. Then in the neighbourhood excluding $z_0$, $f$ takes all values, except at most one.
+    \label{propGrandPicard}
+\end{proposition}
+\begin{proof}
+    Proof is far beyond the scope of this course.
+\end{proof}
+\begin{remark}
+    The function $f(z) = e^{1 / z}$ takes every value except $0$.
+\end{remark}
+\section{Residues}
+\begin{definition}{Residue}
+    The \underline{residue}, denoted $\res_{z = z_0} f(z)$ of a function $f(z)$ with an isolated singularity at $z_0$ is the coefficient of $a_{-1}$ in the Laurent series about $z_0$.
+\end{definition}
+\begin{proposition}
+    Let $f$ have a pole of order $n$ at $z = z_0$. Then the residue is given by:
+    \begin{equation*}
+        \res_{z = z_0} f(z) = \lim_{z \to z_0} \frac{1}{(n-1)!} \frac{d^{n-1}}{dz^{n-1}} \left[(z - z_0)^n f(z)\right]
+    \end{equation*}
+    \label{propResDerivatives}
+\end{proposition}
+\begin{proof}[$n = 1$]
+    We have:
+    \begin{align*}
+        f(z) &= \frac{a_{-1}}{z - z_0} + a_0 + a_1(z - z_0) + \cdots \\
+        (z - z_0) f(z) &= a_{-1} + a_0 (z - z_0) + a_1 (z - z_0)^2 \cdots
+    \end{align*}
+    and when taking the limit this gives $a_{-1}$.
+\end{proof}
+\begin{examples}{
+        Consider the following functions. We calculate their residues:
+    }
+    \item $f(z) = \frac{e^z}{z^3} = \frac1{z^3} \left(1 + z + \frac{z^2}{2} + \cdots\right)$ and we read off the residue is $\frac12$.
+    \item $f(z) = \frac{e^z}{z^2 - 1}$. Then the residue is:
+        \begin{align*}
+            \res_{z = 1} f(z) &= \lim_{z \to 1} (z - 1_ \frac{e^z}{(z + 1)(z - 1)}) \\
+            &= \frac{e}{2}.
+        \end{align*}
+    \item $f(z) = \frac{1}{z^8 - w^8}$. Then we can identify the poles $z = we^{ik\pi / 4}$ for $k = 0$ to $7$. However, trying to factorise and use \thmref{propResDerivatives} would be a bad idea. The better idea is to use L'H\^opital's Rule:
+        \begin{align*}
+            \res_{z = w} f(z) &= \lim_{z \to w} \frac{z-w}{z^8 - w^8} \\
+            &= \lim_{z \to w} \frac{1}{8z^7} = \frac{1}{8w^7}
+        \end{align*}
+    \item $f(z) = \sinh(\pi z)$ has simple zeroes at $z = i n$ where $n \in \Z$. Therefore the reciprocal function $g(z) = \frac{1}{\sinh(\pi z)}$ has simple poles there. The residue is:
+        \begin{align*}
+            \res_{z = i n} f(z) &= \lim_{z \to i n} \frac{z - n i}{\sinh(\pi z)} \\
+            &= \lim_{z \to i n} \frac{1}{\pi \cosh(\pi z)} \\
+            &= \frac{(-1)^n}{\pi}
+        \end{align*}
+    \item $f(z) = \frac{1}{\sinh^3(z)}$. We have already seen:
+        \begin{equation*}
+            \frac{1}{\sinh^3(z)} = -(z - i \pi)^{-3} + \frac12 (z - i \pi)^{-1} + \cdots
+        \end{equation*}
+        and so the residue is $\frac12$.
+\end{examples}
+\begin{theorem}
+    Let $\gamma$ be a simple closed contour tranversed anticlockwise. Let $f(z)$ be analytic within $\gamma$ except for an isolated singularity at $z_0$.
+    \begin{equation}
+        \int_{\gamma} f(z) dz = 2\pi i a_{-1} = 2\pi i \res_{z = z_0} f(z)
+        \label{eqnIntOverSing}
+    \end{equation}
+    \label{thmIntOverSing}
+\end{theorem}
+\begin{proof}
+    By deforming $\gamma$ into a circle $\gamma_r$ around $z_0$ of radius $r$ (valid by \thmref{propContourShrink}), we can evaluate the integral more easily.
+    \begin{align*}
+        \oint_\gamma f(z) dz &= \oint_{\gamma_r} f(z) dz \\
+        &= \oint_{\gamma_r} \sum_{m=-\infty}^{\infty} a_m (z - z_0)^m dz \\
+        &= \sum_{m = -\infty}^{\infty} a_m \oint_{\gamma_r} (z - z_0)^m dz \\
+        &= \sum_{m = -\infty}^{\infty} a_m \int_0^2\pi r^m e^{im\theta} i r e^{i\theta} dz \\
+        &= \sum_{m = -\infty}^{\infty} a_m \int_0^2\pi r^{m+1} e^{i(m+1)\theta} dz \\
+    \end{align*}
+    and this integral is only nonzero at the $m = -1$ term, where it is $2\pi i$.
+\end{proof}
 \end{document}
