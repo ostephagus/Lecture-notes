@@ -195,4 +195,90 @@ Usually, we set $\alpha$ at an acceptable level and choose a test that minimises
     \end{equation*}
     Then this is a 2-sided LRT.
 \end{example}
+\section{Composite Hypotheses}
+Previously we have considered $H_0$ and $H_1$ simple hypotheses, with error probabilities:
+\begin{equation*}
+    \alpha \in \P_{H_0}(\vec{X} \in C),\qquad \beta = \P_{H_1}(\vec{X} \notin C)
+\end{equation*}
+We will now consider $\vec{X}$ having probability density $f_{\vec{X}}(\vec{x}, \theta)$ and:
+\begin{align*}
+    H_0:& \theta \in \Theta_0 \subseteq \Theta \\
+    H_1:& \theta \in \Theta_1 \subseteq \Theta \\
+\end{align*}
+\begin{definition}{Power function}
+    The \underline{power function} is defined to be $W(\theta) = \P_{\theta}(\vec{X} \in C)$.
+\end{definition}
+\begin{definition}{Size (composite hypotheses)}
+    The \underline{size} of a test with composite hypotheses as above is the worst-case type I error:
+    \begin{equation*}
+        \alpha = \sup_{\theta \in \Theta_0} W(\theta)
+    \end{equation*}
+\end{definition}
+\subsection{Uniformly Most Powerful Tests}
+\begin{definition}{Uniformly most powerful tests}
+    A test of size $\alpha$ of $H_0$ against $H_1$ is \underline{uniformly most powerful} (UMP) if:
+    \begin{enumerate}
+        \item $\sup_{\theta \in \Theta_0} W(\theta) \leq \alpha$
+        \item For any other test of size $\alpha$, with power function $W^*$, we have $W(\theta) \geq W^*(\theta)$ for all $\theta \in \Theta_1$
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    Such a test may not exist. A good candidate, however, is an LRT.
+\end{remark}
+\begin{example}[One-sided test for normal location]
+    Suppose $X_1, \cdots, X_n \sum N(\mu, \sigma_0^2)$ with $\sigma_0^2$ known. Consider the hypotheses:
+    \begin{align*}
+        H_0:&\mu \leq \mu_0 \\
+        H_1:&\mu > \mu_0
+    \end{align*}
+    Recall that for the simple hypotheses, $H_0' : \mu = \mu_0$ and $H_1' : \mu = \mu_1$, the LRT had critical region:
+    \begin{equation*}
+        C = \subsetselect{\vec{x}}{z = \frac{\sqrt{n}(\overline{X} - \mu_0)}{\sigma_0}}
+    \end{equation*}
+    We will show that the same test is UMP for our composite hypotheses. Consider the power function:
+    \begin{align*}
+        W(\mu) &= \P_{\mu}(\text{reject $H_0$}) \\
+        &= \P_\mu\left(\frac{\sqrt{n}(\overline{X} - \mu_0)}{\sigma_0} > z_\alpha\right) \\
+        &= \P_\mu\left(\frac{\sqrt{n}(\overline{X} - \mu)}{\sigma_0} > z_\alpha + \frac{\sqrt{n}(\mu_0 - \mu)}{\sigma_0}\right) \\
+        &= 1 - \Phi\left(z_\alpha + \frac{\sqrt{n}(\mu_0 - \mu)}{\sigma_0}\right)
+    \end{align*}
+    Then this is monotonically increasing, and it is $\alpha$ at $\mu = \mu_0$. Therefore, $\sum_{\mu \in \Theta_0} W(\mu) = \alpha$ and the test has size $\alpha$.
+
+    Next, consider any other test with size $\leq \alpha$ with power function $W^*$. This must have size $\leq \alpha$ for $H_0'$ against $H_1$. This is because:
+    \begin{equation*}
+        W^*(\mu_0) \leq \sup_{\mu \in \Theta} \leq \alpha.
+    \end{equation*}
+    Thus, by Neyman-Pearson, $W(\mu_1) \geq W^*(\mu_1)$. Then since this argument works for any $\mu_1 > \mu_0$, we find:
+    \begin{equation*}
+        W(\mu) \geq W^*(\mu) ~\forall \mu \in \Theta_1
+    \end{equation*}
+\end{example}
+\subsection{Generalised Likelihood Ratio Tests}
+The generalised likelihood ratio statistic is:
+\begin{equation*}
+    \Lambda_{\vec{X}}(H_0, H_1) = \frac{\sup_{\theta \in \Theta_1}f_{\vec{X}}(\vec{x}, \theta)}{\sup_{\theta \in \Theta_0}f_{\vec{X}}(\vec{x}, \theta)}
+\end{equation*}
+and the generalised likelihood ratio test (GLRT) rejects $H_0$ when $\Lambda_{\vec{X}}$ is large.
+\begin{example}[Two-sided test for normal location]
+    Consdier $X_1, \cdots, X_n \sim N(\mu, \sigma_0^2)$ where $\sigma_0^2$ is known. We would like to test:
+    \begin{align*}
+        H_0:&\mu = \mu_0 \\
+        H_1:&\mu \neq \mu_0
+    \end{align*}
+    Then $\Theta_0 = \{\mu_0\}$ and $\Theta_1 = \R \backslash \{\mu_0\}$. Next, the generalised likelihood ratio statistic is:
+    \begin{align*}
+        \Lambda_{\vec{X}}(H_0, H_1) &= \frac{(2\pi \sigma_0^2)^{n / 2} \exp\left(\frac{1}{2\sigma_0^2} \sum_{i=1}^{n} (X_i - \overline{X})^2\right)}{(2\pi \sigma_0^2)^{n / 2} \exp\left(\frac{1}{2\sigma_0^2} \sum_{i=1}^{n} (X_i - \mu_0)^2\right)} \\
+        2\log(\Lambda_{\vec{X}}(H_0, H_1)) &= \frac{1}{\sigma_0^2} \left(\sum_{i=1}^{n} (X_i - \mu_0)^2 - \sum_{i=1}^{n} (X_i - \overline{X})^2\right) \\
+        &= \frac{n}{\sigma_0^2} (\overline(X) - \mu_0)^2
+    \end{align*}
+    Then because $\log$ is an increasing function, the GLRT rejects $H_0$ if $\frac{\sqrt{n}|\overline(X) - \mu_0|}{\sigma_0}$ is large. Under $H_0$, this has distribution $N(0, 1)$. Therefore the test that rejects $H_0$ if the given ratio is greater than $\Phi^{-1}(\alpha / 2)$ has size $\alpha$.
+
+    Note that $2\log(\Lambda_{\vec{X}}(H_0, H_1)) \sim \chi_1^2$. Therefore, the critical region can also be written:
+    \begin{equation*}
+        \left\{x~\left|~\frac{n(\overline{X} - \mu_0^2)}{\sigma_0^2} > \chi_1^2(\alpha)\right.\right\}
+    \end{equation*}
+
+    In fact, a more general result says that $2\log(\Lambda_{\vec{X}}(H_0, H_1))$ is approximately a $\chi^2$ distribution for large $n$.
+\end{example}
+
 \end{document}
