@@ -147,4 +147,108 @@ This is again given by the line integral around $C$ of the Lorentz force on a pa
 \begin{remark}
     Since we can choose any parameterisation $\lambda$, the curve velocity could have any number of tangential components (based on how the parameterisation moves around $C$), and so this is the strongest condition we could impose on $\dvec{x}$.
 \end{remark}
+\subsection{Lenz's Law}
+Lenz's law states that the direction of the induced current is always such as to produce a magnetic field that opposes the change in flux that caused the emf.
+\begin{example}
+    Consider a circular wire in the $xy$-plane. If $B_z$ inside the loop increases in time then:
+    \begin{equation*}
+        \emf = -\frac{d\flux}{dt} < 0
+    \end{equation*}
+    which will induce a clockwise current around the loop ($I < 0$), which will generate a magnetic field $B_z < 0$ inside the loop. This avoid an unstable situation of positive feedback.
+\end{example}
+\section{Inductance and Magnetic Energy}
+\subsection{Inductance}
+\begin{definition}{Inductance}
+    If a current $I$ around a circuit $C$ generates a magnetic field with flux $\flux$, then the \underline{inductance} of the circuit is defined by:
+    \begin{equation*}
+        L = \frac{\flux}{I}
+    \end{equation*}
+    and depends only on the geometry of the circuit (since $\flux$ is proportional to $I$).
+\end{definition}
+\begin{example}[Inductance of an Ideal Solenoid]
+    Consider an ideal solenoid with cross-sectional area $A$ and $N$ turns per unit length. The magnetic field inside the solenoid is uniform:
+    \begin{equation*}
+        \vec{B} = \mu_0 N I \vec{e_z}.
+    \end{equation*}
+    Then the magnetic flux passing through this solenoid is $BA$ per turn, so the inductance per unit length is:
+    \begin{equation*}
+        l = \mu_0 N^2 A
+    \end{equation*}
+\end{example}
+\begin{example}[Mutual inductance between two wires]
+    Consider a thin wire $C_i$. Let the current around another thin wire $C_j$ be $I_j$. Then the flux through $C_i$ is:
+    \begin{equation*}
+        \flux_{ij} = L_{ij} I_j
+    \end{equation*}
+    where
+    \begin{equation*}
+        L_{ij} = \frac{\mu_0}{4\pi} \int_{C_i} \int_{C_j} \frac{\vec{dx_i} \cdot \vec{dx_j}}{|\vec{x_i} - \vec{x_j}|}
+    \end{equation*}
+    %TODO: Derive this with the magnetic vector potential.
+\end{example}
+\subsection{Changes in Current and Electromagnetic Energy}
+When the current $I$ around a circuit $C$ is varied, an emf is induced:
+\begin{equation*}
+    \emf = -\frac{d\flux}{dt} = -L \frac{dI}{dt}
+\end{equation*}
+In a small time interval $\delta t$, a charge $\delta Q = I \delta t$ flows around the circuit and the work done on it by the Lorentz force is:
+\begin{equation*}
+    \delta W = \emf~\delta Q = -LI \frac{dI}{dt} \delta t
+\end{equation*}
+Then the rate at which work is done by the current on the electrogmagnetic field is:
+\begin{equation*}
+    -\frac{dW}{dt} = LI \frac{dI}{dt} = \frac{d}{dt} \left(\frac12 LI^2\right).
+\end{equation*}
+Consider reaching a magnetostatic state by building up the current from 0. Then the energy stored in this configuration is:
+\begin{equation*}
+    \int_0^t \frac{d}{dt} \left(\frac12 LI^2\right) dt = \frac12 LI^2
+\end{equation*}
+As with capacitance, we can also write:
+\begin{align*}
+    U &= \frac12 LI^2 \\
+    &= \frac12 I \flux \\
+    &= \frac12 I \int_C \vec{A} \cdot \vec{dx} \\
+    &= \frac12 \int_{\R^3} \vec{J} \cdot \vec{A} dV
+\end{align*}
+which we can compare to the energy stored in an electric field:
+\begin{equation*}
+    U = \frac12 \int_{\R^3} \rho \Phi dV.
+\end{equation*}
+In electrostatics, we then converted this into an integral involving $|\vec{E}|^2$. In the case of magnetostatics, we apply \eqnref{eqnMTBC}:
+\begin{equation*}
+    U = \frac{1}{2\mu_0} \int_{\R^3} \left(\nabla \times \vec{B}\right)\cdot \vec{A} dV
+\end{equation*}
+then apply the identity $(\nabla \times \vec{B}) \cdot \vec{A} = \nabla \cdot (\vec{B} \times \vec{A}) + \vec{B} \cdot (\nabla \times \vec{A})$. Since we are taking the integral over all space, the first term is zero by the divergence theorem. This is because:
+\begin{align*}
+    |\vec{B}| &= O(|\vec{x}|^{-3}) \\
+    |\vec{A}| &= O(|\vec{x}|^{-2})
+\end{align*}
+and so $\vec{B} \times \vec{A} = O(|\vec{x}|^{-5})$ which ``beats'' the increasing surface area which is $O(|\vec{x}|^2)$. Therefore the energy is:
+\begin{equation*}
+    U = \int_{\R^3} \frac{|\vec{B}|^2}{2\mu_0} dV
+\end{equation*}
+\section{Ohm's Law}
+In a stationary conductor, Ohm's Law states that:
+\begin{equation*}
+    \vec{J} = \sigma \vec{E}
+\end{equation*}
+where $\sigma$ is the electrical conductivity. This is not a fundamental physical law, but is a constitutive relation (a macroscopic property of a material). We can invert this relation to get:
+\begin{equation*}
+    \vec{E} = \sigma^{-1} \vec{J}
+\end{equation*}
+where $\sigma^{-1}$ is the resistivity. It is often denoted $\rho$, but this is in conflict with the notation for electric charge density.
+\begin{remark}
+    In \underline{isotropic} materials, there is no preferred direction and $\sigma$ is a scalar. In \underline{anisotropic} materials, there is a preferred direction and instead $\sigma$ is a symmetric, second-order tensor. Therefore the resistivity is its inverse.
+\end{remark}
+A perfect conductor corresponds to the limit $\sigma \to \infty$ and so $\vec{E} = \vec0$. A perfect insulator corresponds to the limit $\sigma \to 0$, and so $\vec{J} = 0$.
+\begin{example}[Straight wire]
+    Consider a straight wire of length $l$, in the direction of the unit vector $\vec{n}$. Let the wire have uniform cross-sectional area $A$ and conductivity $\sigma$.
+
+    Consider an electric field $\vec{E} = E\vec{n}$. Then Ohm's Law gives $\vec{J} = \sigma E\vec{n}$. The total current is the integral over a cross-sectional surface. Since this is uniform, $I = \sigma E A$. The potential difference along the wire (assuming finite length $L$) is the line integral of the electric field, $V = EL$. Therefore, the resistence $R$ is defined to be:
+    \begin{equation*}
+        R = \frac{L}{\sigma A}
+    \end{equation*}
+    and so $V = IR$, an alternate form for Ohm's law.
+\end{example}
+We can find the energy loss due to resistivity for a wire. We can consider \underline{Joule heating} (also known as Ohmic heating), which is the conversion of electromagnetic energy into heat at the rate $I^2 R$. We can see this as follows: suppose that the potential difference $V$ is maintained by an energy source. Then $VI = I^2 R$ is the rate at which the emf of the energy source does work to maintain the current $I$. By conservation of energy, this must be the energy lost to heating.
 \end{document}
