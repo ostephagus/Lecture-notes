@@ -364,13 +364,140 @@ Recall the form of a general ODE:
     \tag{\ref{eqnGeneralODE}}
 \end{equation}
 Then the Runge-Kutta methods attempt to link numerical solution of such an ODE with integrals. We know:
-\begin{equation*}
-    \vec{y}(t_{n+1}) = \vec{y}(t_n) + \int_{t_n}^{t_{n+1}} \vec{y}'(\tau) d\tau = \vec{y}(t_n) + \int_{t_n}^{t_{n+1}} \vec{f}(\tau, \vec{y}(\tau)) d\tau 
-\end{equation*}
+\begin{align*}
+    \vec{y}(t_{n+1}) &= \vec{y}(t_n) + \int_{t_n}^{t_{n+1}} \vec{y}'(\tau) d\tau \\
+    &= \vec{y}(t_n) + \int_{t_n}^{t_{n+1}} \vec{f}(\tau, \vec{y}(\tau)) d\tau \\
+    &= \vec{y}(t_n) + h \int_0^1 \vec{f}(t_n + hs, \vec{y}(t_n + hs)) ds
+\end{align*}
 Then the Runge-Kutta method uses a quadrature formula to approximate this integral:
 
 \begin{equation*}
     \vec{y}(t_{n+1}) = \vec{y}(t_n) + h \sum_{l=1}^{\nu} b_l \vec{f}(t_n + c_l h, \vec{y}(t_n + c_l h))
 \end{equation*}
 The problem with this formula is that we find $\vec{y}(t_n + c_l h)$ on the RHS. This we do not know, and so we will do this by solving at intermediate points between $t_n$ and $t_{n+1}$ and aggregating them to find the next value of $\vec{y}$.
+
+Let $\vec{k_l} = \vec{f}(t_n + h c_l, \vec{y}(t_n + h c_l))$. We want to approximate this in order to evaluate:
+\begin{equation*}
+    \sum_{l=1}^{\nu} b_l \vec{k_l}
+\end{equation*}
+We can simply choose $\vec{k_1}$ to be $f$ evaluated at the previous timestep, but for the others we will need an explicit Euler approximation for the values of $\vec{y}$ between $t_n$ and $t_{n+1}$.
+\begin{align*}
+    \vec{k_1} &= \vec{f}(t_n + \vec{y_n}) \\
+    \vec{k_2} &= \vec{f}(t_n + h c_2, \vec{y_n} + h c_2 \vec{k_1}) \\
+    \vec{k_3} &= \vec{f}(t_n + h c_3, \vec{y_n} + h(a_{3,1} \vec{k_1} + a_{3,2} \vec{k_2})) \\
+    \vdots~~&~~~~~\vdots \\
+    \vec{k_\nu} &= \vec{f}(t_n + h c_\nu, \vec{y_n} + h \sum_{j=1}^{\nu - 1} a_{\nu,j} k_j)
+\end{align*}
+This gives the general form of a $\nu$-stage explicit Runge-Kutta method. We can also consider implicit Runge-Kutta method, given by:
+\begin{equation*}
+    \vec{k_l} = \vec{f}(t_n + h c_l, \vec{y_n} + h \sum_{j=1}^{\nu} a_{l, j} k_j)
+\end{equation*}
+where we now allow the diagonal elements $a_{l, l}$ to be non-zero. This gives a linear system of equations that must be solved.
+\begin{example}[Explicit 2-stage RK Method]
+    Consider a Runge-Kutta method defined by:
+    \begin{align*}
+        k_1 &= f(t_n, y_n) \\
+        k_2 &= f(t_n + h c_2, y_n + h c_2 k_1)
+    \end{align*}
+    and we want to find ts truncation error. Consider $y(t_{n+1}) - y_{n+1}$, assuming $y_{n+1}$ was computing using $y_n = y(t_n)$. This gives:
+    \begin{align*}
+        k_1 &= f(t_n, y_n) = y'(t_n) \\
+        k_2 &= f(t_n + h c_2, y_n + h c_2 k_1) \\
+        &= f(t_n, y_n) + \left(\frac{\partial f}{\partial t} h c_2 + \frac{\partial f}{\partial y} h c_2 k_1\right) + O(h^2) \\
+        &= y'(t_n) + h c_2 \left(\frac{\partial f}{\partial t} + \frac{\partial f}{\partial y}y'(t_n)\right) + O(h^2) \\
+        &= y'(t_n) + h c_2 y''(t_n) + O(h^2)
+    \end{align*}
+    Putting this together,
+    \begin{align*}
+        y_{n+1} &= y_n + h \left(b_1 y'(t_n) + b_2 \left(y'(t_n) + h c_2 y''(t_n)\right) + O(h^2)\right) \\
+        &= y(t_n) + h \left(b_1 + b_2\right) y'(t_n) + h^2 y''(t_n) b_2 c_2 + O(h^3)
+    \end{align*}
+    and so the error is:
+    \begin{align*}
+        y(t_{n+1}) - y_{n+1} &= h\left(1 - b_1 - b_2\right)y'(t_n) + h^2 \left(\frac12 - b_2 c_2\right)y''(t_n) + O(h^3) \\
+    \end{align*}
+    therefore if $b_1 + b_2 = 1$, the order is $\geq 1$. If further $b_2 c_2 = \frac12$, then the order is $\geq 2$. We can show that in fact the order is exactly 2 in this case.
+\end{example}
+\section{Absolute Stability}
+Consider the scalar ODE:
+\begin{equation}
+    \begin{cases}
+        y' = \lambda y & t \in \R \\
+        y(0) = 1 & \lambda \in \C
+    \end{cases}
+    \label{eqnStabilityODE}
+\end{equation}
+Then we know that the solution is $y(t) = e^{\lambda t}$. If $\Re(\lambda) < 0$, then $y(t) \to 0$ as $t \to \infty$. We will be interested in whether a given method converges (to 0) as $t \to \infty$ when numerically solving this ODE.
+
+In order to illustrate the concepts, consider the explicit Euler method.
+\begin{equation*}
+    y_{n+1} = y_n + h \lambda y_n = (1 + h \lambda) y_n \implies y_n = (1 + h \lambda)^n
+\end{equation*}
+Then we can clearly see that this will converge as long as the exponentiated quantity is less than $1$. Consider this quantity, as graphed in figure~\ref{figModGraph}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1, mark size=0]
+        \begin{axis}[
+                axis lines=middle,
+                xmin=0,xmax=3,
+                xlabel={$h$},
+                xtick={0, 1, 2},
+                xticklabels={$0$, $\frac{1}{\abs{\lambda}}$, $\frac{2}{\abs{\lambda}}$},
+                ylabel={$|1 + h \lambda|$}
+            ]
+            \addplot+[samples at={0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3}] {abs(1 - x)};
+            \draw[dashed] (0, 1) -- (3, 1);
+            \draw[dashed] (2, 1) -- (2, 0);
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Plot of stability condition for explicit Euler}
+    \label{figModGraph}
+\end{figure}
+
+Then we see that $y_n \to 0$ if and only if $h < \frac{2}{-\lambda}$.
+
+For the implicit Euler method, $y_{n + 1} = y_n + \lambda y_{n+1}$, se see that this has solution
+\begin{equation*}
+    y_n = \left(\frac{1}{1 - h \lambda}\right)
+\end{equation*}
+and so we find a similar convergence condition.
+\begin{definition}{Linear stability domain}
+    Suppose that a numerical method applied to the ODE given in \eqnref{eqnStabilityODE} produces the sequence $y_n$ for a given step size $h > 0$. Then the \underline{linear stability domain} of the method is:
+    \begin{equation*}
+        \dom = \subsetselect{h\lambda \in \C}{y_n \xrightarrow[n \to \infty]{} 0}
+    \end{equation*}
+\end{definition}
+\begin{examples}{
+        We find linear stability domains for various methods
+    }
+    \item We have already seen the explicit Euler method, it has LSD:
+        \begin{equation*}
+            \dom = \subsetselect{z \in \C}{\abs{1 + z} < 1}
+        \end{equation*}
+    \item The Implicit Euler method gives:
+        \begin{equation*}
+            \dom = \subsetselect{z \in \C}{\frac{1}{1-z} < 1}
+        \end{equation*}
+    \item Trapezoidal rule:
+        \begin{align*}
+            y_{n+1} &= y_n + h \left(\frac{1}{2} f(t_n, y_n) + \frac12 f(t_{n+1}, y_{n+2})\right) \\
+            &= y_n + h (\frac12 \lambda y_n + \lambda y_{n+1})
+        \end{align*}
+        and so:
+        \begin{equation*}
+            \left(1 - \frac{h}{2} \lambda\right) y_{n+1} = \left(1 + \frac{h}{2} \lambda\right) y_n
+        \end{equation*}
+        which gives the solution:
+        \begin{equation*}
+            y_n = \left(\frac{1 + \frac12 h \lambda}{1 - \frac12 h \lambda}\right)^n
+        \end{equation*}
+        and then the linear stability domain is the left-half plane.
+\end{examples}
+\begin{definition}{A-stable}
+    A method is \underline{A-stable} if:
+    \begin{equation*}
+        \subsetselect{z \in \C}{\Re(z) < 0} \subseteq \dom
+    \end{equation*}
+\end{definition}
 \end{document}
