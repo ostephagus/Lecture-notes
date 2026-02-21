@@ -36,8 +36,14 @@ So we take the approximation:
     \vec{y_{n+1}} = \vec{y_n} + h \vec{f}(t_n, \vec{y_n})
     \label{eqnEulerMethod}
 \end{equation}
+\begin{definition}{Lipschitz continuity}
+    A function $f : \C^n \mapsto \C^n$ is \underline{$\lambda$-Lipschitz continuous} if, for all $\vec{x}, \vec{y} \in \C^n$,
+    \begin{equation*}
+        \norm{f(x) - f(y)} \leq \lambda \norm{x - y}
+    \end{equation*}
+\end{definition}
 \begin{theorem}[Convergence of Euler's Method]
-    Consider an ODE of the form in \eqnref{eqnGeneralODE} and assume that $f$ satisfies the \textit{Lipschitz condition}:
+    Consider an ODE of the form in \eqnref{eqnGeneralODE} and assume that $f$ is $\lambda$-Lipschitz continuous:
     \begin{equation*}
         \norm{f(t, \vec{u}) - f(t, \vec{w})} \leq \lambda \norm{\vec{u} - \vec{w}}
     \end{equation*}
@@ -51,16 +57,15 @@ So we take the approximation:
     \begin{align*}
         \vec{e_{n+1}} &= \vec{y_{n+1}} - \vec{y}(t_{n+1}) \\
         &= \vec{y_n} + h \vec{f}(t_n, \vec{y_n}) - \vec{y}(t_{n+1}) \\
-        &= \vec{y_n} - \vec{y}(t_n) + h\vec{f}(t_n, \vec{y_n}) - \left(\vec{y}(t_{n+1}) - \vec{y}(t_n)\right) \\
-        &= \vec{y_n} - \vec{y}(t_n) + h\vec{f}(t_n, \vec{y_n}) - h \vec{f}(t_n, \vec{y}(t_n))\\
-        &\qquad- \left(\vec{y}(t_{n+1}) - \vec{y}(t_n) - h \vec{f}(t_n, \vec{y}(t_n))\right) \\
-        &= \vec{e_n} + h\vec{f}(t_n, \vec{y_n}) - h \vec{f}(t_n \vec{y}(t_n)) - \left(\vec{y}(t_{n+1}) - \vec{y}(t_n) - h \vec{y}'(t_n)\right) \\
-        \intertext{Apply Taylor's Theorem to the final bracket, let $\xi \in [t_n, t_{n+1}]$}
-        &= \vec{e_n} + h\vec{f}(t_n, \vec{y_n}) - h \vec{f}(t_n \vec{y}(t_n)) - \frac{h^2}{2} \vec{y}''(\xi) \\
-        \norm{\vec{e_{n+1}}}&\leq \norm{\vec{e_n}} + h\norm{\vec{f}(t_n, \vec{y_n}) - h \vec{f}(t_n \vec{y}(t_n))} + ch^2 \\
-        &\leq \norm{\vec{e_n}} + h\lambda \norm{\vec{y_n} - \vec{y}(t_n)} + ch^2 \\
-        &\leq \norm{\vec{e_n}} + h\lambda \norm{\vec{e_n}} + ch^2 \\
-        &\leq (1 + \lambda h)\norm{\vec{e_n}} + ch^2
+        &= \vec{y_n} - \vec{y}(t_n) + h \vec{f}(t_n, \vec{y_n}) - \left(\vec{y}(t_{n+1}) - \vec{y}(t_n)\right) \\
+        &= \vec{e_n} + h \vec{f}(t_n, \vec{y_n}) - \left(h \vec{y}'(t_n) + \frac{h^2}{2} \vec{y}''(\xi)\right) \\
+        \intertext{by using the Lagrange remainder, $\xi \in [t_n, t_{n+1}]$}
+        &= \vec{e_n} + h \left(\vec{f}(t_n, \vec{y_n}) - \vec{f}(t_n, \vec{y}(t_n))\right) - \frac{h^2}{2} \vec{y}''(\xi) \\
+        \intertext{and so take norms, assuming $\vec{y}$ has a bounded second derivative:}
+        \norm{\vec{e_{n+1}}} &\leq \norm{\vec{e_n}} + h \norm{\vec{f}(t_n, \vec{y_n}) - \vec{f}(t_n, \vec{y}(t_n))} + ch^2 \\
+        &\leq \norm{\vec{e_n}} + h \lambda\norm{\vec{y_n} - \vec{y}(t_n)} + ch^2 \text{ by Lipschitz continuity} \\
+        &= \norm{\vec{e_n}} + h \lambda\norm{\vec{e_n}} + ch^2 \\
+        &= \left(1 + h \lambda\right)\norm{\vec{e_n}} + ch^2
     \end{align*}
     Then we can recursively use this inequality:
     \begin{align*}
@@ -194,7 +199,7 @@ This leads us to the following theorem:
 \begin{remark}
     If $\sigma(e^z) \neq 0$ when $z \to 0$, so if $\sigma(1) \neq 0$, then the condition is equivalent to:
     \begin{equation*}
-        \frac{\rho(w)}{\sigma(w)} = \log(w) + O\left((w-1)^{p-1}\right)
+        \frac{\rho(w)}{\sigma(w)} = \log(w) + O\left((w-1)^{p+1}\right) \text{ as } w \to 1
     \end{equation*}
 \end{remark}
 \begin{proof}
@@ -218,7 +223,11 @@ This leads us to the following theorem:
 \end{proof}
 \subsection{Convergence of Multistep Methods}
 \begin{definition}{Root condition}
-    A polynomial $\rho$ satisfies the \underline{root condition} if all the roots of $\rho$ lie inside the disc $\subsetselect{z \in \C}{|z| \leq 1}$, and any roots with $|z| = $ are simple.
+    A polynomial $\rho$ satisfies the \underline{root condition} if:
+    \begin{enumerate}
+        \item all the roots of $\rho$ lie inside the disc $\subsetselect{z \in \C}{|z| \leq 1}$;
+        \item any roots with $|z| = 1$ are simple.
+    \end{enumerate}
 \end{definition}
 \begin{theorem}[Dahlquist Equivalence Theorem]
     Consider a multistep method specified by polynomials $\rho$ and $\sigma$. Let the degree of these polynomials be $s$ (so we have an $s$-step method) and require $\rho$ monic. The multistep method is convergent if and only if:
@@ -253,7 +262,7 @@ This leads us to the following theorem:
 
     Since the order is greater than $1$ and $\rho$ satisfies the root condition, the Adams-Bashforth method is convergent by \thmref{thmDahlquistEquiv}.
 \end{example}
-\begin{example}[Failure of Root Condition I]
+\begin{example}[Failure of Root Condition 1]
     Consider the following method:
     \begin{equation*}
         \vec{y_{n+2}} + 5\vec{y_{n+1}} - 4\vec{y_n} = h\left(4 \vec{f}(t_{n+1}, \vec{y_{n+1}}) + 2 \vec{f}(t_n, \vec{y_n})\right)
@@ -279,7 +288,7 @@ This leads us to the following theorem:
     \end{equation*}
     Therefore even if $c_2$ is very small we would get exponential growth in $\vec{y_n}$.
 \end{example}
-\begin{example}[Failure of Root Condition II]
+\begin{example}[Failure of Root Condition 2]
     Consider:
     \begin{equation*}
         \vec{y_{n+2}} - 2\vec{y_{n+1}} + \vec{y_n} = 0
@@ -297,15 +306,13 @@ This leads us to the following theorem:
 \subsection{Constructing Convergent Methods}
 We already have \thmref{thmDahlquistEquiv}, so we need to find $\rho(w)$ that satisfies the root condition and has $\rho(1) = 0$. Then, we choose $\sigma$ such that:
 \begin{equation*}
-    \sigma(w) = \frac{\rho(w)}{\log(w)} + O((w-1)^{s+1})
+    \sigma(w) = \frac{\rho(w)}{\log(w)} + O((w-1)^{s})
 \end{equation*}
-for an $s$-step method, or:
+for an $s$-step explicit method, or:
 \begin{equation*}
-    \frac{\rho(w)}{\sigma(w)} - \log(w) + O((w-1)^{s + 2})
+    \frac{\rho(w)}{\sigma(w)} - \log(w) + O((w-1)^{s + 1})
 \end{equation*}
-which has order $s+1$.
-
-If we require an explicit method, the order decreases by $1$ to $s$.
+for an $s$-step implicit which has order $s+1$.
 
 \begin{example}[Adams Methods]
     Adams methods correspond to the choice:
@@ -314,12 +321,12 @@ If we require an explicit method, the order decreases by $1$ to $s$.
     \end{equation*}
     which satisfies the root condition and $\rho(1) = 0$. For $s = 2$, we get:
     \begin{equation*}
-        \frac{w(w-1)}{\log(w)} = \frac{(1 + x)(x)}{\log(1+x)} \text{ where $x = w + 1$} \\
+        \frac{w(w-1)}{\log(w)} = \frac{(1 + x)(x)}{\log(1+x)} \text{ where $x = w - 1$} \\
     \end{equation*}
     Then we find:
     \begin{align*}
         \sigma(x - 1) &= 1 + \frac32 x + \frac5{12} x^2 \\
-        \sigma(w) &= -\frac12 + \frac23 w + \frac{5}{12} w^2
+        \sigma(w) &= -\frac{1}{12} + \frac23 w + \frac{5}{12} w^2
     \end{align*}
     and we get to the 2-step Adams method as previously seen.
 \end{example}
