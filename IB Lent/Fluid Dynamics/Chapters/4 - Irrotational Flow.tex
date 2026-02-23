@@ -1,0 +1,48 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Velocity Potential}
+In Chapter 2 we saw that if at $t = 0$, $\vec{\omega} = \vec0$, then $\vec{\omega} = \vec0$ at all time. That is, irrotational flow remains irrotational.
+
+If $\vec{\omega} = \nabla \times \vec{u} = \vec0$, then we know from the course IA Vector Calculus that:
+\begin{equation*}
+    \vec{u}(\vec{x}, t) = \nabla \phi(\vec{x}, t)
+\end{equation*}
+where $\phi$ is the \underline{velocity potential}.
+\begin{remark}
+    We use a positive grad here, unlike, for example, $\bdforce = - \nabla \chi$.
+\end{remark}
+By applying the incompressibility of the flow, we get $\nabla \cdot (\nabla \phi) = 0$. We also apply kinematic boundary conditions to get the problem:
+\begin{equation}
+    \begin{cases}
+        \nabla^2 \phi = 0 & \vec{x} \in \Omega \\
+        \frac{\partial \phi}{\partial \vec{n}} = \vec{U} \cdot \vec{n} & \vec{x} \in \partial \Omega
+    \end{cases}
+    \label{eqnPotentialLaplace}
+\end{equation}
+Therefore, the Euler equation reduces to the Laplace equation (with Neumann boundary conditions). We use the Euler equation after we have found the flow in order to get the pressure.
+\section{Simple Examples}
+For simple geometries, we can build solutions using separable solutions to the Laplace Equation in suitable coordinate systems.
+
+The simplest example we could think of is uniform flow $\vec{u} = \vec{U}$. Then $\phi = \vec{U} \cdot \vec{x}$.
+
+\begin{example}[Spherical coordinates]
+    The most general axisymmetric solution to Laplace's equation is:
+    \begin{equation*}
+        \phi = \sum_{n=0}^{\infty} \left(A_n r^n + B_n r^{-1-n}\right) P_n(\cos(\theta))
+    \end{equation*}
+    where $P_n$ are the Legendre polynomials.
+
+    Usually we only need a small number of modes.
+    \begin{itemize}
+        \item The $B$ term when $n = 1$ is $\phi = B / r$. This gives a velocity $\vec{u} = -\frac{B}{r^2} \vec{e_r}$. This is a radial flow with constant volume flux through a sphere:
+            \begin{equation*}
+                \int_{B_R(\vec0)} \vec{u} \cdot \vec{n} dS = -\frac{B}{R^2} \times 4\pi R^2 = -4\pi B
+            \end{equation*}
+            we define this to be the volume flux $q$, so:
+            \begin{equation*}
+                \phi = -\frac{q}{4\pi r}
+            \end{equation*}
+    \end{itemize}
+\end{example}
+\end{document}

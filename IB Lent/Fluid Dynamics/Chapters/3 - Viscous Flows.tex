@@ -286,6 +286,8 @@ Consider the following illustrative problem:
         \tau = \mu \left.\frac{\partial u}{\partial y}\right|_{y = 0} = -\frac{\mu U}{\sqrt{\nu t}} f'(0) = -\frac{\mu U}{\sqrt{\pi \nu t}}
     \end{equation*}
     and so we need to consider $\frac{\mu}{\sqrt{\nu}}$ for each fluid to understand how the solution will be different for different fluids. This is quantity is $200$ times larger for water than air.
+
+    We have a \textit{decay length} $\delta \sim \sqrt{\nu t}$ which represents the speed at which information travels through the fluid.
     \label{expImpulsePlate}
 \end{example}
 \begin{figure}
@@ -345,4 +347,52 @@ Consider the following illustrative problem:
     The characteristic timescale here is $t \sim \frac{h^2}{\nu}$ for diffusion of momentum. For golden syrup with $h = 0.1m$ this is $0.07s$, and for water it is $3$ hours.
     \label{expImpulsePlate2}
 \end{example}
+\begin{example}[Stokes' Second Problem]
+    Consider the plate setup as in example~\ref{expImpulsePlate}, but let the plate move with velocity $U\cos(\omega t)$ along its axis. This problem will be solved in Ex2Q4, where we find a diffuse distance $\delta = \sqrt{\frac{\nu}{\omega}}$. This is known as the Stokes Layer.
+
+    If we add a boundary at $y = h$, the problem is too hard for IB Fluids and will be solved in the course II Fluids. In this problem we have 2 length scales $\delta$ and $h$, which introduces the dimensionless Stokes Number:
+    \begin{equation*}
+        S = \frac{\omega h^2}{\nu} = \frac{h^2}{\delta^2}
+    \end{equation*}
+    \label{expImpulsePlate3}
+\end{example}
+\begin{remark}
+    The examples from this chapter illustrate that the inviscid solution $\mu = 0$ or $\nu = 0$ is \underline{not} uniformly the same as the limit of small viscosity. This is because when the viscosity is nonzero we have the non-slip boundary condition.
+\end{remark}
+\nonexaminablesection{Navier-Stokes Equations}
+In the course II Fluids we will derive the most general momentum equation for Newtonian fluids:
+\begin{align*}
+    \nabla \cdot \vec{u} &= 0 \\
+    \rho \frac{D \vec{u}}{D t} &= - \nabla p + \vec{f} + \mu \nabla^2 \vec{u}
+\end{align*}
+This reduces to the Euler momentum equation in the case $\mu = 0$. This also reduces to the 2D parallel equations when $\vec{u} = (u(y, t), 0, 0)^T$ as we have seen in this chapter.
+
+The vorticity $\vec{\omega}$ must satisfy:
+\begin{equation*}
+    \frac{D \vec{\omega}}{D t} = (\vec{\omega} \cdot \nabla)\vec{u} + \nu \nabla^2 \vec{\omega}
+\end{equation*}
+\nonexaminablesection{Reynold's Number}
+Consider flow with characteristic length scale $L$ and velocity $U$. We perform dimensional analysis:
+\begin{align*}
+    \rho \frac{D \vec{u}}{D t} &\sim \rho \frac{U}{LU^{-1}} \sim \rho \frac{U^2}{L} \\
+    \mu \nabla^2 \vec{u} &\sim \mu \frac{U}{L^2}
+\end{align*}
+and then the ratio of these two quantities is the \underline{Reynold's Number}:
+\begin{equation*}
+    Re = \rho \frac{UL}{\mu} = \frac{UL}{\nu}
+\end{equation*}
+and this is an important characterisation of the fluid flow.
+\begin{examples}{
+        The Reynold's numbers for the following flows are:
+    }
+    \item Pouring tea: $Re \sim 10^4$;
+    \item Pouring syrup: $Re \sim 10^{-4}$;
+    \item Swimming human: $Re \sim 10^6$;
+    \item Swimming bacterium: $Re \sim 10^{-4}$;
+\end{examples}
+In Part II, we will see:
+\begin{itemize}
+    \item $Re \ll 1$ means we can safely ignore the derivative with respect to time, this is the quasi-steady limit;
+    \item $Re \gg 1$ means that the Euler equation is valid almost everywhere except in thin boundary layers near rigid bodies.
+\end{itemize}
 \end{document}
