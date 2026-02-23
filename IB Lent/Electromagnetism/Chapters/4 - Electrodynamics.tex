@@ -251,4 +251,111 @@ A perfect conductor corresponds to the limit $\sigma \to \infty$ and so $\vec{E}
     and so $V = IR$, an alternate form for Ohm's law.
 \end{example}
 We can find the energy loss due to resistivity for a wire. We can consider \underline{Joule heating} (also known as Ohmic heating), which is the conversion of electromagnetic energy into heat at the rate $I^2 R$. We can see this as follows: suppose that the potential difference $V$ is maintained by an energy source. Then $VI = I^2 R$ is the rate at which the emf of the energy source does work to maintain the current $I$. By conservation of energy, this must be the energy lost to heating.
+\section{Time-Dependent Electric Fields}
+\subsection{Scalar and Vector Potentials}
+In electrodynamics, we can no longer write the electric field as $\vec{E} = - \nabla \phi$. This is because $\nabla \times \vec{E} = \frac{d\vec{B}}{dt} \neq 0$. However, \eqnref{eqnMBD} still allows us to write $\vec{B} = \nabla \times \vec{A}$. Next, we rewrite \eqnref{eqnMEC} as:
+\begin{equation*}
+    \nabla \times \left(\vec{E} + \frac{\partial \vec{A}}{\partial t}\right) = 0
+\end{equation*}
+and so we can write this using a scalar potential $\phi$:
+\begin{equation*}
+    \vec{E} = -\nabla \Phi - \frac{\partial \vec{A}}{\partial t}.
+\end{equation*}
+We can still make a guage transformation:
+\begin{align*}
+    \tilde{\vec{A}} &= \vec{A} + \nabla \chi, & \tilde{\Phi} &= \Phi - \frac{\partial \chi}{\partial t}
+\end{align*}
+where $\chi(\vec{x}, t)$ is any scalar field. Then both $\vec{E}$ and $\vec{B}$ are unchanged.
+\subsection{Displacement Current}
+In magnetostatics, we used Ampere's Law:
+\begin{equation*}
+    \oint_C \vec{B} \cdot \vec{dx} = \mu_0 \int_S \vec{J} \cdot \vec{dS} = \mu_0 I
+\end{equation*}
+which was derived from \eqnref{eqnMTBC}: $\nabla \times \vec{B} = \mu_0 \vec{J}$. We now need to work with:
+\begin{equation*}
+    \nabla \times \vec{B} = \mu_0 \left(\vec{J} + \epsilon_0 \frac{\partial \vec{E}}{\partial t}\right)
+    \tag{\ref{eqnMBC}}
+\end{equation*}
+and this extra term is called the \underline{displacement current}.
+
+Why is it needed? Without this extra term, we would have $\nabla \cdot \vec{J} = 0$ which is our description of conservation of charge when $\rho$ is constant. Suppose now we place free particles of positive charge in some localised region. Repulive Coulomb forces cause the particles to separate, implying $\nabla \cdot \vec{J} > 0$. We have seen that charge conservation in the correct form,
+\begin{equation*}
+    \frac{\partial \rho}{\partial t} + \nabla \cdot \vec{J} = 0
+\end{equation*}
+follows from Maxwell's equations including the displacement current.
+\section{Electromagnetic Waves}
+\subsection{The Wave Equation}
+Consider freely evolving electric and magnetic fields in a vacuum, in the absence of charges and currents.
+\begin{align}
+    \nabla \cdot \vec{E} &= 0 \label{eqnMWED} \\
+    \nabla \cdot \vec{B} &= 0 \label{eqnMWBD} \\
+    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t} \label{eqnMWEC} \\
+    \nabla \times \vec{B} &= \mu_0 \epsilon_0 \frac{\partial \vec{E}}{\partial t} \label{eqnMWBC}
+\end{align}
+Eliminate $\vec{B}$ by taking the time derivative of \eqnref{eqnMWBC} and substituting \eqnref{eqnMWEC}:
+\begin{align*}
+    \mu_0 \epsilon_0 \frac{\partial^{2}\vec{E}}{\partial t^{2}} &= \frac{\partial}{\partial t} (\nabla \times \vec{B}) \\
+    &= \nabla \times \frac{\partial \vec{B}}{\partial t} \\
+    &= - \nabla \times (\nabla \times \vec{E}) \\
+    &= \nabla^2 \vec{E} - \nabla (\nabla \cdot \vec{E}) \\
+    &= \nabla^2 \vec{E} \text{ by \eqnref{eqnMWED}}.
+\end{align*}
+Alternatively, eliminating $\vec{E}$ by taking the time derivative of \eqnref{eqnMWEC} and substituting \eqnref{eqnMWBC}:
+\begin{align*}
+    \frac{\partial^{2}\vec{B}}{\partial t^{2}} &= - \frac{\partial}{\partial t} (\nabla \times \vec{E}) \\
+    &= - \nabla \cdot \frac{\partial \vec{E}}{\partial t} \\
+    &= - \frac{1}{\mu_0 \epsilon_0} \nabla \times (\nabla \times \vec{B}) \\
+    &= \frac{1}{\mu_0 \epsilon_0} \nabla^2 \vec{B}
+\end{align*}
+Then we have:
+\begin{align*}
+    \frac{\partial^{2}\vec{E}}{\partial t^{2}} &= \frac{1}{\mu_0 \epsilon_0} \nabla^2 \vec{E} \\
+    \frac{\partial^{2}\vec{B}}{\partial t^{2}} &= \frac{1}{\mu_0 \epsilon_0} \nabla^2 \vec{B}
+\end{align*}
+and so every Cartesian component of $\vec{E}$ and $\vec{B}$ satisfy:
+\begin{equation*}
+    \frac{\partial^{2}u}{\partial t^{2}} = c^2 \nabla^2 u
+\end{equation*}
+where $c$ is the speed of light, $c = \frac{1}{\sqrt{\mu_0 \epsilon_0}}$. We find that light is an electromagnetic wave involving oscillations of $\vec{E}$ and $\vec{B}$. Different values for the wavelength give different types of EM waves.
+\subsection{Plane Electrogmagnetic Waves}
+Consider a \underline{plane wave} in which $\vec{E}$ and $\vec{B}$ depend only on $x, t$ and not $y, z$ (that is, it depends only one one spatial direction and we choose it to be $x$). A simple example is:
+\begin{equation*}
+    \vec{E} = E(x, t) \vec{e_y}
+\end{equation*}
+where $E(x, t)$ satisfies the 1-dimensional wave equation:
+\begin{equation*}
+    \frac{\partial^{2}E}{\partial t^{2}} = c^2 \frac{\partial^{2}E}{\partial x^{2}}
+\end{equation*}
+which has general solution:
+\begin{equation*}
+    E(x, t) = f(x - ct) + g(x - ct)
+\end{equation*}
+which is a superposition of a wave travelling to the left and a wave travelling to the right. Now what is the corresponding magnetic field?
+\begin{align*}
+    \frac{\partial \vec{B}}{\partial t} &= - \nabla \times \vec{E} \\
+    &= - \frac{\partial E}{\partial x} \vec{e_z} \\
+    &= (-f'(x - ct) - g'(x - ct))
+\end{align*}
+then integrating with respect to $t$:
+\begin{equation*}
+    \vec{B}(x, t) = \frac1c\left(f(x - ct) - g(x - ct)\right) \vec{e_z}
+\end{equation*}
+which we could also have derived from \eqnref{eqnMWBC}. We also have constants here, but since they do not affect the wave we set them to 0.
+
+Of particular importance is a monochromatic wave of a single angular frequency $\omega$. An example is:
+\begin{align*}
+    \vec{E} &= E_0 \cos(kx - \omega t) \vec{e_y} \\
+    \vec{B} &= \frac{E_0}{c}\cos(kx - \omega t) \vec{e_z}
+\end{align*}
+where $E_0$ is the amplitude (constant), and $k$ is the wave number $\frac{\omega}{c}$.
+
+\begin{remarks}
+    \item The frequency is $\nu = \frac{\omega}{2\pi}$ and the period is $\frac1\nu = \frac{2\pi}{\omega}$.
+    \item The angular frequency and wave number are related by the dispersion relation:
+        \begin{equation*}
+            \omega^2 = c^2 k^2 \iff \omega = \pm ck
+        \end{equation*}
+    \item The oscillations of $\vec{E}$ and $\vec{B}$ are in phase and orthogonal both to each other and the direction of motion. That is, the waves are transverse.
+    \item Because Maxwell's Equations are linear, electromagnetic waves of different amplitudes, frequences and directions can be superposed.
+\end{remarks}
 \end{document}
