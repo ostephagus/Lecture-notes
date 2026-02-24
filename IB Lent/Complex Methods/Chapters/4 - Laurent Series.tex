@@ -241,13 +241,13 @@ Given a function $f$ and a singularity $z_0$, we can do the following to classif
         \end{equation*}
         and so the residue is $\frac12$.
 \end{examples}
-\begin{theorem}
+\begin{theorem}[Residue Theorem]
     Let $\gamma$ be a simple closed contour tranversed anticlockwise. Let $f(z)$ be analytic within $\gamma$ except for an isolated singularity at $z_0$.
     \begin{equation}
         \int_{\gamma} f(z) dz = 2\pi i a_{-1} = 2\pi i \res_{z = z_0} f(z)
         \label{eqnIntOverSing}
     \end{equation}
-    \label{thmIntOverSing}
+    \label{thmResidue}
 \end{theorem}
 \begin{proof}
     By deforming $\gamma$ into a circle $\gamma_r$ around $z_0$ of radius $r$ (valid by \thmref{propContourShrink}), we can evaluate the integral more easily.

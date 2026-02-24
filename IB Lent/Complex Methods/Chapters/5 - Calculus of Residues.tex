@@ -1,0 +1,139 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Residues Theorem}
+We have already seen that, for a function $f$ that is analytic except at an isolated singularity,
+\begin{equation*}
+    \oint_{\gamma} f(z) dz = 2\pi i \res_{z = z_0} f
+\end{equation*}
+for any countour $\gamma$ that goes anticlockwise around the singularity.
+\begin{theorem}[Residues Theorem]
+    Let $f(z)$ be analytic in a simply connected domain $D$ except at a finite number of isolated singularities at $z_1, \cdots, z_n$. Let $\gamma$ be a simple, closed contour that goes anticlockwise and incircles all the singularities. Then:
+    \begin{equation*}
+        \oint_\gamma f(z) dz = 2\pi i \sum_{k=1}^{n} \res_{z = z_k} f(z)
+    \end{equation*}
+    \label{thmResidues}
+\end{theorem}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        
+    \end{tikzpicture}
+    \caption{Diagram of contours involved in Residues Theorem}
+    \label{figResiduesDiagram}
+\end{figure}
+\begin{proof}
+    Consider contours $\tilde{\gamma}, \gamma_1, \cdots, \gamma_n$ as depicted (for $n = 3$ in figure~\ref{figResiduesDiagram}).
+    \begin{align*}
+        0 &= \oint_{\tilde{\gamma}} f(z) dz \\
+        &= \oint_{\gamma} f(z) dz + \sum_{k=1}^{n} \oint_{- \gamma_k} f(z) dz \\
+        &= \oint_{\gamma} f(z) dz - \sum_{k=1}^{n} \oint_{\gamma_k} f(z) dz \\
+    \end{align*}
+    then by \thmref{thmResidue}, this gives:
+    \begin{equation*}
+        \oint_{\gamma} f(z) dz = 2\pi i \sum_{k=1}^{n} \res_{z = z_k} f(z)
+    \end{equation*}
+\end{proof}
+\section{Integrals Along the Real Axis}
+\begin{example}
+    Consider the integral:
+    \begin{equation*}
+        I = \int_{0}^{\infty} \frac{1}{1 + x^2} dx
+    \end{equation*}
+    We know simply that this is $\pi / 2$. Now take this integral, and consider $\gamma_0$ as a curve from $-R$ to $R$.
+    \begin{equation*}
+        \lim_{R \to \infty} \int_{\gamma_0} \frac{1}{1 + z^2} dz = 2I
+    \end{equation*}
+    But note that the function $f(z) = (1 + z^2)^{-1}$ has isolated singularities at $z = \pm i$. Let $\gamma_R$ be the arc of the circle of radius $R$ in the upper half plane. Therefore $\gamma_0 + \gamma_R$ is a closed contour. We apply \thmref{thmResidue} for the isolated singularity at $z = i$,
+    \begin{equation*}
+        \res_{z = i} f(z) = \res_{z = i} \frac{1}{(z + i)(z - i)} = \frac{1}{2i}
+    \end{equation*}
+    Then what about the contribution from $\gamma_R$? We can bound this as $R \to \infty$:
+    \begin{equation*}
+        \abs{1 - \abs{z}^2} \leq \abs{1 _ z^2}
+    \end{equation*}
+    and so:
+    \begin{align*}
+        \lim_{R \to \infty} \abs{\int_{\gamma_R} \frac{1}{1 + z^2} dz} \leq \lim_{R \to \infty} \int_{\gamma_R} \frac{1}{\abs{1 - \abs{z}^2}} \abs{dz} \\
+        &= \lim_{R \to \infty} \int_{\gamma_R} \frac{1}{R^2 - 1} \abs{dz} \\
+        &= \lim_{R \to \infty} O(R^{-1}) = 0.
+    \end{align*}
+    And so equating gives $2I = \pi$, or $I = \pi / 2$ as we expect.
+\end{example}
+\begin{example}
+    Consider now $f(z) = \frac{1}{1 + z^3}$ and let:
+    \begin{equation*}
+        I = \int_0^\infty \frac{1}{1 + x^3} dx
+    \end{equation*}
+    Note that the integrand $f(z)$ is invariant under $z \mapsto e^{2 i \pi / 3} z$. Take:
+    \begin{equation*}
+        \gamma_0(t) = t,\quad\gamma_1(t) = e^{\frac{2\pi i}{3}t}
+    \end{equation*}
+    Then let $\gamma_R$ be the arc of radius $R$ of angle $\frac{2\pi}{3}$.
+    By similar argument as the previous example, the contribution along $\gamma_R$ is zero as $R \to \infty$.
+
+    \begin{align*}
+        \int_{\gamma_0} f(z) dz &= \int_{\gamma_0} \frac{1}{1 + z^3} dz = \int_0^\infty \frac{1}{1 + t^3} dt = I \\
+        \int_{\gamma_1} f(z) dz &= \int_{\infty}^0 \frac{1}{1 + t^3} e^{\frac{2\pi i}{3}} dt = -e^{2\pi i / 3} I
+    \end{align*}
+    Now we have 3 isolated singularities, but only one is in our closed contour: $e^{i \pi / 3}$.
+    \begin{equation*}
+        \res_{z = e^{i \pi / 3}} f(z) = \lim_{z \to e^{i \pi / 3}} \frac{z - e^{i \pi / 3}}{z^3 + 1}
+    \end{equation*}
+    which by L'H\^opital's Rule gives $\frac13 e^{-2i \pi / 3}$. Finally,
+    \begin{equation*}
+        \lim_{R \to \infty} \int_{\gamma_0 + \gamma_1 + \gamma_R} f(z) dz = 2\pi i \times \frac13 e^{-2 \pi i / 3}
+    \end{equation*}
+    and,
+    \begin{equation*}
+        I - e^{2\pi i / 3}I + 0 = \frac{2\pi i}{3} e^{-2 \pi i / 3} \implies I = \frac{2\pi}{3\sqrt{3}}
+    \end{equation*}
+\end{example}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        I = \int_0^\infty \frac{1}{(x^2 + a^2)^2} dz
+    \end{equation*}
+    and so our integrand is $f(z) = (z^2 + a^2)^{-2}$. Close the contour with $\gamma_R$ like we have done before, and note that its contribution as $R \to \infty$ will be zero.
+    
+    Calculating the residue:
+    \begin{equation*}
+        \res_{z = i a} f(z) = \lim_{z \to ia} \frac1{1!} \frac{d}{dz \left[\frac{(z - ia)^2}{(z+ia)^2}\right]} = -\frac{i}{4a^3}
+    \end{equation*}
+    and therefore:
+    \begin{equation*}
+        \int_{\gamma_0} f(z) dz = 2I = 2\pi i \times \frac{-i}{4a^3}
+    \end{equation*}
+    which gives the result $I = \frac{\pi}{4a^3}$.
+\end{example}
+\section{Integrals Involving Trigonometric Functions}
+Consider an integral:
+\begin{equation*}
+    \int_{0}^{2\pi} f(\cos(\theta), \sin(\theta)) d\theta
+\end{equation*}
+then we can take a circular contour of unit radius. We can then substitute:
+\begin{equation*}
+    \cos(\theta) = \frac12 \left(z + z^{-1}\right) \quad \sin(\theta) \frac{1}{2i} (z - z^{-1})
+\end{equation*}
+Along $\gamma : \theta \mapsto e^{i\theta}$, $dz = ie^{i\theta} d\theta$ and so $d\theta = \frac{dz}{iz}$.
+\begin{example}
+    \begin{equation*}
+        I = \int_{0}^{2\pi} \frac{1}{a + \cos(\theta)} d\theta, a > 1
+    \end{equation*}
+    Using the above,
+    \begin{align*}
+        I &= \oint_{\gamma} \frac{1}{z \left[a + \frac12 (z + z^{-1})\right]} \times -i dz \\
+        &= -2i \oint_{\gamma} \frac{1}{z^2 + 2az + 1} dz
+    \end{align*}
+    This integrand has singularities at $z_{\pm} = -a \pm \sqrt{a^2 - 1}$. Note that for $a > 1, z_- < -a < -1$ and so it does not lie inside the contour.
+
+    Then considering $z_+ = z_+(a)$, $z_+(1) = -1$ and $\frac{dz_+}{da} > 0$, and so it lies inside the contour. The residue is:
+    \begin{equation*}
+        \res_{z = z_+} \frac{1}{z^2 + 2az + 1} = \lim_{z \to z_+} \frac{z - z_+}{(z - z_+)(z - z_-)}
+    \end{equation*}
+    and this gives $\frac{1}{2\sqrt{a^2 - 1}}$. Therefore,
+    \begin{equation*}
+        I = -2i \left(\frac{2\pi i}{2\sqrt{a^2 - 1}}\right) = \frac{2\pi}{\sqrt{a^2 - 1}}
+    \end{equation*}
+\end{example}
+\end{document}
