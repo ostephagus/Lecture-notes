@@ -195,6 +195,28 @@ Usually, we set $\alpha$ at an acceptable level and choose a test that minimises
     \end{equation*}
     Then this is a 2-sided LRT.
 \end{example}
+\section{The Chi-Squared Distribution}
+Let $\vec{X}$ be a vector of $n$ independent standard normal random variables. We want to consider:
+\begin{equation*}
+    Y = \sum_{i=1}^{n} X_i^2 = |\vec{X}|^2
+\end{equation*}
+and we find that the distribution is:
+\begin{equation*}
+    f_Y(y) = \frac{1}{2^{n/2} \Gamma(n / 2)} y^{\frac{k}{2} - 1} e^{-y / 2}
+\end{equation*}
+for $y > 0$, $0$ otherwise.
+
+\begin{definition}{Chi-Squared Distribution}
+    We say that $Y$ has a \underline{Chi-squared distribution} with $n$ \underline{degrees of freedom} if $Y = |\vec{X}|^2$ (with $\vec{X}$ defined as above). We write $Y \sim \chi_n^2$.
+\end{definition}
+The $\chi^2$ distribution is a special case of the Gamma distribution:
+\begin{equation*}
+    \chi_n^2 = \Gamma\left(\frac{k}{2}, \frac12\right)
+\end{equation*}
+from this fact we deduce:
+\begin{equation*}
+    \E[Y] = k \qquad \Var(Y) = 2k
+\end{equation*}
 \section{Composite Hypotheses}
 Previously we have considered $H_0$ and $H_1$ simple hypotheses, with error probabilities:
 \begin{equation*}
@@ -203,7 +225,7 @@ Previously we have considered $H_0$ and $H_1$ simple hypotheses, with error prob
 We will now consider $\vec{X}$ having probability density $f_{\vec{X}}(\vec{x}, \theta)$ and:
 \begin{align*}
     H_0:& \theta \in \Theta_0 \subseteq \Theta \\
-    H_1:& \theta \in \Theta_1 \subseteq \Theta \\
+    H_1:& \theta \in \Theta_1 \subseteq \Theta 
 \end{align*}
 \begin{definition}{Power function}
     The \underline{power function} is defined to be $W(\theta) = \P_{\theta}(\vec{X} \in C)$.
@@ -277,8 +299,117 @@ and the generalised likelihood ratio test (GLRT) rejects $H_0$ when $\Lambda_{\v
     \begin{equation*}
         \left\{x~\left|~\frac{n(\overline{X} - \mu_0^2)}{\sigma_0^2} > \chi_1^2(\alpha)\right.\right\}
     \end{equation*}
-
-    In fact, a more general result says that $2\log(\Lambda_{\vec{X}}(H_0, H_1))$ is approximately a $\chi^2$ distribution for large $n$.
+    \label{expTwoSideNormalTest}
 \end{example}
+\subsection{Wilk's Theorem}
+Let the parameter $\vec{\theta}$ have $k$ dimensions.
+\begin{definition}{Dimension of a hypothesis}
+    The \underline{dimension} of a hypothesis $H_0 : \vec{\theta} \in \Theta_0$ is the number of free parameters in $\Theta_0$.
+\end{definition}
+\begin{examples}{}
+    \item If $\Theta_0 = \subsetselect{\vec{\theta} \in \R^k}{\theta_1 = \theta_2 = \cdots = \theta_0 = 0}$, then the dimension of the hypothesis is $k - p$.
+    \item If $\Theta_0 = \subsetselect{\vec{\theta} \in \R^k}{\theta_i = f_i(\phi),~1\leq i \leq k}$, for some $\phi \in \R^{k-p}$ then the dimension of the hypothesis is again $k - p$.
+\end{examples}
+\begin{theorem}[Wilk's Theorem]
+    Let $\Theta_0 \subseteq \Theta_1$ and $\dim(\Theta_1) - \dim(\Theta_0) = p$.
 
+    Then given independent and identically distributed random variables $X_i$ for $i = 1$ to $n$, then under regularity conditions as $n \to \infty$ then:
+    \begin{equation*}
+        2\log(\Lambda_{\vec{X}}(H_0, H_1)) \sim \chi_p^2
+    \end{equation*}
+    \label{thmWilks}
+\end{theorem}
+\begin{proof}
+    This theorem will be used without proof.
+\end{proof}
+\begin{example}[Revisiting example~\ref{expTwoSideNormalTest}]
+    In the two-sided normal mean test, we had:
+    \begin{equation*}
+        \Theta_0 = \{\mu_0\},\quad \Theta_1 = \R\backslash\{\mu_0\} \\
+    \end{equation*}
+    and we saw that:
+    \begin{equation*}
+        2\log{\Lambda_{\vec{X}}(H_0, H_1)} \sim \chi_1^2
+    \end{equation*}
+    which was an exact statement in this case. In a different parametric family, with large $n$, this would hold approximately.
+\end{example}
+\section{Chi-Squared Testing}
+\subsection{Goodness-of-Fit Tests}
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Type & Count observed & Predicted freq. & Count expected \\
+        \hline
+        SY & $315$ & $9 / 16$ & 312 \\
+        SG & $108$ & $3 / 16$ & 104 \\
+        WY & $102$ & $3 / 16$ & 104 \\
+        WG & $31$ & $1 / 16$ & 35 \\
+        \hline
+    \end{tabular}
+    \caption{Table of Mendel's Data}
+    \label{tabMendelExperiment}
+\end{table}
+\begin{example}
+    In an experiment, Gregor Mendel crossed 556 smooth, yellow male peas with wrinkled, green female peas. Table~\ref{tabMendelExperiment} shows the data. In order to do a hypothesis test, let $X_1, \cdots, X_n$ be independent and identically distributed samples from a distribution on $[1, k] \cap \N$. Let $p_i = \P(X_i = i)$ and let $N_i$ be the number of observations in $\vec{X}$ of type $i$, with $\vec{N}$ having components $N_i$.
+
+    Then $\vec{N} \sim \text{Mult}(n, p_1, \cdots, p_k)$.
+
+    The likelihood is proportional to $p_1^{N_1} p_2^{N_2} \cdots P_k^{N_k}$, and so the log-likelihood is:
+    \begin{equation*}
+        l(\vec{p}) = \sum_{i=1}^{k} N_i \log(p_i) + \text{const}
+    \end{equation*}
+    Consider the null hypotheses to be the probabilities $\tilde{\vec{p}}$ given in the table, and the alternative to be anything else. $\Theta_1 = \subsetselect{\vec{p} \in [0, 1]^k}{\sum_i p_i = 1}$.
+    \begin{equation*}
+        2\log(\Lambda_{\vec{X}}(H_0, H_1)) = 2\left(\sup_{\vec{p} \in \Theta_1} l(p) - \sup_{p \in \Theta_0} l(p)\right)
+    \end{equation*}
+    Note that $\sup_{\vec{p} \in \Theta_1} l(\vec{p}) = \sup_{\vec{p} \in\Theta_1} \sum_{i=1}^{k} N_i \log(p_i)$. Therefore we can use the Lagrangian,
+    \begin{equation*}
+        L(\vec{p}, \lambda) \sum_{i=1}^{k} N_i \log(p_i) - \lambda \left(\sum_{i=1}^{k} p_i - 1\right)
+    \end{equation*}
+    to show that the MLE $\hat{\vec{p}}$ is given by $\hat{p}_i = \frac{N_i}{n}$. Therefore,
+    \begin{equation*}
+        2\log(\Lambda_{\vec{X}}(H_0, H_1)) = 2 \sum_{i=1}^{k} N_i \log\left(\frac{N_i}{n \tilde{p}_i}\right)
+    \end{equation*}
+    and now \thmref{thmWilks} says that $2\log(\Lambda) \sim \chi_p^2$. note that our dimension for $\Theta_1$ is $k - 1$ (because we have $k$ dimensions and 1 linear condition), and the dimension for $\Theta_0$ is $0$. Therefore we reject $H_0$ if $2\log(\Lambda) \geq \chi_{k-1}^2(\alpha)$. It is common to write:
+    \begin{equation*}
+        2\log(\Lambda) = \sum_{i=1}^{n} o_i \log\left(\frac{o_i}{e_i}\right)
+    \end{equation*}
+    where $o_i$ is the observed number of type $i$, $N_i$, and $e_i$ is the expected number of type $i$, $n \tilde{p}_i$.
+    
+    Then we let $\delta_i = o_i - e_i$. Then:
+    \begin{align*}
+        2\log(\Lambda_{\vec{X}}(H_0, H_1)) &= 2\sum_{i=1}^{n} (e_i + \delta_i) \log\left(1 + \frac{\delta_i}{e_i}\right) \\
+        &= 2 \sum_{i=1}^{n} (e_i + \delta_i) \left(\frac{\delta_i}{e_i} - \frac{\delta_i^2}{2e_i^2} + \cdots\right) \\
+        &\approx \sum_{i=1}^{n} \frac{\delta_i^2}{e_i} \\
+        &= \sum_{i=1}^{n} \frac{(o_i - e_i)^2}{e_i}
+    \end{align*}
+    which is Pearson's Chi-Squared Statistic.
+
+    In the pea plant experiment,
+    \begin{equation}
+        \sum_{i=1}^{4} \frac{(o_i - e_i)^2}{e_i} \approx 0.604
+    \end{equation}
+    and $\chi_3^2(0.05) \approx 7.815 > 0.604$. Therefore we do not reject $H_0$. The $p$-value is:
+    \begin{equation*}
+        \P(X_3^2 \geq 0.604) \approx 0.96
+    \end{equation*}
+\end{example}
+\subsection{Composite Null Hypotheses}
+Suppose we wish to test $H_0 : p_i = p_i(\theta)$ for some $\theta$ against $H_1 : \vec{p} \in \subsetselect{\vec{p} \in [0, 1]^k}{\sum_{i=1}^{k} p_i = 1}$.
+\begin{example}
+    Consider $H_0$ to be:
+    \begin{equation*}
+        \vec{p} = \begin{pmatrix}\theta^2 \\ 2\theta(1-\theta) \\ (1-\theta)^2\end{pmatrix}, \theta \in [0, 1]
+    \end{equation*}
+    and then the GLRT is:
+    \begin{align*}
+        2\log(\Lambda_{\vec{X}}(H_0, H_1)) &= 2 \left(\sup_{\sum_i p_i = 1} l(\vec{p}) - \sup_\theta l(\vec{p}(\theta))\right) \\
+        &= 2 \left(l(\hat{p}) - l(\vec{p}(\hat{\theta}))\right) \\
+        &= 2\sum_{i=1}^{3} N_i \log\left(\frac{N_i}{n p_i(\hat{\theta})}\right)
+        &= \sum_{i=1}^{3} o_i \log\left(\frac{o_i}{e_i}\right) \\
+        &\approx \frac{(o_i - e_i)^2}{e_i}
+    \end{align*}
+    and so so one can perform a test with $\chi_p^2$ where $p = \dim(\Theta_1) - \dim(\Theta_0) = 2 - 1 = 1$.
+\end{example}
 \end{document}
