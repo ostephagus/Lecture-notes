@@ -389,8 +389,8 @@ Let $\vec{k_l} = \vec{f}(t_n + h c_l, \vec{y}(t_n + h c_l))$. We want to approxi
 \end{equation*}
 We can simply choose $\vec{k_1}$ to be $f$ evaluated at the previous timestep, but for the others we will need an explicit Euler approximation for the values of $\vec{y}$ between $t_n$ and $t_{n+1}$.
 \begin{align*}
-    \vec{k_1} &= \vec{f}(t_n + \vec{y_n}) \\
-    \vec{k_2} &= \vec{f}(t_n + h c_2, \vec{y_n} + h c_2 \vec{k_1}) \\
+    \vec{k_1} &= \vec{f}(t_n, \vec{y_n}) \\
+    \vec{k_2} &= \vec{f}(t_n + h c_2, \vec{y_n} + h a_{2, 1} \vec{k_1}) \\
     \vec{k_3} &= \vec{f}(t_n + h c_3, \vec{y_n} + h(a_{3,1} \vec{k_1} + a_{3,2} \vec{k_2})) \\
     \vdots~~&~~~~~\vdots \\
     \vec{k_\nu} &= \vec{f}(t_n + h c_\nu, \vec{y_n} + h \sum_{j=1}^{\nu - 1} a_{\nu,j} k_j)
@@ -406,7 +406,7 @@ where we now allow the diagonal elements $a_{l, l}$ to be non-zero. This gives a
         k_1 &= f(t_n, y_n) \\
         k_2 &= f(t_n + h c_2, y_n + h c_2 k_1)
     \end{align*}
-    and we want to find ts truncation error. Consider $y(t_{n+1}) - y_{n+1}$, assuming $y_{n+1}$ was computing using $y_n = y(t_n)$. This gives:
+    and we want to find its truncation error. Consider $y(t_{n+1}) - y_{n+1}$, assuming $y_{n+1}$ was computing using $y_n = y(t_n)$. This gives:
     \begin{align*}
         k_1 &= f(t_n, y_n) = y'(t_n) \\
         k_2 &= f(t_n + h c_2, y_n + h c_2 k_1) \\
@@ -504,7 +504,158 @@ and so we find a similar convergence condition.
 \begin{definition}{A-stable}
     A method is \underline{A-stable} if:
     \begin{equation*}
-        \subsetselect{z \in \C}{\Re(z) < 0} \subseteq \dom
+        \C^- = \subsetselect{z \in \C}{\Re(z) < 0} \subseteq \dom
     \end{equation*}
 \end{definition}
+\subsection{Linear Multistep Methods}
+Consider a linear multistep method:
+\begin{equation*}
+    \sum_{l=0}^{s} \rho_l \vec{y_{n + l}} = h\sum_{l=0}^{s} \sigma_l \vec{f}(t_{n + l}, \vec{y_{n + l}})
+\end{equation*}
+and apply this to the differental equation given by \eqnref{eqnStabilityODE}:
+\begin{equation*}
+    \sum_{l=0}^{s} \rho_l y_{n + l} = h \lambda \sum_{l=0}^{s} \sigma_l y_{n + l}
+\end{equation*}
+which is a linear recurrence relation. To solve this, we consider the characteristic polynomial:
+\begin{equation*}
+    \sum_{l=0}^{s} \rho_l w^l - h\lambda \sum_{l=0}^{s} \sigma_l w^l
+\end{equation*}
+and considering the polynomials $\rho$ and $\sigma$, this is $\rho(w) - h\lambda \sigma(w)$. Therefore the general solution of the recurrence relation is:
+\begin{equation*}
+    y_n = \sum_{l=0}^{s} c_l r_l^n
+\end{equation*}
+where $r_l$ are the roots of the polynomial $\rho - h\lambda \sigma$, and $c_l$ are constants determined by initial conditions. The linear stability domain is therefore:
+\begin{equation*}
+    \dom = \subsetselect{z \in \C}{\text{all roots of $\rho - z \sigma$ are in the unit disk}}
+\end{equation*}
+\begin{remark}
+    We have a family of polynomials defined by $z = h\lambda$, and $w$ was used here as the argument of this polynomial.
+\end{remark}
+\begin{proposition}
+    Suppose that the following hold:
+    \begin{enumerate}
+        \item There exists $z_0$ with $\Re(z_0) < 0$ and $\rho - z_0 \sigma$ roots only within the unit disc. Equivalently, $\dom \cap \C^-$ is nonempty.
+        \item For all $\theta \in [0, 2\pi)$ and $z \in \C$,
+            \begin{equation*}
+                \rho(e^{i\theta}) - z\sigma(e^{i\theta}) = 0 \implies \Re(z) \geq 0
+            \end{equation*}
+    \end{enumerate}
+    Then the method is $A$-stable.
+    \label{propLinearMultStepLSD}
+\end{proposition}
+\begin{remark}
+    We can understand the second condition as requiring that the boundary of the LSD is on the right-half plane. The implication reads as if there is a root of unit modulus for a value of $z$, this $z$ must be in the right-half plane.
+\end{remark}
+\begin{proof}
+    Assume, on the contrary, that there exists a point $z_1 \in \C$ with $\Re(z_1) < 0$ and that $\rho - z_1 \sigma$ has a root of modulus $\geq 1$. Consider the line between $z_0$ and $z_1$. 
+    \begin{equation*}
+        \varphi(t) = \max\subsetselect{|w|}{\rho(w) - ((1 - t)z_0 + tz_1)\sigma(w) = 0}
+    \end{equation*}
+    We claim (without proof) that $\varphi$ is continuous. Then $\varphi(0) < 1$ and $\varphi(1) \geq 1$ by considering $z_0$ and $z_1$. Then there must be a point $s \in (0, 1]$ such that $\phi(s) = 1$. That is,
+    \begin{equation*}
+        \rho - ((1 - s)z_0 + sz_1) \sigma = \rho - z\sigma
+    \end{equation*}
+    has a root of modulus 1, but $\Re(z) < 0$. This contradicts assumption 2 of the theorem.
+\end{proof}
+\begin{theorem}[Second Dahlquist Barrier]
+    Nu multistep method of order $\geq 3$ can be $A$-stable.
+    \label{thmDahlquistBarrier}
+\end{theorem}
+\begin{proof}
+    This theorem will be used without proof
+\end{proof}
+\begin{example}
+    The trapezoidal rule has order $2$ and is $A$-stable. Therefore, it cannot be ``improved''
+\end{example}
+\subsection{Runge-Kutta Methods}
+By Ex2Q6, no explicit Runge-Kutta Method can be $A$-stable.
+\begin{example}
+    Consider the 2-stage implicit Runge-Kutta method:
+    \begin{align*}
+        \vec{k_1} &= \vec{f}(t_n, \vec{y_n} + \frac14 h (\vec{k_1} - \vec{k_2})) \\
+        \vec{k_2} &= \vec{f}(t_n + \frac23 h, \vec{y_n} + \frac1{12} h (3\vec{k_1} + 5 \vec{k_2})) \\
+        \vec{y_{n+1}} &= \vec{y_n} + \frac14 h (k_1 + 3k_2)
+    \end{align*}
+    We can find that this has order $3$. In order to study stability, let $f(t, y) = \lambda y$.
+    \begin{align*}
+        k_1 &= \lambda (y_n + \frac14 h (k_1 - k_2)) \\
+        k_2 &= y_n + \frac{1}{12} h (3k_1 + 5k_2)
+    \end{align*}
+    which is a linear system of equations. Writing this in matrix form for $hk_1$ and $hk_2$:
+    \begin{equation*}
+        \begin{pmatrix}
+            1-\frac{h\lambda}{4} & \frac{h\lambda}{4} \\
+            -\frac{3h\lambda}{12} & 1 - \frac{5h\lambda}{12}
+        \end{pmatrix}
+        \begin{pmatrix}hk_1 \\ hk_2\end{pmatrix}
+        =
+        \begin{pmatrix}h\lambda y_n \\ h\lambda y_n\end{pmatrix}
+    \end{equation*}
+    and this gives the solution:
+    \begin{equation*}
+        \begin{pmatrix}hk_1 \\ hk_2\end{pmatrix} = \frac{h\lambda y_n}{1 - \frac23 h\lambda + \frac16 (h\lambda)^2} \begin{pmatrix}1 - \frac23 h\lambda \\ 1\end{pmatrix}
+    \end{equation*}
+    and so we find:
+    \begin{equation*}
+        y_{n+1} = \frac{1 + \frac13 h\lambda}{1 - \frac23 h\lambda + \frac16 (h\lambda)^2} y_n = r(h\lambda) y_n
+    \end{equation*}
+    where
+    \begin{equation*}
+        r(z) = \frac{1 + \frac13 z}{1 - \frac23 z + \frac16 z^2}
+    \end{equation*}
+    and so $y_n = (r(h\lambda))^n y_0$. Therefore, we have the LSD:
+    \begin{equation*}
+        \dom = \subsetselect{z \in \C}{\abs{r(z)} < 1}
+    \end{equation*}
+    \label{expImplicitRKStability}
+\end{example}
+To continue this example, we need:
+\begin{proposition}
+    Let $f$ be an analytic function on $\C^-$ such that:
+    \begin{equation*}
+        \lim_{\abs{z} \to \infty} \abs{f(z)} = 0
+    \end{equation*}
+    and $\abs{f(it)} \leq 1$ for $t \in \R$.
+
+    Then $\abs{f(z)} < 1$ for all $z \in \C^-$.
+    \label{propMaximumPrinciple}
+\end{proposition}
+\begin{proof}
+    The proof is a simple application of the maximum principle for analytic functions, since we have specified that the modulus of the function is at most $1$ on the boundary of the left-half plane.
+\end{proof}
+\begin{example}[Continuation of example~\ref{expImplicitRKStability}]
+    We now want to show that $r$ satisfies the conditions of \thmref{propMaximumPrinciple}. We know that $r$ is analytic except at its poles, but these poles are outside $\C^-$, so it is analytic on $\C^-$.
+    
+    We see that it satisfies the decay condition because the denominator is $O(z^2)$ and the numerator is $O(z)$. On the imaginary axis,
+    \begin{align*}
+        \abs{r(it)}^2 &\leq 1 \\
+        \iff \abs{1 + \frac13 i t}^2 &\leq \abs{1 - \frac23 i t - \frac16 t^2}^2 \\
+        \iff 1 + \frac19 t^2 &\leq \abs{1 - \frac16 t^2}^2 - \frac49 t^2 \\
+        \iff 0 &\leq \frac{1}{36}t^4
+    \end{align*}
+    which is true for all $t$. Therefore, we apply \thmref{propMaximumPrinciple} to get that the method is $A$-stable.
+\end{example}
+\section{Implementation of ODE Methods}
+\subsection{Solution of Nonlinear Algebraic Equations}
+For general implicit methods, we will have to solve a (possibly nonlinear) algebraic equation to get the next value of the solution. For example, for a general multistep method:
+\begin{equation*}
+    \vec{y_{n + s}} = h\sigma_s \vec{f}(t_{n + s}, \vec{y_{n + s}}) + \underbrace{\text{known terms}}_{\vec{\nu}}
+\end{equation*}
+We can numerically solve this via:
+\begin{itemize}
+    \item Fixed-point iteration. If we let $\vec{F}(\vec{y}) = h\sigma(s) \vec{f}(t_{n + s}, \vec{y}) + \vec{\nu}$, we are looking for a fixed point of $\vec{F}$. We can start with an initial guess and iterate:
+        \begin{equation*}
+            \vec{y_{n+s}}^{[j + 1]} = \vec{F}(\vec{y_{n + s}}^{[j]})
+        \end{equation*}
+        then if $\vec{y_{n + s}}^{[j]}$ converges, we have found a fixed point.
+    \item Newton-Raphson method. Let:
+        \begin{equation*}
+            \vec{\psi}(\vec{y}) = \vec{y} - h\sigma_s \vec{f}(t_{n + s}, \vec{y}) - \vec{\nu}
+        \end{equation*}    
+        and we look for $\vec{\psi}(\vec{y}) = 0$. The general form of such a method is:
+        \begin{equation*}
+            \vec{y}^{[j + 1]} = \vec{y}^{[j + 1]} - \left(J(\vec{y}^{[j]})\right)^{-1} \vec{\psi}(\vec{y}^{[j]})
+        \end{equation*}
+        where $J$ is the Jacobian matrix.
+\end{itemize}
 \end{document}
