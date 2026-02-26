@@ -50,7 +50,7 @@ There are several ways in which the magnetic flux through $C$ could change in ti
 \end{itemize}
 All these will induce an emf around $C$ and cause a current to flow.
 \subsection{Faraday's Law for a Moving Circuit}
-Noe let $C(t)$ be a \underline{time-dependent} closed curve that is the boundary of an open surface $C(t)$. Then we want to understand how the magnetic flux,
+Now let $C(t)$ be a \underline{time-dependent} closed curve that is the boundary of an open surface $C(t)$. Then we want to understand how the magnetic flux,
 \begin{equation*}
     \flux(t) = \int_{S(t)} \vec{B}(\vec{x}, t) \cdot \vec{dS}
 \end{equation*}
@@ -61,7 +61,7 @@ Consider a small time interval $\delta t$ and expand the difference in $\flux$ t
     \flux(t + \delta t) &- \flux(t) = \int_{S(t + \delta t)} \vec{B}(\vec{x}, t + \delta t) \cdot \vec{dS} - \int_S \vec{B}(\vec{x}, t) \cdot \vec{dS} \nonumber \\
     &= \int_{S(t + \delta t)} \left(\vec{B}(\vec{x}, t) + \frac{\partial \vec{B}}{\partial t} \delta t + O(\delta t^2)\right) \cdot \vec{dS}\nonumber\\
     &\qquad- \int_{S(t)} \vec{B}(\vec{x}, t) \cdot \vec{dS} \label{eqnFluxDifference} \\
-    &= \int_{S(t + \delta t) \backslash S(t)} \vec{B}(\vec{x}, t) \cdot \vec{dS} + \int_{S(t)} \frac{\partial \vec{B}}{\partial t} \cdot \vec{dS}~\delta t _ O(\delta t^2) \nonumber
+    &= \int_{S(t + \delta t) \backslash S(t)} \vec{B}(\vec{x}, t) \cdot \vec{dS} + \int_{S(t)} \frac{\partial \vec{B}}{\partial t} \cdot \vec{dS}~\delta t + O(\delta t^2) \nonumber
 \end{align}
 To resolve the first term, let $\delta V$ be the volume swept out by $S(t)$ in the time interval $\delta t$. Its boundary is the closed surface $S(t + \delta t) \backslash S(t) \cup \Sigma$ where $\Sigma$ is the surface swept out by $C(t)$ in the $\delta t$. See figure~\ref{figTimeDepSurface}.
 
@@ -358,4 +358,90 @@ where $E_0$ is the amplitude (constant), and $k$ is the wave number $\frac{\omeg
     \item The oscillations of $\vec{E}$ and $\vec{B}$ are in phase and orthogonal both to each other and the direction of motion. That is, the waves are transverse.
     \item Because Maxwell's Equations are linear, electromagnetic waves of different amplitudes, frequences and directions can be superposed.
 \end{remarks}
+\subsection{Polarisation}
+A more general approach to plane EM waves is to look for solutions of Maxwell's Equations of the form:
+\begin{align*}
+    \vec{E} &= \Re(\vec{E_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)})
+    \vec{B} &= \Re(\vec{B_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)})
+\end{align*}
+where $\vec{E_0}$ and $\vec{B_0}$ are constant vectors in $\C^3$, the vector amplitudes, and $\vec{k} \in \R^3$ is the constant wavevector. $\omega \in \R$ is the angular frequency and the wave number is $|\vec{k}|$.
+
+\begin{remark}
+    If we replace the complex number in the brackets with its complex conjugate, the real part is unchanged. In this way, we can require $\omega > 0$ by correctly choosing the sign of $\vec{k}$.
+\end{remark}
+
+Then these field $\vec{E}$ and $\vec{B}$ must satisfy the wave equation. This reduces to the dispersion relation:
+\begin{equation*}
+    \omega^2 = c^2 k^2
+\end{equation*}
+This individual Maxwell equations reduce to algebraic conditions:
+\begin{align*}
+    \nabla \cdot \vec{E} = 0 &\implies \vec{k} \cdot \vec{E_0} = 0 \\
+    \nabla \cdot \vec{B} = 0 &\implies \vec{k} \cdot \vec{B_0} = 0 \\
+    \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t} &\implies \vec{k} \times \vec{E_0} = \omega \vec{B_0} \\
+    \nabla \times \vec{B} = \mu_0 \epsilon_0 \frac{\partial \vec{E}}{\partial t} &\implies \vec{k} \times \vec{B_0} = -\frac\omega{c^2} \vec{E_0}
+\end{align*}
+The fourth equation is redundant if we consider these equations alongside the dispersion relation. We combine the first and third equations with the dispersion relation to get:
+\begin{align*}
+    \vec{k} \times \vec{B_0} &= \frac{1}{\omega} \vec{k} \times (\vec{k} \times \vec{E_0}) \\
+    &= -\frac{k^2}{\omega} \vec{E_0} \\
+    &= - \frac{\omega^2}{c^2}\vec{E_0}
+\end{align*}
+
+Suppose $\vec{E_0}$ is real. Then $\vec{B_0}$ is also real and the vectors $\vec{k}, \vec{B_0}, \vec{E_0}$ are an orthogonal triad. Then $\vec{E}$ and $\vec{B}$ oscillate in fixed directions, which are perpendicular to each other and to the direction of propagation. This is similar to the one-dimensional wave considered previously and corresponds to a \underline{linearly polarised wave}. Polarisation describes the orientation of the electric field.
+
+Now suppose that $\vec{E_0}$ is complex and of the form $\vec{a} - i \vec{b}$ where $\vec{a}$ and $\vec{b}$ are real. These must lie in the plane orthogonal to $\vec{k}$. We find:
+\begin{equation*}
+    \vec{E} = \vec{a} \cos(\vec{k} \cdot \vec{x} - \omega t) + \vec{b} \sin(\vec{k} \cdot \vec{x} - \omega t)
+\end{equation*}
+Assuming that $\vec{a}$ and $\vec{b}$ are linearly independent, this gives a direction for $\vec{E}$ that is not fixed, but rotates in the plane orthogonal to $\vec{k}$. In general it will trace out an ellipse specified by $\vec{a}$ and $\vec{b}$, and the electric field is said to be \underline{elliptically polarised}.
+
+The special case of \underline{circular polarisation} occurs when $\vec{a}$ and $\vec{b}$ are orthogonal with the same magnitude. Then $|\vec{E}|$ traces out a circle. The polarisation is \underline{right-handed} if $\vec{b} = \uvec{k} \times \vec{a}$. Otherwise it is left-handed.
+\subsection{Reflection from a Conductor}
+Suppose a perfect conductor occupies the half-space $x > 0$. Let an incident wave be approaching the surface $x = 0$ normally with the form:
+\begin{equation*}
+    \vec{E_{inc}} = \Re\left(E_0 e^{i(kx - \omega t)}\right) \vec{e_y}
+\end{equation*}
+where we take $k > 0$, $\omega = ck > 0$ and $E_0 \in \R$. Because we are taking a perfect conductor, we have the boundary condition $\vec{E} = \vec0$ on $x = 0$. Since the tangential components of $\vec{E}$ are continuous at the interface, we require $E_y = 0$ at $x = 0$. The incident wave as seen above does not satisfy this boundary condition. In order to resolve this, we add the reflected wave and use the superposition principle:
+\begin{equation*}
+    \vec{E_{ref}} = \Re\left(-E_0 e^{i(-kx - \omega t)}\right) \vec{e_y}
+\end{equation*}
+which propagates in the $-x$ direction. Superposing the two waves:
+\begin{align*}
+    \vec{E} &= \vec{E_{inc}} + \vec{E_{ref}} \\
+    &= \Re(2iE_0 \sin(kx) e^{-i\omega t}) \vec{e_y} \\
+    &= 2E_0 \sin(kx) \sin(\omega t)
+\end{align*}
+which indeed solves the required boundary condition. We can interpret this as a standing wave with a node at $x = 0$.
+
+%TODO: Work out $\vec{B}$ and show that it is discontinuous at the boundary. We can therefore work out a surface current density $\vec{K}(t)$. Solution is in the notes.
+\section{Electromagnetic Energy}
+In electrostatics, we found that the energy per unit volume in $\vec{E}$ was $\frac12 \epsilon_0 |\vec{E}|^2$. In magnetostatics, the energy per unit volume in $\vec{B}$ was $\frac12 \frac{1}{\mu_0} |\vec{B}|^2$.
+
+We will now derive a general conservation law from Maxwell's Equations. Consider the rate of change of the electric and magnetic energies together, per unit volume:
+\begin{align*}
+    \frac{\partial}{\partial t}&\left(\frac{1}{2} \epsilon_0 |\vec{B}|^2 + \frac{1}{2} \frac{1}{\mu_0} |\vec{B}|^2\right) \\
+    &= \vec{E} \cdot \left(\epsilon_0 \frac{\partial \vec{E}}{\partial t}\right) + \vec{B} \cdot \left(\frac{1}{\mu_0} \frac{\partial \vec{B}}{\partial t}\right) \\
+    &= \vec{E} \cdot \left(\frac{1}{\mu_0} \nabla \times \vec{B} - \vec{J}\right) + \vec{B} \cdot \left(-\frac{1}{\mu_0} \nabla \times \vec{E}\right) \\
+    &= -\frac{1}{\mu_0} \left(\vec{B} \cdot (\nabla \times \vec{E}) - \vec{E} \cdot (\nabla \times \vec{B})\right) - \vec{E} \cdot \vec{J} \\
+    &= - \nabla \cdot \left(\frac{\vec{E} \times \vec{B}}{\mu_0}\right) - \vec{E} \cdot \vec{J}
+\end{align*}
+and this leads us to:
+\begin{equation}
+    \frac{\partial w}{\partial t} + \nabla \cdot \vec{S} = -\vec{E} \cdot \vec{J}
+    \label{eqnConserveEnergy}
+\end{equation}
+where $w = \frac12 \epsilon_0 |\vec{E}|^2 + \frac12 \frac{1}{\mu_0} |\vec{B}|^2$ is the \underline{energy density} (energy per unit volume), $\vec{S} = \frac{\vec{E} \times \vec{B}}{\mu_0}$ is the \underline{energy flux density} (energy flux per unit area). The vector $\vec{S}$ is the \underline{Poynting vector}.
+
+In the absence of currents, \eqnref{eqnConserveEnergy} becomes:
+\begin{equation*}
+    \frac{\partial w}{\partial t} + \nabla \cdot \vec{S} = 0
+\end{equation*}
+which looks like a more standard conservation law. We can integrate this over a fixed volume $V$ as we are used to (and use the divergence theorem):
+\begin{equation*}
+    \frac{\partial}{\partial t} \int_V w dV + \int_S \vec{S} \cdot \vec{dS} = 0
+\end{equation*}
+so the rate of change of energy in $V$ is equal to the flux out through $S$.
+
+In the case of a nonzero RHS in \eqnref{eqnConserveEnergy}, $\vec{E} \cdot \vec{J}$ is the rate at which the electromagnetic field loses energy (per unit volume) via the Lorentz force.
 \end{document}
