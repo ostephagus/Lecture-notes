@@ -136,4 +136,144 @@ Along $\gamma : \theta \mapsto e^{i\theta}$, $dz = ie^{i\theta} d\theta$ and so 
         I = -2i \left(\frac{2\pi i}{2\sqrt{a^2 - 1}}\right) = \frac{2\pi}{\sqrt{a^2 - 1}}
     \end{equation*}
 \end{example}
+\section{Branch Cuts and Keyhole Contours}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        
+    \end{tikzpicture}
+    \caption{Diagram of a Keyhole Contour}
+    \label{figKeyholeContour}
+\end{figure}
+\begin{example}
+    Consider the integral:
+    \begin{equation*}
+        I = \int_{0}^{\infty} \frac{x^\alpha}{1 + \sqrt2 x + x^2} dx
+    \end{equation*}
+    for $\alpha \in (-1, 1)$. The integrand over the complex plane,
+    \begin{equation*}
+        f(z) = \frac{z^\alpha}{1 + \sqrt2z + z^2},
+    \end{equation*}
+    has a branch point at $z = 0$. In order to deal with this, we choose a branch cut. We will pick $\R^+$. Next, we fix the branch by setting $\arg(z) \in (0, 2\pi)$. The final choice is for the contour. We will use a keyhole contour, $\gamma$, as shown in figure~\ref{figKeyholeContour}.
+    \begin{equation*}
+        \lim_{R \to \infty} \oint_{\gamma_R} \frac{z^\alpha}{1 + \sqrt2 z + z^2} dz = \lim_{R \to \infty} 2\pi R O(R^{\alpha - 2}) = 0
+    \end{equation*}
+    \begin{align*}
+        \lim_{\epsilon \to 0} \oint_{\gamma_\epsilon} \frac{z^\alpha}{1 + \sqrt2z + z^2} &= \lim_{\epsilon \to 0} \int_{2\pi}^{0} \frac{\epsilon^\alpha e^{i \alpha \theta}}{1 + \sqrt2 \epsilon e^{i\theta} + \epsilon^2 e^{2i\theta}} i \epsilon e^{i\theta} d\theta \\
+        &= \lim_{\epsilon \to 0} O(\epsilon^{\alpha + 1}) = 0
+    \end{align*}
+    We find that the integral over $\gamma_1$, as $R \to \infty$ and $\epsilon \to 0$, gives $I$. The integral over $\gamma_2$ is slightly different. Parameterise using $z = t$, $t$ running from $\infty$ to $0$. We must notice, however, that we need $\arg(z) = 2\pi$ because we approach the real line from below.
+
+    \begin{align*}
+        \int_{\gamma_2} f(z) dz &= \lim_{\delta \theta \to 2\pi} \int_\infty^0 \frac{t^\alpha e^{i \alpha~\delta \theta}}{1 + \sqrt2 t e^{i~\delta \theta} + t^2 e^{2i~\delta \theta}} \\
+        &= -e^{2i\pi \alpha} I
+    \end{align*}
+    Then bringing this all together,
+    \begin{equation*}
+        \oint_\gamma f(z) dz = (1 - e^{2i\pi \alpha})I
+    \end{equation*}
+    We solve this using the residue theorem. The poles are when:
+    \begin{equation*}
+        1 + \sqrt2z + z^2 = 0
+    \end{equation*}
+    which gives $z = e^{3 i \pi / 4}, e^{5 i \pi / 4}$.
+
+    \textbf{We must check that these are inside the correct branch}. If not, we would need to transform them such that they are.
+
+    Now the rest is just algebra. The residues are:
+    \begin{align*}
+        \res_{z = e^{3 \pi i / 4}} f(z) &= \frac{e^{3 \pi i \alpha / 4}}{\sqrt2 i} \\
+        \res_{z = e^{5 \pi i / 4}} f(z) &= -\frac{e^{5 \pi i \alpha / 4}}{\sqrt2 i}
+    \end{align*}
+    Then,
+    \begin{align*}
+        (1 - e^{2\pi i \alpha}) I &= 2\pi i \left(\frac{e^{3 \pi i \alpha / 4} - e^{5 \pi i \alpha / 4}}{\sqrt2i}\right) \\
+        \implies I &= \sqrt2\pi \frac{\sin(\pi \alpha / 4)}{\sin(\pi \alpha)}
+    \end{align*}
+\end{example}
+\section{Rectangular Contours}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        I = \int_{-\infty}^{\infty} \frac{e^{\alpha x}}{\cosh(x)} dx, |\alpha| < 1
+    \end{equation*}
+    Recall that $\cosh(iz) = \cos(z)$ and so $\cosh$ has infinitely many poles along the imaginary axis.
+
+    Consider a rectangular contour $\gamma$ composed of $\gamma_0$ along $[-R, R]$, $\gamma_R$ which is a line from $R$ to $R + i\pi$, $\gamma_1$ from $R + i \pi$ to $-R + i \pi$ and $\gamma_{-R}$ from $-R + i\pi$ to $-R$.
+
+    We have a single pole in this region, $z = i \frac{\pi}{2}$. Further, note that $\cosh(z + i \pi) = -\cosh(z)$.
+
+    \begin{equation*}
+        \lim_{R\to\infty} \int_{\gamma_0} \frac{e^{\alpha z}}{\cosh z} = I
+    \end{equation*}
+    also,
+    \begin{align*}
+        \lim_{R\to\infty} \int_{\gamma_1} \frac{e^{\alpha z}}{\cosh z} &= \int_{\infty}^{-\infty} \frac{e^{\alpha (i \pi + t)}}{\cosh(i \pi + t)} dt \\
+        &= e^{i \alpha \pi} \int_{-\infty}^{\infty} \frac{e^{\alpha t}}{\cosh(t)} dt \\
+        &= e^{i \alpha \pi} I
+    \end{align*}
+
+    For $\gamma_R$, $t \mapsto R + i t$ where $t \in (0, \pi)$. First note that:
+    \begin{equation*}
+        |\cosh(z)| = |\cosh(R) \cos(t) + i \sinh(r) \sin(t)| = \sqrt{\cos^2t + \sinh^2R} \geq \sinh(R)
+    \end{equation*}
+    \begin{align*}
+        \lim_{R \to \infty} \left|\int_{\gamma_R} \frac{e^{\alpha z}}{\cosh(z)}\right| &= \lim_{R \to \infty} \int_{\gamma_R} \frac{|e^{\alpha R} e^{i \alpha t}}{\sinh(R)} dt \\
+        &= \lim_{R \to \infty} O(e^{(\alpha - 1)R}) = 0
+    \end{align*}
+    Similarly, the integral over $\gamma_{-R}$ is zero as $R \to \infty$.
+
+    Therefore,
+    \begin{equation*}
+        \lim_{R \to \infty} \int_{\gamma} \frac{e^{\alpha z}}{\cosh z} dz = (1 + e^{i \alpha \pi}) I
+    \end{equation*}
+    Then we use \thmref{thmResidue} to compute the integral.
+    \begin{align*}
+        \res_{z = i \pi / 2} \frac{e^{\alpha z}}{\cosh z} &= \lim_{z \to i \pi / 2} \frac{(z - i \pi / 2) e^{\alpha z}}{\cosh(z)} \\
+        &= \lim_{z \to i \pi / 2} \frac{e^{\alpha z} + \alpha (z - i \pi / 2) e^{\alpha z}}{\sinh z} \\
+        &- -i e^{i \pi \alpha / 2}
+    \end{align*}
+    and therefore:
+    \begin{align*}
+        I &= -i \frac{e^{i \alpha \pi / 2}}{1 + e&{i \alpha \pi}}(2 \pi i) \\
+        &= \frac{\pi}{\cos(\alpha \pi / 2)}
+    \end{align*}
+\end{example}
+We can use this in the opposite way, to find the sum over many singularities and show that it is something simple.
+\begin{example}
+    Define:
+    \begin{equation*}
+        I = \oint_{\gamma} f(z) dz
+    \end{equation*}
+    where $f(z) = \frac{1}{z^2 \tan(\pi z)}$.
+
+    We consider a square contour, centred on $0$, with sides of length $2N + 1$.
+
+    $f$ has a pole at $z=0$ of order 3, and simples poles at all other integers. Our contour is chosen such that $\pm N$ are inside the contour, but $\pm (N+1)$ are outside.
+    \begin{align*}
+        \tan(z) &= z + \frac{z^3}{3} + \cdots \\
+        z^2 \tan(\pi z) &= z^2(z + \frac{pi^3 z^3}{3}) \\
+        &= z^3 \pi (1 + \frac{\pi^2}{3} z^2 + \cdots) \\
+        \therefore \frac{1}{z^2 \tan(\pi z)} &= \left[\pi z^3 (1 + \frac{\pi^3 z^2}{3} + \cdots)\right]^{-1} \\
+        &\approx \frac1{\pi z^3} \left(1 - \frac{\pi^3}{3}z^2 + \cdots\right) \text{ by geometric series}.
+    \end{align*}
+    and so the resiude at $z = 0$ is $-\frac{\pi}{3}$. At the other poles,
+    \begin{align*}
+        \res_{z = m\pi} \frac{1}{z^2 \tan(\pi z)} &= \lim_{z \to m} \frac{z - m}{z^2 \tan(\pi z)} \\
+        &= \frac{1}{\pi m^2}
+    \end{align*}
+    therefore,
+    \begin{equation*}
+        \oint_{\gamma_N} \frac{1}{z^2 \tan(\pi z)} = 2\pi i(-\frac{\pi}{3} + 2 \sum_{n=1}^{N} \frac{1}{n^2 \pi})
+    \end{equation*}
+    and so we want to show that the integral is in fact $0$. Define $U = N + \frac12$. Considering the right side:
+    \begin{equation*}
+        \left|\tan(U \pi + i \pi t)\right| = \left|\frac{\sin(U\pi + i \pi t)}{\cos(U \pi + i \pi t)}\right| = \frac{\cosh(\pi t)}{|\sinh(\pi t)|} \geq 1
+    \end{equation*}
+    and thus,
+    \begin{equation*}
+        \left|\int_{-N - \frac12}^{N + \frac12} \frac{i}{z^2\tan(\pi z)} dz\right| \leq \left|\int_{-N-\frac12}^{N + \frac12} \frac{1}{|z(t)|^2}dt\right| = O(N^{-1})
+    \end{equation*}
+    which tends to $0$ as $N \to \infty$.
+\end{example}
 \end{document}
