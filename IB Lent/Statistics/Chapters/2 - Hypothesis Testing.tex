@@ -412,4 +412,119 @@ Suppose we wish to test $H_0 : p_i = p_i(\theta)$ for some $\theta$ against $H_1
     \end{align*}
     and so so one can perform a test with $\chi_p^2$ where $p = \dim(\Theta_1) - \dim(\Theta_0) = 2 - 1 = 1$.
 \end{example}
+\section{Contingency Tables}
+\subsection{Testing for Independence}
+Suppose $(X_1, Y_1), \cdots, (X_n, Y_n)$ are independent and identically distributed with $X$ taking values in $\{1, \cdots, r\}$ and $Y_1$ taking values in $\{1, \cdots, c\}$. We wish to test the null hypothesis that $X_i$ and $Y_i$ are independent. The entries in a \underline{contingency table} are:
+\begin{equation*}
+    N_{ij} = \left|\subsetselect{l}{1 \leq l \leq n, (X_l, Y_l) = (i, j)}\right|
+\end{equation*}
+That is, $N_{ij}$ is the number of samples of type $(i, j)$.
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+         & F & M & Other \\
+        \hline
+        Applied & 10 & 9 & 1 \\
+        TP & 11 & 59 & 0 \\
+        Pure & 10 & 56 & 2 \\
+        Stats & 6 & 23 & 0 \\
+        Part II & 13 & 87 & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Table of admissions data to part III}
+    \label{tabAdmissions}
+\end{table}
+\begin{example}
+    Consider table~\ref{tabAdmissions}. We wish to test the null hypothesis that gender and stream are independent.
+
+    We observe $n$ samples. A sample of type $(i, j)$ has probability $p_{ij}$. Then:
+    \begin{equation*}
+        (N_{11}, N_{12}, \cdots, N_{1c}, N_{21}, \cdots, N_{rc}) \sim \text{Mult}(n, p_{11}, p_{12}, \cdots, p_{rc})
+    \end{equation*}
+    Define:
+    \begin{equation*}
+        p_{i+} = \sum_{j= 1}^{c}p_{ij},\quad p_{+j} = \sum_{i = 1}^{r} p_{ij}
+    \end{equation*}
+    then the hypotheses are:
+    \begin{align*}
+        H_0: & p_{ij} = p_{i+} \times p_{+j}~\forall i, j \\
+        H_1: & \{p_{ij}\} \text{ constrained only by } \sum_{i, j}^{p_{ij}} = 1
+    \end{align*}
+    Then using Lagrangian methods, the MLEs are $\hat{p}_{ij} = \frac{N_{ij}}{n}$ under $H_1$ and $(\hat{p}_{i+}, \hat{p}_{+j}) = \left(\frac{N_{i+}}{n}, \frac{N_{+j}}{n}\right)$.
+
+    Therefore, the GLR statistic is:
+    \begin{equation*}
+        2\log(\Lambda) = 2\sum_{i=1}^{r} \sum_{j=1}^{c} N_{ij} \log\left(\frac{\hat{p}_{ij}}{\hat{p_{i+} \hat{p}_{+j}}}\right)
+    \end{equation*}
+    writing $o_{ij} = N_{ij}$ and $e_{ij} = \hat{p}_{i+} \hat{p}_{+j}$,
+    \begin{align*}
+        2\log(\Lambda) &= 2\sum_{i=1}^{r} \sum_{j=1}^{c} o_{ij} \log\left(\frac{o_{ij}}{e_{ij}}\right) \\
+        &\approx 2\sum_{i=1}^{r} \sum_{j=1}^{c} \frac{(o_{ij} - e_{ij})^2}{e_{ij}}
+    \end{align*}
+    Then by \thmref{thmWilks}, this converges to a $\chi^2$ distribution. The number of degrees of freedom is:
+    \begin{equation*}
+        \dim(\Theta_1) - \dim(\Theta_0) = (rc - 1) - ((r - 1) + (c - 1)) = (r-1)(c-1)
+    \end{equation*}
+
+    Then we find:
+    \begin{equation*}
+        \sum_{i=1}^{3} \sum_{j=1}^{5} \frac{(o_{ij} - e_{ij})^2}{e_{ij}} \approx 22.2
+    \end{equation*}
+    and the $p$-value is:
+    \begin{equation*}
+        \P(\chi_8^2 \geq 22.2) \approx 0.005
+    \end{equation*}
+    which is significant, and so we reject the hypothesis that these are independent.
+\end{example}
+\subsection{Testing for Homogeneity}
+\begin{example}
+    Suppose 150 patients are randomly allocated to three groups of equal size. One group is given a placebo, one a half-dose of a drug, and the last a full dose of the drug.
+
+    We cannot use the methods in the last subsection because here the row totals are fixed. We want to test the null hypothesis of homogeneity, that is, $H_0$ corresponds to the probability of response being unchanged between groups. That is, the drug has no effect.
+
+    Suppose that row $i$ has a fixed number of entries $n_{i+}$. Then for probabilities $p_{ij}$,
+    \begin{equation*}
+        N_{i1}, \cdots, N_{ic} \sim \text{Mult}(n_{i+}, p_{i1}, \cdots, p_{ic})
+    \end{equation*}
+    \begin{align*}
+        H_0:& p_{1j} = p_{2j} = \cdots, = p_{rj}~\forall j \in \{1, \cdots, c\} \\
+        H_1:& \sum_{i=1}^{r} \sum_{j=1}^{c} p_{ij} = 1
+    \end{align*}
+
+    Then we use a GLRT. Under $H_1$, our likelihood is:
+    \begin{equation*}
+        L(p) = \prod_{i=1}^{r} \frac{n_{i+}!}{N_{i1}! \cdots, N_{ic}!} p_{i1}^{N_{i1}} \cdots p_{ic}^{N_{ic}}
+    \end{equation*}
+    and the log-likelihood is:
+    \begin{equation*}
+        l(p) = \text{const} + \sum_{i=1}^{r} \sum_{j=1}^{c} N_{ij} \log(p_{ij})
+    \end{equation*}
+    Using the Lagrangian method with the constraint that the $p_{ij}$ sum to $1$, the MLE is:
+    \begin{equation*}
+        \hat{p}_{ij} = \frac{N_{ij}}{n_{i+}}
+    \end{equation*}
+
+    Under $H_0$, let $p_{ij} = p_i$. Then
+    \begin{equation*}
+        l(p) = \text{const} + \sum_{i=1}^{r} \sum_{j=1}^{c} N_{ij} \log(p_j) = \sum_{j=1}^{c} N_{+j} \log(p_j)
+    \end{equation*}
+    Now using the Lagrangian method with the constraint $\sum_{j=1}^{c} p_j = 1$, the MLE is
+    \begin{equation*}
+        \hat{p}_j = \frac{N_{+j}}{n_{+j}}
+    \end{equation*}
+    and so our GLR statistic is:
+    \begin{align*}
+        2\log(\Lambda) &= 2\sum_{i=1}^{r}\sum_{j=1}^{c} N_{ij} \log\left(\frac{\hat{p}_{ij}}{\hat{p}_j}\right) \\
+        &= 2\sum_{i=1}^{r}\sum_{j=1}^{c} N_{ij} \log\left(\frac{N_{ij}}{n_{i+} N_{+j} / n_{+j}}\right) \\
+        &= 2\sum_{i=1}^{r}\sum_{j=1}^{c} N_{ij} \frac{(o_{ij} - e_{ij})^2}{e_{ij}}
+    \end{align*}
+    where $o_{ij} = N_{ij}$ and $e_{ij} = \frac{n_{i+ N_{+j}}}{n_{+j}}$.
+
+    Our degrees of freedom is:
+    \begin{equation*}
+        \dim(\Theta_1) - \dim(\Theta_0) = r(c-1) - (c-1) = (r-1)(c-1)
+    \end{equation*}
+    and so our asymptotic $\chi_p^2$ distribution is the same as the independence test.
+\end{example}
 \end{document}

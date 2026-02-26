@@ -1,0 +1,30 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Preliminaries}
+\subsection{Multivariate Normal Theory}
+Let $\vec{X} = (X_1, \cdots, X_n)^T$ be a vector of random variables. Recall that the expectation is a vector and the variance/covariance is a matrix.
+\begin{align*}
+    \left[\E[\vec{X}]\right]_i &= \E[X_i] \\
+    \left[\Var(\vec{X})\right]_{ij} &= \Cov(X_i, X_j)
+\end{align*}
+
+For a matrix $A \in \R^{m \times n}$ and $\vec{b} \in \R^m$,
+\begin{equation*}
+    E[A\vec{X} + \vec{b}] = AE[\vec{X}] + \vec{b},\quad \Cov(A\vec{X} + \vec{b}) = A\Cov(X)A^T
+\end{equation*}
+\begin{definition}{Multivariate normal distribution}
+    A random vector $\vec{X}$ has a \underline{multivariate normal distribution} if, for any $\vec{t} \in \R^n$, the random variable $\vec{t} \cdot \vec{X}$ has a normal distribution.
+\end{definition}
+\begin{proposition}
+    If $\vec{X}$ is a multivarite normal vector, then $A\vec{X} + \vec{b}$ is a multivariate normal for any $A \in \R^{m \times n}$ and $\vec{b} \in \R^m$.
+    \label{propTransformMVN}
+\end{proposition}
+\begin{proof}
+    Take any $\vec{t} \in \R^m$. Then:
+    \begin{align*}
+        \vec{t} \cdot \left(A\vec{X} + \vec{b}\right) &= (A^T \vec{t})^T \vec{X} + \vec{t} \cdot \vec{b} \\
+    \end{align*}
+    Then since $\vec{X}$ is a multivariate normal, $(A\vec{t}) \cdot \vec{X}$ has a normal distribuition. Adding a constant ($\vec{t} \cdot \vec{b}$) shifts the distribution but it is still normal.
+\end{proof}
+\end{document}
