@@ -35,7 +35,7 @@ The simplest example we could think of is uniform flow $\vec{u} = \vec{U}$. Then
 
     Usually we only need a small number of modes.
     \begin{itemize}
-        \item The $B$ term when $n = 1$ is $\phi = B / r$. This gives a velocity $\vec{u} = -\frac{B}{r^2} \vec{e_r}$. This is a radial flow with constant volume flux through a sphere:
+        \item The $B$ term when $n = 0$ is $\phi = B / r$. This gives a \underline{3D point source}, with velocity $\vec{u} = -\frac{B}{r^2} \vec{e_r}$. This is a radial flow with constant volume flux through a sphere:
             \begin{equation*}
                 \int_{B_R(\vec0)} \vec{u} \cdot \vec{n} dS = -\frac{B}{R^2} \times 4\pi R^2 = -4\pi B
             \end{equation*}
@@ -43,6 +43,118 @@ The simplest example we could think of is uniform flow $\vec{u} = \vec{U}$. Then
             \begin{equation*}
                 \phi = -\frac{q}{4\pi r}
             \end{equation*}
+        \item The $B$ term when $n = 1$ is:
+            \begin{equation*}
+                \phi = B \frac{\cos(\theta)}{r^2}
+            \end{equation*}
+            this is \underline{dipole flow}, where a source and a sink are very close to each other.
     \end{itemize}
 \end{example}
+\begin{example}[Cylindrical coordinates]
+    Consider cylindrical coordinates with no $z$ dependence (equivalent to 2D polar coordinates).
+
+    The most general solution to Laplace's Equation is:
+    \begin{equation*}
+        \rho = C + A_0 \log(r) + B_0 \theta + \sum_{n=1}^{\infty} (A_n r^n + B_n r^{-n}) (C_n cos(n\theta) + D_n \sin(n\theta))
+    \end{equation*}
+    Since this is only defined up to a constant, we disregard $C$.
+    
+    We can take just a few nodes to give:
+    \item With only the $A_0$ term,
+        \begin{equation*}
+            \phi = \frac{q}{2\pi}\log(r) \implies \vec{u} = \frac{q}{2\pi r} \vec{e_r}
+        \end{equation*}
+        which is a \underline{2D point source}.
+    \item With only the $B_0$ term,
+        \begin{equation*}
+            \phi = \frac{\kappa}{2\pi}\theta \implies \vec{u} = \frac{\kappa}{2\pi r} \vec{e_\theta}
+        \end{equation*}
+        then this is circular motion around the origin. The vorticity is zero except at $0$ (vorticity is a delta function). Therefore this flow is invalid if we include the origin. 
+    \item $\phi = Ur\cos(\theta)$ is a solution. %TODO: How?
+    \item The \underline{2D dipole} is given by:
+        \begin{equation*}
+            \phi = A \frac{\cos(\theta)}{r}
+        \end{equation*}
+\end{example}
+\section{Uniform Flow Past a Sphere or Cylinder}
+\subsection{Flow Past a Sphere}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+    
+    \end{tikzpicture}
+    \caption{Diagram of flow past a sphere}
+    \label{figFlowSphere}
+\end{figure}
+Consider figure~\ref{figSphere}. We want to solve $\nabla^2 \phi = 0$ with the boundary conditions:
+\begin{align*}
+    \vec{u} &\to U \vec{e_z} \text{ far from the sphere} \\
+    \vec{u} \cdot \vec{n} &= \vec{U} \cdot \vec{n} \text{ (KBC)}
+\end{align*}
+in terms of the velocity potential $\phi$,
+\begin{align*}
+    \phi(r, \theta) &\to U r \cos(\theta) \text{ as $r\to\infty$} \\
+    \frac{\partial \phi}{\partial r}(a, \theta) &= 0 
+\end{align*}
+Then we try a solution of the form $\phi = f(r) P_1(\cos(\theta)) = f(r) \cos(\theta)$. We recall the general solution to the Laplace equation and suppose that $f(r)$ is of the form:
+\begin{equation*}
+    f(r) = Ar + B r^{-2}
+\end{equation*}
+We know that this solves the Laplace equation, so it only remains to check the boundary conditions. Flow at infinity gives $U = A$, and the kinematic boundary condition gives:
+\begin{align*}
+    \frac{\partial \phi}{\partial r} &= \left[U - \frac{2B}{r^3}\right]\cos(\theta) \\
+    \left.\frac{\partial \phi}{\partial r}\right|_{r = a} &= \left[U - \frac{2B}{a^3}\right]\cos(\theta) = 0 \\
+    \therefore 2B &= Ua^3 \\
+    \therefore B &= \frac{Ua^3}{2}
+\end{align*}
+And so our solution for $\phi$ is:
+\begin{equation*}
+    \phi = U \cos(\theta) \left[r + \frac{a^3}{2r^2}\right]
+\end{equation*}
+which gives a solution for $\vec{u}$ by taking a gradient:
+\begin{equation*}
+    \vec{u} = U \cos(\theta) \left(1 - \frac{a^3}{r^3}\right)\vec{e_r} - U \sin(\theta) \left(1 + \frac{a^3}{2r^3}\right)\vec{e_\theta}
+\end{equation*}
+\subsection{Uniform Flow Past a Cylinder with Circulation}
+We consider cylindrical polar coordinates and solve $\nabla^2 \phi = 0$. The boundary conditions are:
+\begin{align*}
+    \phi &\xrightarrow[r \to \infty]{} Ur\cos(\theta) \\
+    \frac{\partial \phi}{\partial r}(a, \theta) = 0 \\
+    \oint_{B_r(\vec0)} \vec{u} \cdot \vec{dx} &= \kappa
+\end{align*}
+We cannot remove the circulation flow in this case, because we let the cylinder have infinite length along the $z$ axis.
+
+The solution is:
+\begin{align*}
+    \phi &= \frac{\kappa}{2\pi}\theta + U\cos(\theta) \left[r + \frac{a^2}{r}\right] \\
+    \therefore \vec{u} &= U\cos\left(\theta\right) (1 - \frac{a^2}{r^2}) \vec{e_r} - U\sin(\theta) \left(1 + \frac{a^2}{r^2}\right)\vec{e_\theta} + \frac{\kappa}{2\pi r} \vec{e_\theta}
+\end{align*}
+Importantly, we only have symmetry along the $x$ axis when $\kappa = 0$. See figure~\ref{figFlowCylinderComparison} for an illustration of this. An important consequence is that there will be a difference in pressure on either side of the cylinder, and so the fluid exerts a force on the cylinder.
+\section{Pressure in a Potential Flow}
+The Euler equation for pressure is:
+\begin{equation*}
+    \rho \frac{D \vec{u}}{D t} = - \nabla p + \bdforce
+\end{equation*}
+which is possibly nonlinear in $p$, even when we have found $\vec{u}$.
+
+Now assume: $\bdforce = - \nabla \chi$, so the body forces are conservative, and $\rho$ is constant.
+
+\begin{align*}
+    0 &= \nabla p + \nabla \chi + \rho \left(\frac{\partial \vec{u}}{\partial t} + (\vec{u} \cdot \nabla)\vec{u}\right) \\
+    0 &= \nabla p + \nabla \chi + \rho \frac{\partial (\nabla \phi)}{\partial t} + \rho \nabla \left(\frac12 |\vec{u}|^2\right) - \vec{u} \times \underbrace{\vec{\omega}}_{0} \\
+    0 &= \nabla p + \nabla \chi + \nabla\left(\rho\frac{\partial \phi}{\partial t}\right) + \nabla \left(\rho\frac12 |\vec{u}|^2\right) \\
+    0 &= \nabla\left( p + \chi + \rho\frac{\partial \phi}{\partial t} + \frac12\rho |\vec{u}|^2\right)
+\end{align*}
+and this is equivalent to:
+\begin{equation}
+    \rho \frac{\partial \phi}{\partial t} + \frac12 \rho |\nabla \phi|^2 + p + \chi = f(t)
+    \label{eqnBernoulliUnsteady}
+\end{equation}
+where $f$ is any function of time. Importantly, it does not depend on space.
+This has key differences from \eqnref{eqnBernoulliSteady}:
+\begin{enumerate}
+    \item \eqnref{eqnBernoulliSteady} requires steady flow, but permits vorticity, \eqnref{eqnBernoulliUnsteady} requires irrotational flow, but permits time dependence;
+    \item both require conservative forces
+    \item \eqnref{eqnBernoulliSteady} is just a consequence of the Euler momentum equation~\ref{eqnEulerMomDiv}, because we took a scalar product; \eqnref{eqnBernoulliUnsteady} is equivalent to the Euler equation under the given assumptions.
+\end{enumerate}
 \end{document}
