@@ -654,8 +654,69 @@ We can numerically solve this via:
         \end{equation*}    
         and we look for $\vec{\psi}(\vec{y}) = 0$. The general form of such a method is:
         \begin{equation*}
-            \vec{y}^{[j + 1]} = \vec{y}^{[j + 1]} - \left(J(\vec{y}^{[j]})\right)^{-1} \vec{\psi}(\vec{y}^{[j]})
+            \vec{y}^{[j + 1]} = \vec{y}^{[j]} - \left(J(\vec{y}^{[j]})\right)^{-1} \vec{\psi}(\vec{y}^{[j]})
         \end{equation*}
         where $J$ is the Jacobian matrix.
 \end{itemize}
+\subsection{Error Control}
+So far we have been taking $h$ fixed. In practice, when we solve an ODE we would like to find $h$ (which may be different for each timestep) based on a maximum tolerable error.
+
+We can do this by running two methods in parallel and estimating the error by considering the difference in these two methods. Then the step size can be reduced until this error estimate is within tolerance.
+\begin{example}[Trapezoidal rule]
+    Consider the trapezoidal rule:
+    \begin{equation*}
+        \vec{y_{n+1}} = \vec{y_n} + \frac12 h \left(\vec{f}(t_n, \vec{y_n}) + \vec{f}(t_{n+1}, \vec{y_{n+1}})\right)
+    \end{equation*}
+    and we saw that the error $\vec{e_n} = O(h^3)$. In order to do our error control, we need to know the constant in front of $h^3$. Recall from a previous calculation that:
+    \begin{equation*}
+        \vec{e_n} = \frac{1}{12} h^3 \vec{y}'''(t_n) + O(h^4)
+    \end{equation*}
+
+    Now consider a different method, the 2-step explicit Adams-Bashforth method:
+    \begin{equation*}
+        \vec{y_{n+1}} = \vec{y_n} + \frac12 h \left[3 \vec{f}(t_n, \vec{y_n}) + \vec{f}(t_{n-1} + \vec{y_{n-1}})\right]
+    \end{equation*}
+    which we saw has truncation error:
+    \begin{equation*}
+        \vec{e_n} = \frac{5}{12} h^3 \vec{y}'''(t_n) + O(h^4)
+    \end{equation*}
+
+    Call the $(n+1)$th iterate for the trapezoidal rule $\vec{y_{n+1}}^{Tr}$, and for the Adams-Bashforth method $\vec{y_{n+1}}^{AB}$. The same applies for error terms.
+    
+    Recall that the truncation error is calculated with exact values for $\vec{y}$ at previous timesteps. We now use the approximation:
+    \begin{equation*}
+        \vec{e_n}^{Tr} \approx \vec{y}(t_n) - \vec{y_{n}}^{Tr}
+    \end{equation*}
+    but where $\vec{y_n}^{Tr}$ is not calculated with exact values for previous timesteps. That is,
+    \begin{align*}
+        \vec{y}(t_{n+1}) - \vec{y_{n+1}}^{Tr} &\approx \frac1{12} h^3 \vec{y}'''(t_n) \\
+        \vec{y}(t_{n+1}) - \vec{y_{n+1}}^{AB} &\approx \frac5{12} h^3 \vec{y}'''(t_n)
+    \end{align*}
+    Subtracting these equations gives:
+    \begin{align*}
+        \vec{y_{n+1}}^{AB} - \vec{y_{n+1}}^{Tr} &\approx -\frac12 h^3 \vec{y}'''(t_n) \\
+        \implies h^3 \vec{y}'''(t_n) &\approx -2\left(\vec{y_{n+1}}^{AB} - \vec{y_{n+1}}^{Tr}\right)
+    \end{align*}
+    and now we can use this to get an error estimate for the trapezoidal rule:
+    \begin{equation*}
+        \vec{y}(t_{n+1}) - \vec{y_{n+1}}^{Tr} \approx \frac16 \left(\vec{y_{n+1}}^{AB} - \vec{y_{n+1}}^{Tr}\right)
+    \end{equation*}
+\end{example}
+\begin{example}[Embedded Runge-Kutta Methods]
+    Consider an explicit 2-stage Runge Kutta method:
+    \begin{align*}
+        \vec{k_1} &= \vec{f}(t_n, \vec{y_n}) \\
+        \vec{k_2} &= \vec{f}(t_n + \frac12 h, \vec{y_n} + \frac12 h \vec{k_1}) \\
+        \vec{y_{n+1}}^{[1]} &= \vec{y_n} + h \vec{k_2}
+    \end{align*}
+    and this has order 2. We can add an additional stage to get order 3:
+    \begin{align*}
+        \vec{k_3} &= \vec{f}(t_n + h, \vec{y_n} - h\vec{k_1} + 2h \vec{k_2}) \\
+        \vec{y_{n+1}}^{[2]} &= \vec{y_n} + \frac16 h \left(\vec{k_1} + 4 \vec{k_2} + \vec{k_3}\right)
+    \end{align*}
+    which gives an error estimate:
+    \begin{equation*}
+        \vec{y}(t_{n+1}) - \vec{y_{n+1}}^{[1]} \approx \vec{y_{n+1}}^{[2]} - \vec{y_{n+1}}^[1]
+    \end{equation*}
+\end{example}
 \end{document}

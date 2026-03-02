@@ -1,0 +1,63 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{LU Factorisation}
+\subsection{Motivation}
+\begin{definition}{Unit lower triangular matrix}
+    A matrix $M \in \R^{n \times n}$ is \underline{unit lower triangular} if it is lower triangular and all elements on the leading diagonal are $1$.
+\end{definition}
+\begin{definition}{LU factorisation}
+    Let $A \in \R^{n \times n}$. We say that $A = L U$ is an \underline{LU factorisation} if $L \in \R^{n \times n}$ is unit lower triangular and $U \in \R^{n \times n}$ is upper triangular.
+\end{definition}
+Then to see an immediate use,
+\begin{equation*}
+    \det(A) = \underbrace{\det(L)}_{1} \det(U) = \prod_{i=1}^{n} U_{ii}
+\end{equation*}
+This has complexity $O(n)$, compared to the $O(n!)$ complexity of computing a determinant in general.
+
+Throughout this chapter we will be interested in solving:
+\begin{equation}
+    A \vec{x} = \vec{b}
+    \label{eqnLinearSystemEqs}
+\end{equation}
+where $A \in \R^{n \times n}$ and $\vec{x}, \vec{b} \in \R^n$. With an $LU$ factorisation, we solve instead $LU \vec{x} = \vec{b}$. Solving this is far simpler and we can break it into two very simple problems:
+\begin{equation*}
+    L\vec{y} = \vec{b} \text{ and } U\vec{x} = \vec{y}.
+\end{equation*}
+The first breaks down into a very simple process:
+\begin{align*}
+    y_1 &= b_1 \\
+    y_2 &= b_2 - L_{2,1} y_1 \\
+    &\vdots\\
+    y_n = b_n - \sum_{j=1}^{n-1} L_{n,j} y_j
+\end{align*}
+and this is called forward substitution. At each step, we have an explicit equality in terms of variables that are already calculated. Once we find $\vec{y}$, we next solve $U\vec{x} = \vec{y}$:
+\begin{align*}
+    x_n &= \frac{1}{U_{n, n}} y_n \\
+    x_{n-1} &= \frac{1}{U_{n-1, n-1}} (y_{n-1} - U_{n-1, n} x_n) \\
+    &\vdots\\
+    x_1 = \frac{1}{U_{11}} \left(y_1 = \sum_{j=1}^{n-1} U_{1, j} x_j\right)
+\end{align*}
+and this is called backward substitution. The computational complexity for the forward substitution is:
+\begin{equation*}
+    2\sum_{j=1}^{n} j = n(n+1) = O(n^2)
+\end{equation*}
+and the same for the backward substitution, so the whole process has complexity $O(n^2)$.
+\subsection{Finding a Factorisation}
+For some notation, let the $i$th row of a matrix $M$ be denoted by $\vec{m_i}^T$ and the $j$th column by $\vec{M_j}$. We will be interested in $L$ in terms of its columns $\vec{L_j}$ and $U$ in terms of its rows $\vec{u_i}^T$.
+
+We can then think of the matrix $A$ as a sum of outer products of rows and columns.
+\begin{equation*}
+    LU = \sum_{i=1}^{n} \vec{L_i} \otimes \vec{u_i} = \vec{L_i} \vec{u_i}^T
+\end{equation*}
+Given the structure of $\vec{L_j}$ and $\vec{u_i}$, the matrix formed by this outer product has the block form:
+\begin{equation*}
+    \begin{pmatrix}
+        0 & 0 \\
+        0 & M
+    \end{pmatrix}
+\end{equation*}
+where the first $(i-1)$ rows and columns are zero. We can take advantage of this, because the contribution of the first row and column can only come from $\vec{L_1} \vec{u_1}^T$. Therefore, we pick $\vec{L_1}$ to be the first column of $A$, divided by $A_{11}$ such that it has first element $1$. Pick $\vec{u_1}^T$ to be the first row of $A$. By using this choice, $LU$ will match on the first row and column with $\vec{L_1} \vec{u_1}^T$.
+
+To find the next outer product, $\vec{L_2} \vec{u_2}^T$, subtract $\vec{L_1} \vec{u_1}^T$ from $A$ and apply the same process to row $2$ and column $2$ (this matrix will have row $1$ and column $1$ all zero, as required). Continue until $L$ and $U$ are determined.
+\end{document}
