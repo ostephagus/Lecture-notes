@@ -157,4 +157,61 @@ This has key differences from \eqnref{eqnBernoulliSteady}:
     \item both require conservative forces
     \item \eqnref{eqnBernoulliSteady} is just a consequence of the Euler momentum equation~\ref{eqnEulerMomDiv}, because we took a scalar product; \eqnref{eqnBernoulliUnsteady} is equivalent to the Euler equation under the given assumptions.
 \end{enumerate}
+\section{Forces on a Translating Sphere or Cylinder}
+\subsection{Steady Flow on a Translating Sphere}
+Consider steady flow, and move in the reference frame of the sphere. Consider the steady Bernoulli Equation~\ref{eqnBernoulliSteady} on a streamline infinitesimally close to the surface of the sphere. This gives:
+\begin{equation*}
+    \frac12 \rho \left[-\frac32 U \sin(\theta)\right]^2 + p = \frac12 \rho U^2 + p_{atm}
+\end{equation*}
+by using our previous results for $\vec{u}$.
+
+On the sphere,
+\begin{equation*}
+    p - p_{atm} = \frac12 \rho U^2\left[1 - \frac94 \sin^2(\theta)\right]
+\end{equation*}
+and so the pressure distribution is symmetric up/down and front/back. Therefore, the net force on the sphere is zero!
+
+This is an example of d'Alambert's Paradox which says that there is no drag (no force parallel to the motion of the fluid) on any steadily moving rigid body in an unbounded potential flow. This is the clearest example we have seen yet that ignoring the viscosity term is not a valid assumption in general. In real life, there will be a drag due to viscous effects.
+
+However, the potential flow inviscid approximation is fine for bubbles, rapid acceleration of rigid particles and for small amplitude oscillations.
+\subsection{Steady Flow on a Translating Sphere}
+We will again require a circulation $\kappa$. Consider the frame of the cylinder, and recall that the velocity potential is:
+\begin{equation*}
+    \phi = U\cos(\theta) \left(r + \frac{a^2}{r}\right) + \frac{\kappa}{2\pi}\theta
+\end{equation*}
+On $r = a$, $u_r = 0$ and $u_\theta = 2-U\sin(\theta) + \frac{\kappa}{2\pi}$.
+
+By the Bernoulli Equation,
+\begin{equation*}
+    \frac12\rho \left[-2U\sin(\theta) + \frac{\kappa}{2\pi a}\right]^2 + p = \frac12 \rho U^2 + p_{atm}
+\end{equation*}
+\begin{align*}
+    \vec{F} &= \text{force exerted (per unit length along its axis) on the cylinder} \\
+    &= \int_S p \vec{n} dS \\
+    &= -\int_{0}^{2\pi} \left[\frac12 \rho U^2 + p_{atm} - \frac12 \rho \left(4U^2 \sin^2{\theta} + \frac{\kappa^2}{4\pi^2 a^2} \right.\right. \\
+    &\qquad\left.\left. - 2 U \sin{\theta} \frac{\kappa}{\pi a}\right)\right] \begin{pmatrix}\cos(\theta) \\ \sin(\theta)\end{pmatrix} a d\theta \\
+    &= \begin{pmatrix}0 \\ -\rho U \kappa\end{pmatrix}
+\end{align*}
+\begin{remarks}
+    \item Drag is still zero. D'Alambert's Paradox works in 2D and 3D.
+    \item There is a new force perpendicular to the motion. This is the lift force. This force $F_y$ has the opposite sign to the circulation $\kappa$. We will see that this works for a general 2D shape in Ex3Q1.
+\end{remarks}
+\section{Unsteady Potential Flow}
+\subsection{Free Oscillations in a Tube}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        
+    \end{tikzpicture}
+    \caption{Diagram of flow in a tube}
+    \label{figFlowTube}
+\end{figure}
+Consider flow in a tube as in figure~\ref{figFlowTube}. Let the flow be initially irrotational (and so the flow will remain irrotational). Let the tube have uniform cross section, with radius $a$. Reduce the problem to two long tubes, with uniform flow in each tube. Note that $u = \dot{\zeta}$, so on the right we have $\phi = \dot{\zeta} z$ and on the left $\phi = -\dot{\zeta} z$. Consider \eqnref{eqnBernoulliUnsteady} evaluated at the top of the fluid on each side.
+\begin{align*}
+    \rho \left. \frac{\partial \phi}{\partial t}\right|_{h + \zeta} + \frac12 \rho \dot{\zeta}^2 + p_{atm} + \rho g (h + \zeta) &= \rho \left. \frac{\partial \phi}{\partial t}\right|_{h - \zeta} + \frac12 \rho \dot{\zeta}^2 + p_{atm} + \rho g (h - \zeta) \\
+    \rho \ddot{\zeta} (h + \zeta) + \rho g (h + \zeta) &= -\rho \ddot{\zeta}(h - \zeta) + \rho g (h - \zeta) \\
+    \rho \ddot{\zeta} h + \rho g \zeta &= -\rho \ddot{\zeta} h - \rho g \zeta \\
+    2\rho h \ddot{\zeta} + 2 \rho g \zeta &= 0
+\end{align*}
+and so the equation of motion is $\ddot{\zeta} = \frac{g}{h} \zeta = 0$, which is oscillatory motion with frequency $\sqrt{\frac{g}{h}}$.
 \end{document}
