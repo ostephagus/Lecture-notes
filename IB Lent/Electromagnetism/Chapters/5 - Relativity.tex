@@ -1,0 +1,86 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Review of Relativity}
+\subsection{Lorentz Transformation}
+In the special theory of relativity we use spacetime coordinates:
+\begin{equation*}
+    X = \begin{pmatrix}ct \\ x \\ y \\ z\end{pmatrix} = \begin{pmatrix}ct \\ \vec{x}\end{pmatrix}
+\end{equation*}
+and reference the coordinates of $X$ as $X^\mu$. We use Greek letters for the components of 4-vectors. These run from $0$ to $3$. Roman indices will run from $1$ to $3$ to only reference spatial dimensions.
+
+$X$ is the position 4-vector. Under a Lorentz transformation (LT) from frame $S$ to $S'$, it transforms according to
+\begin{equation}
+    X' = \Lambda X
+    \label{eqnLorentzTransform}
+\end{equation}
+In index notation, we would find $X^{\prime \mu} = \indx{\Lambda}{\mu}{\nu} X^\nu$.
+
+$\Lambda$ is any matrix in the Lorentz group. We are particularly interested in the Lorentz boost, where $S'$ moves relative to $S$ with speed $v < c$ in the $x$ direction.
+\begin{equation*}
+    \Lambda =
+    \begin{pmatrix}
+        \gamma & -\gamma \beta & 0 & 0 \\
+        -\gamma\beta & \gamma & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}
+\end{equation*}
+where $\beta = \frac{v}{c} \in (-1, 1)$, and:
+\begin{equation*}
+    \gamma = \frac{1}{\sqrt{1 - \beta^2}}
+\end{equation*}
+is the \underline{Lorentz factor}.
+\subsection{Four-Vectors}
+Four-vectors will be denoted with captial Roman letters. Any 4-vector $V$ transforms according to \eqnref{eqnLorentzTransform}, $V' = \Lambda V$. We use the convention that any such vector can be written as:
+\begin{equation*}
+    V = \begin{pmatrix}V^0 \\ \vec{v}\end{pmatrix}
+\end{equation*}
+The pseudo-inner product of 4-vectors is:
+\begin{equation*}
+    V \cdot W = \vec{v} \cdot \vec{w} - V^0 W^0 = \eta_{\mu \nu} V^\mu W^\nu
+\end{equation*}
+where $\eta$ is the \underline{Minkowski metric}, and it is an isotropic tensor. It has components:
+\begin{equation*}
+    \eta_{\mu\nu} = \begin{pmatrix}
+        -1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}
+    = \operatorname{diag}(-1, 1, 1, 1)
+\end{equation*}
+in any intertial frame.
+
+Then the inner product is invariant under a Lorentz transformation. We see this:
+\begin{align*}
+    V' \cdot W' &= \eta_{\mu\nu}' V^{\prime \mu} W^{\prime \nu} \\
+    &= \eta_{\mu \nu} \indx{\Lambda}{\mu}{\rho} V^\rho = \indx{\Lambda}{\nu}{\rho} W^\sigma \\
+    &= \eta_{\rho \sigma} V^\rho W^\sigma \\
+    &= V \cdot W
+\end{align*}
+because the LT matrix satisfies:
+\begin{equation*}
+    \eta_{\mu \nu} \indx{\Lambda}{\mu}{\rho} \indx{\Lambda}{\nu}{\sigma} = \eta_{\rho \sigma}
+\end{equation*}
+or, in matrix notation,
+\begin{equation*}
+    \Lambda^T \eta \Lambda = \eta
+\end{equation*}
+which implies $\det(\Lambda) = \pm 1$.
+
+We can define the square of a $4$-vector to be $V \cdot V$:
+\begin{equation*}
+    V \cdot V = -V^0 V^0 + |\vec{v}|^2
+\end{equation*}
+and we say:
+\begin{itemize}
+    \item $V$ is \underline{timelike} if $V \cdot V < 0$,
+    \item $V$ is \underline{spacelike} if $V \cdot V > 0$,
+    \item $V$ is \underline{null} or \underline{lightlike} if $V \cdot V = 0$.
+\end{itemize}
+The invariant spacetime interval between two events (an event is a point and a time):
+\begin{equation*}
+    ds^2 = dX \cdot dX = -c^2 dt^2 + dx^2 + dy^2 + dz^2
+\end{equation*}
+\end{document}

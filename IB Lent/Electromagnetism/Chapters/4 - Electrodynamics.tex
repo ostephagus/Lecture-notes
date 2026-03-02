@@ -14,7 +14,7 @@ Consider a closed curve $C$ that is the boundary of a time-independent open surf
 \end{equation*}
 This is \underline{Faraday's law of Induction}. We also write it:
 \begin{equation*}
-    \emf = \frac{d\flux}{dt}
+    \emf = -\frac{d\flux}{dt}
 \end{equation*}
 Here
 \begin{equation*}
@@ -444,4 +444,53 @@ which looks like a more standard conservation law. We can integrate this over a 
 so the rate of change of energy in $V$ is equal to the flux out through $S$.
 
 In the case of a nonzero RHS in \eqnref{eqnConserveEnergy}, $\vec{E} \cdot \vec{J}$ is the rate at which the electromagnetic field loses energy (per unit volume) via the Lorentz force.
+
+Considering $N$ charged particles, with charges $q_i$ and positions $\vec{x_i}$,
+\begin{align*}
+    \rho &= \sum_{i=1}^{N} q_i \delta(\vec{x} - \vec{x_i}) \\
+    \vec{J} &= \sum_{i=1}^{N} q_i \dvec{x_i} \delta(\vec{x} - \vec{x_i})
+    \vec{F_i} &= q_i \left(\vec{E}(\vec{x_i}, t) + \dvec{x_i} \times \vec{B}(\vec{x_i}, t)\right)
+\end{align*}
+and so the rate of working is:
+\begin{align*}
+    \sum_{i=1}^{N} \vec{F_i} \cdot \dvec{x_i} &= \sum_{i=1}^{N} \vec{E}(\vec{x_i}, t) \cdot (q_i \vec{x_i}) \\
+    &= \int_{\R^3} \vec{E} \cdot \vec{J}dV
+\end{align*}
+In a conductor, Ohm's Law is $\vec{J} = \sigma \vec{E}$. Therefore the rate of Joule heating is:
+\begin{equation*}
+    \int_{V} \vec{E} \cdot \vec{J} dV = \int_V \frac{|\vec{J}|^2}{\sigma} dV
+\end{equation*}
+which is positive definite and is the rate of Joule heating.
+\subsection{Energy in Electrogmagnetic Waves}
+Consdier:
+\begin{align*}
+    \vec{E} &= \Re\left(\vec{E_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)}\right) \\
+    \vec{B} &= \Re\left(\vec{B_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)}\right)
+\end{align*}
+and use the identity $\Re(A) \Re(B)  = \Re\left(\frac{AB + A\overline{B}}{2}\right)$:
+\begin{align*}
+    w \frac12 &\epsilon_0 |\vec{E}|^2 + \frac{1}{2\mu_0} |\vec{B}|^2 \\
+    &= \frac14 \epsilon_0 \Re\left((\vec{E_0} \cdot \vec{E_0}) e^{2 i (\vec{k} \cdot \vec{x} - \omega t)} + |\vec{E_0}|^2\right) \\
+    &\quad+ \frac{1}{4\mu_0} \Re\left((\vec{B_0} \cdot \vec{B_0}) e^{2 i (\vec{k} \cdot \vec{x} - \omega t)} + |\vec{B_0}|^2\right) \\
+\end{align*}
+The oscillatory terms average to zero, leaving the average energy density:
+\begin{equation*}
+    \average{w} = \frac14 \epsilon_0 |\vec{E_0}|^2 + \frac1{4\mu_0} |\vec{B_0}|^2
+\end{equation*}
+THen since $\vec{B_0} = \frac1c \uvec{k} \times \vec{E_0}$ and $\uvec{k} \cdot \vec{E_0} = 0$, the two terms are equal and we can write:
+\begin{equation*}
+    \average{w} = \frac12 \epsilon_0 |\vec{E_0}|^2
+\end{equation*}
+Similarly, the Poynting vector is:
+\begin{align*}
+    \vec{S} &= \frac{\vec{E} \times \vec{B}}{\mu_0} \\
+    &= \frac1{2\mu_0} \Re\left((\vec{E_0} \times \vec{B_0}) e^{2i (\vec{k} \cdot \vec{x} - \omega t)} + \vec{E_0} \times \overline{\vec{B_0}}\right)
+\end{align*}
+and we similarly take the average flux density:
+\begin{align*}
+    \average{\vec{S}} &= \frac{|\vec{E_0}|^2}{2\mu_0 c} \uvec{k} \\
+    &= \frac12 \epsilon_0 |\vec{E_0}|^2 c \uvec{k} \\
+    &= \average{w} c \uvec{k}
+\end{align*}
+Which implies that the electromagnetic wave transports energy at speed $c$ in the direction $\uvec{k}$.
 \end{document}
