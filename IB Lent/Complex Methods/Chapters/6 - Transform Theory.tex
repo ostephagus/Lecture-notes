@@ -1,0 +1,44 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Defining the Fourier Transform}
+\begin{definition}{Absolute convergence}
+    A function $f : \R\mapsto\C$ is \underline{absolutely convergent} if:
+    \begin{equation*}
+        \int_{-\infty}^{\infty} \abs{f(x)} dx \text{ is finite.}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Fourier transform}
+    Let $f : \R \mapsto \C$ be absolutely convergent, have a bounded variation, and a finite number of discontinuities. Then its \underline{Fourier transform} (and its inverse) are defined as:
+    \begin{equation*}
+        \ft{f}(k) = \FT[f(x)](k) = \int_{-\infty}^{\infty} f(x) e^{-ikx} dx
+    \end{equation*}
+    and:
+    \begin{equation*}
+        f(x) = \FT^{-1}[\ft{f}(k)](x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} \ft{f}(k)e^{ikx} dk 
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item When possible, $\ft{f}(k)$ will be the Fourier transform of $f(x)$.
+    \item There are many conventions for signs of $k$ and factors of $2\pi$.
+    \item In physics, the argument to the Fourier transform has important meaning. If $x$ is a spatial variable, $k$ is a wave number. If $t$ is a temporal variable, $k$ is instead written $\omega$ and is the angular frequency.
+    \item Some non-square integrable functions can be handled via distributions:
+        \begin{equation*}
+            f(x) = 1 \implies \ft{f}(k) = \int_{-\infty}^{\infty} e^{ikx} dx = 2\pi \delta(k)
+        \end{equation*}
+    \item At discontinuities, the Fourier transform returns the average,
+        \begin{equation*}
+            \frac{f(x^+) + f(x^-)}{2}
+        \end{equation*}
+\end{remarks}
+\begin{definition}{Cauchy Principal Value}
+    The \underline{Cauchy principal value} of an integral
+    \begin{equation*}
+        \int_{-\infty}^{\infty} g(x) dx
+    \end{equation*}
+    is:
+    \begin{equation*}
+        \dashint_{-\infty}^\infty g(x) dx = \lim_{R \to \infty} \int_{-R}^R g(x) dx
+    \end{equation*}
+\end{definition}
+\end{document}

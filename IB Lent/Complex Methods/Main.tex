@@ -17,6 +17,19 @@
 \newcommand{\Cstar}{\C^*}
 \newcommand{\moeb}{M\"obius~}
 \newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ft}[1]{\tilde{#1}}
+\newcommand{\FT}{\mathcal{F}}
+
+\def\Xint#1{\mathchoice
+   {\XXint\displaystyle\textstyle{#1}}%
+   {\XXint\textstyle\scriptstyle{#1}}%
+   {\XXint\scriptstyle\scriptscriptstyle{#1}}%
+   {\XXint\scriptscriptstyle\scriptscriptstyle{#1}}%
+   \!\int}
+\def\XXint#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\int}$}
+     \vcenter{\hbox{$#2#3$}}\kern-.5\wd0}}
+\def\ddashint{\Xint=}
+\def\dashint{\Xint-}
 
 \DeclareMathOperator*{\res}{Res}
 
@@ -36,5 +49,7 @@
 \subfile{Chapters/4 - Laurent Series.tex}
 \chapter{Calculus of Residues}
 \subfile{Chapters/5 - Calculus of Residues.tex}
+\chapter{Transform Theory}
+\subfile{Chapters/6 - Transform Theory.tex}
 
 \end{document}

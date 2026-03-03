@@ -235,7 +235,7 @@ Along $\gamma : \theta \mapsto e^{i\theta}$, $dz = ie^{i\theta} d\theta$ and so 
     \end{align*}
     and therefore:
     \begin{align*}
-        I &= -i \frac{e^{i \alpha \pi / 2}}{1 + e&{i \alpha \pi}}(2 \pi i) \\
+        I &= -i \frac{e^{i \alpha \pi / 2}}{1 + e^{i \alpha \pi}}(2 \pi i) \\
         &= \frac{\pi}{\cos(\alpha \pi / 2)}
     \end{align*}
 \end{example}
@@ -275,5 +275,124 @@ We can use this in the opposite way, to find the sum over many singularities and
         \left|\int_{-N - \frac12}^{N + \frac12} \frac{i}{z^2\tan(\pi z)} dz\right| \leq \left|\int_{-N-\frac12}^{N + \frac12} \frac{1}{|z(t)|^2}dt\right| = O(N^{-1})
     \end{equation*}
     which tends to $0$ as $N \to \infty$.
+\end{example}
+\section{Jordan's Lemma}
+\begin{lemma}
+    For $x \in \left[0, \frac\pi2\right]$,
+    \begin{equation*}
+        \sin(x) \geq \frac{2}{\pi} x
+    \end{equation*}
+    \label{lemSinIneq}
+\end{lemma}
+\begin{proof}
+    Define:
+    \begin{equation*}
+        h(x) = \frac{\sin(x)}{x}
+    \end{equation*}
+    and so its derivative is:
+    \begin{equation*}
+        h'(x) = \frac{x\cos(x) - \sin(x)}{x^2}
+    \end{equation*}
+    and:
+    \begin{align*}
+        \lim_{x \to 0} h(x) &= 1 \text{ by L'H\^opital's rule}\\
+        h\left(\frac{\pi}2\right) &= \frac{2}{\pi}
+    \end{align*}
+
+    Define also:
+    \begin{align*}
+        g(x) &= x\cos(x) - \sin(x) & h'(x) &= \frac{g(x)}{x^2} \\
+        g(0) &= 0 & g'(x) &= -x\sin(x), x \in \left[0, \frac\pi2\right]
+    \end{align*}
+    and so $g$ starts at $0$ and decreases, which means $g(x) < 0$ on the range. This also means that $h'(x)$ is negative, and so $h$ is decreasing.
+    \begin{align*}
+        h(x) &\geq h\left(\frac\pi2\right) \\
+        \frac{\sin(x)}{x} \geq \frac{2}{\pi}
+    \end{align*}
+    as required.
+\end{proof}
+We are now ready to prove the important theorem for this section.
+\begin{theorem}[Jordan's Lemma]
+    Let $f(z)$ be a function that is analytic in $\C$ except for a finite number of singular points with $f(z) \to 0$ as $\abs{z} \to \infty$.
+
+    Let $\gamma_R$ denote an anticlockwise contour along the half-circle of radius $R$ in the upper-half plane, and $\overline{\gamma_R}$ denote a clockwise contour along the half-circle of radius $R$ in the lower-half plane. Then for $\lambda > 0$,:
+    \begin{equation}
+        \lim_{R \to \infty} \int_{\gamma_R} f(z) e^{i \lambda z} dz = 0
+        \label{eqnJordanLemma}
+    \end{equation}
+    and for $\mu < 0$,
+    \begin{equation}
+        \lim_{R \to \infty} \int_{\overline{\gamma_R}} f(z) e^{i \mu z} dz = 0
+        \label{eqnJordanLemma2}
+    \end{equation}
+    \label{thmJordanLemma}
+\end{theorem}
+\begin{proof}
+    Consider:
+    \begin{equation*}
+        \gamma_R : \theta \mapsto Re^{i\theta}
+    \end{equation*}
+    and so:
+    \begin{align*}
+        \left|\int_{\gamma_R} f(z) e^{i \lambda z} dz \right| &= \left| \int_{0}^{\pi} f(Re^{i\theta}) \exp\left[i \lambda Re^{i\theta}\right] i R e^{i\theta}~d\theta \right| \\
+        &\leq R \int_0^\pi \left|f(Re^{i\theta})\right|~\left|\exp\left[i\lambda Re^{i\theta}\right]\right| d\theta \\
+        &= R\int_0^\pi \left|f(Re^{i\theta})\right| e^{-\lambda R \sin{\theta}} d\theta \\
+        &\leq R \sup_{z \in \gamma_R} \abs{f(z)} \int_0^\pi e^{-\lambda R \sin(\theta)} d\theta \\
+        &= R \sup_{z \in \gamma_R} \abs{f(z)}~2\int_0^{\frac\pi2} e^{-\lambda R \sin(\theta)} d\theta \\
+        &\leq R \sup_{z \in \gamma_R} \abs{f(z)}~2\int_0^{\frac\pi2} e^{-\frac{2R\lambda\theta}{\pi}} d\theta \\
+        &= \sup_{z \in \gamma_R} \abs{f(z)} \frac{\pi}{\lambda} (1 - e^{-\lambda R})
+    \end{align*}
+    which, as $R \to \infty$, tends to $0$.
+
+    The proof for $\overline{\gamma_R}$ is simple and is left as an exercise.
+\end{proof}
+\begin{example}
+    Let $\alpha > 0$ be a constant. Consider:
+    \begin{equation*}
+        I = \int_{0}^{\infty} \frac{\cos(\alpha x)}{1 + x^2} dx.
+    \end{equation*}
+    First, compute
+    \begin{equation*}
+        \tilde{I} = \Re\left(\int_\gamma \frac{e^{i\alpha z}}{1 + z^2}\right)
+    \end{equation*}
+    where $\gamma$ is the closed, anticlockwise semicircle in the upper half plane consisting of $\gamma_0 = \R$, $\gamma_R$ as defined in \thmref{thmJordanLemma}.
+
+    Then by \thmref{thmJordanLemma},
+    \begin{equation*}
+        \int_{\gamma_R} \frac{e^{i \alpha z}}{1 + z^2} dz = 0
+    \end{equation*}
+    as $R \to \infty$.
+
+    Next we identify one pole inside $\gamma$, $z = i$.
+    \begin{equation*}
+        \res_{z = i} \frac{e^{i \alpha z}}{1 + z^2} = \lim_{z \to i} \frac{(z - i) e^{i \alpha z}}{(z - i)(z + i)} = \frac{e^{-\alpha}}{2i}
+    \end{equation*}
+    and so now we have (because the integrand is even):
+    \begin{equation*}
+        \tilde{I} = 2I, \quad I = \frac12 2\pi i \left(\frac{e^{-\alpha}}{2i}\right) = \frac{\pi}{2} e^{-\alpha}
+    \end{equation*}
+\end{example}
+\begin{example}
+    Consdier the integral:
+    \begin{equation*}
+        I = \int_{-\infty}^{\infty} \frac{\sin(x)}{x} dx
+    \end{equation*}
+    Then our first thought is to consider $f(z) = e^{iz} / z$. However, this has a singularity at $z = 0$. We will therefore consider a countour that ``hops'' over the pole here.
+    
+    Let $\gamma = \gamma_- + \gamma_\epsilon + \gamma_+ + \gamma_R$, where $\gamma_+ = (\epsilon, R), \gamma_- = (-R, -\epsilon)$ and $\gamma_R$ is the usual semicircle. Let $\gamma_\epsilon$ be a semicircle in the UHP of radius $\epsilon$ traversed in the clockwise direction.
+
+    By \thmref{thmCauchy}, and since there are no singularities inside $\gamma$, the integral over it is zero. Now note that:
+    \begin{align*}
+        \int_{-\infty}^{\infty} \frac{\sin(x)}{x} dx &= \lim_{\substack{\epsilon \to 0\\R \to \infty}} \left(\int_{-R}^{\epsilon} \frac{\sin(x)}{x} dx + \int_{\epsilon}^{R} \frac{\sin(x)}{x} dx \right) \\
+        &= \lim_{\substack{\epsilon \to 0\\R \to \infty}} \Im \left[\int_{-R}^{-\epsilon} \frac{e^{ix}}{x} dx + \int_{\epsilon}^{R} \frac{e^{ix}}{x} dx \right]
+    \end{align*}
+    then since the integral over $\gamma$ is zero,
+    \begin{equation*}
+        \lim_{\epsilon \to 0} \int_{\gamma_\epsilon} \frac{e^{iz}}{z} dz = \lim_{\epsilon \to 0} \int_{\pi}^{0} \frac{1 + O(\epsilon)}{\epsilon e^{i\theta}} i \epsilon e^{i\theta} d\theta = -i\pi
+    \end{equation*}
+    and we conclude:
+    \begin{equation*}
+        I = \lim_{\substack{\epsilon \to 0\\R \to \infty}} \Im(I_{\epsilon, R}) = -\Im(-i\pi) = \pi
+    \end{equation*}
 \end{example}
 \end{document}
