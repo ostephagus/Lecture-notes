@@ -43,7 +43,7 @@ and this is called backward substitution. The computational complexity for the f
     2\sum_{j=1}^{n} j = n(n+1) = O(n^2)
 \end{equation*}
 and the same for the backward substitution, so the whole process has complexity $O(n^2)$.
-\subsection{Finding a Factorisation}
+\subsection{The Algorithm}
 For some notation, let the $i$th row of a matrix $M$ be denoted by $\vec{m_i}^T$ and the $j$th column by $\vec{M_j}$. We will be interested in $L$ in terms of its columns $\vec{L_j}$ and $U$ in terms of its rows $\vec{u_i}^T$.
 
 We can then think of the matrix $A$ as a sum of outer products of rows and columns.
@@ -59,5 +59,70 @@ Given the structure of $\vec{L_j}$ and $\vec{u_i}$, the matrix formed by this ou
 \end{equation*}
 where the first $(i-1)$ rows and columns are zero. We can take advantage of this, because the contribution of the first row and column can only come from $\vec{L_1} \vec{u_1}^T$. Therefore, we pick $\vec{L_1}$ to be the first column of $A$, divided by $A_{11}$ such that it has first element $1$. Pick $\vec{u_1}^T$ to be the first row of $A$. By using this choice, $LU$ will match on the first row and column with $\vec{L_1} \vec{u_1}^T$.
 
-To find the next outer product, $\vec{L_2} \vec{u_2}^T$, subtract $\vec{L_1} \vec{u_1}^T$ from $A$ and apply the same process to row $2$ and column $2$ (this matrix will have row $1$ and column $1$ all zero, as required). Continue until $L$ and $U$ are determined.
+To find the next outer product, $\vec{L_2} \vec{u_2}^T$, subtract $\vec{L_1} \vec{u_1}^T$ from $A$ and apply the same process to row $2$ and column $2$ (this matrix will have row $1$ and column $1$ all zero, as required). Continue until $L$ and $U$ are determined. Then, our algorithm looks like:
+\begin{enumerate}
+    \item Input $A \in \R^{n \times n}$.
+    \item Let $A_0 = A$.
+    \item For $k = 1$ to $n$,
+    \begin{enumerate}
+        \item Take the $k$th column of $A_{k-1}$, and divide it by its first element. Let this be $\vec{L_k}$.
+        \item Take the $k$th row of $A_{k-1}$, and let this be $\vec{u_k}^T$
+        \item Set $A_k = A_{k-1} - \vec{L_k} \vec{u_k}^T$.
+    \end{enumerate}
+\end{enumerate}
+\subsection{Computational Complexity}
+The computational complexity comes from step 3c. The cost of finding $\vec{L_k} \vec{u_k}^T$ is $(n-k)^2$, and so the overall computational complexity from this is:
+\begin{equation*}
+    \sum_{k=1}^{n} (n-k)^2 = \sum_{i=0}^{n-1}i^2 = O(n^3)
+\end{equation*}
+This $O(n^3)$ shows up a lot in Numerical Linear Algebra. At its core, this is due to the problem of multiplying matrices. In order to compute $C = AB$, where $A, B \in \R^{n \times n}$, we compute:
+\begin{equation*}
+    c_{ij} = \sum_{k=1}^{n} A_{ik} B_{kj}
+\end{equation*}
+which is $O(n^3)$ for the whole matrix. We can find an obvious lower bound for the matrix multiplication, which must be $O(n^2)$. Indeed, there exists an algorithm with complexity $O(n^{\log_2(7)})$ which is Strassen's Algorithm. There exist algorithms with lower complexity, but the constant in front of the leading term is so large that these algorithms are not practical.
+\subsection{Relation to Gaussian Elimination}
+In Gaussian Elimination, we solve $A\vec{x} = \vec{b}$ by applying elementary row operations to $A$ and $\vec{b}$. We can understand the EROs as matrices $L_i$, which are unit lower triangular. Therefore we find:
+\begin{equation*}
+    L_{n-1} \cdots L_2 L_1 A = U
+\end{equation*}
+where $U$ is upper-triangular. Therefore we can find $L$ such that $A = LU$ by inverting the product $L_{n-1} \cdots L_2 L_1$. Since unit lower triangular matrices form a group under matrix multiplication, this inverse product will also be unit lower triangular.
+\subsection{Dealing With Zero Entries}
+So far, the algorithm we have written down cannot deal with if there is a zero diagonal entry. To resolve this, we use \underline{pivoting}. If we encounter a zero diagonal entry when performing the algorithm, we will permute the row with a row that has a nonzero element in the required column. In terms of the algorithm, this is:
+\begin{enumerate}
+    \item Input $A \in \R^{n \times n}$.
+    \item Let $A_0 = A$.
+    \item For $k = 1$ to $n$,
+    \begin{enumerate}
+        \item Find $p \in \{k, \cdots, n\}$ such that $(A_{k-1})_{p, k} \neq 0$.
+        \item Let $P_k$ be the matrix corresponding to a transposition of the $k$th row with the $p$th.
+        \item Now take the $k$th column of $P_k A_{k-1}$, and divide it by its first element (which we know is now nonzero). Let this be $\vec{L_k}$.
+        \item Take the $k$th row of $P_kA_{k-1}$, and let this be $\vec{u_k}^T$
+        \item Set $A_k = P_kA_{k-1} - \vec{L_k} \vec{u_k}^T$.
+    \end{enumerate}
+\end{enumerate}
+\begin{remark}
+    \item There still exists an edge case, when we discover a column that is all zero. In this case, we could take $(l_k)_j = \delta_{j, k}$ and $\vec{u_k}^T$ as normal.
+    \item In the case that a diagonal entry is very small, but nonzero, we might decide to apply pivoting to avoid very large numbers.
+\end{remark}
+We \textit{unroll} the algorithm to understand what is happening:
+\begin{align*}
+    A_0 &= A \\
+    A_1 &= P_1 A_0 - \vec{L_1} \vec{u_1}^T \\
+    A_1 &= P_2 A_1 - \vec{L_2} \vec{u_2}^T = P_2 P_1 A - P_2 \vec{L_1} \vec{u_1}^T - \vec{L_2} \vec{u_2}^T \\
+    &\vdots\\
+    A_n &= \underbrace{P_n \cdots P_2 P_1}_{P} - \sum_{i=1}^{n} \tilde{\vec{L}}_i \vec{u_i}^T
+\end{align*}
+where $\tilde{\vec{L}}_i = \left(\prod_{j=i+1}^{n} P_j\right)\vec{L_i}$. Note that $A_n = 0$ by construction, and so:
+\begin{equation*}
+    PA = \sum_{i=1}^{n} \tilde{\vec{l}}_i \vec{u_i}^T = \tilde{L} U
+\end{equation*}
+\begin{remark}
+    Not all matrices have an LU factorisation, but all matrices have a pivoted LU factorisation.
+\end{remark}
+\subsection{Special Cases of Matrices}
+Consider first symmetric matrices, $A \in \R^{n \times n}$ where $A = A^T$. We have seen this in the Newton-Raphson method, where we need to solve a linear system of equations involving the Jacobian. In this case, we use a specific type of LU factorisation.
+\begin{definition}{$LDL^T$ factorisation}
+    A symmetric matrix $A$ has an \underline{$LDL^T$ factorisation} if there exists $L \in \R^{n \times n}$ that is unit lower triangular, and $D \in \R^{n \times n}$ which is diagonal, such that $A = LDL^T$.
+\end{definition}
+Clearly this is symmetric, so this factorisation can only exist for symmetric matrices. It is a special case of $LU$ factorisation where $U = DL^T$.
 \end{document}
