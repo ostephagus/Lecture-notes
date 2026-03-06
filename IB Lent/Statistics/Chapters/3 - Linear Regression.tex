@@ -1,191 +1,25 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-\section{Preliminaries}
-\subsection{Multivariate Normal Theory}
-Let $\vec{X} = (X_1, \cdots, X_n)^T$ be a vector of random variables. Recall that the expectation is a vector and the variance/covariance is a matrix.
-\begin{align*}
-    \left[\E[\vec{X}]\right]_i &= \E[X_i] \\
-    \left[\Var(\vec{X})\right]_{ij} &= \Cov(X_i, X_j)
-\end{align*}
+Suppose we have data $(\vec{X_1}, Y_1), \cdots, (\vec{X_n}, Y_n)$, with $Y_1 \in \R$ and $X_p \in \R^p$.
 
-For a matrix $A \in \R^{m \times n}$ and $\vec{b} \in \R^m$,
+In a \underline{linear model}, we assume:
 \begin{equation*}
-    E[A\vec{X} + \vec{b}] = AE[\vec{X}] + \vec{b},\quad \Cov(A\vec{X} + \vec{b}) = A\Cov(X)A^T
+    Y_i = \alpha + \beta_1 X_{i,1} + \cdots + \beta_p X_{i,p} + \epsilon_{i}
 \end{equation*}
-\begin{definition}{Multivariate normal distribution}
-    A random vector $\vec{X}$ has a \underline{multivariate normal distribution} if, for any $\vec{t} \in \R^n$, the random variable $\vec{t} \cdot \vec{X}$ has a normal distribution.
-\end{definition}
-\begin{proposition}
-    If $\vec{X}$ is a multivarite normal vector, then $A\vec{X} + \vec{b}$ is a multivariate normal for any $A \in \R^{m \times n}$ and $\vec{b} \in \R^m$.
-    \label{propTransformMVN}
-\end{proposition}
-\begin{proof}
-    Take any $\vec{t} \in \R^m$. Then:
-    \begin{align*}
-        \vec{t} \cdot \left(A\vec{X} + \vec{b}\right) &= (A^T \vec{t})^T \vec{X} + \vec{t} \cdot \vec{b} \\
-    \end{align*}
-    Then since $\vec{X}$ is a multivariate normal, $(A\vec{t}) \cdot \vec{X}$ has a normal distribuition. Adding a constant ($\vec{t} \cdot \vec{b}$) shifts the distribution but it is still normal.
-\end{proof}
-\begin{proposition}
-    A multivariate normal distribution is fully specified by its mean $\vec{\mu}$ and covariance matrix.
-    \label{propMVNParameters}
-\end{proposition}
-\begin{proof}
-    Let $\vec{X_1}$ and $\vec{X_2}$ be multivariate normal. Let them both have mean $\vec{\mu} \in \R^n$ and covariance matrix $\Sigma \in \R^{n \times n}$. The moment generating functions are:
-    \begin{align*}
-        M_{\vec{X_1}}(t) &= \E\left[e^{\vec{t} \cdot \vec{X_1}}\right] \\
-        &= \exp\left(\vec{t} \cdot \vec{\mu} + \frac12 \vec{t} \cdot \Sigma \vec{t}\right) \text{ by recognising normal dist.}
-    \end{align*}
-    and this is the same for $\vec{X_2}$, so the random variables must have the same distribution.
-\end{proof}
-\begin{corollary}
-    Suppose $X_1, \cdots, X_n$ are independent random variables with $X_i \sim N(\mu_i, \sigma^2)$. Let $\vec{X}$ be the vector of these random variables, and $\vec{\mu}$ be the vector of the means.
+where $\alpha$ is the \underline{intercept}, $(\beta_1, \cdots, \beta_p)$ are the \underline{regression coefficients}, and $\epsilon_1, \cdots, \epsilon_n$ are random noise, with mean $0$ and variance $\sigma^2$.
 
-    Then for an orthogonal matrix $A$, the elements of $\vec{Y} = A\vec{X}$ are independently distributed, with $Y_i \sim N((A\vec{\mu})_i, \sigma^2)$
-    \label{corRotateNormals}
-\end{corollary}
-\begin{proof}
-    The distribution of $\vec{Y}$ is determined by its mean and covariance.
-
-    \begin{equation*}
-        \E[\vec{Y}] = \E[A\vec{X}] = A\E[\vec{X}] = A\vec{\mu}.
-    \end{equation*}
-
-    \begin{align*}
-        \Cov(A\vec{X}) &= A\Cov(\vec{X})A^T \\
-        &= A(\sigma^2 I)A^T \\
-        &= \sigma^2 AA^T \\
-        &= \sigma^2 I
-    \end{align*}
-\end{proof}
-\subsection{Distribution of \texorpdfstring{$\overline{X}$}{X-bar} and \texorpdfstring{$S_{xx}$}{Sxx}}
-Suppose we have a normal distribution with unknown mean and variance. Then the samples $X_i$ are independent and identically distributed, $X_i \sim N(\mu, \sigma^2)$. Then the MLE for $\mu$ is:
-\begin{equation*}
-    \hat{\mu} = \overline{X} = \frac1n \sum_{i=1}^{n} X_i
-\end{equation*}
-and the MLE for $\sigma^2$ is:
-\begin{equation*}
-    \hat{\sigma}^2 = \frac{S_{xx}}{n} = \frac1n \sum_{i=1}^{n} (X_i - \overline{X})^2
-\end{equation*}
-\begin{theorem}
-    With the above setup,
-    \begin{enumerate}
-        \item $\overline{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right)$
-        \item $\frac{S_{xx}}{\sigma^2} \sim \chi_{n-1}^2$
-        \item $\overline{X}$ and $S_{xx}$ are independent.
-    \end{enumerate}
-    \label{thmNormalStatistics}
-\end{theorem}
-\begin{proof}
-    Part 1 is an easy consequence of the fact that linear combinations of Gaussians are Gaussian.
-
-    For parts 2 and 3, write:
-    \begin{align*}
-        \sum_{i=1}^{n} (X_i - \mu)^2 &= \sum_{i=1}^{n} \left((X_1 - \overline{X}) + (\overline{X} - \mu)\right)^2 \\
-        &= \sum_{i=1}^{n} \left((X_i - \overline{X})^2 + 2(X_i - \overline{X})(\overline{X} - \mu) + (\overline{X} - \mu)^2\right) \\
-        &= S_{xx} + n(\overline{X} - \mu)^2
-    \end{align*}
-    Let $A$ be an orthogonal matrix such that:
-    \begin{align*}
-        \vec{Y} &= A\left(\vec{X} - \begin{pmatrix}\mu \\ \vdots \\ \mu\end{pmatrix}\right) = \begin{pmatrix}\sqrt{n}(\overline{X} - \mu) \\ Y_2 \\ \vdots \\ Y_n\end{pmatrix} \\
-        \therefore A &=
-        \begin{pmatrix}
-            1/\sqrt{n} & 1/\sqrt{n} & \cdots & 1/\sqrt{n} \\
-             & & & \\
-             & \large\tilde{A} & &
-        \end{pmatrix}
-    \end{align*}
-    where $\tilde{A}$ is chosen such that $A$ is orthogonal.
-
-    Then $Y_1 = \sqrt{n}(\overline{X} - \mu) \sim N(0, \sigma^2)$ and is independent of the rest of the $Y_i$ by \thmref{corRotateNormals}.
-    \begin{align*}
-        \norm{\vec{Y}}^2 &= \norm{A(\vec{X} - \vec{\mu})}^2 \\
-        &= (\vec{X} - \vec{\mu})^T A^T A (\vec{X} - \vec{\mu}) \\
-        &= (\vec{X} - \vec{\mu})^T (\vec{X} - \vec{\mu}) \\
-    \end{align*}
-    which means,
-    \begin{equation*}
-        \sum_{i=1}^{n} Y_i^2 = \sum_{i=1}^{n} (X_i - \mu)^2
-    \end{equation*}
-    and so we must have:
-    \begin{equation*}
-        \sum_{i=2}^{n} Y_i^2 = \sum_{i=1}^{n} (X_i - \mu)^2 - n(\overline{X} - \mu)^2 = S_{xx}
-    \end{equation*}
-    so $S_{xx}$ is independent of $Y_1 = \overline{X}$.
-
-    Further,
-    \begin{equation*}
-        \frac{S_{xx}}{\sigma^2} = \sum_{i=2}^{n} \frac{Y_1^2}{\sigma^2} \sim \chi_{n-1}^2
-    \end{equation*}
-\end{proof}
-\section{\texorpdfstring{$t$}{T}-tests}
-\begin{definition}{$t$-distribution}
-    If $U \sim N(0, 1)$ and $V \sim \chi_n^2$, with $U$ and $V$ independent, then
-    \begin{equation*}
-        T = \frac{U}{\sqrt{V / n}}
-    \end{equation*} has a \underline{$t$-distribution} with $n$ degrees of freedom. We write:
-    \begin{equation*}
-        T \sim t_n.
-    \end{equation*}
-\end{definition}
-\begin{example}
-    Suppose that $X_i$ are independent and identically distributed with $X_i \sim N(\mu, \sigma^2)$. When $\sigma^2$ is known, we find a $100(1-\alpha)\%$ confidence interval for $\mu$ by noting that:
-    \begin{equation*}
-        Z = \frac{\sqrt{n}(\overline{X} - \mu)}{\sigma} \sim N(0, 1).
-    \end{equation*}
-    If instead $\sigma^2$ is unknown, we note:
-    \begin{equation*}
-        \overline{X} \sim N(\mu, \sigma^2 / n),\quad \frac{S_{xx}}{\sigma^2} \sim \chi_{n-1}^2
-    \end{equation*}
-    and then find a $t$-distribution:
-    \begin{equation*}
-        T = \frac{\sqrt{n}(\overline{X} - \mu) / \sigma}{\sqrt{S_{xx} / \sigma^2(n-1)}} \sim t_{n-1}
-    \end{equation*}
-    and so we can find a confidence interval as follows:
-    \begin{equation*}
-        \P_{\mu, \sigma^2} \left(-t_{n-1}\left(\frac{\alpha}{2}\right) \leq \frac{\sqrt{n} (\overline{X} - \mu)}{\sqrt{S_{xx} / (n-1)}} \leq t_{n-1} \left(\frac{\alpha}{2}\right)\right) = 1- \alpha
-    \end{equation*}
-    and so,
-    \begin{equation*}
-        \overline{X} \pm \sqrt{\frac{S_{xx}}{n-1}} \frac{t_{n-1}\left(\frac{\alpha}{2}\right)}{\sqrt{n}}
-    \end{equation*}
-    is an exact $100(1-\alpha)\%$ confidence interval for $\mu$.
-
-    If we instead wish to test $H_0 : \mu = \mu_0$ with $\sigma^2$ unknown, then under $H_0$,
-    \begin{equation*}
-        T = \frac{\sqrt{n}(\overline{X} - \mu_0)}{\sqrt{S_{xx} / (n-1)}} \sim t_{n-1}
-    \end{equation*}
-    so reject $H_0$ when $\abs{T} \geq t_{n-1}\left(\frac{\alpha}{2}\right)$. This is a \underline{$t$-test}.
-\end{example}
+We want to estimate $\alpha$ and the $\beta_i$. $\vec{X_i}$ are the \underline{predictors} or \underline{explanatory variables}, and $Y_i$ are the \underline{response variables}.
 \begin{remarks}
-    \item As $n \to \infty$, $\frac{S_{xx}}{n-1} \to \sigma^2$ and $t_{n-1}\left(\frac{\alpha}{2}\right) \to z_{\alpha / 2}$. Then the $t$-test converges to a $z$-test. Importantly, the $t$-test does not need large $n$ to be valid.
-    \item The $t$-test can be seen as an example of a GLRT for:
-        \begin{align*}
-            H_0:& \mu = \mu_0 \\
-            H_1:& \mu \neq \mu_0
-        \end{align*}
-        The GLR statistic is:
+    \item We often eliminate the intercept by defining the first predictor $X_{i1} = 1$ and $\beta_1$ plays the role of $\alpha$.
+    \item We can also model non-linear relationships, for example $X_{i1} = z$ and $X_{iz} = z_i^2$, then the linear model is:
         \begin{equation*}
-            \Lambda_{\vec{X}}(H_0, H_1) = \frac{\sup_{\mu, \sigma^2} f(\vec{x}, \mu, \sigma^2)}{\sup_{\sigma^2} f(\vec{x}, \mu_0, \sigma^2)}
+            Y_i = \alpha + \beta_1 z_i + \beta_2 z_i^2 + \epsilon_i
         \end{equation*}
-        and substituting $(\hat{\mu}, \hat{\sigma}^2) = (\overline{X}, S_{xx} / n)$ gives the numerator:
-        \begin{equation*}
-            \left(\frac{2\pi\sum_{i=1}^{n} (X_i - \overline{X})^2}{n}\right)^{-n / 2} \exp\left(-\frac{n}{2}\right)
-        \end{equation*}
-        and when $\mu = \mu_0$, the MLE for $\sigma^2$ is $\frac1n \sum_{i=1}^{n} (X_i - \mu_0)^2$. The denominator is then:
-        \begin{equation*}
-            \left(\frac{2\pi\sum_{i=1}^{n} (X_i - \mu_0)^2}{n}\right)^{-n / 2} \exp\left(-\frac{n}{2}\right)
-        \end{equation*}
-        and so the GLR statitsic is:
-        \begin{align*}
-            \Lambda_{\vec{X}}(H_0, H_1) &= \frac{\left(\frac{2\pi \sum_{i=1}^{n} (X_i - \overline{X})^2}{n}\right)^{-n / 2}}{\left(\frac{2\pi \sum_{i=1}^{n} (X_i - \mu_0)^2}{n}\right)^{-n / 2}} \\
-            &= \left(1 + \frac{n(\overline{X} - \mu_0)^2}{\sum_{i=1}^{n} (X_i - \overline{X})^2}\right)^{-n/2}
-        \end{align*}
-        and so we reject $H_0$ when
-        \begin{equation*}
-            \frac{\sqrt{n} (\overline{X} - \mu_0)}{\sqrt{S_{xx} / (n-1)}}
-        \end{equation*}
-        is large. This gives another idea of where the $t$-distribution comes from.
+    \item The coefficient $\beta_j$ can be interpreted as the effect on the response of increasing $\vec{X_{ij}}$ by $1$ unit while keeping everything else fixed. In general, however, linear models can only reveal correlations in data rather than causation.
 \end{remarks}
+We can also consider a matrix formulation. Let $\vec{Y}$ be the vector of all responses, and let $X$ be the matrix with rows $\vec{X_i}$. Then $\vec{\beta}$ is the vector of the $\beta_i$, same with $\vec{\epsilon}$. The linear model is then written as:
+\begin{equation*}
+    \vec{Y} = X\vec{\beta} + \vec{\epsilon}
+\end{equation*}
 \end{document}
