@@ -83,4 +83,120 @@ The invariant spacetime interval between two events (an event is a point and a t
 \begin{equation*}
     ds^2 = dX \cdot dX = -c^2 dt^2 + dx^2 + dy^2 + dz^2
 \end{equation*}
+
+\begin{definition}{4-velocity}
+    The \underline{4-velocity} of a massive particle is:
+    \begin{equation*}
+        U = \frac{dX}{d\tau}
+    \end{equation*}
+\end{definition}
+where $\tau$ is the proper time (time experienced by the particle).
+
+Since $X = (ct, \vec{x})$,
+\begin{align*}
+    U &= \frac{dt}{d\tau} \begin{pmatrix}c \\ \vec{u}\end{pmatrix} \\
+    &= \gamma_{\vec{u}} \begin{pmatrix}c \\ \vec{u}\end{pmatrix}    
+\end{align*}
+where $\vec{u}$ is the normal 3-velocity and $\gamma_{\vec{u}}$ is the Lorentz factor for the motion:
+\begin{equation*}
+    \gamma_{\vec{u}} = \frac{1}{1 - \frac{|\vec{x}|^2}{c^2}}
+\end{equation*}
+As for all 4-vectors, the dot product is invariant:
+\begin{align*}
+    U \cdot U &= \left(\frac{dt}{d\tau}\right)^2 (-c^2 + |\vec{u}|^2) \\
+    &= -c^2
+\end{align*}
+Therefore this is invariant and timelike.
+
+\begin{definition}{4-momentum}
+    The \underline{4-momentum} of a massive particle with rest mass $m$ is:
+    \begin{equation*}
+        P = mU = m\gamma_{\vec{u}} \begin{pmatrix}c \\ \vec{u}\end{pmatrix} = \begin{pmatrix}\frac{E}{c} \\ \vec{p}\end{pmatrix}
+    \end{equation*}
+    where $\vec{p}$ is the 3-momentum.
+\end{definition}
+We know that the inner product is invariant:
+\begin{align*}
+    P \cdot P &= -\left(\frac{E}{c}\right)^2 + |\vec{p}|^2 \\
+    &= -m^2 c^2
+\end{align*}
+which is consistent with $E^2 = m^2 c^4 + |\vec{p}|^2 c^2$.
+
+In the Newtonian limit $v \ll c$,
+\begin{align*}
+    E &= m \gamma_{\vec{u}} c^2 \\
+    &\approx m\left(1 + \frac12 \frac{|\vec{u}|^2}{c^2}\right) c^2 \\
+    &= mc^2 + \frac12 m |\vec{u}|^2
+\end{align*}
+and in the rest frame where $\vec{u} = \vec0$, we simply have the rest energy $E = mc^2$.
+
+Massless particles such as photons travel at the speed of light (in any inertial frame). They have $E = |\vec{p}|c$ and their 4-velocity is null.
+\section{Covectors and Tensors}
+We understand a 4-vector to be some $X$ in the relevant vector space, with components $X^\mu$ (superscript indices).
+\begin{definition}{Covector}
+    A \underline{covector} is an element $Y$ of the dual space, with components $Y_\mu$ (subscript indices).
+\end{definition}
+Define:
+\begin{equation*}
+    Y_\mu = \frac{\partial f}{\partial X^\mu}
+\end{equation*}
+and this is the derivative of a scalar field $f(X)$ in spacetime. This is a covector, and so we want to know how this transforms under a Lorentz transformation. By the chain rule,
+\begin{align}
+    \frac{\partial f}{\partial X^{\prime \mu}} &= \frac{\partial X^\nu}{\partial X^{\prime \mu}} \frac{\partial f}{\partial X^\nu} \nonumber \\
+    Y_\mu' &= \indx{(\Lambda^{-1})}{\nu}{\mu} Y_\nu \label{eqnLorentzTransformDerivative}
+\end{align}
+where $(\Lambda^{-1})$ is the inverse Lorentz transformation matrix. \Eqnref{eqnLorentzTransformDerivative} is the general transformation law for covectors. Written without the indices,
+\begin{equation*}
+    Y' = \Lambda^{-1} Y
+\end{equation*}
+\begin{definition}{Tensor}
+    A \underline{(4-)tensor} $T$ of type $(r, s)$ is an object whose $4^{r+s}$ elements transform as:
+    \begin{equation}
+        \indx{T}{\prime \mu_1 \cdots \mu_r}{\nu_1 \cdots \nu_s} = \indx{\Lambda}{\mu_1}{\rho_1} \cdots \indx{\Lambda}{\mu_r}{\rho_r} \indx{(\Lambda^{-1})}{\sigma_1}{\nu_1} \cdots \indx{(\Lambda^{-1})}{\sigma_s}{\nu_s} \indx{T}{\rho_1 \cdots \rho_r}{\sigma_1\cdots\sigma_s}
+        \label{eqnLorentzTransformTensor}
+    \end{equation}
+    That is, a LT matrix for each superscript index and an inverse LT matrix for each subscript index.
+\end{definition}
+\begin{remarks}
+    \item Any ordering of the up and down indices is possible. For example, a tensor of type $(1, 1)$, $A_\mu\hphantom{}^\nu$
+    \item A $(1, 0)$ tensor is a 4-vector.
+    \item A $(0, 1)$ tensor is a 4-covector.
+    \item A $(0, 0)$ tensor is a scalar (Lorentz invariant).
+\end{remarks}
+\begin{propositions}{
+        
+        \label{propsTensorProps}
+    }
+    \item A linear combination of $(r, s)$ tensors is also an $(r, s)$ tensor. \label{propTensorLinearCombo}
+    \item The \underline{outer product} of tensors of type $(r_1, s_1)$ and $(r_1, s_2)$ gives a tensor of type $(r_1 + r_2, s_1 + s_2)$. \label{propTensorOuterProd}
+    \item The \underline{derivative} of a tensor field of type $(r, s)$ is another tensor field of type $(r, s+1)$.
+        \begin{equation*}
+            A_\mu\indx{}{\nu \rho}{\sigma} = \partial_\mu \indx{B}{\nu \rho}{\sigma}
+        \end{equation*}
+        where $\partial_\mu = \frac{\partial}{\partial X^\mu}$. \label{propTensorDerivative}
+    \item The \underline{contraction} of an $(r, s)$ tensor on a pair of its indices produces an $(r-1, s-1)$ tensor. This only works when an up index is contracted with a down index. \label{propTensorContract}
+\end{propositions}
+The summation convention on spacetime requires any repeated index to appear once up and once down. This is because a contraction is an application of an element of the dual space to an element of the vector space. For example, the invalid expression $X^\mu X^\mu$ is not Lorentz invariant and so is not valid as a scalar.
+
+\begin{definition}{Isotropic}
+    A tensor is \underline{isotropic} if its components are the same in every inertial frame.
+\end{definition}
+\begin{remark}
+    An example of this is the Minkowski metric $\eta_{\mu \nu}$. This is an isotropic tensor of type $(0, 2)$. The inverse of the Minkowski metric is $\eta^{\mu\nu}$ which is an isotropic tensor of type $(2, 0)$. Both have the same components, but they have different roles.
+\end{remark}
+The Kronecker Delta is an isotropic tensor of type $(1, 1)$. $\delta = diag(1,1, 1, 1)$.
+
+The Levi-Civita epsilon symbol is defined by:
+\begin{equation*}
+    \epsilon_{\mu\nu\rho\sigma} =
+    \begin{cases}
+        1 & \text{if $(\mu, \nu, \rho, \sigma)$ is an even permutation of $(0,1,2,3)$} \\
+        -1 & \text{if $(\mu, \nu, \rho, \sigma)$ is an odd permutation of $(0,1,2,3)$} \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation*}
+and it is an isotropic pseudo-tensor of type $(0, 4)$. A pseudo-tensor satisfies the same transformation law as a tensor but with an extra factor of $\det(\Lambda)$.
+\begin{definition}{Tensor equation}
+    A \underline{tensor equation} is an equation in which every term is a tensor of the same type (transforms identically under a LT). Such an equation is said to be \underline{covariant} and is valid in any inertial frame.
+\end{definition}
 \end{document}
