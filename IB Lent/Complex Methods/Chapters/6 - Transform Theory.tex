@@ -1,7 +1,8 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-\section{Defining the Fourier Transform}
+\section{Fourier Transforms}
+\subsection{Defining the Fourier Transform}
 \begin{definition}{Absolute convergence}
     A function $f : \R\mapsto\C$ is \underline{absolutely convergent} if:
     \begin{equation*}
@@ -41,4 +42,131 @@
         \dashint_{-\infty}^\infty g(x) dx = \lim_{R \to \infty} \int_{-R}^R g(x) dx
     \end{equation*}
 \end{definition}
+This allows us to give a value to integrals that would otherwise not be well-defined. For example,
+\begin{equation*}
+    \int_{-\infty}^{\infty} \frac{x}{1+x^2} dx \text{ is not well-defined}
+\end{equation*}
+but,
+\begin{equation*}
+    \dashint_{-\infty}^{\infty} \frac{x}{1+x^2} dx = 0
+\end{equation*}
+because we can cancel the positive and negative parts.
+
+If we have a pole in the middle of the integration domain (here $\R$), we can also assign a Cauchy Principal Value in certain cases. In general,
+\begin{equation*}
+    \frac12 \left[\ft{f}(k^+) + \ft{f}(k^-)\right] = \dashint_{-\infty}^{\infty} f(x) e^{-ikx} dx 
+\end{equation*}
+\subsection{Fourier Transforms of Example Functions}
+\begin{example}[Gaussian function]
+    Consider:
+    \begin{equation*}
+        f(x) = e^{-x^2 / 2}
+    \end{equation*}
+    Then we find the Fourier Transform:
+    \begin{align*}
+        \ft{f}(k) &= \int_{-\infty}^{\infty} e^{-x^2 / 2 - ikx} dx \\
+        &= \int_{-\infty}^{\infty} \exp\left[-\frac{(x+ik)^2}{2} - \frac{k^2}{2}\right] dx \\
+        \intertext{Now let $z = x + ik$:}
+        &= e^{-k^2 / 2} \int_{-\infty + ik}^{\infty + ik} e^{-z^2 / 2} dz
+    \end{align*}
+    Let this be the integral over the contour $\gamma_0$, which is a horizontal line given by $\Im(z) = ik$. We introduce $\gamma_R$ and $\gamma_{-R}$ to close the contour to $\gamma_1$ which is $\R$ traversed from $\infty$ to $-\infty$. Therefore the contour $\gamma = \gamma_0 + \gamma_R + \gamma_1 + \gamma_{-R}$ is a rectangular contour. We see that the integrals over $\gamma_{\pm R}$ must be zero as $R \to \infty$, and since there are no singularities inside the contour, \thmref{thmCauchy} tells us that:
+    \begin{equation*}
+        \int_{\gamma_0} e^{-z^2 / 2} dz = -\int_{\gamma_1} e^{-z^2 / 2} dz = \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{2\pi}
+    \end{equation*}
+    and so:
+    \begin{equation*}
+        \ft{f}(k) = \sqrt{2\pi} e^{-k^2 / 2}
+    \end{equation*}
+    which is interesting, and tells us that Gaussians are eigenvectors of $\FT$.
+\end{example}
+\begin{example}[Exponentials]
+    Consider:
+    \begin{equation*}
+        \ft{f}(k) = \frac{1}{a + ik},\quad a>0
+    \end{equation*}
+    then we note that $\ft{f} \to 0$ as $|k| \to \infty$, and so we can use \thmref{thmJordanLemma}.
+
+    Consider:
+    \begin{equation*}
+        f(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} \ft{f}(k) e^{ikx} dk
+    \end{equation*}
+    if $x > 0$, we close the contour in the upper half-plane using $\gamma_R$ and find:
+    \begin{equation*}
+        \lim_{R \to \infty} \int_{\gamma_R} \ft{f}(k) dk = 0
+    \end{equation*}
+    now we need the residue at the pole:
+    \begin{equation*}
+        \res_{k = ia} \frac{e^{ikx}}{a + ik} -ie^{ax}
+    \end{equation*}
+    and so, for $x > 0$,
+    \begin{equation*}
+        f(x) = e^{-ax}
+    \end{equation*}
+    But since there are no poles in the lower half-plane, when we close the contour there we get that the integral over it is zero. \Thmref{thmJordanLemma} tells us that the integral over the semicircle is zero, so also the integral over the real axis must be zero. Therefore,
+
+    \begin{equation*}
+        f(x) = 
+        \begin{cases}
+            e^{-ax} & x > 0 \\
+            0 & x < 0
+        \end{cases}
+    \end{equation*}
+    We can check our answer,
+    \begin{align*}
+        \ft{f}(k) &= \int_{-\infty}^{\infty} f(x)e^{-ikx} dx \\
+        &= \int_{0}^{\infty} e^{-ax - ikx} dx \\
+        &= \frac{1}{a + ik} \text{ as required.}
+    \end{align*}
+\end{example}
+\section{Laplace Transforms}
+This section is motivated by the desire to compute something akin to a Fourier transform for functions that diverge as $t \to \infty$.
+\subsection{Defining the Laplace Transform}
+\begin{definition}{Laplace Transform}
+    Let $f(t)$ be a function defined for $t > 0$. The \underline{Laplace transform} of $f(t)$ is given by:
+    \begin{equation}
+        F(s) = \LT[f](s) = \int_{0}^{\infty} f(t)e^{-st} dt
+        \label{eqnLaplaceTransform}
+    \end{equation}
+    provided that the integral exists.
+\end{definition}
+\begin{remarks}
+    \item This is valid as long as the function $f(t)$ grows slower than exponential. For example, any polynomial.
+    \item Sometimes $p$ is used instead of $s$ as the argument to the Laplace Transform. We will use $s$, but this is good to know.
+    \item If $f(t) = 0$ for $t < 0$, then we have the following relation to the Fourier Transform:
+        \begin{equation*}
+            F(s) = \ft{f}(-is)
+        \end{equation*}
+\end{remarks}
+\subsection{Laplace Transforms of Example Functions}
+\begin{example}[Constant function]
+    Let $f(t) = 1$.
+    \begin{equation*}
+        \int_{0}^{\infty} e^{-st} dt = \frac{1}{s}
+    \end{equation*}
+    What is going on? If we have $\Re(s) < 0$ then the integral should diverge. However, the Laplace Transform displays no such divergence for $\Re(s) < 0$, only at $s = 0$. We solve this by analytic continuation, where we define the Laplace Transform for $\Re(s) > 0$ to be $\frac1s$, and we define it to be the same thing on $\Re(s) < 0$.
+\end{example}
+\begin{example}[Linear function]
+    Consider $f(t) = t$.
+    \begin{align*}
+        F(s) = \int_{0}^{\infty} te^{-st} dt \\
+        &= \left[t \left(-\frac1s\right)e^{-st}\right]_0^\infty - \int_{0}^{\infty} \left(-\frac1s\right)e^{-st} dt \\
+        &= \frac{1}{s^2}
+    \end{align*}
+    and again we argue by analytic continuation that we can define this on $\C \backslash \{0\}$.
+\end{example}
+\begin{example}[Exponentials]
+    For constant $\lambda$, we can formally consider:
+    \begin{equation*}
+        \LT\left[e^{\lambda t}\right](s) = \int_{0}^{\infty} e^{-(s - \lambda)t} dt = \frac{1}{s - \lambda}
+    \end{equation*}
+    and by analytic continuation, we can extend this beyond $\Re(s - \lambda) > 0$ to $\C \backslash \{\lambda\}$.
+\end{example}
+\begin{example}[Sine]
+    Consider:
+    \begin{align*}
+        \LT[\sin](s) &= \LT\left[\frac1{2i} (e^{it} - e^{-it})\right](s) \\
+        &= \frac{1}{2i} \left(\frac{1}{s-i} - \frac{1}{s+i}\right) = \frac{1}{s^2 + 1}
+    \end{align*}
+    we have just required that the Laplace transform be a linear map. In the following section, we will prove properties about the Laplace transform including linearity.
+\end{example}
 \end{document}
