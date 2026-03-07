@@ -1,0 +1,26 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Water Waves}
+\subsection{Governing equations}
+We will assume that the flow is inviscid and irrotational for all time. Therefore $\vec{u} = \nabla\phi$ and on the given domain,
+\begin{equation}
+    \nabla^2 \phi = 0
+    \label{eqnLaplace}
+\end{equation}
+Applying the Kinematic Boundary Condition at the bottom, $\vec{u} \cdot \vec{n} = \vec{u} \cdot \nabla \phi = 0$, that is,
+\begin{equation}
+    \left.\frac{\partial \phi}{\partial z}\right|_{z = -h} = 0
+    \label{eqnBottomKBC}
+\end{equation}
+The boundary condition for $\phi$ on the free surface was derived in chapter 1:
+\begin{equation}
+    \frac{\partial \zeta}{\partial t} + u_x \frac{\partial \zeta}{\partial x} + u_y \frac{\partial \zeta}{\partial y} = w \text{ at } z = \zeta
+    \label{eqnFreeSurfaceKBC}
+\end{equation}
+The dynamic boundary condition is matching the pressure:
+\begin{equation}
+    p_{water} = p_0 \text{ at } z = \zeta
+    \label{eqnFreeSurfaceDBC}
+\end{equation}
+\end{document}

@@ -158,7 +158,7 @@ This has key differences from \eqnref{eqnBernoulliSteady}:
     \item \eqnref{eqnBernoulliSteady} is just a consequence of the Euler momentum equation~\ref{eqnEulerMomDiv}, because we took a scalar product; \eqnref{eqnBernoulliUnsteady} is equivalent to the Euler equation under the given assumptions.
 \end{enumerate}
 \section{Forces on a Translating Sphere or Cylinder}
-\subsection{Steady Flow on a Translating Sphere}
+\subsection{Steady Flow on a Translating Sphere}\label{secTranslatingSphere}
 Consider steady flow, and move in the reference frame of the sphere. Consider the steady Bernoulli Equation~\ref{eqnBernoulliSteady} on a streamline infinitesimally close to the surface of the sphere. This gives:
 \begin{equation*}
     \frac12 \rho \left[-\frac32 U \sin(\theta)\right]^2 + p = \frac12 \rho U^2 + p_{atm}
@@ -214,4 +214,66 @@ Consider flow in a tube as in figure~\ref{figFlowTube}. Let the flow be initiall
     2\rho h \ddot{\zeta} + 2 \rho g \zeta &= 0
 \end{align*}
 and so the equation of motion is $\ddot{\zeta} = \frac{g}{h} \zeta = 0$, which is oscillatory motion with frequency $\sqrt{\frac{g}{h}}$.
+\subsection{Oscillation of a Bubble}
+Consider a compressible bubble of gas of radius $a(t)$ in a liquid of density $\rho$. Assume spherical symmetry, so the flow must be radial, $u = \frac1{r^2}$. By ensuring $u(a) = \dot{a}$,
+\begin{equation*}
+    \vec{u} = \dot{a} \frac{a^2}{r^2} \vec{e_r}
+\end{equation*}
+and the velocity potential is:
+\begin{equation*}
+    \phi = -a^2 \frac{\dot{a}}{r}
+\end{equation*}
+In order to apply \eqnref{eqnBernoulliUnsteady}, we need:
+\begin{align*}
+    \frac{\partial \phi}{\partial t} &= -\frac{2\dot{a}^2 a + a \ddot{a}}{r} \\
+    \left.\rho \frac{\partial \phi}{\partial t} \right|_{r = a} &= -\rho \left(2\dot{a}^2 + \ddot{a} a\right) \\
+\end{align*}
+and then \eqnref{eqnBernoulliUnsteady} becomes:
+\begin{align*}
+    \rho \frac{\partial \phi}{\partial t} &= \frac12 \rho |\vec{u}|^2 + p = f(t) \\
+    -\frac32 \rho \dot{a}^2 - \rho a \ddot{a} &= p_{atm} - p(a, t)
+\end{align*}
+Now we require small oscillations, so $a = a_0 + \eta$ where $\eta \ll a_0$.
+\begin{equation*}
+    \rho a_0 \ddot{\eta} = p - p_{atm}
+\end{equation*}
+then we need to understand how $p$ changes with $a$. We will assume $PV^{\gamma} = \text{const}$. We linearise this to get:
+\begin{equation*}
+    \frac{\delta p}{p_{atm}} = -3\gamma \frac{\eta}{a_0}
+\end{equation*}
+and so,
+\begin{equation*}
+    \rho a_0 \ddot{\eta} = -3\gamma \frac{p_{atm}}{a_0} \eta
+\end{equation*}
+which is small oscillations with frequency
+\begin{equation*}
+    \omega = \sqrt{\frac{3\gamma p_{atm}}{\rho a_0^2}}
+\end{equation*}
+\subsection{Accelerating Sphere}
+Consider a sphere accelerating through a fluid in the lab frame. Recall from section~\ref{secTranslatingSphere},
+\begin{equation*}
+    \phi = \frac{U\cos{\theta}a^3}{2r^2} \implies \rho = -\frac{\vec{U}(t) \cdot \vec{x}}{2r^3}a^3
+\end{equation*}
+and so,
+\begin{align*}
+    \rho \frac{\partial \phi}{\partial t} &= -\rho \frac{\dvec{U} \cdot \vec{x}}{2r^3}a^3 \\
+    \implies \left.\rho \frac{\partial \phi}{\partial t} \right|_{r = a} &= \frac12 \rho \dvec{U} \cdot \vec{x}
+\end{align*}
+and so we can now use \eqnref{eqnBernoulliUnsteady} to find:
+\begin{equation*}
+    p = \underbrace{p_{atm} + \frac12 \rho U^2 (1 - \frac{9}{4}\sin^2{\theta})}_{\text{steady terms (section~\ref{secTranslatingSphere})}} + \underbrace{\frac12 \rho \dvec{U}\cdot\vec{x}}_{\text{new unsteady terms}} \\
+\end{equation*}
+The force on the sphere is then:
+\begin{align*}
+    \vec{F} &= -\int_S p \vec{dS} \\
+    &= \underbrace{0}_{\text{steady part}} - \frac12 \rho \dvec{U} \cdot \int_S \vec{x} \vec{dS} \\
+    &= -\frac12 \rho \dvec{U} \cdot \frac43 \pi a^2 I \text{ by isotropic tensor} \\
+    &= -\frac12 \rho V \dvec{U} \\
+    &= -m^* \dvec{U}
+\end{align*}
+where $m^*$ is the \underline{added mass}, proportional to the fluid displaced (where the constant of proportionality depends on the shape). To see very clearly why this is called the added mass, consider:
+\begin{align*}
+    \vec{F_{ext}} - m^* \dvec{U} &= m \dvec{U} \\
+    \therefore (m + m^*) \dvec{U} &= \vec{F_{ext}}
+\end{align*}
 \end{document}
