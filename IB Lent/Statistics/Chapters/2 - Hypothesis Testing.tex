@@ -87,6 +87,8 @@ Usually, we set $\alpha$ at an acceptable level and choose a test that minimises
     Then let $C^\star$ be the critical region of another test of size $\alpha^\star \leq \alpha$. We want to show that $\beta \leq \beta^\star$.
     \begin{align*}
         \beta - \beta^\star &= \int_{\overline{C}} f_1(\vec{x}) d^n \vec{x} - \int_{\overline{C^\star}} f_1(\vec{x}) d^n \vec{x}\\
+        &= \left(\int_{\overline{C} \cap C^\star} f_1(\vec{x}) d^n \vec{x} + \int_{\overline{C} \cap \overline{C^\star}} f_1(\vec{x}) d^n\vec{x}\right) \\
+        &\qquad - \left(\int_{\overline{C^\star}\cap C} f_1(\vec{x}) d^n \vec{x} \int_{\overline{C^\star} \cap \overline{C}}f_1(\vec{x}) d^n\vec{x}\right)\\
         &= \int_{\overline{C} \cap C^\star} f_1(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} f_1(\vec{x}) d^n\vec{x} \\
         &= \int_{\overline{C} \cap C^\star} \underbrace{\frac{f_1(\vec{x})}{f_0(\vec{x})}}_{\text{$\leq k$ on $\overline{C}$}} f_0(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} \underbrace{\frac{f_1(\vec{x})}{f_0(\vec{x})}}_{\text{$> k$ on $C$}} f_0(\vec{x}) d^n\vec{x} \\
         &\leq k\left(\int_{\overline{C} \cap C^\star} f_0(\vec{x}) d^n\vec{x} - \int_{\overline{C^\star} \cap C} f_0(\vec{x}) d^n\vec{x}\right) \\
@@ -387,12 +389,12 @@ Let the parameter $\vec{\theta}$ have $k$ dimensions.
     which is Pearson's Chi-Squared Statistic.
 
     In the pea plant experiment,
-    \begin{equation}
-        \sum_{i=1}^{4} \frac{(o_i - e_i)^2}{e_i} \approx 0.604
-    \end{equation}
-    and $\chi_3^2(0.05) \approx 7.815 > 0.604$. Therefore we do not reject $H_0$. The $p$-value is:
     \begin{equation*}
-        \P(X_3^2 \geq 0.604) \approx 0.96
+        \sum_{i=1}^{4} \frac{(o_i - e_i)^2}{e_i} \approx 0.604
+    \end{equation*}
+    and $\chi_3^2(0.95) \approx 7.815 > 0.604$. Therefore we do not reject $H_0$. The $p$-value is:
+    \begin{equation*}
+        \P(Y \sim \chi_3^2 \geq 0.604) \approx 0.96
     \end{equation*}
 \end{example}
 \subsection{Composite Null Hypotheses}
@@ -406,15 +408,15 @@ Suppose we wish to test $H_0 : p_i = p_i(\theta)$ for some $\theta$ against $H_1
     \begin{align*}
         2\log(\Lambda_{\vec{X}}(H_0, H_1)) &= 2 \left(\sup_{\sum_i p_i = 1} l(\vec{p}) - \sup_\theta l(\vec{p}(\theta))\right) \\
         &= 2 \left(l(\hat{p}) - l(\vec{p}(\hat{\theta}))\right) \\
-        &= 2\sum_{i=1}^{3} N_i \log\left(\frac{N_i}{n p_i(\hat{\theta})}\right)
-        &= \sum_{i=1}^{3} o_i \log\left(\frac{o_i}{e_i}\right) \\
-        &\approx \frac{(o_i - e_i)^2}{e_i}
+        &= 2\sum_{i=1}^{3} N_i \log\left(\frac{N_i}{n p_i(\hat{\theta})}\right) \\
+        &= 2\sum_{i=1}^{3} o_i \log\left(\frac{o_i}{e_i}\right) \\
+        &\approx \sum_{i=1}^{3} \frac{(o_i - e_i)^2}{e_i}
     \end{align*}
     and so so one can perform a test with $\chi_p^2$ where $p = \dim(\Theta_1) - \dim(\Theta_0) = 2 - 1 = 1$.
 \end{example}
 \section{Contingency Tables}
 \subsection{Testing for Independence}
-Suppose $(X_1, Y_1), \cdots, (X_n, Y_n)$ are independent and identically distributed with $X$ taking values in $\{1, \cdots, r\}$ and $Y_1$ taking values in $\{1, \cdots, c\}$. We wish to test the null hypothesis that $X_i$ and $Y_i$ are independent. The entries in a \underline{contingency table} are:
+Suppose $(X_1, Y_1), \cdots, (X_n, Y_n)$ are independent and identically distributed with $X_i$ taking values in $\{1, \cdots, r\}$ and $Y_i$ taking values in $\{1, \cdots, c\}$. We wish to test the null hypothesis that $X_i$ and $Y_i$ are independent. The entries in a \underline{contingency table} are:
 \begin{equation*}
     N_{ij} = \left|\subsetselect{l}{1 \leq l \leq n, (X_l, Y_l) = (i, j)}\right|
 \end{equation*}
@@ -449,18 +451,18 @@ That is, $N_{ij}$ is the number of samples of type $(i, j)$.
     then the hypotheses are:
     \begin{align*}
         H_0: & p_{ij} = p_{i+} \times p_{+j}~\forall i, j \\
-        H_1: & \{p_{ij}\} \text{ constrained only by } \sum_{i, j}^{p_{ij}} = 1
+        H_1: & \{p_{ij}\} \text{ constrained only by } \sum_{i, j}p_{ij} = 1
     \end{align*}
     Then using Lagrangian methods, the MLEs are $\hat{p}_{ij} = \frac{N_{ij}}{n}$ under $H_1$ and $(\hat{p}_{i+}, \hat{p}_{+j}) = \left(\frac{N_{i+}}{n}, \frac{N_{+j}}{n}\right)$.
 
     Therefore, the GLR statistic is:
     \begin{equation*}
-        2\log(\Lambda) = 2\sum_{i=1}^{r} \sum_{j=1}^{c} N_{ij} \log\left(\frac{\hat{p}_{ij}}{\hat{p_{i+} \hat{p}_{+j}}}\right)
+        2\log(\Lambda) = 2\sum_{i=1}^{r} \sum_{j=1}^{c} N_{ij} \log\left(\frac{\hat{p}_{ij}}{\hat{p}_{i+} \hat{p}_{+j}}\right)
     \end{equation*}
     writing $o_{ij} = N_{ij}$ and $e_{ij} = \hat{p}_{i+} \hat{p}_{+j}$,
     \begin{align*}
         2\log(\Lambda) &= 2\sum_{i=1}^{r} \sum_{j=1}^{c} o_{ij} \log\left(\frac{o_{ij}}{e_{ij}}\right) \\
-        &\approx 2\sum_{i=1}^{r} \sum_{j=1}^{c} \frac{(o_{ij} - e_{ij})^2}{e_{ij}}
+        &\approx \sum_{i=1}^{r} \sum_{j=1}^{c} \frac{(o_{ij} - e_{ij})^2}{e_{ij}}
     \end{align*}
     Then by \thmref{thmWilks}, this converges to a $\chi^2$ distribution. The number of degrees of freedom is:
     \begin{equation*}
@@ -619,10 +621,10 @@ and the MLE for $\sigma^2$ is:
         \begin{pmatrix}
             1/\sqrt{n} & 1/\sqrt{n} & \cdots & 1/\sqrt{n} \\
              & & & \\
-             & \large\tilde{A} & &
+             & \tilde{A} & &
         \end{pmatrix}
     \end{align*}
-    where $\tilde{A}$ is chosen such that $A$ is orthogonal.
+    where $\tilde{A}$ is the matrix chosen such that $A$ is orthogonal.
 
     Then $Y_1 = \sqrt{n}(\overline{X} - \mu) \sim N(0, \sigma^2)$ and is independent of the rest of the $Y_i$ by \thmref{corRotateNormals}.
     \begin{align*}
