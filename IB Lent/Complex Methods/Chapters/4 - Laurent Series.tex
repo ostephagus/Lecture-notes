@@ -16,7 +16,11 @@ In the complex plane, we will see that we do not even need the function to be di
     \begin{equation*}
         f(z) = \sum_{m=-\infty}^{\infty} a_m (z - z_0)^m
     \end{equation*}
-    which is convergent within the annulus and uniformly convergent within compact subsets of the annulus. %TODO: What is a compact subset? And does this matter?
+    where
+    \begin{equation*}
+        a_m = \frac{1}{2\pi i} \oint_{\gamma} \frac{f(z)}{(z-z_0)^{m+1}} dz
+    \end{equation*}
+    for any contour $\gamma$ in the annulus. This is convergent within the annulus and uniformly convergent within compact subsets of the annulus.
 
     Further, if $f(z)$ is analytic at $z = z_0$ (so $R_1 = 0$), then it has a Taylor series:
     \begin{equation*}
@@ -27,7 +31,8 @@ In the complex plane, we will see that we do not even need the function to be di
 \begin{proof}
     Let $z_0 = 0$ after possibly translating the argument. Let $z \in \C$ with $R_1 < r_1 < |z| < r_2 < R_2$. Let $\gamma_1, \gamma_2$ be a anticlockwise, circular contours of radii $r_1, r_2$.
 
-    As we have previously seen, we can bridge these two contours with radius lines in the opposite direction, to create $\gamma = \gamma_2 - \gamma_1$ in the limit as the bridge gets infinitely thin. %TODO: Diagram?
+    As we have previously seen in figure~\ref{figContourShrink}, we can bridge these two contours with radial lines in the opposite direction, to create $\gamma = \gamma_2 - \gamma_1$ in the limit as the bridge gets infinitely thin.
+
     Now consider \thmref{thmCauchyIntegral} (setting $\xi$ to be $z$ and $z$ to be $z_0$):
     \begin{align*}
         f(z) &= \frac{1}{2\pi i} \oint_{\gamma} \frac{f(\xi)}{\xi - z} d\xi \\
@@ -133,7 +138,6 @@ In the complex plane, we will see that we do not even need the function to be di
     \item So far we have seen that non-isolated singularities can be caused by branch cuts or by ``clustering'' of singularities
     \item Isolated singularities are useful because we can use Laurent series with the inner radius tending to $0$ around the singularity to approximate the function.
 \end{remarks}
-\subsection{Categorising Singularities}
 Given a function $f$ and a singularity $z_0$, we can do the following to classify it:
 \begin{enumerate}
     \item check whether $z_0$ is a branch point;
@@ -141,7 +145,7 @@ Given a function $f$ and a singularity $z_0$, we can do the following to classif
     \item if neither, find the Laurent series and check:
     \begin{enumerate}
         \item if $a_m$ = 0 for all negative $m$, then $f(z)$ is equal to its Taylor series and we have a removable singularity. $f(z_0) = a_0$;
-        \item if there exists $N > 0$ such that for all $m < -N-1$ then $a_m = 0$, and $a_{-N}$ (that is, the Laurent series terminates for negative $N$), then $f$ has a pole of order $N$ at $z = z_0$;
+        \item if there exists $N > 0$ such that for all $m < -(N+1)$ then $a_m = 0$, and $a_{-N} \neq 0$ (that is, the Laurent series terminates for negative $N$), then $f$ has a pole of order $N$ at $z = z_0$;
         \item if none of the above is true, $f$ has an \underline{essential singularity} at $z = z_0$.
     \end{enumerate}
 \end{enumerate}
@@ -184,12 +188,23 @@ Given a function $f$ and a singularity $z_0$, we can do the following to classif
     \label{propZeroesSingsInverse}
 \end{proposition}
 \begin{proof}
-    TODO %TODO
+    First, $f(z)$ has a Taylor series around $z_0$ that starts at $(z - z_0)^m$:
+    \begin{align*}
+        f(z) &= \sum_{n = m}^{\infty} \frac{f^{(n)}(z_0)}{n!} (z - z_0)^n \\
+        &= (z - z_0)^m \underbrace{\sum_{n=0}^{\infty} \frac{f^{(n+m)}(z_0)}{(n+m)!} (z - z_0)^n}_{h(z)}
+    \end{align*}
+    Then $h(z)$ is analytic around $z_0$ and since the zero of $f$ has order $m$, the term in $(z - z_0)^m$ must be nonc-zero, and so $h(z_0) \neq 0$. Therefore, we can consider $\tilde{h}(z) = \frac1{h(z)}$ which is also analytic around $z_0$.
+    \begin{align*}
+        g(z) &= (z - z_0)^{-m} \tilde{h}(z) \\
+        &= (z - z_0)^{-m} \sum_{n=0}^{\infty} \frac{\tilde{h}^{(n)}(z_0)}{n!} (z - z_0)^n \\
+        &= \sum_{n=-m}^{\infty} a_n (z - z_0)^n
+    \end{align*}
+    and we know $a_{-n} \neq 0$ because $\tilde{h}(z_0) \neq 0$.
 \end{proof}
-\begin{proposition}
+\begin{theorem}[Grand Picard Theorem]
     Let $f(z)$ have an essential singularity at $z = z_0$. Then in the neighbourhood excluding $z_0$, $f$ takes all values, except at most one.
-    \label{propGrandPicard}
-\end{proposition}
+    \label{thmGrandPicard}
+\end{theorem}
 \begin{proof}
     Proof is far beyond the scope of this course.
 \end{proof}
