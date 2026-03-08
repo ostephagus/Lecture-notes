@@ -124,5 +124,71 @@ Consider first symmetric matrices, $A \in \R^{n \times n}$ where $A = A^T$. We h
 \begin{definition}{$LDL^T$ factorisation}
     A symmetric matrix $A$ has an \underline{$LDL^T$ factorisation} if there exists $L \in \R^{n \times n}$ that is unit lower triangular, and $D \in \R^{n \times n}$ which is diagonal, such that $A = LDL^T$.
 \end{definition}
-Clearly this is symmetric, so this factorisation can only exist for symmetric matrices. It is a special case of $LU$ factorisation where $U = DL^T$.
+Clearly this is symmetric, so this factorisation can only exist for symmetric matrices. It is a special case of $LU$ factorisation where $U = DL^T$. The algorithm for this is similar to the algorithm for more general $LU$ factorisation. Let the columns of $L$ be $\vec{L_i}$. Then the matrix $LDL^T$ is an outer product:
+\begin{equation*}
+    A = \sum_{i=1}^{n} D_{ii} \vec{L_i} \otimes \vec{L_i}^T
+\end{equation*}
+and again we can use the fact that, for entry $i$ in this sum, rows and columns less than $i$ are zero.
+
+\begin{enumerate}
+    \item Input $A \im \R^{n \times n}$ such that $A = A^T$.
+    \item Let $A_0 = A$
+    \item For $k = 1$ to $n$,
+    \begin{enumerate}
+        \item Take the $k$th column of $A_{k-1}$ and divide it by its first element. Let this be $\vec{L_k}$.
+        \item Let $D_{kk}$ be $(A_{k-1})_{kk}$.
+        \item Set $A_k = A_{k-1} - D_{kk} \vec{L_k} \vec{L_k}^T$.
+    \end{enumerate}
+\end{enumerate}
+\begin{remark}
+    In order to deal with zero entries, we need to apply pivoting. However, to keep the symmetry we will also need to swap columns, resulting in a factorisation of $PAP^T$.
+\end{remark}
+
+\begin{definition}{Positive definiteness}
+    A real symmetric matrix is \underline{positive definite} if $\vec{x}^T A \vec{x} > 0$ for all $\vec{x} \in \R^n \backslash \{\vec0\}$.
+\end{definition}
+\begin{remark}
+    Equivalently, all eigenvalues of $A$ are positive.
+\end{remark}
+\begin{theorem}
+    Let $A \in \R^{n \times n}$ be real symmetric. Then $A$ is positive definite if and only if $A$ has an $LDL^T$ factorisation with $D_{kk} > 0$.
+    \label{thmLDLPosDef}
+\end{theorem}
+\begin{proof}
+    \begin{proofdirection}{$\Leftarrow$}{Let $D_{kk} > 0$}
+        For any $\vec{x} \in \R^n \backslash \{\vec0\}$,
+        \begin{align*}
+            \vec{x}^T A \vec{x} &= \vec{x}^T L D L^T \vec{x} \\
+            &= \vec{y}^T D \vec{y} \text{ where $\vec{y} = L^T \vec{x} \neq \vec0$ because $L$ is unit lower triangular} \\
+            &> 0 \text{ because $D$ has positive entries}
+        \end{align*}
+    \end{proofdirection}
+    \begin{proofdirection}{$\Rightarrow$}{Let $A$ be positive definite}
+        We need to show that $(A_{k-1})_{kk} > 0$, using the same notation as in the algorithm.
+
+        Let $D_{kk} = (A_{k-1})_{kk} = \vec{x}^T A \vec{x}$ for some $\vec{x} \neq \vec0$. Next, require $x_k = 1$ and $x_i = 0$ for $i > k$. For such an $\vec{x}$,
+        \begin{equation*}
+            \vec{x}^T A_{k-1} \vec{x} = \sum_{i,j=1}^{n} (A_{k-1})_{ij} 
+        \end{equation*}
+        Recall that $A_{k-1} = A - \sum_{i=1}^{k-1} D_{ii} \vec{L_i} \vec{L_i}^T$. Therefore,
+        \begin{equation*}
+            D_{kk} = \vec{x}^T \left(A- \sum_{i=1}^{k-1} D_{ii} \vec{L_i} \vec{L_i}^T\right)\vec{x} = \vec{x}^T A\vec{x} - \sum_{i=1}^{k-1} D_{ii} \left(\vec{L_i}^T \vec{x}\right)^2
+        \end{equation*}
+        and so now we define $\vec{x}$ such that:
+        \begin{equation*}
+            \begin{cases}
+                \vec{L_i}^T \vec{x} = 0 & \forall i \in \{1, \cdots, k-1\} \\
+                x_k = 1 &  \\
+                x_i = 0 & \forall i \in \{k+1, \cdots, n\}
+            \end{cases}
+        \end{equation*}
+        Then the system defined by $\vec{L_i}^T \vec{x} = 0$ is given by $\tilde{L} \vec{x} = 0$ where $\tilde{L}$ is an upper triangular matrix. Therefore there must exist a solution in $\R \backslash \{0\}$. Now finally,
+        \begin{align*}
+            D_{kk} &= \vec{x}^T A_{k-1} \vec{x} \\
+            &= \vec{x}^T A \vec{x} - \sum_{i=1}^{k-1} D_{ii} \underbrace{\left(\vec{L_i}^T \vec{x}\right)^2}_{0} \\
+            &= \vec{x}^T A \vec{x} > 0
+        \end{align*}
+        as required.
+    \end{proofdirection}
+\end{proof}
 \end{document}
