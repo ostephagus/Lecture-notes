@@ -18,9 +18,104 @@ The boundary condition for $\phi$ on the free surface was derived in chapter 1:
     \frac{\partial \zeta}{\partial t} + u_x \frac{\partial \zeta}{\partial x} + u_y \frac{\partial \zeta}{\partial y} = w \text{ at } z = \zeta
     \label{eqnFreeSurfaceKBC}
 \end{equation}
-The dynamic boundary condition is matching the pressure:
+The dynamic boundary condition is:
 \begin{equation}
-    p_{water} = p_0 \text{ at } z = \zeta
+    \rho \frac{\partial \phi}{\partial t} + \frac12 \rho |\nabla \phi|^2 + p_0 + \rho g z = f(t)
     \label{eqnFreeSurfaceDBC}
 \end{equation}
+on $z = \xi$.
+\subsection{Linear Water Waves}
+We will assume small amplitude $\xi \ll h$, and so
+\begin{equation*}
+    \left|\frac{\partial \xi}{\partial x}\right|, \left|\frac{\partial \xi}{\partial y}\right| \ll 1
+\end{equation*}
+We would like to linearise these equations. We will do this by perturbing about the rest state $\xi = 0$. Therefore, we ignore any nonlinear terms and we will take Taylor expansions around $z = 0$ for quantities evaluated on the free surface $z = \xi$.
+
+The resulting linear equations are:
+\begin{align}
+    \nabla^2 \phi &= 0 & z &\in (-h, 0) \label{eqnLaplaceLinear} \\
+    \frac{\partial \phi}{\partial t} &= 0 & z &= -h \label{eqnBottomKBCLinear} \\
+    \frac{\partial \xi}{\partial t} &= \frac{\partial \phi}{\partial z} & z &= 0 \label{eqnFreeSurfaceKBCLinear} \\
+    \rho \frac{\partial \phi}{\partial t} + \rho g \xi &= \tilde{F}(t) & z &= 0 \label{eqnFreeSurfaceDBCLinear}
+\end{align}
+We will look for a separable solution of the form $\phi(\vec{x}, t) = A(z)B(x) C(y) T(t)$. By taking a Fourier Transform and ignoring $y$ (by restricting to 2D), we end up with solutions of the form:
+\begin{equation*}
+    \begin{cases}
+        \xi = \xi_0 \exp(ikx - i\omega t) & \xi_0 \text{ unknown} \\
+        \phi = \Phi(z) \exp(ikx - i\omega t) & \Phi(z) \text{ unknown} \\
+    \end{cases}
+\end{equation*}
+where we assume that real parts are taken for $\xi$ and $\phi$. The general solution, therefore, is a superposition of an infinite number of Fourier modes (which correspond to travelling waves).
+
+We use equations~\ref{eqnLaplaceLinear} and \ref{eqnBottomKBCLinear}:
+\begin{equation*}
+    \nabla^2 \phi = 0 \implies \Phi'' - k^2 \Phi = 0
+\end{equation*}
+so $\Phi(z) = A\cosh [k(z+h)] + B\sinh [k(z+h)]$. Now we must have $\Phi(-h) = 0$ so we have $B = 0$. This is why we chose $z + h$ in the argument. $\Phi(z) = A\cosh[k(z+h)]$.
+
+\Eqnref{eqnFreeSurfaceDBCLinear} implies that $\tilde{F}(t)$ does not depend on $x$ and so its Fourier transform is zero. Equations~\ref{eqnFreeSurfaceKBCLinear} and \ref{eqnFreeSurfaceDBCLinear} imply:
+\begin{align*}
+    i\omega \xi_0 &+ A k \sinh(kh) = 0 \\
+    \rho g \xi_0 &- i\omega A \rho \cosh(kh) = 0
+\end{align*}
+which is,
+\begin{equation*}
+    \begin{pmatrix}
+        -i\omega & -k\sinh(kh) \\
+        \rho g & -i\omega \rho \cosh(kh)
+    \end{pmatrix}
+    \begin{pmatrix}\xi_0 \\ A\end{pmatrix} = \vec0
+\end{equation*}
+and so this has a non-zero solution if and only if:
+\begin{equation*}
+    -\omega^2 \cosh(kh) + gk\sinh(kg) = 0
+\end{equation*}
+This is the \underline{dispersion relation}:
+\begin{equation}
+    \omega^2 = gk\tanh(kh)
+    \label{eqnDispersionRelation}
+\end{equation}
+We define the phase speed $c = \frac{\omega}{k}$, and we understand this as the speed of the wave crest. Using this,
+\begin{equation*}
+    c^2 = \frac{gh \tanh(kh)}{kh}
+\end{equation*}
+Importantly, water waves are dispersive: waves of different wavelengths travel at different speeds.
+\begin{examples}{
+        We will consider the following approximations for different scenarios
+    }
+    \item Deep water waves.
+        Here $kh \gg 1$ and this gives $\omega^2 = gk$, $c = \sqrt{\frac{g}{k}}$. Swell waves in the Atlantic Ocean give a period approximately $15s$ so $\omega \approx 0.4$. Here $k^{-1} \approx 60m$ which is much smaller than the ocean depth of $4~km$. Then the wave speed is:
+        \begin{equation*}
+            c = \frac{\omega}{k} \approx 2000~km~day^{-1}
+        \end{equation*}
+    \item Shallow-water waves.
+        Here $kh \ll 1$, and so $\omega = \sqrt{gh}k$ and $c = \sqrt{gh}$ which is independent of $k$. Therefore, for shallow-water waves, the waves do not disperse.
+
+        In the case of a tsunami, $h \approx 4~km$ but $k^{-1} \approx 500~km$. Then $c \approx 200~ms^{-1}$, which is the speed that commercial planes fly at.
+\end{examples}
+We now consider the velocity, defined by $\nabla \phi$ where we found:
+\begin{equation*}
+    \phi = \Re\left[-\frac{i\omega \xi_0}{k} \frac{\cosh[k(z+h)]}{\sin(kh)} e^{i(kx - \omega t)}\right]
+\end{equation*}
+In the deep water limit, we find that the fluid particles travel in circles. In the shallow water limit, we find large longitudinal motion (along the $x$-axis) and small vertical motion (along $z$).
+\subsection{Standing Waves}
+Consider water in a rectangular container:
+\begin{equation*}
+    0 \leq x \leq a;\quad 0\leq y \leq b;\quad z\leq 0
+\end{equation*}
+Now we require that $\vec{u} \cdot \vec{n} = 0$ on the walls. The equations to solve are now:
+\begin{equation*}
+    \begin{cases}
+        \nabla^2 \phi = 0 & z < 0 \\
+        \frac{\partial \phi}{\partial n} = 0 & \text{side walls} \\
+        \nabla \phi \to \vec0 & z \to -\infty \\
+        \frac{\partial \xi}{\partial t} = \frac{\partial \phi}{\partial z} & z = 0 \\
+        \rho \frac{\partial \phi}{\partial t} + \rho g \xi = f(t) & z = 0
+    \end{cases}
+\end{equation*}
+The separation of variables method still works, and we find:
+\begin{equation*}
+    \phi(x, y, z, t) = A \cos\left(\frac{m \pi x}{a}\right) \cos\left(\frac{n \pi y}{b}\right)e^{kx - i\omega t}
+\end{equation*}
+now here $m$ and $n$ are integers, so we have discrete wavelengths that solve the equations.
 \end{document}
