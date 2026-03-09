@@ -199,4 +199,106 @@ and it is an isotropic pseudo-tensor of type $(0, 4)$. A pseudo-tensor satisfies
 \begin{definition}{Tensor equation}
     A \underline{tensor equation} is an equation in which every term is a tensor of the same type (transforms identically under a LT). Such an equation is said to be \underline{covariant} and is valid in any inertial frame.
 \end{definition}
+\section{Vector Calculus in Spacetime}
+\subsection{Differential Operators}
+The spacetime derivative of a scalar field $f(X)$ is a covector field:
+\begin{equation*}
+    \partial_\mu f = \begin{pmatrix}\frac1c \frac{\partial f}{\partial t} \\ \nabla f\end{pmatrix}
+\end{equation*}
+The spacetime divergence of a 4-vector field $V(X) = (V^0, \vec{v})^T$ is a scalar field:
+\begin{equation*}
+    \partial_\mu V^\mu(X) = \frac1c \frac{\partial V^0(X)}{\partial t} + \nabla \cdot \vec{v}
+\end{equation*}
+Curl is slightly more involved. Indeed, curl is only defined in $3$ dimensions. It involves the antisymmetric part of the derivatives of a vector field. In spacetime, we consider the antisymmetric derivative of a covector field $Y(X)$, which produces a tensor field of type $(0, 2)$.
+\begin{equation*}
+    \partial_\mu Y_\nu - \partial_\nu Y_\mu
+\end{equation*}
+
+The generalisation of the Laplacian operator $\nabla^2$ is the \underline{d'Alambertian} operator:
+\begin{equation*}
+    \Box = \eta^{\mu \nu} \partial_\mu \partial_\nu = -\frac{1}{c^2} \frac{\partial^{2}}{\partial t^{2}} + \nabla^2
+\end{equation*}
+
+The wave equation for a scalar field $f(X)$ is:
+\begin{equation*}
+    \Box f = 0
+\end{equation*}
+but this is a scalar equation only for waves that travel at the speed of light.
+\subsection{Raising and Lowering}
+The metric tensor provides an isomorphism between 4-vectors (with up indices) and covectors (with down indices). A vector $V$ can be related to a covector $W$ as:
+\begin{equation*}
+    V^\mu = \eta^{\mu \nu} W_\nu,\qquad W_\mu = \eta_{\mu \nu} V^\nu
+\end{equation*}
+these operations are known as \underline{raising and lowering indices}. Considering components, these raising and lowering operations will change the sign of the $0$th (time) component, while leaving the spatial components unchanged.
+
+For example, the 4-velocity is lowered as: $U_\mu = \gamma_{\vec{u}} (-c, \vec{u})$.
+
+A derivative is raised as: $\partial^\mu f = \left(-\frac{1}{c} \frac{\partial f}{\partial t}, \nabla f\right)$.
+The inner product of 4-vectors can now be written as:
+\begin{align*}
+    V \cdot W &= \eta_{\mu\nu} = V^\mu W^\nu \\
+    &= V_\nu W^\nu \\
+    &= V^\mu W_\mu \\
+    &= \eta^{\mu \nu} V_\nu W_\mu
+\end{align*}
+Any tensor index can be raised or lowered in the same way. For example, a tensor $T^{\mu \nu}$ can have its indices lowered to produce:
+\begin{align*}
+    \indxd{T}{\mu}{\nu} &= \eta_{\mu \rho} T^{\rho \nu} \\
+    \indx{T}{\mu}{\nu} &= \eta_{\nu \rho}T^{\mu \rho}
+\end{align*}
+%TODO EXERCISE: show that raising an index of $\eta$ gives the Kronecker Delta: $\eta^\mu_\nu = \delta^\mu_\nu$.
+A tensor may be symmetric or antisymmetric on a pair of indices if they are both down or both up.
+%TODO: Show that this is preserved if both indices are raised/lowered.
+\section{Charge Conservation and Motivating Examples}
+Recall the equation for charge conservation in the non-relativistic setting:
+\begin{equation*}
+    \frac{\partial \rho}{\partial t} + \nabla \cdot \vec{J} = 0 \tag{\ref{eqnChargeConserve}}
+\end{equation*}
+We see that this is naturally written in the form of a spacetime divergence:
+\begin{equation}
+    \partial_\mu J^\mu = 0
+    \label{eqnChargeConserveRelativ}
+\end{equation}
+where here $J$ is a new 4-vector called the \underline{charge-current} density or the 4-current density:
+\begin{equation*}
+    J = \begin{pmatrix}c\rho \\ \vec{J}\end{pmatrix}
+\end{equation*}
+\begin{example}
+    Consider a Lorentz boost of speed $v$ in the $x$ direction.
+
+    In $S$, let there be a uniform distribution of charged particles at rest, each with charge $q$ and with $n$ particles per unit volume. Then $\rho = nq$ and:
+    \begin{equation*}
+        J = \begin{pmatrix}nqc \\ \vec{0}\end{pmatrix}
+    \end{equation*}
+    In $S'$, we would expect to see particles moving with $3$-velocity $-v\vec{e_x}$. Length contraction means that the density of particles increases to $\gamma n$. We would therefore expect:
+    \begin{equation*}
+        J' = \begin{pmatrix}\gamma n q c \\ -\gamma n q v\vec{e_x}\end{pmatrix}
+    \end{equation*}
+    and by performing the Lorentz transformation we see that this is correct:
+    \begin{equation*}
+        \begin{pmatrix}
+            \gamma & -\gamma v / c & 0 & 0 \\
+            -\gamma v / c & \gamma & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}nqc \\ \vec{0}\end{pmatrix}
+        = \begin{pmatrix}\gamma n q c \\ -\gamma n q v \\ 0 \\ 0\end{pmatrix}
+    \end{equation*}
+\end{example}
+\begin{example}
+    Consider, in a frame $S$, a wire carrying particles of charge $q$ (with density $n+$) moving along the wire with 3-velocity $u\vec{e_x}$. Let there also be particles of charge $-q$, with density $n_- = n_+$ moving with 3-velocity $-u\vec{e_x}$. Therefore, the overall charge density is $\rho = 0$. The net current density is:
+    \begin{equation*}
+        \vec{J} = n_+ qu\vec{e_x} + n_0 (-q) (-u) \vec{e_x} = 2n_+ q u \vec{e_x}
+    \end{equation*}
+    Then the wire is uncharged but carries a current. This will have no electric field, and a magnetic field with field lines travelling in circles around the line of axis of the wire.
+
+    In $S'$, which moves at speed $v$ in the $x$ direction relative to $S$, the positive and negative charged particles will have different velocities in the $x$ direction:
+    \begin{equation*}
+        u_{\pm}' = \frac{\pm u - v}{1 \mp \frac{uv}{c^2}}
+    \end{equation*}
+    and therefore we will have different charge densities for the positive and negative charges. This means we will have $\rho' \neq 0$, leading to a non-zero electric field in frame $S'$. We can get the complementary result ($\vec{B} = 0$ in $S$ but $\vec{B} \neq 0$ in $S'$) by considering the previous example.
+    
+    These examples show that $\vec{E}$ and $\vec{B}$ must be linked in relativistic electromagnetism. We will see in the next section that indeed they form the electromagnetic tensor.
+\end{example}
 \end{document}
