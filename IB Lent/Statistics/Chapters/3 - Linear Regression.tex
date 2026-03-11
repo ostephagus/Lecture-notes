@@ -1,6 +1,7 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
+\section{Defining a Model}
 Suppose we have data $(\vec{X_1}, Y_1), \cdots, (\vec{X_n}, Y_n)$, with $Y_1 \in \R$ and $X_p \in \R^p$.
 
 In a \underline{linear model}, we assume:
@@ -10,6 +11,7 @@ In a \underline{linear model}, we assume:
 where $\alpha$ is the \underline{intercept}, $(\beta_1, \cdots, \beta_p)$ are the \underline{regression coefficients}, and $\epsilon_1, \cdots, \epsilon_n$ are random noise, with mean $0$ and variance $\sigma^2$.
 
 We want to estimate $\alpha$ and the $\beta_i$. $\vec{X_i}$ are the \underline{predictors} or \underline{explanatory variables}, and $Y_i$ are the \underline{response variables}.
+
 \begin{remarks}
     \item We often eliminate the intercept by defining the first predictor $X_{i1} = 1$ and $\beta_1$ plays the role of $\alpha$.
     \item We can also model non-linear relationships, for example $X_{i1} = z$ and $X_{iz} = z_i^2$, then the linear model is:
@@ -18,8 +20,119 @@ We want to estimate $\alpha$ and the $\beta_i$. $\vec{X_i}$ are the \underline{p
         \end{equation*}
     \item The coefficient $\beta_j$ can be interpreted as the effect on the response of increasing $\vec{X_{ij}}$ by $1$ unit while keeping everything else fixed. In general, however, linear models can only reveal correlations in data rather than causation.
 \end{remarks}
-We can also consider a matrix formulation. Let $\vec{Y}$ be the vector of all responses, and let $X$ be the matrix with rows $\vec{X_i}$. Then $\vec{\beta}$ is the vector of the $\beta_i$, same with $\vec{\epsilon}$. The linear model is then written as:
+We can also consider a matrix formulation. Let $\vec{Y}$ be the vector of all responses, and let $X \in \R^{n \times p}$ be the matrix with rows $\vec{X_i}$. Then $\vec{\beta}$ is the vector of the $\beta_i$, same with $\vec{\epsilon}$. The linear model is then written as:
 \begin{equation*}
     \vec{Y} = X\vec{\beta} + \vec{\epsilon}
 \end{equation*}
+We will assume that the random noise has:
+\begin{equation*}
+    \E[\vec{\epsilon}] = 0, \Cov(\epsilon) = \sigma^2 I
+\end{equation*}
+and so the individual components are independent, with means $0$ and variances $\sigma^2$. We will also assume that $X$ has rank $p$ (the maximum possible since it has $p$ rows) %TODO: Is this rows or columns?
+
+In our model, we assume $X$ is fixed. We want to find estimators of $\vec{\beta}$ that give a certain $\vec{Y}$.
+\section{Least Squares Estimation}
+\begin{definition}{Least squares estimator}
+    The \underline{least squares estimator} $\hat{\vec{\beta}}$ is the minimiser of the residual sum of squares:
+    \begin{equation*}
+        S(\vec{\beta}) = \norm{\vec{Y} - X\vec{\beta}}_2^2
+    \end{equation*}
+    which is a quadratic polynomial in $\beta_1, \cdots, \beta_p$, and so the minimiser satisfies $\nabla_{\vec{\beta}} S(\vec{\beta}) = \vec0$.
+\end{definition}
+\begin{remarks}
+    \item The solution to this is:
+        \begin{equation*}
+            \hat{\vec{\beta}} = (X^T X)^{-1} X^T \vec{Y}
+        \end{equation*}
+    \item This is linear in $Y$, since $\hat{\vec{\beta}} = M\vec{Y}$ for some fixed matrix $M$.
+    \item $\hat{\vec{\beta}}$ is unbiased, since $\E[\vec{\epsilon}] = 0$.
+    \item The covariance is:
+        \begin{equation*}
+            \Cov(\hat{\vec{\beta}}) = \sigma^2 (X^T X)^{-1}
+        \end{equation*}
+\end{remarks}
+\subsection{Gauss-Markov Theorem}
+\begin{theorem}[Gauss-Markov Theorem]
+    Let $\tilde{\vec{\beta}} = C\vec{Y}$ be any other unbiased linear estimator of $\vec{\beta}$. Then for any $\vec{t} \in \R^p$,
+    \begin{equation}
+        \Var(\vec{t} \cdot \hat{\vec{\beta}}) \leq \Var(\vec{t} \cdot \tilde{\vec{\beta}})
+        \label{eqnBLUE}
+    \end{equation}
+    Thus, the least squares estimator is the best linear unbiased estimator (BLUE).
+    \label{thmGaussMarkov}
+\end{theorem}
+\begin{proof}
+    Note that the condition:
+    \begin{equation*}
+        \Var(\vec{t} \cdot \hat{\vec{\beta}}) - \Var(\vec{t} \cdot \tilde{\vec{\beta}}) = \vec{t}^T \left(\Cov(\tilde{\vec{\beta}}) - \Cov(\hat{\vec{\beta}})\right) \vec{t} \geq 0
+    \end{equation*}
+    for all $\vec{t} \in \R^p$ is equivalent to the matrix $\Cov(\tilde{\vec{\beta}}) - \Cov(\hat{\vec{\beta}})$ being positive semi-definite.
+
+    Let $A = C - (X^T X)^{-1} X^T$. Then:
+    \begin{equation*}
+        \E[A\vec{Y}] = \E[\tilde{\vec{\beta}}] - \E[\hat{\vec{\beta}}] = 0
+    \end{equation*}
+    since both estimators are unbiased. Since $\E[A\vec{Y}] = A \E[\vec{Y}] = AX\vec{\beta}$, for all $\vec{\beta} \in \R^p$, this means $AX = 0$. Furthermore,
+    \begin{align*}
+        \Cov(\tilde{\vec{\beta}}) &= \Cov\left((A + (X^T X)^{-1} X^T) \vec{Y}\right) \\
+        &= \left(A + (X^T X)^{-1} X^T\right) \Cov(\vec{Y}) \left(A + (X^T X)^{-1} X^T\right)^T \\
+        &= \sigma^2 \left(AA^T + (X^T X)^{-1} + AX(X^T X)^{-1} + (X^T X)^{-1} X^T A^T\right) \\
+        &= \sigma^2 \left(AA^T + (X^T X)^{-1}\right) \\
+        &= \sigma^2 AA^T + \Cov(\hat{\vec{\beta}})
+    \end{align*}
+    and therefore $\Cov(\tilde{\vec{\beta}}) - \Cov(\hat{\vec{\beta}}) = \sigma^2 AA^T$ which is positive semi-definite.
+\end{proof}
+\begin{remark}
+    If we think about $(t_1, \cdots, t_p)$ as the values of the predictors for a new sample, $\vec{t} \cdot \hat{\vec{\beta}}$ and $\vec{t} \cdot \tilde{\vec{\beta}}$ would be our predictors for the mean response using either estimator. \Thmref{thmGaussMarkov} says that $\vec{t} \cdot \hat{\vec{\beta}}$ always gives a smaller variance, and since both estimators are unbiased, it has smaller MSE, too.
+\end{remark}
+\subsection{Geometric Interpretation of Least Squares}
+\begin{definition}{Orthogonal projection}
+    A matrix $P \in \R^{n \times n}$ is an \underline{orthogonal projection} if it is idempotent ($P^2 = P$) and symmetric ($P^T = P$).
+\end{definition}
+\begin{propositions}{
+        
+        \label{propsOrthoProj}
+    }
+    \item $P$ is an orthogonal projection if and only if for all $\vec{v}$ in the column space of $P$, we have $P \vec{v} = \vec{v}$ and for all $w$ in the orthogonal complement to the column space, $P\vec{w} = \vec0$. Equivalently, we can write $P = UU^T$ where the columns of $U \in \R^{n \times k}$ form an orthonormal basis of the column space of $P$, and $k$ is the rank of $P$.
+    \item If $P$ is an orthogonal projection, so is $I - P$.
+    \item $\norm{\vec{Y}}_2^2 = \norm{P\vec{Y}}_2^2 + \norm{(I-P)\vec{y}}_2^2$.
+    \item The eigenvalues of $P$ are all $0$ or $1$. The trace of $P$ is its rank.
+\end{propositions}
+\begin{definition}{Fitted values}
+    The \underline{fitted values} in a linear regression are $\hat{\vec{Y}} = X \hat{\vec{\beta}}$ (predicted mean responses).
+\end{definition}
+\begin{definition}{Residuals}
+    The \underline{residuals} in a linear regression are $Y - \hat{Y}$.
+\end{definition}
+Note that:
+\begin{align*}
+    \hat{\vec{Y}} &= \underbrace{X(X^TX)^{-1}}_{P} \vec{Y} \\
+    \vec{Y} - \hat{\vec{Y}} &= (I - P)\vec{Y}
+\end{align*}
+\begin{proposition}
+    $P$ is the orthogonal projection onto the column space of $X$.
+    \label{propLSEOrthoProj}
+\end{proposition}
+\begin{proof}
+    $P$ is clearly symmetric, and
+    \begin{equation*}
+        P^2 = \left[X(X^T X)^{-1} X^T\right]\left[X (X^T X)^{-1} X^T\right] = X(X^T X)^{-1} X^T
+    \end{equation*}
+    and so $P^2 = P$, $P$ is an orthogonal projection.
+
+    \begin{subproof}{The column spaces of $P$ and $X$ are the same}
+        For any $\vec{a} \in \R^n$,
+        \begin{equation*}
+            PA = X(X^TX^{-1})X^T \vec{a} \in \col(X)
+        \end{equation*}
+        and conversely, if $\vec{b} = X\vec{c} \in \col(X)$, then:
+        \begin{equation*}
+            \vec{b} = X\vec{c} = X(X^TX^{-1})X^T X \vec{c} = P\vec{b} \in \col(P)
+        \end{equation*}
+    \end{subproof}
+\end{proof}
+\begin{corollary}
+    The vector of fitted values $\hat{\vec{Y}} = P\vec{Y}$ is the orthogonal projection of $Y$ onto $\col(X)$, and the vector of residuals $\vec{Y} - \hat{\vec{Y}} = (I-P)\vec{Y}$ is the orthogonal projection of $Y$ onto $\col(X)^\perp$.
+    \label{corResidualsProjection}
+\end{corollary}
 \end{document}
