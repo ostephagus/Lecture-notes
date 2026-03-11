@@ -17,7 +17,25 @@ for any countour $\gamma$ that goes anticlockwise around the singularity.
 \begin{figure}
     \centering
     \begin{tikzpicture}[scale=1]
-        
+        \pgfmathsetmacro{\intarrowanglediff}{2 * asin(0.2*sin(10) / 2.8)}
+        \pgfmathsetmacro{\restartAngleOne}{80 + \intarrowanglediff}
+        \pgfmathsetmacro{\restartAngleTwo}{200 + \intarrowanglediff}
+        \pgfmathsetmacro{\endAngleTwo}{360 - \intarrowanglediff}
+
+
+        \draw (3, 0) arc[start angle=0, end angle=360, radius=3]
+            pic[pos=0.1, rotate=36] {patharrow}
+            node[pos=0.1, anchor=south] {$\gamma$};
+
+        \draw (2.8, 0) arc[start angle=0, end angle=80, radius=2.8]
+            pic[rotate=-10] {integration loop={1}};
+        \draw (\restartAngleOne:2.8) arc[radius=2.8, start angle=\restartAngleOne, end angle=200]
+            pic[rotate=110] {integration loop={2}};
+
+        \draw (\restartAngleTwo:2.8) arc[radius=2.8, start angle=\restartAngleTwo, end angle=\endAngleTwo]
+            pic[pos=0.5, rotate=280] {patharrow}
+            node[pos=0.5, anchor=south] {$\tilde{\gamma}$}
+            pic[rotate=-90] {integration loop={3}};
     \end{tikzpicture}
     \caption{Diagram of contours involved in Residues Theorem}
     \label{figResiduesDiagram}
@@ -50,11 +68,11 @@ for any countour $\gamma$ that goes anticlockwise around the singularity.
     \end{equation*}
     Then what about the contribution from $\gamma_R$? We can bound this as $R \to \infty$:
     \begin{equation*}
-        \abs{1 - \abs{z}^2} \leq \abs{1 _ z^2}
+        \abs{1 - \abs{z}^2} \leq \abs{1 - z^2}
     \end{equation*}
     and so:
     \begin{align*}
-        \lim_{R \to \infty} \abs{\int_{\gamma_R} \frac{1}{1 + z^2} dz} \leq \lim_{R \to \infty} \int_{\gamma_R} \frac{1}{\abs{1 - \abs{z}^2}} \abs{dz} \\
+        \lim_{R \to \infty} \abs{\int_{\gamma_R} \frac{1}{1 + z^2} dz} &\leq \lim_{R \to \infty} \int_{\gamma_R} \frac{1}{\abs{1 - \abs{z}^2}} \abs{dz} \\
         &= \lim_{R \to \infty} \int_{\gamma_R} \frac{1}{R^2 - 1} \abs{dz} \\
         &= \lim_{R \to \infty} O(R^{-1}) = 0.
     \end{align*}

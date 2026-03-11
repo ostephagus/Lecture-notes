@@ -36,6 +36,38 @@
 
 \graphicspath{{./.assets}}
 
+\tikzset{
+    patharrow/.pic={
+        \draw (-0.1, -0.05) -- (0, 0.05) -- (0.1, -0.05);
+    }
+}
+
+\tikzset{
+    pics/integration loop/.style={
+        code={
+      
+            \def\loopn{#1}%
+      
+            \pgfmathsetmacro{\Cx}{-0.2*cos(80)}%
+            \pgfmathsetmacro{\Cy}{-1-0.2*sin(80)}%
+            \pgfmathsetmacro{\Ex}{-0.4*cos(80)}%   x-coord of arc end point
+            \pgfmathsetmacro{\BottomY}{\Cy-0.2}%   y-coord of arc bottom
+            \pgfmathsetmacro{\LabelBottom}{\BottomY - 0.3}
+
+            \draw (0,0) -- (0,-1) arc[start angle=80, end angle=-260, radius=0.2] -- (\Ex, 0);
+            \fill (\Cx,\Cy) circle[radius=0.05];
+            
+            \node at (\Cx+0.4,\Cy) {$z_{\loopn}$};
+            
+            \begin{scope}[shift={(\Cx,\BottomY)}, rotate=90]
+                \draw (-0.1, -0.05) -- (0, 0.05) -- (0.1, -0.05);
+            \end{scope}
+            
+            \node at (\Cx,\LabelBottom) {$\gamma_{\loopn}$};
+        }
+    }
+}
+
 \begin{document}
 \maketitle
 \tableofcontents
