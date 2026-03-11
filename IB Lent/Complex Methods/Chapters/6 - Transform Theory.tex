@@ -169,4 +169,171 @@ This section is motivated by the desire to compute something akin to a Fourier t
     \end{align*}
     we have just required that the Laplace transform be a linear map. In the following section, we will prove properties about the Laplace transform including linearity.
 \end{example}
+\subsection{Properties of the Laplace Transform}
+\begin{propositions}{
+        Let $f, g : \C \mapsto \C$ with Laplace transforms $F$ and $G$, and $\alpha, \beta \in \C$.
+        \label{propsLTProps}
+    }
+    \item Linearity:
+        \begin{equation*}
+            \LT\left[\alpha f + \beta g\right] = \alpha \LT[f] + \beta \LT[g]
+        \end{equation*}
+    \item Translation: let $t_0 \in \R$, then
+        \begin{equation*}
+            \LT[f(t - t_0) H(t - t_0)] (s) = e^{-s t_0} F(s)
+        \end{equation*}
+        where $H$ is the Heaviside function.
+    \item Scaling: Let $\lambda \in \R$ be positive, then
+        \begin{equation*}
+            \LT[f(\lambda t)] = \frac{1}{\lambda} F(s / \lambda)
+        \end{equation*}
+    \item Shifting by a constant:
+        \begin{equation*}
+            \LT[e^{s_0 t} f(t)] = F(s - s_0)
+        \end{equation*}
+    \item Derivatives:
+        \begin{equation*}
+            \LT[f'(t)] = sF(s) - f(0)
+        \end{equation*}
+        and the property that $f(0)$ appears in this term is known as \textit{memory}. The second derivative follows immediately:
+        \begin{equation*}
+            \LT[f''(t)] = s^2 F(s) - sf(0) - f'(0)
+        \end{equation*}
+    \item Derivative of the Laplace transform:
+        \begin{equation*}
+            \LT[tf(t)] = -F'(s)
+        \end{equation*}
+        this is useful because, given the Laplace Transform of $f(t)$, we can immediately know the Laplace transform of $tf(t)$.
+    \item If $\lim_{t \to\infty} f(t)$ exists, then:
+        \begin{equation*}
+            \lim_{s \to \infty} sF(s) = f(0) \text{ and } \lim_{s \to 0} sF(s) = \lim_{t \to \infty}f(t)
+        \end{equation*}
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item Simple from the definitions
+        \item Set $\tilde{t} = t - t_0$, and consider:
+            \begin{align*}
+                \int_{0}^{\infty}& g(t - t_0) e^{-st} dt = \int_{-t_0}^{\infty} g(\tilde{t}) e^{-s(\tilde{t} + t_0)} d\tilde{t} \\
+                &= e^{-st_0} \int_{-t_0}^{\infty} g(\tilde{t}) e^{-s\tilde{t}} d\tilde{t}
+            \end{align*}
+            and so now take $g(t) = f(t) H(t)$:
+            \begin{align*}
+                \int_{0}^{\infty}& f(t-t_0) H(t - t_0) e^{-st} dt = e^{-st_0} \int_{-t_0}^{\infty} f(\tilde{t}) H(\tilde{t}) e^{-s\tilde{t}} d\tilde{t} \\
+                &= e^{-st_0} \int_{0}^{\infty} f(\tilde{t}) e^{-s\tilde{t}} d\tilde{t} \\
+                &= e^{-st_0} F(s)
+            \end{align*}
+        \item We calculate it directly:
+            \begin{align*}
+                \LT[f(\lambda t)] &= \int_{0}^{\infty} f(\lambda t) e^{-st} dt \\
+                &= \frac1\lambda \int_{0}^{\infty} f(\tilde{t}) e^{-\frac{s}{\lambda}\tilde{t}} d\tilde{t} \text{ by taking } \tilde{t} = \lambda t \\
+                &= \frac1\lambda F\left(\frac{s}{\lambda}\right)
+            \end{align*}
+        \item TODO %TODO
+        \item Again we calculate this directly:
+            \begin{align*}
+                \LT[f'(t)](s) &= \int_{0}^{\infty} f'(t)e^{-st} dt \\
+                &= \left[f(t) e^{-st}\right]_0^\infty - \int_{0}^{\infty} (-s) f(t) e^{-st} dt \\
+                &= sF(s) - f(0)
+            \end{align*}
+            where we are assuming that $f(t)$ does not grow faster than exponentials as $t \to \infty$.
+        \item We again integrate by parts:
+            \begin{align*}
+                F'(s) &= \frac{d}{ds} \int_{0}^{\infty} f(t) e^{-st} dt \\
+                &= \int_{0}^{\infty} (-t)f(t)e^{-st} dt \\
+                &= \LT[-t f(t)]
+            \end{align*}
+        \item We have seen, in the derivative section, that:
+            \begin{equation*}
+                sF(s) = f(0) + \int_{0}^{\infty} f'(t) s^{st} dt
+            \end{equation*}
+            and so:
+            \begin{align*}
+                \lim_{s \to 0} sF(s) &= f(0) + \underbrace{\int_{0}^{\infty} f'(t) dt}_I \\
+                &= \lim_{t \to \infty} f(t) - f(0) + f(0) = \lim_{t \to \infty} f(t).
+            \end{align*}
+            Also, we know that the limit exists, so $f(t)$ and $f'(t)$ do not grow faster than exponential. Then the integral $I$ vanishes as $s \to \infty$ and:
+            \begin{equation*}
+                \lim_{s \to \infty}sF(s) = f(0)
+            \end{equation*}
+    \end{enumerate}
+\end{proof}
+Now we have these properties, we can often calculate Laplace Transforms much more easily.
+\begin{examples}{
+        We can use the properties for the following examples:
+    }
+    \item $f(t) = t\sin(t)$. We already know the LT of $\sin$, and we know that $t\sin(t)$ is related to the derivative of the LT. Therefore:
+        \begin{align*}
+            \LT[t\sin(t)](s) &= -\frac{d}{ds} \LT[\sin(t)](s) \\
+            &= -\frac{d}{ds} \left(\frac{1}{1 + s^2}\right) \\
+            &= \frac{2s}{1 + s^2}
+        \end{align*}
+    \item We already know the Laplace transform of the constant function:
+        \begin{equation*}
+            \LT[1](s) = \frac{1}{s}
+        \end{equation*}
+        then in order to find the monomial function $f(t) = t^n$, we can take $n$ derivatives of the constant function's Laplace Transform:
+        \begin{align*}
+            \LT[t^n](s) &= (-1)^n \frac{d^{n}}{ds^{n}} \left(\frac1s\right) \\
+            &= \frac{m!}{s^m}
+        \end{align*}
+    \item The Gamma function, that generalises $(n-1)!$:
+        \begin{equation*}
+            \Gamma(n) = \int_{0}^{\infty} e^{-t} t^{n-1} dt
+        \end{equation*}
+        is given by $\Gamma(n) = \LT[t^{n-1}](s = 1)$. Then we can use this to calculate noninteger values for $n$.
+    \item Scaling the argument to a sin function: 
+        \begin{align*}
+            \LT[\sin(a t)] &= \frac1a \LT[\sin(t)]\left(\frac{s}{a}\right) \\
+            &= \frac1a \frac{1}{(s / a)^2 + 1} \\
+            &= \frac{a}{s^2 + a^2}
+        \end{align*}
+    \item We can find the cosine function using linearity, exponentials and sines:
+        \begin{equation*}
+            \LT[e^{iat}](s) = \frac{1}{s-ia} = \frac{s + ia}{s^2 + a^2}
+        \end{equation*}
+        and we know that this is a sum of $cos(at) + i\sin(at)$, so:
+        \begin{equation*}
+            \LT[\cos(at)] = \frac{s + ia}{s^2 + a^2} - \frac{ia}{s^2 + a^2} = \frac{s}{s^2 + a^2}
+        \end{equation*}
+        We could also have found this using the derivative.
+\end{examples}
+\subsection{Inverse Laplace Transform}
+\begin{proposition}
+    Given a function $F(s)$, we can compute the inverse Laplace transform $f(t)$ by:
+    \begin{equation}
+        f(t) = \frac1{2\pi i} \int_{\alpha - i \infty}^{\alpha + i \infty} F(s) e^{st} ds 
+        \label{eqnInverseLaplace}
+    \end{equation}
+    and this is known as the \underline{Bromwich Inversion Formula}.
+
+    The constant $\alpha$ is chosen such that the \underline{Bromwich inversion contour} $\gamma$ defined by $\{\Re(s) = \alpha\}$ lies to the right of all singularities of $F(s)$.
+    \label{propInverseLaplace}
+\end{proposition}
+\begin{proof}
+    Since $f(t)$ has a Laplace Transform, we have $f(t) = 0$ for $t < 0$, and $f$ does not grow faster than exponential.
+
+    We can therefore choose an $\alpha \in \R$ such that:
+    \begin{equation*}
+        g(t) = f(t) e^{-\alpha t}
+    \end{equation*}
+    has a Fourier Transform (since it decays exponentially (or faster) as $t \to \infty$, and is zero for $t < 0$). This will be given by:
+    \begin{equation*}
+        \ft{g}(\omega) = \int_{-\infty}^{\infty} f(t)e^{\alpha t - i \omega t} dt
+    \end{equation*}
+    then we note that this looks like a Laplace Transform of $f$:
+    \begin{equation*}
+        \ft{g}(\omega) = \int_{-\infty}^{\infty} f(t)e^{-(\alpha + i \omega)t} dt = F(\alpha + i \omega)
+    \end{equation*}
+    which we can invert (by the Fourier Inversion Formula):
+    \begin{equation*}
+        g(t) = \frac{1}{2\pi} \int_{-\infty}^{\infty} F(\alpha + i \omega) e^{i \omega t} d\omega
+    \end{equation*}
+    and finally, take $s = \alpha + i \omega$:
+    \begin{align*}
+        f(t) e^{\alpha t} &= \frac{1}{2\pi i} \int_{\alpha - i \infty}^{\alpha + i \infty} F(s) e^{st - \alpha t} ds \\
+        f(t) &= \int_{\alpha - i \infty}^{\alpha + i \infty} F(s) e^{st} ds
+    \end{align*}
+    The added condition that the contour lies to the right of all singularities of $F(s)$ fixes a constant of integration, and ensures that $f(t) = 0$ on $t < 0$. This is because we can close the contour $\gamma$ using a semicircle that avoids all singularities, meaning that the integral is zero.
+\end{proof}
 \end{document}
