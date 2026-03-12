@@ -361,7 +361,7 @@ where $E_0$ is the amplitude (constant), and $k$ is the wave number $\frac{\omeg
 \subsection{Polarisation}
 A more general approach to plane EM waves is to look for solutions of Maxwell's Equations of the form:
 \begin{align*}
-    \vec{E} &= \Re(\vec{E_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)})
+    \vec{E} &= \Re(\vec{E_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)}) \\
     \vec{B} &= \Re(\vec{B_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)})
 \end{align*}
 where $\vec{E_0}$ and $\vec{B_0}$ are constant vectors in $\C^3$, the vector amplitudes, and $\vec{k} \in \R^3$ is the constant wavevector. $\omega \in \R$ is the angular frequency and the wave number is $|\vec{k}|$.
@@ -370,9 +370,9 @@ where $\vec{E_0}$ and $\vec{B_0}$ are constant vectors in $\C^3$, the vector amp
     If we replace the complex number in the brackets with its complex conjugate, the real part is unchanged. In this way, we can require $\omega > 0$ by correctly choosing the sign of $\vec{k}$.
 \end{remark}
 
-Then these field $\vec{E}$ and $\vec{B}$ must satisfy the wave equation. This reduces to the dispersion relation:
+These field $\vec{E}$ and $\vec{B}$ must satisfy the wave equation. This reduces to the dispersion relation:
 \begin{equation*}
-    \omega^2 = c^2 k^2
+    \omega^2 = c^2 |\vec{k}|^2
 \end{equation*}
 This individual Maxwell equations reduce to algebraic conditions:
 \begin{align*}
@@ -410,12 +410,25 @@ which propagates in the $-x$ direction. Superposing the two waves:
 \begin{align*}
     \vec{E} &= \vec{E_{inc}} + \vec{E_{ref}} \\
     &= \Re(2iE_0 \sin(kx) e^{-i\omega t}) \vec{e_y} \\
-    &= 2E_0 \sin(kx) \sin(\omega t)
+    &= 2E_0 \sin(kx) \sin(\omega t)\vec{e_y}
 \end{align*}
 which indeed solves the required boundary condition. We can interpret this as a standing wave with a node at $x = 0$.
 
-%TODO: Work out $\vec{B}$ and show that it is discontinuous at the boundary. We can therefore work out a surface current density $\vec{K}(t)$. Solution is in the notes.
+The corresponding magnetic field is given by:
+\begin{align*}
+    \vec{B}&=\vec{B_{inc}} + \vec{B_{ref}} \\
+    &= \Re\left[\frac{\vec{E_0} \times \vec{k}}{\omega}\left(e^{i(\vec{k} \cdot \vec{x} - \omega t)} + e^{i(-\vec{k} \cdot \vec{x} - \omega t)}\right)\right] \\
+    &= \Re\left[\frac{E_0 k}{\omega} \vec{e_z}e^{-i\omega t}\left(e^{ikx} + e^{-ikx}\right)\right] \\
+    &= \Re\left[\frac{E_0 k}{ck} \vec{e_z}e^{-i\omega t} \times 2\cos(kx)\right] \\
+    &= \frac{2E_0}{c} \cos(\omega t) \cos(kx) \vec{e_z}
+\end{align*}
+which is a standing wave with an antipole at $x = 0$. Therefore, we have a surface discontinuity:
+\begin{equation*}
+    \left[\vec{B} \times \vec{n}\right] = \frac{2E_0}{c} \cos(\omega t)
+\end{equation*}
+and the surface charge is $\vec{K} = \frac{2E_0}{\mu_0 c} \cos(\omega t)$ on the conductor.
 \section{Electromagnetic Energy}
+\subsection{Equation of Energy Conservation}
 In electrostatics, we found that the energy per unit volume in $\vec{E}$ was $\frac12 \epsilon_0 |\vec{E}|^2$. In magnetostatics, the energy per unit volume in $\vec{B}$ was $\frac12 \frac{1}{\mu_0} |\vec{B}|^2$.
 
 We will now derive a general conservation law from Maxwell's Equations. Consider the rate of change of the electric and magnetic energies together, per unit volume:
@@ -461,23 +474,23 @@ In a conductor, Ohm's Law is $\vec{J} = \sigma \vec{E}$. Therefore the rate of J
     \int_{V} \vec{E} \cdot \vec{J} dV = \int_V \frac{|\vec{J}|^2}{\sigma} dV
 \end{equation*}
 which is positive definite and is the rate of Joule heating.
-\subsection{Energy in Electrogmagnetic Waves}
-Consdier:
+\subsection{Energy in Electromagnetic Waves}
+Consider:
 \begin{align*}
     \vec{E} &= \Re\left(\vec{E_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)}\right) \\
     \vec{B} &= \Re\left(\vec{B_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)}\right)
 \end{align*}
 and use the identity $\Re(A) \Re(B)  = \Re\left(\frac{AB + A\overline{B}}{2}\right)$:
 \begin{align*}
-    w \frac12 &\epsilon_0 |\vec{E}|^2 + \frac{1}{2\mu_0} |\vec{B}|^2 \\
+    w &= \frac12 \epsilon_0 |\vec{E}|^2 + \frac{1}{2\mu_0} |\vec{B}|^2 \\
     &= \frac14 \epsilon_0 \Re\left((\vec{E_0} \cdot \vec{E_0}) e^{2 i (\vec{k} \cdot \vec{x} - \omega t)} + |\vec{E_0}|^2\right) \\
-    &\quad+ \frac{1}{4\mu_0} \Re\left((\vec{B_0} \cdot \vec{B_0}) e^{2 i (\vec{k} \cdot \vec{x} - \omega t)} + |\vec{B_0}|^2\right) \\
+    &\quad+ \frac{1}{4\mu_0} \Re\left((\vec{B_0} \cdot \vec{B_0}) e^{2 i (\vec{k} \cdot \vec{x} - \omega t)} + |\vec{B_0}|^2\right)
 \end{align*}
 The oscillatory terms average to zero, leaving the average energy density:
 \begin{equation*}
     \average{w} = \frac14 \epsilon_0 |\vec{E_0}|^2 + \frac1{4\mu_0} |\vec{B_0}|^2
 \end{equation*}
-THen since $\vec{B_0} = \frac1c \uvec{k} \times \vec{E_0}$ and $\uvec{k} \cdot \vec{E_0} = 0$, the two terms are equal and we can write:
+Then since $\vec{B_0} = \frac1c \uvec{k} \times \vec{E_0}$ and $\uvec{k} \cdot \vec{E_0} = 0$, the two terms are equal and we can write:
 \begin{equation*}
     \average{w} = \frac12 \epsilon_0 |\vec{E_0}|^2
 \end{equation*}
