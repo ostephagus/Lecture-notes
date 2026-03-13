@@ -118,4 +118,119 @@ The separation of variables method still works, and we find:
     \phi(x, y, z, t) = A \cos\left(\frac{m \pi x}{a}\right) \cos\left(\frac{n \pi y}{b}\right)e^{kx - i\omega t}
 \end{equation*}
 now here $m$ and $n$ are integers, so we have discrete wavelengths that solve the equations.
+We now find that $k$ is quantised:
+\begin{equation*}
+    k_{mn} = \frac{m^2 \pi^2}{a^2} + \frac{n^2 \pi^2}{b^2}
+\end{equation*}
+with $\omega^2 = gk$ as before. These modes are called standing waves (or normal modes).
+\subsection{Rayleigh-Taylor Instability}
+Consider a container in an unstable state: a layer of water on top of a layer of air. One way to think about this is to instantaneously flip the sign of $g$.
+
+Therefore $\omega^2 = -gk \implies \omega = \pm i\sqrt{gk}$.
+
+The normal modes that were previously given by $e^{i\omega t}$ are now given by $e^{\pm \sqrt{gk}t}$
+
+\section{Rotating Fluid Dynamics}
+In this section, we will consider macroscopic flows that are influenced by the rotation of the Earth. This rotation has:
+\begin{equation*}
+    \omega = \frac{2\pi}{24 \times 60^2} \approx 10^{-4} s^{-1}
+\end{equation*}
+This rotation has huge effect on the motion of the ocean and atmosphere. Because the ocean and atmosphere are thin relative to the size of the Earth.
+\subsection{Euler Equations in a Rotating Frame}
+We will assume $\rho$ constant and $\nabla \cdot \vec{u} = 0$. From the course IA Dynamics and Relativity, the acceleration of a fluid particle in a rotating frame is:
+\begin{equation*}
+    \frac{D \vec{u}}{D t} + \underbrace{2 \vec{\Omega} \times \vec{u}}_{\text{Coriolis}} + \underbrace{\vec{\Omega} \times \left(\vec{\Omega} \times \vec{x}\right)}_{\text{Centrifugal}}
+\end{equation*}
+Note that the Centrifugal acceleration is conservative:
+\begin{equation*}
+    \rho \vec{\Omega} \times \left(\vec{\Omega} \times \vec{x}\right) = \nabla \left[\frac12 \rho |\vec{\Omega} \times \vec{x}|^2\right]
+\end{equation*}
+and so we can absorb it into $\nabla p$. Further,
+\begin{equation*}
+    \frac{\vec{\Omega} \times \left(\vec{\Omega} \times \vec{x}\right)}{g} \approx \frac{1}{300}
+\end{equation*}
+which is small enough that we sometimes neglect it. In this case, the Euler equations are:
+\begin{equation}
+    \rho \frac{D \vec{u}}{D t} + 2\rho \vec{\Omega} \times \vec{u} = -\nabla p + \rho \vec{g}
+    \label{eqnEulerMomRotating}
+\end{equation}
+Then taking the curl of \eqnref{eqnEulerMomRotating}:
+\begin{equation*}
+    \frac{D \vec{\omega}}{D t} = ((\vec{\omega} + 2 \Omega) \cdot \nabla) \vec{u}
+\end{equation*}
+We call $\vec{\omega}$ the relative vorticity, and $2\vec{\Omega}$ the planetary vorticity.
+\subsection{Rossby Number}
+We want to know how important Coriolis effects are. To do this, consider a flow with characteristic velocity $U$ and length $L$.
+\begin{align*}
+    \rho \frac{D \vec{u}}{D t} &\sim \rho \frac{U}{L / U} \sim \rho\frac{U^2}{L} \\
+    2\rho \vec{\Omega} \times \vec{u} &\sim \rho \Omega U
+\end{align*}
+and then dividing the two:
+\begin{equation*}
+    \frac{\rho U^2 / L}{\rho \Omega U} \sim \frac{U}{\Omega L} = Ro
+\end{equation*}
+This is the dimensionless Rossby number. It quantifies the relative magnitude of inertia and rotation.
+\begin{example}
+    Consider $\Omega \sim 10^{-4} s^{-1}$, $L \sim 10^6 m$ and $U \sim 10 ms^{-1}$. Then $Ro \sim 10^{-1}$.
+\end{example}
+When $Ro \ll 1$ then vorticity is dominated by the planetary component.
+\subsection{Rotating Flows in Shallow Length}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw[->] (0, -2.5) -- (0, 2.5);
+        \draw[->] (-0.4, 2.3) arc[start angle=200, end angle=340, x radius=0.4, y radius=0.2]
+            node[pos=0.8, above right] {$\Omega$};
+
+        \draw (0, 0) circle[radius=2];
+        \draw (0, 0) -- (140:2) node[pos=0.5, above] {$R$};
+
+        \draw[blue] (0, 0) circle[radius=2.1];
+        \draw [->] (-2.3, 0) -- (-2.1, 0);
+        \draw [->] (-1.75, 0) -- (-2, 0) node[pos=0.5,right] {$H$};
+
+        \begin{scope}[shift=(20:1.6)]
+            \fill (0, 0) circle[radius=0.05];
+            \draw[->] (0, 0) -- (70:0.3) node[above] {$x$};
+            \draw[->] (0, 0) -- (110:0.7) node[left] {$y$};
+            \draw[->] (0, 0) -- (20:1) node[right] {$z$};
+        \end{scope}
+        \draw[dashed] (0, 0) -- (2.3, 0);
+        \draw[dashed] (0, 0) -- (20:1.6);
+        \draw (20:1) arc[start angle=20, end angle=0, radius=1]
+            node[pos=0.4, right] {$\overline{\theta}$};
+    \end{tikzpicture}
+    \caption{Diagram of fluid on the surface of the Earth}
+    \label{figEarthFluid}
+\end{figure}
+We consider a length scale $L$ such that:
+\begin{equation*}
+    H \ll L \ll R
+\end{equation*}
+and we use local Cartesian coordinates: $\vec{e_x}$ East, $\vec{e_y}$ North and $\vec{e_z}$ locally vertical (out of the sphere), as in figure~\ref{figEarthFluid}.
+
+Let $\overline{\theta}$ be the latitude angle as measured from the Equator.
+\begin{align*}
+    \vec{\Omega} &= \Omega \left(0, \cos(\overline{\theta}), \sin(\overline{\theta})\right)^T \\
+    \vec{u} &= (u,v, w)^T \\
+    \therefore 2 \vec{\Omega} \times \vec{u} &= 2\Omega \left(\cos(\overline{\theta})w - \sin(\overline{\theta})v, \sin(\overline{\theta})u, -\cos(\overline{\theta}) u\right)
+\end{align*}
+and now we make 3 assumptions:
+\begin{enumerate}
+    \item The order of magnitude of $\vec{u}$ is much larger than the order of magnitude of $\Omega u / g$, and so we neglect the $z$ term of the Coriolis force.
+    \item We use that $H \ll L$:
+        \begin{align*}
+            \nabla \cdot \vec{u} &= 0 \\
+            \implies \frac{v}{L} &\sim \frac{w}{H} \\
+            \implies w &\sim \frac{H}{l} v \ll v
+        \end{align*}
+        and so we can discard the term $\cos(\overline{\theta})w$.
+    \item $w$ is small, so we can reject the term $\rho \frac{D w}{D t}$ relative to gravity.
+\end{enumerate}
+Then, by considering the Coriolis parameter $f = 2\Omega \sin(\overline{\theta})$, we have the simplified equations:
+\begin{align*}
+    \frac{D u}{D t} - fv &= -\frac1\rho \frac{\partial p}{\partial x} \\
+    \frac{D v}{D t} + fu &= -\frac1\rho \frac{\partial p}{\partial y} \\
+    0 &= -\frac{\partial p}{\partial z} + \rho g
+\end{align*}
 \end{document}
