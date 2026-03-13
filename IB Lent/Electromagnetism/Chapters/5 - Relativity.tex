@@ -301,4 +301,168 @@ where here $J$ is a new 4-vector called the \underline{charge-current} density o
     
     These examples show that $\vec{E}$ and $\vec{B}$ must be linked in relativistic electromagnetism. We will see in the next section that indeed they form the electromagnetic tensor.
 \end{example}
-\end{document}
+\section{Electromagnetic Tensor}
+The relativistic equation of motion for a massive particle is:
+\begin{equation}
+    \frac{\partial P^\mu}{\partial \tau} = f^\mu
+    \label{eqnMotionRelativ}
+\end{equation}
+where $f^\mu$ is the 4-force.
+
+Since $P \cdot P = -m^2 c^2$ is constant, $f^\mu$ must satisfy $f \cdot P = 0$. This is because,
+\begin{align*}
+    0 &= \frac{\partial}{\partial \tau}(P \cdot P) \\
+    &= \frac{\partial }{\partial \tau} \left(\eta_{\mu \nu} P^\mu P^\nu\right) \\
+    &= \eta_{\mu \nu} \left(\frac{\partial P^\mu}{\partial \tau} P^\nu + P^\mu \frac{\partial P^\nu}{\partial \tau}\right) \\
+    &= \eta_{\mu \nu} \left(f^\mu p^\nu + p^\mu f^\nu\right)\\
+    &= 2\eta_{\mu \nu} f^\mu P^\nu = 2f \cdot P
+\end{align*}
+So now, how can we express the Lorentz force as a 4-vector? It should be proportional to $q$ and linear in $U^\mu$. We assume:
+\begin{equation}
+    f_\mu = qF_{\mu \nu} U^\nu
+    \label{eqnForceGuess}
+\end{equation}
+for some $(0, 2)$ tensor $F_{\mu\nu}$. Our condition of $f \cdot P = 0$ gives:
+\begin{equation*}
+    qm F_{\mu \nu} U^\mu U^\nu = 0
+\end{equation*}
+which is satisfied for all $U$ if $f$ is antisymmetric.
+
+The spatial components of \eqnref{eqnForceGuess} are:
+\begin{align*}
+    f_i &= q\left(f_{i0} U^0 + F_{ij} U^j\right) \\
+    &= \gamma_{\vec{u}} q \left(F_{i0} c + F_{ij} u_j\right)
+\end{align*}
+and we would like this to be equal to our existing expression for the force:
+\begin{equation*}
+    \gamma_{\vec{u}} q(E_i + \epsilon_{ijk} u_j B_k)
+\end{equation*}
+where the Lorentz factor appears because we are differentiating with respect to proper time.
+
+We therefore require:
+\begin{equation*}
+    F_{i0} = \frac{E_i}{c},\quad F_{ij} = \epsilon_{ijk} B_k
+\end{equation*}
+and by antisymmetry, $F_{00} = 0, F_{0i} = -\frac{E_i}{c}$. Writing this as a matrix:
+\begin{equation}
+    F_{\mu\nu} =
+    \begin{pmatrix}
+        0 & -E_x / c & -E_y / c & -E_z / c \\
+        E_x / c & 0 & B_z & -B_y \\
+        E_y / c & -B_z & 0 & B_x \\
+        E_z / c & B_y & -B_x & 0
+    \end{pmatrix}
+    \label{eqnEMTensor}
+\end{equation}
+and this is our expression for the \underline{electromagnetic field tensor}. Note that neither $\vec{B}$ nor $\vec{E}$ is the spatial part of a 4-vector. However, for a particle with $4$-velocity $U$, we can calculate the covector:
+\begin{equation*}
+    F_{\mu \nu} U^\nu
+\end{equation*}
+and, in the rest frame of the particle, we find that it has components:
+\begin{equation*}
+    \begin{pmatrix}0 \\ \vec{E}\end{pmatrix}
+\end{equation*}
+By construction, the spatial components of \eqnref{eqnForceGuess} give the relativistic equation of motion:
+\begin{align*}
+    \frac{\partial \vec{p}}{\partial \tau} &= \frac{\partial (m\gamma_{\vec{u}} \vec{u})}{\partial \tau} \gamma_{\vec{u}} q(\vec{E} + \vec{u} \times \vec{B}) \\
+    \frac{\partial \vec{p}}{\partial t} &= q(\vec{E} + \vec{u} \times \vec{B}) = \vec{F}
+\end{align*}
+where $\vec{F}$ is the normal (3-)Lorentz force.
+
+The time component of \eqnref{eqnForceGuess} is now:
+\begin{align*}
+    \frac{\partial P^0}{\partial \tau} &= f^0 = -f_0 \\
+    &= -q F_{0i} U^i \\
+    &= q \frac{E_i}{c} \gamma_{\vec{u}} u_i
+\end{align*}
+which is equivalent to the energy equation (recall that the $0$th component of $P$ is the energy over $c$):
+\begin{equation*}
+    \frac{\partial E}{\partial \tau} = q \gamma_{\vec{u}} \vec{E} \cdot \vec{u}
+\end{equation*}
+Here scalar $E$ is the energy, and vector $\vec{E}$ is the electric field. To avoid confusion, sometimes we write $\mathcal{E}$ for the energy. (But this conflicts with our notation for EMF!)
+
+We can also write:
+\begin{equation*}
+    \frac{\partial E}{\partial t} = q \vec{E} \cdot \vec{u} = \vec{F} \cdot \vec{u}
+\end{equation*}
+\section{The 4-Potential}
+We previously wrote:
+\begin{equation*}
+    \vec{E} = -\nabla \Phi - \frac{\partial \vec{A}}{\partial t},\quad \vec{B} = \nabla \times \vec{A}
+\end{equation*}
+in terms of scalar and vector potentials. In relativity, we see that $\vec{E}$ and $\vec{B}$ are combined into a tensor, so we want to relate $F_{\mu \nu}$ to potentials like this.
+\begin{align*}
+    F_{i0} &= \frac{E_i}{c} = -\frac1c \frac{\partial \Phi}{\partial x_i} - \frac1c \frac{\partial A_i}{\partial t} \\
+    &= \partial_i \left(-\frac{\Phi}{c}\right) - \partial_0 A_i \\
+    F_{ij} &= \epsilon_{ijk} B_k = \epsilon_{ijk} \epsilon_{klm} \frac{\partial A_m}{\partial x_l} \\
+    &= \partial_i A_j - \partial_j A_i
+\end{align*}
+and so we interpret $F_{\mu \nu}$ as the antisymmetric derivative:
+\begin{equation}
+    F_{\mu \nu} = \frac{\partial A_\nu}{\partial X_\mu} - \frac{\partial A_\mu}{\partial X_\nu}
+    \label{eqnForcePotential}
+\end{equation}
+of the covector:
+\begin{equation*}
+    A_\mu = \left(-\frac{\Phi}{c}, \vec{A}\right).
+\end{equation*}
+Raising the index gives the 4-vector potential:
+\begin{equation}
+    A^\mu =
+    \begin{pmatrix}\frac{\Phi}{c} \\ \vec{A}\end{pmatrix}
+    \label{eqnFourPotential}
+\end{equation}
+A gauge transformation:
+\begin{equation*}
+    \tilde{\vec{A}} = \vec{A} + \nabla \chi,\quad \tilde{\Phi} = \Phi - \frac{\partial \chi}{\partial t}
+\end{equation*}
+corresponds to replacing $A_\mu$ with:
+\begin{equation*}
+    \tilde{A}_{\mu} = A_\mu + \partial_\mu \chi
+\end{equation*}
+that is, adding the covector
+\begin{equation*}
+    \left(\frac1c \frac{\partial \chi}{\partial t}, \nabla \chi\right)
+\end{equation*}
+to $A_\mu$. This leaves $F_{\mu \nu}$ unaffected.
+
+The spacetime equivalent of the Coulomb gauge is the Lorentz gauge, in which:
+\begin{equation*}
+    \partial_\mu A^\mu = 0
+\end{equation*}
+We can make a gauge transformation to get to Lorentz gauge by choosing $\chi$ to be the solution of the forced wave equation:
+\begin{equation*}
+    -\Box \chi = \partial_\mu A^\mu
+\end{equation*}
+\section{Lorentz Transformation of the Electromagnetic Tensor}
+Since $F_{\mu \nu}$ is a $(0, 2)$ tensor, it transforms as:
+\begin{equation*}
+    F_{\mu \nu}' = \indx{(\Lambda^{-1})}{\rho}{\mu} \indx{(\Lambda^{-1})}{\sigma}{\nu} F_{\rho \sigma}
+\end{equation*}
+In matrix notation, $F' = (\Lambda^{-1})^T F \Lambda^{-1}$.
+
+For a Lorentz boost of $v$ along $x$,
+\begin{align*}
+    F_{01}' &= \gamma^2 (F_{01} + \beta^2 F_{10} + \beta(F_{00} + F_{11})) \\
+    &= \gamma^2 (1 - \beta^2) F_{01} \\
+    &= F_{01}
+\end{align*}
+so the electric field component along the direction of the boost is unchanged. We find:
+\begin{align*}
+    F_{02}' &= \gamma (F_{02} + \beta F_{12}) & F_{03}' &= \gamma(F_{03} + \beta F_{13}) \\
+    F_{12}' &= \gamma (F_{12} + \beta F_{02}) & F_{13}' &= \gamma(F_{13} + \beta F_{03}) \\
+    F_{23}' &= F_{23}
+\end{align*}
+from which we deduce:
+\begin{align*}
+    E_x' &= E_x & B_x' &= B_x \\
+    E_y' &= \gamma (E_y - v B_z) & B_y' &= \gamma \left(B_y + \frac{v}{c^2} E_z\right) \\
+    E_z' &= \gamma (E_z + v B_y) & B_z' &= \gamma \left(B_z - \frac{v}{c^2} E_y\right)
+\end{align*}
+More generally, if $\vec{v}$ is the velocity of $S'$ with respect to $S$,
+\begin{align*}
+    \vec{E_\parallel}' &= \vec{E_\parallel} & \vec{B_\parallel}' &= \vec{B_\parallel} \\
+    \vec{E_\perp}' &= \gamma (\vec{E_\perp} + \vec{v} \times \vec{B_\perp}) & \vec{B_\perp}' &= \gamma \left(\vec{B_\perp} - \frac{1}{c^2} \vec{v} \times \vec{E_\perp}\right)
+\end{align*}
+by considering the components perpendicular and parallel to $\vec{v}$.
+\end{document} 
