@@ -135,4 +135,105 @@ Note that:
     The vector of fitted values $\hat{\vec{Y}} = P\vec{Y}$ is the orthogonal projection of $Y$ onto $\col(X)$, and the vector of residuals $\vec{Y} - \hat{\vec{Y}} = (I-P)\vec{Y}$ is the orthogonal projection of $Y$ onto $\col(X)^\perp$.
     \label{corResidualsProjection}
 \end{corollary}
+\section{Maximum Likelihood Estimation}
+We again have $\vec{Y} = X\vec{\beta} + \vec{\epsilon}$, and require $X$ fixed. We require $\vec{\epsilon} \sim N(\vec0, \sigma^2 I)$, a vector of independent and identically distributed normal random variables with mean $0$. This is a stronger assumption on the noise.
+
+We wish to estimate the parameters $\vec{\beta}, \sigma^2$. We will do this by maximum likelihood estimation. The pdf for $Y$ is:
+\begin{equation*}
+    f_{\vec{y}}(\vec{y}, \vec{\beta}, \sigma^2) = (2\pi\sigma^2)^{-n/2} \exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^{n}(y_i - \vec{X_i}^T \vec{\beta})\right)
+\end{equation*}
+and the log likelihood is:
+\begin{equation*}
+    l(\vec{\beta}, \sigma^2) = \text{const}-\frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2} \underbrace{\norm{\vec{Y} - X\vec{\beta}}_2^2}_{S(\beta)\text{, the RSS}}
+\end{equation*}
+and so this is maximised when $S(\vec{\beta})$ is minimised. Therefore, the MLE of $\vec{\beta}$ is the least squares estimator $\hat{\vec{\beta}}$. Differentiation with respect to $\sigma^2$ gives:
+\begin{equation*}
+    \hat{\sigma}^2 = \frac{\norm{\vec{Y} - X\vec{\beta}}_2^2}{n} = \frac{\norm{\vec{Y} - \hat{\vec{Y}}}_2^2}{n} = \frac{\norm{(I-P)\vec{Y}}_2^2}{n}
+\end{equation*}
+\begin{theorem}
+    If $\vec{X} \sim N(0, \sigma^2 I)$ and $P$ is an orthogonal projection matrix, then:
+    \begin{enumerate}
+        \item $P\vec{X} \sim N(0, \sigma^2 P)$ and $(I-P)\vec{X} \sim N(0, \sigma^2(I - P))$ are independent
+        \item $\frac{\norm{P\vec{X}}_2^2}{\sigma^2} \sim \chi_{\rank(P)}^2$
+    \end{enumerate}
+    \label{thmProjectionDists}
+\end{theorem}
+\begin{proof}
+    For part 1, see example sheet 3.
+
+    For part 2, note that:
+    \begin{align*}
+        \frac{\norm{P\vec{X}}_2^2}{\sigma^2} &= \frac{(P\vec{X})^T(P\vec{X})}{\sigma^2} \\
+        &= \frac{\vec{X}^T (UU^T)^T(UU^T)\vec{X}}{\sigma^2}        
+    \end{align*}
+    where the columns of $U$ form a basis for the column space of $P$.
+
+    Then this is equal to:
+    \begin{equation*}
+        \frac{\norm{U^T \vec{X}}_2^2}{\sigma^2} = \sum_{i=1}^{\rank(P)} \frac{(U^T\vec{X})_i^2}{\sigma^2}
+    \end{equation*}
+    but $U^T\vec{X} \sim N(0, \sigma^2 U^T U) = N(0, \sigma^2 I)$, so $\frac{(U^T\vec{x})_i}{\sigma}$ are independent standard normal random variables for all $i$. Therefore, we have a sum of independent and identically distributed standard normal random variables which gives:
+    \begin{equation*}
+        \frac{\norm{P\vec{X}}_2^2}{\sigma^2} \sim \chi_{\rank(P)}^2.
+    \end{equation*}
+\end{proof}
+\begin{corollary}
+    \begin{enumerate}
+        \item $\hat{\vec{\beta}} \sim N(\vec{\beta}, \sigma^2(X^TX)^{-1})$,
+        \item $\frac{\hat{\sigma^2}}{\sigma^2} n \sim \chi_{n-p}^2$,
+        \item $\hat{\vec{\beta}}$ and $\hat{\sigma^2}$ are independent.
+    \end{enumerate}
+    \label{corMLEDists}
+\end{corollary}
+\begin{proof}
+    For 1, we already have $\E{\hat{\vec{\beta}}} = \vec{\beta}$, and $\Cov(\hat{\vec{\beta}}) = \sigma^2(X^TX)^{-1}$. Since $\hat{\vec{\beta}} = (X^TX)^{-1}X^T\vec{Y}$, this is a linear map of a multivariate normal, so $\hat{\vec{\beta}}$ must also be a multivariate normal.
+
+    For 2, note that:
+    \begin{align*}
+        \frac{\hat{\sigma}^2}{\sigma^2}n &= \frac{\norm{(I-P)\vec{Y}}_2^2}{\sigma^2} \\
+        &= \frac{\norm{(I-P)(X\vec{\beta} + \vec{\epsilon})}_2^2}{\sigma^2} \\
+        &= \frac{\norm{(I-P)\vec{\epsilon}}_2^2}{\sigma^2} \sim \chi_{\Tr(I - P)}^2
+    \end{align*}
+    and note that $\Tr(I - P) = \Tr(I) - \Tr(P) = n - \rank(P) = n - p$.
+
+    For part 3, note that $\hat{\sigma}^2$ is a function of $(I-P)\vec{\epsilon}$ and:
+    \begin{align*}
+        \hat{\vec{\beta}} &= (X^TX)^{-1} X^T \vec{Y} \\
+        &= (X^TX)^{-1} X^T (X\vec{\beta} + \vec{\epsilon})\\
+        &= \vec{\beta} + (X^TX)^{-1} X^T \vec{\epsilon} \\
+        &= \vec{\beta} + (X^TX)^{-1} X^T P \vec{\epsilon}
+    \end{align*}
+    so $\hat{\vec{\beta}}$ is a function of $P\vec{\epsilon}$. By the previous theorem, $\hat{\vec{\beta}}$ and $\hat{\sigma}^2$ are independent.
+\end{proof}
+\subsection{Inference for \texorpdfstring{$\boldsymbol{\beta}$}{beta}}
+Suppose we want a $100(1-\alpha)\%$ confidence interval for the coefficients in the linear model. WLOG, consider $\beta_1$. Note that:
+\begin{equation*}
+    \frac{\hat{\beta}_1 - \beta_1}{\sqrt{\sigma^2(X^TX)_{11}^{-1}}} \sim N(0, 1)
+\end{equation*}
+and is independent of $\frac{\hat{\sigma^2}}{\sigma} n \sim \chi_{n-p}^2$.
+
+We use this to construct a pivot:
+\begin{equation*}
+    \frac{\hat{\beta}_1 - \beta_1}{\sqrt{\sigma^2(X^TX)_{11}^{-1}}} \div \sqrt{\frac{\hat{\sigma}^2 n}{\sigma^2(n-p)}} \sim t_{n-p}
+\end{equation*}
+Rearranging, we arrive at the confidence interval:
+\begin{equation*}
+    \beta_1 \pm t_{n-p} \left(\frac{\alpha}{2}\right) \sqrt{\frac{(X^T X)_{11}^{-1}\hat{\sigma}^2 n}{n-p}}
+\end{equation*}
+Then we can create a hypothesis test for:
+\begin{align*}
+    &H_0: \beta_1 = 0 \\
+    &H_1: \beta_1 \neq 0
+\end{align*}
+by considering the dual of the confidence interval, we reject $H_0$ when:
+\begin{equation*}
+    \abs{\hat{\beta}_1} > t_{n-p} \left(\frac{\alpha}{2}\right) \sqrt{\frac{(X^T X)_{11}^{-1}\hat{\sigma}^2 n}{n-p}}
+\end{equation*}
+\begin{remarks}
+    \item There is nothing special about testing $\beta_1 = 0$. We could just as easily derive a test of size $\alpha$ for $H_0: \beta_1 = \beta_1'$ for any $\beta_1' \in \R$.
+    \item We could also determine a confidence set (ellipsoid) for the whole vector $\vec{\beta}$ of coefficients, by constructing a pivot based on:
+        \begin{equation*}
+            \hat{\vec{\beta}} - \vec{\beta} \sim N(0, \sigma^2 (X^TX)^{-1}).
+        \end{equation*}
+\end{remarks}
 \end{document}
