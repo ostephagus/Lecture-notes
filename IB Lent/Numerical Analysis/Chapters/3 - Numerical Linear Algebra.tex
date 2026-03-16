@@ -36,7 +36,7 @@ and this is called forward substitution. At each step, we have an explicit equal
     x_n &= \frac{1}{U_{n, n}} y_n \\
     x_{n-1} &= \frac{1}{U_{n-1, n-1}} (y_{n-1} - U_{n-1, n} x_n) \\
     &\vdots\\
-    x_1 = \frac{1}{U_{11}} \left(y_1 = \sum_{j=1}^{n-1} U_{1, j} x_j\right)
+    x_1 &= \frac{1}{U_{11}} \left(y_1 = \sum_{j=1}^{n-1} U_{1, j} x_j\right)
 \end{align*}
 and this is called backward substitution. The computational complexity for the forward substitution is:
 \begin{equation*}
@@ -100,10 +100,10 @@ So far, the algorithm we have written down cannot deal with if there is a zero d
         \item Set $A_k = P_kA_{k-1} - \vec{L_k} \vec{u_k}^T$.
     \end{enumerate}
 \end{enumerate}
-\begin{remark}
+\begin{remarks}
     \item There still exists an edge case, when we discover a column that is all zero. In this case, we could take $(l_k)_j = \delta_{j, k}$ and $\vec{u_k}^T$ as normal.
     \item In the case that a diagonal entry is very small, but nonzero, we might decide to apply pivoting to avoid very large numbers.
-\end{remark}
+\end{remarks}
 We \textit{unroll} the algorithm to understand what is happening:
 \begin{align*}
     A_0 &= A \\
@@ -131,7 +131,7 @@ Clearly this is symmetric, so this factorisation can only exist for symmetric ma
 and again we can use the fact that, for entry $i$ in this sum, rows and columns less than $i$ are zero.
 
 \begin{enumerate}
-    \item Input $A \im \R^{n \times n}$ such that $A = A^T$.
+    \item Input $A \in \R^{n \times n}$ such that $A = A^T$.
     \item Let $A_0 = A$
     \item For $k = 1$ to $n$,
     \begin{enumerate}
@@ -191,4 +191,124 @@ and again we can use the fact that, for entry $i$ in this sum, rows and columns 
         as required.
     \end{proofdirection}
 \end{proof}
+\begin{remark}
+    We can therefore use the $LDL^T$ factorisation to check if a matrix is positive-definite.
+\end{remark}
+\begin{example}[Cholesky Factorisation]
+    If $A$ is positive-definite and $A = LDL^T$, where $D$ has positive diagonal entries, we can write:
+    \begin{equation*}
+        A = L\sqrt{D} \left(\sqrt{D}\right)^T L^T = \tilde{L} \tilde{L}^T
+    \end{equation*}
+    where $\sqrt{D}$ is the matrix with diagonal entries $(\sqrt{D})_{ii} = \sqrt{D_{ii}}$, and $\tilde{L} = L\sqrt{D}$.
+
+    Note that now $\tilde{L}$ is lower triangular but not unit lower triangular. This factorisation, $A = \tilde{L} \tilde{L}^T$, is called the Cholesky Factorisation.
+\end{example}
+\subsection{Sparsity}
+We are interested in matrices with many of their elements zero. Such matrices are called \underline{sparse}.
+
+\begin{definition}{Banded matrix}
+    A \underline{banded matrix} is a matrix with non-zero elements only near the leading diagonal. That is, for some $1 \leq r < n-1$, the matrix has $a_{ij} = 0$ if $|i - j| > r$. This value $r$ is called the \underline{band width}.
+\end{definition}
+Now we can give the following theorem to understand the LU factorisation of a banded matrix.
+\begin{theorem}
+    Let $A$ be a matrix with an $LU$ factorisation $A = LU$. Assume that the diagonal elements are non-zero in $A$. Then:
+    \begin{enumerate}
+        \item All leading zeroes in any row of $A$ to the left of the diagonal are inherited by $L$.
+        \item All leading zeroes in any column of $A$ above the diagonal are inherited by $U$.
+    \end{enumerate}
+    \label{thmSparseLU}
+\end{theorem}
+\begin{remark}
+    This statement is only about leading zeroes, so for a row in $A$ of the form $(0, 0, 0, 4, 0, 0, 0)$, only the first $3$ zeroes are inherited, by which we mean that the first $3$ entries of the corresponding row in $L$ are zero.
+\end{remark}
+\begin{proof}
+    For part 1, let $i \in \{1, \cdots, n\}$ be the index of a row, and $A_{i, 1} = \cdots = A_{i,q} = 0$, where $q < i$.
+    \begin{align*}
+        0 &= A_{i,1} (LU)_{i,1} = L_{i,1} U_{1, 1} \\
+        \implies L_{i,1} &= 0 \text{ because $A$ has non-zero diagonal entries} \\
+        0 &= A_{i,2} = (LU)_{i,2} = L_{i,1} U_{1,2} + L_{i,2} U_{2,2} \\
+        \implies L_{i,2} &= 0 \text{ since $L_{i,1} = 0$, $U_{2, 2} \neq 0$}
+    \end{align*}
+    then we can continue this argument until $L_{i,q}$.
+
+    The argument for part 2 (about $U$) is the same.
+\end{proof}
+Now, for a banded matrix of band width $r$, we know that only the $r-1$ entries below the diagonal will be non-zero in $L$ (with all $1$s on the diagonal), and only the diagonal elements and first $r-1$ entries to the right will be non-zero in $U$. In this way, we see that the banded structure is inherited by $L$ and $U$. Further, the complexity of the $LU$ factorisation algorithm for a banded matrix of band width $r$ is $O(r^2n)$.
+\begin{example}[Sparse matrix with dense $LU$ factorisation]
+    Consider a matrix with non-zero elements in the first column, first row and leading diagonal (an arrow matrix). In this case, \thmref{thmSparseLU} fails, and $L$ and $U$ will be dense.
+
+    We can perform a row swap and a column swap of the first and last (pivoting) to create a reverse arrow matrix, in which the non-zero elements are in the first column, last column and leading diagonal only. Then \thmref{thmSparseLU} gives that $L$ and $U$ are very sparse.
+\end{example}
+\section{QR Factorisation}
+\begin{definition}{Orthogonal matrix}
+    A matrix $Q$ is \underline{orthogonal} if $QQ^T = Q^TQ = I$.
+\end{definition}
+From the course IA Vectors and Matrices or IB Linear Algebra, we know that, equivalently, the columns of $Q$ form an orthonormal basis under a given inner product.
+\begin{definition}{QR factorisation}
+    Let $A \in \R^{m \times n}$. We say that $A = QR$ is a \underline{(full) QR factorisation} of $A$ if:
+    \begin{enumerate}
+        \item $Q \in \R^{m \times m}$ is an orthogonal matrix,
+        \item $R \in \R^{m \times n}$ is an upper triangular matrix ($R_{ij} = 0$ if $i > j$).
+    \end{enumerate}
+\end{definition}
+\begin{definition}{Reduced QR factorisation}
+    For $A \in R^{m \times n}$, with $m > n$, a \underline{reduced QR factorisation} is $A = QR$ where:
+    \begin{enumerate}
+        \item $Q \in \R^{m \times n}$ has orthonormal columns ($Q^TQ = I$),
+        \item $R \in \R^{n \times n}$ is upper triangular.
+    \end{enumerate}
+\end{definition}
+We see the relevance of the reduced QR factorisation:
+\begin{equation*}
+    \begin{bNiceMatrix}[first-row,first-col]
+        &&n&\\
+        &\Block{3-3}{A}&&\\
+        m&&&\\
+        &&&
+    \end{bNiceMatrix}
+    =
+    \begin{bNiceMatrix}[first-row,last-row,vlines=3]
+        &n&\hphantom{n}&\hphantom{nnn}\\
+        &\Block{3-1}{Q_1}&\Block{3-2}{Q_2}&\\
+        &&&\\
+        &&&\\
+        &&Q&
+    \end{bNiceMatrix}
+    \begin{bNiceMatrix}[last-row,hlines=3]
+        \Block{2-2}{\diagbox{~0}{R_1}}\\
+        &\\
+        \Block{1-2}{0}\\
+        R
+    \end{bNiceMatrix}
+    = Q_1 R_1 + (0)
+\end{equation*}
+where $Q_1 R_1$ is the reduced $QR$ factorisation. We can create $Q$ from $Q_1$ by choosing any set of columns that are orthonormal to themselves and the columns of $Q_1$ (any such choice is valid because we then multiply them by zero).
+\subsection{Application to Solving Linear Systems}
+Consider:
+\begin{equation*}
+    A\vec{x} = \vec{b} \tag{\ref{eqnLinearSystemEqs}}
+\end{equation*}
+then we solve $QR\vec{x} = \vec{b}$ which is equivalent to $R\vec{x} = Q^T\vec{b}$ and since $R$ is upper-triangular, we can use backward substitution. Both the product $Q^T\vec{x}$ and backward substitution have complexity $O(n^2)$, so solving $QR\vec{x}$ has complexity $O(n^2)$.
+\subsection{Gram-Schmidt Algorithm for QR Factorisation}
+If we consider $A$ in terms of its columns $\vec{A_j}$, and $Q$ in terms of its (orthonormal) columns $\vec{Q_j}$, we see that:
+\begin{equation*}
+    \vec{A_i} = \sum_{i=1}^{j} R_{ij} \vec{Q_j}
+\end{equation*}
+and we see clearly that Gram-Schmidt is equivalent to this process. The classical Gram-Schmidt algorithm is:
+\begin{enumerate}
+    \item For $i = 1$ to $n$,
+    \begin{enumerate}
+        \item let $\vec{b_i} = \vec{a_i} - \sum_{i = 1}^{j-1} \frac{\inn{\vec{a_j}}{\vec{b_i}}}{\norm{\vec{b_i}}^2}\vec{b_i}$.
+        \item Let $\vec{Q_i} = \frac{\vec{b_i}}{\norm{\vec{b_i}}}$.
+        \item Let $R_{ij} = \inn{\vec{A_j}}{\vec{q_i}}$ for $i < j$,
+        \item let $R_{ii} = \norm{\vec{b_i}}$
+    \end{enumerate}
+    \item Let $Q$ have columns $\vec{Q_i}$, $R$ have elements $R_{ij}$.
+\end{enumerate}
+\begin{remarks}
+    \item This algorithm computes the reduced $QR$ factorisation.
+    \item The total complexity is $O(n^2m)$.
+    \item Gram-Schmidt is rarely used in practice, because it does not behave well when there exists a small error in calculations (machine precision - around $10^{-16}$), and the error is multiplied during the calculation. The next algorithms behave much better with this error.
+\end{remarks}
+
 \end{document}
