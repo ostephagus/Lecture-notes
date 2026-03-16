@@ -465,4 +465,118 @@ More generally, if $\vec{v}$ is the velocity of $S'$ with respect to $S$,
     \vec{E_\perp}' &= \gamma (\vec{E_\perp} + \vec{v} \times \vec{B_\perp}) & \vec{B_\perp}' &= \gamma \left(\vec{B_\perp} - \frac{1}{c^2} \vec{v} \times \vec{E_\perp}\right)
 \end{align*}
 by considering the components perpendicular and parallel to $\vec{v}$.
+
+Consider the tensor formed by raising both indices of the electromagnetic tensor:
+\begin{equation*}
+    F^{\mu \nu} =
+    \begin{pmatrix}
+        0 & E_x / c & E_y / c & E_z / c \\
+        -E_x / c & 0 & B_z & -B_y \\
+        -E_y / c & -B_z & 0 & B_x \\
+        -E_z / c & B_y & -B_x & 0
+    \end{pmatrix}
+\end{equation*}
+We can use this to find two Lorentz-invariant combinations of $\vec{E}$ and $\vec{B}$:
+\begin{align*}
+    F_{\mu \nu} F^{\mu \nu} &= -\frac2{c^2} \left(|\vec{E}|^2 - c^2 |\vec{B}|^2\right) \\
+    \epsilon_{\mu \nu \rho \sigma} F^{\mu \nu} F^{\rho \sigma} = \frac8c \vec{E} \cdot \vec{B}
+\end{align*}
+\begin{remark}
+    The second combination is using the dual of the electromagnetic tensor
+\end{remark}
+So we conclude that $|\vec{E}|^2 - c^2 |\vec{B}|^2$ is a scalar, and $\vec{E} \cdot \vec{B}$ is a pseudoscalar (which changes sign under time reversal and spatial reflections). If $\vec{E}$ and $\vec{B}$ are perpendicular in one frame, they are perpendicular in all frames.
+\section{Maxwell's Equations}
+Recall Maxwell's Equations:
+\begin{align*}
+    \nabla \cdot \vec{E} &= \frac{\rho}{\epsilon_0} \tag{\ref{eqnMED}}\\
+    \nabla \cdot \vec{B} &= 0 \tag{\ref{eqnMBD}} \\
+    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t} \tag{\ref{eqnMEC}} \\
+    \nabla \times \vec{B} &= \mu_0 \left(\vec{J} + \epsilon_0 \frac{\partial \vec{E}}{\partial t}\right) \tag{\ref{eqnMBC}}
+\end{align*}
+We must use the relations:
+\begin{align*}
+    F^{0i} &= -F^{i0} = \frac{E_i}{c},\quad F^{ij} = \epsilon_{ijk} B_k \\
+    J^0 &= \rho c,\quad J^{i} = J_i,\quad c^2 = \frac1{\mu_0 \epsilon_0}
+\end{align*}
+Then \eqnref{eqnMED} becomes:
+\begin{equation*}
+    c \partial_i F^{0i} = \frac{J_0}{\epsilon_0 c} \implies \partial_i F^{0i} = \mu_0 J^0
+\end{equation*}
+and \eqnref{eqnMBC} becomes:
+\begin{align*}
+    \epsilon_{ijk} \partial_j B_k &= \mu_o J_i + \frac1c \partial_0 E_i \\
+    \implies \partial_0 F^{i0} &+ \partial_j F^{ij} = \mu_o J^i
+\end{align*}
+and these are the components of the 4-vector equation:
+\begin{equation}
+    \partial_\nu F^{\mu \nu} = \mu_0 J^\mu
+    \label{eqnMR1}
+\end{equation}
+Next, considering $B_i = \frac12 \epsilon_{ijk} F_{jk}$, \eqnref{eqnMBD} becomes:
+\begin{align*}
+    0 &= \partial_i B_i \\
+    &= \frac12 \epsilon_{ijk} \partial_i F_{jk} \\
+    &= \partial_1 F_{23} + \partial_2 F_{31} + \partial_3 F_{12}
+\end{align*}
+which is equivalent to:
+\begin{equation}
+    \partial_i F_{jk} + \partial_j F_{ji} + \partial_k F_{ij} = 0
+    \label{eqnMaxwellIntermediate}
+\end{equation}
+because $F_{ij}$ is antisymmetric. \Eqnref{eqnMEC} becomes:
+\begin{align*}
+    \epsilon_{ijk} \partial_j E_k &= -c \partial_0 B_i \\
+    \implies c \epsilon_{ijk} \partial_j F_{k0} &+ \frac{c}{2} \epsilon_{ijk} \partial_0 F_{jk} = 0
+\end{align*}
+then if we multiply by $\epsilon_{ilm}$ and divide by $c$:
+\begin{equation*}
+    \partial_l F_{m0} - \partial_m F_{l0} + \partial_0 F_{lm} = 0
+\end{equation*}
+which, by using antisymmetry and re-labelling, gives:
+\begin{equation*}
+    \partial_i F_{j0} + \partial_j F_{0i} + \partial_0 F_{ij} = 0
+\end{equation*}
+which, when combined with our earlier \eqnref{eqnMaxwellIntermediate} to:
+\begin{equation}
+    \partial_\mu F_{\nu \rho} + \partial_\nu F_{\rho \mu} + \partial_\rho F_{\mu \nu}
+    \label{eqnMR2Expanded}
+\end{equation}
+and can be alternatively written as:
+\begin{equation}
+    \epsilon^{\mu \nu \rho \sigma} \partial_\nu F_{\rho \sigma} = 0
+    \label{eqnMR2}
+\end{equation}
+The $0$th component is:
+\begin{align*}
+    \epsilon^{0ijk} \partial_i F_{jk} &= -\epsilon_{ijk} \partial_i F_{jk} = 0 \\
+    \implies \partial_iB_i &= 0
+\end{align*}
+and similarly the $i$th component gives \eqnref{eqnMEC}.
+
+In summary, we find the covariant forms for Maxwell's Equations:
+\begin{align*}
+    \partial_\nu F^{\mu \nu} &= \mu_0 J^\mu \tag{\ref{eqnMR1}} \\
+    \epsilon^{\mu \nu \rho \sigma} \partial_\nu F_{\rho \sigma} &= \partial_\nu (\hphantom{}^*F^{\mu \nu}) = 0 \tag{\ref{eqnMR2}}
+\end{align*}
+where we can introduce the notation of the tensor dual as seen in Ex3Q5.
+
+The equation of motion for a charged particle is:
+\begin{equation*}
+    m\frac{dU^\mu}{d\tau} = f^{\mu} = q\eta^{\mu \nu} F_{\nu \sigma} U^\sigma
+\end{equation*}
+and charge conservation looks like:
+\begin{equation}
+    \partial_\mu J^\mu = 0
+    \label{eqnRChargeConserve}
+\end{equation}
+If we write $F_{\mu \nu} = \partial_\mu A_\nu - \partial_\nu A_\mu$, we see that \eqnref{eqnMR2} is already satisfied, and \eqnref{eqnMR1} becomes:
+\begin{equation*}
+    \partial^\mu \partial_\nu A^\nu - \partial_\nu\partial^\nu A^\mu = \mu_0 J^\mu
+\end{equation*}
+which, in Lorentz gauge, becomes:
+\begin{equation}
+    -\Box A^\nu = \mu_0 J^\mu
+    \label{eqnRPotPoisson}
+\end{equation}
+which gives the wave equation if $J = 0$, and is otherwise forced by charges and currents.
 \end{document} 
