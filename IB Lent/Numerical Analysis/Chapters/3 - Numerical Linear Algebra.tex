@@ -289,7 +289,7 @@ Consider:
     A\vec{x} = \vec{b} \tag{\ref{eqnLinearSystemEqs}}
 \end{equation*}
 then we solve $QR\vec{x} = \vec{b}$ which is equivalent to $R\vec{x} = Q^T\vec{b}$ and since $R$ is upper-triangular, we can use backward substitution. Both the product $Q^T\vec{x}$ and backward substitution have complexity $O(n^2)$, so solving $QR\vec{x}$ has complexity $O(n^2)$.
-\subsection{Gram-Schmidt Algorithm for QR Factorisation}
+\subsection{Gram-Schmidt Algorithm}
 If we consider $A$ in terms of its columns $\vec{A_j}$, and $Q$ in terms of its (orthonormal) columns $\vec{Q_j}$, we see that:
 \begin{equation*}
     \vec{A_i} = \sum_{i=1}^{j} R_{ij} \vec{Q_j}
@@ -307,8 +307,92 @@ and we see clearly that Gram-Schmidt is equivalent to this process. The classica
 \end{enumerate}
 \begin{remarks}
     \item This algorithm computes the reduced $QR$ factorisation.
-    \item The total complexity is $O(n^2m)$.
+    \item The total complexity is $O(mn^2)$.
     \item Gram-Schmidt is rarely used in practice, because it does not behave well when there exists a small error in calculations (machine precision - around $10^{-16}$), and the error is multiplied during the calculation. The next algorithms behave much better with this error.
+    \item We can describe this algorithm as ``triangular orthogonalisation'', applying triangular operations to orthogonalise $Q$. The alternative is ``orthogonal triangularisation'', where orthogonal operations are applied to $R$ to make it triangular. These will be seen in the next sections.
 \end{remarks}
+\section{Givens Rotations}
+\subsection{Givens Rotation Matrices}
+\begin{definition}{Givens rotation matrix}
+    A \underline{Givens rotation matrix} is an $n \times n$ matrix $\Omega^{[p,q]}(\theta)$, where $1 \leq p < q \leq n, \theta \in [0, 2\pi)$. It has the form:
+    \begin{equation*}
+        \begin{bNiceMatrix}[first-row,first-col]
+            &&&& p &&&& q &&&\\
+            &1&&&&&&&&&&\\
+            &&\Ddots&&&&&&&&&\\
+            &&&1&&&&&&&&\\
+            p &&&& \cos(\theta) &&&& \sin(\theta) &&&\\
+            &&&&&1&&&&&&\\
+            &&&&&&\Ddots&&&&&\\
+            &&&&&&&1&&&&\\
+            q &&&& -\sin(\theta) &&&& \cos(\theta) &&&\\
+            &&&&&&&&&1&&\\
+            &&&&&&&&&&\Ddots&\\
+            &&&&&&&&&&&1\\
+        \end{bNiceMatrix}
+    \end{equation*}
+\end{definition}
+The intuition behind the algorithm is as follows. We want to left-apply Givens rotation matrices to the matrix $A$ in order to set the elements below the diagonal to zero. However, we must be careful in later steps to preserve the zeroes we already have.
+\begin{theorem}
+    Let $A \in \R^{m \times n}$. Let $i \in \{1, \cdots, m\}$ and $j \in {1, \cdots, n}$ with $i > j$.
 
+    There exists a Givens rotation matrix $\Omega^{[p,q]}$ with $p < i$ and $q = i$ such that:
+    \begin{equation*}
+        \left(\Omega^{[p,q]}A\right)_{ij} = 0.
+    \end{equation*}
+    Furthermore, all the rows of $\Omega^{[p,q]}A$ other than $p$ and $q$ are equal to those of $A$. Rows $p$ and $q$ in $\Omega^{[p,q]}$ are a linear combination of rows $p$ and $q$ of $A$.
+    \label{thmGivensEffect}
+\end{theorem}
+\begin{proof}
+    We take:
+    \begin{equation*}
+        \cos(\theta) = \frac{A_{pj}}{\sqrt{A_{pj}^2 + A_{qj}^2}},\qquad \sin(\theta) = \frac{A_{qj}}{\sqrt{A_{pj}^2 + A_{qj}^2}}
+    \end{equation*}
+    which satisfies the conditions.
+\end{proof}
+\subsection{The Algorithm}
+\begin{enumerate}
+    \item Let $Q = I$.
+    \item For $j = 1$ to $n$, for $i = j+1$ to $m$,
+    \begin{enumerate}
+        \item Find $\Omega^{[j,i]}$ such that $\left(\Omega^{[j,i]}A\right)_{ij} = 0$ (as in \thmref{thmGivensEffect}).
+        \item Overwrite $A$ with $\Omega^{[j,i]}A$.
+        \item Overwrite $Q$ with $Q\left(\Omega^{[i,j]}\right)^T$
+    \end{enumerate}
+    \item At the end of the algorithm, $A$ is upper-triangular and we re-label it to $R$.
+\end{enumerate}
+\begin{remark}
+    The complexity of this algorithm is $O(mn^2)$.
+\end{remark}
+\section{Householder Reflections}
+\begin{definition}{Householder reflection matrix}
+    A \underline{Householder reflection matrix} $H = H_{\vec{u}} \in \R^{m \times m}$ is a matrix that corresponds to a reflection in the $(m-1)$-surface normal to the non-zero vector $\vec{u}$:
+    \begin{equation*}
+        H = I - 2 \frac{\vec{u} \vec{u}^T}{\norm{\vec{u}}^2}
+    \end{equation*}
+\end{definition}
+
+In this algorithm, we choose our reflection matrix such that the lower-diagonal elements of column $i$, $\vec{A_i}$, is mapped to a basis vector (and so has all zeroes below the diagonal). We therefore choose a hyperplane normal to $\vec{A_i} - \norm{\vec{A_i}}\vec{e_j}$. Note that this is non-unique, and depends on the target basis vector $\vec{e_j}$.
+
+The algorithm is as follows:
+\begin{enumerate}
+    \item Input $A \in \R^{m \times n}$.
+    \item For $j = 1$ to $n$,
+    \begin{enumerate}
+        \item Let $\vec{a} \in \R^{m - j + 1}$ be the elements of the $j$th column on and below the diagonal.
+        \item Let $\vec{e}$ be the first basis vector of $\R^{m - j + 1}$.
+        \item Define $\vec{u} = \vec{a} \pm \norm{\vec{a}}\vec{e}$
+        \item Overwrite $A$ with:
+            \begin{equation*}
+                \begin{bmatrix}
+                    I_{j - 1} & 0 \\
+                    0 & H_{\vec{u}}
+                \end{bmatrix}
+                A
+            \end{equation*}
+    \end{enumerate}
+\end{enumerate}
+\begin{remarks}
+    \item When updating $A$ in the above algorithm, we only need to consider the last rows that are affected by the Householder reflection submatrix. The other columns and rows are unchanged.
+\end{remarks}
 \end{document}
