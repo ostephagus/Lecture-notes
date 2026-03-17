@@ -236,4 +236,86 @@ by considering the dual of the confidence interval, we reject $H_0$ when:
             \hat{\vec{\beta}} - \vec{\beta} \sim N(0, \sigma^2 (X^TX)^{-1}).
         \end{equation*}
 \end{remarks}
+\subsection{\texorpdfstring{$F$}{F} Tests for Linear Regression}
+Suppose we have a linear model $\vec{Y} = X\vec{\beta} + \vec{\epsilon}$, and assume that $\vec{\epsilon} \sim N(0, \sigma^2 I)$.
+
+We wish to test the null hypothesis that a whole collection of predictors has no effect on the response, so after possibly re-labelling,
+\begin{align*}
+    &H_0: \beta_1 = \beta_2 = \cdots = \beta_{p_0} = 0 \\
+    &H_1: \vec{\beta} \in \R^{p_0}
+\end{align*}
+Use block-matrix form to write:
+\begin{equation*}
+    X = \begin{pmatrix}X_0 & X_1\end{pmatrix} \text{ and } \vec{\beta} = \begin{pmatrix}\vec{\beta}^0 \\ \vec{\beta}^1\end{pmatrix}
+\end{equation*}
+where $X_0 \in \R^{n \times p_0}$ and $\vec{\beta}^0 \in \R^{p_0}$, so that the null model has $\vec{\beta}^0 = \vec0$. Under the null hypothesis, $\vec{Y} = X_1 \vec{\beta}^1 + \vec{\epsilon}$.
+
+Let $P = X(X^TX)^{-1}X^T$ and $P_1 = X_1(X_1^TX_1)^{-1}X_1^T$. Since $X$ and $P$ have full rank, so must $X_1$ and $P_1$.
+
+Recall that the MLE for the linear model is:
+\begin{align*}
+    \max_{\substack{\vec{\beta} \in \R^p\\\sigma^2 > 0}}l(\vec{\beta}, \sigma^2) &= l(\hat{\vec{\beta}}, \hat{\sigma}^2) = -\frac{n}{2} \log(\hat{\sigma^2}) - \frac{S(\hat{\vec{\beta}})}{2\hat{\sigma}^2} + \text{const} \\
+    &= -\frac{n}{2} \log\left(\frac{\norm{(I-P)\vec{Y}}^2}{n}\right) + \text{const}
+\end{align*}
+and therefore a GLRT for $H_0$ against $H_1$ is based on the statistic:
+\begin{align*}
+    \max_{\substack{\vec{\beta} \in \R^p\\\sigma^2 > 0}}l(\vec{\beta}, \sigma^2)& - \max_{\substack{\vec{\beta}^0 = \vec0\\\vec{\beta_1} \in \R^{p-p_0}\\\sigma^2 > 0}}l(\vec{\beta}, \sigma^2) \\
+    &= \frac{n}{2} \left(-\log\left(\frac{\norm{(I - P)\vec{Y}}^2}{n}\right) + \log\left(\frac{\norm{(I - P_1)\vec{Y}}^2}{n}\right)\right)
+\end{align*}
+which is monotonic in:
+\begin{align*}
+    \frac{\norm{(I - P_1)\vec{Y}}^2}{\norm{(I - P)\vec{Y}}^2}&= \frac{\norm{(I - P + P - P_1)\vec{Y}}^2}{\norm{(I - P)\vec{Y}}^2} \\
+    &= \frac{\norm{(I-P)\vec{Y}}^2 + \norm{(P - P_1)\vec{Y}}^2 + 2\vec{Y}^T (I-P)(P-P_1)\vec{Y}}{\norm{(I - P)\vec{Y}}^2}
+\end{align*}
+We will use a lemma without proof:
+\begin{lemma}
+    Using the above definitions, $(I - P)(P - P_1) = 0$ and $P-P_1$ is an orthogonal projection with rank $p_0$.
+    \label{lemProjectionMatrices}
+\end{lemma}
+Therefore, by \thmref{lemProjectionMatrices}, the test statistic is increasing in:
+\begin{equation*}
+    F = \frac{\norm{(P - P_1)\vec{Y}}^2}{\norm{(I - P)\vec{Y}}^2} \frac{1 / p_0}{1 / (n - p)}
+\end{equation*}
+Under $H_0$, we have:
+\begin{align*}
+    (P - P_1) \vec{Y} &= (P - P_1)(X\vec{\beta} + \vec{\epsilon}) \\
+    &= (P - P_1)(X_1 \vec{\beta}^1 + \vec{\epsilon}) = (P - P_1) \vec{\epsilon}
+\end{align*}
+and therefore:
+\begin{equation*}
+    F = \frac{\norm{(P - P_1)\vec{\epsilon}}^2}{\norm{(I - P)\vec{\epsilon}}^2} \frac{1 / p_0}{1 / (n - p)}
+\end{equation*}
+and so both the numerator and denominator have $\chi^2$ distribution. By \thmref{lemProjectionMatrices}, the covariance of the combined vector:
+\begin{equation*}
+    \begin{pmatrix}(P - P_1)\vec{\epsilon} \\ (I - P)\vec{\epsilon}\end{pmatrix}
+\end{equation*}
+is zero, so we have a quotient of rescaled, independent chi-squared distributions, $F \sim F_{p_0, n-p}$.
+
+Therefore, the GLRT rejects $H_0$ when $F > F_{p_0, n-p}(\alpha)$. This is called an \underline{$F$-test}.
+\section{Logistic Regression}
+Suppose we observe data $\{(\vec{X_1}, Y_1), \cdots, (\vec{X_n}, Y_n)\}$ with $Y_i \in \{0, 1\}$ and $\vec{X_i} \in \R^p$. We wish to predict $Y_i$ from $\vec{X_i}$. The \underline{logistic model} is:
+\begin{equation*}
+    p(\vec{x_i}) = \P(Y_i | \vec{x_i}) = \frac{\exp\left(\vec{\beta}^T \vec{x_i}\right)}{1 + \exp\left(\vec{\beta}^T \vec{x_i}\right)}
+\end{equation*}
+where $\vec{\beta}$ is the vector of parameters to estimate. The RHS of this expression is called the \underline{sigmoid function} of $\vec{\beta}^T \vec{x_i}$. Rearranging the model for $\vec{\beta}$ gives:
+\begin{equation*}
+    \vec{\beta}^T \vec{x_i} = \log\left(\frac{p(\vec{x_i})}{1 - p(\vec{x_i})}\right)
+\end{equation*}
+\subsection{Maximum Likelihood Estimation}
+The likelihood can be written as:
+\begin{align*}
+    L(\vec{\beta}) &= \prod_{i : y_i = 1} p(\vec{x_i}) \prod_{i : y_i = 0} (1 - p(\vec{x_i})) \\
+    &= \prod_{i=1}^{n} p(\vec{x_i})^{y_i}(1 - p(\vec{x_i}))^{1 - y_i}
+\end{align*}
+and so we maximise the log-likelihood:
+\begin{equation*}
+    l(\vec{\beta}) = \sum_{i=1}^{n} \left(y_i \log(p(\vec{x_i})) + (1 - y_i) \log(1 - p(\vec{x_i}))\right)
+\end{equation*}
+which can be found using, for example, gradient descent (because the function is convex).
+
+Based on an estimate $\hat{\vec{\beta}}$ of the logistic coefficients, we can compute:
+\begin{equation*}
+    \hat{p}(\vec{x_i})
+\end{equation*}
+on a new input, and classify $X$ according to $\ind{\hat{p}(x) > \frac12}$.
 \end{document}
