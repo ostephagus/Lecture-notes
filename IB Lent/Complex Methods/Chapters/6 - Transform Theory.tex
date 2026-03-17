@@ -459,5 +459,86 @@ Now we have these properties, we can often calculate Laplace Transforms much mor
             f(x, t) = 3\sin(2\pi x) & t = 0
         \end{cases}
     \end{equation*}
+    We do a Laplace Transform with respect to $t$ because we have an initial condition for $t$. Let $F(s, x) = \LT[f(t, x)](s)$.
+    \begin{align*}
+        sF(s,x) - f(0,x) &= \frac{\partial^{2}}{\partial x^{2}}F(s,x) \\
+        \implies \frac{\partial^{2}F(s,x)}{\partial x^{2}} - sF(s,x) &= -3\sin(2\pi x)
+    \end{align*}
+    Now, we could take a Fourier transform to find the solution, but it is easier to guess a solution:
+    \begin{equation*}
+        F_p(s,x) = A\cos(2\pi x) + B\sin(2\pi x)
+    \end{equation*}
+    which gives equations for $A$ and $B$, once substituted,
+    \begin{equation*}
+        B = \frac{3}{4\pi^2 + s},\qquad A = 0
+    \end{equation*}
+    We also need to add the solution to the homogenous equation, which are exponentials:
+    \begin{equation*}
+        F(s,x) = \frac{3}{4\pi^2 + s} \sin(2\pi x) + C_1 e^{-\sqrt{3}x} + C_2 e^{\sqrt{3}x}
+    \end{equation*}
+    but the boundary conditions, $F(s,0) = F(s,0) = 0$ gives that the homogenous contribution is zero:
+    \begin{equation*}
+        F(s,x) = \frac{3}{4\pi^2 + s}\sin(2\pi x)
+    \end{equation*}
+    We can recognise the Laplace transform of an exponential, to find:
+    \begin{equation*}
+        f(t,x) = 3e^{-4\pi^2 t} \sin(2\pi x)
+    \end{equation*}
 \end{example}
+\subsection{Convolutions}
+\begin{definition}{Convolution}
+    The \underline{convolution} $f \star g$ of two functions $f,g : R \mapsto \R$ is defined to be:
+    \begin{equation*}
+        (f \star g)(t) = \int_{0}^{t} f(t - u) g(u) du
+    \end{equation*}
+\end{definition}
+\begin{theorem}[Convolution Theorem]
+    The Laplace Transform of a convolution is given by:
+    \begin{equation}
+        \LT\left[f \star g\right](s) = \LT[f](s) \LT[g](s)
+        \label{eqnConvolutionTheorem}
+    \end{equation}
+    \label{thmConvolution}
+\end{theorem}
+\begin{remark}
+    This is the same result as for Fourier Transforms
+\end{remark}
+\begin{proof}
+    First observe:
+    \begin{equation*}
+        \int_{0}^{\infty} \int_{0}^{t} f(u) du~dt = \int_{0}^{\infty} \int_{u}^{\infty} f(t) dt~ du 
+    \end{equation*}
+    and so:
+    \begin{align*}
+        \LT[f \star g](s) &= \int_{0}^{\infty} \left(\int_{0}^{t} f(t-u)g(u) du\right)e^{-st} dt \\
+        &= \int_{0}^{\infty} \left(\int_{u}^{\infty} f(t - u)g(u) e^{-st} dt \right) du \\
+        \intertext{Now set $x = t - u$:}
+        &= \int_{0}^{\infty} \left(\int_{0}^{\infty} f(x)g(u) e^{-sx} e^{-su} dx \right) du
+        &= \int_{0}^{\infty} f(x)e^{-sx} dx \int_{0}^{\infty} g(u)e^{-su} du \\
+        &= F(s)G(s).
+    \end{align*}
+\end{proof}
+\begin{examples}{
+        We can now use \thmref{thmConvolution} to evaluate:
+    }
+    \item $H(s) = \frac{1}{s(s^2 + 1)}$. We can identify $F(s) = \frac1s$, $G(s) = \frac{1}{1 + s^2}$, and we know $f(t) = 1$, $g(t) = \sin(t)$. The inverse LT of $H$ is therefore:
+        \begin{equation*}
+            h(t) = 1 \star \sin(t) = \int_{0}^{t} 1 \times sin(t) dt = 1 - \cos(t)
+        \end{equation*}
+    \item We can solve the equation:
+        \begin{equation*}
+            4\ddot{f} + f(t) = h(t)
+        \end{equation*}
+        with $f(0) = 3$, $\dot{f}(0) = -7$, $h(t)$ an arbitrary forcing term. Take the Laplace Transform to get:
+        \begin{align*}
+            &4\left[s^2 F(s) - sf(0) - \dot{f}(0)\right] + F(s) = H(s) \\
+            &4s^2 F(s) - 12s + 7 + F(s) = H(s) \\
+            \implies& F(s) = \frac{3s}{s^2 + \frac14} - \frac{7}{s^2 + \frac14} + H(s) \frac{1}{s^2 + \frac14}
+        \end{align*}
+        The first two terms relate to cosine and sine, and the third is a convolution:
+        \begin{equation*}
+            f(t) = 3\cos\left(\frac{t}2\right) - 14 \sin\left(\frac{t}{2}\right) + \frac12 \int_{0}^{t} \sin\left(\frac{u}{2}\right)h(t - u) du
+        \end{equation*}
+        for \underline{any $h$}.
+\end{examples}
 \end{document}
