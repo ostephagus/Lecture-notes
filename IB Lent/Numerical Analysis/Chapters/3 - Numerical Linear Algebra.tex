@@ -395,4 +395,61 @@ The algorithm is as follows:
 \begin{remarks}
     \item When updating $A$ in the above algorithm, we only need to consider the last rows that are affected by the Householder reflection submatrix. The other columns and rows are unchanged.
 \end{remarks}
+\section{Least-Squares Problems}
+Consider a system of equations $A\vec{x} \approx \vec{b}$ where $A \in \R^{m \times n}$, where $m > n$, $\vec{x} \in \R^n$, $\vec{x} \in \R^m$. This is an overdetermined system, and so we can only find an approximate solution in general.
+\begin{definition}{Least-squares problem}
+    The \underline{least-squares problem} is:
+    \begin{equation*}
+        \min_{\vec{x} \in \R^n} \norm{A\vec{x} - \vec{b}}_2^2
+    \end{equation*}
+\end{definition}
+\begin{theorem}
+    Suppose that we have a least-squares problem as above, with $\operatorname{rk}(A) = n$. Then $\vec{x} \in \R^n$ is a solution if and only if:
+    \begin{equation}
+        A^T(A\vec{x} - \vec{b})
+        \label{eqnNormalEqs}
+    \end{equation}
+    \label{thmLeastSquares}
+\end{theorem}
+\begin{proof}
+    Let $f(\vec{x}) = \norm{A\vec{x} - \vec{b}}_2^2$. Then:
+    \begin{align*}
+        f(\vec{x} + \vec{h}) &- f(\vec{x}) = \norm{A(\vec{x} + \vec{h}) - \vec{b}}_2^2 - \norm{A\vec{x} - \vec{b}}\\
+        &= \norm{(A\vec{x} - \vec{b}) + (A\vec{h})}_2^2 - \norm{A\vec{x} - \vec{b}}\\
+        &= \norm{(A\vec{x} - \vec{b})}_2^2 + 2(A\vec{h})^T(A\vec{x} - \vec{b}) + \norm{(A\vec{h})}_2^2 - \norm{A\vec{x} - \vec{b}}\\
+        &= 2\vec{h} \cdot A^T(A\vec{x} - \vec{b}) + \norm{(A\vec{h})}_2^2
+    \end{align*}
+    which implies that $\nabla f(\vec{x}) = A^T(A\vec{x} - \vec{b})$, so $f$ is convex.
+    \begin{proofdirection}{$\Rightarrow$}{Suppose that $\vec{x}$ is a solution}
+        Then $\vec{x}$ is the global minimiser of $f$, so the gradient must be zero: $A^T(A\vec{x} - \vec{b}) = 0$.
+    \end{proofdirection}
+    \begin{proofdirection}{$\Leftarrow$}{Suppose $\vec{x}$ satisfies \eqnref{eqnNormalEqs}}
+        Then the gradient of $f$ is zero, and since $f$ is convex this means $\vec{x}$ is a local minimiser.
+    \end{proofdirection}
+\end{proof}
+The geometric interpretation of this is to require that $A\vec{x} - \vec{b}$ be perpendicular to the column span of $A$. We can solve the problem in multiple ways:
+\begin{enumerate}
+    \item By considering the equation $A^TA\vec{x} = A^T\vec{b}$. This is a linear system of equations with symmetric, positive-definite matrix $A^TA$, so can be solved with a Cholesky decomposition. This method, however, struggles from numerical instability (non-examinable), and if the matrix $A$ is sparse then $A^TA$ may not be, making the computation needlessly more difficult.
+    \item By using a $QR$ decomposition. Let $A = Q_1 R_1$ be a reduced $QR$ decomposition, and note that the column span of $Q_1$ is the same as the column span of $A$. Therefore, rather than solving $A\vec{x} - \vec{b}$ perpendicular to the columns of $A$, we equivalently require that $A\vec{x} - \vec{b}$ is perpendicular to the columns of $Q_1$. That is:
+        \begin{align*}
+            Q_1^T(Q_1R_1\vec{x} - \vec{b}) &= 0 \\
+            \iff R_1\vec{x} &= Q_1^T\vec{b}
+        \end{align*}
+        and this is a triangular system of equations which can be solved using back-substitution. This solution can be written as $\vec{x} = R_1^{-1} Q_1^T\vec{b}$
+\end{enumerate}
+We can provide an alternative proof to get to this fact in terms of a $QR$ factorisation. %TOOD: tidy
+\begin{proof}
+    Assume that $A = QR$ is a full $QR$ factorisation,
+    \begin{equation*}
+        Q = \begin{bNiceMatrix}[first-row] n&\\Q_1&Q_2\\\end{bNiceMatrix},\quad R = \begin{bNiceMatrix}[last-col]R_1 & n\\0 &\\\end{bNiceMatrix}
+    \end{equation*}
+    Then for any $\vec{x} \in \R^n$,
+    \begin{align*}
+        \norm{A\vec{x}-\vec{b}}_2^2 &= \norm{QR\vec{x} - \vec{b}}_2^2 \\
+        &= \norm{R\vec{x} - Q^T\vec{b}}_2^2 \text{ because $Q$ is orthogonal} \\
+        &= \norm{\begin{pmatrix}R_1\\0\end{pmatrix}\vec{x} - \begin{pmatrix}Q_1^T \\ Q_2^T\end{pmatrix}\vec{b}}_2^2 \\
+        &= \norm{R_1\vec{x} - Q_1^T\vec{b}}_2^2 + \norm{Q_2^T\vec{b}}_2^2
+    \end{align*}
+    and so minimising gives $R_1\vec{x} = Q_1^T$, with residual $\norm{Q_2^T\vec{b}}_2^2$.
+\end{proof}
 \end{document}
