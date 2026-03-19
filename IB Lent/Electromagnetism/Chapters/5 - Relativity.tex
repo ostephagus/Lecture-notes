@@ -399,7 +399,7 @@ in terms of scalar and vector potentials. In relativity, we see that $\vec{E}$ a
 \end{align*}
 and so we interpret $F_{\mu \nu}$ as the antisymmetric derivative:
 \begin{equation}
-    F_{\mu \nu} = \frac{\partial A_\nu}{\partial X_\mu} - \frac{\partial A_\mu}{\partial X_\nu}
+    F_{\mu \nu} = \partial_\mu A_\nu - \partial_\nu A_\mu
     \label{eqnForcePotential}
 \end{equation}
 of the covector:
@@ -455,14 +455,13 @@ so the electric field component along the direction of the boost is unchanged. W
 \end{align*}
 from which we deduce:
 \begin{align*}
-    E_x' &= E_x & B_x' &= B_x \\
-    E_y' &= \gamma (E_y - v B_z) & B_y' &= \gamma \left(B_y + \frac{v}{c^2} E_z\right) \\
-    E_z' &= \gamma (E_z + v B_y) & B_z' &= \gamma \left(B_z - \frac{v}{c^2} E_y\right)
+    E_x' &= E_x & E_y' &= \gamma (E_y - v B_z) & E_z' &= \gamma (E_z + v B_y) \\
+    B_x' &= B_x & B_y' &= \gamma \left(B_y + \frac{v}{c^2} E_z\right) & B_z' &= \gamma \left(B_z - \frac{v}{c^2} E_y\right)
 \end{align*}
 More generally, if $\vec{v}$ is the velocity of $S'$ with respect to $S$,
 \begin{align*}
-    \vec{E_\parallel}' &= \vec{E_\parallel} & \vec{B_\parallel}' &= \vec{B_\parallel} \\
-    \vec{E_\perp}' &= \gamma (\vec{E_\perp} + \vec{v} \times \vec{B_\perp}) & \vec{B_\perp}' &= \gamma \left(\vec{B_\perp} - \frac{1}{c^2} \vec{v} \times \vec{E_\perp}\right)
+    \vec{E_\parallel}' &= \vec{E_\parallel} & \vec{E_\perp}' &= \gamma (\vec{E_\perp} + \vec{v} \times \vec{B_\perp}) \\
+    \vec{B_\parallel}' &= \vec{B_\parallel} & \vec{B_\perp}' &= \gamma \left(\vec{B_\perp} - \frac{1}{c^2} \vec{v} \times \vec{E_\perp}\right)
 \end{align*}
 by considering the components perpendicular and parallel to $\vec{v}$.
 
@@ -479,7 +478,7 @@ Consider the tensor formed by raising both indices of the electromagnetic tensor
 We can use this to find two Lorentz-invariant combinations of $\vec{E}$ and $\vec{B}$:
 \begin{align*}
     F_{\mu \nu} F^{\mu \nu} &= -\frac2{c^2} \left(|\vec{E}|^2 - c^2 |\vec{B}|^2\right) \\
-    \epsilon_{\mu \nu \rho \sigma} F^{\mu \nu} F^{\rho \sigma} = \frac8c \vec{E} \cdot \vec{B}
+    \epsilon_{\mu \nu \rho \sigma} F^{\mu \nu} F^{\rho \sigma} &= \frac8c \vec{E} \cdot \vec{B}
 \end{align*}
 \begin{remark}
     The second combination is using the dual of the electromagnetic tensor
