@@ -2,6 +2,37 @@
 
 \begin{document}
 \section{Water Waves}
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[x=1cm, y=1cm]
+
+        % Dashed line z=0
+        \draw[dashed] (0,0) -- (10,0) node[right] {\Large $z=0$};
+
+        % Wavy surface
+        \draw[thick, color=blue!70!black, domain=0:10, samples=100] plot (\x, {0.6*sin(deg((\x-3)*pi/6))});
+
+        % Bottom line z=-h
+        \draw[thick] (0.2,-2.5) -- (9.8,-2.5) node[right] {\Large $z=-h$};
+
+        % Hash marks
+        \foreach \x in {0.6, 1.2, 1.8, 2.4, 3.0, 3.6, 4.2, 4.8, 5.4, 6.0, 6.6, 7.2, 7.8, 8.4, 9.0, 9.6} {
+            \draw[thick] (\x,-2.5) -- (\x-0.2,-2.8);
+        }
+
+        % Text labels
+        \node at (5, 1.2) {\Large Air, pressure $p_0$};
+        \node[color=blue!70!black] at (5, -1.5) {\Large Water, density $\rho$};
+
+        % Zeta label and arrow
+        \node[color=blue!70!black] at (9.5, 1.6) {\Large $z = \zeta(x,y,t)$};
+        \draw[->, thick, color=blue!70!black] (8.7, 1.2) .. controls (8.7, 0.8) and (8.5, 0.5) .. (8.3, 0.25);
+
+        \end{tikzpicture}
+    \caption{Diagram of water waves}
+    \label{figWaterWaves}
+\end{figure}
+Consider a setup as in figure~\ref{figWaterWaves}. We let $\phi$ be the velocity potential, and $z = \zeta(x, y, t)$ be the upper free surface of water of depth $h$. We define $z = 0$ to be the equilibrium position of the free surface.
 \subsection{Governing equations}
 We will assume that the flow is inviscid and irrotational for all time. Therefore $\vec{u} = \nabla\phi$ and on the given domain,
 \begin{equation}
@@ -13,39 +44,39 @@ Applying the Kinematic Boundary Condition at the bottom, $\vec{u} \cdot \vec{n} 
     \left.\frac{\partial \phi}{\partial z}\right|_{z = -h} = 0
     \label{eqnBottomKBC}
 \end{equation}
-The boundary condition for $\phi$ on the free surface was derived in chapter 1:
+The boundary condition for $\phi$ on the free surface was derived in \hyperref[secKBC]{section~\ref{secKBC}}:
 \begin{equation}
     \frac{\partial \zeta}{\partial t} + u_x \frac{\partial \zeta}{\partial x} + u_y \frac{\partial \zeta}{\partial y} = w \text{ at } z = \zeta
     \label{eqnFreeSurfaceKBC}
 \end{equation}
-The dynamic boundary condition is:
+The unsteady Bernoulli equation~\ref{eqnBernoulliUnsteady} gives us:
 \begin{equation}
     \rho \frac{\partial \phi}{\partial t} + \frac12 \rho |\nabla \phi|^2 + p_0 + \rho g z = f(t)
     \label{eqnFreeSurfaceDBC}
 \end{equation}
 on $z = \xi$.
 \subsection{Linear Water Waves}
-We will assume small amplitude $\xi \ll h$, and so
+We will assume small amplitude $\zeta \ll h$, and so
 \begin{equation*}
-    \left|\frac{\partial \xi}{\partial x}\right|, \left|\frac{\partial \xi}{\partial y}\right| \ll 1
+    \left|\frac{\partial \zeta}{\partial x}\right|, \left|\frac{\partial \zeta}{\partial y}\right| \ll 1
 \end{equation*}
-We would like to linearise these equations. We will do this by perturbing about the rest state $\xi = 0$. Therefore, we ignore any nonlinear terms and we will take Taylor expansions around $z = 0$ for quantities evaluated on the free surface $z = \xi$.
+We would like to linearise these equations. We will do this by perturbing about the rest state $\zeta = 0$. Therefore, we ignore any nonlinear terms and we will take Taylor expansions around $z = 0$ for quantities evaluated on the free surface $z = \zeta$.
 
 The resulting linear equations are:
 \begin{align}
     \nabla^2 \phi &= 0 & z &\in (-h, 0) \label{eqnLaplaceLinear} \\
-    \frac{\partial \phi}{\partial t} &= 0 & z &= -h \label{eqnBottomKBCLinear} \\
-    \frac{\partial \xi}{\partial t} &= \frac{\partial \phi}{\partial z} & z &= 0 \label{eqnFreeSurfaceKBCLinear} \\
-    \rho \frac{\partial \phi}{\partial t} + \rho g \xi &= \tilde{F}(t) & z &= 0 \label{eqnFreeSurfaceDBCLinear}
+    \frac{\partial \phi}{\partial x} &= 0 & z &= -h \label{eqnBottomKBCLinear} \\
+    \frac{\partial \zeta}{\partial t} &= \frac{\partial \phi}{\partial z} & z &= 0 \label{eqnFreeSurfaceKBCLinear} \\
+    \rho \frac{\partial \phi}{\partial t} + \rho g \zeta &= \tilde{F}(t) & z &= 0 \label{eqnFreeSurfaceDBCLinear}
 \end{align}
 We will look for a separable solution of the form $\phi(\vec{x}, t) = A(z)B(x) C(y) T(t)$. By taking a Fourier Transform and ignoring $y$ (by restricting to 2D), we end up with solutions of the form:
 \begin{equation*}
     \begin{cases}
-        \xi = \xi_0 \exp(ikx - i\omega t) & \xi_0 \text{ unknown} \\
+        \zeta = \zeta_0 \exp(ikx - i\omega t) & \zeta_0 \text{ unknown} \\
         \phi = \Phi(z) \exp(ikx - i\omega t) & \Phi(z) \text{ unknown} \\
     \end{cases}
 \end{equation*}
-where we assume that real parts are taken for $\xi$ and $\phi$. The general solution, therefore, is a superposition of an infinite number of Fourier modes (which correspond to travelling waves).
+where we assume that real parts are taken for $\zeta$ and $\phi$. The general solution, therefore, is a superposition of an infinite number of Fourier modes (which correspond to travelling waves).
 
 We use equations~\ref{eqnLaplaceLinear} and \ref{eqnBottomKBCLinear}:
 \begin{equation*}
@@ -120,7 +151,7 @@ The separation of variables method still works, and we find:
 now here $m$ and $n$ are integers, so we have discrete wavelengths that solve the equations.
 We now find that $k$ is quantised:
 \begin{equation*}
-    k_{mn} = \frac{m^2 \pi^2}{a^2} + \frac{n^2 \pi^2}{b^2}
+    k_{mn}^2 = \frac{m^2 \pi^2}{a^2} + \frac{n^2 \pi^2}{b^2}
 \end{equation*}
 with $\omega^2 = gk$ as before. These modes are called standing waves (or normal modes).
 \subsection{Rayleigh-Taylor Instability}
@@ -128,8 +159,7 @@ Consider a container in an unstable state: a layer of water on top of a layer of
 
 Therefore $\omega^2 = -gk \implies \omega = \pm i\sqrt{gk}$.
 
-The normal modes that were previously given by $e^{i\omega t}$ are now given by $e^{\pm \sqrt{gk}t}$
-
+The normal modes that were previously given by $e^{i\omega t}$ are now given by $e^{\pm \sqrt{gk}t}$, one of which grows exponentially (resulting in unstable flow).
 \section{Rotating Fluid Dynamics}
 In this section, we will consider macroscopic flows that are influenced by the rotation of the Earth. This rotation has:
 \begin{equation*}
