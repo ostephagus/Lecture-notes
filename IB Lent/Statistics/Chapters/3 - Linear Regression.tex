@@ -2,7 +2,7 @@
 
 \begin{document}
 \section{Defining a Model}
-Suppose we have data $(\vec{X_1}, Y_1), \cdots, (\vec{X_n}, Y_n)$, with $Y_1 \in \R$ and $X_p \in \R^p$.
+Suppose we have data $(\vec{X_1}, Y_1), \cdots, (\vec{X_n}, Y_n)$, with $Y_i \in \R$ and $X_i \in \R^p$.
 
 In a \underline{linear model}, we assume:
 \begin{equation*}
@@ -13,8 +13,8 @@ where $\alpha$ is the \underline{intercept}, $(\beta_1, \cdots, \beta_p)$ are th
 We want to estimate $\alpha$ and the $\beta_i$. $\vec{X_i}$ are the \underline{predictors} or \underline{explanatory variables}, and $Y_i$ are the \underline{response variables}.
 
 \begin{remarks}
-    \item We often eliminate the intercept by defining the first predictor $X_{i1} = 1$ and $\beta_1$ plays the role of $\alpha$.
-    \item We can also model non-linear relationships, for example $X_{i1} = z$ and $X_{iz} = z_i^2$, then the linear model is:
+    \item We will eliminate the intercept by defining the first predictor $X_{i1} = 1$ and $\beta_1$ plays the role of $\alpha$.
+    \item We can also model non-linear relationships, for example $X_{i1} = z$ and $X_{i2} = z_i^2$, then the linear model is:
         \begin{equation*}
             Y_i = \alpha + \beta_1 z_i + \beta_2 z_i^2 + \epsilon_i
         \end{equation*}
@@ -26,7 +26,7 @@ We can also consider a matrix formulation. Let $\vec{Y}$ be the vector of all re
 \end{equation*}
 We will assume that the random noise has:
 \begin{equation*}
-    \E[\vec{\epsilon}] = 0, \Cov(\epsilon) = \sigma^2 I
+    \E[\vec{\epsilon}] = 0, \Cov(\vec{\epsilon}) = \sigma^2 I
 \end{equation*}
 and so the individual components are independent, with means $0$ and variances $\sigma^2$. We will also assume that $X$ has rank $p$ (the maximum possible since it has $p$ rows) %TODO: Is this rows or columns?
 
@@ -72,12 +72,12 @@ In our model, we assume $X$ is fixed. We want to find estimators of $\vec{\beta}
     \begin{equation*}
         \E[A\vec{Y}] = \E[\tilde{\vec{\beta}}] - \E[\hat{\vec{\beta}}] = 0
     \end{equation*}
-    since both estimators are unbiased. Since $\E[A\vec{Y}] = A \E[\vec{Y}] = AX\vec{\beta}$, for all $\vec{\beta} \in \R^p$, this means $AX = 0$. Furthermore,
+    since both estimators are unbiased. Since $\E[A\vec{Y}] = A \E[\vec{Y}] = AX\E\left[\vec{\beta}\right]$, for all $\vec{\beta} \in \R^p$, this means $AX = 0$. Furthermore,
     \begin{align*}
         \Cov(\tilde{\vec{\beta}}) &= \Cov\left((A + (X^T X)^{-1} X^T) \vec{Y}\right) \\
         &= \left(A + (X^T X)^{-1} X^T\right) \Cov(\vec{Y}) \left(A + (X^T X)^{-1} X^T\right)^T \\
         &= \sigma^2 \left(AA^T + (X^T X)^{-1} + AX(X^T X)^{-1} + (X^T X)^{-1} X^T A^T\right) \\
-        &= \sigma^2 \left(AA^T + (X^T X)^{-1}\right) \\
+        &= \sigma^2 \left(AA^T + (X^T X)^{-1}\right) \text{ using $AX = 0$}\\
         &= \sigma^2 AA^T + \Cov(\hat{\vec{\beta}})
     \end{align*}
     and therefore $\Cov(\tilde{\vec{\beta}}) - \Cov(\hat{\vec{\beta}}) = \sigma^2 AA^T$ which is positive semi-definite.
@@ -106,7 +106,7 @@ In our model, we assume $X$ is fixed. We want to find estimators of $\vec{\beta}
 \end{definition}
 Note that:
 \begin{align*}
-    \hat{\vec{Y}} &= \underbrace{X(X^TX)^{-1}}_{P} \vec{Y} \\
+    \hat{\vec{Y}} &= \underbrace{X(X^TX)^{-1}X^T}_{P} \vec{Y} \\
     \vec{Y} - \hat{\vec{Y}} &= (I - P)\vec{Y}
 \end{align*}
 \begin{proposition}
