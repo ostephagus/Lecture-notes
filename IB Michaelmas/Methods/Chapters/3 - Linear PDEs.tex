@@ -632,7 +632,7 @@ To check, we can consider some extreme cases:
 \section{The Heat Equation}
 We want to model the temperature, $\phi(x, t)$, of a conductive material as it evolves over time. This must satisfy the \underline{heat equation}:
 \begin{equation}
-    \frac{\partial \phi}{\partial t} \kappa \Delta\phi
+    \frac{\partial \phi}{\partial t} = \kappa \Delta\phi
     \label{eqnHeat}
 \end{equation}
 The general idea behind this equation is that the heat should in general average out over time, so the rate of change at a given point is proportional to the average temperature around it. $\kappa > 0$ can be understood to measure conductivity of the material. Let the domain of the conducting material be $\Omega$. Then we have the IBVP:

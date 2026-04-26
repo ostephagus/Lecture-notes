@@ -69,9 +69,6 @@ In $\R^2$, we can consider only the determinant and trace of $H$.
         \label{eqnConvexityDef}
     \end{equation}
 \end{definition}
-\begin{remark}
-    This is equivalent to saying that the domain of $f$ is a convex set.
-\end{remark}
 \begin{definition}{Strictly convex function}
     If $f : D(f) \subseteq \R^n \mapsto \R$ obeys the strict version of inequality~\ref{eqnConvexityDef}, for $\vec{x} \neq \vec{y}$, then $f$ is \underline{strictly convex}.
 \end{definition}
@@ -136,8 +133,8 @@ In $\R^2$, we can consider only the determinant and trace of $H$.
     \begin{proofdirection}{$\Rightarrow$}{Assume equation~\ref{eqnFirstOrderCondition} holds.}
         Then:
         \begin{align*}
-            f(\vec{y}) \geq f(\vec{x}) + (\vec{y} - \vec{x}) \cdot \nabla f(\vec{x})
-            f(\vec{x}) \geq f(\vec{y}) + (\vec{x} - \vec{y}) \cdot \nabla f(\vec{y})
+            f(\vec{y}) &\geq f(\vec{x}) + (\vec{y} - \vec{x}) \cdot \nabla f(\vec{x}) \\
+            f(\vec{x}) &\geq f(\vec{y}) + (\vec{x} - \vec{y}) \cdot \nabla f(\vec{y})
         \end{align*}
         Then summing these equations gives equation~\ref{eqnAltFirstOrderCondition}.
     \end{proofdirection}
@@ -151,12 +148,12 @@ In $\R^2$, we can consider only the determinant and trace of $H$.
         and subtracting the required term:
         \begin{align*}
             f(\vec{y}) - f(\vec{x}) - (\vec{y} - \vec{x}) \cdot &\nabla f(\vec{x}) \\
-            &= \int_0^1 \left(\vec{y} - \vec{x} \cdot \left[\nabla f(\vec{z}) - \nabla f(\vec{x})\right]\right)dt
+            &= \int_0^1 \left(\vec{y} - \vec{x}\right) \cdot \left[\nabla f(\vec{z}) - \nabla f(\vec{x})\right]dt
         \end{align*}
         And this is non-negative by replacing $\vec{y}$ for $\vec{z}$ in equation~\ref{eqnAltFirstOrderCondition}
     \end{proofdirection}
 \end{proof}
-\begin{theorem}{Second-order condition for convexity}
+\begin{theorem}[Second-order condition for convexity]
     A twice differentiable function $f : \R^n \mapsto \R$ is convex if and only if, at every point $x \in \R^n$, $H(\vec{x})$ has no negative eigenvalues, or equivalently $H(\vec{x})$ is positive semi-definite.
     \label{thmSecondOrderCondition}
 \end{theorem}

@@ -71,7 +71,7 @@ Here a \textit{non-degenerate} solution is one that has exactly $m$ non-zero ent
 
 We can also detail a simple algorithm to find basic feasible solutions.
 \begin{enumerate}
-    \item Select some indices $B(1), \cdots, B(m) \in \{1, \cdots, m\}$.
+    \item Select some indices $B(1), \cdots, B(m) \in \{1, \cdots, n\}$.
     \item For each index $B(i)$, set the $i$th column of a matrix $B$ to be $A_{B(i)}$.
     \item For each index $B(i)$, set this index in a basic solution vector $\vec{x}$ to be:
         \begin{equation*}
@@ -81,7 +81,7 @@ We can also detail a simple algorithm to find basic feasible solutions.
 \end{enumerate}
 This in fact finds all basic solutions, and we can check each to find basic \textit{feasible} solutions.
 
-\begin{theorem}[Basic feasible solutions are extreme points of $\Xset(\vec{b})$]
+\begin{theorem}[Basic feasible solutions are extreme points]
     A point $\vec{x}$ is a basic feasible solution if and only if it is an extreme point of the feasible set:
     \begin{equation*}
         \Xset(\vec{b}) = \subsetselect{x}{Ax = b, x \geq 0}

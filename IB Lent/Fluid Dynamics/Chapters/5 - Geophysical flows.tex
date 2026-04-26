@@ -65,7 +65,7 @@ We would like to linearise these equations. We will do this by perturbing about 
 The resulting linear equations are:
 \begin{align}
     \nabla^2 \phi &= 0 & z &\in (-h, 0) \label{eqnLaplaceLinear} \\
-    \frac{\partial \phi}{\partial x} &= 0 & z &= -h \label{eqnBottomKBCLinear} \\
+    \frac{\partial \phi}{\partial z} &= 0 & z &= -h \label{eqnBottomKBCLinear} \\
     \frac{\partial \zeta}{\partial t} &= \frac{\partial \phi}{\partial z} & z &= 0 \label{eqnFreeSurfaceKBCLinear} \\
     \rho \frac{\partial \phi}{\partial t} + \rho g \zeta &= \tilde{F}(t) & z &= 0 \label{eqnFreeSurfaceDBCLinear}
 \end{align}
@@ -165,7 +165,7 @@ In this section, we will consider macroscopic flows that are influenced by the r
 \begin{equation*}
     \omega = \frac{2\pi}{24 \times 60^2} \approx 10^{-4} s^{-1}
 \end{equation*}
-This rotation has huge effect on the motion of the ocean and atmosphere. Because the ocean and atmosphere are thin relative to the size of the Earth.
+This rotation has huge effect on the motion of the ocean and atmosphere because the ocean and atmosphere are thin relative to the size of the Earth.
 \subsection{Euler Equations in a Rotating Frame}
 We will assume $\rho$ constant and $\nabla \cdot \vec{u} = 0$. From the course IA Dynamics and Relativity, the acceleration of a fluid particle in a rotating frame is:
 \begin{equation*}
@@ -261,7 +261,7 @@ Then, by considering the Coriolis parameter $f = 2\Omega \sin(\overline{\theta})
 \begin{align}
     \frac{D u}{D t} - fv &= -\frac1\rho \frac{\partial p}{\partial x} \label{eqnRotX} \\
     \frac{D v}{D t} + fu &= -\frac1\rho \frac{\partial p}{\partial y} \label{eqnRotY} \\
-    0 &= -\frac{\partial p}{\partial z} + \rho g \label{eqnRotZ} \\
+    0 &= -\frac1\rho\frac{\partial p}{\partial z} - g \label{eqnRotZ} \\
     \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z} &= 0 \label{eqnRotNoDiv}
 \end{align}
 We can take a derivative of \eqnref{eqnRotX} with respect to $y$ and a derivative of \eqnref{eqnRotY} with respect to $x$, and subtract them:
@@ -272,10 +272,10 @@ where $\xi$ is the $z$ component of $\vec{\omega}$.
 \begin{example}[Flow in a shallow layer]
     Consider flow in a shallow layer of thickness $h(x, y, t)$. Let the bottom of the water be a flat, fixed surface and the upper boundary be air.
 
-    Matching the pressure at the boundary, and using $\frac{\partial p}{\partial z} = \rho g$,
+    We then find that $p = C(x, y, t) - \rho g z$, and by the condition that $p = p_{atm}$ at $z = h$, $p = \rho g(h - z) + p_0$. Then:
     \begin{align*}
         \frac{\partial p}{\partial x} &= \rho g \frac{\partial h}{\partial x} \\
-        \frac{\partial p}{\partial y} &= \rho g \frac{\partial h}{\partial y} \\
+        \frac{\partial p}{\partial y} &= \rho g \frac{\partial h}{\partial y}
     \end{align*}
     and we write this as $\nabla_H p = \rho g \nabla_H h$ (where $\nabla_H$ is the horizontal gradient, a 2-dimensional vector with derivatives only in $x$ and $y$).
 
@@ -323,8 +323,8 @@ where this quantity is the \underline{potential vorticity}.
 \subsection{Linearised Evolution}
 In this subsection we take $Ro \ll 1$ but allow unsteady flow. Considering a small perturbation, $h = h_0 + \eta(x, y, t)$ where $|\eta| \ll h$, we transform equations~\ref{eqnRotX} and \ref{eqnRotY} to:
 \begin{align}
-    \frac{\partial u}{\partial t} - f_v &= -\frac1\rho \frac{\partial p}{\partial x} = -g \frac{\partial h}{\partial x} \label{eqnLinRotX} \\
-    \frac{\partial v}{\partial t} + f_u &= -\frac1\rho \frac{\partial p}{\partial y} = -g \frac{\partial h}{\partial y} \label{eqnLinRotY} \\
+    \frac{\partial u}{\partial t} - fv &= -\frac1\rho \frac{\partial p}{\partial x} = -g \frac{\partial h}{\partial x} \label{eqnLinRotX} \\
+    \frac{\partial v}{\partial t} + fu &= -\frac1\rho \frac{\partial p}{\partial y} = -g \frac{\partial h}{\partial y} \label{eqnLinRotY} \\
     \intertext{and the mass conservation equation becomes:}
     \frac{\partial \eta}{\partial t} &+ h_0 \left(\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}\right) = 0 \label{eqnLinRotMassConserve}
 \end{align}

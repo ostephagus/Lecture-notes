@@ -38,7 +38,7 @@ Then the \underline{conservative approach} is for player 1 to choose the action 
             3 & 4
         \end{pmatrix}
     \end{equation*}
-    then in this case, player 1 thinks they should play $i = 1$, and player 2 thinks they should play $j = 1$, so both converge on the cell $A_{21} = 3$.
+    then in this case, player 1 thinks they should play $i = 2$, and player 2 thinks they should play $j = 1$, so both converge on the cell $A_{21} = 3$.
 \end{example}
 \begin{example}
     Now consider a payoff matrix:
@@ -105,13 +105,13 @@ Then this is also player 1's problem.
     The pair $(\vec{p}, \vec{q})$ that solves the above primal and dual problems is called the \underline{Nash equilibrium}.
 \end{definition}
 
-Note that, by \ref{thmLinearProgStrongDual}, the Nash Equilibrium exists for a well-defined problem (feasible and bounded).
+Note that, by theorem~\ref{thmLinearProgStrongDual}, the Nash Equilibrium exists for a well-defined problem (feasible and bounded).
 
 \begin{theorem}
     A strategy $\vec{p}$ is optimal for player 1 if and only if there exists $\vec{q}$ and $v$ such that:
     \begin{enumerate}
         \item The primal is feasible: $A^T\vec{p} \geq v\vec{e}, \vec{e}^T \vec{p} = 1, \vec{p} \geq 0$,
-        \item The dual is feasible: $A\vec{q} \leq v\vec{e}, \vec{e}^T\vec{q}, \vec{q} \geq 0$,
+        \item The dual is feasible: $A\vec{q} \leq v\vec{e}, \vec{e}^T\vec{q} = 1, \vec{q} \geq 0$,
         \item Complementary slackness holds: $v = \vec{p}^T A \vec{q}$.
     \end{enumerate}
 \end{theorem}
