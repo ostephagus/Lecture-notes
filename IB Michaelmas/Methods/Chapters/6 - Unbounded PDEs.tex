@@ -63,7 +63,7 @@ We want to solve a PDE of the following form:
 \end{equation*}
 This is a quasi-linear problem, because the nonlinearity occurs only on the RHS.
 
-We consider this equation, along with initial conditions $u(x, y, 0) = \phi(x, y)$ on a curve $C \subseteq \R^2$.
+We consider this equation, along with initial conditions $u(x, y) = \phi(x, y)$ on a curve $C \subseteq \R^2$.
 
 The key idea for this is attributed to Bernhard Riemann. This idea is to look at curves $(x, y) = (x(t), y(t))$ defined by:
 \begin{gather*}
@@ -320,7 +320,7 @@ and the new problem $\tilde{L}U = G(\xi, \eta)$ where $G(\xi, \eta) = g(x, y)$.
 \begin{definition}{Fourier Transform ($\R^n)$}
     For $f : \R^n \mapsto \C$, define the \underline{Fourier transform} of $f$ as:
     \begin{equation*}
-        \hat{f}(\vec{\lambda}) = \int_{\R^n} e^{-i \vec{\lambda} \cdot \vec{x}} d^n \vec{x}
+        \hat{f}(\vec{\lambda}) = \int_{\R^n} e^{-i \vec{\lambda} \cdot \vec{x}} f(\vec{x}) d^n \vec{x}
     \end{equation*}
     and define the inverse Fourier Transform:
     \begin{equation*}
@@ -604,7 +604,7 @@ To do this, we want to find the Dirichlet Green's function, defined for each $\v
 \end{equation*}
 Then with such a Green's function we have the solution to $u$:
 \begin{equation*}
-    u(\vec{x}) = \int_{\Omega} \DGrn(\vec{x}, \vec{Y}) F(\vec{y}) d^n \vec{y}
+    u(\vec{x}) = \int_{\Omega} \DGrn(\vec{x}, \vec{y}) F(\vec{y}) d^n \vec{y}
 \end{equation*}
 To find $\DGrn$ we need a free-space Green's function $G(\vec{x}, \vec{y})$ along with an added harmonic function that satisfies $\DGrn(\vec{x}, \vec{y}) = 0$ on $\partial \Omega$.
 
