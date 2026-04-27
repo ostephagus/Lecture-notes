@@ -35,7 +35,7 @@
         \label{eqnLegendreMax}
     \end{equation}
 
-    The Legendre Transform is then $f^*(\vec{p}) = \vec{p} \cdot \vec{x}(\vec{p}) = f(\vec{x}(\vec{p}))$.
+    The Legendre Transform is then $f^*(\vec{p}) = \vec{p} \cdot \vec{x}(\vec{p}) - f(\vec{x}(\vec{p}))$.
 \end{corollary}
 \begin{remark}
     If $f$ is strictly convex, then the solution of equation~\ref{eqnLegendreMax} is unique.
@@ -70,7 +70,7 @@
     Note that, by equation~\ref{eqnLegendreMax}, the bracketed term is zero and so $\nabla f^*(\vec{p}) = \vec{x}(\vec{p})$. Then calculating the second Legendre transform:
     \begin{align*}
         f^{**}(\vec{x}) &= \vec{x} \cdot \vec{p}(\vec{x}) - f^*(\vec{p}(\vec{x})) \\
-        &= \vec{x} \cdot \vec{p}(\vec{x}) - \left[f(\vec{x}) \cdot \vec{x} - f(\vec{x}(\vec{p}(\vec{x})))\right] \\
+        &= \vec{x} \cdot \vec{p}(\vec{x}) - \left[\vec{p}(\vec{x}) \cdot \vec{x} - f(\vec{x}(\vec{p}(\vec{x})))\right] \\
         &= f(\vec{x}(\vec{p}(\vec{x}))) = f(\vec{x})
     \end{align*}
 \end{proof}

@@ -31,7 +31,7 @@ Since $\vec{q_A}$ and $\vec{q_B}$ are fixed, we have the Euler-Lagrange equation
 \begin{proposition}
     If $L$ has no explicit dependence on $t$ (i.e. the corresponding derivative is zero), then there exists a first integral:
     \begin{equation*}
-        L = \sum_{i = 1}^{3N} \dot{q}_i \frac{\partial L}{\partial \dot{q}_i} = -E
+        L - \sum_{i = 1}^{3N} \dot{q}_i \frac{\partial L}{\partial \dot{q}_i} = -E
     \end{equation*}
     where $E$ is a constant.
 \end{proposition}
@@ -127,7 +127,7 @@ and now the Euler-Lagrange equations imply:
 \end{align}
 and these are known as \underline{Hamilton's Equations}. These are first-order equations in $6N$-dimensional phase space with coordinates $(\vec{q}, \vec{p})$.
 
-We can also obtain Hamilton's Equations as the Euler-Lagrange equations for the functional of $\vec{q} and \vec{p}$:
+We can also obtain Hamilton's Equations as the Euler-Lagrange equations for the functional of $\vec{q}$ and $\vec{p}$:
 \begin{equation*}
     I[\vec{q}, \vec{p}] = \int_{t_a}^{t_b} \left(\dvec{q} \cdot \vec{p} - H(\vec{q}, \vec{p}, t)\right) dt
 \end{equation*}
