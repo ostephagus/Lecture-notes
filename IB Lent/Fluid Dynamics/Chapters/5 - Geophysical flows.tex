@@ -46,7 +46,7 @@ Applying the Kinematic Boundary Condition at the bottom, $\vec{u} \cdot \vec{n} 
 \end{equation}
 The boundary condition for $\phi$ on the free surface was derived in \hyperref[secKBC]{section~\ref{secKBC}}:
 \begin{equation}
-    \frac{\partial \zeta}{\partial t} + u_x \frac{\partial \zeta}{\partial x} + u_y \frac{\partial \zeta}{\partial y} = w \text{ at } z = \zeta
+    \frac{\partial \zeta}{\partial t} + u \frac{\partial \zeta}{\partial x} + v \frac{\partial \zeta}{\partial y} = w \text{ at } z = \zeta
     \label{eqnFreeSurfaceKBC}
 \end{equation}
 The unsteady Bernoulli equation~\ref{eqnBernoulliUnsteady} gives us:
@@ -65,11 +65,11 @@ We would like to linearise these equations. We will do this by perturbing about 
 The resulting linear equations are:
 \begin{align}
     \nabla^2 \phi &= 0 & z &\in (-h, 0) \label{eqnLaplaceLinear} \\
-    \frac{\partial \phi}{\partial x} &= 0 & z &= -h \label{eqnBottomKBCLinear} \\
+    \frac{\partial \phi}{\partial z} &= 0 & z &= -h \label{eqnBottomKBCLinear} \\
     \frac{\partial \zeta}{\partial t} &= \frac{\partial \phi}{\partial z} & z &= 0 \label{eqnFreeSurfaceKBCLinear} \\
     \rho \frac{\partial \phi}{\partial t} + \rho g \zeta &= \tilde{F}(t) & z &= 0 \label{eqnFreeSurfaceDBCLinear}
 \end{align}
-We will look for a separable solution of the form $\phi(\vec{x}, t) = A(z)B(x) C(y) T(t)$. By taking a Fourier Transform and ignoring $y$ (by restricting to 2D), we end up with solutions of the form:
+We will assume that there exists a solution of the form:
 \begin{equation*}
     \begin{cases}
         \zeta = \zeta_0 \exp(ikx - i\omega t) & \zeta_0 \text{ unknown} \\
@@ -247,7 +247,6 @@ Let $\overline{\theta}$ be the latitude angle as measured from the Equator.
 \end{align*}
 and now we make 3 assumptions:
 \begin{enumerate}
-    \item The order of magnitude of $\vec{u}$ is much larger than the order of magnitude of $\Omega u / g$, and so we neglect the $z$ term of the Coriolis force.
     \item We use that $H \ll L$:
         \begin{align*}
             \nabla \cdot \vec{u} &= 0 \\
@@ -256,6 +255,7 @@ and now we make 3 assumptions:
         \end{align*}
         and so we can discard the term $\cos(\overline{\theta})w$.
     \item $w$ is small, so we can reject the term $\rho \frac{D w}{D t}$ relative to gravity.
+    \item The order of magnitude of $\vec{u}$ is much larger than the order of magnitude of $\Omega u / g$, and so we neglect the $z$ term of the Coriolis force.
 \end{enumerate}
 Then, by considering the Coriolis parameter $f = 2\Omega \sin(\overline{\theta})$, we have the simplified equations:
 \begin{align}
