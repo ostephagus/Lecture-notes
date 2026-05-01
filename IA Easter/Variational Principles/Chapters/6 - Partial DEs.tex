@@ -101,9 +101,22 @@ Then we can find a vector potential $\vec{B} = \nabla \times \vec{A}$, and subst
 \end{equation*}
 And then the action is a function of $\vec{A}$ and $\phi$:
 \begin{equation*}
-    I[\vec{A}, \phi] = \int_D \left(\frac{|\vec{E}|^2}{2\epsilon_0} + \frac{\mu_0}{2}|\vec{B}|^2 + \vec{A} \cdot \vec{j} - \phi \rho\right) d^3\vec{x} dt
+    I[\vec{A}, \phi] = \int_{t = 0}^T\int_D \left(\frac{\epsilon_0 |\vec{E}|^2}{2} - \frac{|\vec{B}|^2}{2\mu_0} + \vec{A} \cdot \vec{J} - \rho \phi\right) d^3\vec{x}~dt
 \end{equation*}
-Then we vary this with respect to $\vec{A}$ and $\phi$.
-
-%TODO: Algebra
+Then we vary this with respect to $\vec{A}$ and $\phi$ to get:
+\begin{equation*}
+    \begin{split}
+        \delta I = \int_{t = 0}^T\int_D \left(-\vec{E} \cdot \left(\nabla (\delta \phi) + \frac{\partial}{\partial t} (\delta \vec{A})\right) - \vec{B} \cdot \left(\nabla \times (\delta \vec{A})\right)\right.\\
+        \left. + \delta\vec{A} \cdot \vec{J} - \rho \delta\phi\right)d^3\vec{x}~dt
+    \end{split}
+\end{equation*}
+Integrating by parts gives:
+\begin{equation*}
+    \delta I = \int_{t = 0}^T\int_D \left(\delta \vec{A} \cdot \left(\epsilon_0\frac{\partial \vec{E}}{\partial t} - \frac{1}{\mu_0}\nabla \times \vec{B} + \vec{J}\right) + \delta \phi \left(\epsilon_0\nabla \cdot \vec{E} - \rho\right)\right) d^3\vec{x}~dt
+\end{equation*}
+Then both coefficients of $\delta \phi$ and $\delta \vec{A}$ must be zero for an extremal action:
+\begin{align}
+    \nabla \cdot \vec{E} &= \frac{\rho}{\epsilon_0} \label{eqnMaxwellIII} \\
+    \nabla \times \vec{B} &= \mu_0 \vec{J} + \mu_0\epsilon_0 \frac{\partial \vec{E}}{\partial t} \label{eqnMaxwellIV}
+\end{align}
 \end{document}
