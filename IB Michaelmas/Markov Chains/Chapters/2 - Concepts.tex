@@ -98,7 +98,6 @@
 \end{theorem}
 \begin{proof}
     If $i \in A$ then $h_i^A = 1$ by definition. Therefore assume that $i \notin A$.
-
     \begin{align*}
         h_i^a &= \P_i(T_A < \infty) \\
         &= \P_i(X_0 \in A) + \P_i(X_0 \notin A, X_1 \in A) \\
@@ -115,7 +114,7 @@
         &+ \sum_{j \in I} \sum_{n \geq 1} P(i, j) \P(X_0 \notin A, \cdots, X_{n-1} \notin A, X_{n-1} \in A | X_0 = j) \\
         &= \sum_{j \in I} \sum_{n \geq 0} \P_j(T_A = n) P(i, j) \\
         &= \sum_{j \in I} \P_j(T_A < \infty) P(i, j) \\
-        &= \sum_{j \in I} P(i, j) h_j^A \\
+        &= \sum_{j \in I} P(i, j) h_j^A
     \end{align*}
     as required.
 
@@ -286,7 +285,7 @@ We have previously defined the mean hitting time. We will derive a similar syste
 \begin{proof}
     We need to show that, for any path $w \in \cup_{k \geq 0} I^k$, and for any sequence of states $x_0, x_1, \cdots, x_n \in I$,
     \begin{align*}
-        &\P\left((x_0, \cdots, x_T) = w, X_T = x_0, \cdots, X_{T+n} = x_n | T < \infty, X_T = i\right) \\
+        &\P\left((X_0, \cdots, X_T) = w, X_T = x_0, \cdots, X_{T+n} = x_n | T < \infty, X_T = i\right) \\
         &= \P((X_0 ,\cdots, X_T) = w | T < \infty, X_T = i) \\
         &\times \mathbb{I}_{X_0 = i} \Pmat{0}{1} \cdots \Pmat{n-1}{n} 
     \end{align*}
@@ -437,7 +436,7 @@ Then the previously defined first return time $T_i = T_i^{(1)}$.
 \begin{theorem}
     If a transition matrix $P$ is irreducible and recurrent then:
     \begin{equation*}
-        P_x(T_Y < \infty) = 1~\forall x, y \in I
+        P_x(T_y < \infty) = 1~\forall x, y \in I
     \end{equation*}
     \label{thmRecurHittingTime}
 \end{theorem}

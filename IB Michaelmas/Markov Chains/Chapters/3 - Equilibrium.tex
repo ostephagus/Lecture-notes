@@ -26,7 +26,7 @@ Thus we can gain a nice set of simultaneous equations for $\pi$. We can formalis
     Consider a 1-step analysis and take limit as $n \to \infty$. We can interchange this with the sum because $I$ is finite.
     \begin{align*}
         p_{ij}(n+1) &= \sum_{k \in I} p_{ik}(n) P(k, j) \\
-        \pi(j) = \sum_{k \in I} \pi(k) P(k, j)
+        \pi(j) &= \sum_{k \in I} \pi(k) P(k, j)
     \end{align*}
     Therefore $\pi$ is invariant. Also:
     \begin{equation*}
@@ -117,10 +117,10 @@ Further,
         \item Fix $i \in I$. now:
             \begin{align*}
                 \nu_k(i) &= \E_k\left(\sum_{n=1}^{T_k} \ind{X_n = i}\right) \\
-                &= \E_k\left(\sum_{n=1}^{\infty}\ind_{X_n = i} \ind{n \leq T_k}\right) \\
+                &= \E_k\left(\sum_{n=1}^{\infty}\ind{X_n = i} \ind{n \leq T_k}\right) \\
                 &= \sum_{n=1}^{\infty} \P(X_n = i, T_k \geq n) \\
-                &= \sum_{n=1}^{\infty} \sum_{i \in I} \P_k(X_n = i, X_{n-1} = j, T_k \geq n) \\
-                &= \sum_{n=1}^{\infty} \sum_{i \in I} \P_k(X_n = i | X_{n-1} = j, T_k \geq n) \P_k(X_{n-1} = j, T_k \geq n) \\
+                &= \sum_{n=1}^{\infty} \sum_{j \in I} \P_k(X_n = i, X_{n-1} = j, T_k \geq n) \\
+                &= \sum_{n=1}^{\infty} \sum_{j \in I} \P_k(X_n = i | X_{n-1} = j, T_k \geq n) \P_k(X_{n-1} = j, T_k \geq n) \\
             \end{align*}
             Note that the event $\{T_k \geq n\} = \{T_k \leq n-1\}^C$ which only depends on the states before time $n$. Therefore, by theorem~\ref{thmStrongMarkov},
             \begin{align*}
@@ -160,16 +160,19 @@ Further,
         \lambda_i &= \sum_{j_1 \in I} \lambda_{j_1} P(j_1, i) \\
         &= P(k, i) + \sum_{j_1 \neq k} \lambda_{j_1} P(j_1, i) \\
         &= P(k, i) + \sum_{j_1 \neq k} \sum_{j_2 \in I} P(j_2, j_1) P(j_1, i) \\
-        &= P(k, i) + \sum_{j_1 \neq k} P(k, j_1) P(j_1, i) \sum_{j_1, j_2 \neq k} \lambda_{j_2} P(j_2, j_1) P(j_1, i) \\
+        &= P(k, i) + \sum_{j_1 \neq k} P(k, j_1) P(j_1, i) + \sum_{j_1, j_2 \neq k} \lambda_{j_2} P(j_2, j_1) P(j_1, i) \\
         &= \cdots \\
         &= P(k, i) + \sum_{j_1 \neq k}P(k, j_1) P(j_1, i) + \cdots \\
         &+ \sum_{j_1, \cdots, j_{n-1} \neq k} P(k, j_{n-1}) P(j_{n-1} j_{n-2}) \cdots P(j_1, i) \\
-        &+ \sum_{j_1, \cdots, j_n \neq k} \lambda_{j_n} P(j_n, j_{n-1}) \cdots P(j_1, i)
+        &+ \sum_{j_1, \cdots, j_n \neq k} \lambda_{j_n} P(j_n, j_{n-1}) \cdots P(j_1, i) \\
+        \intertext{and because $\lambda_{j_n} \geq 0$,}
+        &\geq P(k, i) + \sum_{j_1 \neq k}P(k, j_1) P(j_1, i) + \cdots \\
+        &+ \sum_{j_1, \cdots, j_{n-1} \neq k} P(k, j_{n-1}) P(j_{n-1} j_{n-2}) \cdots P(j_1, i)
     \end{align*}
     Now take $i \neq k$.
     \begin{align*}
         \lambda_i &\geq \P_k(X_1 = i, T_k \geq 1) + \P_k(X_2 = i, T_k \geq 2) \\
-        &+ \cdots + \P_k(X_n - i, T_k \geq n)
+        &+ \cdots + \P_k(X_n = i, T_k \geq n)
     \end{align*}
     This holds for all $n$ so take $n \to \infty$.
     \begin{align*}
@@ -232,7 +235,7 @@ and so, for normalisability, we require that this is finite.
             \pi(i) = \frac{\nu_k(i)}{\sum_{j \in I} \nu_k(i)} = \frac{\nu_k(i)}{\E_k(T_k)}
         \end{equation*}
     \end{subproof}
-    \begin{subproof}{Statement 3 implies statement 3}
+    \begin{subproof}{Statement 3 implies statement 1}
         Fix $k \in I$. First we show that $\pi(k) > 0$.
         \begin{equation*}
             \pi(k) = \sum_{j \in J} \pi(j) p_{jk}(n) \\
@@ -348,7 +351,7 @@ and so, for normalisability, we require that this is finite.
             &= \pi(y_0) \hat{P}(y_0, y_1) \cdots P(Y_{n-1}, Y_N) \text{ by equation~\ref{eqnReverseTransitionMat}}
         \end{align*}
     \end{subproof}
-    The irreducibility of $\hat{P}$ follows from teh fact that:
+    The irreducibility of $\hat{P}$ follows from the fact that:
     \begin{equation*}
         P(x, y) > 0 \iff \hat{P}(y, x) > 0
     \end{equation*}

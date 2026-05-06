@@ -7,11 +7,12 @@ Throughout, all our random variables and random processes will be assumed to be 
 \begin{definition}{Discrete-time Markov Chain}
     A \underline{discrete-time Markov Chain} is a sequence $\chain{X} = (X_n)_{n \geq 0}$ of random variables taking values in the same discrete, countably infinite \underline{state space} I, such that:
     \begin{equation*}
-        \P(X_{n+1} = x_{n + 1} | X_n = x_n, \cdots, X_0 = 0) = \P(X_{n+1} = x_{n + 1} | X_n = x_n)
+        \P(X_{n+1} = x_{n + 1} | X_n = x_n, \cdots, X_0 = x_0) = \P(X_{n+1} = x_{n + 1} | X_n = x_n)
     \end{equation*}
 \end{definition}
+Intuitively, we say that the next move depends only on the current position.
 \begin{definition}{Time-homogeneous Markov Chain}
-    A Markov Chain is \underline{time-homogeneous} if $\P(X_{n+1} = y | X_n = x)$ always depends on $n$.
+    A Markov Chain is \underline{time-homogeneous} if $\P(X_{n+1} = y | X_n = x)$ is always independent of $n$.
 \end{definition}
 From now on, we will assume any Markov Chain is time-homogeneous.
 
@@ -79,20 +80,32 @@ Note that for a Markov chain, $X_{n+1}$ is \textit{conditionally} independent of
     \label{thmMarkovProperty}
 \end{theorem}
 \begin{proof}
-    Clearly, $\ind{X_m = j | X_m = i} = \delta_{ij}$, so:
+    First, by the law of total probability we get:
     \begin{align*}
-        &\P(X_{n + m} = x_{m + n} | X_m = x_m, \cdots, X_{m + n - 1} = x_{n + m - 1}) = \\
-        &= \P(X_{m + n} = x_{m + n} | X_{m + n - 1} = x_{m + n - 1}) \\
-        &= \Pmat{m + n - 1}{m + n}
+        \P(X_{m+n} &= x_{m+n}, \cdots, X_m = x_m) \\
+        &= \sum_{x_0, \cdots, x_{m-1}} \P(X_0 = x_0, \cdots, X_{m+n} = x_{m+n}) \\
+        &= \sum_{x_0, \cdots, x_{m-1}} \lambda_{x_0}\Pmat{0}{1} \cdots \Pmat{m+n-1}{m+n} \\
+        & \begin{aligned}=\Pmat{m}{m+1} &\cdots \Pmat{m+n-1}{m+n}\\&\times\sum_{x_0, \cdots, x_{m-1}} \lambda_{x_0}\Pmat{0}{1} \cdots \Pmat{m-1}{m}\end{aligned} \\
+        &= \Pmat{m}{m+1} \cdots \Pmat{m+n-1}{m+n} \P(X_m = x_m)
     \end{align*}
-    so $\chain{X}$ is a Markov chain.
+    using \thmref{thmMarkovPathEquivalence}. Conditioning now on $X_m = i$, we find that $\P(X_m = x_m) = \delta_{ix_m}$ and so we have the required form for $\chain{X} \sim \operatorname{Markov}(\vec{\delta_i}, P)$.
 
+    Now we need to prove independence. That is, for any path and for any indices $m \leq i_1 \leq \cdots \leq i_k$ we show:
     \begin{align*}
-        &\frac{\P(X_0 = x_0, \cdots, X_m = x_m, X_{m + 1} = x_{m + 1}, \cdots, X_{m + n} = x_{m + n})}{\P(X_m = i)} = \\
-        &= \frac{\lambda_{x_0} \Pmat{0}{1} \cdots \Pmat{m-1}{m} \P(X_{m + 1} = x_{m + 1} \cdots X_{m + n} = x_{m + n} | X_m = x_m)}{\P(X_m = i)} \\
-        &= P(X_0 = x_0, \cdots, X_m = x_m | X_m = i) \\
-        &\times \ind{X_{m + 1} = x_{m + 1}, \cdots, X_{m + n} = x_{m + n} | X_m = x_m}
+        \P(X_{i_1} &= x_{m+1}, \cdots, X_{i_k} = x_{m + k}, X_m = x_m, \cdots, X_0 = x_0 | X_m = i) \\
+        &\begin{aligned}=\P(X_{i_1} &= x_{m+1}, \cdots, X_{i_k} = x_{m + k} | X_m = i)\\
+            &\times \P(X_m = x_m, \cdots, X_0 = x_0 | X_m = i)\end{aligned}
     \end{align*}
+    Note that we only need to consider $x_m = i$ because otherwise both sides are zero.
+    \begin{align*}
+        \P(X_{i_1} &= x_{m+1}, \cdots, X_{i_k} = x_{m + k}, X_m = x_m, \cdots, X_0 = x_0 | X_m = i) \\
+        &= \frac{\P(X_{i_1} = x_{m+1}, \cdots, X_{i_k} = x_{m + k}, X_m = x_m, \cdots, X_0 = x_0)}{\P(X_m = i)} \\
+        &\begin{aligned}&= \frac{\lambda_{x_0} \Pmat{0}{1} \cdots \Pmat{m-1}{m}}{\P(X_m = i)}\\
+            &\qquad\times\P(X_{i_1} = x_{m+1}, \cdots, X_{i_k} = x_{m+k} | X_m = i)\end{aligned} \\
+        &\begin{aligned}=\P(X_{i_1} &= x_{m+1}, \cdots, X_{i_k} = x_{m + k} | X_m = i)\\
+            &\times \P(X_m = x_m, \cdots, X_0 = x_0 | X_m = i)\end{aligned}
+    \end{align*}
+    as required.
 \end{proof}
 \section{More on the Transition Matrix}
 Suppose $\chain{X}$ is a Markov chain with initial distribution $\vec{\lambda}$ and transition matrix $P$.
@@ -100,7 +113,7 @@ Suppose $\chain{X}$ is a Markov chain with initial distribution $\vec{\lambda}$ 
 We want to consider what $\P(X_n = n)$ is for large $n$.
 
 \begin{align*}
-    P(X_n = n) &= \sum_{x_0, \cdots, x_{n - 1}} \P(X_0 = x_0, \cdots, X_n = x_n) \\
+    P(X_n = x_n) &= \sum_{x_0, \cdots, x_{n - 1}} \P(X_0 = x_0, \cdots, X_n = x_n) \\
     &= \sum_{x_0, \cdots, x_{n-1}} \lambda_{x_0} \Pmat{0}{1} \cdots \Pmat{n-1}{n} \\
     &= \left(\vec{\lambda} P^n\right)_{x_n}
 \end{align*}
@@ -109,8 +122,8 @@ So to understand the long-term distribution of the chain $\chain{X}$ it suffices
 \begin{theorem}
     Suppose $\chain{X}$ is a Markov chain with initial distribution $\vec{\lambda}$ and transition matrix $P$. Then:
     \begin{enumerate}
-        \item $\P(X_n = x) = \left(\vec{\lambda} P^n\right)_n$ for all $x \in J$.
-        \item $\P(X_{m + n} = y | X_m = n) = \left(P^n\right)_{x, y}$ for all $x, y \in J$.
+        \item $\P(X_n = x) = \left(\vec{\lambda} P^n\right)_x$ for all $x \in I$.
+        \item $\P(X_{m + n} = y | X_m = n) = \left(P^n\right)_{x, y}$ for all $x, y \in I$.
     \end{enumerate}
     \label{thmMarkovMatPower}
 \end{theorem}
