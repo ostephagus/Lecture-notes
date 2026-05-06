@@ -261,7 +261,7 @@ We make concrete the remark we made earlier:
     \label{thmComplexTriangular}
 \end{theorem}
 \begin{proof}
-    By \thmref{thmFundamentalAlgebra}, $\chi_A(t)$ has a root $\lambda \in C$.
+    By \thmref{thmFundamentalAlgebra}, $\chi_A(t)$ has a root $\lambda \in \C$.
 
     \induction{$n = 2$}{
         There exists a non-zero vector $v \in V$ such that $\alpha(v) = \lambda v$. Extend to a basis $B = \{v, w\}$ of $V$. With respect to this basis, $\alpha$ is given by:
@@ -547,7 +547,7 @@ Then we want to show nice properties about this such as uniqueness, and we want 
     \begin{equation*}
         v = \Id_V(v) = \sum_{i=1}^{k} \pi_i(v)
     \end{equation*}
-    Hence $V = \im(\pi_1) + \cdots, + \im(\pi_k)$. Further:
+    Hence $V = \im(\pi_1) + \cdots + \im(\pi_k)$. Further:
     \begin{align*}
         &p(t) = (t - \mu_i)p_i(t) \\
         &\therefore p(\alpha) = (\alpha - \mu_i \Id_V)(p_i(\alpha)) = 0 \\
@@ -612,7 +612,7 @@ Before we prove a theorem about simultaneous diagonalisability, we need the foll
 \begin{theorem}
     Let $V$ be a finite-dimensional vector space over $\F$, and $\alpha, \beta \in \L(V, V)$.
 
-    $\alpha$ and $\beta$ are simultaneously diagonalisable if and only if they commute.
+    Let $\alpha$ and $\beta$ be diagonalisable. Then $\alpha$ and $\beta$ are simultaneously diagonalisable if and only if they commute.
     \label{thmSimDiag}
 \end{theorem}
 \begin{proof}
@@ -889,7 +889,7 @@ In this section set $\F = \C$.
     \end{equation*}
     Then because these factors commute:
     \begin{align*}
-        \beta(v_i) &= \left(\prod_{\substack{j=1 \\ j \neq i}}^k (\alpha - \lambda_j \Id_v)^{d_j}\right)w_i \\
+        \beta(v_i) &= \left(\prod_{\substack{j=1 \\ j \neq i}}^k (\alpha - \lambda_j \Id_V)^{d_j}\right)w_i \\
         &= \underbrace{\left(\prod_{j \neq i} (\lambda_i - \lambda_j)^{d_j}\right)}_{\mu_i} w_i
     \end{align*}
     where $\mu_i$ is a non-zero scalar.

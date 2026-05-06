@@ -333,14 +333,17 @@ before we give the main theorem of this chapter, we need some properties from IA
     For the first statement, consider a Laplace expansion about the $j$th column:
     \begin{align*}
         \det(A) &= \sum_i (\adj(A))_{j, i} a_{ij} \\
-        &= \left[\adj(A) A\right]_{i, j}
+        &= \left[\adj(A) A\right]_{j, j}
     \end{align*}
+    and so the diagonal entries of $\adj(A) A$ are all $\det(A)$.
+
     Then for $j \neq k$, replace the $j$th column of $A$ by the $k$th column to obtain $A'$.
     \begin{align*}
         0 &= \det(A')\\
-        &= \sum_{i} \adj(A) a_{jk} \text{ by expanding along } j\text{th column} \\
+        &= \sum_{i} \adj(A)_{ji} a_{ik} \text{ by expanding along } j\text{th column} \\
         &= \left[\adj(A) A\right]_{jk}
     \end{align*}
+    and so the off-diagonal entries are zero.
 
     We can use the same process for $A \adj(A)$ by expanding on a row.
 \end{proof}

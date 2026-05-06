@@ -119,7 +119,7 @@ then we have the following theorem:
 \begin{definition}{Change-of-basis matrix}
     For a vector space $V$ with dimension $n$, and bases $B, B'$, the \underline{change-of-} \underline{basis matrix} from $B$ to $B'$ is given by:
     \begin{equation*}
-        P = [\\Id_V]_{B'}^B \in M_{n \times n}(\F)
+        P = [\Id_V]_{B'}^B \in M_{n \times n}(\F)
     \end{equation*}
 \end{definition}
 We also can find the elements of $P$, if $B = \{v_1, \cdots, v_n\}$ and $B' = \{v_1', \cdots, v_n'\}$,
@@ -312,7 +312,7 @@ Now consider $V$ a finite-dimensional vector space. Let $B, B'$ be bases for $V$
 \end{align*}
 \subsection{Matrix Similarity}
 \begin{definition}{Similar matrices}
-    Matrices $A, A' \in M_{n \times n}(\F)$ are \underline{similar} of there exists $P \in GL_n(\F)$ such that:
+    Matrices $A, A' \in M_{n \times n}(\F)$ are \underline{similar} if there exists $P \in GL_n(\F)$ such that:
     \begin{equation*}
         A' = P^{-1} A P
     \end{equation*}
@@ -410,7 +410,7 @@ An important property of row and column operations is that they preserve the row
     \item Putting a matrix into RRE form preserves the row space.
     \item There is only one RRE form for a given matrix.
     \item By transposing, theorem~\ref{thmRREFormation} applies for CRE form too.
-    \item IF $A$ is a square matrix in RRE form, then either $A$ has a zero row or $A$ is the identity matrix.
+    \item If $A$ is a square matrix in RRE form, then either $A$ has a zero row or $A$ is the identity matrix.
 \end{remarks}
 \begin{theorem}
     For $A \in M_{n \times n}(\F)$, the following are equivalent:

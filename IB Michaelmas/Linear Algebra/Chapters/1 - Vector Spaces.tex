@@ -40,9 +40,9 @@ We cannot divide by zero in a field, because this would contradict the axiom of 
 \end{examples}
 \section{Defining a Vector Space}
 \begin{definition}{Vector space}
-    A \underline{vector space} over a field $\F$ is an Abelian group $(V, +, 0)$ equipped with a function:
+    A \underline{vector space} over a field $\F$ is an Abelian group $(V, +, \zv)$ equipped with a function:
     \begin{align*}
-        \F \times V &\mapsto V
+        \F \times V &\mapsto V \\
         (\lambda, v) &\mapsto \lambda v
     \end{align*}
     called scalar multiplication.
@@ -51,7 +51,7 @@ We cannot divide by zero in a field, because this would contradict the axiom of 
     \begin{enumerate}
         \item $(\lambda + \mu)v = \lambda v + \mu v$
         \item $\lambda (v + w) = \lambda v + \lambda w$
-        \item $\lambda (u v) = (\lambda u)v$
+        \item $\lambda (\mu v) = (\lambda \mu)v$
         \item $1 \cdot v = v$.
     \end{enumerate}
     Elements of the field $\F$ are called \underline{scalars}, and elements of $V$ are called \underline{vectors}.
@@ -230,7 +230,7 @@ We can combine these conditions into one: $\alpha(u + \lambda v) = \alpha(u) + \
     \item $\ker{\alpha} \leq V$ \label{propKerSubspace}
     \item $\im{\alpha} \leq W$ \label{propKerImage}
     \item $\alpha$ is surjective if and only if $\im{\alpha} = W$ \label{propSurjectiveIffIm}
-    \item $\alpha$ is injective if and only if $\ker{\alpha} = \{\zv_W\}$ \label{propInjectiveIffKer}
+    \item $\alpha$ is injective if and only if $\ker{\alpha} = \{\zv_V\}$ \label{propInjectiveIffKer}
 \end{propositions}
 \begin{proof}
     \begin{enumerate}
@@ -337,10 +337,10 @@ Recall that for $u, v \in V$,
         Let $u, v \in V$.
         \begin{align*}
             &u + \kera = v + \kera \\
-            &\equiv u - v \in \kera \\
-            &\equiv \alpha(u - v) = \zv_W \\
-            &\equiv \alpha(u) = \alpha(v) \\
-            &\equiv \bar\alpha (u + \kera) = \bar\alpha(v + \kera)
+            &\iff u - v \in \kera \\
+            &\iff \alpha(u - v) = \zv_W \\
+            &\iff \alpha(u) = \alpha(v) \\
+            &\iff \bar\alpha (u + \kera) = \bar\alpha(v + \kera)
         \end{align*}
         Then the forward direction implies that $\bar\alpha$ is well-defined, and the backward direction gives that $\bar\alpha$ is injective.
     \end{subproof}

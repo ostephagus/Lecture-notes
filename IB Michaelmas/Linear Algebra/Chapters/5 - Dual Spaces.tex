@@ -34,11 +34,11 @@ Then we can define $B^* = \subsetselect{b^*}{b \in B}$.
     \item If $V$ is finite-dimensional, then $B^*$ is a basis for $V^*$
 \end{propositions}
 \begin{proof}
-    First suppose $\sum_{b \in B}' \lambda_b b^* = \zv$ in $V^*$. Then for $c \in B$,
+    First suppose $\sum_{b \in B}' \lambda_b b^* = \zv$ in $V^*$. Then each basis vector $c \in B$,
     \begin{equation*}
         0 = \left(\sum_{b \in B} \lambda_b b^*\right)(c) = \sum_{b \in B}' \lambda_i b^*(c) = \lambda_c
     \end{equation*}
-    and therefore we must have $\lambda_c = 0$.
+    and therefore we must have $\lambda_c = 0$. Thus, all the coefficients must be zero.
 
     For the second claim, we can give a short proof and a constructive proof.
 
@@ -383,7 +383,7 @@ We want to consider a nice isomorphism that is independent of any basis chosen f
     \end{subproof}
     Now suppose $V$ is finite-dimensional.
     \begin{subproof}{$E$ is injective.}
-        Suppose $v$ is a non-zero vector in $\ker(E)$. Therefore, for all $\theta \in V^*$, $E(v)(\theta) = 0$. Consider a basis $B$ of $V$ with first element $v$. Let $B^*$ be the usual dual basis of $B$. Now set $\theta = v_1^*$. Then $0 = \theta(v) = v_1^*(v_1) = 1$.
+        Suppose $v$ is a non-zero vector in $\ker(E)$. Therefore, for all $\theta \in V^*$, $E(v)(\theta) = 0$. Consider a basis $B$ of $V$ with first element $v$. Let $B^*$ be the usual dual basis of $B$. Now set $\theta = v^*$. Then $0 = \theta(v) = v^*(v) = 1$.
 
         That is, $1 = 0$. \contradiction
     \end{subproof}
@@ -412,7 +412,7 @@ Note: Suppose $V$ and $W$ are finite-dimensional vector spaces, let $B$ and $C$ 
 
     Let $C^* = \{\theta_1^*, \cdots, \theta_n^*\} \subseteq V^{**}$.
 
-    Consider the isomorphism $E : V \mapsto V^**$ as defined in theorem~\ref{thmNatIsom}. Set $v_i = E^{-1}(\theta_i^*) \in V$. Note now that $B = \{v_1, \cdots, v_n\}$ is a basis of $V$ because $E$ is an isomorphism. For all $i, j$:
+    Consider the isomorphism $E : V \mapsto V^{**}$ as defined in theorem~\ref{thmNatIsom}. Set $v_i = E^{-1}(\theta_i^*) \in V$. Note now that $B = \{v_1, \cdots, v_n\}$ is a basis of $V$ because $E$ is an isomorphism. For all $i, j$:
     \begin{equation*}
         \theta_i(v_j) = E(v_j)(\theta_i) = \theta_j^*(\theta_i) = \delta_{ij}
     \end{equation*}

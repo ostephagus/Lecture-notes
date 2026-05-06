@@ -78,7 +78,7 @@
         \left([u]_{B'}\right)^T&\left([\Id_U]_B^{B'}\right)^T [\varphi]_{B, C} [\Id_V]_C^{C'}[v]_{C'} \\
         &= \left([\Id_U]_B^{B'} [v]_B'\right)^T [\varphi]_{B, C} [v]_C \\
         &= \left([v]_B\right)^T [\varphi]_{B, C} [v]_C \\
-        &= \phi(u, v)
+        &= \varphi(u, v)
     \end{align*}
     Then by \thmref{propBFMatProducts}, the matrix representing $\varphi$ in any basis is unique, so we have the required formula.
 \end{proof}
@@ -163,7 +163,7 @@ We can more concretely define this relation:
     For vector spaces $U$ and $V$ with subsets $S \subseteq U$, $T \subseteq V$, the \underline{perpendicular} of $S$ and $V$ are given by:
     \begin{align*}
         S^\perp &= \subsetselect{v \in V}{\forall s\in S, \varphi(s, v) = 0} \\
-        \lperp{T} &= \subsetselect{u \in U}{\forall t \in T, \varphi(t, u) = 0}
+        \lperp{T} &= \subsetselect{u \in U}{\forall t \in T, \varphi(u, t) = 0}
     \end{align*}
 \end{definition}
 \begin{remarks}
@@ -533,7 +533,7 @@ We can show that this is well-defined:
     \end{equation*}
     Let $p \geq q$. The argument for the reverse is exactly symmetric, so we can do this without loss of generality.
 
-    Then let $T = \spn{v_1 + v_{p + 1}, v_2 + v_{p + 2}, \cdots, v_q + v_{p + q}, v_{p + 1 + 1}, \cdots, v_n}$.
+    Then let $T = \spn{v_1 + v_{p + 1}, v_2 + v_{p + 2}, \cdots, v_q + v_{p + q}, v_{p + q + 1}, \cdots, v_n}$.
     Then this is a totally isotropic subspace of dimension $n - p$. Suppose $T'$ is another totally isotropic such that $\dim(T') > n - p$. Now set $U = \spn{v_1, \cdots, v_p}$. Now $\varphi |_U$ is positive definite, but by the sum-intersection formula,
     \begin{align*}
         \dim(U + T') &= \dim(U) + \dim(T') - \dim(U \cap T') \leq n \\

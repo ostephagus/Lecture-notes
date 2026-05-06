@@ -15,9 +15,10 @@ We call such a sum of not-infinitely-many scaled elements of $S$ a \underline{li
     A subset $S$ of a vector space $V$ is a \underline{spanning set} for $V$ if $\spn{S} = V$. We say $S$ \underline{spans} $V$.
 \end{definition}
 $V$ is \underline{finite-dimensional} if it has a finite spanning set.
+
 \begin{remarks}
-    \item For $S \subseteq V$, $\spn{S} \leq V$. Conversely, if $W \leq V$ and $S \subseteq W$ then $\spn{S} \leq W$.
-    \item IF $S, T \subseteq V$ and $S$ spans $V$, if $S \subseteq \spn{T}$ then $T$ spans $V$.
+    \item For $S \subseteq V$, $\spn{S} \leq V$. Further, if $W \leq V$ and $S \subseteq W$ then $\spn{S} \leq W$.
+    \item If $S, T \subseteq V$ and $S$ spans $V$, if $S \subseteq \spn{T}$ then $T$ spans $V$.
     \item By convention, $\spn{\emptyset} = \{\zv\}$.
     \item $\spn{S \cup T} = \spn{S} + \spn{T}$.
 \end{remarks}
@@ -102,38 +103,42 @@ $V$ is \underline{finite-dimensional} if it has a finite spanning set.
     \end{enumerate}
     \label{thmSteinitzExchange}
 \end{theorem}
+The theorem is saying that we can find a subset $T' \subseteq T$ such that when all other elements of $T$ are replaced with elements of $S$, the resulting set still spans $V$.
 \begin{proof}
+    We will prove this by an iterative procedure, replacing elements of $T$ with elements of $S$ one at a time, and at each stage preserving spanning.
     Let $S = \{u_1, u_2, \cdots, u_m\}$ and $T = \{v_1, v_2, \cdots, v_n\}$.
 
-    If $S$ is empty then done, so assume $S$ non-empty.
+    First, if $S$ is empty then we are done. Assume, therefore, that $S$ has an element $u_1$.
+    Write $u_1$ as a linear combination of vectors in $T$:
+    \begin{equation*}
+        u_1 = \sum_{i=1}^{n} \lambda_i v_i
+    \end{equation*}
+    because $T$ is spanning. By possibly re-numbering, assume $\lambda_1 \neq 0$, so:
+    \begin{equation*}
+        v_1 = \frac{1}{\lambda_1}\left(u_1 - \sum_{i=2}^{n}\lambda_i v_i\right)
+    \end{equation*}
+    and so define the set $U_1 = \{u_1, v_2, \cdots, v_n\}$ which spans $V$.
 
-    We now construct new spanning sets $S_l$ containing elements of $S$.
-    
-    \induction{$l = 1$}{
-        Write $u_1$ as a linear combination of vectors in $V$:
-        \begin{equation*}
-            u_1 = \sum_{i=1}^{n} \lambda_i v_i
-        \end{equation*}
-        because $T$ is spanning. By possibly re-numbering, assume $\lambda_1 \neq 0$, so:
-        \begin{equation*}
-            v_1 = \frac{1}{\lambda_1}\left(u_1 - \sum_{i=2}^{n}\lambda_i v_i\right)
-        \end{equation*}
-        and so define the set $U_1 = \{u_1, v_2, \cdots, v_n\}$ which spans $V$.
-    }{$l = k < n$}{
-        Assume that there exists a spanning set $U_k$ with $k$ vectors from $U$ and the rest from $V$.
-    }{$l = k + 1$}{
-        Write $u_{k+1}$ using the spanning set $U_k$:
-        \begin{equation*}
-            u_{k+1} = \sum_{j=1}^k \mu_j u_j + \sum_{i = k + 1}^n \lambda_i v_i
-        \end{equation*}
-        Note that if all $\lambda_i$ were non-zero, then we would have $u_{k+1}$ as a linear combination of other elements of $S$ which contradicts linear independence. Therefore, we must have at least one element $\lambda_i \neq 0$. After possibly re-labelling, let this be $\lambda_{k+1}$:
-        \begin{equation*}
-            v_{k+1} = \frac{1}{\lambda_{k+1}} \left(u_{k+1} - \sum_{j=1}^{k}\mu_i u_i - \sum_{j=k+2}^{n}\lambda_i v_i\right)
-        \end{equation*}
-        and so the new set $U_{k+1}$ spans $V$.
-    }
-    The above process can only terminate when we run out of elements of $S$, when $l = m$. We therefore conclude that $m < n$ and the new set $T' = \{v_{m+1}, \cdots, v_n\}$ is such that $S \cup T'$ spans $V$.
+    Now at step $k < m$, assume that the set $U_k = \{u_1, \cdots, u_k, v_{k+1}, \cdots, v_n\}$ still spans $V$. Then there must exist $\lambda_i, \mu_j \in \F$ such that:
+    \begin{equation*}
+        u_{k+1} = \sum_{j=1}^{k} \mu_j u_j + \sum_{i=k+1}^{n} \lambda_i v_i
+    \end{equation*}
+    We need to show that after re-labelling $\lambda_{k+1} \neq 0$. If we instead had all $\lambda_i$ non-zero, then we would have that $u_{k+1}$ can be found as a linear combination of elements of $S$, which contradicts the linear independence of $S$.
+
+    Now we have that $\lambda_{k+1} \neq 0$, and so:
+    \begin{equation*}
+        v_{k+1} = \frac{1}{\lambda_{k+1}} \left(u_{k+1} - \sum_{j=1}^{k}\mu_i u_i - \sum_{j=k+2}^{n}\lambda_i v_i\right)
+    \end{equation*}
+    and $U_{k+1} = \{u_1, \cdots, u_{k+1}, v_{k+2}, \cdots, v_n\}$ spans $V$.
+
+    Therefore, we can proceed by induction until we run out of elements of $S$ or $T$. If we were to run out of elements of $T$, then we would have constructed a subset of $S$ that spans $V$, so the remaining elements of $S$ can be written as linear combinations of elements of $S$ which contradicts linear independence. The process must therefore terminate when running out of elements of $S$, so $|S| \leq |T|$. Now $U_m$ is the required set with:
+    \begin{equation*}
+        T' = \{v_{m+1}, \cdots, v_n\}
+    \end{equation*}
 \end{proof}
+\begin{remark}
+    The choices of which elements of $T$ to remove are not arbitrary because we are re-labelling the elements at each stage.
+\end{remark}
 \begin{corollary}
     Let $V$ be finite-dimensional. Then every basis is finite and each has the same size.
     \label{corBasesSameSize}
