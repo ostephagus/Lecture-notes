@@ -232,7 +232,7 @@ This leads us to the following theorem:
 \begin{theorem}[Dahlquist Equivalence Theorem]
     Consider a multistep method specified by polynomials $\rho$ and $\sigma$. Let the degree of these polynomials be $s$ (so we have an $s$-step method) and require $\rho$ monic. The multistep method is convergent if and only if:
     \begin{enumerate}
-        \item the order $p$ of the method is greater than 1;
+        \item the order $p$ of the method is at least 1;
         \item $\rho$ satisfies the root condition.
     \end{enumerate}
     \label{thmDahlquistEquiv}
@@ -393,7 +393,7 @@ We can simply choose $\vec{k_1}$ to be $f$ evaluated at the previous timestep, b
     \vec{k_2} &= \vec{f}(t_n + h c_2, \vec{y_n} + h a_{2, 1} \vec{k_1}) \\
     \vec{k_3} &= \vec{f}(t_n + h c_3, \vec{y_n} + h(a_{3,1} \vec{k_1} + a_{3,2} \vec{k_2})) \\
     \vdots~~&~~~~~\vdots \\
-    \vec{k_\nu} &= \vec{f}(t_n + h c_\nu, \vec{y_n} + h \sum_{j=1}^{\nu - 1} a_{\nu,j} k_j)
+    \vec{k_\nu} &= \vec{f}(t_n + h c_\nu, \vec{y_n} + h \sum_{j=1}^{\nu - 1} a_{\nu,j} \vec{k_j})
 \end{align*}
 This gives the general form of a $\nu$-stage explicit Runge-Kutta method. We can also consider implicit Runge-Kutta method, given by:
 \begin{equation*}
@@ -558,7 +558,7 @@ where $r_l$ are the roots of the polynomial $\rho - h\lambda \sigma$, and $c_l$ 
     has a root of modulus 1, but $\Re(z) < 0$. This contradicts assumption 2 of the theorem.
 \end{proof}
 \begin{theorem}[Second Dahlquist Barrier]
-    Nu multistep method of order $\geq 3$ can be $A$-stable.
+    No multistep method of order $\geq 3$ can be $A$-stable.
     \label{thmDahlquistBarrier}
 \end{theorem}
 \begin{proof}
@@ -716,7 +716,7 @@ We can do this by running two methods in parallel and estimating the error by co
     \end{align*}
     which gives an error estimate:
     \begin{equation*}
-        \vec{y}(t_{n+1}) - \vec{y_{n+1}}^{[1]} \approx \vec{y_{n+1}}^{[2]} - \vec{y_{n+1}}^[1]
+        \vec{y}(t_{n+1}) - \vec{y_{n+1}}^{[1]} \approx \vec{y_{n+1}}^{[2]} - \vec{y_{n+1}}^{[1]}
     \end{equation*}
 \end{example}
 \end{document}
