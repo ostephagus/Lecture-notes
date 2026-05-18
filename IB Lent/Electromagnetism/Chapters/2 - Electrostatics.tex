@@ -70,7 +70,7 @@ Then for any $L$,
 \end{equation*}
 We can consider $R \to 0$, where $\rho$ defines a line charge $\rho(r) = \lambda \delta(x)\delta(y)$
 \subsection{Planar Symmetry}
-Consider a planar charge distribution $\rho = \rho(z)$ in Cartesian coordinates. Let the total charge be $\sigma$ per unit area, contained within a region $-d<z<d$. Assume reflectional symmetry about $z = 0$. That is, $\rho(z)$ is an even function. Now we have $\vec{E} = E(z) \vec{e_z}$. Because $\vec{E}$ is a divergence, differentiation an even function gives an odd function, so $E(-z) = -E(z)$.
+Consider a planar charge distribution $\rho = \rho(z)$ in Cartesian coordinates. Let the total charge be $\sigma$ per unit area, contained within a region $-d<z<d$. Assume reflectional symmetry about $z = 0$. That is, $\rho(z)$ is an even function. Now we have $\vec{E} = E(z) \vec{e_z}$. Because $\vec{E}$ is a divergence, differentiating an even function gives an odd function, so $E(-z) = -E(z)$.
 
 We apply Gauss's law to a ``Gaussian pillbox'' of height $2z$ and over an arbitrary area $A$. For $z > d$,
 \begin{align*}
@@ -238,7 +238,7 @@ These are the first three \underline{multipole moments} of the charge distributi
     \item the \underline{electric dipole moment}: $\vec{p} = \int_V \vec{x} \rho(\vec{x}) d^3 \vec{x}$;
     \item the \underline{electric quadrupole moment}: this is a traceless symmetric 2nd-order tensor given by
         \begin{equation*}
-            Q_{ij} = \int_V \left(3 x_i x_j |\vec{x}|^2 - \delta_{ij}\right) \rho(\vec{x}) d^3 \vec{x}
+            Q_{ij} = \int_V \left(3 x_i x_j - |\vec{x}|^2 \delta_{ij}\right) \rho(\vec{x}) d^3 \vec{x}
         \end{equation*}
 \end{enumerate}
 For $r \gg R$, $\Phi$ and $\vec{E}$ look increasingly like those for a point charge $Q$, unless $Q = 0$, in which case the next term dominates.

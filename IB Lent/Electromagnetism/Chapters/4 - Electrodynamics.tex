@@ -8,7 +8,7 @@ We are interested in the third Maxwell equation:
 \end{equation*}
 This implies that a time-dependent magnetic field must be accompanied by an electric field. This can induce a current to flow in a conductor, a process known as electromagnetic induction.
 \subsection{Faraday's Law for a Static Circuit}
-Consider a closed curve $C$ that is the boundary of a time-independent open surface $C$. We integrate \eqnref{eqnMEC} over $S$ and use Stokes's Theorem:
+Consider a closed curve $C$ that is the boundary of a time-independent open surface $S$. We integrate \eqnref{eqnMEC} over $S$ and use Stokes's Theorem:
 \begin{equation*}
     \int_C \vec{E} \cdot \vec{dx} = -\int_S \frac{\partial \vec{B}}{\partial t} \cdot \vec{dS} = - \frac{d}{dt} \int_S \vec{B} \cdot \vec{dS}
 \end{equation*}
@@ -244,7 +244,7 @@ A perfect conductor corresponds to the limit $\sigma \to \infty$ and so $\vec{E}
 \begin{example}[Straight wire]
     Consider a straight wire of length $l$, in the direction of the unit vector $\vec{n}$. Let the wire have uniform cross-sectional area $A$ and conductivity $\sigma$.
 
-    Consider an electric field $\vec{E} = E\vec{n}$. Then Ohm's Law gives $\vec{J} = \sigma E\vec{n}$. The total current is the integral over a cross-sectional surface. Since this is uniform, $I = \sigma E A$. The potential difference along the wire (assuming finite length $L$) is the line integral of the electric field, $V = EL$. Therefore, the resistence $R$ is defined to be:
+    Consider an electric field $\vec{E} = E\vec{n}$. Then Ohm's Law gives $\vec{J} = \sigma E\vec{n}$. The total current is the integral over a cross-sectional surface. Since this is uniform, $I = \sigma E A$. The potential difference along the wire (assuming finite length $L$) is the line integral of the electric field, $V = EL$. Therefore, the resistance $R$ is defined to be:
     \begin{equation*}
         R = \frac{L}{\sigma A}
     \end{equation*}
@@ -257,7 +257,7 @@ In electrodynamics, we can no longer write the electric field as $\vec{E} = - \n
 \begin{equation*}
     \nabla \times \left(\vec{E} + \frac{\partial \vec{A}}{\partial t}\right) = 0
 \end{equation*}
-and so we can write this using a scalar potential $\phi$:
+and so we can write this using a scalar potential $\Phi$:
 \begin{equation*}
     \vec{E} = -\nabla \Phi - \frac{\partial \vec{A}}{\partial t}.
 \end{equation*}
