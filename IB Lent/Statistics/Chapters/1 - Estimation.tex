@@ -337,7 +337,7 @@ Suppose $X_1, \cdots, X_n$ are independent, identically distributed random varia
         We can write:
         \begin{align*}
             \P_\theta(\vec{X} = \vec{x}) &= \P_\theta(\vec{X} = \vec{x}, T(\vec{X}) = T(\vec{x})) \\
-            &= \underbrace{\P_\theta(\vec{X} = \vec{x} | T(\vec{X}) = t(\vec{x}))}_{h(\vec{x})} \underbrace{\P_\theta(T(\vec{X}) = t(\vec{x}))}_{g(T(\vec{x}, \theta))}
+            &= \underbrace{\P_\theta(\vec{X} = \vec{x} | T(\vec{X}) = t(\vec{x}))}_{h(\vec{x})} \underbrace{\P_\theta(T(\vec{X}) = t(\vec{x}))}_{g(T(\vec{x}), \theta)}
         \end{align*}
         And by assumption the term identified with $h(\vec{x})$ is independent of $\theta$.
     \end{proofdirection}
@@ -449,7 +449,7 @@ Suppose $X_1, \cdots, X_n$ are independent, identically distributed random varia
     \end{align*}
     Then by the conditional variance formula,
     \begin{align*}
-        \Var(\hat{\theta}) &= \E[\Var(\tilde{\theta} | T)] + \Var(\E[\tilde{\theta} | T]) \\
+        \Var(\tilde{\theta}) &= \E[\Var(\tilde{\theta} | T)] + \Var(\E[\tilde{\theta} | T]) \\
         &= \E[\Var(\tilde{\theta} | T)] + \Var(\hat{\theta}) \\
         &\geq \Var(\hat{\theta})
     \end{align*}

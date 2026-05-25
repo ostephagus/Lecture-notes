@@ -158,7 +158,7 @@ Usually, we set $\alpha$ at an acceptable level and choose a test that minimises
                 I(\vec{X}) = \subsetselect{\theta}{\vec{X} \in A(\theta)}
             \end{equation*}
             is a $100(1-\alpha)\%$ confidence set.
-        \item Suppose that $I(\vec{X})$ is a $100(1-\alpha)$ confidence set for $\theta$. Then:
+        \item Suppose that $I(\vec{X})$ is a $100(1-\alpha)\%$ confidence set for $\theta$. Then:
             \begin{equation*}
                 A(\theta_0) = \subsetselect{\vec{x}}{\theta_0 \in I(\vec{x})}
             \end{equation*}
@@ -383,8 +383,8 @@ Let the parameter $\vec{\theta}$ have $k$ dimensions.
     \begin{align*}
         2\log(\Lambda_{\vec{X}}(H_0, H_1)) &= 2\sum_{i=1}^{n} (e_i + \delta_i) \log\left(1 + \frac{\delta_i}{e_i}\right) \\
         &= 2 \sum_{i=1}^{n} (e_i + \delta_i) \left(\frac{\delta_i}{e_i} - \frac{\delta_i^2}{2e_i^2} + \cdots\right) \\
-        &\approx \sum_{i=1}^{n} \frac{\delta_i^2}{e_i} \\
-        &= \sum_{i=1}^{n} \frac{(o_i - e_i)^2}{e_i}
+        &= 2\underbrace{\sum_{i=1}^{n} \delta_i}_{0} + \sum_{i=1}^{n} \frac{\delta_i^2}{e_i} + O(\delta_i^3) \\
+        &\approx \sum_{i=1}^{n} \frac{(o_i - e_i)^2}{e_i}
     \end{align*}
     which is Pearson's Chi-Squared Statistic.
 
@@ -579,7 +579,6 @@ For a matrix $A \in \R^{m \times n}$ and $\vec{b} \in \R^m$,
     \begin{equation*}
         \E[\vec{Y}] = \E[A\vec{X}] = A\E[\vec{X}] = A\vec{\mu}.
     \end{equation*}
-
     \begin{align*}
         \Cov(A\vec{X}) &= A\Cov(\vec{X})A^T \\
         &= A(\sigma^2 I)A^T \\
