@@ -29,7 +29,7 @@ In the complex plane, we will see that we do not even need the function to be di
     \label{propLaurent}
 \end{proposition}
 \begin{proof}
-    Let $z_0 = 0$ after possibly translating the argument. Let $z \in \C$ with $R_1 < r_1 < |z| < r_2 < R_2$. Let $\gamma_1, \gamma_2$ be a anticlockwise, circular contours of radii $r_1, r_2$.
+    Let $z_0 = 0$ after possibly translating the argument. Let $z \in \C$ with $R_1 < r_1 < |z| < r_2 < R_2$. Let $\gamma_1, \gamma_2$ be anticlockwise, circular contours of radii $r_1, r_2$.
 
     As we have previously seen in figure~\ref{figContourShrink}, we can bridge these two contours with radial lines in the opposite direction, to create $\gamma = \gamma_2 - \gamma_1$ in the limit as the bridge gets infinitely thin.
 
@@ -270,8 +270,8 @@ Given a function $f$ and a singularity $z_0$, we can do the following to classif
         \oint_\gamma f(z) dz &= \oint_{\gamma_r} f(z) dz \\
         &= \oint_{\gamma_r} \sum_{m=-\infty}^{\infty} a_m (z - z_0)^m dz \\
         &= \sum_{m = -\infty}^{\infty} a_m \oint_{\gamma_r} (z - z_0)^m dz \\
-        &= \sum_{m = -\infty}^{\infty} a_m \int_0^2\pi r^m e^{im\theta} i r e^{i\theta} dz \\
-        &= \sum_{m = -\infty}^{\infty} a_m \int_0^2\pi r^{m+1} e^{i(m+1)\theta} dz \\
+        &= \sum_{m = -\infty}^{\infty} a_m \int_0^{2\pi} r^m e^{im\theta} i r e^{i\theta} d\theta \\
+        &= \sum_{m = -\infty}^{\infty} a_m \int_0^{2\pi} r^{m+1} ie^{i(m+1)\theta} d\theta \\
     \end{align*}
     and this integral is only nonzero at the $m = -1$ term, where it is $2\pi i$.
 \end{proof}

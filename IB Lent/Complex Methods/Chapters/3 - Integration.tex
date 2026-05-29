@@ -121,7 +121,7 @@ We will need the following from IA Vector Calculus:
     Write $f(z) = u(x, y) + i v(x, y)$ where $z = x + iy$. By \thmref{thmGreen},
     \begin{align*}
         \oint_{\gamma} f(z) dz &= \oint_\gamma (u + i v)(dx + i dy) \\
-        &= \oint_\gamma (u cd - v dy) + i \oint_\gamma(v dx + u dy) \\
+        &= \oint_\gamma (u~dx - v~dy) + i \oint_\gamma(v~dx + u~dy) \\
         &= \iint_M \left(-\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}\right) dx~dy + i \iint_M \left(\frac{\partial u}{\partial x} - \frac{\partial y}{\partial y}\right) dx~dy \\
         &= 0 \text{ by Cauchy-Riemann relations}.
     \end{align*}
@@ -318,7 +318,7 @@ Let $\gamma_1$ and $\gamma_2$ be closed contours that can be continuously deform
     \item Knowing $f$ on $\gamma$ immediately gives us $f(z)$ at every point inside $\gamma$. This also gives an existence proof for the Laplace equation, because given Dirichlet boundary conditions for the Laplace equation (specifying $f$ on a contour), we can find $f$ at every point inside the contour, equivalent to solving the Laplace equation on this domain.
     \item We simply imposed the condition that $f$ is analytic, and we get that all higher derivatives exist! This is remarkable, and does not exist for $\R$.
 \end{remarks}
-\begin{theorem}
+\begin{theorem}[Liouville's Theorem]
     If $f(z)$ is an entire function (analytic on $\C$) and bounded, then $f$ must be constant.
     \label{thmEntireBddConst}
 \end{theorem}

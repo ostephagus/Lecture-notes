@@ -6,9 +6,9 @@ We have already seen that, for a function $f$ that is analytic except at an isol
 \begin{equation*}
     \oint_{\gamma} f(z) dz = 2\pi i \res_{z = z_0} f
 \end{equation*}
-for any countour $\gamma$ that goes anticlockwise around the singularity.
+for any contour $\gamma$ that goes anticlockwise around the singularity.
 \begin{theorem}[Residues Theorem]
-    Let $f(z)$ be analytic in a simply connected domain $D$ except at a finite number of isolated singularities at $z_1, \cdots, z_n$. Let $\gamma$ be a simple, closed contour that goes anticlockwise and incircles all the singularities. Then:
+    Let $f(z)$ be analytic in a simply connected domain $D$ except at a finite number of isolated singularities at $z_1, \cdots, z_n$. Let $\gamma$ be a simple, closed contour that goes anticlockwise and encircles all the singularities. Then:
     \begin{equation*}
         \oint_\gamma f(z) dz = 2\pi i \sum_{k=1}^{n} \res_{z = z_k} f(z)
     \end{equation*}
@@ -157,8 +157,38 @@ Along $\gamma : \theta \mapsto e^{i\theta}$, $dz = ie^{i\theta} d\theta$ and so 
 \section{Branch Cuts and Keyhole Contours}
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1]
-        
+    \begin{tikzpicture}
+        % Parameters
+        \pgfmathsetmacro{\R}{3}      % Outer (large) radius
+        \pgfmathsetmacro{\r}{0.3}    % Inner (small) radius
+        \pgfmathsetmacro{\eps}{0.15} % Vertical offset of the two parallel lines
+
+        % Half-angles of the gaps on the positive real axis
+        % (where the horizontal lines meet the arcs)
+        \pgfmathsetmacro{\phiR}{asin(\eps/\R)}  % ~2.87 deg
+        \pgfmathsetmacro{\phir}{asin(\eps/\r)}  % ~17.46 deg
+
+        % ---- Axes ----
+        \draw[->] ({-\R - 0.5}, 0) -- ({\R + 0.8}, 0) node[right] {Re};
+        \draw[->] (0, {-\R - 0.5}) -- (0, {\R + 0.8}) node[above] {Im};
+
+        % ---- Branch cut indicator (zigzag along positive real axis) ----
+        \draw[decorate, decoration={zigzag, segment length=4pt, amplitude=2pt}]
+            (0, 0) -- (\R + 0.7, 0);
+
+        % ---- Outer large arc (CCW, gap on positive real axis) ----
+        \draw ({\R*cos(\phiR)}, {\eps})
+            arc[start angle=\phiR, end angle={360 - \phiR}, radius=\R];
+
+        % ---- Upper horizontal line (outer arc → inner arc) ----
+        \draw ({\R*cos(\phiR)}, {\eps}) -- ({\r*cos(\phir)}, {\eps});
+
+        % ---- Inner small arc (CCW, gap on positive real axis) ----
+        \draw ({\r*cos(\phir)}, {\eps})
+            arc[start angle=\phir, end angle={360 - \phir}, radius=\r];
+
+        % ---- Lower horizontal line (inner arc → outer arc) ----
+        \draw ({\r*cos(\phir)}, {-\eps}) -- ({\R*cos(\phiR)}, {-\eps});
     \end{tikzpicture}
     \caption{Diagram of a Keyhole Contour}
     \label{figKeyholeContour}
