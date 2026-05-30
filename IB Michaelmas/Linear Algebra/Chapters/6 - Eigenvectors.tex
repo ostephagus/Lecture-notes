@@ -563,6 +563,7 @@ We provide a theorem to summarise our characterisation of diagonalisability:
     \begin{enumerate}
         \item $\alpha$ is diagonalisable.
         \item $V$ has a basis consisting of eigenvectors of $\alpha$
+        \item $V$ is a direct sum of eigenspaces
         \item There exists a non-zero polynomial $p \in I_\alpha$ that is a product of distinct linear factors.
         \item $m_\alpha$ is a product of distinct linear factors.
         \item {[Only in the case $\F = \C$]} $a_\lambda = g_\lambda$ for all eigenvalues $\lambda$.
@@ -570,12 +571,15 @@ We provide a theorem to summarise our characterisation of diagonalisability:
     \label{thmDiagConditions}
 \end{theorem}
 \begin{proof}
-    Statement 1 is equivalent to statement 2 by \thmref{propDiagIffBasis}, and statement 1 is equivalent to statement 5 (in the case of the complex field) by \thmref{propDiagIfNotDegenerate}.
-
-    \begin{subproof}{Statement 3 is equivalent to statement 4}
-        Because $m_\alpha$ divides any polynomial in $I_\alpha$, if $p \in I_\alpha$ is a product of distinct linear factors then so is $m_\alpha$. If instead $m_\alpha$ is a product of distinct linear factors then take $p = m_\alpha$ in \thmref{thmProdDistinctFactorsDiag}.
-    \end{subproof}
-    Statement 3 implies statement 1 by \thmref{thmProdDistinctFactorsDiag} directly.
+    We show each criterion is equivalent to diagonalisability:
+    \begin{enumerate}
+        \setcounter{enumi}{1}
+        \item See \thmref{propDiagIffBasis}.
+        \item See \thmref{propESpaceWholeSpace}.
+        \item See \thmref{thmProdDistinctFactorsDiag} for the forwards direction. The backward direction is below.
+        \item By \thmref{lemMinPolyDivides} we have that if there exists $p \in I_\alpha$ with distinct linear factors, then $m_\alpha$ must have distinct linear factors. Therefore, this is equivalent to condition 4.
+        \item See \thmref{propDiagIfNotDegenerate}.
+    \end{enumerate}
     \begin{subproof}{Statement 1 implies statement 3}
         Let $B$ be a basis for $V$ such that $[\alpha]_B^B$ is diagonal. After possibly rearranging the basis, ensure that vectors in the same eigenspace are next to each other. In this basis,
         \begin{equation*}
