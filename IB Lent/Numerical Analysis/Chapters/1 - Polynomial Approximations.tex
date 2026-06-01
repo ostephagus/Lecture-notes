@@ -748,4 +748,12 @@ here $K(\theta)$ is the \underline{Peano Kernel}.
         \end{cases}
     \end{align*}
 \end{example}
+When $K(\theta)$ does not change sign, we can obtain a much nicer bound:
+\begin{equation*}
+    L(f) = \frac{1}{k!} \left(\int_{a}^{b} K(\theta) d\theta\right) f^{(n+1)}(\xi)
+\end{equation*}
+for some $\xi \in (a, b)$. Then the fastest way to evaluate the integral of $K$ is to simply substitute in $f(x) = x^{(k+1)}$ to both sides. Indeed,
+\begin{equation*}
+    \int_{a}^{b} K(\theta) d\theta = \frac{1}{n+1} L(x^{n+1})
+\end{equation*}
 \end{document}

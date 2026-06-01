@@ -127,7 +127,7 @@ We can give a few examples for methods:
     \hline
 \end{tabular}
 then the first three methods are 1-step, and Adams-Bashforth is a 2-step method. The theta rule with $\theta = \frac12$ gives the trapezoid rule.
-\subsection{Local Truncation Error}
+\subsection{Truncation Error and Order}
 Consider an explicit $s$-step method:
 \begin{equation*}
     \vec{y_{n+s}} = -\sum_{l=0}^{s-1} \rho_l \vec{y_{n+l}} + h\sum_{l=0}^{s-1} \sigma_l \vec{f}(t_{n + l}, \vec{y_{n + l}})
@@ -147,9 +147,10 @@ We can compute this error:
 \end{align*}
 \begin{definition}{Order}
     A convergent $s$-step method with the form in equation \eqnref{eqnMultiStep} has \underline{order} $p$ if the local truncation error is $O(h^{p+1})$. That is,
-    \begin{equation*}
+    \begin{equation}
         \sum_{l=0}^{s} \rho_l \vec{y}(t_{n + l}) - h \sum_{l=0}^{s} \sigma_l \vec{y}'(t_{n + l}) = O(h^{p+1})
-    \end{equation*}
+        \label{eqnMultistepOrder}
+    \end{equation}
 \end{definition}
 \begin{examples}{
         Consider the following methods and their orders:
@@ -180,6 +181,14 @@ We can compute this error:
         \end{align*}
         Then if $\theta = \frac12$ (trapezoidal rule), the method is order 2. Otherwise, it is of order 1.
 \end{examples}
+\subsection{Alternative Ways to Compute Order}
+Since the Taylor expansion for polynomials of degree $p$ contains only terms of $O(h^k)$ with $k \leq p$, an equivalent condition to equation~\ref{eqnMultistepOrder} is:
+\begin{equation}
+    \sum_{l=0}^{s} \rho_l Q(t_{n+l}) = h \sum_{l=0}^{s} \sigma_l Q'(t_{n+l})~~\forall Q \in \P_p[x]
+    \label{eqnMultistepOrder2}
+\end{equation}
+then the coefficients $\rho_l$ and $\sigma_l$ can be determined by choosing appropriate polynomials $Q$ in \eqnref{eqnMultistepOrder2}.
+
 We can identify multistep methods with polynomials. For a method given by:
 \begin{equation*}
     \sum_{l=0}^{s} \rho_l \vec{y_{n + l}} = h\sum_{l=0}^{s} \sigma_l \vec{f}(t_{n + l}, \vec{y_{n + l}})
