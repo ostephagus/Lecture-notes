@@ -264,7 +264,7 @@ The steps of the Simplex algorithm are as follows:
     \item Identify the direction to move in:
     \begin{enumerate}
         \item If all entries in the top row are non-negative, $\bvec{c} \geq 0$ and we are done.
-        \item If not, select the column corresponding to the smallest negative entry in the top row. If there are more than one, pick any. Let this column be the $j$th
+        \item If not, select the column corresponding to the most negative entry in the top row. If there are more than one, pick any. Let this column be the $j$th
         \item For each value in the $j$th column, divide the element in the leftmost column and same row by it. Choose the row corresponding to the minimal ratio. Let this row be the $i$th.
     \end{enumerate}
     \item Perform row operations:

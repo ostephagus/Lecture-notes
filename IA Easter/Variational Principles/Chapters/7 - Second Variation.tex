@@ -17,7 +17,7 @@ Then we consider a pertubation $y + \epsilon \xi \in \funcset$, and $\xi(\alpha)
 Considering the Taylor expansion to second order:
 \begin{align*}
     f(y + \epsilon \xi, y' + \epsilon \xi', x) &= f(y, y', x) + \epsilon \xi \left[\frac{\partial f}{\partial y} - \frac{d}{dx} \frac{\partial f}{\partial y'}\right] + \epsilon \frac{d}{dx}\left(\xi \frac{\partial f}{\partial y'}\right) \\
-    &+ \frac{1}{2} \epsilon^2 \left[\xi^2 \frac{\partial^2 f}{\partial y^2} + 2\xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + \xi^{\prime 2} \frac{\partial^2 f}{\partial \xi^{\prime 2}}\right] + O(\epsilon^3)
+    &+ \frac{1}{2} \epsilon^2 \left[\xi^2 \frac{\partial^2 f}{\partial y^2} + 2\xi \xi' \frac{\partial^2 f}{\partial y \partial y'} + \xi^{\prime 2} \frac{\partial^2 f}{\partial y^{\prime 2}}\right] + O(\epsilon^3)
 \end{align*}
 And substituting this back in:
 \begin{align*}
