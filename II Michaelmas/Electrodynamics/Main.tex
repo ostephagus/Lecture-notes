@@ -1,0 +1,53 @@
+\documentclass[british,11pt,a4paper]{report}
+
+\def\course{Electrodynamics}
+\def\degreepart{II}
+\def\term{Michaelmas}
+\def\academicyear{2026}
+\def\lecturer{Prof }
+
+\input{../../Header.tex}
+
+\usepackage{mathrsfs}
+\newcommand{\dual}[1]{{}^*#1}
+
+\newcommand{\uvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \hat{\boldsymbol{\firstpart}}_{\secondpart}
+}
+\newcommand{\dvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \dot{\boldsymbol{\firstpart}}_{\secondpart}
+}
+\newcommand{\ddvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \ddot{\boldsymbol{\firstpart}}_{\secondpart}
+}
+
+\newcommand{\duvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \dot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
+}
+\newcommand{\dduvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \ddot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
+}
+
+\newcommand{\emf}{\mathcal{E}}
+\newcommand{\flux}{\mathcal{F}}
+\newcommand{\average}[1]{\langle#1\rangle}
+
+\newcommand{\indx}[3]{%
+    {#1}^{#2}\hphantom{}_{#3}%
+}
+\newcommand{\indxd}[3]{%
+    {#1}_{#2}\hphantom{}^{#3}
+}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{EM as a Classical Field Theory}
+\subfile{Chapters/1 - Classical Field Theory.tex}
+\end{document}

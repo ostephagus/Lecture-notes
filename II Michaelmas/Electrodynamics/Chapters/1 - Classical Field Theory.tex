@@ -1,0 +1,75 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Conventions}
+We use the Minkowski metric, $ds^2 = \eta_{\mu \nu}dx^\mu dx^\nu$, and $\eta_{\mu \nu} = \operatorname{diag}(-1, 1, 1, 1)$.
+\section{Maxwell's Equations in Relativistic Form}
+In non-relativistic form, we know:
+\begin{align}
+    \nabla \cdot \vec{E} &= \frac{\rho}{\epsilon_0} \\
+    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t} \\
+    \nabla \cdot \vec{B} &= 0 \\
+    \nabla \times \vec{B} &= \mu_0 \vec{J} + \mu_0 \epsilon_0 \frac{\partial \vec{E}}{\partial t}
+\end{align}
+where $\vec{E}(\vec{x}, t)$ is the electric field, and $\vec{B}(\vec{x}, t)$ is the magnetic field. $\rho(\vec{x}, t)$ is the charge density, and $\vec{J}(\vec{x}, t)$ is the current density. For a surface element $\vec{dS}$, the rate of charge flow through $\vec{dS}$ is $\vec{J} \cdot \vec{dS}$. We also know $c^2 = 1 / \epsilon_0 \mu_0$, where $c$ is the speed of light in a vacuum. We can also derive current conservation without much work:
+\begin{align}
+    \nabla \cdot (\nabla \cdot \vec{B}) &= \mu_0 \left[\nabla \cdot \vec{J} + \epsilon_0 \frac{\partial \vec{E}}{\partial t}\right] \nonumber \\
+    0 &= \frac{\partial \rho}{\partial t} + \nabla \cdot \vec{J}. \label{eqnConserveCharge}
+\end{align}
+Charges are affected by the electric and magnetic fields through the Lorentz force law:
+\begin{equation}
+    \vec{F} = q(\vec{E} + \vec{v} \times \vec{B})
+    \label{eqnForceLorentz}
+\end{equation}
+for a particle with charge $q$ and velocity $\vec{v}$. The force per unit volume can be written as:
+\begin{equation}
+    \vec{f} = \rho \vec{E} + \vec{J} \times \vec{B}
+    \label{eqnForceCtsLorentz}
+\end{equation}
+Maxwell's Equations are fully consistent with special relativity, as long as $\rho$ and $\vec{J}$ are formed into a 4-vector, and $\vec{E}$ and $\vec{B}$ are formed into the electromagnetic tensor.
+
+The relativistic form of Maxwell's equations are:
+\begin{align}
+    \partial_\mu F^{\mu \nu} &= -\mu_0 J^\nu \label{eqnMaxForced} \\
+    \partial_\rho F_{\mu \nu} &+ \partial_\nu F_{\rho \mu} + \partial_\mu F_{\nu \rho} = 0 \label{eqnMaxASym}.
+\end{align}
+The antisymmetric Maxwell Field Strength Tensor is given by:
+\begin{equation*}
+    F^{\mu \nu} =
+    \begin{pmatrix}
+        0 & \frac{E_x}{c} & \frac{E_y}{c} & \frac{E_z}{c} \\
+        -\frac{E_x}{c} & 0 & B_z & -B_y \\
+        -\frac{E_y}{c} & -B_z & 0 & B_x \\
+        -\frac{E_z}{c} & B_y & -B_x & 0
+    \end{pmatrix}
+\end{equation*}
+Raising and lowering indices is accomplished with the Minkowski metric $\eta_{\mu \nu}$ or $\eta^{\mu \nu}$. For example, $F_{\mu \nu} = \eta_{\mu \rho} \eta_{\nu \sigma} F^{\rho \sigma}$. In matrix form, this negates the top row and first column.
+
+The charge-current 4-vector is:
+\begin{equation*}
+    J^\mu = (\rho c, \vec{J}).
+\end{equation*}
+
+We can introduce the dual of the EM tensor: $\dual{F}^{\mu \nu} = \frac12 \epsilon^{\mu \nu \rho \sigma} F_{\rho\sigma}$. Then \eqnref{eqnMaxASym} can be written as:
+\begin{equation}
+    \partial_\nu \dual{F}^{\mu \nu} = 0.
+    \label{eqnMaxDiv}
+\end{equation}
+Note that this implies we can find a 4-vector potential:
+\begin{equation}
+    F_{\mu \nu} = \partial_\mu A_\nu - \partial_\nu A_\mu
+    \label{eqn4VecPot}
+\end{equation}
+where $A^\mu = \left(\frac{\phi}{c}, \vec{A}\right)$ where $\phi$ and $\vec{A}$ are the standard electric and magnetic potentials.
+
+A gauge transformation of $A$ looks like $A_\mu \mapsto A_\mu + \partial_\mu \chi$ where $\chi$ is some scalar field.
+\section{Recap of Lorentz Transformations}
+\begin{definition}{Lorentz transformation}
+    A \underline{Lorentz transformation} has the form:
+    \begin{align*}
+        \R^4 &\mapsto \R^4\\
+        x^\mu &\mapsto x^{\prime \mu} = \indx\Lambda\mu\nu x^\nu
+    \end{align*}
+    where $\eta_{\mu \nu} \indx\Lambda\mu\rho\indx\Lambda\nu\sigma = \eta_{\rho \sigma}$, that is, the inner product is preserved under transformations.
+\end{definition}
+\end{document}
