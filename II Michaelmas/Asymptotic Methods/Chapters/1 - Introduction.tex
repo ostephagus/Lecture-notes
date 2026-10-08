@@ -1,0 +1,113 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Motivation and Examples}
+In the real world, we often encounter equations and problems that are difficult to attack, and often impossible to find an analytic solution for. Asymptotic Methods is the study of approximating solutions to understand the behaviour of complex systems at long and short times. The emphasis for Asymptotic Methods is less about accuracy and convergence and more about understanding the evolution of solutions, emphasising usefulness and interpretability.
+
+It will be helpful to see some examples.
+\begin{example}[Gamma function]
+    Consider the Gamma function:
+    \begin{equation*}
+        \Gamma(z) = \int_{0}^{\infty} t^{z-1}e^{-t} dt,~\Re(z) > 0.
+    \end{equation*}
+    For $n \in \N$, $\Gamma(n+1) = n!$. We can apply Stirling's Formula:
+    \begin{equation}
+        n! \sim \sqrt{2\pi} n^{n+\frac12}e^{-n} \times \left(1 + \frac1{12n} + \frac1{288n^2} + \cdots\right) ~~ \text{ as $n \to \infty$.}
+        \label{eqnFactorialApprox}
+    \end{equation}
+\end{example}
+\begin{example}[Bessel's Function]
+    Consider the differential equation:
+    \begin{equation*}
+        x^2 y'' + xy' - x^2 y = 0
+    \end{equation*}
+    then this has exact series solution:
+    \begin{equation*}
+        I_0(x) = \sum_{n=0}^{\infty} \frac{x^{2n}}{2^{2n} (n!)^2}
+    \end{equation*}
+    and Asymptotic Methods can tell us about the behaviour of large $x$, which is not obvious from the series,
+    \begin{equation*}
+        I_0(x) \sim (2\pi x)^{-\frac12} e^x \text{ as $n \to \infty$.}
+    \end{equation*}
+\end{example}
+\begin{example}[Eigenvalue problem]
+    Consider the eigenvalue problem:
+    \begin{equation*}
+        y'' + k^2 e^{-x^2 / 2}y = 0,~\text{$y \to y_0$ as $x \to\infty$}
+    \end{equation*}
+    and then we can use Asymptotic Methods to find approximate large eigenvalues:
+    \begin{equation*}
+        k_n \sim \frac{\sqrt{\pi}}{2} (n + \frac12) \text{ as $n \to \infty$.}
+    \end{equation*}
+\end{example}
+\begin{remark}
+    Convergent methods typically give arbitrarily accurate approximations as more and more terms are added. Asymptotic methods give arbitrarily accurate approximations as a variable approaches a limit. This is why all of our above expressions have had ``as $n \to \infty$'' or similar.
+\end{remark}
+\section{Asymptotic Expansions}
+\subsection{Definitions and Notation}
+\begin{definition}{Asymptotic Equality/Equivalence}
+    Functions $f$ and $g$ are \underline{asymptotically equivalent}, and write $f \sim g$ as $x \to x_0$ (where $x_0$ may be $\infty$), if:
+    \begin{equation*}
+        \lim_{x \to x_0} \frac{f(x)}{g(x)} = 1.
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item Usually $f$ is approximated by $g$. $f$ may be some complex solution and $g$ is the asymptotic approximant.
+    \item We can write $f(x) = g(x) + \epsilon(x)$ where $\lim_{x \to x_0} \epsilon(x) = 0$. $g$ is the \underline{dominant part} of $f$ and $\epsilon$ is the \underline{subdominant part}.
+    \item $\sim$ is an equivalence relation on the space of functions.
+    \item If $f_1 \sim g_1$ and $f_2 \sim g_2$ then $f_1 f_2 \sim g_1 g_2$ (as $x \to x_0$). $\sim$ also preseves linearity.
+    \item The definition has problems with oscillatory functions that pass through $0$ as $x \to x_0$.
+\end{remarks}
+\begin{definition}{Little o notation}
+    Let $f, g$ be real functions. $f$ is \underline{little o} $g$, and we write $f(x) = o(g(x))$, as $x \to x_0$ if:
+    \begin{equation*}
+        \lim_{x \to x_0} \frac{f(x)}{g(x)} = 0.
+    \end{equation*}
+    We can also write $f(x) \ll g(x)$ as $x \to x_0$.
+\end{definition}
+\begin{definition}{Big o notation}
+    Let $f, g$ be real functions. $f$ is \underline{big o} of $g$, and we write $f(x) = O(g(x))$, for $g > 0$ and as $x \to x_0$, if there exists $c > 0$ such that:
+    \begin{equation*}
+        \abs{f(x)} \leq cg(x)~\text{for $x$ sufficiently close to $x_0$.}
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    This is to say that $f$ cannot be lots bigger than $g$.
+\end{remark}
+\subsection{Expansions}
+Suppose we have an unworkable function $f$ and we want to understand its behaviour in a given limit (probably $x \to \infty$). In particular, we want to find a simpler function $g$ such that $f \sim g$ in the given limit. Further, we want to break up $g$ into a hierarchy of approximations -- we want $g$ to be written as:
+\begin{equation*}
+    g(x) = \sum_{n=1}^N a_n \phi_n(x)
+\end{equation*}
+where the $\phi_n$ are known, workable functions, and adding more terms improves the approximation.
+\begin{definition}{Asymptotic sequence}
+    A sequence of functions $\phi_0, \phi_1, \cdots$ is an \underline{asymptotic sequence} as $x \to \infty$ if:
+    \begin{equation*}
+        \phi_{k+1} \ll \phi_k~~\forall k.
+    \end{equation*}
+    That is, the corrections get much smaller for each $k$.
+\end{definition}
+\begin{examples}{
+        We can find some asymptotic sequences:
+    }
+    \item $\phi_n = x^n$ is a valid asymptotic sequence for the limit $x \to 0$.
+    \item $\phi_n = e^{-nx} x^n$ is a valid asymptotic sequence for the limit $x \to \infty$, but not $x \to -\infty$.
+    \item $\phi_n(x) = \cos(nx)$ is not a valid asymptotic sequence as $x \to \infty$ or $0$.
+    \item The sequence $\abs{x}$, $\log\abs{x}$, $\log\abs{\log{\abs{x}}}$ is %TODO
+\end{examples}
+\begin{definition}{Asymptotic Expansion}
+    Let $f$ be the function to approximate. Let $\{\phi_k\}_{k=0}^\infty$ be an asymptotic sequence. Then the finite sum:
+    \begin{equation*}
+        \sum_{k=0}^{N}a_k \phi_k(x)
+    \end{equation*}
+    is an $N$-term \underline{asymptotic expansion} of $f$ as $x \to x_0$ if:
+    \begin{equation}
+        f(x) = \sum_{k=0}^{N} a_k \phi_k(x) + o\left(\phi_N(x)\right)
+        \label{eqnAsymExpand}
+    \end{equation}
+    which we can alternatively write as:
+    \begin{equation*}
+        \frac{f(x) - \sum_{k=0}^{N} a_k \phi_k(x)}{\phi_N(x)} \to 0 \text{ as $x \to x_0$.}
+    \end{equation*}
+\end{definition}
+\end{document}
