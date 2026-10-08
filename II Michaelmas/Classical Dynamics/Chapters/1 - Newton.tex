@@ -1,0 +1,50 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Galilean Spacetime}
+In Classical Mechanics, we consider Galilean spacetime, which is the ``space of events''. Mathematically, this is affine space -- a vector space with no preferred origin.
+\begin{definition}{Affine space}
+    An \underline{affine space} is a set $\A^n$ together with an associated vector space $\R^n$ that acts on $\A^n$ as:
+    \begin{align*}
+        \A^n \times \R^n &\mapsto \A^n\\
+        (a, \vec{v}) &\mapsto a + \vec{v}
+    \end{align*}
+    such that:
+    \begin{align*}
+        &a + \vec{v} = a \text{ if and only if } \vec{v} = \vec{0}, \\
+        &\text{for every } a, b \in \A^n, \text{ there must exist } \vec{v} \in \R^n \text{ such that } a + \vec{v} = b, \\
+        &(a + \vec{v}) + \vec{w} = a + (\vec{v} + \vec{w})~~\forall a \in \A^n,~\vec{v}, \vec{w} \in \R^n.
+    \end{align*}
+    We can think of this as translation of the event $\vec{v}$.
+\end{definition}
+Then Galilean spacetime is $\A^4$ together with:
+\begin{itemize}
+    \item A linear map:
+        \begin{align*}
+            \tau : \R^4 &\mapsto \R\\
+            \tau(b-a) &\mapsto \text{time elapsed between $a$ and $b$.}
+        \end{align*}
+        If $\tau(b-a) = 0$, then events $a$ and $b$ are \underline{simultaneous}.
+    \item A positive-definite inner product on $\ker(\tau) = \R^3$ (all simultaneous events):
+        \begin{equation*}
+            d_{a, b} = \norm{a - b} = \sqrt{(\vec{a} - \vec{b}) \cdot (\vec{a} - \vec{b})}.
+        \end{equation*}
+        Note the restriction to simultaneous events, since the distance between events can change over time.
+\end{itemize}
+\begin{definition}{Motion}
+    A \underline{motion} of a particle is a smooth map $x : I \mapsto \A^3$ where $I \subseteq \R$. Then the image of this map is the \underline{trajectory} of the particle. The \underline{worldline} of the particle is the graph of this map -- curve $\gamma : I \mapsto \A^4$ such that $\tau(\gamma(t_2) - \gamma(t_1)) = t_2 - t_1$ (prevents travelling back in time). The curve keeps track of the particle's position in space and time.
+\end{definition}
+\begin{definition}{Velocity/Acceleration}
+    For any motion, we define \underline{velocity} to be $\frac{d\vec{x}}{dt}$ and acceleration to be $\frac{d^{2}\vec{x}}{dt^{2}}$. Since these are (limits of) displacements in an affine space, these are vectors.
+\end{definition}
+\section{Inertial Observers}
+\begin{definition}{Inertial Frame}
+    Given an event $o \in \A^4$, we have a space $\A^3_0 = \subsetselect{a \in \A^4}{\tau(a - o) = 0}$ of simultaneous events. Then an \underline{inertial frame} is a choice of identification $\A^4 = \R \times \R^3$. We make a choice by first selecting a vector $\vec{e} \in \R^4$ such that $\tau(\vec{e}) = 1$. We can use $\vec{e}$ to identify points on different spaces of simultaneity by translating through $t \vec{e}$. Then lines parallel to $\vec{e}$ are worldlines of stationary observers.
+
+    Now for any event $p$, we write $p = o + t\vec{e} + \vec{x}$. Our identification is then:
+    \begin{align*}
+        \R \times \R^3 &\mapsto \A\\
+        (t, \vec{x}) &\mapsto o + t\vec{e} + \vec{x}.
+    \end{align*}
+\end{definition}
+\end{document}
