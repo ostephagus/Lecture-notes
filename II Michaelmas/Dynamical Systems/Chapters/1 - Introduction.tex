@@ -1,0 +1,108 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Defining a Dynamical System}
+\begin{definition}{Dynamical system}
+    A \underline{dynamical system} is a mathematical entity described by a set of equations for a set of variables with respect to a time-like variable.
+\end{definition}
+In this course we will want to understand such systems. In particular, we will study:
+\begin{itemize}
+    \item long term behaviours of dynamical systems;
+    \item periodic solutions;
+    \item stability of solutions and chaos;
+    \item how parameters of a system affect the solutions and behaviour.
+\end{itemize}
+\subsection{Continuous Time}
+When our time-like variable is continuous, the dynamical system is described by a set of ODEs.
+\begin{example}
+    Consider a simple 1D system:
+    \begin{equation*}
+        \dot{x} = x(1-x^2)
+    \end{equation*}
+    This is a very easy example and in fact we find an analyical solution:
+    \begin{equation*}
+        x(t) = \pm \left(1-2e^2(t_0 - t)\right)^{-\frac12}
+    \end{equation*}
+    However, to practice the methods we would like to apply to more difficult systems, we will forget about this solution.
+
+    We begin with analysis of fixed points. Solving the RHS gives stationary points at $x = 0, \pm 1$. Then we can also see that the RHS is positive on $(-\infty, -1)$ and $(0, 1)$, negative on the rest. This means that the fixed points at $-1$ and $1$ are stable (and attract solutions), whereas the fixed point at $0$ is unstable (and repels solutions). Therefore we can draw a diagram like in figure~\ref{figSimpleSystem}.
+\end{example}
+\begin{figure}
+    \label{figSimpleSystem}
+    \caption{Diagram of fixed points in a simple system}
+\end{figure}
+\begin{example}[Lotka-Volterra equations]
+    Let $r$ be the number of rabbits in a population and $s$ be the number of sheep. Then for $a, b, c, \cdots, f > 0$, the Lotka-Volterra equations for these populations are:
+    \begin{align*}
+        \dot{r} &= r(a - br - cs) \\
+        \dot{s} &= s(d - er - fs)
+    \end{align*}
+    The \underline{state space} of these equations is $(r, s) \in [0, \infty) \times [0, \infty)$.
+
+    The constants $a$ and $d$ model unconstrained birth rate, and then $b, c, e, f$ model scarcity of food (where we assume that the rabbits and sheep both eat grass, which is constrained).
+    Consider the example with $a = 3, d = 2, b=c=e=f=1$.
+    \begin{align*}
+        \dot{r} &= r(3 - r - s) \\
+        \dot{s} &= s(2 - r - s)
+    \end{align*}
+    Then we can identify fixed points:
+    \begin{equation*}
+        (0, 0),~~(3, 0),~~(0, 2)
+    \end{equation*}
+    We also have fixed points for the individual equations when $r+s \in \{2, 3\}$.
+
+    Now consider the signs of the derivatives. For large $r$ and $s$, both derivatives are negative. We can also see that $\dot{s} < 0$ when $r + s = 3$, and $\dot{r} > 0$ when $r + s = 2$. By then interpolating the rest, we get the diagram in figure~\ref{figLotkaVolterra}. We see that the behaviour as $t \to \infty$ is:
+    \begin{equation*}
+        (r, s) \to
+        \begin{cases}
+            (0, 0) & r = s = 0 \\
+            (0, 2) & r = 0, s > 0 \\
+            (3, 0) & \text{otherwise}.
+        \end{cases}
+    \end{equation*}
+\end{example}
+\begin{figure}
+    \label{figLotkaVolterra}
+    \caption{Diagram of solutions to Lotka-Volterra equations}
+\end{figure}
+\begin{example}[Predator-prey system]
+    Consider a number of sheep $s$ and number of wolves $w$. These populations can be modelled by the system:
+    \begin{align*}
+        \dot{w} &= w(-a + bs) \\
+        \dot{s} &= s(c - dw)
+    \end{align*}
+    for positive constants $a, b, c, d$.
+
+    The fixed points are now $(0, 0)$ and $\left(\frac{a}{b}, \frac{c}{d}\right)$. By drawing our diagram, we see that we find periodic solutions around the non-zero fixed point.
+\end{example}
+\begin{example}
+    Consider:
+    \begin{align*}
+        \dot{x} &= -y + \epsilon x(\mu - x^2 - y^2) \\
+        \dot{y} &= x + \epsilon y (\mu - x^2 - y^2)
+    \end{align*}
+    We change coordinate system to plane polar coordinates to achieve:
+    \begin{align*}
+        \dot{r} &= \frac{x\dot{x} + y\dot{y}}{r} \\
+        \dot{\theta} &= \frac{x\dot{y} - y\dot{x}}{r^2}
+    \end{align*}
+    then substituting this into the original equations gives:
+    \begin{equation*}
+        dot{r} = \epsilon r(\mu - r^2),\qquad\dot{\theta} = 1.
+    \end{equation*}
+    Now our system depends sensitively on $\epsilon$ and $\mu$. We can clearly see that $\epsilon = 0$ gives circular solutions, since $\dot{r} = 0$.
+
+    In the case $\epsilon > 0, \mu \leq 0$ we have $\dot{r} < 0$ and the solution spirals in towards the origin. The case $\epsilon > 0, \mu \leq 0$ gives spirals outwards.
+
+    The case $\mu > 0$ is more interesting. We now have a radial fixed point at $r = \sqrt{\mu}$.
+    \begin{itemize}
+        \item For $\epsilon > 0$, this fixed point is stable and the solution spirals towards it.
+        \item For $\epsilon < 0$, this fixed point is unstable and the solution spirals away from it.
+    \end{itemize}
+\end{example}
+\subsection{Discrete Time}
+When our time-like variable is discrete, the dynamical system is described by a map. For example, the logistic map is:
+\begin{equation*}
+    x_{n+1} = \mu x_n(1-x_n),~~\mu \in [0, 1]
+\end{equation*}
+\end{document}
