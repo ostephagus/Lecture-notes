@@ -1,0 +1,48 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Concepts and Definitions}
+\begin{definition}{State}
+    A quantum system is described at each instant by a \underline{state} $\state$ which belongs to a complex vector space $V$. Any non-zero element of this space $V$ is a possible state.
+\end{definition}
+Since these are in a vector space, for $\state, \ket{\phi} \in V$, $\alpha \state + \beta \ket{\phi} \in V$ for any complex constants $\alpha, \beta$.
+
+Physically, this is a superposition principle leading to wave-like behaviour, but these states are not wavefunctions. There are also dual or conjugate states $\bra{\psi}$ which belong to the dual space $V^\dagger$. By definition, states and duals can be combined to give a complex number:
+\begin{equation*}
+    \bra{\phi} \text{ combined with }\state \mapsto \inn{\phi}{\psi}
+\end{equation*}
+The spaces $V$ and $V^\dagger$ are equipped with an inner product which can be described as a one-to-one correspondence between the spaces:
+\begin{align*}
+    V &\mapsto V^\dagger \\
+    \state &\mapsto \bra{\psi} = \left(\state\right)^\dagger
+\end{align*}
+Then the inner product requires the first state to be mapped to its dual, then applied to the second:
+\begin{equation*}
+    \ket{\phi},~~\state \mapsto \inn\phi\psi = \left(\ket{\phi}\right)^T \state \in \C
+\end{equation*}
+
+\begin{remarks}
+    \item Knowing $\inn\phi\psi$ for all $\bra\phi$ determines $\ket\psi$. \label{remInnDefinesState}
+    \item The physical content of any state is unchanged by $\state \mapsto \alpha \state$ for $\alpha \in \C \backslash \{0\}$.
+    \item We will usually normalise the state to make $\norm\state = 1$, but this still allows for relative phases $\state \mapsto e^{i\theta}\state$, which can be important for superposition.
+    \item The space $V$ is complete. We will assume that appropriate sequences and series converge.
+    \item The space of states is also known as a Hilbert space $\hilb$.
+\end{remarks}
+\begin{definition}{Operator}
+    An \underline{operator} $Q$ is a linear map on states:
+    \begin{align*}
+        Q : V &\mapsto V\\
+        \state &\mapsto Q\state
+    \end{align*}
+    which must obey linearity.
+\end{definition}
+The same operator can also be thought of acting to the left on dual states:
+\begin{align*}
+    Q : V^\dagger &\mapsto V^\dagger\\
+    \bra{\psi} &\mapsto \bra{\psi}Q
+\end{align*}
+where the RHS is defined by remark~\ref{remInnDefinesState} as:
+\begin{equation*}
+    \left(\ket{\phi}Q\right)\state = \ket{\phi} \left(Q\state\right) = \opbraket{\phi}{Q}{\psi}
+\end{equation*}
+\end{document}
