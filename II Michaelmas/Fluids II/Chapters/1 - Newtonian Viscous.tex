@@ -1,0 +1,88 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Dynamic Viscosity}
+We recall Couette flow, as in figure~\ref{figCouetteCell}.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \pgfmathsetmacro{\h}{2}
+        \pgfmathsetmacro{\flowlinespacing}{0.2}
+
+        \draw (0, 0) -- (5, 0);
+        \draw[->] (0, \h) -- (5, \h) node[right] {$U$};
+        \draw[|-|] (-0.5, 0) -- (-0.5, \h) node[anchor=east, pos=0.5] {$h$};
+
+        \pgfmathsetmacro{\numflowlines}{\h / \flowlinespacing - 1}
+
+        \foreach \n [evaluate=\n as \y using \n*\flowlinespacing] in {1, 2, ..., \numflowlines} {
+            \draw[->, blue] (2, \y) -- +(\y, 0);
+        }
+    \end{tikzpicture}
+    \caption{Diagram of the Couette Cell}
+    \label{figCouetteCell}
+\end{figure}
+In this example we consider 3D flow, and so figure~\ref{figCouetteCell} is a cross-section of flow between two plates. For simple, Newtonian fluids, we find that the force required to move top plate is proportional to speed and area, but inversely proportional to the height:
+\begin{equation*}
+    F \propto \frac{UA}{h}.
+\end{equation*}
+Hence, the shear stress $\tau$ (the force per unit area) is proportional to area and inversely proportional to the height. The constant of proportionality is the dynamic viscosity $\mu$:
+\begin{equation*}
+    \tau = \tau \frac{U}{h}
+\end{equation*}
+and the units are $Pa~s$ or $kg~m^{-1}s^{-1}$. For context, air has $\mu = 2\times10^{-5}$, water has $\mu = 10^{-3}$, olive oil has $\mu = 0.1$ and golden syrup has $\mu = 200$.
+
+Figure~\ref{figCouetteCell} shows the velocity profile of the fluid. Shear stress is due to the relative motion between each layer of fluid and its neighbour layers above and below. That is, the shear stress depends on the gradient of $u$.
+\section{Rate of Strain Tensor}
+We consider the velocity variations near a fixed point which, by translating our coordinates, is at the origin. A Taylor expansion of the velocity field gives:
+\begin{align*}
+    u_i(\vec{x}) &= u_i(\vec0) + x_j \frac{\partial u_i}{\partial x_j} + \frac12 u_j x_k \frac{\partial^{2}u_i}{\partial x_j\partial x_k} + \cdots \\
+    &\approx u_i(\vec0) + x_j \frac{\partial u_i}{\partial x_j} \text{ near the fixed point} \\
+    &= u_i(\vec0) + \frac12 \left(\frac{\partial u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i}\right) + \frac12 \left(\frac{\partial u_i}{\partial x_j} - \frac{\partial u_j}{\partial x_i}\right) \\
+    &= u_i(\vec0) + e_{ij} + \frac12 \epsilon_{jik} \omega_k
+\end{align*}
+where $e$ is the \underline{rate of strain tensor} (rank-2) and $\vec{\omega} = \nabla \times \vec{u}$ is the vorticity. Returning to the equation, and writing in vector form:
+\begin{equation*}
+    \vec{u}(\vec{x}) \approx \underbrace{\vec{u}(0)}_{\substack{\text{constant}\\\text{translation}}} + \underbrace{e \cdot \vec{x}}_{\substack{\text{strain /}\\\text{deformation}}} + \underbrace{\frac12 \vec{\omega} \times \vec{x}}_{\substack{\text{solid body}\\\text{rotation}}}.
+\end{equation*}
+Note that $e$ is real and symmetric, so must have real, orthogonal eigenvectors.
+\begin{definition}{Principle axes of strain}
+    The eigenvectors of $e$ are the \underline{principle axes of strain}.
+\end{definition}
+Note also that $\operatorname{tr}(e) = \nabla \cdot \vec{u}$, so the eigenvalues must sum to zero.
+\begin{definition}{Principle rates of strain}
+    The eigenvalues of $e$ are the \underline{principle rates of strain}.
+\end{definition}
+\begin{example}[Plane straining flow]
+    Consider the flow:
+    \begin{equation*}
+        \vec{u} = \left(\alpha x, -\alpha y, 0\right).
+    \end{equation*}
+    Then the rate of strain tensor is:
+    \begin{equation*}
+        e =
+        \begin{pmatrix}
+            \alpha & 0 & 0 \\
+            0 & -\alpha & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+    \end{equation*}
+    thereby giving flow lines $y = \frac{k}{x}$.
+\end{example}
+\begin{example}[Simple shear flow]
+    Consider flow with:
+    \begin{equation*}
+        \vec{u} = (\gamma y, 0, 0)
+    \end{equation*}
+    then this gives:
+    \begin{equation*}
+        e =
+        \begin{pmatrix}
+            0 & \frac\gamma2 & 0 \\
+            \frac\gamma2 & 0 & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+    \end{equation*}
+    which has eigenvectors along the diagonals.
+\end{example}
+\end{document}
