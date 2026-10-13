@@ -45,4 +45,101 @@ where the RHS is defined by remark~\ref{remInnDefinesState} as:
 \begin{equation*}
     \left(\ket{\phi}Q\right)\state = \ket{\phi} \left(Q\state\right) = \opbraket{\phi}{Q}{\psi}
 \end{equation*}
+\begin{remark}
+    States and operators $\state, \bra{\phi}, Q$ can be dealt with by rules that mirror those for complex vectors. Identifying these, in some basis, with $\vec{u}, \vec{v}^\dagger, A$ where $A$ is a matrix, we can say:
+    \begin{equation*}
+        \opbraket{\phi}{Q}{\psi} = \vec{v}^\dagger A \vec{u}
+    \end{equation*}
+\end{remark}
+\begin{definition}{Eigenstate}
+    For any operator $Q$, we say that a state $\state \neq 0$ is an \underline{eigenstate} with eigenvalue $\lambda$ if $Q\state = \lambda\state$. Equivalently, $\bra{\psi} Q^\dagger = \lambda^* \bra{\psi}$.
+\end{definition}
+For general $Q$, $\lambda$ may be complex.
+\begin{definition}{Hermitian conjugate}
+    For any operator $Q$, the \underline{Hermitian conjugate} or adjoint $Q^\dagger$ is defined by:
+    \begin{equation*}
+        \bra{\phi} Q^\dagger = \left(Q\ket{\phi}\right)^\dagger
+    \end{equation*}
+    for any $\phi$.
+\end{definition}
+We can equivalently define it as $\opbraket{\phi}{Q^\dagger}{\psi} = \opbraket{\psi}{Q}{\phi}^*$.
+\begin{propositions}{
+        For operators $A, B$ and complex numbers $\alpha, \beta$,
+        \label{propsHermConjProps}
+    }
+    \item $(\alpha A + \beta B)^\dagger = \alpha^* A^\dagger + \beta^* B^\dagger$.
+    \item $(AB)^\dagger = B^\dagger A^\dagger$.
+    \item $(A^\dagger)^\dagger = A$.
+\end{propositions}
+\begin{definition}{Hermitian}
+    An operator $Q$ is \underline{Hermitian} or \underline{self-adjoint} if $Q^\dagger = Q$. Such operators are called \underline{observables} because they correspond to physical quantities that can be measured.
+\end{definition}
+To define a quantum system, we must specify the \underline{Hamiltonian}, $H$, whose eigenvalues are the permissible energy levels of the system.
+
+\begin{propositions}{
+        Let $Q$ be a Hermitian operator
+        \label{propsHermitian}
+    }
+    \item All eigenvalues of $Q$ are real.
+    \item All eigenstates of $Q$ are orthogonal.
+    \item Any state can be written as a linear combination (which may be an infinite sum) of eigenstates.
+\end{propositions}
+\begin{proof}
+    The first two can be seen in IB Linear Algebra. The third we will assume to be true for the purposes of this course.
+\end{proof}
+\section{The Quantum Harmonic Oscillator}
+A one-dimensional harmonic oscillator of mass $m$ and frequency $\omega$ has hamiltonian:
+\begin{equation*}
+    H = \hat{p}^2 + \frac12 m\omega^2hat{x}^2 
+\end{equation*}
+We seek eigenstates and eigenvalues of $H$. We will do this by introducing new operators:
+\begin{align*}
+    a &= \left(\frac{m\omega}{2\hbar}\right)^\frac12 \left(\hat{x} + \frac{i\hat{p}}{m\omega}\right) \\
+    a^\dagger &= \left(\frac{m\omega}{2\hbar}\right)^\frac12 \left(\hat{x} - \frac{i\hat{p}}{m\omega}\right)
+\end{align*}
+We do this in order to reduce $H$ into something involving $a^\dagger a$. Note that the constants in $a$ are chosen such that it is dimensionless. We can now write:
+\begin{align*}
+    \hat{x} &= \left(\frac{\hbar}{2m\omega}\right)^\frac12 (a + a^\dagger) \\
+    \hat{p} &= \left(\frac{\hbar m\omega}{2}\right)^\frac12 i(a^\dagger - a)
+\end{align*}
+We also get that $\cmmt{a}{a^\dagger} = 1$. The products of $a$ with its conjugate are:
+\begin{align*}
+    aa^\dagger &= \frac{1}{\hbar \omega} H + \frac12 \\
+    a^\dagger a &= \frac{1}{\hbar \omega} H - \frac12
+\end{align*}
+so now we can write the Hamiltonian:
+\begin{equation*}
+    H = \hbar \omega \left(N + \frac12\right)
+\end{equation*}
+where $N$ is the \underline{number operator}, $a^\dagger a$. This form shows that the eigenstates of $N$ are exactly the eigenstates of $H$, with eigenvalues adjusted as required.
+
+Now consider an eigenstate of $N$, $\ket{\lambda}$, with eigenvalue $\lambda$. Assume that $\ket{\lambda}$ is normalised. Therefore:
+\begin{align*}
+    \lambda &= \opbraket{\lambda}{N}{\lambda} \\
+    &= \opbraket{\lambda}{a^\dagger a}{\lambda} \\
+    &= \left(a\ket{\lambda}\right)^\dagger \left(a\ket\lambda\right) \\
+    &= \norm{a\ket\lambda}^2.
+\end{align*}
+This tells us that the eigenvalues are non-negative. In fact, we have a zero eigenvalue if and only if $a\ket\lambda = 0$.
+
+Now consider:
+\begin{align*}
+    N\left(a^\dagger \ket\lambda\right) &= \left(\cmmt{N}{a^\dagger} + a^\dagger N\right)\ket\lambda \\
+    &= \left(a^\dagger + a^\dagger \lambda\right) \ket\lambda \\
+    &= (\lambda + 1) \left(a^\dagger \ket\lambda\right)
+\end{align*}
+and by similar algebra, $N\left(a \ket\lambda\right) = (\lambda - 1) a\ket\lambda$. Note that we used:
+\begin{equation*}
+    \cmmt{N}{a^\dagger} = a^\dagger,~~\cmmt{N}{a} = -a~~\text{ which follow from } \cmmt{a}{a^\dagger} = 1.
+\end{equation*}
+In order to declare these new eigenstates, we must check they are non-zero. To do this we look at the norms:
+\begin{align*}
+    \norm{a\ket\lambda}^2 &= \lambda~~\text{ as seen before} \\
+    \norm{a^\dagger \ket\lambda}^2 &= \opbraket{\lambda}{aa^\dagger}{\lambda} \\
+    &= \opbraket\lambda{a^\dagger a + 1}\lambda \\
+    &= \lambda + 1
+\end{align*}
+$a^\dagger$ and $a$ are called creation (or raising) and annihilation (or lowering) operators.
+
+These two operators give us exactly the possible set of eigenvalues. We want to argue that these are all integers so suppose we have a non-integer eigenvalue. In this case we can use the lowering operator to decrease the eigenvalue by one until we end up at a negative eigenstate -- this is a contradiction. We avoid this contradiction in the case of integer eigenvalues because we cannot lower to $0$ (because then $a$ gives the zero state). This means our set of eigenvalues is $\N_0$.
 \end{document}
