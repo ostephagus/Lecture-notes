@@ -1,7 +1,7 @@
 \documentclass[../Main.tex]{subfiles}
 
 \begin{document}
-\section{Defining a Dynamical System}
+\section{Motivation and Examples}
 \begin{definition}{Dynamical system}
     A \underline{dynamical system} is a mathematical entity described by a set of equations for a set of variables with respect to a time-like variable.
 \end{definition}
@@ -88,7 +88,7 @@ When our time-like variable is continuous, the dynamical system is described by 
     \end{align*}
     then substituting this into the original equations gives:
     \begin{equation*}
-        dot{r} = \epsilon r(\mu - r^2),\qquad\dot{\theta} = 1.
+        \dot{r} = \epsilon r(\mu - r^2),\qquad\dot{\theta} = 1.
     \end{equation*}
     Now our system depends sensitively on $\epsilon$ and $\mu$. We can clearly see that $\epsilon = 0$ gives circular solutions, since $\dot{r} = 0$.
 
@@ -105,4 +105,121 @@ When our time-like variable is discrete, the dynamical system is described by a 
 \begin{equation*}
     x_{n+1} = \mu x_n(1-x_n),~~\mu \in [0, 1]
 \end{equation*}
+
+We will often like to think of maps like this as discretised versions of differential equations.
+
+\begin{example}[Poincare Map]
+    Consider a trajectory in $\R^3$. Label the points on the plane $z = 0$ that the trajectory crosses as $x_1, x_2, \cdots$. Draw directional lines between the points on a plane. Then this is a Poincare map of the $\R^3$ trajectory to $\R^2$ space. Poincare maps are useful to diagnose chaos in a system.
+\end{example}
+\section{Defining a Dynamical System}
+\subsection{Basic Definitions}
+\begin{definition}{State space}
+    A \underline{state space} $E \subseteq \R^n$ is the set of possible states of a dynamical system.
+\end{definition}
+\begin{remark}
+    A state space is a vector field.
+\end{remark}
+Then $\vec{x} \in E$ evolves according to a set of ODEs:
+\begin{equation*}
+    \dvec{x} = \frac{d \vec{x}}{dt} = \vec{f}(\vec{x}, t)
+\end{equation*}
+where $f : E \times \R \mapsto E$. 
+\begin{definition}{Autonomous system}
+    A dynamical system where $\vec{f}$ (as given above) does not depend on $t$ is \underline{autonomous}.
+\end{definition}
+We can reduce a non-autonomous system to an autonomous one by considering $\vec{y} \in E \times \R$ described by:
+\begin{equation*}
+    \dvec{y} = \begin{pmatrix} \vec{f}(\vec{y}) \\ 1\end{pmatrix}
+\end{equation*}
+Therefore we can restrict attention only to autonomous systems.
+
+Note also that $m$th-order ODEs can be reduced to $m$ first-order ODEs in $m$ derivatives, so it is also sufficient to consider only first-order ODEs.
+
+Discrete-time dynamical systems can also be autonomous if the map does not depend on $t$.
+\subsection{Initial-Value Problem}
+We want to study the problem:
+\begin{equation}
+    \begin{cases}
+        \dvec{x} = \vec{f}(\vec{x}, t) & t>t_0 \\
+        \vec{x}(t_0) = \vec{x_0} & \vec{x_0} \in E
+    \end{cases}
+    \label{eqnInitialValue}
+\end{equation}
+The problem in \eqnref{eqnInitialValue} is the \underline{initial value problem}.
+
+\begin{definition}{Flow (of a system)}
+    For an autonomous system, define a \underline{flow} $\phi_t(\vec{x})$ such that $\phi_t(\vec{x_0})$ solves \eqnref{eqnInitialValue} with $\vec{x}(0) = \vec{x_0}$.
+\end{definition}
+\begin{remarks}
+    \item $\phi$ is a vector field.
+    \item $\phi_0(\vec{x_0}) = \vec{x_0}$.
+    \item $\phi_s(\phi_t(\vec{x_0})) = \phi_{t+s}(\vec{x_0})$, because the system is autonomous.
+\end{remarks}
+We now want to understand the conditions for a solution to exist, and the conditions for it to be unique.
+\begin{theorem}[Cauchy-Peano Theorem]
+    Let $\dvec{x} = f(\vec{x}, t)$ (with $\vec{x}(0) = \vec{x_0}$) be a dynamical system. Then if $f$ is continuous and $\norm{f} < M$ on the domain $D = {\abs{t - t_0} < \alpha, \norm{\vec{x} - \vec{x_0}} < \beta}$, then the initial value problem has a solution for:
+    \begin{equation*}
+        \abs{t - t_0} < \min \left(\alpha, \frac{\beta}{M}\right).
+    \end{equation*}
+    \label{thmCauchyPeano}
+\end{theorem}
+\begin{example}[Theorem~\ref{thmCauchyPeano} is not sufficient for uniqueness]
+    \begin{enumerate}
+        \item Consider the 1D problem:
+            \begin{equation*}
+                \dot{x} = \abs{x},~~x(t_0) = x_0
+            \end{equation*}
+            which has solution:
+            \begin{equation*}
+                \begin{cases}
+                    x_0 e^{t_0 - t} & x_0 < 0 \\
+                    0 & x_0 = 0 \\
+                    x_0 e^{t - t_0} & x_0 > 0.
+                \end{cases}
+            \end{equation*}
+            Note that $f(x) = \abs{x}$ is everywhere continuous, but not differentiable at $0$. We have a unique solution for $x(t)$, so it is not necessary for $f$ to be differentiable to guarantee uniqueness.
+        \item Consider the 1D problem:
+            \begin{equation*}
+                \dot{x} =
+                \begin{cases}
+                    \sqrt{x} & x \geq 0 \\
+                    0 & x < 0
+                \end{cases}
+                \qquad x(0) = 0.
+            \end{equation*}
+            We see again that $f$ is continuous but not differentiable at $0$. We can check that:
+            \begin{equation*}
+                x(t) =
+                \begin{cases}
+                    0 & t < \tau \\
+                    \frac14 (t - \tau)^2 & t \geq \tau
+                \end{cases}
+            \end{equation*}
+            satisfies the equation and initial condition. However, we do not have uniqueness here! Indeed, $\tau$ can be chosen arbitrarily.
+    \end{enumerate}
+    We have now demonstrated two continuous but non-differentiable $f$, but only one gives unique solutions.
+\end{example}
+\begin{definition}{Lipschitz continuity}
+    A function $f : E \subseteq \R^n \mapsto \R^n$ is $l$-\underline{Lipschitz} at a point $\vec{x_0}$ if there exists $a \in \R$ such that:
+    \begin{equation*}
+        \norm{\vec{x} - \vec{x_0}} < a, \norm{\vec{y} - \vec{x_0}} < a \implies \norm{f(\vec{x}) - f(\vec{y})} \leq l\norm{\vec{x} - \vec{y}}.
+    \end{equation*}
+\end{definition}
+\begin{theorem}[Uniqueness of Solution to IVP]
+    Let $\dvec{x} = \vec{f}(\vec{x})$, $\vec{x}(t) = \vec{x_0}$ be an initial value problem in autonomous form.
+
+    If $f$ is $l$-Lipschitz at $x_0$ then the solution of a flow $\phi_{t - t_0}(\vec{x_0})$ exists and is unique in a neighbourhood of $(\vec{x_0}, t_0)$.
+    \label{thmIVPUnique}
+\end{theorem}
+\begin{example}[Theorem~\ref{thmIVPUnique} does not guarantee uniqueness for all time]
+    Consider:
+    \begin{equation*}
+        \dot{x} = x^2,\qquad x(0)=1.
+    \end{equation*}
+    Then we can see that $f(x) = x^2$ is Lipschitz, and we have solution:
+    \begin{equation*}
+        x(t) = \frac{1}{1-t}.
+    \end{equation*}
+    However, we have that $x(t) \to \infty$ as $t \to 1$, so we do not have a unique solution for all time.
+\end{example}
 \end{document}

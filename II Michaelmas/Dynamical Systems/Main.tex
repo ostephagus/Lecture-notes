@@ -13,6 +13,15 @@
 \newcommand{\abs}[1]{\left|#1\right|}
 \newcommand{\norm}[1]{\left\|#1\right\|}
 
+\newcommand{\dvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \dot{\boldsymbol{\firstpart}}_{\secondpart}
+}
+\newcommand{\ddvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \ddot{\boldsymbol{\firstpart}}_{\secondpart}
+}
+
 \begin{document}
 \maketitle
 \tableofcontents
