@@ -75,7 +75,7 @@ When our time-like variable is continuous, the dynamical system is described by 
 
     The fixed points are now $(0, 0)$ and $\left(\frac{a}{b}, \frac{c}{d}\right)$. By drawing our diagram, we see that we find periodic solutions around the non-zero fixed point.
 \end{example}
-\begin{example}
+\begin{example}\label{exPolarSpirals}
     Consider:
     \begin{align*}
         \dot{x} &= -y + \epsilon x(\mu - x^2 - y^2) \\
@@ -222,4 +222,97 @@ We now want to understand the conditions for a solution to exist, and the condit
     \end{equation*}
     However, we have that $x(t) \to \infty$ as $t \to 1$, so we do not have a unique solution for all time.
 \end{example}
+We will focus on problems with differentiable $\vec{f}$, which ensures we have unique solutions.
+\section{Orbits, Invariant and Limit Sets}
+\begin{definition}{Orbit}
+    The \underline{orbit} or \underline{trajectory} of a flow $\phi_t(\vec{x})$ through a point $\vec{x_0}$ is the set:
+    \begin{equation*}
+        O(\vec{x_0}) = \subsetselect{\phi_t(\vec{x_0})}{t \in (-\infty, \infty)}
+    \end{equation*}
+\end{definition}
+The \underline{forward orbit} is the set $O^+(\vec{x_0})$, it is the orbit with $t > 0$. The \underline{backward orbit} is similarly defined for $t < 0$.
+\begin{definition}{Invariant set}
+    A set of points $\Lambda \in E$ is \underline{invariant} under $\vec{f}$ if:
+    \begin{equation*}
+        \vec{x} \in \Lambda \implies O(\vec{x}) \subseteq \Lambda
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    Any orbit is an invariant set.
+\end{remark}
+\begin{definition}{Fixed point}
+    A point $\vec{x_0}$ is a \underline{fixed point} if $\vec{f}(\vec{x_0}) = \vec{0}$.
+\end{definition}
+We see that $O(\vec{x_0}) = \{\vec{x_0}\}$.
+\begin{definition}{Periodic point}
+    A point $\vec{x_0}$ is a \underline{periodic point} with period $T$ if $\phi_T(\vec{x_0}) = \vec{x_0}$ but $\phi_t(\vec{x_0}) \neq \vec{x_0}$ for all $t \in (0, T)$. Then the set:
+    \begin{equation*}
+        \subsetselect{\phi_t(\vec{x_0})}{t \in [0, T)}
+    \end{equation*}
+    is the \underline{periodic orbit} through $\vec{x_0}$.
+\end{definition}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        \begin{pmatrix}\dot{x} \\ \dot{y}\end{pmatrix} = \begin{pmatrix}-y^3 \\ x^3\end{pmatrix}
+    \end{equation*}
+    which has solution $x^4 + y^4 = C$ constant.
+    \label{exPeriodicCycle}
+\end{example}
+\begin{definition}{Limit cycle}
+    A \underline{limit cycle} is an isolated periodic orbit, where there are no other periodic orbits within a small neighbourhood around it.
+\end{definition}
+We see that example~\ref{exPeriodicCycle} does not contain a limit cycle, because we can add an arbitrarily small amount to the constant to generate a nearby periodic orbit.
+\begin{example}
+    Consider the problem in example~\ref{exPolarSpirals} with $\epsilon = \mu = 1$. In polar coordinates we obtain:
+    \begin{equation*}
+        \dot{r} = r(1-r^2),\quad\dot\theta = 1.
+    \end{equation*}
+    We have a fixed point at the origin, and note that the periodic orbit at $r = 1$ is a limit cycle.
+\end{example}
+\begin{definition}{Homoclinic/heteroclinic orbits}
+    For a point $\vec{y}$, suppose that:
+    \begin{align*}
+        \phi_t(\vec{y}) &\to \vec{x_0}\text{ as }t \to \infty\\
+        \phi_t(\vec{y}) &\to \vec{x_1}\text{ as }t \to -\infty
+    \end{align*}
+    If $\vec{x_0} = \vec{x_1}$ then the orbit $O(\vec{y})$ is a \underline{homoclinic orbit}. If $\vec{x_0} \neq \vec{x_1}$ then the orbit is a \underline{heteroclinic orbit}.
+\end{definition}
+\begin{example}
+    Consider a torus in 3 dimensions. Describe the motion as in figure %TODO
+    by $\theta_1$ and $\theta_2$. Suppose that these increase as:
+    \begin{equation*}
+        \dot\theta_1 = \omega_1,\quad \dot\theta_2 = \omega_2.
+    \end{equation*}
+    Then if $\frac{\omega_1}{\omega_2}$ is rational, we will trace out a trajectory along the torus and it will be periodic. If it is irrational, then we will never return to the same place, and the whole torus is invariant.
+\end{example}
+\begin{definition}{$\omega$-/$\alpha$-limit set}
+    An \underline{$\omega$-limit set} of $\vec{x_0}$ is given by:
+    \begin{equation*}
+        \omega(\vec{x_0}) = \subsetselect{\vec{y}}{\text{there exists a sequence $t_1, t_2, \cdots \to \infty$ with $\phi_{t_n}(\vec{x_0}) \to \vec{y}$}}
+    \end{equation*}
+    An \underline{$\alpha$-limit set} is given by:
+    \begin{equation*}
+        \alpha(\vec{x_0}) = \subsetselect{\vec{y}}{\text{there exists a sequence $t_1, t_2, \cdots \to -\infty$ with $\phi_{t_n}(\vec{x_0}) \to \vec{y}$}}
+    \end{equation*}
+\end{definition}
+When $O(\vec{x})$ is bounded, $\omega(\vec{x})$ has some nice properties. It is:
+\begin{itemize}
+    \item non-empty;
+    \item invariant under $\vec{f}$;
+    \item closed;
+    \item bounded;
+    \item connected.
+\end{itemize}
+\begin{definition}{Topological/geometrical equivalence}
+    Two flows $\phi^f_t(\vec{x})$ and $\phi^g_t(\vec{x})$ are \underline{topologically equivalent} or \underline{geometrically} \underline{equivalent} if there is a homeomorphism (continuous bijection with continuous inverse) $\vec{h}(\vec{x}) : E^f \mapsto E^g$ and time-increasing function $\tau(\vec{x}, t)$ such that for all $\vec{x}, t$:
+    \begin{equation*}
+        \phi^f_t(\vec{x}) = h^{-1} \circ \phi^g_\tau \circ h(\vec{x})
+    \end{equation*}
+    and
+    \begin{equation*}
+        \tau(\vec{x}, t_1 + t_2) = \tau(\vec{x}, t_1) + \tau(\phi^f_{t_1}(\vec{x}), t_2)
+    \end{equation*}
+    for all $t_1, t_2$.
+\end{definition}
 \end{document}
