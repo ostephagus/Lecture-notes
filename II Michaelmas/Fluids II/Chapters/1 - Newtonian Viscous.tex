@@ -85,4 +85,62 @@ Note also that $\operatorname{tr}(e) = \nabla \cdot \vec{u}$, so the eigenvalues
     \end{equation*}
     which has eigenvectors along the diagonals.
 \end{example}
+\section{Stress Tensor}
+We consider two types of forces:
+\begin{enumerate}
+    \item body forces $\vec{f}$ that act per unti volume, such as gravity;
+    \item surface forces $\vec\tau$ that act per unit area, such as pressure.
+\end{enumerate}
+Let $\vec\tau(\vec{n}; \vec{x}, t)~\delta S$ denote the force exerted by the $+$ side on the $-$ side of a small area element $\vec{n}~dS$. Now, let $\vec{n}~\delta S$ be the sloping face of a small tetrahedron of size $l$, whose other 3 faces are aligned with the coordinate planes.
+
+Consider the force balance on this tetrahedron:
+\begin{itemize}
+    \item the body force and inertia are $O(l^3)$;
+    \item surface forces are $O(l^2)$;
+    \item the ratio between these forces is therefore $O(l)$, and so surface forces are more important as $l \to 0$.
+\end{itemize}
+Therefore the surface forces must balance themselves when $l$ is small, therefore:
+\begin{equation*}
+    \vec\tau(\vec{n})~\delta S + \vec{\tau}(-\vec{e_1})~\delta S_1 + \vec\tau(-\vec{e_2})~\delta S_2 + \vec{\tau}(-\vec{e_3})~\delta S_3 = 0.
+\end{equation*}
+By the geometry of the tetrahedron, $\delta S_i = n_i \delta S$, and by Newton's 3rd Law $\vec{\tau}(-\vec{e_i}) = -\vec\tau(\vec{e_i})$. Therefore,
+\begin{equation*}
+    \vec\tau(\vec{n}) = \vec\tau(\vec{e_1}) n_1 + \vec\tau(\vec{e_2}) n_2 + \vec\tau(\vec{e_3}) n_3
+\end{equation*}
+which is linear in $\vec{n}$, so we can write:
+\begin{equation*}
+    \tau_i(\vec{n}) = \sigma_{ij} n_j
+\end{equation*}
+where $\sigma_{ij} = \tau_i(\vec{e_j})$ are the components of the \underline{stress tensor} $\sigma(\vec{x}, t)$.
+
+The key result here is that the stress $\vec\tau$ exerted on a small area element is given by:
+\begin{equation*}
+    \vec\tau(n) = \sigma\vec{n}
+\end{equation*}
+
+The symmetry of $\sigma_{ij}$ can be seen by considering the angular momentum balance on a small arbitrary volume $V$ (characteristic length $l$) about a fixed point in $V$. WLOG consider this to be the origin. The moment of the surface forces is then:
+\begin{equation*}
+    \int_{\partial V} \epsilon_{ijk} x_j \sigma_{kl} n_l~dS
+\end{equation*}
+which is $O(l^3)$. The moment of volume forces and inertia is:
+\begin{equation*}
+    \int_V \vec{x} \times \vec{f}~dV
+\end{equation*}
+which is $O(l^4)$. We can therefore invoke the same argument:
+\begin{align*}
+    0 &= \int_{\partial V} \epsilon_{ijk} x_j \sigma_{kl} n_l~dS \\
+    \text{Divergence thm: } &= \int_V \epsilon_{ijk} \frac{\partial}{\partial x_l} \left(x_j \sigma_{kl}\right) dV \\
+    &= \int_V \epsilon_{ijk} \left(\sigma_{kj} + x_j \frac{\partial \sigma_{kl}}{\partial x_l}\right) dV
+\end{align*}
+then the second term in this integral is $O(l^4)$ where the first is $O(l^3)$, so by the previous logic we remove it:
+\begin{equation*}
+    0 = \int_V \epsilon_{ijk} \sigma_{kj}~dV
+\end{equation*}
+However, since $V$ was arbitrary we in fact must have $\epsilon_{ijk} \sigma_{kj} = 0$ which requires $\sigma$ to be symmetric.
+\section{Constitutive Equation for a Newtonian Fluid}
+A constitutive equation is one that describes how something behaves based on what it is made of. This equation describes the relation between stress and strain for a linear, viscous fluid. We first split the stress tensor $\sigma_{ij}$ into two terms.
+\begin{itemize}
+    \item Isotropic pressure term: $-p\delta_{ij}$ where $p = -\frac13 \sigma_{kk}$.
+    \item Deviatoric stress term: $\sigma_{ij}^{\text{dev}}$ given by $\sigma_{ij}^\text{dev} = \sigma_{ij} + p \delta_{ij}$. This models the viscosity of the fluid.
+\end{itemize}
 \end{document}
