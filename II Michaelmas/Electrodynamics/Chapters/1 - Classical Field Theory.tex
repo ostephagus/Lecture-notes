@@ -72,4 +72,128 @@ A gauge transformation of $A$ looks like $A_\mu \mapsto A_\mu + \partial_\mu \ch
     \end{align*}
     where $\eta_{\mu \nu} \indx\Lambda\mu\rho\indx\Lambda\nu\sigma = \eta_{\rho \sigma}$, that is, the inner product is preserved under transformations.
 \end{definition}
+The standard Lorentz boost along the $x$ axis (changing to a reference frame with speed $v$) is:
+\begin{equation*}
+    \Lambda =
+    \begin{pmatrix}
+        \gamma & -\gamma\beta & 0 & 0 \\
+        -\gamma\beta & \gamma & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}
+\end{equation*}
+where $\beta = \frac{v}{c}$ and $\gamma = (1 - \beta^2)^{-\frac12}$.
+
+Under a Lorentz transformation, we expect the field $\vec{E}$ and $\vec{B}$ to mix.
+
+By contracting the electromagnetic field tensor with itself in various ways, we can generate scalars (which are invariant under Lorentz transformations).
+\begin{enumerate}
+    \item Contracting $F$ with itself: $\frac12 F_{\mu \nu} F^{\mu \nu} = |\vec{B}|^2 - |\vec{E}|^2 / c$.
+    \item Contracting $F$ with its dual: $-\frac14 F_{\mu \nu} \dual{F}^{\mu \nu} = \frac1c \vec{E} \cdot \vec{B}$.
+\end{enumerate}
+These are known as the \underline{quadratic invariants}.
+\section{Action Principle for Electromagnetism}
+We will now introduce the action principle for electromagnetism, first for particles in the field and then for the fields themselves, in order to derive Maxwell's equations.
+\subsection{Movement of Particles in Electromagnetic Fields}
+In order to find the action for particles, we must recall how particles move under the influence of $\vec{E}$ and $\vec{B}$. The 4-momentum of a point particle is:
+\begin{equation*}
+    P^\mu =
+    \begin{pmatrix}\frac{E}{c} \\ \vec{p}\end{pmatrix}
+\end{equation*}
+and so the equation of motion for such a particle under force $F^\mu$ is:
+\begin{equation*}
+    \frac{dP^\mu}{d\tau} = F^\mu.
+\end{equation*}
+For a particle of rest mass $m$, we can relate velocity with momentum:
+\begin{equation*}
+    P^\mu = m U^\mu = m \frac{dX^\mu}{d\tau} = m\gamma \begin{pmatrix}c \\ \dvec{x}\end{pmatrix}
+\end{equation*}
+where $\dvec{x}$ is the coordinate-time derivative of position. Using this,
+\begin{equation*}
+    P^\mu = \begin{pmatrix}m\gamma c \\ m\gamma\dvec{x}\end{pmatrix}
+\end{equation*}
+Relating this back to electromagnetism, where we have the force 4-vector:
+\begin{equation*}
+    F^\mu = q F^{\mu \nu} U_\nu
+\end{equation*}
+our equation of motion is:
+\begin{equation}
+    \frac{dP^\mu}{d\tau} = q F^{\mu \nu} U_\nu.
+    \label{eqnForceRelLorentz}
+\end{equation}
+By the antisymmetry of the electromagnetic tensor,
+\begin{equation*}
+    P_\mu \frac{dP^\mu}{d\tau} = 0
+\end{equation*}
+and so the Lorentz force vector is orthogonal to the particle's 4-momentum in a spacetime sense. % TODO: can we interpret this?
+The spatial components of \eqnref{eqnForceRelLorentz} give the familiar force law:
+\begin{equation*}
+    \frac{d\vec{p}}{dt} = q(\vec{E} + \dvec{x} \times \vec{B})
+\end{equation*}
+and the time component gives the \textit{rate of work} of the Lorentz force:
+\begin{equation*}
+    \frac{dP^0}{dt} = qc \vec{E} \cdot \dvec{x}
+\end{equation*}
+Note that $P^0 = E / c$, for $E$ the energy.
+\subsection{Action Principle for Particles in EM Fields}
+For a particle under the influence of some conservative force, with potential $V$, the equation of motion is given by:
+\begin{equation*}
+    m\ddvec{x} = -\nabla V.
+\end{equation*}
+This is found by extremising the \underline{action}:
+\begin{equation*}
+    S = \int_{t_1}^{t_2} \underbrace{\left[\frac12 m |\dvec{x}|^2 - V\right]}_{L(\vec{x}, \dvec{x}, t)} dt 
+\end{equation*}
+via solving the Euler-Lagrange equations:
+\begin{equation*}
+    \frac{\partial L}{\partial \vec{x}} = \frac{d}{dt} \frac{\partial L}{\partial \dvec{x}}
+\end{equation*}
+which is equivalent to the equation of motion above.
+
+Now consider a free particle. We would like to formulate the action that will give the relativistic equation of motion.
+
+The Lagrangian contains the kinetic energy $\frac12 m |\dvec{x}|^2$. In a relativistic setting, we must substitute:
+\begin{equation*}
+    L = -\frac{mc^2}{\gamma(\dvec{x})}
+\end{equation*}
+This gives a covariant action:
+\begin{equation*}
+    S = \int L~dt = -mc^2 \int \frac1\gamma~dt = \int d\tau.
+\end{equation*}
+Also, in the non-relativistic limit,
+\begin{align*}
+    -\frac{mc^2}{\gamma} &= -mc^2 \sqrt{1 - |\dvec{x}|^2 / c^2} \\
+    &= -mc^2 \left(1 - \frac12 \frac{|\dvec{x}|^2}{c^2} + \cdots\right) \\
+    &\approx \text{const } + \frac12 m|\dvec{x}|^2
+\end{align*}
+and using the Euler-Lagrange equation gives the equation of motion:
+\begin{align*}
+    \frac{\partial L}{\partial \vec{x}} &= \frac{d}{dt} \frac{\partial L}{\partial \dvec{x}} \\
+    0 &= \frac{d}{dt} \left(\frac{m\dvec{x}}{\sqrt{1 - |\dvec{x}|^2 / c^2}}\right) \\
+    &= \frac{d}{dt} \left(\gamma m \dvec{x}\right)
+\end{align*}
+and so we recover that the relativistic 3-momentum is constant for a free particle.
+
+To add in the external field, we add in $-q\phi$ in the non-relativistic case. However, for the relativistic case, we would want to include $\vec{A}$. Furthermore, the equation will not be gauge invariant.
+
+It is not quite correct to require the action to be gauge invariant. Rather, the change in action between paths must not change under:
+\begin{equation*}
+    \vec{A} \mapsto \vec{A} + \nabla \chi\qquad\phi \mapsto \phi - \frac{\partial \chi}{\partial t}
+\end{equation*}
+in order to preserve extrema of the action.
+
+The correct form for the potential in the Lagrangian is found by adding $q \vec{A} \cdot \dvec{x}$. This gives:
+\begin{equation*}
+    L = -\frac{mc^2}{\gamma} + U^\mu A_\mu. % TODO: check.
+\end{equation*}
+The Euler-Lagrange equation becomes:
+\begin{align*}
+    \frac{\partial L}{\partial x_i} &= \frac{d}{dt} \frac{\partial L}{\partial \dot{x}_i} \\
+    -q \frac{\partial \phi}{\partial x_i} + q \frac{\partial A_j}{\partial x_i} \dot{x}_j &= \frac{d}{dt} \left(\frac{m\dot{x}_i}{\sqrt{1 - |\dvec{x}|^2 / c^2}} + q A_i\right) \\
+    &= \frac{dP_i}{dt} + q \frac{dA_i}{dt} = -q \frac{\partial \phi}{\partial x_i} + q \frac{\partial A_j}{\partial x_i} \dot{x}_j
+\end{align*}
+\begin{align*}
+    \implies \frac{dP_i}{dt} &= q\left(-\frac{\partial A_i}{\partial t} - \frac{\partial \phi}{\partial x_i}\right) + q \dot{x}_i \left(\frac{\partial A_j}{\partial x_i} - \frac{\partial A_i}{\partial x_j}\right) \\
+    \implies \frac{d\vec{p}}{dt} &= q\left(\vec{E} + \dvec{x} \times \vec{B}\right).
+\end{align*}
 \end{document}
