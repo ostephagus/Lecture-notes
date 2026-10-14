@@ -88,10 +88,11 @@ To define a quantum system, we must specify the \underline{Hamiltonian}, $H$, wh
     The first two can be seen in IB Linear Algebra. The third we will assume to be true for the purposes of this course.
 \end{proof}
 \section{The Quantum Harmonic Oscillator}
-A one-dimensional harmonic oscillator of mass $m$ and frequency $\omega$ has hamiltonian:
+A one-dimensional harmonic oscillator of mass $m$ and frequency $\omega$ has Hamiltonian:
 \begin{equation*}
     H = \hat{p}^2 + \frac12 m\omega^2hat{x}^2 
 \end{equation*}
+\subsection{Construction and Annihilation Operators}
 We seek eigenstates and eigenvalues of $H$. We will do this by introducing new operators:
 \begin{align*}
     a &= \left(\frac{m\omega}{2\hbar}\right)^\frac12 \left(\hat{x} + \frac{i\hat{p}}{m\omega}\right) \\
@@ -142,4 +143,63 @@ In order to declare these new eigenstates, we must check they are non-zero. To d
 $a^\dagger$ and $a$ are called creation (or raising) and annihilation (or lowering) operators.
 
 These two operators give us exactly the possible set of eigenvalues. We want to argue that these are all integers so suppose we have a non-integer eigenvalue. In this case we can use the lowering operator to decrease the eigenvalue by one until we end up at a negative eigenstate -- this is a contradiction. We avoid this contradiction in the case of integer eigenvalues because we cannot lower to $0$ (because then $a$ gives the zero state). This means our set of eigenvalues is $\N_0$.
+
+By the transformation above, the oscillator has eigenvalues:
+\begin{equation*}
+    E_n = \hbar \omega \left(n + \frac12\right),~~n \in \N_0.
+\end{equation*}
+By considering our norm calculations, we can choose normalised eigenstates $\ket{n}$ related by:
+\begin{align*}
+    a^\dagger \ket{n} &= \sqrt{n+1}~\ket{n+1} \\
+    a\ket{n} &= \sqrt{n}~\ket{n-1}.
+\end{align*}
+Stating from any state $\ket{n}$, we can generate all others. It is customary to start from the ground state $\ket0$ which is characterised by $a\ket0 = 0$. Then the rest are given by:
+\begin{equation*}
+    \ket{n} = \frac{1}{\sqrt{n!}} \left(a^\dagger\right)^n\ket0
+\end{equation*}
+\subsection{Importance of the Oscillator}
+\begin{itemize}
+    \item A smooth potential $V(x)$ with an equilibrium at $x = x_0$ (so $V
+    (x_0) = 0$) can be expanded as:
+        \begin{equation*}
+            V(x + x_0) = V(x_0) + \frac12 V''(x_0) x^2 + O(x^3).
+        \end{equation*}
+        Therefore, we can set $V''(x) = m\omega^2$ and for displacements $x$ that are not too large, we expect the system to be well-approximated by the quantum harmonic oscillator.
+    \item More complicated systems can be analysed in terms of normal modes: coherent motion in which all degrees of freedom oscillate with some common frequency $\omega$. The normal modes for a classical system with variables $x_N$ are solutions of the form:
+        \begin{equation*}
+            x_N(t) = Au_Ne^{-i\omega t} + A^* u_n^* e^{i\omega t}
+        \end{equation*}
+        which is a superposition. In quantum mechanics, we also treat the normal modes as independent oscillators. For each mode we have an annihilation operator $a(\omega)$, the creation operator $a(\omega)^\dagger$, the ground state $\ket0$ satisfying $a\ket0 = 0$, and the other states formed via the creation operator.
+        
+        We find that these other states have energy and momentum and behave like particles. These are phonons in a crystal lattice, or photos in the EM field. We say that $a$ destroys particles and $a^\dagger$ creates particles. For example, $\ket3$ can be understood as a state with $3$ photons/phonons.
+\end{itemize}
+\section{Bases and Measurements}
+\subsection{Bases of Eigenstates}
+We have already seen that for an observable $Q$, we have an orthonormal basis of eigenstates $\{\ket{n}\}$ for the vector space $V$.
+\begin{align*}
+    Q\ket{n} &= q_n \ket{n} \\
+    \inn{m}{n} &= \delta_{mn} \\
+    \state &= \sum_n \alpha_n \ket{n},~\text{where }\alpha_n = \inn{n}{\psi}
+\end{align*}
+for any state $\state$. Also, normalisation is given by:
+\begin{equation*}
+    \norm{\state}^2 = 1 \iff \sum_n \abs{\alpha_n}^2 = 1.
+\end{equation*}
+Note that we can write:
+\begin{align*}
+    1 &= \sum_n \ket{n}\bra{n} \\
+    \text{because } \state &= \left(\sum_{n} \ket{n} \bra{n}\right) \state \\
+    &= \sum_n \ket{n} \inn{n}{\psi} \\
+    &= \sum_n \alpha_n \ket{n}.
+\end{align*}
+In the above there may be several independent states with the same eigenvalue $\lambda$.
+\begin{definition}{Eigenspace}
+    The \underline{eigenspace} of an eigenvalue $\lambda$ is the set:
+    \begin{equation*}
+        V_\lambda = \subsetselect{\state}{Q\state = \lambda \state}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Degeneracy}
+    The \underline{degeneracy} of an eigenvalue $\lambda$ is $\dim(V_\lambda)$. If $\dim(V_\lambda) = 1$ then the eigenvalue is \underline{non-degenerate}.
+\end{definition}
 \end{document}
