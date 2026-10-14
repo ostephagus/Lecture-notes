@@ -95,19 +95,138 @@ where the $\phi_n$ are known, workable functions, and adding more terms improves
     \item $\phi_n(x) = \cos(nx)$ is not a valid asymptotic sequence as $x \to \infty$ or $0$.
     \item The sequence $\abs{x}$, $\log\abs{x}$, $\log\abs{\log{\abs{x}}}$ is %TODO
 \end{examples}
-\begin{definition}{Asymptotic Expansion}
+\begin{definition}{Asymptotic Approximation}
     Let $f$ be the function to approximate. Let $\{\phi_k\}_{k=0}^\infty$ be an asymptotic sequence. Then the finite sum:
     \begin{equation*}
         \sum_{k=0}^{N}a_k \phi_k(x)
     \end{equation*}
-    is an $N$-term \underline{asymptotic expansion} of $f$ as $x \to x_0$ if:
+    is an $N$-term \underline{asymptotic approximation} of $f$ as $x \to x_0$ if:
     \begin{equation}
         f(x) = \sum_{k=0}^{N} a_k \phi_k(x) + o\left(\phi_N(x)\right)
-        \label{eqnAsymExpand}
+        \label{eqnAsymApprox}
     \end{equation}
     which we can alternatively write as:
     \begin{equation*}
         \frac{f(x) - \sum_{k=0}^{N} a_k \phi_k(x)}{\phi_N(x)} \to 0 \text{ as $x \to x_0$.}
     \end{equation*}
 \end{definition}
+\begin{definition}{Asymptotic expansion}
+    If an asymptotic sequence $\{\phi_n\}_{n = 1}^N$ is such that $\sum_{n=0}^N a_n \phi_n$ is an asymptotic approximation to $f$ for all $N \in \N$, then $\{\phi_n\}_{n = 0}^\infty$ is an \underline{asymptotic} \underline{expansion} or \underline{asymptotic series} for $f$. We write:
+    \begin{equation*}
+        f(x) \sim \sum_{n=0}^\infty a_k \phi_k(x)\quad\text{ as $x \to x_0$}
+    \end{equation*}
+\end{definition}
+\begin{warning}
+    No claim is made here about convergence. We never fix $x$ and then take $N \to \infty$. Instead, we have an infinite number of approximations. We first choose an approximation (choose $N$) and then take $x \to x_0$.
+\end{warning}
+\begin{propositions}{
+        Let $\{\phi_k\}_{k = 0}^\infty$ be an asymptotic sequence. Let $f$ and $g$ be functions approximated as:
+        \begin{equation*}
+            f \sim \sum_{k=0}^\infty a_k \phi_k\qquad g \sim \sum_{k=0}^\infty b_k \phi_k
+        \end{equation*}
+        \label{propsAExpSameSeq}
+    }
+    \item Linearity:
+        \begin{equation*}
+            \alpha f + \beta g \sim \sum_{k=0}^\infty (\alpha a_k + \beta b_k) \phi_k
+        \end{equation*}
+    \item Multiplication: if $\phi_k = (x - x_0)^k$,
+        \begin{equation*}
+            fg \sim \sum_{k=0}^{\infty} c_k \phi_k,\quad c_k = \sum_{j=0}^{k} a_j b_{k-j}
+        \end{equation*}
+    \item Division: %TODO: See 3.8 BO
+    \item Integration: term-by-term is usually fine. For example, with $\phi_k = (x - x_0)^k$,
+        \begin{equation*}
+            \int_{x_0}^{x} f(t) dt \sim \sum_{k=0}^{\infty} \frac{a_k (x - x_0)^{k+1}}{k+1}
+        \end{equation*}
+    \item Differentiation: term-by-term is more difficult. We can differentiate term-by-term when $f'(x)$ is a continuous function and has its own asymptotic series.
+\end{propositions}
+\begin{proposition}
+    Let $\{\phi_k\}_{k = 0}^\infty$, $\{\psi_k\}_{k=0}^\infty$ be different asymptotic sequences. Let $f$ and $g$ be functions approximated as:
+    \begin{equation*}
+        f \sim \sum_{k=0}^\infty a_k \phi_k\qquad f \sim \sum_{k=0}^\infty b_k \psi_k
+    \end{equation*}
+    in the limit $x \to x_0$.
+
+    Then $a_k$ and $b_k$ are not all equal.
+    \label{propAExpDiffRep}
+\end{proposition}
+\begin{example}
+    Let $f(x) = 1 + \frac1x$, $x \to \infty$. First consider $\phi_k = x^{-k}$. Then:
+    \begin{equation*}
+        f(x) \sim \sum_{k=0}^{\infty} a_k \phi_k
+    \end{equation*}
+    with $a_0 = a_1 = 1$, and $a_n = 0$ for $n > 1$.
+
+    Consider then $\psi_k = (1 + x)^{-k}$. Then by expanding as a geometric series:
+    \begin{equation*}
+        f(x) = \frac{1}{1 - (1 + x)^{-1}} = 1 + \frac{1}{1 + x} + \frac{1}{(1 + x)^2} + \cdots
+    \end{equation*}
+    and so:
+    \begin{equation*}
+        f \sim \sum_{k=0}^{\infty} b_k \psi_k
+    \end{equation*}
+    where the $b_k$ are all $1$.
+\end{example}
+\begin{proposition}
+    Let $\{\phi_k\}_{k=0}^\infty$ be an asymptotic sequence. Assume also:
+    \begin{equation*}
+        f \sim \sum_{k=0}^{\infty} a_k \phi_k
+    \end{equation*}
+    as $x \to x_0$.
+
+    Then for this asymptotic sequence, the coefficients $a_k$ are unique. Indeed, these can be constructed:
+    \begin{align*}
+        a_0 &= \lim_{x \to x_0} \frac{f(x)}{\phi_0(x)} \\
+        a_n &= \lim_{x \to x_0} \left[\frac{f(x) - \sum_{k=0}^{n-1} a_k \phi_k(x)}{\phi_n(x)}\right]
+    \end{align*}
+    \label{propUniqueCoefft}
+\end{proposition}
+\begin{proof}
+    First, we know that:
+    \begin{equation*}
+        \lim_{x \to x_0} \frac{f(x) - \sum_{k=0}^{N} a_k \phi_k}{\phi_N(x)} = 0
+    \end{equation*}
+    for all $N$.
+
+    Letting $N = 0$ gives the required result for $a_0$, after rearranging.
+
+    Now use induction on $N$, assuming that the coefficients are as above for $N < n$:
+    \begin{align*}
+        0 &= \lim_{x \to x_0} \frac{f(x) - \sum_{k=0}^{n}a_k \phi_k}{\phi_n} \\
+        &= \lim_{x \to x_0} \left(\frac{f(x) - \sum_{k=0}^{n-1}a_k \phi_k}{\phi_n} - a_n\right) \\
+        &= \lim_{x \to x_0} \left(\frac{f(x) - \sum_{k=0}^{n-1}a_k \phi_k}{\phi_n}\right) - a_n
+    \end{align*}
+    and so $a_n$ is given as above.
+\end{proof}
+\begin{proposition}
+    An asymptotic series does not uniquely determine the function that it is approximating.
+    \label{propAsyDoesNotGiveF}
+\end{proposition}
+\begin{proof}
+    Suppose $f \sim g$ as $x \to x_0$. Now consider $h(x) \ll f(x)$. Then $f + h \sim g$.
+
+    That is, if $g$ is an expansion then it can describe both $f$ and $f + h$.
+\end{proof}
+\begin{example}
+    Consider $f(x) = \frac{1}{1+x}$ and $h(x) = \frac{e^{-x}}{1 + x}$. Then both $f$ and $f + h$ have asymptotic expansion:
+    \begin{equation*}
+        \sum_{k=0}^{\infty} (-1)^k x^{-(k+1)} \text{ as $x \to \infty$.}
+    \end{equation*}
+\end{example}
+In this course we will often take $\phi_k = (x - x_0)^k$ or $x^{-k}$ when $x_0 = \infty$. We see that Taylor series are in fact asymptotic expansions:
+\begin{equation*}
+    f(x) - \sum_{k=0}^{N} \frac{f^{(k)}(x_0)(x - x_0)^k}{k!} = o\left(\abs{x - x_0}^N\right)
+\end{equation*}
+\begin{definition}{Small beyond all orders}
+    A function $f$ is said to be \underline{small beyond all orders} in some limit $x \to x_0$ if, for all $N \in \Z$,
+    \begin{equation*}
+        f(x) \ll x^N \text{ as $x \to x_0$}
+    \end{equation*}
+\end{definition}
+A good example of this is $e^{-x}$ as $x \to \infty$. This is small beyond all orders of negative powers.
+\begin{definition}{Optimal truncation}
+    If $f(x) \sim \sum_{k=0}^{\infty} a_n \psi_n(x)$ as $x \to x_0$, the best approximation of $f$ at a point $x_1$ close to $x_0$ is given by the \underline{optimal truncation} of the sequence at the smallest term.
+\end{definition}
+In practice, we evaluate terms and add them to the sequence until $x_{k+1} > x_k$. This gives an excellent approximation, which is investigated further in the example sheet.
 \end{document}
