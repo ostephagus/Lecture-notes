@@ -94,7 +94,7 @@ By contracting the electromagnetic field tensor with itself in various ways, we 
 These are known as the \underline{quadratic invariants}.
 \section{Action Principle for Electromagnetism}
 We will now introduce the action principle for electromagnetism, first for particles in the field and then for the fields themselves, in order to derive Maxwell's equations.
-\subsection{Movement of Particles in Electromagnetic Fields}
+\subsection{Forces on Particles in Electromagnetic Fields}
 In order to find the action for particles, we must recall how particles move under the influence of $\vec{E}$ and $\vec{B}$. The 4-momentum of a point particle is:
 \begin{equation*}
     P^\mu =
@@ -196,4 +196,151 @@ The Euler-Lagrange equation becomes:
     \implies \frac{dP_i}{dt} &= q\left(-\frac{\partial A_i}{\partial t} - \frac{\partial \phi}{\partial x_i}\right) + q \dot{x}_i \left(\frac{\partial A_j}{\partial x_i} - \frac{\partial A_i}{\partial x_j}\right) \\
     \implies \frac{d\vec{p}}{dt} &= q\left(\vec{E} + \dvec{x} \times \vec{B}\right).
 \end{align*}
+
+However, we may want to instead derive the covariant form, $m \frac{dU^\mu}{d\tau} = q F^{\mu\nu} U_\nu$. We can do this by varying the worldline of the particle, $X^\mu(\lambda)$ for some parameter $\lambda$. We then write the action in a covariant form.
+
+Kinetic term:
+\begin{align*}
+    -mc^2 \int \sqrt{1 - |\vec{v}|^2 / c^2} &= -mc^2 \int d\tau \\
+    &= -mc^2 \int \left(-\eta_{\mu\nu} \frac{dX^\mu}{d\tau} \frac{dX^\nu}{d\tau}\right)^\frac12d\lambda
+\end{align*}
+
+Electromagnetic term:
+\begin{align*}
+    q(-\phi + \vec{A} \cdot \vec{v}) dt&= q(-\phi~dt + \vec{A} \cdot \vec{dx}) \\
+    &= q A_\mu dX^\mu
+\end{align*}
+Therefore we can combine these into a fully covariant action:
+\begin{equation*}
+    S = -mc \int \left(-\eta_{\mu\nu} \frac{dX^\mu}{d\lambda} \frac{dX^\nu}{d\lambda}\right)^\frac12d\lambda + q \int A_\mu \frac{dX^\mu}{d\lambda} d\lambda.
+\end{equation*}
+We next find the terms of the Euler-Lagrange equation:
+\begin{align*}
+    \frac{\partial L}{\partial X^\mu} &= q \left(\frac{\partial A^\nu}{\partial X^\mu}\right) \frac{dX^\nu}{d\lambda} \\
+    \frac{\partial L}{\partial \left(dX^\mu / d\lambda\right)} &= \frac{mc \eta_{\mu\nu} \frac{dX^\nu}{d\lambda}}{\sqrt{-\eta_{\alpha\beta}\frac{dX^\alpha}{d\lambda} \frac{dX^\beta}{d\lambda}}} + qA_\mu \\
+    &= m U_\mu + q A_\mu %TODO: How??
+\end{align*}
+Then forming the Euler-Lagrange equation:
+\begin{align*}
+    q \left(\frac{\partial A_\nu}{\partial X^\mu}\right) \frac{dX^\nu}{d\lambda} &= \frac{d}{d\lambda}\left(mU_\mu + qA_\mu\right) \\
+    q\left(\frac{\partial A_\nu}{\partial X^\mu} \frac{dX^\nu}{d\lambda} - \frac{dA_\mu}{d\lambda}\right) &= m \frac{dU_\nu}{d\lambda} \\
+    q \frac{dX^\nu}{d\lambda} F_{\mu \nu} &= m \frac{dU_\nu}{d\lambda} \\
+    q \frac{dX^\nu}{d\tau} F_{\mu \nu} &= m \frac{dU_\nu}{d\tau} \\
+\end{align*}
+as required.
+\subsection{Movement of Particles in Constant, Uniform Fields}
+We consider a point particle of charge $q$, mass $m$, moving in uniform electromagnetic field $\vec{E}$ and $\vec{B}$. We solve:
+\begin{equation}
+    \frac{dU^\mu}{d\tau} = \frac{q}{m} \indx{F}{\mu}{\nu} U^\nu
+    \label{eqnForceRelLorentz2}
+\end{equation}
+With $\indx{F}{\mu}{\nu}$ constant, the solution for $U^\mu$ is given by:
+\begin{equation*}
+    U^\mu(\tau) = \indx{\exp\left(\frac{q}{m} \tau F\right)}{\mu}{\nu}U^\nu(0)
+\end{equation*}
+where
+\begin{equation*}
+    \indx{\exp\left(\frac{q}{m} \tau F\right)}{\mu}{\nu} = \indx\delta\mu\nu + \frac{q}{m}\tau \indx{F}\mu\nu + \frac12 \left(\frac{q}{m}\tau\right)^2 \indx{F}\mu\beta \indx{F}\beta\nu + \cdots
+\end{equation*}
+Integrating again gives:
+\begin{equation*}
+    X^\mu(\tau) = X^\mu(0) + \int_{0}^{\tau} \indx{\exp\left(\frac{q}{m} \tau' F\right)}{\mu}{\nu} ~d\tau'~U^\nu(0).
+\end{equation*}
+What if we want to evaluate this? First consider, for an invertible matrix $M$,
+\begin{align*}
+    \exp(M\tau) &= I + M\tau + \frac12 M^2\tau^2 + \frac1{3!} M^3 \tau^3 + \cdots \\
+    \therefore \int_{0}^{\tau} \exp(M\tau') d\tau' &= I\tau + \frac12 M\tau^2 + \frac1{3!}M^2 \tau^3 + \cdots \\
+    &= M^{-1} \left(I + M\tau + \frac12 M^2 \tau^2 + \frac1{3!} M^3 \tau^3 + \cdots - I\right) \\
+    &= M^{-1} \left(\exp(M\tau) - I\right).
+\end{align*}
+Therefore, as long as $\det(\indx{F}{\mu}{\nu}) \neq 0$,
+\begin{equation*}
+    X^\mu(\tau) = \frac{m}{q} \indx{\left(F^{-1}\right)}{\mu}{\nu}~\indx{\exp\left(\frac{q}{m} \tau F\right)}{\nu}{\rho}~U^\rho(0).
+\end{equation*}
+Indeed, what is $\det(\indx{F}{\mu}{\nu})$? After calculation, we find:
+\begin{equation*}
+    -\frac1{c^2} \left(\vec{E} \cdot \vec{B}\right)^2
+\end{equation*}
+and so our solution holds as long as $\vec{E} \cdot \vec{B} \neq 0$. We would like to understand the motion in this case. By Lorentz boosting along the vector $\vec{E} \times \vec{B}$ at the correct speed, we can find a reference frame in which $\vec{E}$ and $\vec{B}$ are parallel. We will now work in this frame, and align the fields along the $x$ axis.
+
+Our field strength tensor for fields $\vec{E} = (E, 0, 0)^T, \vec{B} = (B, 0, 0)^T$ is:
+\begin{equation*}
+    \indx{F}\mu\nu =
+    \begin{pmatrix}
+        0 & E/c & 0 & 0 \\
+        E/c & 0 & 0 & 0 \\
+        0 & 0 & 0 & B \\
+        0 & 0 & -B & 0
+    \end{pmatrix}
+\end{equation*}
+Importantly, this is block-diagonal. Therefore, we expect the motion to decouple into a $t-x$ block and a $y-z$ block. The block-diagonal property also makes calculating the exponentials easier. Note also that:
+\begin{align*}
+    \begin{pmatrix}
+        0 & 1 \\
+        1 & 0
+    \end{pmatrix}
+    ^2 &= \begin{pmatrix}
+        1 & 0 \\
+        0 & 1
+    \end{pmatrix}
+     \\
+    \begin{pmatrix}
+        0 & 1 \\
+        -1 & 0
+    \end{pmatrix}^2
+    &= -I
+\end{align*}
+Then, if $w = \frac{E}{c}$,
+\begin{align*}
+    \exp \begin{pmatrix}
+        0 & w \\
+        w & 0
+    \end{pmatrix}
+    &= I + w \begin{pmatrix}
+        0 & 1 \\
+        1 & 0
+    \end{pmatrix}
+    + \frac12 w^2 I + \frac1{3!} w^3 \begin{pmatrix}
+        0 & 1 \\
+        1 & 0
+    \end{pmatrix}
+    + \cdots \\
+    &= \left(\cosh(w)\right) I + (\sinh(w)) \begin{pmatrix}
+        0 & 1 \\
+        1 & 0
+    \end{pmatrix}
+\end{align*}
+and by similar calculation,
+\begin{equation*}
+    \exp \begin{pmatrix}
+        0 & B \\
+        -B & 0
+    \end{pmatrix}
+    = (\cos(B)) I + (\sin(B)) \begin{pmatrix}
+        0 & 1 \\
+        -1 & 0
+    \end{pmatrix}.
+\end{equation*}
+Putting this all together, and setting $\alpha = \frac{qE}{m}, \omega_c = \frac{qB}{m}$,
+\begin{equation*}
+    \indx{\exp\left(\frac{q\tau}{m} F\right)}\mu\nu =
+    \begin{pmatrix}
+        \cosh\left(\frac{\alpha\tau}{c}\right) & \sinh\left(\frac{\alpha\tau}{c}\right) & 0 & 0 \\
+        \sinh\left(\frac{\alpha\tau}{c}\right) & \cosh\left(\frac{\alpha\tau}{c}\right) & 0 & 0 \\
+        0 & 0 & \cos(\omega_ct) & \sin(\omega_ct) \\
+        0 & 0 & -\sin(\omega_ct) & \cos(\omega_ct)
+    \end{pmatrix}
+\end{equation*}
+Note that $\omega_c$ is known as the cyclotron frequency.
+
+Next, for the $t$-$x$ block:
+\begin{align*}
+    ct(\tau) &= \frac{c}{\alpha} \left[\sinh\left(\frac{\alpha\tau}{c}\right) c\dot{t}(0) + \cosh\left(\frac{\alpha\tau}{c}\right)\dot{x}(0)\right] \\
+    x(\tau) &= \frac{c}{\alpha} \left[\cosh\left(\frac{\alpha\tau}{c}\right) c\dot{t}(0) + \sinh\left(\frac{\alpha\tau}{c}\right)\dot{x}(0)\right]    
+\end{align*}
+which gives hyperbolic motion:
+\begin{equation*}
+    x^2 + ct^2 = \frac{c^2}{\alpha^2} \left[\left(c\dot{t}(0)\right)^2 - \left(\dot{x}(0)\right)^2\right]
+\end{equation*}
+which is a positive constant.
 \end{document}
