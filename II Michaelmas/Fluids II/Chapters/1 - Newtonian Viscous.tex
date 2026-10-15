@@ -115,7 +115,7 @@ where $\sigma_{ij} = \tau_i(\vec{e_j})$ are the components of the \underline{str
 
 The key result here is that the stress $\vec\tau$ exerted on a small area element is given by:
 \begin{equation*}
-    \vec\tau(n) = \sigma\vec{n}
+    \vec\tau(n) = \sigma\vec{n} %TODO: check (lecturer used dot)
 \end{equation*}
 
 The symmetry of $\sigma_{ij}$ can be seen by considering the angular momentum balance on a small arbitrary volume $V$ (characteristic length $l$) about a fixed point in $V$. WLOG consider this to be the origin. The moment of the surface forces is then:
@@ -141,6 +141,81 @@ However, since $V$ was arbitrary we in fact must have $\epsilon_{ijk} \sigma_{kj
 A constitutive equation is one that describes how something behaves based on what it is made of. This equation describes the relation between stress and strain for a linear, viscous fluid. We first split the stress tensor $\sigma_{ij}$ into two terms.
 \begin{itemize}
     \item Isotropic pressure term: $-p\delta_{ij}$ where $p = -\frac13 \sigma_{kk}$.
-    \item Deviatoric stress term: $\sigma_{ij}^{\text{dev}}$ given by $\sigma_{ij}^\text{dev} = \sigma_{ij} + p \delta_{ij}$. This models the viscosity of the fluid.
+    \item Deviatoric stress term: $\sigma_{ij}^{\text{dev}}$ given by $\sigma_{ij}^\text{dev} = \sigma_{ij} + p \delta_{ij}$. This models the frictional forces in the fluid, due to adjacent fluid particles sliding past at differing velocities.
 \end{itemize}
+Fluid at rest has $\sigma_{ij}^\text{dev} = 0$, with just a static pressure $\nabla p = \vec{f}$.
+
+Newtonian fluids are defined by:
+\begin{enumerate}
+    \item $\sigma^\text{dev}$ is linear in the local, instantaneous value of $\nabla \vec{u}$.
+        The most general form is:
+        \begin{equation*}
+            \sigma_{ij}^\text{dev} = A_{ijkl} \frac{\partial u_k}{\partial x_l}
+        \end{equation*}
+        for some tensor $A_{ijkl}$.
+
+        As an aside, local and instantaneous requires molecular length scale of $\sim 10^9~m$ and timescale of interactions $\sim 10^{-12}~s$. A suspension of wood fibres (wood pulp) has non-local interactions because the fibres act as force carries at larger length scales.
+    \item The fluid is locally isotropic. That is, $A_{ijkl}$ is isotropic, and so must be given by:
+        $A_{ijkl} = \mu' \delta_{ij} \delta_{kl} + \mu'' \delta_{ik} \delta{jl} + \mu''' \delta_{il}\delta_{jk}$.
+\end{enumerate}
+We therefore have:
+\begin{equation*}
+    \sigma_{ij}^\text{dev} = \mu' \delta_{ij} \underbrace{\frac{\partial u_k}{\partial x_k}}_{\nabla \cdot \vec{u} = 0} + \mu'' \frac{\partial u_j}{\partial x_i} + \mu''' \frac{\partial u_i}{\partial x_j}
+\end{equation*}
+Also, by symmetry, we must have that $\mu'' = \mu'''$. Therefore, we call this $\mu$ and, after adding back in the isotropic pressure,
+\begin{align}
+    \sigma_{ij}^\text{dev} &= -p \delta_{ij} + \mu \left(\frac{\partial u_j}{\partial x_i} + \frac{\partial u_i}{\partial x_j}\right) \nonumber \\
+    &= -p \delta_{ij} + 2\mu e_{ij} \label{eqnConstitutive}
+\end{align}
+\Eqnref{eqnConstitutive} is known as the constitutive relationship or stress-strain relationship for a Newtonian viscous fluid.
+
+\begin{remarks}
+    \item There is no dependence here on vorticity. The stress tensor only depends on the strain rate $e = \frac12 \left(\nabla \vec{u} + \nabla \vec{u}^T\right)$, since local solid-body rotation $\frac12 \vec{\omega} \times \vec{x}$ does not involve sliding or friction.
+    \item Many common fluids are Newtonian and obey \eqnref{eqnConstitutive}. Examples: air, water, syrup, oil.
+    \item $\mu$ here is the viscosity! We can see this by considering $\vec{u} = (u(y), 0, 0)^T$ which gives:
+        \begin{equation*}
+            \sigma_{12} = \mu \frac{\partial u}{\partial y}
+        \end{equation*}
+        from \eqnref{eqnConstitutive}, as in the examples of IB Fluid Dynamics.
+\end{remarks}
+\section{The Momentum Equation}
+\subsection{The Cauchy Momentum Equation}
+Change in momentum in a small, fixed volume $V$ can occur due to:
+\begin{enumerate}
+    \item momentum being carried across the boundary $\partial V$;
+    \item body forces acting on $V$;
+    \item surface forces acting on $\partial V$.
+\end{enumerate}
+This gives us the equation:
+\begin{align*}
+    \frac{d}{dt} \int_V \rho u_i~dV &= - \int_{\partial V} \rho u_i (\vec{u} \cdot \vec{n})~dS + \int_V \vec{f}~dV + \int_{\partial V} \sigma_{ij} n_j~dS \\
+    \intertext{We use that $V$ is fixed, and apply the divergence theorem where we have $\delta S$:}
+    \int_V \frac{d}{dt} \rho u_i~dV &= - \int_V \frac{\partial}{\partial x_j} \left(\rho u_i (\vec{u} \cdot \vec{n})\right)dV + \int_V \vec{f}~dV + \int_V \frac{\partial}{\partial x_j}\sigma_{ij} dV 
+\end{align*}
+Rearranging:
+\begin{equation*}
+    \int_V u_i \underbrace{\left(\frac{\partial \rho}{\partial t} + \frac{\partial}{\partial x_j}(\rho u_j)\right)}_{=0 \text{ by mass conservation}} dV + \int_V \rho \underbrace{\left(\frac{\partial u_i}{\partial t} + u_j \frac{\partial u_i}{\partial x_j}\right)}_{\frac{D \vec{u}}{D t}}= \int_V \left(f_i + \frac{\partial \sigma_{ij}}{\partial x_j}\right)
+\end{equation*}
+Then since $V$ was arbitrary we can remove the integrals:
+\begin{equation}
+    \rho \frac{D \vec{u}}{D t} = \vec{f} + \nabla \cdot \sigma
+    \label{eqnCauchyMom}
+\end{equation}
+where we define:
+\begin{equation*}
+    \left[\nabla \cdot \sigma\right]_i \equiv \frac{\partial \sigma_{ij}}{\partial x_j}.
+\end{equation*}
+\Eqnref{eqnCauchyMom} is the Cauchy momentum equation. Note that we did not use incompressibility here, only conservation of mass, so this applies to any fluid continuum (including compressible fluids such as compressible gases).
+\subsection{The Navier-Stokes Equation}
+For a compressible, Newtonian fluid, $\sigma_{ij} = -p\delta_{ij} + 2 \mu e_{ij}$. We assume that $\mu$ is uniform, and so:
+\begin{align*}
+    \frac{\partial \sigma_{ij}}{\partial x_j} &= -\frac{\partial p}{\partial x_j} \delta_{ij} + \mu \frac{\partial^{2}u_i}{\partial x_j\partial x_j} + \mu \underbrace{\frac{\partial^{2}u_j}{\partial x_j\partial x_i}}_{0 \text{ since } \nabla \cdot \vec{u} = 0} \\
+    &= -\frac{\partial p}{\partial x_i} + \mu \frac{\partial^{2}u_i}{\partial x_j\partial x_j}
+\end{align*}
+Therefore we update \eqnref{eqnCauchyMom}:
+\begin{equation}
+    \rho \frac{D \vec{u}}{D t} = \vec{f} - \nabla p + \mu \nabla^2 \vec{u}
+    \label{eqnNavierStokes}
+\end{equation}
+which is the Navier-Stokes equation.
 \end{document}
