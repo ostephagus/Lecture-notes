@@ -1,0 +1,28 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+Suppose $\vec{x_0}$ is a fixed point of $\dvec{x} = \vec{f}(\vec{x})$. If $\vec{f}$ is smooth near $\vec{x_0}$, define the new coordinate $\vec{y} = \vec{x} - \vec{x_0}$. Taylor expansion gives:
+\begin{align*}
+    \dvec{y} &= \dvec{x} \text{ because $\vec{x_0}$ is constant} \\
+    &= \vec{f}(\vec{x_0} + \vec{y}) \\
+    &= \underbrace{\vec{f}(\vec{x_0})}_0 + A\vec{y} + O(\norm{\vec{y}}^2)
+\end{align*}
+where $A_{ij} = \frac{\partial f_i}{\partial x_j}$, the Jacobian of $\vec{f}$.
+
+We can therefore approximate the flow near $\vec{x_0}$ as $\dvec{y} = A\vec{y}$.
+\section{2D Flows Near Fixed Points}
+In 2D, the matrix $A$ can be put into normal form, with eigenvalues given by:
+\begin{equation*}
+    \lambda = \frac12 \left[\tr(A) \pm \sqrt{(\tr(A))^2 - 4\det(A)}\right]
+\end{equation*}
+\begin{enumerate}
+    \item Saddle points: $\det(A) < 0$. In this case $\lambda_1, \lambda_2$ are real with opposite signs. WLOG let $\lambda_1 < 0 < \lambda_2$. Also, $A$ can be diagonalised in this case. The solution for $\vec{y}$ is:
+        \begin{equation*}
+            \vec{y} = \vec{y_0} + \begin{pmatrix}e^{\lambda_1 t} \\ e^{\lambda_2 t}\end{pmatrix}.
+        \end{equation*}
+        Eliminating $t$ gives:
+        \begin{equation*}
+            y_2 \propto \frac{1}{y_1^{|\lambda_2 / \lambda_1|}}
+        \end{equation*}
+\end{enumerate}
+\end{document}

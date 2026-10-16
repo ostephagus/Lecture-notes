@@ -304,10 +304,11 @@ When $O(\vec{x})$ is bounded, $\omega(\vec{x})$ has some nice properties. It is:
     \item bounded;
     \item connected.
 \end{itemize}
+\section{Topological Equivalence}
 \begin{definition}{Topological/geometrical equivalence}
     Two flows $\phi^f_t(\vec{x})$ and $\phi^g_t(\vec{x})$ are \underline{topologically equivalent} or \underline{geometrically} \underline{equivalent} if there is a homeomorphism (continuous bijection with continuous inverse) $\vec{h}(\vec{x}) : E^f \mapsto E^g$ and time-increasing function $\tau(\vec{x}, t)$ such that for all $\vec{x}, t$:
     \begin{equation*}
-        \phi^f_t(\vec{x}) = h^{-1} \circ \phi^g_\tau \circ h(\vec{x})
+        \phi^f_t(\vec{x}) = \vec{h}^{-1} \circ \phi^g_\tau \circ \vec{h}(\vec{x})
     \end{equation*}
     and
     \begin{equation*}
@@ -315,4 +316,78 @@ When $O(\vec{x})$ is bounded, $\omega(\vec{x})$ has some nice properties. It is:
     \end{equation*}
     for all $t_1, t_2$.
 \end{definition}
+\begin{remark}
+    %TODO: Go back over start of lecture and understand. See diagram also.
+
+    Less precisely, two flows are topologically equivalent when we can find nice maps of space and time between them.
+\end{remark}
+\begin{propositions}{
+        Let $\phi^f_t(\vec{x})$ and $\phi^g_\tau(\vec{x})$ be two topologically equivalent flows.
+        \label{propsTopEquiv}
+    }
+    \item If $\vec{x_1}$ is a fixed point of one, it is a fixed point of the other.
+    \item If an orbit is periodic in one flow, it is periodic in another, but the period may differ.
+\end{propositions}
+\begin{definition}{Topological conjugacy}
+    Two flows are \underline{topologically conjugate} if they are topologically equivalent and $t = \tau$ (where these are as defined above).
+\end{definition}
+\begin{example}
+    Consider two flows in polar coordinates:
+    \begin{align*}
+        \phi^f_t: &~\dot{r} = -r,~~\dot{\theta} = 1 \\
+        \phi^g_t: &~\dot{\rho} = i-2\rho,~~\dot{\phi} = 0 \\
+    \end{align*}
+    Solving gives:
+    \begin{align*}
+        \phi_t^f(r_0, \theta_0) &= \left(r_0 e^{-t}, \theta_0 + t\right) \\
+        \phi_t^g(\rho_0, \phi_0) &= \left(\rho_0 e^{-2t},\phi_0\right).
+    \end{align*}
+    We would like to now show topological conjugacy. We consider:
+    \begin{equation*}
+        \vec{h}(\vec{x}) =
+        \begin{cases}
+            \vec0 & \vec{x} = \vec0 \\
+            (r^2, \theta + \ln(r)) & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    We will show topological conjugacy using the equivalent statement:
+    \begin{equation*}
+        \vec{h} \circ \phi^f_t = \phi_t^g \circ \vec{h}
+        \label{RTP} %TODO: How to make this a (RTP) on the right?
+    \end{equation*}
+    \begin{align*}
+        \vec{h} \circ \phi^f_t(\vec{x}) &= \left(r_0^2 e^{-2t}, \theta_0 + t + \ln\left(r_0 e^{-t}\right)\right) \\
+        &= \left(r_0^2 e^{-2t}, \theta_0 + \ln(r_0)\right) \\
+        \intertext{And similarly,}
+        \phi^g_t(\vec{h}(\vec{x})) &= \left(r_0^2 e^{-2t}, \theta_0 + \ln(r_0)\right)
+    \end{align*}
+    so the flows are topologically conjugate, as required.
+\end{example}
+\begin{example}
+    Consider two flows in polar coordinates:
+    \begin{align*}
+        \phi^f_t: &~\dot{r} = 0,~~\dot{\theta} = 1 \\
+        \phi^g_\tau: &~\dot{\rho} = 0\rho,~~\dot{\phi} = \rho + \sin^2\phi \\
+    \end{align*}
+    In this case, the shapes of the orbits are the same and so $\vec{h}(\vec{x}) = \vec{x}$. We must find an appropriate $\tau(\vec{x}, t)$ for topological equivalence.
+
+    We must solve:
+    \begin{equation*}
+        \frac{d}{d\tau} = (r + \sin^2(\theta)) \frac{d}{dt}
+    \end{equation*}
+    Note that $\phi_t^f(r_0, \theta_0) = (r_0, \theta_0 + t)$, and so we can find $\tau$:
+    \begin{equation*}
+        \tau = \int^t \frac{1}{r_0^2 + \sin^2(\theta_0 + t')} dt'
+    \end{equation*}
+\end{example}
+\begin{definition}{Structural stability}
+    A vector field $\vec{f}$ (or system $\dvec{x} = \vec{f}(\vec{x})$, or flow $\phi_t(\vec{x})$) \underline{structurally stable} if there exists $\epsilon > 0$ such that for any vector field $\vec{\delta}$ satisfying
+    \begin{equation*}
+        \norm{\delta} + \sum_i \norm{\frac{\partial \delta}{\partial x_i}} < \epsilon,
+    \end{equation*}
+    $\vec{f} + \vec{\delta}$ is topologically equivalent to $\vec{f}$.
+\end{definition}
+\begin{remark}
+    We can say that a vector field is structurally stable when small perturbations to not break topological equivalence.
+\end{remark}
 \end{document}
