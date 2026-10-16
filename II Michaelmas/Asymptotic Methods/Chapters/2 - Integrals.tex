@@ -1,0 +1,73 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Simple Methods for Approximating Integrals}
+\subsection{Taylor Expansion of the Integrand}
+We will consider Stieltjes integrals, which have the form:
+\begin{equation*}
+    I(x) = \int_{0}^{\infty} \frac{e^{-t}}{1 + xt} dt
+\end{equation*}
+for $x \geq 0$.
+
+Our aim is to understand the behaviour of $I(x)$ for small $x$. We can Naively Taylor expand the integrand:
+\begin{equation*}
+    \frac{1}{1 + xt} =\sum_{n=0}^{\infty} (-1)^n x^n t^n
+\end{equation*}
+by unravelling a geometric series. However, our integral takes $t \to \infty$ and so this expression is not suitable. We could instead consider a finite sum:
+\begin{align*}
+    \sum_{n=0}^{N} (-xt)^n &= \frac{1 - (-xt)^{N+1}}{1 + xt} \\
+    &= \frac{1}{1 + xt} - \underbrace{\frac{(-xt)^{N+1}}{1 + xt}}_{r_N}
+\end{align*}
+Substituting this into the integral:
+\begin{align*}
+    I(x) &= \int_{0}^{\infty} e^{-t} \left[\sum_{n=0}^{N} (-1)^n x^n t^n + r_N\right] dt \\
+    &= \sum_{n=0}^{N} (-1)^n x^n \int_{0}^{\infty} t^n e^{-t} dt + R_n \\
+    &= \sum_{n=0}^{N} (-1)^n x^n n! + R_N
+\end{align*}
+so we can define $\phi_n = x^n$, an asymptotic sequence. What remains now is to show that $R_N = o(x^N)$ as $x \to 0$. We can do this by considering a ratio:
+\begin{align*}
+    \frac{R_N}{x^N} &= \frac{x^{N+1}}{x^N} \int_{0}^{\infty} \frac{t^{N+1}e^{-t}}{1 + xt} dt \\
+    &\leq x \int_{0}^{\infty} t^{N+1}e^{-t} dt \text{ since $1 + xt > 1$} \\
+    &= x(N+1)!
+\end{align*}
+which tends to $0$ as $x \to 0$ because $N$ is fixed. Our final answer is:
+\begin{equation*}
+    I(x) \sim \sum_{n=0}^{\infty} (-1)^nn!~x^n \text{ as $n \to 0^+$.}
+\end{equation*}
+\subsection{Integration by Parts}
+We can use the integration by parts formula:
+\begin{equation*}
+    \int_{a}^{b} f'(t) g(t) dt = \left[f(t)g(t)\right]_a^b - \int_{a}^{b} f(t)g'(t) dt 
+\end{equation*}
+many times:
+\begin{align*}
+    I &= \int_{a}^{b} f(t)g^{(n)}(t) dt \\
+    &= \sum_{k=1}^{n} (-1)^{k-1} \left[f^{(k-1)}(t) g^{(n-k)}(t)\right]_a^b + (-1)^n \int_{a}^{b} f^{(n)}(t)g(t) dt
+\end{align*}
+This can generate an asymptotic approximation under certain circumstances.
+\begin{example}
+    Consider:
+    \begin{equation*}
+        F(x) = \int_{x}^{\infty} e^{-\frac12t^2} dt
+    \end{equation*}
+    We are interested in its behaviour as $x \to \infty$.
+
+    We rewrite the integrand as $t \times \frac{e^{-t^2 / 2}}{t}$, and perform one integration by parts:
+    \begin{equation*}
+        F(x) = \left[-\frac1{t} e^{-t^2 / 2}\right]_x^\infty + \int_{x}^{\infty} \frac{e^{-t^2 / 2}}{t^2} dt.
+    \end{equation*}
+    A one-term asymptotic expansion is therefore $\frac{e^{-x^2 / 2}}{x}$, as long as we can bound the error:
+    \begin{align*}
+        \int_{x}^{\infty} \frac{e^{-t^2 / 2}}{t^2} dt &= \int_{x}^{\infty} \frac{te^{-t^2 / 2}}{t^3} dt \\
+        &\leq \int_{x}^{\infty} \frac{te^{-t^2 / 2}}{x^3} dt \text{ because $t > x$} \\
+        &= x^{-3} \int_{x}^{\infty} te^{-t^2 / 2} dt \\
+        &= x^{-3} e^{-x^2 / 2}
+    \end{align*}
+    Therefore the error is $o\left(e^{-x^2 / 2} / x\right)$, and our approximation is valid.
+
+    Continuing this process, we find the following asymptotic series:
+    \begin{equation*}
+        F(x) \sim \frac{e^{-x^2 / 2}}{x} \sum_{n=0}^{\infty} (-1)^n \frac{(2n-1)!!}{x^{2n}}
+    \end{equation*}
+\end{example}
+\end{document}

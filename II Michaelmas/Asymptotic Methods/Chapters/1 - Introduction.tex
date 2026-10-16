@@ -206,7 +206,7 @@ where the $\phi_n$ are known, workable functions, and adding more terms improves
 \begin{proof}
     Suppose $f \sim g$ as $x \to x_0$. Now consider $h(x) \ll f(x)$. Then $f + h \sim g$.
 
-    That is, if $g$ is an expansion then it can describe both $f$ and $f + h$.
+    That is, if $g$ is an expansion then it can describe both $f$ and $f + h$ under certain circumstances.
 \end{proof}
 \begin{example}
     Consider $f(x) = \frac{1}{1+x}$ and $h(x) = \frac{e^{-x}}{1 + x}$. Then both $f$ and $f + h$ have asymptotic expansion:
@@ -228,5 +228,35 @@ A good example of this is $e^{-x}$ as $x \to \infty$. This is small beyond all o
 \begin{definition}{Optimal truncation}
     If $f(x) \sim \sum_{k=0}^{\infty} a_n \psi_n(x)$ as $x \to x_0$, the best approximation of $f$ at a point $x_1$ close to $x_0$ is given by the \underline{optimal truncation} of the sequence at the smallest term.
 \end{definition}
-In practice, we evaluate terms and add them to the sequence until $x_{k+1} > x_k$. This gives an excellent approximation, which is investigated further in the example sheet.
+In practice, we evaluate terms and add them to the sequence until $\abs{x_{k+1}} > \abs{x_k}$. This gives an excellent approximation, which is investigated further in the example sheet.
+\subsection{Asymptotic Expansions in \texorpdfstring{$\C$}{the Complex Plane}}
+So far our expansions have relied on real limits, $x, x_0 \in E \subseteq \R$. When we use complex variables -- $z, z_0 \in \C$ -- typically $z$ must be restricted to a sector of $\C$ around $z_0$ for definitions to work.
+
+Even if $f(z)$ is analytic at $z_0$, we find that $f$ may have different asymptotic expansions when approached from different sectors in $\C$. This is known as Stokes' Phenomenon.
+\begin{example}
+    Consider $f(z) = \sinh(z^2)$. Note that $f(z) = \frac12 \left(e^{z^2} + e^{-z^2}\right)$. We want an asymptotic expansion as $\abs{z} \to \infty$. In order to figure out which exponential is the larger, we consider the ratio:
+    \begin{align*}
+        \abs{\frac{e^{-z^2}}{e^{z^2}}} &= \abs{e^{-2z^2}} \\
+        &= e^{-2\Re(z^2)}
+    \end{align*}
+    In the case $\Re(z^2) > 0$, we find that the ratio goes to $0$ as $\abs{z} \to \infty$ and so:
+    \begin{equation*}
+        f(z) \sim \frac12 e^{z^2}.
+    \end{equation*}
+    This region is:
+    \begin{equation*}
+        \Omega = \subsetselect{z \in \C}{\arg(z) \in \left(-\frac14\pi + \delta, \frac14\pi - \delta\right) \cup \left(\frac34\pi + \delta, \frac54\pi - \delta\right)}
+    \end{equation*}
+    for small $\delta$. We need $\delta$ to avoid curves that have an asymptote along the boundaries of our regions.
+
+    In the other case, $\Re(z^2) < 0$, we have that:
+    \begin{equation*}
+        f(z) \sim -\frac12 e^{-z^2}
+    \end{equation*}
+    and the region is almost the complement of $\Omega$, it is:
+    \begin{equation*}
+        \Omega' = \subsetselect{z \in \C}{\arg(z) \in \left(\frac14\pi + \delta, \frac34\pi - \delta\right) \cup \left(-\frac34\pi + \delta, -\frac14\pi - \delta\right)}
+    \end{equation*}
+    So we clearly see that the asymptotic expansion differs depending on the sector of $\C$, and separated by special lines for which we have no asymptotic expansion. These are known as Stokes' lines.
+\end{example}
 \end{document}
