@@ -202,4 +202,105 @@ In the above there may be several independent states with the same eigenvalue $\
 \begin{definition}{Degeneracy}
     The \underline{degeneracy} of an eigenvalue $\lambda$ is $\dim(V_\lambda)$. If $\dim(V_\lambda) = 1$ then the eigenvalue is \underline{non-degenerate}.
 \end{definition}
+\subsection{Functions of Operators}
+It is straightforward to define $f(Q)$ for some operator $Q$ if $f$ is a polynomial or power series, assuming convergence.
+
+Some important examples:
+\begin{itemize}
+    \item The time evolution operator, $e^{-iHt/\hbar}$, where $H$ is the Hamiltonian.
+    \item The translation operator, $e^{-ia\hat{p} / \hbar}$.
+\end{itemize}
+For observables $Q$, we can define more general $f$ by how it acts on the basis states of $Q$.
+
+Let $\{\ket{n}\}_{n \in \N}$ be a basis of eigenstates of $Q$, with eigenvalues $q_n$. Then $f$ is uniquely defined by:
+\begin{equation*}
+    f(Q)\ket{n} = f(q_n)\ket{n}
+\end{equation*}
+provided $f(q_n)$ makes sense. $f(Q)$ applied to any other state is then found by linear combination.
+
+Additionally, note that:
+\begin{equation*}
+    Q = \sum_n q_n \ket{n}\bra{n}
+\end{equation*}
+and so:
+\begin{equation*}
+    f(Q) = \sum_n f(q_n) \ket{n}\bra{n}.
+\end{equation*}
+
+\begin{definition}{Projection operator}
+    The \underline{projection operator} for the eigenvalue $\lambda$, $P_\lambda$, can be defined by:
+    \begin{equation*}
+        P_\lambda \ket{n} =
+        \begin{cases}
+            \ket{n} & \text{ if } q_n = \lambda \\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+\end{definition}
+The projection operator can be written:
+\begin{equation*}
+    P_\lambda = \sum_{n : q_n = \lambda} \ket{n}\bra{n}
+\end{equation*}
+\subsection{Measurement Axioms}
+Consider a measurement of an observable $Q$ when the system is in normalised state $\state$. Then:
+\begin{enumerate}
+    \item the result of this measurement is an eigenvalue $\lambda$ of $Q$; \label{axMeasureIsEVal}
+    \item this result is obtained with probability $p(\lambda) = \norm{P_\lambda \state}^2$; \label{axMeasureProb}
+    \item immediately after the measurement, the state is $P_\lambda \state$ (up to a constant of normalisation). \label{axStateCollapse}
+\end{enumerate}
+In the case with non-degenerate $\lambda$, and eigenstate $\ket{n}$, we have:
+\begin{itemize}
+    \item $p(\lambda) = \abs{\inn{n}{\phi}}^2$
+    \item the resulting state is $\ket{n}$.
+\end{itemize}
+\begin{example}
+    Consider a system with space $V$ and orthonormal basis states $\ket1, \ket2, \ket3$. Let these be eigenvalues of an operator $Q$ with eigenvalues $q_1 = q_2 = 0, q_3 = 1$. Consider a state:
+    \begin{equation*}
+        \state = \frac1{\sqrt{6}} \left(2~\ket1+\ket2+\ket3\right)
+    \end{equation*}
+    Then the measurement probability $p$ is given by $p(1) = \frac16$ and $p(0) = \frac56$. The state after measuring $1$ is $\ket3$, the state after measuring $0$ is:
+    \begin{equation*}
+        \frac1{\sqrt5} \left(2~\ket1 + \ket2\right)
+    \end{equation*}
+\end{example}
+\begin{definition}{Expectation}
+    The \underline{expectation value} of $Q$ in a state $\state$ is:
+    \begin{equation*}
+        \E{Q}_\psi = \opbraket\psi{Q}\psi = \sum_\lambda \lambda p(\lambda) = \sum_n q_n \abs{a_n}^2.
+    \end{equation*}
+\end{definition}
+\begin{definition}{Uncertainty}
+    The \underline{uncertainty} (also known as spread or variance) is:
+    \begin{equation*}
+        (\Delta Q)^2 = \E{(Q - \E{Q}_\psi)^2}_\psi = \E{Q^2}_\psi - \E{Q}_\psi^2
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    If $\state$ is an eigenstate of $Q$ with eigenvalue $\lambda$, then the expectation is $\lambda$ and variance is $0$.
+\end{remark}
+Quantum mechanical behaviour arises from the fact that certain observables do not commute. In general, for any state $\state$,
+\begin{equation*}
+    (\Delta A)_\psi (\Delta B)_\psi \geq \frac12 \abs{\E{\cmmt{A}{B}}_\psi}.
+\end{equation*}
+For the proof, see the course IB Quantum Mechanics.
+\subsection{Simultanous Measurement}
+If $A$ and $B$ do not commute, then we cannot expect to measure $A$ and $B$ precisely at the same time. The classic example of this is position and momentum:
+\begin{equation*}
+    (\Delta x)(\Delta p) \geq \frac\hbar2
+\end{equation*}
+In 3 dimensions, $\hat{x_i}$ and $\hat{p_i}$ have:
+\begin{equation*}
+    \cmmt{\hat{x}_i}{\hat{p}_j} = i\hbar \delta_{ij}
+\end{equation*}
+and so uncertainty only applies when we measure along the same direction.
+
+Our aim with measurement is to be able to describe the quantum system. Our process is to choose an operator $Q_1$. If it has degenerate eigenstates, then we aim to choose another operator $Q_2$ which commutes with $Q_1$ and can distinguish between the degenerate eigenstates. We continue until we can distinguish between all the eigenstates. 
+
+\begin{definition}{Complete set of operators}
+    A set of operators $\{Q_k\}_{k=1}^n$ is \underline{complete} if:
+    \begin{itemize}
+        \item the $Q_k$ all commute;
+        \item each eigenstate is uniquely determined by its eigenvalues of the $Q_k$.
+    \end{itemize}
+\end{definition}
 \end{document}
