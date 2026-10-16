@@ -38,12 +38,12 @@ We consider the velocity variations near a fixed point which, by translating our
 \begin{align*}
     u_i(\vec{x}) &= u_i(\vec0) + x_j \frac{\partial u_i}{\partial x_j} + \frac12 u_j x_k \frac{\partial^{2}u_i}{\partial x_j\partial x_k} + \cdots \\
     &\approx u_i(\vec0) + x_j \frac{\partial u_i}{\partial x_j} \text{ near the fixed point} \\
-    &= u_i(\vec0) + \frac12 \left(\frac{\partial u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i}\right) + \frac12 \left(\frac{\partial u_i}{\partial x_j} - \frac{\partial u_j}{\partial x_i}\right) \\
-    &= u_i(\vec0) + e_{ij} + \frac12 \epsilon_{jik} \omega_k
+    &= u_i(\vec0) + \frac12 \left[\left(\frac{\partial u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i}\right) + \frac12 \left(\frac{\partial u_i}{\partial x_j} - \frac{\partial u_j}{\partial x_i}\right)\right] x_j \\
+    &= u_i(\vec0) + e_{ij}x_j + \frac12 \epsilon_{jik} \omega_k x_j
 \end{align*}
 where $e$ is the \underline{rate of strain tensor} (rank-2) and $\vec{\omega} = \nabla \times \vec{u}$ is the vorticity. Returning to the equation, and writing in vector form:
 \begin{equation*}
-    \vec{u}(\vec{x}) \approx \underbrace{\vec{u}(0)}_{\substack{\text{constant}\\\text{translation}}} + \underbrace{e \cdot \vec{x}}_{\substack{\text{strain /}\\\text{deformation}}} + \underbrace{\frac12 \vec{\omega} \times \vec{x}}_{\substack{\text{solid body}\\\text{rotation}}}.
+    \vec{u}(\vec{x}) \approx \underbrace{\vec{u}(0)}_{\substack{\text{constant}\\\text{translation}}} + \underbrace{e \vec{x}}_{\substack{\text{strain /}\\\text{deformation}}} + \underbrace{\frac12 \vec{\omega} \times \vec{x}}_{\substack{\text{solid body}\\\text{rotation}}}.
 \end{equation*}
 Note that $e$ is real and symmetric, so must have real, orthogonal eigenvectors.
 \begin{definition}{Principle axes of strain}
@@ -115,7 +115,7 @@ where $\sigma_{ij} = \tau_i(\vec{e_j})$ are the components of the \underline{str
 
 The key result here is that the stress $\vec\tau$ exerted on a small area element is given by:
 \begin{equation*}
-    \vec\tau(n) = \sigma\vec{n} %TODO: check (lecturer used dot)
+    \vec\tau(\vec{n}) = \sigma\vec{n}
 \end{equation*}
 
 The symmetry of $\sigma_{ij}$ can be seen by considering the angular momentum balance on a small arbitrary volume $V$ (characteristic length $l$) about a fixed point in $V$. WLOG consider this to be the origin. The moment of the surface forces is then:
@@ -164,7 +164,7 @@ We therefore have:
 \end{equation*}
 Also, by symmetry, we must have that $\mu'' = \mu'''$. Therefore, we call this $\mu$ and, after adding back in the isotropic pressure,
 \begin{align}
-    \sigma_{ij}^\text{dev} &= -p \delta_{ij} + \mu \left(\frac{\partial u_j}{\partial x_i} + \frac{\partial u_i}{\partial x_j}\right) \nonumber \\
+    \sigma_{ij} &= -p \delta_{ij} + \mu \left(\frac{\partial u_j}{\partial x_i} + \frac{\partial u_i}{\partial x_j}\right) \nonumber \\
     &= -p \delta_{ij} + 2\mu e_{ij} \label{eqnConstitutive}
 \end{align}
 \Eqnref{eqnConstitutive} is known as the constitutive relationship or stress-strain relationship for a Newtonian viscous fluid.
@@ -188,9 +188,9 @@ Change in momentum in a small, fixed volume $V$ can occur due to:
 \end{enumerate}
 This gives us the equation:
 \begin{align*}
-    \frac{d}{dt} \int_V \rho u_i~dV &= - \int_{\partial V} \rho u_i (\vec{u} \cdot \vec{n})~dS + \int_V \vec{f}~dV + \int_{\partial V} \sigma_{ij} n_j~dS \\
+    \frac{d}{dt} \int_V \rho u_i~dV &= - \int_{\partial V} \rho u_i (\vec{u} \cdot \vec{n})~dS + \int_V f_i~dV + \int_{\partial V} \sigma_{ij} n_j~dS \\
     \intertext{We use that $V$ is fixed, and apply the divergence theorem where we have $\delta S$:}
-    \int_V \frac{d}{dt} \rho u_i~dV &= - \int_V \frac{\partial}{\partial x_j} \left(\rho u_i (\vec{u} \cdot \vec{n})\right)dV + \int_V \vec{f}~dV + \int_V \frac{\partial}{\partial x_j}\sigma_{ij} dV 
+    \int_V \frac{d}{dt} \rho u_i~dV &= - \int_V \frac{\partial}{\partial x_j} \left(\rho u_i u_j\right)dV + \int_V f_i~dV + \int_V \frac{\partial}{\partial x_j}\sigma_{ij} dV 
 \end{align*}
 Rearranging:
 \begin{equation*}
@@ -242,12 +242,15 @@ We can look first at the LHS:
 \end{align*}
 Now the RHS:
 \begin{align*}
-    u_i f_i + u_i \frac{\partial \sigma_{ij}}{\partial x_j} &= u_i f_i \frac{\partial}{\partial x_j}\left(u_i \sigma_{ij}\right) - \sigma_{ij} \frac{\partial u_i}{\partial x_j} \\
-    &= u_i f_i \frac{\partial}{\partial x_j}\left(u_i \sigma_{ij}\right) - \sigma_{ij} e_{ij} %TODO: why?
+    u_i f_i + u_i \frac{\partial \sigma_{ij}}{\partial x_j} &= u_i f_i + \frac{\partial}{\partial x_j}\left(u_i \sigma_{ij}\right) - \sigma_{ij} \frac{\partial u_i}{\partial x_j} \\
+    &= u_i f_i + \frac{\partial}{\partial x_j}\left(u_i \sigma_{ij}\right) - \frac12\left(\sigma_{ij} \frac{\partial u_i}{\partial x_j} + \sigma_{ji} \frac{\partial u_j}{\partial x_i}\right) \\
+    &= u_i f_i + \frac{\partial}{\partial x_j}\left(u_i \sigma_{ij}\right) - \frac12\left(\sigma_{ij} \frac{\partial u_i}{\partial x_j} + \sigma_{ij} \frac{\partial u_j}{\partial x_i}\right) \\
+    &= u_i f_i + \frac{\partial}{\partial x_j}\left(u_i \sigma_{ij}\right) - \frac12\sigma_{ij}\left(\frac{\partial u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i}\right) \\
+    &= u_i f_i + \frac{\partial}{\partial x_j}\left(u_i \sigma_{ij}\right) - \frac12\sigma_{ij} e_{ij}
 \end{align*}
 Integrating over a fixed volume $V$:
 \begin{align*}
-    \frac{d}{dt} \int_V \frac12 \rho u^2~dV~+ \int_{\partial V} \frac12 \rho u^2 \vec{u} &\cdot \vec{n}~dS = \int_V \vec{u} \cdot \vec{n}~dV \\
+    \frac{d}{dt} \int_V \frac12 \rho |\vec{u}|^2~dV~+ \int_{\partial V} \frac12 \rho |\vec{u}|^2 \vec{u} &\cdot \vec{n}~dS = \int_V \vec{u} \cdot \vec{F}~dV \\
     &+ \int_{\partial V} \vec{u} \cdot (\sigma \vec{n}) dS~- \int_V \sigma_{ij} e_{ij}~dV
 \end{align*}
 These terms are:
