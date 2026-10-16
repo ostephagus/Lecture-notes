@@ -217,5 +217,78 @@ Therefore we update \eqnref{eqnCauchyMom}:
     \rho \frac{D \vec{u}}{D t} = \vec{f} - \nabla p + \mu \nabla^2 \vec{u}
     \label{eqnNavierStokes}
 \end{equation}
-which is the Navier-Stokes equation.
+which is the Navier-Stokes equation. Note that this is the same as the Euler equation for an inviscid fluid (see the course IB Fluid Dynamics) with an extra viscosity term, $\mu \nabla^2 \vec{u}$.
+\subsection{Boundary Conditions}
+We consider a material boundary with normal $\vec{n}$. This may be a boundary between the fluid and a solid, or between the fluid and a different fluid such as air.
+
+\begin{enumerate}
+    \item Mass conservation across the boundary implies that $\vec{u} \cdot \vec{n}$ is continuous (no penetration condition).
+    \item $\nabla \vec{u}$ must be finite, otherwise the stress $\sigma$ would be infinite. This requires the tangential velocity, $\vec{u} - (\vec{u} \cdot \vec{n})\vec{n}$, to be continuous (no slip condition).
+\end{enumerate}
+Therefore, we require that $\vec{u}$ is continuous across the boundary (kinematic boundary condition).
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item Newton's 3rd Law requires that $\sigma\vec{n}$ is continuous across the boundary (dynamic boundary condition).
+\end{enumerate}
+\section{Energy Equation and Viscous Dissipation}
+Recalling that in simple dynamics we have $P = Fv$ - power (rate of change of energy) is the force multiplied by the velocity, we can obtain the rate of change of energy by dotting the Cauchy momentum equation with $\vec{u}$.
+\begin{equation*}
+    u_i \rho \left(\frac{\partial u_i}{\partial t} + u_j \frac{\partial u_i}{\partial x_j}\right) = u_i f_i + u_i \frac{\partial \sigma_{ij}}{\partial x_j}
+\end{equation*}
+We can look first at the LHS:
+\begin{align*}
+    u_i \rho \left(\frac{\partial u_i}{\partial t} + u_j \frac{\partial u_i}{\partial x_j}\right) &= \frac{\partial}{\partial t} \left(\frac12 \rho |\vec{u}|^2\right) - \frac12 |\vec{u}|^2 \frac{\partial \rho}{\partial t} + \frac{\partial}{\partial x_j} \left(\frac12 \rho |\vec{u}|^2 u_j\right) - \frac12 |\vec{u}|^2 \frac{\partial}{\partial x_j} \left(\rho u_j\right) \\
+    &= \frac{\partial}{\partial t} \left(\frac12 \rho |\vec{u}|^2\right) + \frac{\partial}{\partial x_j} \left(\frac12 \rho |\vec{u}|^2 u_j\right) \text{ by mass conservation}.
+\end{align*}
+Now the RHS:
+\begin{align*}
+    u_i f_i + u_i \frac{\partial \sigma_{ij}}{\partial x_j} &= u_i f_i \frac{\partial}{\partial x_j}\left(u_i \sigma_{ij}\right) - \sigma_{ij} \frac{\partial u_i}{\partial x_j} \\
+    &= u_i f_i \frac{\partial}{\partial x_j}\left(u_i \sigma_{ij}\right) - \sigma_{ij} e_{ij} %TODO: why?
+\end{align*}
+Integrating over a fixed volume $V$:
+\begin{align*}
+    \frac{d}{dt} \int_V \frac12 \rho u^2~dV~+ \int_{\partial V} \frac12 \rho u^2 \vec{u} &\cdot \vec{n}~dS = \int_V \vec{u} \cdot \vec{n}~dV \\
+    &+ \int_{\partial V} \vec{u} \cdot (\sigma \vec{n}) dS~- \int_V \sigma_{ij} e_{ij}~dV
+\end{align*}
+These terms are:
+\begin{enumerate}
+    \item rate of change of kinetic energy inside $V$;
+    \item kinetic energy being carried across the boundary $\partial V$;
+    \item rate of doing work by body forces in $V$;
+    \item rate of doing work by surface forces $\vec{\tau} = \sigma\vec{n}$ on $\partial V$;
+    \item rate of doing work against internal stresses $\sigma$ due to deformation.
+\end{enumerate}
+\begin{remarks}
+    \item Term 5 is non-obvious and can only really be seen from the equations we have manipulated.
+    \item This was derived from \eqnref{eqnCauchyMom} (the Cauchy momentum equation), so applies for any fluid.
+\end{remarks}
+For an incompressible Newtonian fluid, $\sigma_{ij} - p \delta_{ij} + 2 \mu e_{ij}$, so the final term looks like:
+\begin{align*}
+    \sigma_{ij} e_{ij} &= \underbrace{-p e_{ii}}_{0~\because~\nabla \cdot \vec{u} = 0} + 2 \mu e_{ij} e_{ij} \\
+    &= 2\mu e_{ij}e_{ij}
+\end{align*}
+so term 5 gives the rate of loss of mechanical energy (dissipation) due to viscosity and deformation. This energy is released as heat.
+\section{Nondimensionalisation}
+Suppose a flow has a characteristic length scale $L$, velocity scale $U$, and varies on a timescale $T$. For example, flow of speed $U$ flowing past a rigid body of characteristic length $L$ that vibrates with period $T$. We can assume that the flow is given by:
+\begin{equation*}
+    \vec{u} = \vec{u}(\vec{x}, t, \rho, \mu, U, L, T, \text{shape}, \cdots)
+\end{equation*}
+which is a lot of parameters. Define a dimensionless velocity $\vec{u}^* = \vec{u} / U$, and do the same with position $\vec{x}^*$, time $t^*$. We can now also find the pressure:
+\begin{align*}
+    p^* = \frac{p}{\mu U/L} \text{ (viscous scaling) or } \frac{p}{\rho U^2} \text{ (inertial scaling)}
+\end{align*}
+We will use the viscous scaling. \Eqnref{eqnNavierStokes} (Navier-Stokes equation) now becomes:
+\begin{align*}
+    \rho \left(\frac{U}{T} \frac{\partial u^*}{\partial t^*} + \frac{U^2}{L} \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\frac{\mu U}{L^2} \nabla^2 p^2 + \frac{\mu U}{L^2} \nabla^{* 2} \vec{u}^* \\
+    \Rey \left(\St\frac{\partial u^*}{\partial t^*} +  \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\nabla^2 p^2 + \nabla^{* 2} \vec{u}^* \\
+\end{align*}
+where $\Rey = \frac{\rho U L}{\mu} = \frac{UL}{\nu}$ is the Reynolds number and $\St = \frac{L}{UT}$ is the Stroughal number. Both are dimensionless. We can see the improvement:
+\begin{equation*}
+    \vec{u}^*(\vec{x}^*, t, \Rey, \St, \text{shape})
+\end{equation*}
+which is fewer parameters. In fact, if the flow is steady we can use the advection time $T = L / U$. This means $\St = 1$ and $\Re$ is the defining characteristic. If the boundary conditions are oscillatory, we can set $T = \frac1\omega$ and note that $\Rey_T = \Rey\St$ (the unsteady Reynolds number) which is given by:
+\begin{equation*}
+    \Rey_T = \frac{L^2}{\nu T} = \frac{\omega L^2}{\nu}
+\end{equation*}
+is comparing the length scale of the body with the length scale that the oscillation affects.
 \end{document}
