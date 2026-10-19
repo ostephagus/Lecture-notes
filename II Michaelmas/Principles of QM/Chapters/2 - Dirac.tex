@@ -90,7 +90,7 @@ To define a quantum system, we must specify the \underline{Hamiltonian}, $H$, wh
 \section{The Quantum Harmonic Oscillator}
 A one-dimensional harmonic oscillator of mass $m$ and frequency $\omega$ has Hamiltonian:
 \begin{equation*}
-    H = \hat{p}^2 + \frac12 m\omega^2hat{x}^2 
+    H = \hat{p}^2 + \frac12 m\omega^2\hat{x}^2 
 \end{equation*}
 \subsection{Construction and Annihilation Operators}
 We seek eigenstates and eigenvalues of $H$. We will do this by introducing new operators:
@@ -253,7 +253,7 @@ In the case with non-degenerate $\lambda$, and eigenstate $\ket{n}$, we have:
     \item $p(\lambda) = \abs{\inn{n}{\phi}}^2$
     \item the resulting state is $\ket{n}$.
 \end{itemize}
-\begin{example}
+\begin{example} \label{exOrthoStates}
     Consider a system with space $V$ and orthonormal basis states $\ket1, \ket2, \ket3$. Let these be eigenvalues of an operator $Q$ with eigenvalues $q_1 = q_2 = 0, q_3 = 1$. Consider a state:
     \begin{equation*}
         \state = \frac1{\sqrt{6}} \left(2~\ket1+\ket2+\ket3\right)
@@ -300,7 +300,101 @@ Our aim with measurement is to be able to describe the quantum system. Our proce
     A set of operators $\{Q_k\}_{k=1}^n$ is \underline{complete} if:
     \begin{itemize}
         \item the $Q_k$ all commute;
-        \item each eigenstate is uniquely determined by its eigenvalues of the $Q_k$.
+        \item each normalised eigenstate is uniquely determined by its eigenvalues of the $Q_k$.
     \end{itemize}
 \end{definition}
+Equivalently, if $A$ is another observable that commutes with the $Q_k$ then it must be a function of them.
+\begin{example}
+    Return to the example~\ref{exOrthoStates}, with states $\ket1, \ket2, \ket3$ with eigenvalues $0, 0, 1$. We want to find an observable $Q'$ that commutes with $Q$ and can differentiate the states $\ket1$ and $\ket2$. Suppose that we can find an operator:
+    \begin{align*}
+        Q'\ket1 &= \ket2 \\
+        Q'\ket2 &= \ket1 \\
+        Q'\ket3 &= 0
+    \end{align*}
+    Note that this will have eigenvalues:
+    \begin{equation*}
+        \ket\pm = \frac1{\sqrt{2}} \left(\ket1 \pm \ket2\right)
+    \end{equation*}
+    with eigenvalues $\pm 1$. Under $Q$, these are still eigenstates with eigenvalue $0$. Therefore, $\{Q, Q'\}$ is a complete commuting set with joint eigenstate basis $\ket\pm, \ket3$.
+\end{example}
+\section{Bases, Representations and Wavefunctions}
+\subsection{Discrete and Continuous Bases}
+A choice of basis provides a representation of the quantum states and operators. Under this representation, a discrete basis gives (possibly infinite) vectors and matrices for states and operators. However, we must also consider continuous bases to represent these quantum states and operators.
+
+Consider a basis $\{\ket\lambda\}_{\lambda \in E}$ where $\lambda$ is continuous. Here states are given by:
+\begin{equation*}
+    \state = \int_E \alpha(\lambda)\ket\lambda~d\lambda
+\end{equation*}
+where $\alpha(\lambda)$ is some coefficient function, $\alpha(\lambda) = \inn{\psi}{\lambda}$.
+
+For $\mu \in E$, the orthogonality relation is $\inn{\lambda}{\mu} = \delta(\lambda - \mu)$. The completeness relation becomes:
+\begin{equation*}
+    1 = \int_E \ket\lambda\bra\lambda~d\lambda
+\end{equation*}
+
+If these basis states $\ket\lambda$ arise as eigenstates of an observable, then:
+\begin{equation*}
+    \abs{\alpha(\lambda)}^2 = \abs{\inn{\lambda}{\psi}}^2 \text{ is the probability density.}
+\end{equation*}
+\subsection{Position and Momentum Bases -- Wavefunctions}
+Consider a particle in one dimension with position operator $\hat{x}$ and momentum operator $\hat{p}$ obeying $\cmmt{\hat{x}}{\hat{p}} = i\hbar$.
+
+Let $\ket{x}$ be position eigenstates with eigenvalue $x$. We see that this is a continuous basis of eigenvalues. Any state can now be written as a linear combination:
+\begin{equation*}
+    \state = \int_\R \psi(x) \ket{x}~dx,\quad \psi(x) = \inn{x}{\psi}.
+\end{equation*}
+This $\psi(x)$ is the position space wavefunction that was discussed in IB Quantum Mechanics. $\abs{\psi(x)}^2$ is a probability density for measuring position. We note that the inner product is as expected:
+\begin{align*}
+    \inn{\phi}{\psi} &= \left(\int_{\R} \phi(x) \ket{x}~dx\right)^\dagger \left(\int_{\R} \psi(y) \ket{y}~dy\right) \\
+    &= \left(\int_{\R} \phi(x)^* \bra{x}~dx\right) \left(\int_{\R} \psi(y) \ket{y}~dy\right) \\
+    &= \int_{\R^2} \phi(x)^*\psi(y) \inn{x}{y}~dx~dy \\
+    &= \int_{\R^2} \phi(x)^*\psi(y) \delta(x - y)~dx~dy \\
+    &= \int_{\R} \phi^*(x) \psi(x)~dx.
+\end{align*}
+We can similarly define momentum eigenstates $\ket{p}$, again a continuous basis. Now a state is given by:
+\begin{equation*}
+    \state{\psi} = \int_{\R} \tilde{\psi}(p) \ket{p}~dp
+\end{equation*}
+with $\tilde{\psi}(p) = \inn{p}{\psi}$ the momentum space wavefunction. $\abs{\tilde{\psi}(p)}^2$ is the probability density for measurements of momentum.
+
+We would now like to understand how $\psi(x)$ and $\tilde{\psi}(p)$ relate.
+\begin{proposition}
+    \begin{align*}
+        \inn{x}{p} &= \frac{1}{\sqrt{2\pi \hbar}} e^{ipx / \hbar} \\
+        \inn{p}{x} &= \frac{1}{\sqrt{2\pi \hbar}} e^{-ipx / \hbar} \\
+    \end{align*}
+    \label{propXPProducts}
+\end{proposition}
+\begin{proof}
+    Coming next lecture
+\end{proof}
+We already know:
+\begin{equation*}
+    \hat{x}\psi \text{ acts as } \opbraket{x}{\hat{x}}{\psi} = x\inn{x}{\psi} = x\psi(x).
+\end{equation*}
+Now, using \thmref{propXPProducts}, applying $\hat{p}$ gives:
+\begin{equation*}
+    p\inn{x}{p} = -i\hbar \frac{\partial}{\partial x} \inn{x}{p}
+\end{equation*}
+\begin{align*}
+    \opbraket{x}{\hat{p}}{\psi} &= \int_{\R} \opbraket{x}{\hat{p}}{p} \inn{p}{\psi}~dp \\
+    &= \int_{\R} p\inn{x}{p} \inn{p}{\psi}~dp \\
+    &= -i\hbar \frac{\partial }{\partial x} \int_{\R} \inn{x}{p} \inn{p}{\psi}~dp \\
+    &= -i\hbar \frac{\partial }{\partial x} \inn{x}{\psi} \\
+    &= -i\hbar \psi'(x)
+\end{align*}
+so $\hat{p}$ acts as $-i\hbar \frac{\partial }{\partial x}$ on position space wavefunctions.
+
+Similarly, on momentum space wavefunctions we find:
+\begin{align*}
+    \hat{x} &\mapsto i\hbar \frac{\partial}{\partial p} \\
+    \hat{p} &\mapsto p
+\end{align*}
+We can now express the momentum-space wavefunction in terms of the position-space wavefunction:
+\begin{align*}
+    \tilde{\psi}(p) &= \inn{p}{\psi} \\
+    &= \int_{\R} \inn{p}{x} \inn{x}{\psi}~dx \\
+    &= \frac{1}{\sqrt{2\pi\hbar}} \int_{\R} e^{-ipx/\hbar} \psi(x)~dx
+\end{align*}
+which is a Fourier transform!
 \end{document}
