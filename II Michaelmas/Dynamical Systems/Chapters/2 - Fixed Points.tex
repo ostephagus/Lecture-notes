@@ -13,7 +13,7 @@ We can therefore approximate the flow near $\vec{x_0}$ as $\dvec{y} = A\vec{y}$.
 \section{2D Flows Near Fixed Points}
 In 2D, the matrix $A$ can be put into normal form, with eigenvalues given by:
 \begin{equation*}
-    \lambda = \frac12 \left[\tr(A) \pm \sqrt{(\tr(A))^2 - 4\det(A)}\right]
+    \lambda_{1, 2} = \frac12 \left[\tr(A) \pm \sqrt{(\tr(A))^2 - 4\det(A)}\right]
 \end{equation*}
 \begin{enumerate}
     \item Saddle points: $\det(A) < 0$. In this case $\lambda_1, \lambda_2$ are real with opposite signs. WLOG let $\lambda_1 < 0 < \lambda_2$. Also, $A$ can be diagonalised in this case. The solution for $\vec{y}$ is:
@@ -24,5 +24,93 @@ In 2D, the matrix $A$ can be put into normal form, with eigenvalues given by:
         \begin{equation*}
             y_2 \propto \frac{1}{y_1^{|\lambda_2 / \lambda_1|}}
         \end{equation*}
+        which is a hyperbola.
+    \item Node: $(\tr(A))^2 > 4 \det(A) > 0$. In this case $\lambda_1$ and $\lambda_2$ are real and have the same sign as $\tr(A)$. We can again diagonalise and eliminate $t$:
+        \begin{equation*}
+            y_2 \propto y_1^{\lambda_2 / \lambda_1}
+        \end{equation*}
+        which gives the phase space as in figure~\ref{figNodePS}. For $\tr(A) > 0$, the arrows are outward, and are inward (opposite to the figure) in the case $\tr(A) < 0$.
+    \item Focus/spiral: $(\tr(A))^2 < 4\det(A)$. Here the roots are complex, $\lambda = \rho \pm i\omega$, where $\rho = \frac12 \tr(A)$. Changing to polar coordinates, we obtain:
+        \begin{equation*}
+            \dot{r} = \rho r\qquad\dot{\theta} = \omega
+        \end{equation*}
+        therefore we have spiral trajectories, which spiral inwards (stable) in the case $\rho < 0$ and spiral outwards (unstable) in the case $\rho > 0$.
+    \item Repeated eigenvalue: $(\tr(A))^2 = 4\det(A)$. In this case $\lambda = \frac12 \tr(A)$ is a double root. The case splits on whether $A$ is diagonalisable:
+        \begin{enumerate}
+            \item Stellar node: $A$ is diagonalisable. In this case we have straight lines pointing out of the node, which are inwards or outwards depending on the sign of $\lambda$.
+            \item Improper node: $A$ is given by
+                \begin{equation*}
+                    A = 
+                    \begin{pmatrix}
+                        \lambda & 1 \\
+                        0 & \lambda
+                    \end{pmatrix}.
+                \end{equation*}
+                We solve this case to give:
+                \begin{equation*}
+                    y_1 = \left(y_{1, 0} + y_{2, 0} t\right) e^{\lambda t},\qquad y_2 = y_{2, 0} e^{\lambda t}
+                \end{equation*}
+                See figure~\ref{figImproperNodePS}
+        \end{enumerate}
+    \item Centre: $\det(A) > 0$, $\tr(A) = 0$.
+        In this case, the eigenvalues are pure-imaginary. This gives us ellipses around the fixed point (centre).
+    \item Zero eigenvalue: $\det(A) = 0$, $\tr(A) \neq 0$. Label $\lambda_1 = 0, \lambda_2 = \tr(A)$. Here $y_1$ is constant, and we have a line of fixed points with trajectories perpendicular towards/away from it.
+    \item Double zero eigenvalues: $\det(A) = \tr(A) = 0$. We have the case $\det(A) = 0$, which gives $y_1$ and $y_2$ constant and has a whole region around $(0, 0)$ of fixed points. There is also the case:
+        \begin{equation*}
+            A =
+            \begin{pmatrix}
+                0 & 1 \\
+                0 & 0
+            \end{pmatrix}
+        \end{equation*}
+        In this case we again have a line of fixed points, this time along $y_1 = 0$, with trajectories parallel to it.
 \end{enumerate}
+We have been using an eigenvector (or generalised eigenvector) basis throughout these cases. In the original coordinates, the local topology of the orbits may be distorted.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw (0, 0) -- (0, 1);
+    \end{tikzpicture}
+    \caption{Diagram of an unstable node}
+    \label{figNodePS}
+\end{figure}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw (0, 0) -- (0, 1);
+    \end{tikzpicture}
+    \caption{Diagram of an improper node}
+    \label{figImproperNodePS}
+\end{figure}
+\section{Hamiltonian Systems}
+\begin{definition}{Hamiltonian system}
+    A dynamical system is \underline{Hamiltonian} if it has the form:
+    \begin{equation*}
+        \begin{pmatrix}\dot{x} \\ \dot{y}\end{pmatrix} = \begin{pmatrix}\frac{\partial H}{\partial y} \\ -\frac{\partial H}{\partial x}\end{pmatrix}
+    \end{equation*}
+\end{definition}
+In this case, linearisation gives:
+\begin{equation*}
+    A =
+    \begin{pmatrix}
+        H_{xy} & H_{yy} \\
+        -H_{xx} & -H_{xy}
+    \end{pmatrix}
+\end{equation*}
+and notably $\tr(A) = 0$. Therefore, all fixed points of a Hamiltonian system are centres ($\det(A) > 0$) or saddle points ($\det(A) < 0$).
+\begin{proposition}
+    On an orbit in a Hamiltonian system, $H$ is constant.
+    \label{propHamiltonConserve}
+\end{proposition}
+\begin{proof}
+    Consider:
+    \begin{align*}
+        \frac{dH}{dt} &= \left(\dvec{x} \cdot \nabla\right)H \\
+        &= \dot{x} H_x + \dot{y} H_y \\
+        &= H_yH_x - H_x H_y = 0.
+    \end{align*}
+    That is, orbits follow contours of $H = \text{const}$.
+\end{proof}
+\section{Effect of Nonlinear Terms}
+
 \end{document}
