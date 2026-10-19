@@ -1,0 +1,102 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+For this chapter we will consider a Newtonian, incompressible fluid with velocity:
+\begin{equation*}
+    \vec{u} = (u, 0, 0)
+\end{equation*}
+Note that incompressibility requires $\frac{\partial u}{\partial x} = 0$ and so $u = u(y, z, t)$. This gives $(\vec{u} \cdot \nabla)\vec{u} = 0$. Therefore, \eqnref{eqnNavierStokes} becomes:
+\begin{align}
+    \rho \frac{\partial u}{\partial t} &= f_x - \frac{\partial p}{\partial x} + \mu \nabla_\perp^2 u \label{eqnNSOneDPll} \\
+    f_\perp &= \nabla_\perp p \label{eqnNSOneDPerp}
+\end{align}
+Here the $\perp$ indicates the components perpendicular to the flow direction, along $y$ and $z$ axes.
+
+If $\vec{f} = \vec0$, then $\frac{\partial p}{\partial y} = \frac{\partial p}{\partial z} = 0$ and therefore we can say $-\frac{\partial p}{\partial x} = G(t)$.
+\section{Couette Flow}
+Consider flow between two plates. The bottom plate is fixed and the top plate is driven at speed $V$. We see that $\mu \frac{\partial^{2}u}{\partial y^{2}} = 0$. Including the boundary conditions $u(0) = 0$, $u(h) = V$,
+\begin{equation*}
+    u(y) = \frac{V}{h}y.
+\end{equation*}
+The stress and strain tensors are given by:
+\begin{equation*}
+    \frac{\partial u_i}{\partial x_j} =
+    \begin{pmatrix}
+        0 & \gamma & 0 \\
+        0 & 0 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix}
+    \implies e =
+    \begin{pmatrix}
+        0 & \frac\gamma2 & 0 \\
+        \frac\gamma2 & 0 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix}
+    \implies \sigma =
+    \begin{pmatrix}
+        -p & \mu \gamma & 0 \\
+        \mu \gamma & -p & 0 \\
+        0 & 0 & -p
+    \end{pmatrix}
+\end{equation*}
+Therefore, the stress exerted by the bottom plate on the fluid is given by $\sigma \vec{n}$ where $\vec{n} = -\vec{e_y}$: $\sigma\vec{n} = (-\mu \gamma, 0, 0)^T$. We can understand this as the fluid trying to pull the fluid along with it, so it must resist that with a force along $-x$.
+
+Here the local dissipation rate is $\Phi = \mu \gamma^2$.
+\section{Plane Poiseuille Flow}
+Consider flow between fixed plates at $y = \pm h$. Let the pressure on the left be $p_+$ and on the right be $p_-$. Let the flow be steady. We have the equation:
+\begin{equation*}
+    \mu \frac{\partial^{2}u}{\partial y^{2}} = \frac{\partial p}{\partial x}
+\end{equation*}
+and solving (using the boundary condition $u(\pm h) = 0$),
+\begin{equation*}
+    u = -\frac1{2\mu} \frac{\partial p}{\partial x} \left(h^2 - y^2\right)
+\end{equation*}
+We can calculate flux per unit length in the $z$ direction:
+\begin{equation*}
+    q = \int_{-h}^{h} u~dy = -\frac{2h^3}{3\mu} \frac{\partial p}{\partial x}
+\end{equation*}
+and the vorticity:
+\begin{equation*}
+    \vec{\omega} = \nabla \times \vec{u} = \left(-\frac1\mu \frac{\partial p}{\partial x} y\right)
+\end{equation*}
+Therefore, we have a linear vorticity gradient with positive vorticity at $y = h$ and negative at $y = -h$.
+
+The strain rate is:
+\begin{equation*}
+    e =
+    \begin{pmatrix}
+        0 & \frac12 \frac{\partial u}{\partial y} & 0 \\
+        \frac12 \frac{\partial u}{\partial y} & 0 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix}
+    \implies \Phi(y) = \mu \left(\frac{\partial u}{\partial y}\right)^2
+\end{equation*}
+\section{Circular Poiseuille Flow}
+Consider a circular pipe. Let $z$ be the flow direction and the pipe extend from $z = 0$ to $z = L$. Let the radius be $a$.
+
+Suppose the pressure at $z = 0$ is $p_0 + \delta p$, and at $z = L$ it is $p_0$. Assume that the pipe behaves as a rigid boundary. 
+
+Note that in the case of flow along a pipe between two large tanks of fluid, the non-parallel flow extends only a length of order $a$ into the pipe. Therefore, the above is a good approximation for this case provided $L \gg a$.
+
+In cylindrical polar coordinates $(r, \theta, z)$,
+\begin{align*}
+    \frac{\partial p}{\partial r} &= \frac1r \frac{\partial p}{\partial \theta} \\
+    0 = -\frac{\partial p}{\partial z} &+ \frac{\mu}{r} \frac{\partial}{\partial r} \left(r \frac{\partial w}{\partial r}\right)
+\end{align*}
+where $\vec{u} = (0, 0, w)$. Furthermore, incompressibility requires:
+\begin{equation*}
+    \nabla \cdot \vec{u} = 0 \implies \frac{\partial w}{\partial z} = 0 \implies -\frac{\partial p}{\partial z} = G \text{ const.}
+\end{equation*}
+Rearranging:
+\begin{align*}
+    &\frac1r \frac{\partial}{\partial r} \left(r \frac{\partial w}{\partial r}\right) = -\frac{G}{\mu} \\
+    &\implies \frac{\partial w}{\partial r} = -\frac{Gr}{2\mu} + \underbrace{\frac{A}{r}}_{\substack{0 \text{ for}\\\text{regularity}}} \\
+    &\implies w(r) = \frac{G}{4\mu} \left(a^2 - r^2\right) \text{ using the no-slip condition.}
+\end{align*}
+Now we can find the volume flux:
+\begin{align*}
+    q &= \int_{0}^{2\pi} \int_{0}^{a} w~r~dr~d\theta  \\
+    &= 2\pi \frac{G}{4\mu} \left[\frac{a^2 r^2}{2} - \frac{r^4}{4}\right]_0^a \\
+    &= \frac{\pi G a^4}{8\mu}
+\end{align*}
+\end{document}

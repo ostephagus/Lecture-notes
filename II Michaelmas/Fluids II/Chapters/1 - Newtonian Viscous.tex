@@ -270,7 +270,10 @@ For an incompressible Newtonian fluid, $\sigma_{ij} - p \delta_{ij} + 2 \mu e_{i
     \sigma_{ij} e_{ij} &= \underbrace{-p e_{ii}}_{0~\because~\nabla \cdot \vec{u} = 0} + 2 \mu e_{ij} e_{ij} \\
     &= 2\mu e_{ij}e_{ij}
 \end{align*}
-so term 5 gives the rate of loss of mechanical energy (dissipation) due to viscosity and deformation. This energy is released as heat.
+so term 5 gives the rate of loss of mechanical energy (dissipation) due to viscosity and deformation. This energy is released as heat. We label this term:
+\begin{equation*}
+    \Phi = 2\mu e_{ij}e_{ij}
+\end{equation*}
 \section{Nondimensionalisation}
 Suppose a flow has a characteristic length scale $L$, velocity scale $U$, and varies on a timescale $T$. For example, flow of speed $U$ flowing past a rigid body of characteristic length $L$ that vibrates with period $T$. We can assume that the flow is given by:
 \begin{equation*}
@@ -281,10 +284,10 @@ which is a lot of parameters. Define a dimensionless velocity $\vec{u}^* = \vec{
     p^* = \frac{p}{\mu U/L} \text{ (viscous scaling) or } \frac{p}{\rho U^2} \text{ (inertial scaling)}
 \end{align*}
 We will use the viscous scaling. \Eqnref{eqnNavierStokes} (Navier-Stokes equation) now becomes:
-\begin{align*}
-    \rho \left(\frac{U}{T} \frac{\partial u^*}{\partial t^*} + \frac{U^2}{L} \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\frac{\mu U}{L^2} \nabla^2 p^2 + \frac{\mu U}{L^2} \nabla^{* 2} \vec{u}^* \\
-    \Rey \left(\St\frac{\partial u^*}{\partial t^*} +  \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\nabla^2 p^2 + \nabla^{* 2} \vec{u}^* \\
-\end{align*}
+\begin{align}
+    \rho \left(\frac{U}{T} \frac{\partial u^*}{\partial t^*} + \frac{U^2}{L} \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\frac{\mu U}{L^2} \nabla^2 p^{*2} + \frac{\mu U}{L^2} \nabla^{* 2} \vec{u}^* \nonumber \\
+    \Rey \left(\St\frac{\partial u^*}{\partial t^*} +  \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\nabla^2 p^{*2} + \nabla^{* 2} \vec{u}^* \label{eqnNavierStokesDimless} \\
+\end{align}
 where $\Rey = \frac{\rho U L}{\mu} = \frac{UL}{\nu}$ is the Reynolds number and $\St = \frac{L}{UT}$ is the Stroughal number. Both are dimensionless. We can see the improvement:
 \begin{equation*}
     \vec{u}^*(\vec{x}^*, t, \Rey, \St, \text{shape})
@@ -294,4 +297,19 @@ which is fewer parameters. In fact, if the flow is steady we can use the advecti
     \Rey_T = \frac{L^2}{\nu T} = \frac{\omega L^2}{\nu}
 \end{equation*}
 is comparing the length scale of the body with the length scale that the oscillation affects.
+
+\begin{definition}{Dynamical Similarity}
+    If two flows with different $U, L, T$ have the same geometry, Reynolds number, (Strall number if oscillatory) and dimensionless boundary conditions, they are said to be \underline{dynamically similar} because they give the same dimensionless $\vec{u}^*$.
+\end{definition}
+
+We can look at certain important limits:
+\begin{itemize}
+    \item In the case of slow oscillations (relative to the advection time), we have $\St \ll 1$ and we can neglect the term $\frac{\partial \vec{u}^*}{\partial t^*}$. This leads to quasi-steady flow.
+    \item In the case of rapid oscillations (relative to the advection time), we have $\St \gg 1$ and we can neglect the term $(\vec{u}^* \cdot \nabla)\vec{u}^*$. This leads to a linear equation which is easier to solve.
+    \item In the case of no oscillations, $\St = 0$. This gives two limits in terms of $\Rey$:
+        \begin{enumerate}
+            \item $\Rey \ll 1$ -- the flow is viscously dominated and so we can neglect the LHS of \eqnref{eqnNavierStokesDimless}. This gives the Stokes equation $-\nabla p = \nabla^2\vec{u}$, which is discussed later.
+            \item $\Rey \gg 1$ -- the fluid is inertially dominated on a length scale $L$. This means we can often neglect $\nabla^2 \vec{u}$, which is the Euler equation of IB Fluid Dynamics. However, near the boundary we see viscous effects, leading to the discussion of boundary layers later in this course.
+        \end{enumerate}
+\end{itemize}
 \end{document}
