@@ -184,14 +184,20 @@ in order to preserve extrema of the action.
 
 The correct form for the potential in the Lagrangian is found by adding $q \vec{A} \cdot \dvec{x}$. This gives:
 \begin{equation*}
-    L = -\frac{mc^2}{\gamma} + U^\mu A_\mu. % TODO: check.
+    L = -\frac{mc^2}{\gamma} - q\phi + q \vec{A} \cdot \dvec{x}.
 \end{equation*}
+Note that the final term is $qA^\mu U^\mu$.
+
 The Euler-Lagrange equation becomes:
 \begin{align*}
     \frac{\partial L}{\partial x_i} &= \frac{d}{dt} \frac{\partial L}{\partial \dot{x}_i} \\
     -q \frac{\partial \phi}{\partial x_i} + q \frac{\partial A_j}{\partial x_i} \dot{x}_j &= \frac{d}{dt} \left(\frac{m\dot{x}_i}{\sqrt{1 - |\dvec{x}|^2 / c^2}} + q A_i\right) \\
-    &= \frac{dP_i}{dt} + q \frac{dA_i}{dt} = -q \frac{\partial \phi}{\partial x_i} + q \frac{\partial A_j}{\partial x_i} \dot{x}_j
+    &= \frac{dP_i}{dt} + q \frac{dA_i}{dt}
 \end{align*}
+Then we can expand the total derivative:
+\begin{equation*}
+    \frac{dA_i}{dt} = \frac{\partial A_i}{\partial t} + \frac{\partial A_i}{\partial x_j} \dot{x}_j
+\end{equation*}
 \begin{align*}
     \implies \frac{dP_i}{dt} &= q\left(-\frac{\partial A_i}{\partial t} - \frac{\partial \phi}{\partial x_i}\right) + q \dot{x}_i \left(\frac{\partial A_j}{\partial x_i} - \frac{\partial A_i}{\partial x_j}\right) \\
     \implies \frac{d\vec{p}}{dt} &= q\left(\vec{E} + \dvec{x} \times \vec{B}\right).
@@ -199,13 +205,18 @@ The Euler-Lagrange equation becomes:
 
 However, we may want to instead derive the covariant form, $m \frac{dU^\mu}{d\tau} = q F^{\mu\nu} U_\nu$. We can do this by varying the worldline of the particle, $X^\mu(\lambda)$ for some parameter $\lambda$. We then write the action in a covariant form.
 
-Kinetic term:
+For the kinetic term, we need to recall the spacetime interval:
+\begin{equation*}
+    ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2 = \eta_{\mu\nu} dX^\mu dX^\nu
+\end{equation*}
+that defines proper time by $c^2 d\tau^2 = -ds^2$. We use this to change $d\tau$ into something including $d\lambda$:
 \begin{align*}
-    -mc^2 \int \sqrt{1 - |\vec{v}|^2 / c^2} &= -mc^2 \int d\tau \\
-    &= -mc^2 \int \left(-\eta_{\mu\nu} \frac{dX^\mu}{d\tau} \frac{dX^\nu}{d\tau}\right)^\frac12d\lambda
+    -mc^2 \int \sqrt{1 - |\vec{v}|^2 / c^2} dt &= -mc^2 \int d\tau \\
+    &= -mc \int \left(-\eta_{\mu\nu} dX^\mu dX^\nu\right)^\frac12 \\
+    &= -mc \int \left(-\eta_{\mu\nu} \frac{dX^\mu}{d\lambda} \frac{dX^\nu}{d\lambda}\right)^\frac12d\lambda
 \end{align*}
 
-Electromagnetic term:
+The electromagnetic term is easier:
 \begin{align*}
     q(-\phi + \vec{A} \cdot \vec{v}) dt&= q(-\phi~dt + \vec{A} \cdot \vec{dx}) \\
     &= q A_\mu dX^\mu
@@ -216,14 +227,24 @@ Therefore we can combine these into a fully covariant action:
 \end{equation*}
 We next find the terms of the Euler-Lagrange equation:
 \begin{align*}
-    \frac{\partial L}{\partial X^\mu} &= q \left(\frac{\partial A^\nu}{\partial X^\mu}\right) \frac{dX^\nu}{d\lambda} \\
-    \frac{\partial L}{\partial \left(dX^\mu / d\lambda\right)} &= \frac{mc \eta_{\mu\nu} \frac{dX^\nu}{d\lambda}}{\sqrt{-\eta_{\alpha\beta}\frac{dX^\alpha}{d\lambda} \frac{dX^\beta}{d\lambda}}} + qA_\mu \\
-    &= m U_\mu + q A_\mu %TODO: How??
+    \frac{\partial L}{\partial X^\mu} &= q \left(\frac{\partial A_\nu}{\partial X^\mu}\right) \frac{dX^\nu}{d\lambda} \\
+    \frac{\partial L}{\partial \left(dX^\mu / d\lambda\right)} &= \frac{mc \eta_{\mu\nu} \frac{dX^\nu}{d\lambda}}{\sqrt{-\eta_{\alpha\beta}\frac{dX^\alpha}{d\lambda} \frac{dX^\beta}{d\lambda}}} + qA_\mu
+\end{align*}
+We use the following relationship between derivatives:
+\begin{equation*}
+    \sqrt{-\eta_{\mu\nu} \frac{dX^\mu}{d\lambda} \frac{dX^\nu}{d\lambda}} = c \frac{d\tau}{d\lambda}
+\end{equation*}
+and then we can simplify this last equation:
+\begin{align*}
+    \frac{\partial L}{\partial \left(dX^\mu / d\lambda\right)} &= mc \eta_{\mu\nu} \frac{\frac{dX^\nu}{d\lambda}}{\sqrt{-\eta_{\alpha\beta}\frac{dX^\alpha}{d\lambda} \frac{dX^\beta}{d\lambda}}} + qA_\mu \\
+    &= mc \eta_{\mu\nu} \frac{\frac{dX^\nu}{d\lambda}}{c \frac{d\tau}{d\lambda}} + qA_\mu \\
+    &= m \eta_{\mu\nu} \frac{dX^\mu}{d\tau} + qA_\mu \\
+    &= m U_\mu + q A_\mu
 \end{align*}
 Then forming the Euler-Lagrange equation:
 \begin{align*}
     q \left(\frac{\partial A_\nu}{\partial X^\mu}\right) \frac{dX^\nu}{d\lambda} &= \frac{d}{d\lambda}\left(mU_\mu + qA_\mu\right) \\
-    q\left(\frac{\partial A_\nu}{\partial X^\mu} \frac{dX^\nu}{d\lambda} - \frac{dA_\mu}{d\lambda}\right) &= m \frac{dU_\nu}{d\lambda} \\
+    q\left(\frac{\partial A_\nu}{\partial X^\mu} \frac{dX^\nu}{d\lambda} - \frac{\partial A_\mu}{\partial X^\nu} \frac{dX^\nu}{d\lambda}\right) &= m \frac{dU_\nu}{d\lambda} \text{ by expanding total derivative}\\
     q \frac{dX^\nu}{d\lambda} F_{\mu \nu} &= m \frac{dU_\nu}{d\lambda} \\
     q \frac{dX^\nu}{d\tau} F_{\mu \nu} &= m \frac{dU_\nu}{d\tau} \\
 \end{align*}
@@ -343,4 +364,108 @@ which gives hyperbolic motion:
     x^2 + ct^2 = \frac{c^2}{\alpha^2} \left[\left(c\dot{t}(0)\right)^2 - \left(\dot{x}(0)\right)^2\right]
 \end{equation*}
 which is a positive constant.
+
+We can also find $y(\tau)$ and $z(\tau)$:
+\begin{align*}
+    y(\tau) &= \frac1{\omega_c} \left[\sin(\omega_c \tau) \dot{y}(0) - \cos(\omega_c \tau) \dot{z}(0)\right] + y(0) \\
+    z(\tau) &= \frac1{\omega_c} \left[\cos(\omega_c \tau) \dot{y}(0) + \sin(\omega_c \tau) \dot{z}(0)\right] + z(0)
+\end{align*}
+Then this gives circular motion:
+\begin{equation*}
+    y^2 + z^2 = \frac1{\omega_c^2} \left[\dot{y}^2(0) + \dot{z}^2(0)\right] = \text{const}
+\end{equation*}
+Note that this is not the same as moving around a circle at constant speed. This is because the speed in $x$ is increasing to an asymptote at $c$, so $\gamma$ is increasing to $\infty$. This means that the circular motion goes at slower and slower speeds with respect to coordinate time $t$.
+
+With respect to an inertial observer, the motion is a helix spiralling about the field (along $x$), with increasing spacing between spirals.
+
+Asymptotically,
+\begin{align*}
+    x &\sim e^{\alpha \tau / c} \\
+    ct &\sim e^{\alpha \tau / c}
+\end{align*}
+and so per circular period $\Delta \tau = \frac{2\pi}{\omega_c}$,
+\begin{equation*}
+    \Delta \ln(x) = \frac{\alpha}{c} \frac{2\pi}{\omega_c}
+\end{equation*}
+which is constant. Therefore, we have a perfect helix (with no stretching) in coordinates $(\ln(x), y, z)$.
+
+We now need the case $\vec{E} \cdot \vec{B} = 0$. The cases $\vec{E} = 0$ and $\vec{B} = 0$ can be found by taking appropriate limits ($\alpha \to 0$ for $\vec{E} = 0$ or $\omega_c \to 0$ for $\vec{B} = 0$).
+
+If $\vec{E} \cdot \vec{B} = 0$, then we can generally perform a Lorentz boost to zero one of these fields. The case where we cannot is on the first example sheet.
+\subsection{Action Principle for the Electromagnetic Field}
+We would like to write down the action for the electromagnetic field. We require that it is a Lorentz-invariant integral of the Lagrangian density:
+\begin{equation*}
+    S = \frac1c\int_{\R^{1 + 3}} \Lag d^4X
+\end{equation*}
+where $d^4X = c~dt~d^3\vec{x}$. Note that this is already Lorentz-invariant because any transform $\Lambda$ has $\det(\Lambda) = 1$. We argue that the Lagrangian density must satisfy:
+\begin{itemize}
+    \item Lorentz invariance;
+    \item gauge transformation such that the action $S$ is gauge-invariant;
+    \item correct field equations from stationary action under field variations that vanish on a closed surface $\partial V$ in spacetime;
+    \item Dimension $ML^2T$, energy $\times$ time.
+\end{itemize}
+We will work in terms of the electromagnetic potential $A^\mu$. Our Lagrangian density will have two parts, one relating to the free field and one relating to the interaction of the field with a current $J^\mu$. For the free field, we look to quadratic invariants. We will include $F_{\mu\nu} F^{\mu\nu}$ because it has a contribution inside the volume (the invariant involving the dual will not contribute to the integral). Therefore, the EM field part has $\Lag \propto F_{\mu\nu} F^{\mu\nu}$.
+
+For the interaction part, variations in the field should produce a contribution to the action proportional to the current $J^\mu$. The simplest expression is $A_\mu J^\mu$.
+
+Suppose we have a prescribed current $J^\mu$ which is conserved ($\partial_\mu J^\mu = 0$). Then we claim:
+\begin{equation*}
+    S = \underbrace{-\frac{1}{4\mu_0 c} \int F_{\mu\nu} F^{\mu\nu} d^4X}_{\text{free electromagnetic part}} + \underbrace{\frac1c \int A_\mu J^\mu d^4X}_{\text{interaction part}}
+\end{equation*}
+We check gauge invariance. Suppose that $A^\mu \mapsto A^\mu + \nabla \chi$:
+\begin{align*}
+    \int A_\mu J^\mu d^4X &\mapsto \int A_\mu J^\mu d^4X + \int \partial_\mu \chi J^\mu d^4X \\
+    &= \int A_\mu J^\mu d^4X + \int \partial_\mu \left(\chi J^\mu\right) d^4X - \int \chi \underbrace{\partial_\mu J^\mu}_{\substack{0 \text{ by current}\\\text{conservation}}}d^4X \\
+    &= \int A_\mu J^\mu d^4X + \int_{\text{surface}} \chi J^\mu dS
+\end{align*}
+so the gauge transformation adds only a surface term, which is permissible.
+
+We now vary $S$ with repect to $A_\mu$ to obtain the field equations:
+\begin{align*}
+    \delta S &= -\frac{2}{4\mu_0 c} \int \left(\partial_\mu \delta A_\nu - \partial_\nu \delta A_\mu\right)F^{\mu \nu} d^4X + \frac1c \int \delta A_\mu J^\mu d^4X \\
+    &= -\frac{1}{\mu_0 c} \int \left(F^{\mu \nu} \partial_\mu \delta A_\nu - \mu_0 J^\nu \delta A_\nu\right) d^4X \\
+    \intertext{Next, integrate by parts:}
+    &= \frac{1}{\mu_0 c} \int \left[ \left(\partial_\mu F^{\mu \nu}\right) + \mu_0 J^\mu\right] \delta A_\nu d^4X \text{ because } \delta A_\mu = 0 \text{ on boundary}
+\end{align*}
+Therefore $\delta S = 0$ for all $A_\mu$ vanishing on the boundary only if:
+\begin{align*}
+    &\partial_\mu F^{\mu \nu} + \mu_0 J^\nu = 0 \\
+    &\implies \partial_\mu F^{\mu \nu} = - \mu_0 J^\nu
+\end{align*}
+which is the forced Maxwell equation.
+
+We would like to further understand the interaction part of the action. What if $J^\mu$ is due to a point particle with worldline $Y^\mu(\lambda)$? We claim that:
+\begin{equation}
+    J^\mu(X) = qc \int \delta(X - Y(\lambda)) \frac{dY(\lambda)}{d\lambda} d\lambda
+    \label{eqnParticleCurrent}
+\end{equation}
+This would give interaction part:
+\begin{align*}
+    S_{int} &= \frac1c A_\mu(X) J^\mu(X) d^4X \\
+    &= q \int A_\mu(Y(\lambda)) \frac{dY^\mu}{d\lambda} d\lambda
+\end{align*}
+which is as we saw for the interaction of a point particle.
+
+We now explain \eqnref{eqnParticleCurrent}. First break up the 4-dimensional delta function:
+\begin{equation*}
+    \delta(X - Y(\lambda)) = \delta(ct - Y^0(\lambda))\vec{\delta}(\vec{x} - \vec{\lambda}(y))
+\end{equation*}
+and recall that:
+\begin{equation*}
+    \delta(f(\lambda)) = \sum_{\text{roots of }f} \frac{\delta(\lambda - \lambda_*)}{\left|\frac{df}{d\lambda}\right|_{\lambda = \lambda^*}}
+\end{equation*}
+from which it follows
+\begin{equation*}
+    \delta(ct - Y^0(\lambda)) = \frac{\delta(\lambda - (Y^0)^{-1}(ct))}{\frac{dY^0}{d\lambda}}.
+\end{equation*}
+Now we can integrate over $\lambda$:
+\begin{align*}
+    J^\mu(X) &= qc \int \delta(X - Y(\lambda)) \frac{\partial Y^\mu}{\partial \lambda} d\lambda \\
+    &= qc \vec{\delta}(\vec{x} - \vec{y}(t)) \frac{dY^\mu / d\lambda}{dY^0 / d\lambda}
+\end{align*}
+then this final term is $1$ if $\mu = 0$, and $\frac1c \frac{dY^{i}}{dt}$ if $\mu = i$. Then:
+\begin{align*}
+    J^0(X) &= qc \vec{\delta}(\vec{x} - \vec{y}(t)) \\
+    J^i(X) &= q V^i(t) \vec{\delta}(\vec{x} - \vec{y}(t))
+\end{align*}
 \end{document}
