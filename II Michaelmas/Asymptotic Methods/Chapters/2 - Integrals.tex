@@ -44,7 +44,7 @@ many times:
     I &= \int_{a}^{b} f(t)g^{(n)}(t) dt \\
     &= \sum_{k=1}^{n} (-1)^{k-1} \left[f^{(k-1)}(t) g^{(n-k)}(t)\right]_a^b + (-1)^n \int_{a}^{b} f^{(n)}(t)g(t) dt
 \end{align*}
-This can generate an asymptotic approximation under certain circumstances.
+Then if we can bound the resulting integrand by $o(\text{previous term})$, we can give an asymptotic series of boundary terms.
 \begin{example}
     Consider:
     \begin{equation*}
@@ -69,5 +69,143 @@ This can generate an asymptotic approximation under certain circumstances.
     \begin{equation*}
         F(x) \sim \frac{e^{-x^2 / 2}}{x} \sum_{n=0}^{\infty} (-1)^n \frac{(2n-1)!!}{x^{2n}}
     \end{equation*}
+\end{example}
+We consider a more general example:
+\begin{equation*}
+    I(x) = \int_{a}^{b} f(t)e^{xt} dt 
+\end{equation*}
+as $x \to \infty$ for $b > a$, $f(b) \neq 0$ and $f$ well-behaved on $[a, b]$. Note that, as $x \to \infty$, $I(x)$ will be dominated by a small contribution near $t = b$ where the exponential term gets very large. As a very rough estimate, we can consider:
+\begin{equation*}
+    I(x) \approx f(b) \int_{a}^{b} e^{xt} dt = \frac{f(b) e^{xb}}{x}
+\end{equation*}
+because $e^{xb} \gg e^{xa}$ as $x \to \infty$. A better method is to use repeated integration by parts:
+\begin{align*}
+    I(x) &= \sum_{k=1}^{N} (-1)^{k-1} \left[f^{(k-1)}(\lambda) e^{xt} x^{-k}\right]_a^b + \frac{(-1)^N}{x^N} \int_{a}^{b} f^{(n)}(t) e^{xt} dt  \\
+    &= e^{xb} \left[\underbrace{\sum_{k=1}^{N} (-1)^{k-1} f^{(k)}(b) x^{-k}}_{J_1} - \underbrace{e^{-x(b-a)} \sum_{k=1}^{N} (-1)^{k-1} f^{(k-1)}(a)x^{-k}}_{J_2}\right. \\
+    &+ \left.\underbrace{\frac{(-1)^N}{x^N} \int_{a}^{b} f^{(N)}(t) e^{x(t-b)} dt}_{J_3}\right]
+\end{align*}
+Now $J_1$ can be our $N$-term approximation with $\phi_k = x^{-k}$. We now need to bound $J_2$ and $J_3$ by $o(x^{-N})$:
+\begin{equation*}
+    \frac{J_2}{x^{-N}} = e^{-x(b-a)} \sum_{k=1}^{N}(-1)^{k-1} f^{(k-1)}(a) x^{(N-k)}
+\end{equation*}
+which goes to $0$ as $x \to \infty$ by looking at the exponential.
+Next,
+\begin{align*}
+    \frac{J_3}{x^{-N}} &\leq \abs{\frac{J_3}{x^{-N}}} \\
+    &\leq \int_{a}^{b} \abs{f^{(N)}(t)} e^{x(t-b)} dt \\
+    &\leq \max_{a < t < b} \abs{f^{(N)}(t)} \int_{a}^{b} e^{x(t-b)} dt \\
+    &\leq \max_{a < t < b} \abs{f^{(N)}(t)} \frac1x \left(1 - e^{-x(b-a)}\right)
+\end{align*}
+which tends to $0$ as $x\to\infty$ as long as $f$ is smooth. Therefore, $J_2$ and $J_3$ are bounded and so we get asymptotic series:
+\begin{equation*}
+    I(x) \sim \sum_{k=1}^{\infty} (-1)^{k-1} \frac{f^{(k-1)}(b) e^{xb}}{x^k} \text{ as } x\to\infty.
+\end{equation*}
+\section{The Gamma Function}
+Recall, for $\Re(z) > 0$,
+\begin{equation*}
+    \Gamma(z) = \int_{0}^{\infty} t^{z-1} e^{-t} dt
+\end{equation*}
+\begin{propositions}{
+        We state the following without proof:
+        \label{propsGamma}
+    }
+    \item $\Gamma$ is analytic; \label{propGammaAnalytic}
+    \item $\Gamma(z+1) = z\Gamma(z)$ (recursion relation); \label{propGammRecursion}
+    \item $\Gamma(1) = 1$ and $\Gamma(n+1) = n!$; \label{propGammaFactorial}
+    \item $\int_{0}^{\infty} t^{z-1} e^{-xt} dt = \frac{\Gamma(z)}{x^z}$; \label{propGammaExtended}
+    \item generalised binomial coefficients:
+        \begin{equation*}
+            \begin{pmatrix}z \\ k\end{pmatrix} = \frac{\Gamma(z+1)}{k! \Gamma(z-k)}
+        \end{equation*} 
+        here $k$ must be a positive integer. \label{propGammaBinomial}
+\end{propositions}
+Note that \thmref{propGammaBinomial} can be used to expand:
+\begin{equation*}
+    (1 + t)^z = \sum_{k=0}^{\infty} \begin{pmatrix}z \\ k\end{pmatrix} t^k.
+\end{equation*}
+\section{Watson's Lemma}
+\begin{theorem}[Watson's Lemma]
+    Consider:
+    \begin{equation*}
+        F(x) = \int_{0}^{T} f(t)e^{-xt} dt
+    \end{equation*}
+    as $x \to \infty$ and $T \in (0, \infty]$. Suppose that $f(t) \sim t^\alpha \sum_{n=0}^{\infty} a_n t^{\beta n}$ as $t \to 0^+$ where $\alpha > -1$, $\beta > 0$. Also assume that either:
+    \begin{enumerate}
+        \item $\abs{f(t)} < Ke^{bt}$ for all $t \in [0, t]$ for some $K, b > 0$; or
+        \item $\int_{0}^{T} \abs{f(t)} dt < \infty$.
+    \end{enumerate}
+
+    Then $F$ has an asymptotic expansion:
+    \begin{equation*}
+        F(x) \sim \sum_{n=0}^{\infty} a_n \frac{\Gamma(\alpha + \beta n + 1)}{x^{\alpha + \beta n + 1}}.
+    \end{equation*}
+    \label{thmWatsonLemma}
+\end{theorem}
+\begin{proof}
+    The inclusion of $e^{-xt}$ in the integrand will zero the integrand unless $t$ is very close to $0$, especially as $x \to \infty$. We will therefore split the integrand:
+    \begin{equation*}
+        F(x) = \underbrace{\int_{0}^{\epsilon} f(t)e^{-xt} dt}_{F_1(x)} + \underbrace{\int_{\epsilon}^{T} f(t) e^{-xt} dt}_{F_2(x)}
+    \end{equation*}
+    Therefore, we want to bound $F_2$ and use the asymptotic expansion of $f$ in $F_1$. First we bound $F_2$.
+    \begin{case}{$\abs{f(t)} < Ke^{bt}$}
+        \begin{align*}
+            \abs{F_2(x)} &\leq \int_{\epsilon}^{T} Ke^{bt} e^{-xt} dt  \\
+            &= \frac{K}{x-b} e^{(b-x)\epsilon} \\
+            &= O\left(\frac{e^{-\epsilon x}}{x}\right)
+        \end{align*}
+        as $x \to \infty$. Note that the integral converges for $x > b$.
+    \end{case}
+    \begin{case}{$\abs{f(t)}$ has a bounded integral}
+        \begin{align*}
+            \abs{F_2}&\leq \int_{\epsilon}^{t} \abs{f(t)} e^{-xt} dt \\
+            &\leq e^{-\epsilon x} \int_{\epsilon}^{T} \abs{f(t)} dt \\
+            &\leq e^{-\epsilon x} \int_{0}^{T} \abs{f(t)} dt \\
+            &= O\left(e^{-\epsilon x}\right)
+        \end{align*}
+        as $x \to \infty$.
+    \end{case}
+    Therefore, in both cases, $F_2$ is small beyond all orders in inverse powers of $x$.
+\end{proof}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        I(x) = \int_{0}^{\infty} e^{xt} \sin(t) dt
+    \end{equation*}
+    Note that we already have an exact solution in the form of $(1 + x^2)^{-1}$.
+
+    Consider $f(t) = \sin(t)$ which is exponentially bounded. We use the Taylor series:
+    \begin{equation*}
+        f(t) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n+1)!}t^{2n + 1}
+    \end{equation*}
+    which as $\alpha = 1, \beta = 2$.
+
+    By \thmref{thmWatsonLemma},
+    \begin{align*}
+        I(x) &\sim \sum_{n=0}^{\infty} (-1)^n \frac{\Gamma(2n+2)}{(2n+1)!} \frac{1}{x^{2n+2}} \\
+        &= \frac{1}{x^2} \sum_{n=0}^{\infty} \frac{(-1)^n}{x^{2n}}
+    \end{align*}
+    and we can sum this to get the known result $\frac{1}{1 + x^2}$.
+\end{example}
+\begin{example}
+    Consider an ODE:
+    \begin{equation*}
+        xy'' + (a + 1 - x) y' - ay = 0
+    \end{equation*}
+    where $a > 0$ is a parameter. The solution is:
+    \begin{equation*}
+        M(x) = \frac{e^x}{\Gamma(a)} \int_{0}^{1} e^{-xt} (1 - t)^{a-1} dt
+    \end{equation*}
+    and we want to find and asymptotic expansion for $x \to \infty$.
+
+    In this case $f(t) = (1-t)^{a-1}$. It clearly has a bounded integral on $[0, 1]$. We also need an asymptotic expansion around $t = 0$, for which we can use the generalised binomial expansion:
+    \begin{equation*}
+        f(t) \sim \sum_{n=0}^{\infty} (-1)^n \frac{\Gamma(a)}{n!~\Gamma(a-n)} t^n
+    \end{equation*}
+    which has $\alpha= 0, \beta = 1$. By \thmref{thmWatsonLemma},
+    \begin{align*}
+        M(x) &\sim \frac{e^x}{\Gamma(a)} \sum_{n=0}^{\infty} (-1)^n \frac{\Gamma(a) \Gamma(n+1)}{\Gamma(a-n) n!} \frac{1}{x^{n+1}} \\
+        &= e^x \sum_{n=0}^{\infty} (-1)^n \frac{1}{\Gamma(a-n)} \frac{1}{x^{n+1}} \\
+    \end{align*}
+    which has first term $\frac{e^x}{x\Gamma(a)}$.
 \end{example}
 \end{document}
