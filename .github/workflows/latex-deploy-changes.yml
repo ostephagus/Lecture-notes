@@ -92,7 +92,7 @@ jobs:
           echo "::group::Compiling $filename"
           echo "Compiling $file in $dir"
           cd "$dir"
-          latexmk -pdf -interaction=nonstopmode -jobname="$filename" Main.tex || true
+          latexmk -pdf -shell-escape -interaction=nonstopmode -jobname="$filename" Main.tex || true
 
           cp "$filename.pdf" "${{ github.workspace }}/output/$filename.pdf"
           cd - > /dev/null
