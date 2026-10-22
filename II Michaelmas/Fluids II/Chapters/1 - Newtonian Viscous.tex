@@ -286,15 +286,15 @@ which is a lot of parameters. Define a dimensionless velocity $\vec{u}^* = \vec{
 We will use the viscous scaling. \Eqnref{eqnNavierStokes} (Navier-Stokes equation) now becomes:
 \begin{align}
     \rho \left(\frac{U}{T} \frac{\partial u^*}{\partial t^*} + \frac{U^2}{L} \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\frac{\mu U}{L^2} \nabla^2 p^{*2} + \frac{\mu U}{L^2} \nabla^{* 2} \vec{u}^* \nonumber \\
-    \Rey \left(\St\frac{\partial u^*}{\partial t^*} +  \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\nabla^2 p^{*2} + \nabla^{* 2} \vec{u}^* \label{eqnNavierStokesDimless} \\
+    \Re \left(\St\frac{\partial u^*}{\partial t^*} +  \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\nabla^2 p^{*2} + \nabla^{* 2} \vec{u}^* \label{eqnNavierStokesDimless} \\
 \end{align}
-where $\Rey = \frac{\rho U L}{\mu} = \frac{UL}{\nu}$ is the Reynolds number and $\St = \frac{L}{UT}$ is the Stroughal number. Both are dimensionless. We can see the improvement:
+where $\Re = \frac{\rho U L}{\mu} = \frac{UL}{\nu}$ is the Reynolds number and $\St = \frac{L}{UT}$ is the Stroughal number. Both are dimensionless. We can see the improvement:
 \begin{equation*}
-    \vec{u}^*(\vec{x}^*, t, \Rey, \St, \text{shape})
+    \vec{u}^*(\vec{x}^*, t, \Re, \St, \text{shape})
 \end{equation*}
-which is fewer parameters. In fact, if the flow is steady we can use the advection time $T = L / U$. This means $\St = 1$ and $\Re$ is the defining characteristic. If the boundary conditions are oscillatory, we can set $T = \frac1\omega$ and note that $\Rey_T = \Rey\St$ (the unsteady Reynolds number) which is given by:
+which is fewer parameters. In fact, if the flow is steady we can use the advection time $T = L / U$. This means $\St = 1$ and $\Re$ is the defining characteristic. If the boundary conditions are oscillatory, we can set $T = \frac1\omega$ and note that $\Re_T = \Re\St$ (the unsteady Reynolds number) which is given by:
 \begin{equation*}
-    \Rey_T = \frac{L^2}{\nu T} = \frac{\omega L^2}{\nu}
+    \Re_T = \frac{L^2}{\nu T} = \frac{\omega L^2}{\nu}
 \end{equation*}
 is comparing the length scale of the body with the length scale that the oscillation affects.
 
@@ -306,10 +306,10 @@ We can look at certain important limits:
 \begin{itemize}
     \item In the case of slow oscillations (relative to the advection time), we have $\St \ll 1$ and we can neglect the term $\frac{\partial \vec{u}^*}{\partial t^*}$. This leads to quasi-steady flow.
     \item In the case of rapid oscillations (relative to the advection time), we have $\St \gg 1$ and we can neglect the term $(\vec{u}^* \cdot \nabla)\vec{u}^*$. This leads to a linear equation which is easier to solve.
-    \item In the case of no oscillations, $\St = 0$. This gives two limits in terms of $\Rey$:
+    \item In the case of no oscillations, $\St = 0$. This gives two limits in terms of $\Re$:
         \begin{enumerate}
-            \item $\Rey \ll 1$ -- the flow is viscously dominated and so we can neglect the LHS of \eqnref{eqnNavierStokesDimless}. This gives the Stokes equation $-\nabla p = \nabla^2\vec{u}$, which is discussed later.
-            \item $\Rey \gg 1$ -- the fluid is inertially dominated on a length scale $L$. This means we can often neglect $\nabla^2 \vec{u}$, which is the Euler equation of IB Fluid Dynamics. However, near the boundary we see viscous effects, leading to the discussion of boundary layers later in this course.
+            \item $\Re \ll 1$ -- the flow is viscously dominated and so we can neglect the LHS of \eqnref{eqnNavierStokesDimless}. This gives the Stokes equation $-\nabla p = \nabla^2\vec{u}$, which is discussed later.
+            \item $\Re \gg 1$ -- the fluid is inertially dominated on a length scale $L$. This means we can often neglect $\nabla^2 \vec{u}$, which is the Euler equation of IB Fluid Dynamics. However, near the boundary we see viscous effects, leading to the discussion of boundary layers later in this course.
         \end{enumerate}
 \end{itemize}
 \end{document}

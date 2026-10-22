@@ -99,4 +99,121 @@ Now we can find the volume flux:
     &= 2\pi \frac{G}{4\mu} \left[\frac{a^2 r^2}{2} - \frac{r^4}{4}\right]_0^a \\
     &= \frac{\pi G a^4}{8\mu}
 \end{align*}
+Our rate of strain tensor looks like:
+\begin{equation*}
+    e = 
+    \begin{pmatrix}
+        0 & 0 & \frac12 \frac{\partial w}{\partial r} \\
+        0 & 0 & 0 \\
+        \frac12 \frac{\partial w}{\partial r} & 0 & 0
+    \end{pmatrix}
+\end{equation*}
+Then the stress is given by:
+\begin{equation*}
+    \sigma_{rz} = 2\mu e_{rz} = \mu \frac{\partial w}{\partial r} = -\frac{Gr}{2}
+\end{equation*}
+We can show that the total shear stress by the fluid on the tube is equal to the pressure force applied to the fluid, $\Delta p~\pi a^2 \vec{e_z}$. Furthermore, the total dissipation is equal to the rate of doing work -- this is found on Ex1Q5.
+\section{Pressure-Driven Flow in a Rectangular Channel}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw (0, 0) -- (4, 0) -- (4, 1) -- (0, 1) -- cycle;
+        \draw (0, 1) -- (1, 2) -- (5, 2) -- (4, 1);
+        \draw (4, 0) -- (5, 1) -- (5, 2);
+
+        \draw[->] (4.5, 1) -- (5.5, 1) node[right] (W) {$w(x, y)$};
+
+        \draw[->] (-1, 0) -- (-0.5, 0.5) node[above] {$x$};
+        \draw[->] (-1, 0) -- (-1, 0.5) node[above] {$y$};
+        \draw[->] (-1, 0) -- (-0.5, 0) node[right] {$z$};
+    \end{tikzpicture}
+    \caption{Diagram of a rectangular channel}
+    \label{figRectChannel}
+\end{figure}
+We want:
+\begin{equation*}
+    \mu \nabla^2 w = \frac{\partial p}{\partial z} = -G
+\end{equation*}
+with $w = 0$ on $x = \pm a, y = \pm b$.
+
+We use IB Methods to solve this using a particular solution/complementary functio method, $w = w_p(x, y) + w_c(x, y)$. We consider, from Plane Poiseille flow,
+\begin{equation*}
+    w_p(x, y) = \frac{G}{2\mu} \left(b^2 - y^2\right)
+\end{equation*}
+which satisfies $\nabla^2 w_p = - \frac{G}{\mu}$. We therefore need $\nabla^2 w_c = 0$ along with the new boundary condition:
+\begin{equation*}
+    w_c = - \frac{G}{2\mu} (b^2 - y^2) \text{ on } x = \pm a.
+\end{equation*}
+After separation of variables, we obtain:
+\begin{equation*}
+    w_c(x, y) = \frac{Gb^2}{2\mu} \sum_{n=0}^{\infty} \frac{4(-1)^n}{\lambda_n^3} \cos\left(\frac{\lambda_n y}{b}\right) \frac{\cosh\left(\frac{\lambda_n x}{b}\right)}{\cosh\left(\frac{\lambda_n a}{b}\right)}
+\end{equation*}
+where $\lambda_n = \left(n + \frac12\right)\pi$. Now we have this, the flux is given by:
+\begin{align*}
+    Q &= \int_{-b}^{b} \int_{-a}^{a} w(x, y)~dx~dy \\
+    &= \frac{4 \Delta p}{3\mu L} ab^3 \left(1 - \frac{6b}{a} \sum_{n=0}^{\infty} \frac{\tanh(\lambda_n a / b)}{\lambda_n^5}\right)
+\end{align*}
+This sum can be understood to be the  due to the effects of the sides.
+\section{Impulsively Started Flat Plate}
+Consider fluid in $y > 0$ initially at rest and set into motion by a rigid plate at $y = 0$, which starts to move with velocity $(U, 0)$ at $t = 0$.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \begin{scope}[shift={(-2, 1)}]
+            \draw[->] (0, 0) -- (0.5, 0) node[right] {$x$};
+            \draw[->] (0, 0) -- (0, 0.5) node[above] {$y$};
+        \end{scope}
+
+        \draw (-2, 0) -- (2, 0);
+        \draw [->] (-1, -0.1) -- (1, -0.1)
+            node[pos=0.5, below] {$U$};
+
+        \draw[dashed, blue] (0, 0) -- (0, 2);
+
+        \draw[blue, solid, thick, domain=0:2, samples=50] plot ({1.5*exp(-\x)}, {\x});
+    \end{tikzpicture}
+    \caption{Diagram of impulsively started plate}
+    \label{figImpulsePlate}
+\end{figure}
+We consider unidirectional flow $\vec{u} = (u(y, t), 0, 0)^T$ where $u(0, t) = U$ for $t > 0$. This must satisfy:
+\begin{equation*}
+    \frac{\partial u}{\partial t} = \nu \frac{\partial^{2}u}{\partial y^{2}}
+\end{equation*}
+We have seen in IB Fluid Dynamics that the answer is a similarity solution, using the length scale given by the equations $\sqrt{\nu t}$. Note that the other possible length scales involve $u$ which is the flow along $x$, not along $y$. Recalling IB Fluid Dynamics, the solution is:
+\begin{equation*}
+    u(y, t) = U \operatorname{ercf}(\eta)
+\end{equation*}
+where $\eta$ is the similarity variable, $\eta = \frac{y}{2\sqrt{\nu t}}$. The complementary error function is:
+\begin{equation*}
+    \operatorname{ercf}(\eta) = \frac{2}{\pi} \int_{\eta}^{\infty} e^{-s^2} ds 
+\end{equation*}
+The stress by the fluid on the plate is $\mu \frac{\partial u}{\partial y}$ and is given by:
+\begin{equation*}
+    \tau = -\frac{\mu U}{\sqrt{\pi \nu t}}
+\end{equation*}
+The rate of working by the plate on the fluid is $\vec{u} \cdot (\sigma \vec{n})$:
+\begin{equation*}
+    P = U\left(-\mu \frac{\partial u}{\partial y}\right) = \frac{\mu U^2}{\sqrt{\pi \nu t}}
+\end{equation*}
+This must equal the rate of change of kinetic energy plus the rate of dissipation. The easiest check for this is to integrate:
+\begin{align*}
+    \rho u \frac{\partial u}{\partial t} &= \rho u \nu \frac{\partial^{2}u}{\partial y^{2}} \\
+    \implies \frac{d}{dt} \int_{0}^{\infty} \frac12 \rho u^2 dy &= \mu \int_{0}^{\infty} u \frac{\partial^{2}u}{\partial y^{2}} dy \\
+    &= \left[\mu u \frac{\partial u}{\partial y}\right]_0^\infty - \mu \int_{0}^{\infty} \left(\frac{\partial u}{\partial y}\right)^2 dy 
+\end{align*}
+\section{Oscillating Flat Plate}
+Consider a similar setup but now the plate moves with velocity $U\cos(\omega t)$. Consider a limit $t \to \infty$ so that the fluid undergoes steady oscillations. The solution (see IB Fluid Dynamics) is
+\begin{align*}
+    u &= \Re\left(U e^{i\omega t} e^{-\sqrt{\frac{i\omega}{\nu}}}\right) \\
+    &= Ue^{-ky} \cos(\omega t - k y)
+\end{align*}
+where $k = \sqrt{\frac{\omega}{2\nu}}$.
+
+Then the diffusion length in this case is $\frac1k$.
+
+The time dependence of the stress complicates calculations like rate of working and dissipation. However, we are often interested in the time-averaged quantities. The quantities in the energy equation are quadratic, so we are interested in products of oscillatory functions:
+\begin{align*}
+    \avg{\cos^2(t)} = \avg{\sin^2(t)} &= \frac12 & \avg{\cos(t)\sin(t)} &= 0 \\
+    \avg{\Re(Ae^{i\omega t})\Re(Be^{i\omega t})} &= \frac12 \Re(AB^*)
+\end{align*}
 \end{document}
