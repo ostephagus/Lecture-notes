@@ -468,4 +468,100 @@ then this final term is $1$ if $\mu = 0$, and $\frac1c \frac{dY^{i}}{dt}$ if $\m
     J^0(X) &= qc \vec{\delta}(\vec{x} - \vec{y}(t)) \\
     J^i(X) &= q V^i(t) \vec{\delta}(\vec{x} - \vec{y}(t))
 \end{align*}
+\section{Energy and Momentum of the Electromagnetic Field}
+\subsection{Energy and Momentum Conservation}
+\begin{theorem}[Poynting's Theorem]
+    The rate of working of the elctromagnetic field, $\vec{J} \cdot \vec{E}$, is given by:
+    \begin{equation*}
+        \frac{\partial \E}{\partial t} + \nabla \cdot \vec{N} = -\vec{J} \cdot \vec{E}
+    \end{equation*}
+    where $\E = \frac12 \epsilon_0 |\vec{E}|^2 + \frac1{2\mu_0} |\vec{B}|^2$ is the electromagnetic energy density, and $\vec{N} = \frac1{\mu_0} \vec{E} \times \vec{B}$ is the Poynting vector.
+    \label{thmPoynting}
+\end{theorem}
+\begin{proof}
+    The rate of working per unit volume of the electromagnetic field on charged particles is $\vec{J} \cdot \vec{E}$. We now use the fourth Maxwell equation:
+    \begin{equation*}
+        \nabla \times \vec{B} = \mu_0 \vec{J} + \mu_0 \epsilon_0 \frac{\partial \vec{E}}{\partial t}
+    \end{equation*}
+    and substitute in:
+    \begin{align*}
+        \vec{J} \cdot \vec{E} &= \frac1{\mu_0} \vec{E} \cdot \left(\nabla \times \vec{B}\right) - \epsilon_0 \vec{E} \cdot \frac{\partial \vec{E}}{\partial t} \\
+        \intertext{Using the identity $\nabla \cdot (\vec{E} \times \vec{B}) = \vec{B} \cdot (\nabla \times \vec{E}) - \vec{E} \cdot (\nabla \times \vec{B})$}:
+        &= \frac1{\mu_0} \left(\vec{B} \cdot (\nabla \times \vec{E}) - \vec{E} \cdot (\nabla \times \vec{B})\right) - \epsilon_0 \vec{E} \cdot \frac{\partial \vec{E}}{\partial t} \\
+        &= \frac1{\mu_0} \left(\vec{B} \cdot \left(-\frac{\partial \vec{B}}{\partial t}\right) - \vec{E} \cdot (\nabla \times \vec{B})\right) - \epsilon_0 \vec{E} \cdot \frac{\partial \vec{E}}{\partial t} \\
+        &= -\frac{\partial }{\partial t} \left(\frac12 \epsilon_0 |\vec{E}|^2 + \frac1{2\mu_0} |\vec{B}|^2\right) - \frac1{\mu_0} \nabla \cdot (\vec{E} \times \vec{B})
+    \end{align*}
+    which is as required:
+    \begin{equation*}
+        \frac{\partial \E}{\partial t} + \nabla \cdot \vec{N} = -\vec{J} \cdot \vec{E}
+    \end{equation*}
+\end{proof}
+\begin{remark}
+    The Poynting vector $\vec{N}$ is the energy flux due to the electromagnetic field, so $\vec{N} \cdot \vec{dS}$ is the rate at which electromagnetic energy flows through $\vec{dS}$.
+\end{remark}
+The integral form of \thmref{thmPoynting} is:
+\begin{equation*}
+    \underbrace{\frac{d}{dt} \int_V \E~dV}_{\substack{\text{rate of change}\\\text{of EM energy}}} + \underbrace{\int_V \vec{J} \cdot \vec{E}~dV}_{\substack{\text{rate of working}\\\text{on charges in $V$}}} = \underbrace{-\int_{\partial V} \vec{N} \cdot \vec{dS}}_{\substack{\text{rate of energy}\\\text{flowing into $V$}}}
+\end{equation*}
+Now consider the force per unit volume on charged particles:
+\begin{align*}
+    \vec{F} &= \rho \vec{E} + \vec{J} \times \vec{B} \\
+    &= \epsilon_0 (\nabla \cdot \vec{E}) \vec{E} + \left(\frac1{\mu_0} \nabla \times \vec{B} - \epsilon_0 \frac{\partial \vec{E}}{\partial t}\right) \times \vec{B} \\
+    &= \epsilon_0 (\nabla \cdot \vec{E}) \vec{E} + \frac1{\mu_0} (\nabla \times \vec{B}) \times \vec{B} - \epsilon_0 \frac{\partial \vec{E}}{\partial t}\times \vec{B} \\
+    &= \epsilon_0 (\nabla \cdot \vec{E}) \vec{E} + \frac1{\mu_0} (\nabla \times \vec{B}) \times \vec{B} - \epsilon_0 \left(\frac{\partial}{\partial t} (\vec{E} \times \vec{B}) - \vec{E} \times \frac{\partial B}{\partial t}\right) \\
+    &= \epsilon_0 (\nabla \cdot \vec{E}) \vec{E} + \frac1{\mu_0} (\nabla \times \vec{B}) \times \vec{B} - \epsilon_0 \left(\frac{\partial}{\partial t} (\vec{E} \times \vec{B}) + \vec{E} \times (\nabla \times \vec{E})\right) \\
+    \intertext{we can create a more symmetric equation by adding $\frac{1}{\mu_0}\vec{B} (\nabla \cdot \vec{B}) = 0$:}
+    &= \epsilon_0 (\nabla \cdot \vec{E}) \vec{E} + \frac1{\mu_0} (\nabla \cdot \vec{B}) \vec{B} + \frac1{\mu_0} (\nabla \times \vec{B}) \times \vec{B} + \epsilon_0 (\nabla \times \vec{E}) \times \vec{E}\\
+    &\qquad- \epsilon_0 \frac{\partial}{\partial t} (\vec{E} \times \vec{B}) \\
+    \intertext{we manipulate the curl terms as $(\nabla \times \vec{B}) \times\vec{B} = (\vec{B} \cdot \nabla)\vec{B} - \frac12 \nabla |\vec{B}|^2$:}
+    &= \epsilon_0 \left[\vec{E} (\nabla \cdot \vec{E}) + (\vec{E} \cdot \nabla)\vec{E} - \frac12 \nabla |\vec{E}|^2\right]\\
+    &\qquad + \frac1{\mu_0} \left[\vec{B} (\nabla \cdot \vec{B}) + (\vec{B} \cdot \nabla)\vec{B} - \frac12|\vec{B}|^2\right] - \epsilon_0 \frac{\partial }{\partial t} (\vec{E} \times \vec{B})
+\end{align*}
+Then we define the \underline{Maxwell stress tensor}:
+\begin{equation*}
+    \sigma_{ij} = -\epsilon_0 \left[E_i E_j - \frac12 \delta_{ij} |\vec{E}|^2\right] - \frac1{\mu_0} \left[B_i B_j - \frac12 \delta_{ij} |\vec{B}|^2\right]
+\end{equation*}
+Differentiating:
+\begin{equation*}
+    \delta_j \sigma_{ij} -\epsilon_0 \left[E_j \frac{\partial E_i}{\partial x_j} + E_i \frac{\partial E_j}{\partial x_j} - \frac12 \frac{\partial}{\partial x_i} |\vec{E}|^2\right] - \frac1{\mu_0} \left[B_j \frac{\partial B_i}{\partial x_j} + B_i \frac{\partial B_j}{\partial x_j} - \frac12 \frac{\partial}{\partial x_i} |\vec{B}|^2\right]
+\end{equation*}
+We also find the momentum density $\vec{g} = \epsilon_0 \vec{E} \times \vec{B} = \frac1{c^2} \vec{N}$. Using these, we return to the force:
+\begin{equation}
+    \frac{\partial}{\partial t} \vec{g} + \frac{\partial}{\partial x_j} \sigma_{ij} = -\left(\rho \vec{E} + \vec{J} \times \vec{B}\right).
+    \label{eqnMomentumConserve}
+\end{equation}
+Which has the form of a continuity equation with a non-zero right hand side. We interpret $\sigma_{ij}$ as the flux of elctromagnetic momentum such that $\sigma_{ij} dS_j$ is the rate at which the $i$th component of the momentum flows through $\vec{dS}$. Writing \eqnref{eqnMomentumConserve} in integral form:
+\begin{equation*}
+    \underbrace{\frac{\partial}{\partial t} \int_V \vec{g}~dV}_{\substack{\text{rate of change}\\\text{of EM momentum}}} + \underbrace{\int_V \left(\rho \vec{E} + \vec{J} \times \vec{B}\right)}_{\substack{\text{force on charged particles}\\\text{in EM field (rate of change}\\\text{of mechanical momentum)}}} = \underbrace{-\int_{\partial V} \sigma \vec{dS}}_{\substack{\text{rate at which EM}\\\text{momentum flows}\\\text{into $V$}}}
+\end{equation*}
+Note that this gives a far easier way to calculate forces in electrostatics. In this case the first term vanishes and so we only need to evaluate the fields on $\partial V$ to know the forces on particles.
+
+Note that $\sigma_{ij}$ is symmetric, and this is due to conservation of angular momentum.
+
+Our equation $\vec{g} = \frac1{c^2} \vec{N}$ shows that energy flux and momentum density are linearly related, which is actually a more general fact about field theories. This is also consistent with the photon picture, wherein each photon has energy $\E = cp$. If there are $n$ photons per volume, moving at speed $c$ along the $x$ axis,
+\begin{align*}
+    \vec{N} &= (nE) c \vec{e_x} = nc^2p\vec{e_x} \\
+    \vec{g} &= n p \vec{e_x} = \vec{N} / c^2.
+\end{align*}
+\subsection{Stress-Energy Tensor}
+Our aim in this subsection is to combine the energy and momentum conservation laws into a single covariant conservation law for
+\begin{equation*}
+    P^\mu = \begin{pmatrix}E / c \\ \vec{p}\end{pmatrix}.
+\end{equation*}
+We begin by considering $n_0$ particles per unit volume (in $S$) of mass $m$ at rest in some inertial frame $S$. We will use Lorentz transforms to understand how energy and momentum are different in other intertial frames.
+
+In $S$,
+\begin{align*}
+    \E &= n_0 mc^2 \\
+    \vec{N} &= \vec{0} = \vec{g} \\
+    \sigma &= 0.
+\end{align*}
+Then consider a new frame $S'$ which is moving at speed $v$ along the $x$ axis, relative to $S$. Length contraction implies that the new number of particles per unit volume is $\gamma n_0$. Each particle now has energy $\gamma mc^2$ and momentum $\vec{p} = (-\gamma m v, 0, 0)$. Then the new values of the quantities calculated above are:
+\begin{align*}
+    \E' &= (\gamma m c^2)(\gamma n_0) = \gamma^2 \E \\
+    N_x' &= -v\E' = \gamma^2 v \E \\
+    g_x' &- (-\gamma m v)(\gamma n_0) = -\gamma^2 \E v / c^2 \\
+    \sigma'_{xx} &= -vg_x' = \gamma^2 \E v^2 / c^2
+\end{align*}
+The factor $\gamma^2$ suggests a tensor for these quantities (which would transform using two Lorentz matrices).
 \end{document}
