@@ -8,6 +8,8 @@
 
 \input{../../Header.tex}
 
+\tikzexternalize[prefix=tikz/]
+
 \newcommand{\uvec}[1]{
     \StrCut{#1}{_}\firstpart\secondpart
     \hat{\boldsymbol{\firstpart}}_{\secondpart}
@@ -31,8 +33,9 @@
 }
 
 \newcommand{\bdforce}{\mathbf{f}}
-\DeclareMathOperator{\Rey}{Re}
+\renewcommand{\Re}{\operatorname{Re}}
 \DeclareMathOperator{\St}{St}
+\newcommand{\avg}[1]{\langle#1\rangle}
 
 \begin{document}
 \maketitle
