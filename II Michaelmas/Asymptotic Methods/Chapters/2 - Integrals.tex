@@ -70,36 +70,39 @@ Then if we can bound the resulting integrand by $o(\text{previous term})$, we ca
         F(x) \sim \frac{e^{-x^2 / 2}}{x} \sum_{n=0}^{\infty} (-1)^n \frac{(2n-1)!!}{x^{2n}}
     \end{equation*}
 \end{example}
-We consider a more general example:
-\begin{equation*}
-    I(x) = \int_{a}^{b} f(t)e^{xt} dt 
-\end{equation*}
-as $x \to \infty$ for $b > a$, $f(b) \neq 0$ and $f$ well-behaved on $[a, b]$. Note that, as $x \to \infty$, $I(x)$ will be dominated by a small contribution near $t = b$ where the exponential term gets very large. As a very rough estimate, we can consider:
-\begin{equation*}
-    I(x) \approx f(b) \int_{a}^{b} e^{xt} dt = \frac{f(b) e^{xb}}{x}
-\end{equation*}
-because $e^{xb} \gg e^{xa}$ as $x \to \infty$. A better method is to use repeated integration by parts:
-\begin{align*}
-    I(x) &= \sum_{k=1}^{N} (-1)^{k-1} \left[f^{(k-1)}(\lambda) e^{xt} x^{-k}\right]_a^b + \frac{(-1)^N}{x^N} \int_{a}^{b} f^{(n)}(t) e^{xt} dt  \\
-    &= e^{xb} \left[\underbrace{\sum_{k=1}^{N} (-1)^{k-1} f^{(k)}(b) x^{-k}}_{J_1} - \underbrace{e^{-x(b-a)} \sum_{k=1}^{N} (-1)^{k-1} f^{(k-1)}(a)x^{-k}}_{J_2}\right. \\
-    &+ \left.\underbrace{\frac{(-1)^N}{x^N} \int_{a}^{b} f^{(N)}(t) e^{x(t-b)} dt}_{J_3}\right]
-\end{align*}
-Now $J_1$ can be our $N$-term approximation with $\phi_k = x^{-k}$. We now need to bound $J_2$ and $J_3$ by $o(x^{-N})$:
-\begin{equation*}
-    \frac{J_2}{x^{-N}} = e^{-x(b-a)} \sum_{k=1}^{N}(-1)^{k-1} f^{(k-1)}(a) x^{(N-k)}
-\end{equation*}
-which goes to $0$ as $x \to \infty$ by looking at the exponential.
-Next,
-\begin{align*}
-    \frac{J_3}{x^{-N}} &\leq \abs{\frac{J_3}{x^{-N}}} \\
-    &\leq \int_{a}^{b} \abs{f^{(N)}(t)} e^{x(t-b)} dt \\
-    &\leq \max_{a < t < b} \abs{f^{(N)}(t)} \int_{a}^{b} e^{x(t-b)} dt \\
-    &\leq \max_{a < t < b} \abs{f^{(N)}(t)} \frac1x \left(1 - e^{-x(b-a)}\right)
-\end{align*}
-which tends to $0$ as $x\to\infty$ as long as $f$ is smooth. Therefore, $J_2$ and $J_3$ are bounded and so we get asymptotic series:
-\begin{equation*}
-    I(x) \sim \sum_{k=1}^{\infty} (-1)^{k-1} \frac{f^{(k-1)}(b) e^{xb}}{x^k} \text{ as } x\to\infty.
-\end{equation*}
+\begin{example}
+    We consider a more general example:
+    \begin{equation*}
+        I(x) = \int_{a}^{b} f(t)e^{xt} dt 
+    \end{equation*}
+    as $x \to \infty$ for $b > a$, $f(b) \neq 0$ and $f$ well-behaved on $[a, b]$. Note that, as $x \to \infty$, $I(x)$ will be dominated by a small contribution near $t = b$ where the exponential term gets very large. As a very rough estimate, we can consider:
+    \begin{equation*}
+        I(x) \approx f(b) \int_{a}^{b} e^{xt} dt = \frac{f(b) e^{xb}}{x}
+    \end{equation*}
+    because $e^{xb} \gg e^{xa}$ as $x \to \infty$. A better method is to use repeated integration by parts:
+    \begin{align*}
+        I(x) &= \sum_{k=1}^{N} (-1)^{k-1} \left[f^{(k-1)}(\lambda) e^{xt} x^{-k}\right]_a^b + \frac{(-1)^N}{x^N} \int_{a}^{b} f^{(n)}(t) e^{xt} dt  \\
+        &= e^{xb} \left[\underbrace{\sum_{k=1}^{N} (-1)^{k-1} f^{(k)}(b) x^{-k}}_{J_1} - \underbrace{e^{-x(b-a)} \sum_{k=1}^{N} (-1)^{k-1} f^{(k-1)}(a)x^{-k}}_{J_2}\right. \\
+        &+ \left.\underbrace{\frac{(-1)^N}{x^N} \int_{a}^{b} f^{(N)}(t) e^{x(t-b)} dt}_{J_3}\right]
+    \end{align*}
+    Now $J_1$ can be our $N$-term approximation with $\phi_k = x^{-k}$. We now need to bound $J_2$ and $J_3$ by $o(x^{-N})$:
+    \begin{equation*}
+        \frac{J_2}{x^{-N}} = e^{-x(b-a)} \sum_{k=1}^{N}(-1)^{k-1} f^{(k-1)}(a) x^{(N-k)}
+    \end{equation*}
+    which goes to $0$ as $x \to \infty$ by looking at the exponential.
+    Next,
+    \begin{align*}
+        \frac{J_3}{x^{-N}} &\leq \abs{\frac{J_3}{x^{-N}}} \\
+        &\leq \int_{a}^{b} \abs{f^{(N)}(t)} e^{x(t-b)} dt \\
+        &\leq \max_{a < t < b} \abs{f^{(N)}(t)} \int_{a}^{b} e^{x(t-b)} dt \\
+        &\leq \max_{a < t < b} \abs{f^{(N)}(t)} \frac1x \left(1 - e^{-x(b-a)}\right)
+    \end{align*}
+    which tends to $0$ as $x\to\infty$ as long as $f$ is smooth. Therefore, $J_2$ and $J_3$ are bounded and so we get asymptotic series:
+    \begin{equation*}
+        I(x) \sim \sum_{k=1}^{\infty} (-1)^{k-1} \frac{f^{(k-1)}(b) e^{xb}}{x^k} \text{ as } x\to\infty.
+    \end{equation*}
+    \label{exIntParts}
+\end{example}
 \section{The Gamma Function}
 Recall, for $\Re(z) > 0$,
 \begin{equation*}
@@ -118,6 +121,7 @@ Recall, for $\Re(z) > 0$,
             \begin{pmatrix}z \\ k\end{pmatrix} = \frac{\Gamma(z+1)}{k! \Gamma(z-k)}
         \end{equation*} 
         here $k$ must be a positive integer. \label{propGammaBinomial}
+    \item $\Gamma(z)$ can be analytically continued to the rest of $\C$ using $\gamma(z) = \frac{\gamma(z+1)}{\gamma}$ which works for all but $0$ and the negative integers. \label{propGammaContinue}
 \end{propositions}
 Note that \thmref{propGammaBinomial} can be used to expand:
 \begin{equation*}
@@ -164,7 +168,41 @@ Note that \thmref{propGammaBinomial} can be used to expand:
         \end{align*}
         as $x \to \infty$.
     \end{case}
-    Therefore, in both cases, $F_2$ is small beyond all orders in inverse powers of $x$.
+    Therefore, in both cases, $F_2$ is small beyond all orders in inverse powers of $x$. We now need to show that $F_1$ has the asymptotic series we want, and so equivalently:
+    \begin{equation*}
+        F_1(x) = \sum_{n=0}^{N} a_n \frac{\Gamma(\alpha + \beta n + 1)}{x^{\alpha + \beta n + 1}} + o(x^{_\alpha - \beta N - 1})
+        \tag{RTP}
+    \end{equation*}
+    Therefore, we consider:
+    \begin{align*}
+        \abs{F_1 - \sum_{n=0}^{N} a_n \frac{\alpha + \beta n + 1}{x^{\alpha + \beta n + 1}}} &\leq \abs{\int_0^\epsilon f(x) e^{-xt} dt - \int{0}^{\infty} \alpha_n t^{\alpha + \beta n} e^{-xt}} \text{ by \thmref{propGammaExtended}} \\
+        &\leq \underbrace{\int_0^\epsilon e^{-xt} \abs{f(x) - \sum_{n=0}^{N} \alpha_n t^{\alpha + \beta n}} dt}_{R_1} + \underbrace{\abs{\int_t^\infty e^{-xt} \sum_{n=0}^{N} a_n t^{\alpha + \beta n}}}_{R_2} \\
+    \end{align*}
+    Considering the terms individually:
+    \begin{align*}
+        R_2 &\leq e^{-\eta x} \sum_{n=0}^{N} \abs{a_n} \int_\epsilon^\infty e^{-x(t-\epsilon)} t^{\alpha + \beta n} dt \\
+        \intertext{Let $u = t - \epsilon$:}
+        &\leq e^{-\eta x} \sum_{n=0}^{N} \abs{a_n} \int_0^\infty e^{-xu} (\epsilon + u)^{\alpha + \beta n} du \\
+        \intertext{then note that there exist $C_n, k$ such that $(\epsilon + u)^{\alpha + \beta n} < C_n e^{uk}$:} 
+        &\leq e^{-\epsilon x} \sum_{n=0}^{N} |a_n| C_n \int_{0}^{\infty} e^{u(k-x)} du \\
+        &\leq e^{-\epsilon x} \sum_{n=0}^{N} \frac{C_n\abs{a_n}}{x - k} = O\left(\frac{e^{-\epsilon x}}{x}\right)
+    \end{align*}
+    and so we hope that we will be able to neglect this term. For $R_1$, use the asymptotic expansion for $f$:
+    \begin{align*}
+        f(x) - \sum_{n=0}^{N} a_n t^{\alpha + \beta n} &= o(t^{\alpha + \beta N}) \\
+        &- O(t^{\alpha + \beta N + 1}).
+    \end{align*}
+    Therefore, by the definition of big-$O$ notation, there exists $K_3$ such that:
+    \begin{align*}
+        R_1 &< K_3 \int_{0}^{\epsilon} e^{-xt} t^{\alpha + \beta (N + 1)} dt \\
+        &< K_3 \int_{0}^{\infty} e^{-xt} t^{\alpha + \beta (N + 1)} dt \\
+        &< K_3 \frac{\Gamma(\alpha + \beta (N + 1) + 1)}{x^{\alpha + \beta (N + 1) + 1}}
+    \end{align*}
+    which is on the order $x^{-\alpha - \beta (N + 1) - 1}$, so:
+    \begin{equation*}
+        R_1 = o\left(x^{-\alpha - \beta N - 1}\right)~\forall N \in \N.
+    \end{equation*}
+    Now we can see that $F_2 = o(F_1)$, so $F \sim F_1$.
 \end{proof}
 \begin{example}
     Consider:
@@ -206,6 +244,54 @@ Note that \thmref{propGammaBinomial} can be used to expand:
         M(x) &\sim \frac{e^x}{\Gamma(a)} \sum_{n=0}^{\infty} (-1)^n \frac{\Gamma(a) \Gamma(n+1)}{\Gamma(a-n) n!} \frac{1}{x^{n+1}} \\
         &= e^x \sum_{n=0}^{\infty} (-1)^n \frac{1}{\Gamma(a-n)} \frac{1}{x^{n+1}} \\
     \end{align*}
-    which has first term $\frac{e^x}{x\Gamma(a)}$.
+    which has first term $\frac{e^x}{x\Gamma(a)}$. 
 \end{example}
+\section{Laplace Integrals and Laplace's Method}
+Consider Laplace integrals, of the form:
+\begin{equation*}
+    I(x) = \int_{a}^{b} f(t)e^{x\phi(t)} dt 
+\end{equation*}
+where $b > a$ and $f$ and $\phi$ are sufficiently nice, in a way we will define later. We are interested in the behaviour as $x \to \infty$.
+\begin{remarks}
+    \item \Thmref{thmWatsonLemma} deals with the special case $\phi(t) = -t$.
+    \item In general, we have the ``principle of localisation'', which states that the expansion of $I(x)$ as $x \to \infty$ is determined by contributions of arbitrarily small regions around the maxima of $\phi$.
+\end{remarks}
+We will break up our analysis into different cases for $\phi$.
+\subsection{Monotonic \texorpdfstring{$\phi$}{phi}}
+Suppose that $\phi$ is monotonic on $[a, b]$.
+
+In the first case, we consider $\phi'(t) > 0$ and $f(b) \neq 0$.
+Let $u = \phi(t)$ and note that we can invert this $t = \phi^{-1}(u)$, to get:
+\begin{equation*}
+    I(x) = \int_{\phi(a)}^{\phi(b)} \frac{f(\phi^{-1}(u))}{\phi'(\phi^{-1}(u))} e^{xu} du 
+\end{equation*}
+which we can solve by integration by parts (as in example~\ref{exIntParts}):
+\begin{equation*}
+    I \sim \frac{f(b)e^{x\phi(b)}}{x\phi'(b)} \text{ as } x\to\infty.
+\end{equation*}
+
+If instead $\phi'(t) < 0$ and $f(a) \neq 0$, we go through a similar process to find:
+\begin{equation*}
+    I(x) \sim \frac{f(a) e^{x\phi(a)}}{x|\phi'(a)|}.
+\end{equation*}
+\subsection{\texorpdfstring{$\phi$}{phi} with One Internal Maximum}
+Suppose now that $\phi(t)$ has an internal maximum at $t = c$, such that $\phi'(c) = 0$ and $\phi''(c) < 0$. Assume $f(c) \neq 0$. We can consider this as two separate integrals:
+\begin{equation*}
+    I(x) = \underbrace{\int_{c - \epsilon}^{c + \epsilon} f(t)e^{x\phi(t)} dt}_{I_1} + \underbrace{\int_{\Omega_{\epsilon}} f(t) e^{x\phi(t)} dt}_{I_1}
+\end{equation*}
+where $\Omega_\epsilon = [a, c - \epsilon] \cup [c + \epsilon, b]$. If $\phi$ has one natural maximum, we can see that $\phi$ is monotonically increasing on $[a, c - \epsilon]$ and decreasing on $[c + \epsilon, b]$. Therefore:
+\begin{equation*}
+    I_2(x) = O\left(\frac1x e^{x\phi(c + \epsilon)}\right) + O\left(\frac1x e^{x\phi(c - \epsilon)}\right) = o\left(\frac1x e^{x\phi(c)}\right) \text{ as $x \to \infty$}.
+\end{equation*}
+
+For $I_1$, we need to assume that $f$ and $\phi$ have enough derivatives so that we expand with a Taylor series around $c$:
+\begin{align*}
+    \phi(t) &=\phi(c) + \underbrace{\phi'(c)(t - c)}_0 + \frac12 \phi''(c)(t - c)^2 + O((t - c)^3) \\
+    f(t) &= f(c) + O(t - c)
+\end{align*}
+\begin{align*}
+    I_1 &= \int_{c - \epsilon}^{c + \epsilon} \left(f(c) + O(t - c)\right)e^{x\phi(c) + \frac12x (t - c)^2 \phi''(c) + O((t - c)^3)} dt \\
+    &= f(c) e^{x\phi(c)} \int_{c - \epsilon}^{c + \epsilon} e^{x\phi''(c) (t - c)^2 / 2} (1 + O(t - c)) dt
+\end{align*}
+In order to generate the leading order term, we will discount the higher order terms here. These will generate the other terms in the asymptotic expansion of $I(x)$ in inverse powers of $x$.
 \end{document}
