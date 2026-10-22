@@ -66,18 +66,105 @@ In 2D, the matrix $A$ can be put into normal form, with eigenvalues given by:
         In this case we again have a line of fixed points, this time along $y_1 = 0$, with trajectories parallel to it.
 \end{enumerate}
 We have been using an eigenvector (or generalised eigenvector) basis throughout these cases. In the original coordinates, the local topology of the orbits may be distorted.
+
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1]
-        \draw (0, 0) -- (0, 1);
+    \begin{tikzpicture}[
+        scale=1,
+        trajectory/.style={
+            blue!65!black,
+            thick,
+            -{Stealth[length=2mm]}
+        }
+    ]
+        % Coordinate axes
+        \draw[->, semithick] (-2.7,0) -- (2.7,0)
+            node[right] {$x$};
+        \draw[->, semithick] (0,-2.7) -- (0,2.7)
+            node[above] {$y$};
+
+        % Trajectories in the upper-right quadrant
+        \draw[trajectory]
+            (0,0) .. controls (0.65,0) and (1.05,0.35)
+            .. (1.45,2.15);
+        \draw[trajectory]
+            (0,0) .. controls (1.05,0) and (1.65,0.70)
+            .. (2.05,2.45);
+
+        % Trajectories in the upper-left quadrant
+        \draw[trajectory]
+            (0,0) .. controls (-0.65,0) and (-1.05,0.35)
+            .. (-1.45,2.15);
+        \draw[trajectory]
+            (0,0) .. controls (-1.05,0) and (-1.65,0.70)
+            .. (-2.05,2.45);
+
+        % Trajectories in the lower-right quadrant
+        \draw[trajectory]
+            (0,0) .. controls (0.65,0) and (1.05,-0.35)
+            .. (1.45,-2.15);
+        \draw[trajectory]
+            (0,0) .. controls (1.05,0) and (1.65,-0.70)
+            .. (2.05,-2.45);
+
+        % Trajectories in the lower-left quadrant
+        \draw[trajectory]
+            (0,0) .. controls (-0.65,0) and (-1.05,-0.35)
+            .. (-1.45,-2.15);
+        \draw[trajectory]
+            (0,0) .. controls (-1.05,0) and (-1.65,-0.70)
+            .. (-2.05,-2.45);
+
+        % Outward arrows along the eigendirections
+        \draw[trajectory] (0.35,0) -- (1.15,0);
+        \draw[trajectory] (-0.35,0) -- (-1.15,0);
+        \draw[trajectory] (0,0.35) -- (0,1.15);
+        \draw[trajectory] (0,-0.35) -- (0,-1.15);
+
+        % Equilibrium
+        \fill (0,0) circle (1.5pt);
     \end{tikzpicture}
     \caption{Diagram of an unstable node}
     \label{figNodePS}
 \end{figure}
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1]
-        \draw (0, 0) -- (0, 1);
+    \begin{tikzpicture}[
+        scale=1,
+        trajectory/.style={
+            blue!65!black,
+            thick,
+            -{Stealth[length=2mm]}
+        }
+    ]
+        % Coordinate axes
+        \draw[->, semithick] (-2.7,0) -- (2.7,0)
+            node[right] {$x$};
+        \draw[->, semithick] (0,-2.7) -- (0,2.7)
+            node[above] {$y$};
+
+        % Trajectories in the upper half-plane
+        \draw[trajectory]
+            (0,0) .. controls (-0.40,0) and (0.95,0.40)
+            .. (2.30,0.75);
+        \draw[trajectory]
+            (0,0) .. controls (-0.85,0) and (1.45,1.25)
+            .. (2.60,1.35);
+
+        % Trajectories in the lower half-plane
+        \draw[trajectory]
+            (0,0) .. controls (0.40,0) and (-0.95,-0.40)
+            .. (-2.30,-0.75);
+        \draw[trajectory]
+            (0,0) .. controls (0.85,0) and (-1.45,-1.25)
+            .. (-2.60,-1.35);
+
+        % Outward arrows along the unique eigendirection
+        \draw[trajectory] (0.35,0) -- (1.15,0);
+        \draw[trajectory] (-0.35,0) -- (-1.15,0);
+
+        % Equilibrium
+        \fill (0,0) circle (1.5pt);
     \end{tikzpicture}
     \caption{Diagram of an improper node}
     \label{figImproperNodePS}
@@ -112,5 +199,108 @@ and notably $\tr(A) = 0$. Therefore, all fixed points of a Hamiltonian system ar
     That is, orbits follow contours of $H = \text{const}$.
 \end{proof}
 \section{Effect of Nonlinear Terms}
+\begin{definition}{Hyperbolic fixed point}
+    A fixed point $\vec{x_0}$ is \underline{hyperbolic} if none of the eigenvalues of the Jacobian at $\vec{x_0}$ have zero real part.
+\end{definition}
+A hyperbolic fixed point can be classified as follows.
+\begin{itemize}
+    \item Source: all eigenvalues have positive real part.
+    \item Sink: all eigenvalues have negative real part.
+    \item Saddles: some eigenvalues have different signs.
+\end{itemize}
+\begin{proposition}
+    Let a dynamical system be given by $\dvec{x} = \vec{f}(\vec{x})$. Let $\vec{x_0}$ be a fixed point. Then if:
+    \begin{itemize}
+        \item $\vec{x_0}$ is a hyperbolic fixed point
+        \item the nonlinear corrections in $\vec{f}(\vec{x})$ are on the order $O(\norm{\vec{x} - \vec{x_0}}^2)$
+    \end{itemize}
+    then the full system and the linearised system are topologically conjugate.
+    \label{propHypMeansLinearOnly}
+\end{proposition}
+\begin{remark}
+    This means that for systems with quadratic nonlinear corrections, we know that the fixed points will have the same classification in the linear and nonlinear systems -- an improper node in the linear system cannot become a focus in the full system, for example.
+\end{remark}
+\subsection{Stable and Unstable Manifolds}
+\begin{definition}{Stable, unstable and centre subspaces}
+    The \underline{stable subspace} $E^S$, \underline{unstable subspace} $E^U$ and \underline{centre subspace} $E^S$ of the linearisation of $\vec{f}(\vec{x})$ near a fixed point $\vec{x_0}$ are the subspaces spanned by the subsets of (possibly generalised) eigenvectors of the linearisation matrix $A$ whose eigenvalues have $\Re(\lambda) < 0$, $\Re(\lambda) > 0$, $\Re(\lambda) = 0$, respectively.
+\end{definition}
+An equivalent characterisation of hyperbolic fixed points is that their centre subspace is the empty set.
+\begin{example}
+    Consider a linearisation:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            -1 & 0 \\
+            0 & 1
+        \end{pmatrix}
+    \end{equation*}
+    Here we are dealing with a saddle point. Then $E^S =\langle \vec{e_x}\rangle$ and $E^U = \langle \vec{e_y}\rangle$.
+\end{example}
+\begin{theorem}[Stable Manifold Theorem]
+    Suppose that $\vec{x_0} = \vec0$ is a hyperbolic fixed point of $\dvec{x} = \vec{f}(\vec{x})$ with stable/unstable subsets $E^S$/$E^U$ near $\vec0$. Then there exist stable and unstable manifolds $W^S_{loc}$ and $W^U_{loc}$ which satisfy the following:
+    \begin{itemize}
+        \item $W^S_{loc}$ and $W^U_{loc}$ have the same dimension as $E^S$ and $E^U$;
+        \item $W^S_{loc}$ and $W^U_{loc}$ are tangent to $E^S$ and $E^U$ at $\vec0$ such that for $\vec{x} \neq 0$ in a sufficiently small neighbourhood of $\vec0$ we have:
+        \begin{align*}
+            W^S_{loc} &= \subsetselect{\vec{x}}{\phi_t(\vec{x}) \to 0 \text{ as } t \to \infty} \\
+            W^U_{loc} &= \subsetselect{\vec{x}}{\phi_t(\vec{x}) \to 0 \text{ as } t \to -\infty}
+        \end{align*}
+    \end{itemize}
+    \label{thmStableManifold}
+\end{theorem}
+\begin{remark}
+    \item For a linear system, the stable subspace and stable manifold coincide. For nonlinear systems, the stable manifold will be initially tangent to $E^S$ but may be curved due to the effect of nonlinear terms.
+    \item The local stable manifold $W^S_{loc}$ can be extended to a global stable manifold $W^S$ by following the flow backwards in time. Equivalently, it can be extended by including the orbits of all the points in $W^S_{loc}$. By construction, $W^S$ will be an invariant set. The same applies for $W^U$, by following flows forwards in time.
+\end{remark}
 
+In the case of a saddle in $\R^2$, we can provide an algorithm for obtaining approximations to $W^S_{loc}$ and $W^U_{loc}$. Let the dynamical system be defined by:
+\begin{equation*}
+    \begin{pmatrix}\dot{x} \\ \dot{y}\end{pmatrix} = \begin{pmatrix}f(x, y) \\ g(x, y)\end{pmatrix}
+\end{equation*}
+and suppose $E^U = \{y = 0\}, E^S = \{x = 0\}$, after possibly transforming coordinates. We then look for $W^S_{loc}$ in the form $x = S(y)$ and $W^U_{loc}$ in the form $y = U(x)$. Note that we will require $S(0) = U(0) = S'(0) = U'(0) = 0$ to pass through the origin and to be tangent to the stable/unstable subsets.
+\begin{align*}
+    \dot{x} &= \frac{dS}{dy} \dot{y} = \frac{dS}{dy} g(x, y) = f(x, y) \\
+    &\implies \frac{dS}{dy} g(S(y), y) = f(S(y), y)
+\end{align*}
+which is a nonlinear ODE for $S(y)$. The same process can be applied for the unstable manifold to get a nonlinear ODE for $U(x)$. However, we do not need to solve these ODEs because we only want to find $S$ and $U$ close to the origin. Therefore, we can substitute in convergent series expansions for $S$ and $U$ near $\vec0$ to solve these ODEs.
+\begin{example}
+    Consider:
+    \begin{equation*}
+        \begin{pmatrix}\dot{x} \\ \dot{y}\end{pmatrix} = \begin{pmatrix}x(1-y) \\ -y + x^2\end{pmatrix}
+    \end{equation*}
+    which has linearisation matrix:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            (1-y) & -x \\
+            2x & -1
+        \end{pmatrix}
+    \end{equation*}
+    We consider the fixed point at the origin so:
+    \begin{equation*}
+        A(0, 0) = 
+        \begin{pmatrix}
+            1 & 0 \\
+            0 & -1
+        \end{pmatrix}
+    \end{equation*}
+    and so indeed we have a saddle point here. The eigenvectors are along the coordinate axes.
+
+    For $W^U_{loc}$ we take $y = U(x) = a_2 x^2 + a_3 x^3 + \cdots$. Our nonlinear ODE is:
+    \begin{equation*}
+        -U(x) + x^2 = \frac{dU}{dx} x (1-U(x))
+    \end{equation*}
+    Substituting in:
+    \begin{align*}
+        x^2 - a_2 x^2 - a_3 x^3 - a_4 x^4 + \cdots &= \left(2 a_2 x + 3 a_3 x^2 + 4 a_4 x^3 + \cdots\right) x \left(1 - a_2 x^2 + \cdots\right) \\
+        (1 - a_2) x^2 - a_3 x^3 - a_4 x^4 + \cdots &= 2 a_2 x^2  + 3a_3 x^3 + (4a_4 - 2a_2^2) x^4 + \cdots
+    \end{align*}
+    Then forming simultaneous equations from each term:
+    \begin{align*}
+        x^2 :&~1 - a_2 = 2 a_2 \implies a_2 = \frac13 \\
+        x^3 :&~-a_3 = 3 a_3 \implies a_3 = 0 \\
+        x^4 :&~-a_4 = 4 a_4 - 2 a_2^2 \implies a_4 = \frac2{45} \\
+    \end{align*}
+    and so we find an approximation $U(x) = \frac{x^2}{3} + \frac{2x^4}{45}$. Note that we could have found $a_3 = 0$ by symmetry -- the system is symmetric in $x \mapsto -x$. Therefore, when calculating $W^S$ we will find $S(y) = 0$.
+\end{example}
 \end{document}
