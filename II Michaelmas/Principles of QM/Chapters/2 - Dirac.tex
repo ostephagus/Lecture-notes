@@ -359,14 +359,60 @@ with $\tilde{\psi}(p) = \inn{p}{\psi}$ the momentum space wavefunction. $\abs{\t
 
 We would now like to understand how $\psi(x)$ and $\tilde{\psi}(p)$ relate.
 \begin{proposition}
-    \begin{align*}
-        \inn{x}{p} &= \frac{1}{\sqrt{2\pi \hbar}} e^{ipx / \hbar} \\
-        \inn{p}{x} &= \frac{1}{\sqrt{2\pi \hbar}} e^{-ipx / \hbar} \\
-    \end{align*}
+    \begin{equation}
+        \begin{aligned}
+            \inn{x}{p} &= \frac{1}{\sqrt{2\pi \hbar}} e^{ipx / \hbar} \\
+            \inn{p}{x} &= \frac{1}{\sqrt{2\pi \hbar}} e^{-ipx / \hbar}
+        \end{aligned}
+        \label{eqnPXRelations}
+    \end{equation}
     \label{propXPProducts}
 \end{proposition}
 \begin{proof}
-    Coming next lecture
+    Given $\ket{x}$ with $\hat{x} \ket{x} = x\ket{x}$, consider the operator:
+    \begin{equation*}
+        T(a) = e^{-ia\hat{p} / \hbar} = \sum_{n=0}^{\infty} \frac{1}{n!} \left(\frac{-ia}{\hbar}\right)^n \hat{p}^n
+    \end{equation*}
+    By Ex1Q3, if $\hat{x}$ and $\hat{p}$ commute with $\cmmt{\hat{x}}{\hat{p}}$ (which they do),
+    \begin{equation*}
+        \cmmt{\hat{x}}{T(a)} = \cmmt{\hat{x}}{-\frac{ia\hat{p}}{\hbar}}T(a) = a T(a).
+    \end{equation*}
+    Therefore,
+    \begin{align*}
+        \hat{x} (T(a) \ket{x}) &= \left(\cmmt{\hat{x}}{T(a)} + T(a)\hat{x}\right)\ket{x} \\
+        &= (x + a)(T(a) \ket{x})
+    \end{align*}
+    and we conclude that $T$ is the translation operator by $a$ in the $x$ direction. This will allow us to write all position eigenstates in terms of a single ``origin'' state.
+
+    We similarly consider:
+    \begin{equation*}
+        S(b) = e^{ib\hat{x} / \hbar}
+    \end{equation*}
+    and we calculate the commutator to be $\cmmt{\hat{p}}{S(b)} = bS(b)$. This yields the relationship:
+    \begin{equation*}
+        \hat{p}(S(b) \ket{p}) = (p + b)(S(b)\ket{p})
+    \end{equation*}
+    therefore $S(b)$ gives translation in momentum space - a kick operator.
+
+    We will now take fixed values $x_0$, $p_0$ and define all eigenstates by:
+    \begin{align*}
+        \ket{x_0 + a} &= T(a) \ket{x_0}, & \ket{p_0 + b} &= S(b) \ket{p_0}
+    \end{align*}
+    We want to find the inner product, so:
+    \begin{align*}
+        \inn{x_0 + a}{p_0 + b} &= \opbraket{x_0}{e^{ia\hat{p}/\hbar}}{p_0 + b} \\
+        &= \opbraket{x_0}{e^{ia(p_0 + b) / \hbar} e^{ib\hat{x} / \hbar}}{p_0} \text{ because $p_0 + b$ is a momentum eigenstate} \\
+        &= e^{i(ab + ap_0 + bx_0)/ \hbar} \inn{x_0}{p_0}
+    \end{align*}
+    We choose $x_0$ and $p_0$ such that:
+    \begin{equation*}
+        \inn{x_0}{p_0} = \frac{1}{\sqrt{2\pi\hbar}}
+    \end{equation*}
+    for correct and consistent normalisation. Setting $x_0 = p_0 = 0$ gives:
+    \begin{equation*}
+        \inn{a}{b} = \frac{1}{\sqrt{2\pi\hbar}} e^{iab / \hbar}
+    \end{equation*}
+    which is \eqnref{eqnPXRelations}.
 \end{proof}
 We already know:
 \begin{equation*}
@@ -397,4 +443,60 @@ We can now express the momentum-space wavefunction in terms of the position-spac
     &= \frac{1}{\sqrt{2\pi\hbar}} \int_{\R} e^{-ipx/\hbar} \psi(x)~dx
 \end{align*}
 which is a Fourier transform!
+
+Now give $H(\hat{x}, \hat{p})$ we can consider the energy eigenvalue problem:
+\begin{equation*}
+    H\state = E\state.
+\end{equation*}
+If $H = \frac{\hat{p}^2}{2m} + V(\hat{x})$, then
+\begin{align*}
+    \text{On } \psi(x), H &\mapsto -\frac{\hbar^2}{2m} \frac{\partial^{2}}{\partial x^{2}} + V(x) \\
+    \text{On } \tilde{\psi}(x), H &\mapsto \frac{p^2}{2m} + V\left(i\hbar \frac{\partial}{\partial p}\right)
+\end{align*}
+It may be easy to interpret the potential term in momentum space, for example if $V(x) = \lambda x^n$ then:
+\begin{equation*}
+    V\left(i\hbar \frac{\partial }{\partial p}\right) = \lambda (i\hbar)^n \frac{\partial^{n}}{\partial p^{n}}
+\end{equation*}
+for $n$ a positive integer. More generally, we have to argue from first principles as follows.
+
+Consider:
+\begin{align*}
+    \opbraket{p}{V(\hat{x})}{\psi} &= \int \opbraket{p}{V(\hat{x})}{x} \inn{x}{\psi} dx \\
+    &= \iint \opbraket{p}{V(\hat{x})}{x} \inn{x}{p'}\inn{p'}{\psi} dp'~dx \\
+    &= \int\left(\int V(x) \inn{p}{x} \inn{x}{p'} \inn{p'}{\psi} dx\right)dp' \\
+    &= \int\left(\int V(x) \frac{e^{-i(p-p')x / \hbar}}{2\pi\hbar} \tilde{\psi}(p) dx\right)dp' \\
+    &= \frac{1}{\sqrt{2\pi\hbar}} \int \tilde{V}(p - p') \tilde{\psi}(p') dp' \\
+\end{align*}
+thereby reproducing the convolution theorem. We can now write $H\state = E\state$ as:
+\begin{align*}
+    -\frac{\hbar^2}{2m} \psi''(x) + V(x) \psi(x) &= E\psi \\
+    \frac{p^2}{2m} \tilde{\psi}(p) + \frac{1}{\sqrt{2\pi\hbar}} \int \tilde{V}(p &- p') \tilde\psi(p') dp' = E\tilde\psi(p).
+\end{align*}
+To generalise from one to three dimensions, the position and momentum operators obey $\cmmt{\hat{x}_i}{\hat{p}_j} = i\hbar \delta_{ij}$ and so we can form a complete commuting set by mixing $\hat{x_i}$ and $\hat{p_i}$. The simplest is:
+\begin{equation*}
+    \opvec{x} = (\hat{x}_1, \hat{x}_2, \hat{x}_3)^T
+\end{equation*}
+which has joint eigenstates $\hat{x_i} \ket{\vec{x}} = x_i \ket{\vec{x}}$ that are orthonormal, $\inn{\vec{x}}{\vec{x}'} = \delta(\vec{x} - \vec{x}')$.
+We could alternatively use all position:
+\begin{equation*}
+    \opvec{p} = (\hat{p}_1, \hat{p}_2, \hat{p}_3)^T
+\end{equation*}
+which has joint eigenstates $\hat{p_i} \ket{\vec{p}} = p_i \ket{\vec{p}}$ that are orthonormal, $\inn{\vec{p}}{\vec{p}'} = \delta(\vec{p} - \vec{p}')$.
+
+For any state $\state$ we can expand:
+\begin{equation*}
+    \state = \int \psi(\vec{x}) \ket{x} dx = \int \tilde\psi(\vec{p}) \ket{\vec{p}} dp.
+\end{equation*}
+Then \eqnref{eqnPXRelations} becomes:
+\begin{equation}
+    \begin{aligned}
+        \inn{x}{p} &= \frac{1}{(2\pi \hbar)^{3/2}} e^{ipx / \hbar} \\
+        \inn{p}{x} &= \frac{1}{(2\pi \hbar)^{3/2}} e^{-ipx / \hbar}
+    \end{aligned}
+    \label{eqnPXRelations3D}
+\end{equation}
+so the wavefunctions are related by:
+\begin{equation*}
+    \tilde\psi(p) = \frac{1}{(2\pi\hbar)^{3/2}} \int e^{-ipx/\hbar} \psi(x)~dx
+\end{equation*}
 \end{document}

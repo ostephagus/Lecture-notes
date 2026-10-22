@@ -1,0 +1,23 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{The \schr Equation and the \schr Picture}
+The evolution in time $t$ of a state $\tstate$ is governed (in the absence of external influences) by the \schr equation:
+\begin{equation}
+    i\hbar \frac{\partial}{\partial t} \tstate = H\tstate
+    \label{eqnSchrodinger}
+\end{equation}
+This implies:
+\begin{equation*}
+    \frac{\partial}{\partial t} \inn{\psi(t)}{\psi(t)} = 0
+\end{equation*}
+so the normalisation of a state is preserved in time.
+
+The solution of the \schr equation in the case that $H$ is independent of $t$ can be formally written as:
+\begin{equation*}
+    \tstate = \underbrace{e^{-iHt / \hbar}}_{U(t)} \ket{\psi(0)}
+\end{equation*}
+where $U$ is the time evolution operator.
+
+Time evolution problems can also be conveniently solved by working with a basis of energy eigenstates $\ket{n}$ with $H\ket{n} = E_n \ket{n}$ and solutions $e^{iE_n t / \hbar} \ket{n}$
+\end{document}
