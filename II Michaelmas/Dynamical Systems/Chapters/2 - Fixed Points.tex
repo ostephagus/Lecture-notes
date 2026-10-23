@@ -217,9 +217,10 @@ A hyperbolic fixed point can be classified as follows.
     then the full system and the linearised system are topologically conjugate.
     \label{propHypMeansLinearOnly}
 \end{proposition}
-\begin{remark}
-    This means that for systems with quadratic nonlinear corrections, we know that the fixed points will have the same classification in the linear and nonlinear systems -- an improper node in the linear system cannot become a focus in the full system, for example.
-\end{remark}
+\begin{remarks}
+    \item This means that for systems with quadratic nonlinear corrections, we know that the fixed points will have the same classification in the linear and nonlinear systems -- an improper node in the linear system cannot become a focus in the full system, for example.
+    \item This does not apply when we have terms that are between $O(x)$ and $O(x^2)$, such as $x\log(x)$.
+\end{remarks}
 \subsection{Stable and Unstable Manifolds}
 \begin{definition}{Stable, unstable and centre subspaces}
     The \underline{stable subspace} $E^S$, \underline{unstable subspace} $E^U$ and \underline{centre subspace} $E^S$ of the linearisation of $\vec{f}(\vec{x})$ near a fixed point $\vec{x_0}$ are the subspaces spanned by the subsets of (possibly generalised) eigenvectors of the linearisation matrix $A$ whose eigenvalues have $\Re(\lambda) < 0$, $\Re(\lambda) > 0$, $\Re(\lambda) = 0$, respectively.
@@ -248,12 +249,12 @@ An equivalent characterisation of hyperbolic fixed points is that their centre s
     \end{itemize}
     \label{thmStableManifold}
 \end{theorem}
-\begin{remark}
+\begin{remarks}
     \item For a linear system, the stable subspace and stable manifold coincide. For nonlinear systems, the stable manifold will be initially tangent to $E^S$ but may be curved due to the effect of nonlinear terms.
     \item The local stable manifold $W^S_{loc}$ can be extended to a global stable manifold $W^S$ by following the flow backwards in time. Equivalently, it can be extended by including the orbits of all the points in $W^S_{loc}$. By construction, $W^S$ will be an invariant set. The same applies for $W^U$, by following flows forwards in time.
-\end{remark}
+\end{remarks}
 
-In the case of a saddle in $\R^2$, we can provide an algorithm for obtaining approximations to $W^S_{loc}$ and $W^U_{loc}$. Let the dynamical system be defined by:
+In the case of a saddle in $\R^2$ (where the dimension of the stable and unstable subspaces are both 1), we can provide an algorithm for obtaining approximations to $W^S_{loc}$ and $W^U_{loc}$. Let the dynamical system be defined by:
 \begin{equation*}
     \begin{pmatrix}\dot{x} \\ \dot{y}\end{pmatrix} = \begin{pmatrix}f(x, y) \\ g(x, y)\end{pmatrix}
 \end{equation*}
@@ -303,4 +304,113 @@ which is a nonlinear ODE for $S(y)$. The same process can be applied for the uns
     \end{align*}
     and so we find an approximation $U(x) = \frac{x^2}{3} + \frac{2x^4}{45}$. Note that we could have found $a_3 = 0$ by symmetry -- the system is symmetric in $x \mapsto -x$. Therefore, when calculating $W^S$ we will find $S(y) = 0$.
 \end{example}
+If $E^U$, $E^S$ are one-dimensional and not aligned with the coordinate axes, we can instead write $S$ and $U$ tangent to the eigenvectors. For example, if $\begin{pmatrix}1 \\ k\end{pmatrix}$ is a stable eigenvector, we can write:
+\begin{equation*}
+    S(x) = kx + a_2 x^2 + a_3 x^3 + \cdots
+\end{equation*}
+In higher dimensions, we use multivariate $S$ and $U$. Note that we still require $S$ and $U$ non-empty.
+\begin{example}
+    Suppose that we have a 3D dynamical system, with $\vec{e_x}$ and $\vec{e_y}$ stable, $\vec{e_z}$ unstable. We can write $z = S(x, y)$ and solve as before.
+\end{example}
+\subsection{Nonlinear Terms in the Non-Hyperbolic Case}
+Now we suppose that at least one eigenvalue has zero real part.
+
+\begin{example}[Centre at the origin]
+    Consider the simple system:
+    \begin{equation*}
+        \dot{x} = -y,\qquad\dot{y} = x
+    \end{equation*}
+    Which has Hamiltonian $H = -\frac12(x^2 + y^2)$. Therefore, since orbits are the contours of the Hamiltonian, the orbits are simply circles around the origin. Now consider the nonlinear system:
+    \begin{align*}
+        \dot{x} &= -y -x^3 \\
+        \dot{y} &= x - y^3
+    \end{align*}
+    The linearisation lends itself to polar coordinates, so we convert the nonlinear system:
+    \begin{align*}
+        \dot{r} &= \frac{x^4 + y^4}{r} & \dot{\theta} &= 1 - \frac{xy^3 - yx^3}{r^2}
+    \end{align*}
+    Now note that $\dot{r} < 0$, and as $r \to 0$, $\dot{\theta} \to 1$.
+
+    This is a stable focus, but different to those seen when linearising. The rate of decay in $r$ is slower than the exponential decay we saw with linear systems.
+
+    Consider another possibility (both cubic terms positive):
+    \begin{align*}
+        \dot{x} &= -y + x^3 \\
+        \dot{y} &= x + y^3
+    \end{align*}
+    Here $\dot{r} = \frac{x^4 + y^4}{r} > 0$, so we have an unstable focus.
+
+    We also consider the case of a mixed nonlinear term:
+    \begin{align*}
+        \dot{x} &= -y - 2x^2 y \\
+        \dot{y} &= x + 2y^2 x
+    \end{align*}
+    and this has Hamiltonian $H = -\frac12 \left(x^2 + y^2\right) - x^2 y^2$. Close to the origin we still have circles (approximately), but moving further out we get diamond shapes with rounded corners. Therefore, in this case the origin is still a centre but the trajectories around it are no longer circular.
+\end{example}
+\begin{example}[Line of fixed points at the origin]
+    Consider the case $\lambda_1 = 0, \lambda_2 \neq 0$. WLOG set $\dot{x} = 0$ in the linearisation.
+
+    We can consider the system:
+    \begin{equation*}
+        \dot{x} = x^2,\qquad \dot{y} = -y
+    \end{equation*}
+    which has an exact solution, with $y \propto e^{1 / x}$. We see that the phase portrait is as in figure~\ref{figNLSaddleNode}.
+
+    We can increase the power of $x$ to get:
+    \begin{equation*}
+        \dot{x} = x^3,\qquad \dot{y} = -y
+    \end{equation*}   
+    which has solution $y\propto \exp\left(\frac{1}{2x^2}\right)$ and gives a saddle point.
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \tikzset{
+            chevron/.pic={
+                \draw (-0.1, 0.1) -- (0, 0) -- (-0.1, -0.1);
+            }
+        }
+        \begin{axis}[
+                axis lines=middle,
+                xmin=-5,xmax=5,ymin=-5,ymax=5,
+                xlabel={$x$},
+                ylabel={$y$}
+            ]
+        \foreach \coef in {-6,-4,...,6} {
+            \addplot[samples=50, domain=-5:-0.25, mid arrow, black]
+                {\coef * exp(1/x)};
+        }
+        \foreach \coef in {-1.5,-1,-0.5,0.5,1,1.5} {
+            \pgfmathsetmacro{\xminpos}{1/ln(5/abs(\coef)) + 0.01}
+                {\coef * exp(1/x)};
+            \addplot[samples=50, domain=\xminpos:5, mid arrow, black]
+                {\coef * exp(1/x)};
+        }
+        \addplot[samples=2, domain=-5:5, mid arrow, black] {0};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Diagram of a saddle-node}
+    \label{figNLSaddleNode}
+\end{figure}
+\begin{example}[Both eigenvalues zero]
+    In the case $\lambda_1 = \lambda_2 = 0$, we get a line or plane of fixed points. We expect two lines on which $\dot{\theta} = 0$, and then we can describe 3 cases based whether the sign of $\dot{r}$ changes. See figure~\ref{figDoubleZeroEval}.
+\end{example}
+\begin{figure}
+    \centering
+    TODO %TODO
+    \caption{Diagrams of fixed points for both eigenvalues zero}
+    \label{figDoubleZeroEval}
+\end{figure}
+\subsection{Sketching Phase Portraits}
+We can now provide an algorithm for sketching phase portraits.
+\begin{enumerate}
+    \item Check for symmetries ($y \mapsto -y$, or $x\mapsto y$) and find the fixed points.
+    \item Calculate the Jacobian and classify the fixed points.
+    \item For saddles and nodes, find the eigenvectors.
+    \item Find nullclines (curves where $\dot{x} = 0$ or $\dot{y} = 0$) and get the flow directions (sign of the nonzero time derivative) on them.
+    \item Use the knowledge of stable and unstable manifolds to plot nonlinear flows.
+    \item Combine the trajectories around fixed points into a global picture.
+    \item Remember: trajectories cannot cross!
+    \item Search for periodic orbits.
+\end{enumerate}
 \end{document}

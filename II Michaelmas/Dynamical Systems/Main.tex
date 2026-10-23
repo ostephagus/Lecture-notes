@@ -9,7 +9,18 @@
 \input{../../Header.tex}
 
 \tikzexternalize[prefix=tikz/]
-
+\usetikzlibrary{decorations.markings}
+\pgfplotsset{
+    mid arrow/.style={
+        postaction={
+            decorate,
+            decoration={
+                markings,
+                mark=at position 0.5 with {\arrow{Straight Barb}}
+            }
+        }
+    }
+}
 
 \usepackage{mathrsfs}
 
