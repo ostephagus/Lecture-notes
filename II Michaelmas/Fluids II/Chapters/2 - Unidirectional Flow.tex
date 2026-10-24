@@ -216,4 +216,40 @@ The time dependence of the stress complicates calculations like rate of working 
     \avg{\cos^2(t)} = \avg{\sin^2(t)} &= \frac12 & \avg{\cos(t)\sin(t)} &= 0 \\
     \avg{\Re(Ae^{i\omega t})\Re(Be^{i\omega t})} &= \frac12 \Re(AB^*)
 \end{align*}
+\section{Taylor-Couette Flow}
+Consider flow between long, coaxial, rotating cylinders. We assume axisymmetry so $\vec{u} = v(r) e_\theta$. See figure~\ref{figTaylorCouette}. Note that this is not quite unidirectional flow because $\vec{e_\theta}$ changes direction as $\theta$ varies.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw (0, 0) circle[radius=1];
+        \draw (0, 0) circle[radius=2];
+
+        %TODO: Continue.
+    \end{tikzpicture}
+    \caption{Diagram of Taylor-Couette Flow}
+    \label{figTaylorCouette}
+\end{figure}
+We want \eqnref{eqnNavierStokes} in cylindrical polar coordinates:
+\begin{equation}
+    \frac{\partial \vec{u}}{\partial t} - \frac{v^2}{r} \vec{e_r} = -\nabla p + \mu \frac1r \frac{\partial}{\partial r} \left(rv\right) \vec{e_z}
+    \label{eqnNavierStokesCylinder}
+\end{equation}
+The individual components are:
+\begin{align*}
+    -\rho \frac{v^2}{r} &= -\frac{\partial p}{\partial r} \\
+    0 &= \underbrace{-\frac1r \frac{\partial p}{\partial \theta}}_{\substack{0 \text{ by}\\\text{symmetry}}} + \mu \left(\frac{\partial^{2}v}{\partial r^{2}} + \frac1r \frac{\partial v}{\partial r} - \frac{v}{r^2}\right)
+\end{align*}
+and in these coordinates the strain rate tensor is:
+\begin{equation*}
+    e = \frac12
+    \begin{pmatrix}
+        0 & \frac{\partial v}{\partial r} - \frac{v}{r} & 0 \\
+        \frac{\partial v}{\partial r} - \frac{v}{r} & 0 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix}
+\end{equation*}
+and so the shear rate is:
+\begin{equation*}
+    \sigma_{r\theta} = 2\mu e_{r\theta} = \mu r \frac{\partial }{\partial r} \left(\frac{v}{r}\right).
+\end{equation*}
 \end{document}

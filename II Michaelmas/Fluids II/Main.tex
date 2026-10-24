@@ -8,6 +8,7 @@
 
 \input{../../Header.tex}
 
+\usetikzlibrary{decorations.markings}
 \tikzexternalize[prefix=tikz/]
 
 \newcommand{\uvec}[1]{
@@ -32,6 +33,20 @@
     \ddot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
 }
 
+\tikzset{
+  hatch side/.style={
+    postaction={
+      decorate,
+      decoration={
+        markings,
+        mark=between positions 0.05 and 1 step 3mm with {
+          \draw (0,0) -- (-2mm,2mm);
+        }
+      }
+    }
+  }
+}
+
 \newcommand{\bdforce}{\mathbf{f}}
 \renewcommand{\Re}{\operatorname{Re}}
 \DeclareMathOperator{\St}{St}
@@ -45,5 +60,7 @@
 \subfile{Chapters/1 - Newtonian Viscous.tex}
 \chapter{Unidirectional Flows}
 \subfile{Chapters/2 - Unidirectional Flow.tex}
+\chapter{Stokes Flows}
+\subfile{Chapters/3 - Stokes Flows.tex}
 
 \end{document}

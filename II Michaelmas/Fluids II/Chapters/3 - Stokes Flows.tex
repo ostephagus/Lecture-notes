@@ -1,0 +1,46 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+In this chapter we will consider flows with $\Re \ll 1$ and so we neglect the inertial term in \eqnref{eqnNavierStokes}, to get:
+\begin{equation}
+    0 = \vec{f} - \nabla p + \mu \nabla^2 \vec{u}
+    \label{eqnStokes}
+\end{equation}
+Note that $\Re = \frac{UL}{\nu}$. Therefore, the approximation holds for low speeds, small length scales or very large dynamic viscosities (such as lava or ice flows).
+
+We will generally assume that $\vec{f} = \vec0$. This permits the case $\vec{f} = \rho \vec{g}$ as long as we consider the modified pressure $p \mapsto p - \rho g z$. In this case,
+\begin{equation*}
+    0 = -\nabla p + \mu \nabla^2 \vec{u} = \nabla \cdot \sigma
+\end{equation*}
+\section{Simple Properties}
+\begin{enumerate}
+    \item \textbf{Instantaneity}: we have no $\frac{\partial}{\partial t}$ which means that the flow only depends on boundary conditions (and $\vec{f}$ if present) at each instant. It may depend on time parametrically (``quasi-steady'') if the boundary conditions depend on time.
+    \item \textbf{Linearity}: we have no $(\vec{u} \cdot \nabla)\vec{u}$ term which means that velocity, pressure and stress are linear in the boundary conditions (and $\vec{f}$ if present).
+    \item \textbf{Time reversibility}: if we change the sign of all the boundary conditions and $\vec{f}$ then we change the sign of $\vec{u}$. This reverses all the boundary conditions and the history of their application, so the fluid particles retrace their paths exactly.
+    \item \textbf{Spatial symmetries}: consider a symmetry (such as rotation or reflection). This can sometimes be used (along with linearity and time reversibility) to show that a quantity is zero.
+\end{enumerate}
+\begin{example}
+    Consider an arbitrarily shaped body moving through a very viscous fluid. The drag vector will also affect the body, and by property 2 must be linearly related to the speed of the body. The most general linear relationship is:
+    \begin{equation*}
+        \text{drag} = -A\vec{U}
+    \end{equation*}
+    for some second-rank tensor $A$.
+
+    If in fact the body is axisymmetric along some axis, we can then decompose the problem into one with $\vec{U}$ parallel to the axis of symmetry, and with $\vec{U}$ perpendicular to the axis of symmetry.
+\end{example}
+\begin{example}
+    Consider a sphere falling under $\vec{g}$ next to a vertical wall. Suppose that $\vec{U}$ has some component away from the wall, as in figure~\ref{figSphereFalling}. Now reversing the time direction means that the velocity is now point up and towards the wall, gravity is pointing upwards. Note that we also have a symmetry in $y \mapsto -y$ (if $y$ is the upwards direction), then applying this symmetry gives the same picture as figure~\ref{figSphereFalling}, but with $\vec{U}$ reflected along the $y$ axis. However, these picture should be the same so we require that $\vec{U}$ is unaffected by reflection in the $y$, axis, so it must in fact be parallel to the $\vec{y}$ axis.
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        \draw[hatch side] (0, -1) -- (0, 2) node[above] {wall};
+        \draw (1, 1) circle[radius=0.5];
+        \draw[->] (2, 1.5) -- (2, 0.5) node[below] {$\vec{g}$};
+
+        \draw[->] (1, 1) -- (1.5, -0.5) node[below] {$\vec{U}$};
+    \end{tikzpicture}
+    \caption{Diagram of a Sphere and Vertical Wall}
+    \label{figSphereFalling}
+\end{figure}
+\end{document}
