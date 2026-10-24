@@ -19,5 +19,148 @@ The solution of the \schr equation in the case that $H$ is independent of $t$ ca
 \end{equation*}
 where $U$ is the time evolution operator.
 
-Time evolution problems can also be conveniently solved by working with a basis of energy eigenstates $\ket{n}$ with $H\ket{n} = E_n \ket{n}$ and solutions $e^{iE_n t / \hbar} \ket{n}$
+Time evolution problems can also be conveniently solved by working with a basis of energy eigenstates $\ket{n}$ with $H\ket{n} = E_n \ket{n}$ and solutions $e^{iE_n t / \hbar} \ket{n}$.
+
+If $\ket{\phi(0)} = \sum_n \alpha_n \ket{n}$ then the time evolution is given by:
+\begin{equation*}
+    \tstate = \sum_n \alpha_n e^{iE_n t / \hbar} \ket{n} 
+\end{equation*}
+\begin{example}
+    Consider a system with two energy eigenstates $\ket1$ and $\ket2$ with energy eigenvalues $E_1$ and $E_2$ respectively. Consider measuring an observable $Q$ defined by:
+    \begin{equation*}
+        Q\ket{1} = \ket{2},\qquad Q\ket{2} = \ket{1}
+    \end{equation*}
+    We can therefore tell that $\cmmt{Q}{H} \neq 0$. We can find the eigenstates of $Q$:
+    \begin{equation*}
+        \ket{\pm} = \frac12 \left(\ket1 \pm \ket2\right)
+    \end{equation*}
+    which has eigenvalues $\pm 1$.
+
+    Take the initial state $\ket{\psi(0)} = \ket+$. Use the time evolution expression:
+    \begin{equation*}
+        \tstate = \frac1{\sqrt{2}} \left(e^{iE_1 t / \hbar}\ket1 + e^{-iE_2 t / \hbar} \ket2\right).
+    \end{equation*}
+    The probability of measuring $Q$ at time $t$ and getting $\pm 1$ is:
+    \begin{align*}
+        \inn{\pm 1}{\phi(t)}^2 &= \abs{\frac12 \left(\bra1 \pm \bra2\right) \left(e^{iE_1 t / \hbar} \ket1 + e^{-iE_2 t / \hbar}\right)}^2 \\
+        &= \abs{\frac12\left(e^{iE_1 t / \hbar} \ket1 \pm e^{-iE_2 t / \hbar}\right)}^2 \\
+    \end{align*}
+    which gives:
+    \begin{align*}
+        +: &~\cos^2\left(\frac{(E_1 - E_2 t)}{2\hbar}\right) \\
+        -: &~\sin^2\left(\frac{(E_1 - E_2 t)}{2\hbar}\right)
+    \end{align*}
+    We can also provide a vectors and matrices interpretation. If $\ket1 = \begin{pmatrix}1 \\ 0\end{pmatrix}$ and $\ket2 = \begin{pmatrix}0 \\ 1\end{pmatrix}$,
+    \begin{align*}
+        H &= \begin{pmatrix}
+            E_1 & 0 \\
+            0 & E_2
+        \end{pmatrix}
+        \\
+        U &= \begin{pmatrix}
+            e^{-i E_1 t / \hbar} & 0 \\
+            0 & e^{-i E_2 t / \hbar}
+        \end{pmatrix}
+    \end{align*}
+    In an alternative basis using $\ket\pm$ as the first and second basis vectors, we need to calculate the matrix elements for $H$ and $U$:
+    \begin{align*}
+        \opbraket{\pm}{H}{\pm} &= \frac12 (E_1 + E_2) = \mathcal{E} \\
+        \opbraket{\pm}{H}{\mp} &= \frac12 (E_1 - E_2) = \hbar \lambda
+    \end{align*}
+    where $\mathcal{E}$ and $\lambda$ are constants. This means we can find $H$ as a matrix:
+    \begin{equation*}
+        H = \begin{pmatrix}
+            \mathcal{E} & \hbar \lambda \\
+            \hbar\lambda & \mathcal{E}
+        \end{pmatrix}
+        = \mathcal{E} I + \hbar\lambda M
+    \end{equation*}
+    We can do the same for $U(t)$:
+    \begin{align*}
+        U(t) &= \exp\left(-iHt / \hbar\right) \\
+        &= e^{-\frac{i}{\hbar}t(\mathcal{E} I + \lambda \hbar M)} \\
+        &= e^{\frac{i}{\hbar} t \mathcal{E}} e^{-it\lambda M}
+    \end{align*}
+    Note that $M^2 = I$ and so we can calculate the exponential:
+    \begin{align*}
+        \exp\left(-it\lambda M\right) &= \sum_{r=0}^{\infty} \frac{1}{(2r)!} \left(-i\lambda t\right)^{2r} I + \sum_{r=0}^{\infty} \frac{1}{(2r+1)!} \left(-i\lambda t\right)^{2r+1} M \\
+        &= \cos(\lambda t) I - i \sin(\lambda t) M.
+    \end{align*}
+    Using this,
+    \begin{align*}
+        \ket{\psi(0)} &= \ket+ = \begin{pmatrix}1 \\ 0\end{pmatrix} \\
+        \tstate &= e^{-iH t / \hbar} = e^{it\mathcal{E} / \hbar} \begin{pmatrix}\cos(\lambda t) \\ -i\sin(\lambda t)\end{pmatrix}
+    \end{align*}
+    which means $\tstate = e^{-it\mathcal{E} / \hbar} \left(\cos(\lambda t) \ket+ - i \sin(\lambda t) \ket-\right)$.
+\end{example}
+\section{The Heisenberg Picture and Heisenberg Equations}
+\subsection{Unitarity Operators}
+Physical predictions in QM are given by probabillity amplitudes, eigenvalues and expectation values, which are expressions liek $\inn{\phi}{\psi}$ and $\opbraket{\phi}{A}{\psi}$.
+\begin{definition}{Unitary operator}
+    An operator $U$ is \underline{unitary} if $UU^\dagger = U^\dagger U = I$, or $U^\dagger = U^{-1}$.
+\end{definition}
+Given any such $U$, we consider a map on states and operators:
+\begin{align*}
+    \state &\mapsto \ket{\psi'} = U\state\\
+    \bra{\psi} &\mapsto \bra{\psi'} = \bra{\psi} U^\dagger \\
+    A &\mapsto A' = UAU^\dagger
+\end{align*}
+Under this, all physical predictions remain unchanged:
+\begin{align*}
+    \inn{\phi'}{\psi'} &= \opbraket{\phi}{U^\dagger U}{\opbraket{\psi}} = \inn\phi\psi \\
+    \opbraket{\phi'}{A}{\psi'} &= \opbraket{\phi}{U^\dagger UAU^\dagger U}{\psi} = \opbraket\phi{A}\psi
+\end{align*}
+Furthermore, products of operators are as we hope:
+\begin{align*}
+    C = AB &\implies C' = A'B' \\
+    C = \cmmt{A}{B} &\implies C' = \cmmt{A'}{B'} \\
+    Q = Q^\dagger &\implies Q' = \left(Q'\right)^\dagger \\
+    Q\state = \lambda \state &\implies Q'\ket{\psi'} = \lambda \ket{\psi'}
+\end{align*}
+so the eigenvalue is preserved under unitary transform.
+\subsection{Changing Pictures}
+In the \schr picture,
+\begin{align*}
+    i\hbar \frac{\partial}{\partial t} \tstate &= H\tstate \\
+    \implies \tstate &= U(t) \ket{\psi(0)}
+\end{align*}
+for $H$ independent of $t$ and $H$ Hermitian.
+
+Note that $U(t)$ is unitary, and $U(t)^\dagger = U(t)^{-1} = U(-t)$. We also have:
+\begin{equation*}
+    U(t_1) U(t_2) = U(t_1 + t_2)
+\end{equation*}
+Therefore, we conclude that in the \schr picture the states depend on $t$ but the observables do not.
+
+To change to the Heisenberg picture, we shift the time dependence from the states onto the operators, as follows:
+\begin{align*}
+    && \text{\schr} &\mapsto \text{Heisenberg}\\
+    &\text{States} & \tstate_S &\mapsto \state_H = U^\dagger \tstate_S = \ket{\psi(0)}_S \\
+    &\text{Operators} & A_s &\mapsto A_H(t)
+\end{align*}
+Then because the transform $U(t)$ is unitary,
+\begin{equation*}
+    {}_S\opbraket{\phi(t)}{A_S}{\psi(t)}_S = {}_H \opbraket{\phi}{A_H(t)}{\psi}_H
+\end{equation*}
+Note that $H_H = H_S = H$. %TODO: Why?
+
+To specify dynamics in the Heisenberg picture, consider:
+\begin{align*}
+    \frac{d}{dt} A_H(t) &= \frac{d}{dt} \left(e^{iHt / \hbar} A_S e^{-iHt / \hbar}\right) \\
+    &= \frac{iH}{\hbar} e^{iHt/\hbar} A_S e^{-iHt/\hbar} - e^{iHt/\hbar} A_S e^{-iHt/\hbar} \frac{iH}{\hbar} \\
+    &= -\frac{i}{h} \cmmt{H}{A_H(t)}
+\end{align*}
+or equivalently,
+\begin{equation}
+    i\hbar \frac{d}{dt} A_H(t) = \cmmt{A_H(t)}{H}
+    \label{eqnHeisMotion}
+\end{equation}
+which is the \underline{Heisenberg Equation of Motion}
+\begin{example}
+    Consider a particle in one dimension with Heisenberg position and momentum operators $\hat{x}(t), \hat{p}(t)$. Consider $H = \frac{\hat{p}^2}{2m} + V(\hat{x})$. Then:
+    \begin{align*}
+        \frac{d}{dt} \hat{x}(t) &= \frac{1}{i\hbar} \cmmt{\hat{x}(t)}{H} = \frac1m \hat{p}(t) \\
+        \frac{d}{dt} \hat{p}(t) &= \frac1{i\hbar} \cmmt{\hat{p}(t)}{H} = -V'(\hat{x}(t))
+    \end{align*}
+\end{example}
 \end{document}
