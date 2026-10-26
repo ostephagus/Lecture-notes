@@ -136,7 +136,7 @@ We want:
 \end{equation*}
 with $w = 0$ on $x = \pm a, y = \pm b$.
 
-We use IB Methods to solve this using a particular solution/complementary functio method, $w = w_p(x, y) + w_c(x, y)$. We consider, from Plane Poiseille flow,
+We use IB Methods to solve this using a particular solution / complementary function method, $w = w_p(x, y) + w_c(x, y)$. We consider, from Plane Poiseuille flow,
 \begin{equation*}
     w_p(x, y) = \frac{G}{2\mu} \left(b^2 - y^2\right)
 \end{equation*}
@@ -146,14 +146,14 @@ which satisfies $\nabla^2 w_p = - \frac{G}{\mu}$. We therefore need $\nabla^2 w_
 \end{equation*}
 After separation of variables, we obtain:
 \begin{equation*}
-    w_c(x, y) = \frac{Gb^2}{2\mu} \sum_{n=0}^{\infty} \frac{4(-1)^n}{\lambda_n^3} \cos\left(\frac{\lambda_n y}{b}\right) \frac{\cosh\left(\frac{\lambda_n x}{b}\right)}{\cosh\left(\frac{\lambda_n a}{b}\right)}
+    w_c(x, y) = -\frac{Gb^2}{2\mu} \sum_{n=0}^{\infty} \frac{4(-1)^n}{\lambda_n^3} \cos\left(\frac{\lambda_n y}{b}\right) \frac{\cosh\left(\frac{\lambda_n x}{b}\right)}{\cosh\left(\frac{\lambda_n a}{b}\right)}
 \end{equation*}
 where $\lambda_n = \left(n + \frac12\right)\pi$. Now we have this, the flux is given by:
 \begin{align*}
     Q &= \int_{-b}^{b} \int_{-a}^{a} w(x, y)~dx~dy \\
     &= \frac{4 \Delta p}{3\mu L} ab^3 \left(1 - \frac{6b}{a} \sum_{n=0}^{\infty} \frac{\tanh(\lambda_n a / b)}{\lambda_n^5}\right)
 \end{align*}
-This sum can be understood to be the  due to the effects of the sides.
+This sum can be understood to be a sum of the main central flow and a contribution due to the effects of the sides.
 \section{Impulsively Started Flat Plate}
 Consider fluid in $y > 0$ initially at rest and set into motion by a rigid plate at $y = 0$, which starts to move with velocity $(U, 0)$ at $t = 0$.
 \begin{figure}
@@ -204,7 +204,7 @@ This must equal the rate of change of kinetic energy plus the rate of dissipatio
 \section{Oscillating Flat Plate}
 Consider a similar setup but now the plate moves with velocity $U\cos(\omega t)$. Consider a limit $t \to \infty$ so that the fluid undergoes steady oscillations. The solution (see IB Fluid Dynamics) is
 \begin{align*}
-    u &= \Re\left(U e^{i\omega t} e^{-\sqrt{\frac{i\omega}{\nu}}}\right) \\
+    u &= \Re\left(U e^{i\omega t} e^{-\sqrt{\frac{i\omega}{\nu}}y}\right) \\
     &= Ue^{-ky} \cos(\omega t - k y)
 \end{align*}
 where $k = \sqrt{\frac{\omega}{2\nu}}$.
@@ -221,24 +221,41 @@ Consider flow between long, coaxial, rotating cylinders. We assume axisymmetry s
 \begin{figure}
     \centering
     \begin{tikzpicture}[scale=1]
+        \tikzset{
+            chevron/.pic={
+                \draw (-0.1, -0.1) -- (0, 0) -- (0.1, -0.1); % Facing upwards
+            }
+        }
+
         \draw (0, 0) circle[radius=1];
         \draw (0, 0) circle[radius=2];
+        \draw (0, 0) -- (30:1) node[pos=0.7, below] {$r_1$};
+        \draw (0, 0) -- (45:2) node[pos=0.7, right] {$r_2$};
 
-        %TODO: Continue.
+        \pic at (0, -1) [rotate=90] {chevron};
+        \node at (0, -1.3) {$\Omega_1$};
+
+
+        \pic at (0, -2) [rotate=-90] {chevron};
+        \node at (0, -2.3) {$\Omega_2$};
+
+        \draw[->, blue] (1.5, 0) arc[start angle=0, end angle=15, radius=1.5]
+            node[pos=0, below] {$v(r)$};
     \end{tikzpicture}
     \caption{Diagram of Taylor-Couette Flow}
     \label{figTaylorCouette}
 \end{figure}
 We want \eqnref{eqnNavierStokes} in cylindrical polar coordinates:
 \begin{equation}
-    \frac{\partial \vec{u}}{\partial t} - \frac{v^2}{r} \vec{e_r} = -\nabla p + \mu \frac1r \frac{\partial}{\partial r} \left(rv\right) \vec{e_z}
+    \rho\left(\frac{\partial \vec{u}}{\partial t} - \frac{v^2}{r} \vec{e_r}\right) = -\nabla p + \mu \frac{\partial }{\partial r}\left( \frac1r \frac{\partial}{\partial r} \left(rv\right)\right) \vec{e_\theta}
     \label{eqnNavierStokesCylinder}
 \end{equation}
+Note that we have a term $\frac{v^2}{r} \vec{e_r}$. This is the centripetal acceleration caused by our motion being not quite unidirectional ($(\vec{u} \cdot \nabla)\vec{u}$ has a contribution).
 The individual components are:
-\begin{align*}
-    -\rho \frac{v^2}{r} &= -\frac{\partial p}{\partial r} \\
-    0 &= \underbrace{-\frac1r \frac{\partial p}{\partial \theta}}_{\substack{0 \text{ by}\\\text{symmetry}}} + \mu \left(\frac{\partial^{2}v}{\partial r^{2}} + \frac1r \frac{\partial v}{\partial r} - \frac{v}{r^2}\right)
-\end{align*}
+\begin{align}
+    -\rho \frac{v^2}{r} &= -\frac{\partial p}{\partial r} \label{eqnNSRadial} \\
+    0 &= \underbrace{-\frac1r \frac{\partial p}{\partial \theta}}_{\substack{0 \text{ by}\\\text{symmetry}}} + \mu \left(\frac{\partial^{2}v}{\partial r^{2}} + \frac1r \frac{\partial v}{\partial r} - \frac{v}{r^2}\right) \label{eqnNSAzimuth}
+\end{align}
 and in these coordinates the strain rate tensor is:
 \begin{equation*}
     e = \frac12
@@ -251,5 +268,18 @@ and in these coordinates the strain rate tensor is:
 and so the shear rate is:
 \begin{equation*}
     \sigma_{r\theta} = 2\mu e_{r\theta} = \mu r \frac{\partial }{\partial r} \left(\frac{v}{r}\right).
+\end{equation*}
+
+The $\vec{e_\theta}$ \eqnref{eqnNSAzimuth} is an equidimensional equation so has solution $v = r^k$. Solving gives $k = \pm 1$,
+\begin{equation*}
+    v(r) = Ar + \frac{B}{r}
+\end{equation*}
+Requiring $v(r_1) = \Omega_1, v(r_2) = \Omega_2$ gives:
+\begin{equation*}
+    v(r) = \underbrace{\frac{\Omega_2 r_2^2 - \Omega_1r_1^2}{r_2^2 - r_1^2}}_A r + \underbrace{\frac{(\Omega_1 - \Omega_2)r_1^2 r_2^2}{r_2^2 - r_1^2}}_B \frac1r
+\end{equation*}
+We can then use \eqnref{eqnNSRadial} to find the pressure:
+\begin{equation*}
+    p(r) = p_0 + \rho \left(\frac12A^2 r^2 + 2AB\log(r) - \frac12 \frac{B^2}{r^2}\right)
 \end{equation*}
 \end{document}
