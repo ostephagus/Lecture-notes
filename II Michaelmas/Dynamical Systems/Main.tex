@@ -22,6 +22,18 @@
     }
 }
 
+% \traj[options]{r0}{theta0 in degrees, 0<theta0<360}{tmin}{tmax}{t for arrowhead}
+\newcommand{\traj}[6][]{%
+  \pgfmathsetmacro{\cc}{cos(#3/2)/sin(#3/2)}%
+  \pgfmathsetmacro{\kk}{1/(#2)^2-1}%
+  \addplot[#1, domain=#4:#5, samples=150, smooth]
+    ( {cos(2*atan2(1,\cc-x/2)) / sqrt(1+\kk*exp(-2*x))},
+      {sin(2*atan2(1,\cc-x/2)) / sqrt(1+\kk*exp(-2*x))} );
+  \addplot[#1, -stealth, domain=#6:#6+0.1, samples=3]
+    ( {cos(2*atan2(1,\cc-x/2)) / sqrt(1+\kk*exp(-2*x))},
+      {sin(2*atan2(1,\cc-x/2)) / sqrt(1+\kk*exp(-2*x))} );
+}
+
 \usepackage{mathrsfs}
 
 \newcommand{\abs}[1]{\left|#1\right|}

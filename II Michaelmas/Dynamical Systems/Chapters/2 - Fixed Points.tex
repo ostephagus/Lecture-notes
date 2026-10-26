@@ -397,7 +397,67 @@ Now we suppose that at least one eigenvalue has zero real part.
 \end{example}
 \begin{figure}
     \centering
-    TODO %TODO
+    \begin{tikzpicture}[
+            scale=0.7,
+            chalk/.style={black, line width=0.8pt},
+            flow/.style={red!70!orange!80, line width=0.7pt,
+                postaction={decorate},
+                decoration={markings, mark=at position #1 with {\arrow{Stealth[length=5pt,width=5pt]}}}},
+            flow/.default=0.5,
+            rlab/.style={blue!70, font=\large},
+            tlab/.style={black, font=\large}
+        ]
+
+        %% ---------- Diagram 1 : closed loops ----------
+        \begin{scope}[shift={(0,0)}]
+            \draw[chalk] (1.65,2.55) -- (0,0) -- (1.45,-2.9);
+            \draw[flow=0.5, red!70!orange!80] ($(1.65,2.55)!0.45!(0,0)$) -- ($(1.65,2.55)!0.65!(0,0)$);
+            \draw[flow=0.5, red!70!orange!80] ($(0,0)!0.35!(1.45,-2.9)$) -- ($(0,0)!0.55!(1.45,-2.9)$);
+            \draw[blue!70, dashed, line width=0.7pt] (0.35,0) -- (2.7,0);
+            \draw[flow] (0,0) .. controls (0.9,-1.9) and (2.8,-1.5) .. (2.7,0);
+            \draw[flow] (2.7,0) .. controls (2.8,1.5) and (0.9,1.9) .. (0,0);
+            \draw[flow] (0,0) .. controls (0.7,-1.2) and (2.1,-1.0) .. (1.95,0);
+            \draw[flow] (1.95,0) .. controls (2.1,1.0) and (0.7,1.2) .. (0,0);
+            \draw[flow] (0,0) .. controls (0.5,-0.6) and (1.4,-0.55) .. (1.3,0);
+            \draw[flow] (1.3,0) .. controls (1.4,0.55) and (0.5,0.6) .. (0,0);
+            \node[tlab] at (0.45,2.35) {$\dot\theta=0$};
+            \node[tlab] at (3.9,2.15)  {$\dot\theta>0$};
+            \node[rlab] at (3.9,1.5)   {$\dot r<0$};
+            \node[rlab] at (3.9,0.2)   {$\dot r=0$};
+            \node[rlab] at (4.0,-1.75) {$\dot r>0$};
+            \node[tlab] at (0.45,-2.45) {$\dot\theta=0$};
+        \end{scope}
+
+        %% ---------- Diagram 2 : curves running upwards ----------
+        \begin{scope}[shift={(6.5,0)}]
+            \draw[chalk] (1.0,2.1) -- (0,0) -- (1.7,-3.6);
+            \draw[flow=0.5, red!70!orange!80] ($(0,0)!0.45!(1.0,2.1)$) -- ($(0,0)!0.65!(1.0,2.1)$);
+            \draw[flow=0.5, red!70!orange!80] ($(1.7,-3.6)!0.40!(0,0)$) -- ($(1.7,-3.6)!0.55!(0,0)$);
+            \draw[blue!70, dashed, line width=0.7pt] (0.2,0) -- (2.6,0);
+            \draw[flow=0.5] (2.3,-3.5) .. controls (1.3,-1.8) and (1.1,0.8) .. (1.5,2.1);
+            \draw[flow=0.5] (3.2,-3.4) .. controls (2.2,-1.8) and (1.9,0.8) .. (2.3,2.1);
+            \node[tlab] at (0.0,2.25)  {$\dot\theta=0$};
+            \node[tlab] at (3.1,2.2)   {$\dot\theta>0$};
+            \node[rlab] at (3.3,1.5)   {$\dot r>0$};
+            \node[rlab] at (3.7,-0.1)  {$\dot r=0$};
+            \node[rlab] at (3.7,-1.9)  {$\dot r<0$};
+            \node[tlab] at (0.9,-3.85) {$\dot\theta=0$};
+        \end{scope}
+
+        %% ---------- Diagram 3 : fan of curves ----------
+        \begin{scope}[shift={(13.2,0)}]
+            \draw[chalk] (1.3,2.65) -- (0,0) -- (1.7,-3.2);
+            \draw[flow=0.5, red!70!orange!80] ($(1.3,2.65)!0.45!(0,0)$) -- ($(1.3,2.65)!0.65!(0,0)$);
+            \draw[flow=0.5, red!70!orange!80] ($(1.7,-3.2)!0.40!(0,0)$) -- ($(1.7,-3.2)!0.60!(0,0)$);
+            \draw[flow=0.45] (4.9,-2.3) .. controls (4.3,0.4) and (2.0,0.9) .. (0,0);
+            \draw[flow=0.45] (3.95,-2.3) .. controls (3.4,-0.2) and (1.8,0.5) .. (0,0);
+            \draw[flow=0.45] (2.8,-2.6) .. controls (2.3,-1.0) and (1.2,-0.3) .. (0,0);
+            \node[tlab] at (0.3,2.35)  {$\dot\theta=0$};
+            \node[tlab] at (3.2,2.4)   {$\dot\theta>0$};
+            \node[rlab] at (4.0,1.0)   {$\dot r<0$};
+            \node[tlab] at (0.5,-3.55) {$\dot\theta=0$};
+        \end{scope}
+        \end{tikzpicture}
     \caption{Diagrams of fixed points for both eigenvalues zero}
     \label{figDoubleZeroEval}
 \end{figure}
@@ -407,10 +467,140 @@ We can now provide an algorithm for sketching phase portraits.
     \item Check for symmetries ($y \mapsto -y$, or $x\mapsto y$) and find the fixed points.
     \item Calculate the Jacobian and classify the fixed points.
     \item For saddles and nodes, find the eigenvectors.
-    \item Find nullclines (curves where $\dot{x} = 0$ or $\dot{y} = 0$) and get the flow directions (sign of the nonzero time derivative) on them.
+    \item Find nullclines (curves where $\dot{x} = 0$ or $\dot{y} = 0$) and get the flow directions (sign of the non-zero time derivative) on them.
     \item Use the knowledge of stable and unstable manifolds to plot nonlinear flows.
     \item Combine the trajectories around fixed points into a global picture.
     \item Remember: trajectories cannot cross!
     \item Search for periodic orbits.
 \end{enumerate}
+\section{Stability}
+In this section, we provide a few definitions of stability and prove theorems to characterise them.
+
+Consider an orbit $\Lambda = \subsetselect{\vec{x}}{\vec{x} \in \Lambda \implies \phi_t(\vec{x}) \in \Lambda \forall t}$.
+For the following definitions, let $\Lambda$ be an invariant set of a general autonomous system described by a flow $\phi_t(\vec{x})$.
+\begin{definition}{Neighbourhood of a set}
+    For $\delta > 0$, the \underline{neighbourhood} of $\Lambda$ is defined:
+    \begin{equation*}
+        N_\delta = \subsetselect{\vec{x}}{\exists \vec{y} \in \Lambda \text{ s.t. } \abs{\vec{x} - \vec{y}} < \delta}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Flow tending to a set}
+    The flow $\phi_t(\vec{x})$ \underline{tends to $\Lambda$} if $\inf_{y \in \Lambda}\abs{\phi_t(\vec{x}) - \vec{y}} \to 0$ as $t \to \infty$.
+\end{definition}
+\begin{definition}{Lyapunov stability}
+    The set $\Lambda$ is \underline{Lyapunov stable} if for any $\epsilon > 0$, there exists $\delta > 0$ such that:
+    \begin{equation*}
+        \vec{x} \in N_\delta \implies \phi_t(\vec{x}) \in N_\epsilon~\forall t > 0
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    This is the notion that if a dynamical system's state starts close to $\Lambda$, it stays close to $\Lambda$.
+\end{remark}
+\begin{definition}{Quasi-asymptotic stability}
+    The set $\Lambda$ is \underline{quasi-asymptotically stable} if there exists $\delta > 0$ such that:
+    \begin{equation*}
+        \vec{x} \in N_\delta \implies \phi_t(\vec{x}) \to \Lambda \text{ as } t \to \infty
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    This is the notion that the dynamical system gets close to $\Lambda$ eventually.
+\end{remark}
+\begin{definition}{Asymptotic stability}
+    The set $\Lambda$ is \underline{asymptotically stable} if it is both Lyapunov stable and quasi-asymptotically stable.
+\end{definition}
+\begin{examples}{
+        Consider the stability of the following sets
+    }
+    \item Consider a dynamical system:
+        \begin{equation*}
+            \begin{pmatrix}\dot{x} \\ \dot{y}\end{pmatrix} = \begin{pmatrix}-y \\ x\end{pmatrix}
+        \end{equation*}
+        which is a Hamiltonian system, with circular orbits for every radius.
+
+        The origin is a fixed point, and we take $\Lambda = \{(0, 0)\}$. For any $\epsilon$, consider $\delta = \zeta \epsilon$ where $\zeta \in [0, 1]$. Then we know that if $\abs{\vec{x}} < \delta$, $\abs{\vec{x}} < \epsilon$ for all time (because this quantity does not change on the orbit).
+
+        However, $\Lambda$ is not quasi-asymptotically stable because orbits just outside of it never tend to the origin.
+    \item Consider the dynamical system:
+        \begin{align*}
+            \dot{r} &= r(1-r^2) \\
+            \dot{\theta} &= \sin^2 \frac\theta2
+        \end{align*}
+        which has fixed points at the origin and $r = 1, \theta = 0$. The origin is an unstable focus. Note also that we have an orbit $r = 1$. This is a homoclinic orbit -- every point tends to $\theta = 0$, but take an infinitely long time to get there. Indeed, the fixed point at $r = 1, \theta = 0$ is a saddle-node. See figure~\ref{figInterestingStability}. The point here is quasi-asymptotically stable (because any point near $(1, 0)$ will eventually tend to it). It is not Lyapunov stable because points with $\theta > 0$ must go around the circle before they get back to $(1, 0)$, which takes it outside of the neighbourhood for smaller $\epsilon$.
+    \item Consider a stable focus, but with elliptical spirals (so the trajectories are stretched in one direction, and the distance from the fixed point is not monotonic). We can still achieve Lyapunov stability, just by choosing $\delta$ to be a fair bit smaller than $\epsilon$ so that the elongated sections of the orbits are still contained within $N_\epsilon$. Because this is a stable focus, it is clearly quasi-asymptotically stable and therefore the point is asymptotically stable.
+\end{examples}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                axis equal, axis lines=middle,
+                xmin=-1.7, xmax=1.7, ymin=-1.7, ymax=1.7,
+                xlabel={$x$}, ylabel={$y$},
+                width=10cm,
+            ]
+            % Invariant circle r = 1 (flow is anticlockwise)
+            \addplot[thick, domain=0:360, samples=120] ({cos(x)},{sin(x)});
+            \foreach \a in {60,150,240,320}{
+            \addplot[thick, -stealth, domain=\a:\a+3, samples=3] ({cos(x)},{sin(x)});
+            }
+
+            % Inside the circle (r0 < 1)
+            \foreach \th in {40,100,180,250,320}{
+            \traj[blue!70, thick]{0.3}{\th}{-3}{40}{0.5}
+            }
+            \traj[blue!70, thick]{0.7}{90}{-3}{40}{0.5}
+            \traj[blue!70, thick]{0.7}{270}{-3}{40}{0.5}
+
+            % Outside the circle (r0 > 1): tmin must exceed 0.5*ln(-k), about -0.29 for r0=1.5
+            \foreach \th in {60,150,230,300}{
+            \traj[red!70, thick]{1.5}{\th}{-0.2}{40}{0.5}
+            }
+
+            \draw[red!70, thick]
+            (axis cs:1.7,0.16) .. controls (axis cs:1.35,0.06) and (axis cs:1.08,0.04) ..
+            (axis cs:1.04,0.22) .. controls (axis cs:1.00,0.42) and (axis cs:0.80,0.64) ..
+            (axis cs:0.6428,0.7660);
+            % arrowheads (short straight pieces along the curve)
+            \draw[red!70, thick, -stealth] (axis cs:1.46,0.083) -- (axis cs:1.40,0.075);
+            \draw[red!70, thick, -stealth] (axis cs:0.69,0.738) -- (axis cs:0.6428,0.7660);
+
+            \draw[blue!70, thick]
+            (axis cs:0,0) .. controls (axis cs:0.40,0.02) and (axis cs:0.80,0.02) ..
+            (axis cs:0.90,0.14) .. controls (axis cs:0.96,0.215) and (axis cs:0.90,0.45) ..
+            (axis cs:0.819,0.574);
+            \draw[blue!70, thick, -stealth] (axis cs:0.50,0.030) -- (axis cs:0.55,0.032);
+            \draw[blue!70, thick, -stealth] (axis cs:0.832,0.552) -- (axis cs:0.819,0.574);
+
+            % Fixed points
+            \addplot[only marks, mark=*, mark size=2.5pt] coordinates {(0,0)};
+            \addplot[only marks, mark=*, mark size=2.5pt, orange!90!black] coordinates {(1,0)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Phase portrait of a quasi-asymptotically stable but not Lyapunov stable fixed point}
+    \label{figInterestingStability}
+\end{figure}
+\begin{definition}{Basin of attraction}
+    If $\Lambda$ is an asymptotically stable invariant set, its \underline{basin of attraction} is the set:
+    \begin{equation*}
+        B(\Lambda) = \subsetselect{\vec{x}}{\phi_t(\vec{x}) \to \Lambda \text{ as } t \to \infty}
+    \end{equation*}
+\end{definition}
+\begin{definition}{Globally attracting set}
+    If $B(\Lambda) = \R^n$ (the whole space on which the dynamical system is defined), then $\Lambda$ is \underline{globally attracting}.
+\end{definition}
+\begin{theorem}
+    If $\vec{x_0}$ is a stable hyperbolic fixed point (stable focus or stable node) then it is asymptotically stable.
+    \label{thmHyperbolicStability}
+\end{theorem}
+\subsection{Lyapunov Functions}
+\begin{definition}{Lyapunov function}
+    A continuously differentiable function $V(x) : \R^n \mapsto \R$ is a \underline{Lyapunov function} for a flow $\phi_t(\vec{x})$ in a domain $D$ containing a fixed point at the origin if:
+    \begin{enumerate}
+        \item $V(\vec0) = 0$, otherwise $V(\vec{x}) > 0$;
+        \item $\dot{V} \leq 0$ in $D$.
+    \end{enumerate}
+\end{definition}
+\begin{theorem}[Lyapunov's First Theorem]
+    Suppose a dynamical system $\dvec{x} = \vec{f}(\vec{x})$ has a fixed point at the origin. If a Lyapunov function $V$ exists, then the origin is Lyapunov stable.
+    \label{thmLyapunov1}
+\end{theorem}
 \end{document}
