@@ -9,15 +9,17 @@ In this chapter we will consider flows with $\Re \ll 1$ and so we neglect the in
 Note that $\Re = \frac{UL}{\nu}$. Therefore, the approximation holds for low speeds, small length scales or very large dynamic viscosities (such as lava or ice flows).
 
 We will generally assume that $\vec{f} = \vec0$. This permits the case $\vec{f} = \rho \vec{g}$ as long as we consider the modified pressure $p \mapsto p - \rho g z$. In this case,
-\begin{equation*}
+\begin{equation}
     0 = -\nabla p + \mu \nabla^2 \vec{u} = \nabla \cdot \sigma
-\end{equation*}
+    \label{eqnStokesNoF}
+\end{equation}
 \section{Simple Properties}
 \begin{enumerate}
     \item \textbf{Instantaneity}: we have no $\frac{\partial}{\partial t}$ which means that the flow only depends on boundary conditions (and $\vec{f}$ if present) at each instant. It may depend on time parametrically (``quasi-steady'') if the boundary conditions depend on time.
     \item \textbf{Linearity}: we have no $(\vec{u} \cdot \nabla)\vec{u}$ term which means that velocity, pressure and stress are linear in the boundary conditions (and $\vec{f}$ if present).
     \item \textbf{Time reversibility}: if we change the sign of all the boundary conditions and $\vec{f}$ then we change the sign of $\vec{u}$. This reverses all the boundary conditions and the history of their application, so the fluid particles retrace their paths exactly.
     \item \textbf{Spatial symmetries}: consider a symmetry (such as rotation or reflection). This can sometimes be used (along with linearity and time reversibility) to show that a quantity is zero.
+    \item \textbf{Harmonic properties}: Consider \eqnref{eqnStokesNoF}. Then taking the divergence gives $\nabla^2 p = 0$. Furthermore, taking the curl of the equation gives that $\nabla^2 \vec{\omega} = 0$, and taking the Laplacian of the equation gives that $\vec{u}$ is biharmonic: $\nabla^2 \nabla^2 \vec{u} = \nabla^4 \vec{u} = 0$.
 \end{enumerate}
 \begin{example}
     Consider an arbitrarily shaped body moving through a very viscous fluid. The drag vector will also affect the body, and by property 2 must be linearly related to the speed of the body. The most general linear relationship is:
@@ -27,6 +29,7 @@ We will generally assume that $\vec{f} = \vec0$. This permits the case $\vec{f} 
     for some second-rank tensor $A$.
 
     If in fact the body is axisymmetric along some axis, we can then decompose the problem into one with $\vec{U}$ parallel to the axis of symmetry, and with $\vec{U}$ perpendicular to the axis of symmetry.
+    \label{exParallelToWall}
 \end{example}
 \begin{example}
     Consider a sphere falling under $\vec{g}$ next to a vertical wall. Suppose that $\vec{U}$ has some component away from the wall, as in figure~\ref{figSphereFalling}. Now reversing the time direction means that the velocity is now point up and towards the wall, gravity is pointing upwards. Note that we also have a symmetry in $y \mapsto -y$ (if $y$ is the upwards direction), then applying this symmetry gives the same picture as figure~\ref{figSphereFalling}, but with $\vec{U}$ reflected along the $y$ axis. However, these picture should be the same so we require that $\vec{U}$ is unaffected by reflection in the $y$, axis, so it must in fact be parallel to the $\vec{y}$ axis.
@@ -43,4 +46,94 @@ We will generally assume that $\vec{f} = \vec0$. This permits the case $\vec{f} 
     \caption{Diagram of a Sphere and Vertical Wall}
     \label{figSphereFalling}
 \end{figure}
+\begin{example}
+    Consider a sedimenting uniform rod, rotating at angular frequency $\Omega$. We show it does not rotate in the same way that we as the previous example. Reverse time so that gravity points the other way. Then rotate the original problem by 180 degrees. This is the same as the time-reversed problem but with $\Omega$ going the other way, so it must be zero.
+\end{example}
+\begin{example}
+    Consider two neutrally buoyant particles in a tube flow (Poiseuille). If there were only one particle, it would have to travel parallel to the walls of the tube (see example~\ref{exParallelToWall}). Place another particle below and in front of this particle, so that it is going slower. See figure~\ref{figParticlesInChannel}. Note that the particles must return to their original streamlines, because if not we could reflect along an axis perpendicular to the channel and reverse time to reach a contradiction.
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw (0, -2) -- (10, -2);
+        \draw (0, 2) -- (10, 2);
+
+        % draw a parabola coming of the x=0 axis.
+
+    \end{tikzpicture}
+    \caption{Diagram of two particles in a channel}
+    \label{figParticlesInChannel}
+\end{figure}
+\section{Further Properties}
+We can give some further properties of the Stokes' equation, that need more proof.
+\begin{proposition}
+    Consider Stokes' equation with no force:
+    \begin{equation*}
+        \mu \nabla^2 \vec{u} = \nabla p
+        \tag{\ref{eqnStokesNoF}}
+    \end{equation*}
+    Let $\vec{u_1}, \vec{u_2}$ be solutions to \eqnref{eqnStokes} in a domain $V$ and satisfy the same boundary conditions on $\partial V$.
+    \label{propStokesUnique}
+\end{proposition}
+\begin{proof}
+    Let $\vec{u} = \vec{u_1} - \vec{u_2}$. Similarly, let $e = e_1 - e_2$, same for $\sigma$. Consider:
+    \begin{align*}
+        2\mu \int e_{ij} e_{ij} dV &= \int_V \left(\sigma_{ij} + p \delta_{ij}\right)e_{ij}~dV \\
+        &= \int_V \sigma_{ij} \frac{\partial u_i}{\partial x_j} dV \\
+        &= \int_V \left(\frac{\partial}{\partial x_j} \left(u_i \sigma_{ij}\right) - u_i \frac{\partial \sigma_{ij}}{\partial x_j}\right) dV \\
+        &= \int_V \left(\frac{\partial}{\partial x_j} \left(u_i \sigma_{ij}\right) - u_i \underbrace{\nabla \cdot \sigma}_{0}\right) dV \\
+        &= \int_{\partial V} \vec{u} \cdot \sigma\vec{dS} \\
+        &= 0
+    \end{align*}
+    because either $\vec{u_1} = \vec{u_2}$ on the boundary, or $\sigma_1 \vec{n} = \sigma_2\vec{n}$.
+    Therefore, since this was the integral of a squared quantity ($e^2$), $e = 0$ in $V$. This means that $\vec{u}$ is zero in the case of velocity boundary conditions, and differs only by a solid body motion in the case of stress boundary conditions.
+\end{proof}
+\begin{theorem}[Minimum Dissipation Theorem]
+    Let $\vec{u}^S$ be a Stokes flow in $V$ and $\vec{u}$ be any incompressible flow that has the same velocity on $\partial V$. Then:
+    \begin{equation}
+        2\mu \int_V e_{ij}^S e_{ij}^S dV \leq 2\mu \int_V e_{ij} e_{ij} dV
+        \label{eqnMinimumDissp}
+    \end{equation}
+    \label{thmMinimumDissp}
+\end{theorem}
+\begin{proof}
+    We construct the inequality as follows:
+    \begin{align*}
+        0 &\leq 2\mu \int_V \left(e - e^S\right)_{ij} \left(e - e^S\right)_{ij}~dV \\
+        &= 2\mu \int_V \left(e_{ij} e_{ij} - e_{ij}^S e_{ij}^S\right) dV + 4\mu \int_V e^S_{ij} \left(e^S - e\right)_{ij}~dV
+    \end{align*}
+    If we can show that the last term is zero then we are done:
+    \begin{align*}
+        4\mu \int_V e^S_{ij} &\left(e^S - e\right)_{ij}~dV= 2\int_V \sigma_{ij}^S \left(e_{ij}^S - e_{ij}\right)dV \\
+        &= 2 \int_V \frac{\partial}{\partial x_j} \left(\left(u_i^S - u_i\right)\sigma_{ij}^S - (u_i^S - u_i) \frac{\partial \sigma_{ij}}{\partial x_j}\right) dV \\
+        &= 2 \int_V \frac{\partial}{\partial x_j} \left(\left(u_i^S - u_i\right)\sigma_{ij}^S\right) dV \\
+        &- 2\int_{\partial V} \left(u_i^S - u_i\right) \sigma_{ij} dS_j \\
+        &= 0
+    \end{align*}
+    because the velocities match on the boundary.
+\end{proof}
+\begin{example}[Bounding Drag on a Translating Rigid Body]
+    Consider an arbitrary rigid body translating with velocity $\vec{U}$ and with Stokes flow $\vec{u}^S$ in the fluid volume $V$ around it. Consider a sphere $S$ that completely contains the body. Taking $\vec{n}$ into the body, the force $\vec{F_S}$ exerted by the body on the fluid is:
+    \begin{equation*}
+        \vec{F_S} = \int_{\partial V} \sigma\vec{dS}.
+    \end{equation*}
+    The dissipation must equal the rate of doing work by the body on the fluid:
+    \begin{align*}
+        2\mu \int_{V} e^S_{ij} e^S_{ij} dV &= \int_{\partial V} \vec{u}^S \cdot \sigma^S \vec{dS} \\
+        &= \vec{U} \cdot \int_{\partial V} \sigma^S \vec{dS} = \vec{U} \cdot \vec{F_S}.
+    \end{align*}
+    Now suppose that $S$ is a sphere with radius $a$, and define a flow $\vec{u}$ in the original fluid volume $V$ such that:
+    \begin{itemize}
+        \item $\vec{u}$ is a Stokes flow outside a rigid sphere of radius $a$, when $\vec{x}$ is outside $S$,
+        \item $\vec{u} = \vec{U}$ in the gap between $S$ and the body.
+    \end{itemize}
+    \begin{align*}
+        2\mu \int_V e_{ij} e_{ij}~dV &= 2\mu \int_{V \backslash S} e_{ij} e_{ij}~~\text{ because $e = 0$ in $S$} \\
+        &= \vec{U} \cdot \left(6\pi \mu a \vec{U}\right)
+    \end{align*}
+    where the $6\pi \mu a \vec{U}$ will be derived later. Applying \thmref{thmMinimumDissp},
+    \begin{equation*}
+        \vec{U} \cdot \vec{F^S} \leq 6\pi \mu a |\vec{U}|^2.
+    \end{equation*}
+\end{example}
 \end{document}
