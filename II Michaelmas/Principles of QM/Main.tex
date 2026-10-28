@@ -40,12 +40,14 @@
 %\newcommand{\paragraphmarker}{\P}
 %\renewcommand{\P}{\mathbb{P}}
 
-\newcommand{\ket}[1]{\lvert#1\rangle}
-\newcommand{\bra}[1]{\langle#1\rvert}
+\newcommand{\ket}[1]{\left.\left|#1\right.\right\rangle}
+\newcommand{\bra}[1]{\left.\left\langle#1\right.\right|}
 \newcommand{\state}{\ket{\psi}}
 \newcommand{\tstate}{\ket{\psi(t)}}
 \newcommand{\opbraket}[3]{\langle#1\mid#2\mid#3\rangle}
 \newcommand{\cmmt}[2]{\left[#1, #2\right]}
+\newcommand{\upst}{\ket{\uparrow}}
+\newcommand{\dnst}{\ket{\downarrow}}
 
 \newcommand{\abs}[1]{\left|#1\right|}
 \newcommand{\norm}[1]{\left\|#1\right\|}

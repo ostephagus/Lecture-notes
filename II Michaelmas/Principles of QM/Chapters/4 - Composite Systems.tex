@@ -54,4 +54,94 @@ We have tensor product states corresponding to separable wavefunctions and the t
         \dim(V) = \dim(V_1) \times \dim(V_2).
     \end{equation*}
 \end{remark}
+\begin{example}[Two dimensional (isotropic) oscillator]
+    Consider:
+    \begin{equation*}
+        H = \frac{\hat{p}_1^2 + \hat{p}_2^2}{2m} + \frac1m m \omega^2\left(\hat{x}_1^2 + \hat{x}_2^2\right) = H_1 + H_2
+    \end{equation*}
+    where $H_1$ and $H_2$ are Hamiltonians for subsystems that correspond to motion in only one dimension. Recall that $H_i = \hbar \omega\left(N_i + \frac12\right)$, where $N_i = a_i^\dagger a_i$ and $[a_i a_j^\dagger] = \delta_{ij}$.
+
+    We therefore have a complete commuting set of operators, $N_1$ and $N_2$. We can construct simulatanous eigenstates as follows:
+    \begin{equation*}
+        \ket{n_1, n_2} = \ket{n_1} \otimes \ket{n_2}
+    \end{equation*}
+    and then we have energies:
+    \begin{align*}
+        H\ket{n_1, n_2} &= \left(H_1 \ket{n_1}\right) \otimes \ket{n_2} + \ket{n_1} \otimes \left(H_2 \ket{n_2}\right) \\
+        &= E_{n_1, n_2} \ket{n_1, n_2}
+    \end{align*}
+    where $E_{n_1, n_2} = \hbar \omega \left(n_1 + n_2 + 1\right)$. The two-dimensional wavefunctions are given by:
+    \begin{equation*}
+        \psi_{n_1, n_2}(x_1, x_2) = \psi_{n_1}(x_1) \psi_{n_2}(x_2)
+    \end{equation*}
+    as expected.
+\end{example}
+\begin{remark}
+    We have a slight abuse of notation in that we often write $H_1$ instead of $H_1 \otimes 1$. Further, sometimes $\ket{n_1} \otimes \ket{n_2}$ is written as $\ket{n_1} \ket{n_2}$.
+\end{remark}
+\section{Spin}
+Experiment shows that particles generally carry an internal degree of freedom called \underline{spin} or intrinsic angular momentum. Even if a particle appears to be ``elementary'' or ``point-like'', its space of states is of the form:
+\begin{equation*}
+    V = V_{\text{space}} \otimes V_{\text{spin}}
+\end{equation*}
+with basis states $\ket{\vec{x}, r} = \ket{\vec{x}} \otimes \ket{r}$ where $r$ takes a finite set of values. This means position operators are not, in general, a complete commuting set -- we require an observable that can distinguish spin states for completeness. In this chapter we will focus on the states, not the operators.
+
+Each kind of particle has a definite total spin $s$, which is a half-integer:
+\begin{equation*}
+    s \in \left\{0, \frac12, 1, \frac32, \cdots\right\}
+\end{equation*}
+and is part of the nature of the particle, like mass or charge. For spin $s$, a particle of non-zero mass has $2s+1$ basis states in $V_{\text{spin}}$, labelled $r = s, s-1, \cdots, -s$ by convention.
+\begin{example}
+    A spin-$0$ object only has one spin state $\ket0$, so it is in fact labelled entirely by its position.
+
+    More common spin-$\frac12$ objects have two spin state $\ket{\frac12}$ and $\ket{-\frac12}$ which are more commonly referred to as ``up'' and ``down'', $\upst, \dnst$.
+
+    Spin-$1$ objects have state $\ket1, \ket0, \ket{-1}$.
+\end{example}
+The existence of spin states is revealed by experiments like the Stern-Gerlach experiment, which uses a beam of particles passing through an inhomogeneous magnetic field, and the beam is split into two depending on the different spin states (we have half-spin particles in this case).
+
+A general state $\state \in V$ now has a $(2s+1)$-component wavefunction given by:
+\begin{equation*}
+    \psi(\vec{x}, r) = \inn{\vec{x}, r}{\psi}
+\end{equation*}
+where $\abs{\psi(\vec{x}, r)}^2$ is now the probability density for the position of the particle given that its spin is $r$. Mixed/hybrid notation is also common such as:
+\begin{equation*}
+    \sum_r \psi(\vec{x}, r)\ket{r}
+\end{equation*}
+\section{Multiparticle States: Bosons and Fermions}
+Consider particles labelled by $a = 1, 2, \cdots, N$ and let $V_a$ be the space of states for each one with basis $\{\ket{\vec{x_a}, r_a}\}$. General multiparticle states belong to:
+\begin{equation*}
+    V = V_1 \otimes V_2 \otimes \cdots \otimes V_N
+\end{equation*}
+with basis states $\ket{\vec{x_1}, r_1, \vec{x_2}, r_2, \cdots, \vec{x_n}, r_n} = \ket{\vec{x_1}, r_1} \otimes \cdots \otimes \ket{\vec{x_n}, r_n}$.
+\subsection{Identical Particles: Bose-Einstein and Fermi-Dirac\texorpdfstring{\\}{ }Statistics}
+If the $N$ particles are identical then $V_a \cong V$.
+\begin{example}[2 particles]
+    \label{ex2Particle}
+    Take $N = 2$ and define and operator $U$ which exchanges particles by action on basis states:
+    \begin{equation*}
+        U\ket{\vec{x_1}, r_1, \vec{x_2}, r_2} = \ket{\vec{x_2}, r_2, \vec{x_1}, r_1}
+    \end{equation*}
+    We have said that these particles are identical and so the states must be the same, $U\ket{\Psi} = \eta \ket{\Psi}$ for some constant $\eta$ and for every state $\ket{\Psi}$. Furthermore, we know that applying $U$ twice must do nothing, $U^2 = 1$ and so also $\eta^2 = 1$. We now have two cases based on $\eta = \pm 1$. This means the two-particle states do not belong merely to $V\otimes V$ but to one of:
+    \begin{align*}
+        (V \otimes V)_S &\text{ spanned by } \state \otimes \ket{\phi} + \ket{\phi} \otimes \state \\
+        (V \otimes V)_A &\text{ spanned by } \state \otimes \ket{\phi} - \ket{\phi} \otimes \state.
+    \end{align*}
+\end{example}
+Similarly to example~\ref{ex2Particle}, for multiparticle states with $N \geq 2$ we can define $U_(a, b)$ which swaps particles $a$ and $b$ (position and spin). Then on a general $N$-particle state,
+\begin{equation*}
+    U_{a, b}\ket{\Phi} = \eta_{a, b}\ket{\Phi}
+\end{equation*}
+where $\eta_{a, b} = \pm 1$. Now for any permutation $\pi$ of $\{1, 2, \cdots, N\}$, we define the operator $U_\pi$ which permutes the particles using $\pi$. On a general state,
+\begin{equation*}
+    U_\pi \ket{\Psi} = \eta_\pi \ket{\Psi}
+\end{equation*}
+but the algebra of transpositions implies that $\eta_{a, b} = \pm 1$ with the same value for all pairs $(a, b)$ (see the course IA Groups). Further, since $\pi$ can be obtained as a sequence of transpositions:
+\begin{equation*}
+    \eta_\pi = 
+    \begin{cases}
+        1 & \text{ if } \eta_{ab} = 1 \\
+        \operatorname{sgn}(\pi) & \text{ if } \eta_{ab} = -1
+    \end{cases}
+\end{equation*}
 \end{document}
