@@ -135,5 +135,74 @@ We can give some further properties of the Stokes' equation, that need more proo
     \begin{equation*}
         \vec{U} \cdot \vec{F^S} \leq 6\pi \mu a |\vec{U}|^2.
     \end{equation*}
+
+    By similar argument for a sphere completely contained within the body, of radius $b$,
+    \begin{equation*}
+        \vec{U} \cdot \vec{F}^S \geq 6\pi \mu b |\vec{U}|^2
+    \end{equation*}
+
+    In the example of a cube of side lengths $2l$, we take $b = L$ and $a = \sqrt{3}l$. By the symmetries of the cube we know that $\vec{F}^S = A\vec{U}$ with the same $A$ for any orientation, and we deduce:
+    \begin{equation*}
+        1 \leq \frac{A}{6\pi \mu L} \sqrt{3}
+    \end{equation*}
 \end{example}
+\begin{theorem}[Reciprocal Theorem]
+    Let $\vec{u}^1$ and $\vec{u}^2$ be Stokes flows in some domain $V$ with different boundary conditions on $V$. Then:
+    \begin{equation}
+        \int_{\partial V} \vec{u}^1 \cdot \sigma^2 \vec{n} dS = \int_{\partial V} \vec{u}^2 \sigma^1 \vec{n} dS
+        \label{eqnReciprocal}
+    \end{equation}
+    \label{thmReciprocal}
+\end{theorem}
+\begin{proof}
+    Consider:
+    \begin{align*}
+        2\mu \int_V e^1_{ij} e^2_{ij}~dV &= \int_V \left(\sigma^1_{ij} + p^1 \delta_{ij}\right) e^2_{ij}~dV \\
+        &= \int_{\partial V} u^2\cdot \sigma^1 \vec{n}dS
+    \end{align*}
+    by using symmetry of $\sigma^1$, $\nabla \cdot \vec{u}^2 = 0$ and $\nabla \cdot \sigma^1 = \vec{0}$.
+    
+    % TODO: go over and finish.
+    We can apply the same manipulations to the LHS to get the other way round.
+\end{proof}
+\begin{example}
+    Suppose $\vec{u}^1$ and $\vec{u}^2$ are the Stokes flows due to rigid body motion of a certain body (same $V$ for both velocity fields). That is,
+    \begin{equation*}
+        \vec{u}^i = \vec{U}^i + \vec{\Omega}^i \times \vec{x}
+    \end{equation*}
+    on $\partial V$ with $\vec{U}^i$ and $\vec{\Omega}^i$ constants.
+
+    \Thmref{thmReciprocal} gives:
+    \begin{equation}
+        \vec{U}^1 \cdot \vec{F}^2 + \vec{\Omega}^1 \cdot \vec{G}^2 = \vec{U}^2 \cdot \vec{F}^1 + \vec{\Omega}^2 \cdot \vec{G}^1
+        \label{eqnSolidBodyReciproc}
+    \end{equation}
+    where $\vec{F} = \int_{\partial V} \sigma\vec{n}~dS$ is the force, $\vec{G} = \int_{\partial V} \vec{x} \times (\sigma \vec{n}) dS$ is the couple exerted.
+
+    By linearity of the Stokes equations,
+    \begin{align*}
+        \vec{F} &= A\vec{U} + B\vec{\omega} \\
+        \vec{G} &= C\vec{U} + D\vec{\Omega}
+    \end{align*}
+    for 2nd-rank tensors $A, B, C, D$. \Eqnref{eqnSolidBodyReciproc} gives us that $A, D$ are symmetric, $B = C^T$.
+
+    For spheres and cubes, their symmetries imply that $A = aI, D = dI, B=C=0$. For more interesting objects, like a helix, $B$ and $C$ are not zero. A translating helix will require a torque to stop it rotating, and similarly a rotating helix will require a linear force to stop it translating.
+\end{example}
+\section{Flow Past a Sphere}
+\subsection{Stationary Sphere}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw (0, 0) circle[radius=1];
+        \draw (0, 0) -- (45:1)
+            node[pos=0.7, below] {$a$};
+        
+        \draw[->, blue] (-5, 1) -- (-3, 1);
+        \draw[->, blue] (-5, 0) -- (-3, 0);
+        \draw[->, blue] (-5, -1) -- (-3, -1)
+            node[pos=0.5, below] {$\vec{U}$};
+    \end{tikzpicture}
+    \caption{Diagram of flow past a stationary sphere}
+    \label{figStationarSphere}
+\end{figure}
 \end{document}
