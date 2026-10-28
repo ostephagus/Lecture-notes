@@ -600,7 +600,110 @@ For the following definitions, let $\Lambda$ be an invariant set of a general au
     \end{enumerate}
 \end{definition}
 \begin{theorem}[Lyapunov's First Theorem]
-    Suppose a dynamical system $\dvec{x} = \vec{f}(\vec{x})$ has a fixed point at the origin. If a Lyapunov function $V$ exists, then the origin is Lyapunov stable.
+    Suppose a dynamical system $\dvec{x} = \vec{f}(\vec{x})$ has a fixed point at the origin. If a Lyapunov function $V$ exists in a domain $D$ that contains the origin, then the origin is Lyapunov stable.
     \label{thmLyapunov1}
 \end{theorem}
+\begin{proof}
+    Take $\epsilon > 0$ such that $\subsetselect{\vec{x}}{|\vec{x}| < \epsilon} \subseteq D$. Let $\alpha = \min\subsetselect{V(\vec{x})}{|\vec{x}| = \epsilon}$. Choose $\delta > 0$ such that $\subsetselect{\vec{x}}{|\vec{x}| < \delta} \subseteq C_{\alpha, \epsilon}$, where
+    \begin{equation*}
+        C_{\alpha, \epsilon} = \subsetselect{\vec{x}}{V(\vec{x}) < \epsilon, |\vec{x}| < \epsilon}
+    \end{equation*}
+    Then if $|\vec{x}| < \delta$,
+    \begin{equation*}
+        V(\phi_t(\vec{x})) \leq V(\vec{x}) \leq \alpha
+    \end{equation*}
+    but this means $|\vec{x}| < \epsilon$, so we have Lyapunov stability.
+\end{proof}
+\begin{theorem}[Lyapunov's Second Theorem]
+    Suppose that there exists a Lyapunov function $V$ in a domain $D$ including the origin. Further, suppose that $\dot{V} < 0$ for $|\vec{x}| \neq 0$ (strict Lyapunov function). Then the origin is asymptotically stable.
+    \label{thmLyapunov2}
+\end{theorem}
+\begin{proof}
+    By \thmref{thmLyapunov1} we have Lyapunov stability -- flows that start in $D$ remain in $D$. For any $\vec{x_0} \in D$ we have $V(\vec{x_0}) \geq 0$ and $V(\phi_t(\vec{x_0}))$ is decreasing as $t$ increases. Therefore, $V$ must tend to some fixed value $V_0 \geq 0$.
+    \begin{subproof}{$V_0 = 0$.}
+        Suppose not, so $V_0 > 0$. Then $V(\phi_t(\vec{x_0}))$ is bounded away from $0$. This means $\phi_t(\vec{x_0})$ is bounded away from the origin, $\abs{\phi_t(\vec{x_0})} > 0$. However, by assumption this means $\dot{V}(\phi_t(\vec{x_0})) < 0$ so there exists $b < 0$ such that:
+        \begin{equation*}
+            \dot{V}(\phi_t(\vec{x_0})) < -b < 0
+        \end{equation*}
+        and so:
+        \begin{align*}
+            V(\phi_t(\vec{x_0})) &= V(\vec{x_0}) + \int_{0}^{t} \dot{V}(\phi_{t'}(\vec{x_0})) dt'  \\
+            &< V(\vec{x_0}) - bt
+        \end{align*}
+        which becomes negative for sufficiently large $t$. \contradiction
+    \end{subproof}
+    Since all flows have $V \to 0$, the only place where $V = 0$ is the origin and so all flows must tend to the origin.
+\end{proof}
+\begin{example}
+    Consider the dynamical system:
+    \begin{equation*}
+        \dot{x} = -2x,\qquad \dot{y} = x - y
+    \end{equation*}
+    and suppose we want to investigate the stability of the origin. We consider a Lyapunov function:
+    \begin{equation*}
+        V(x, y) = ax^2 + by^2
+    \end{equation*}
+    for positive $a, b$. We need its derivative:
+    \begin{align*}
+        \dot{V} &= V_x \dot{x} + V_y \dot{y} \\
+        &= 2ax(-2x) + 2by(x-y) \\
+        &= -2b \left(\frac{2a}{b}x^2 - xy + y^2\right)
+    \end{align*}
+    Now what if we try $b = 8a$?
+    \begin{equation*}
+        \dot{V} = -2b\left(\frac{x}{2} - y^2\right)^2
+    \end{equation*}
+    This is clearly non-positive, but is zero on the line $y = \frac12x$ so is not strictly Lyapunov.
+
+    Instead, try $b = 2a$:
+    \begin{equation*}
+        \dot{V} = -2b\left(\frac34x^2 + \left(\frac{x}{2} - y\right)^2\right)
+    \end{equation*}
+    Now this \textit{is} strictly Lyapunov and so we can apply \thmref{thmLyapunov2} to show that the origin is asymptotically stable.
+\end{example}
+\begin{theorem}[La Salle's Invariance Principle]
+    If $V$ is a Lyapunov function of the flow $\phi_t(\vec{x})$ then for any $\vec{x}$ such that $\phi_t(\vec{x})$ is bounded, there exists $c$ such that the $\omega$-limit set is given by:
+    \begin{equation*}
+        \omega(\vec{x}) \subseteq M_c = \subsetselect{\vec{x}}{V(\phi_t(\vec{x})) = c \text{ for all }t \geq 0}
+    \end{equation*}
+    or equivalently $\phi_t(\vec{x})$ tends to some invariant subset of $\subsetselect{\vec{z}}{V(\vec{z}) = 0}$.
+    \label{thmLaSalleInvariance}
+\end{theorem}
+\begin{remark}
+    If we have a Lyapunov function and can show that the only invariant subset of $\subsetselect{\vec{z}}{\dot{V}(\vec{z}) = 0}$ is the single point we are considering, we can use \thmref{thmLaSalleInvariance} to show asymptotic stability.
+\end{remark}
+\begin{proof}
+    Choose $\vec{x}$ and $c = \inf_{t \geq 0} \left(V(\phi_t(\vec{x}))\right)$. As $\phi_t(\vec{x})$ is bounded, an $\omega$-limit set must exist. Take $\vec{y} \in \omega(\vec{x})$. This means there exists a sequence of times $t_1, t_2, \cdots$ tending to $\infty$ such that $\phi_{t_n}(\vec{x}) \to \vec{y}$. Given that $V$ is continuous and decreasing, $V(\vec{y}) = c$.
+    \begin{subproof}{$V(\phi_t(\vec{y})) = c$}
+        Suppose not, so there is some $T$ for which $V(\phi_T(\vec{y})) < c$. However,
+        \begin{align*}
+            V(\phi_T(\vec{y})) &\to V(\phi_t(\phi_{t_n}(\vec{x}))) \\
+            &= V(\phi_{t + t_n}(\vec{x})) < c
+        \end{align*}
+        But this is not possible because $c$ is the infimum of $V$ on the flow $\phi_t(\vec{x})$. \contradiction
+    \end{subproof}
+    This means $V(\phi_t(\vec{y})) = c$ and $\dot{V} = 0$. Therefore, $\vec{y}$ is in the invariant set $\subsetselect{\vec{z}}{\dot{V}(\vec{z}) = 0}$.
+\end{proof}
+\begin{example}
+    Consider the stability of the origin for the dynamical system:
+    \begin{equation*}
+        \dot{x} = y - xy^2,\qquad \dot{y} = -x^3
+    \end{equation*}
+    This is an example of a system that is almost Hamiltonian, without the $-xy^2$ term we would find $H = \frac12 y^2 + \frac14 x^4$. We can therefore try a Lyapunov function of the form:
+    \begin{equation*}
+        V(x, y) = \frac12 y^2 + \frac14 x^4 \implies \dot{V} = -x^4 y^2
+    \end{equation*}
+    The Hamiltonian parts cancel in the derivative, leaving a simpler term behind. note that this is not strictly Lyapunov, because $\dot{V} = 0$ on the axes. We know from \thmref{thmLaSalleInvariance} that the system tends to an invariant set of the points with $\dot{V} = 0$, the two axes. On $y = 0$, we know that $\dot{y} = -x^3$ which is non-zero for $x \neq 0$. Similarly, on $x = 0$ we have $\dot{x} = y$. Therefore, the only invariant subset of $M_c$ is $\vec0$, so the origin is asymptotically stable.
+\end{example}
+We can now provide an algorithm for finding a basin of stability:
+\begin{enumerate}
+    \item Choose $V$ and a domain $D$ such that:
+    \begin{enumerate}
+        \item $V \geq 0$ in $D$, $V(\vec0) = 0, V(\vec{x}) \neq 0$ for $\vec{x} \neq \vec0$;
+        \item $\dot{V} \leq 0$ in $D$.
+    \end{enumerate}
+    \item Find $k$ such that $C_k = \subsetselect{\vec{x}}{V(\vec{x}) < k} \subseteq D$.
+    \item Vary $k$ (and $V$) so that the only invariant subset of $\subsetselect{\vec{z}}{\dot{V}(\vec{z}) = 0}$ is the origin. Therefore, \thmref{thmLaSalleInvariance} implies that $C_k$ is a subset of the basin of attraction.
+    \item Vary $V$ to get new $C_k$ and take a union of the different $C_k$ to extend the basin of attraction.
+\end{enumerate}
 \end{document}
