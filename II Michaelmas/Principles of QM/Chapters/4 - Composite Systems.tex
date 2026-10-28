@@ -1,0 +1,57 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Tensor Products}
+This is a general way of constructing quantum systems from simpler subsystems.
+
+Suppose:
+\begin{equation*}
+    \psi \in V_1,\qquad\ket\phi \in V_2
+\end{equation*}
+which are states in spaces for two systems. The tensor product space is written as:
+\begin{equation*}
+    V = V_1 \otimes V_2
+\end{equation*}
+which consists of all linear combinations of all tensor product states:
+\begin{equation*}
+    \state \otimes \ket\phi
+\end{equation*}
+subject to:
+\begin{align*}
+    \left(\state + \ket{\psi'}\right) \otimes \ket\phi &= \state \otimes \ket\phi + \ket{\psi'} \otimes \ket{\phi} \\
+    \state \otimes \left(\ket{\phi} + \ket{\phi'}\right) &= \state \otimes \ket\phi + \state \otimes \ket{\phi'} \\
+    \left(\alpha \state\right) \otimes \ket\phi &= \alpha \left(\state \otimes \ket\phi\right) \\
+    \state \otimes \left(\alpha \ket\phi\right)&= \alpha \left(\state \otimes \ket\phi\right)
+\end{align*}
+and similarly for duals. This means that this is not quite a Cartesian product of states because we can move scalars $\alpha$ around. The inner product on $V$ satisfies:
+\begin{equation*}
+    \left(\bra{\psi'} \otimes \bra{\phi'}\right) \left(\state \otimes \ket\phi\right) = \inn{\psi'}{\psi} \inn{\phi'}{\phi}
+\end{equation*}
+and we extend to everything else by linearity.
+
+Given operators $A$ and $B$ in $V_1$ and $V_2$, we define an operator $A \otimes B$ on $V$ by:
+\begin{equation*}
+    \left(A\otimes B\right)\left(\phi \otimes \psi\right) = \left(A\state\right)\otimes (B\ket{\phi})
+\end{equation*}
+and again we extend to everything else by linearity.
+
+We can then think of $A$ in $V_1$ as an operator $A \otimes 1$ in $V$. Similarly for $B$. Operators of the form $A \otimes 1$, $1 \otimes B$ commute for any $A$, $B$.
+\begin{example}
+    Consider a particle in 2D with independent position operators $\hat{x}_1, \hat{x}_2$. We introduce a basis of joint eigenstates which can be constructed as:
+    \begin{equation*}
+        \ket{x_1, x_2} = \ket{x_1} \otimes \ket{x_2}
+    \end{equation*}
+    where $\ket{x_1} \in V_1$ and $\ket{x_2} \in V_2$ and $V_1, V_2$ are the spaces of particles in one dimension. We have therefore found commuting operators $\hat{x}_1 \otimes 1$ and $1 \otimes \hat{x}_2$. The wavefunction for $\psi \otimes \phi$ is now given by:
+    \begin{equation*}
+        \bra{x_1, x_2}\left(\state \otimes \ket{\phi}\right) = \inn{x_1}{\psi} \inn{x_2}{\psi} = \psi(x_1) \phi(x_2)
+    \end{equation*}
+\end{example}
+We have tensor product states corresponding to separable wavefunctions and the tensor product space corresponding to all linear combinations of such wavefunctions. This motivates the idea of separable solutions.
+
+\begin{remark}
+    If we have bases $\{\ket{n}\}$ for $V_1$ and $\{\ket{m}\}$ for $V_2$, then $\{\ket{n} \otimes \ket{m}\}$ is a basis for $V$. For finite bases,
+    \begin{equation*}
+        \dim(V) = \dim(V_1) \times \dim(V_2).
+    \end{equation*}
+\end{remark}
+\end{document}

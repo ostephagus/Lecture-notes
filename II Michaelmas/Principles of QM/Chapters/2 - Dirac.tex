@@ -90,7 +90,7 @@ To define a quantum system, we must specify the \underline{Hamiltonian}, $H$, wh
 \section{The Quantum Harmonic Oscillator}
 A one-dimensional harmonic oscillator of mass $m$ and frequency $\omega$ has Hamiltonian:
 \begin{equation*}
-    H = \hat{p}^2 + \frac12 m\omega^2\hat{x}^2 
+    H = \frac{\hat{p}^2}{2m} + \frac12 m\omega^2\hat{x}^2 
 \end{equation*}
 \subsection{Construction and Annihilation Operators}
 We seek eigenstates and eigenvalues of $H$. We will do this by introducing new operators:
@@ -305,7 +305,7 @@ Our aim with measurement is to be able to describe the quantum system. Our proce
 \end{definition}
 Equivalently, if $A$ is another observable that commutes with the $Q_k$ then it must be a function of them.
 \begin{example}
-    Return to the example~\ref{exOrthoStates}, with states $\ket1, \ket2, \ket3$ with eigenvalues $0, 0, 1$. We want to find an observable $Q'$ that commutes with $Q$ and can differentiate the states $\ket1$ and $\ket2$. Suppose that we can find an operator:
+    Return to the example~\ref{exOrthoStates}, with states $\ket1, \ket2, \ket3$ and eigenvalues $0, 0, 1$. We want to find an observable $Q'$ that commutes with $Q$ and can differentiate the states $\ket1$ and $\ket2$. Suppose that we can find an operator:
     \begin{align*}
         Q'\ket1 &= \ket2 \\
         Q'\ket2 &= \ket1 \\
@@ -353,7 +353,7 @@ This $\psi(x)$ is the position space wavefunction that was discussed in IB Quant
 \end{align*}
 We can similarly define momentum eigenstates $\ket{p}$, again a continuous basis. Now a state is given by:
 \begin{equation*}
-    \state{\psi} = \int_{\R} \tilde{\psi}(p) \ket{p}~dp
+    \state = \int_{\R} \tilde{\psi}(p) \ket{p}~dp
 \end{equation*}
 with $\tilde{\psi}(p) = \inn{p}{\psi}$ the momentum space wavefunction. $\abs{\tilde{\psi}(p)}^2$ is the probability density for measurements of momentum.
 
@@ -401,7 +401,9 @@ We would now like to understand how $\psi(x)$ and $\tilde{\psi}(p)$ relate.
     We want to find the inner product, so:
     \begin{align*}
         \inn{x_0 + a}{p_0 + b} &= \opbraket{x_0}{e^{ia\hat{p}/\hbar}}{p_0 + b} \\
-        &= \opbraket{x_0}{e^{ia(p_0 + b) / \hbar} e^{ib\hat{x} / \hbar}}{p_0} \text{ because $p_0 + b$ is a momentum eigenstate} \\
+        &= \opbraket{x_0}{e^{ia(p_0 + b) / \hbar}}{p_0 + b} \\
+        &= e^{ia(p_0 + b) / \hbar} \opbraket{x_0}{e^{ib\hat{x} / \hbar}}{p_0} \\
+        &= e^{ia(p_0 + b) / \hbar} \opbraket{x_0}{e^{ibx_0 / \hbar}}{p_0} \\
         &= e^{i(ab + ap_0 + bx_0)/ \hbar} \inn{x_0}{p_0}
     \end{align*}
     We choose $x_0$ and $p_0$ such that:
@@ -450,8 +452,8 @@ Now give $H(\hat{x}, \hat{p})$ we can consider the energy eigenvalue problem:
 \end{equation*}
 If $H = \frac{\hat{p}^2}{2m} + V(\hat{x})$, then
 \begin{align*}
-    \text{On } \psi(x), H &\mapsto -\frac{\hbar^2}{2m} \frac{\partial^{2}}{\partial x^{2}} + V(x) \\
-    \text{On } \tilde{\psi}(x), H &\mapsto \frac{p^2}{2m} + V\left(i\hbar \frac{\partial}{\partial p}\right)
+    H &\mapsto -\frac{\hbar^2}{2m} \frac{\partial^{2}}{\partial x^{2}} + V(x) \text{ in position space, and} \\
+    H&\mapsto \frac{p^2}{2m} + V\left(i\hbar \frac{\partial}{\partial p}\right) \text{ in momentum space.}
 \end{align*}
 It may be easy to interpret the potential term in momentum space, for example if $V(x) = \lambda x^n$ then:
 \begin{equation*}

@@ -162,5 +162,69 @@ which is the \underline{Heisenberg Equation of Motion}
         \frac{d}{dt} \hat{x}(t) &= \frac{1}{i\hbar} \cmmt{\hat{x}(t)}{H} = \frac1m \hat{p}(t) \\
         \frac{d}{dt} \hat{p}(t) &= \frac1{i\hbar} \cmmt{\hat{p}(t)}{H} = -V'(\hat{x}(t))
     \end{align*}
+    Taking expectations in any state $\state$, now independent of $t$ in the Heisenberg picture, gives:
+    \begin{align*}
+        \frac{d}{dt} \E{\hat{x}} &= \frac1m \E{\hat{p}} \\
+        \frac{d}{dt} \E{\hat{p}} &= -\E{V'(\hat{x})}
+    \end{align*}
+    which is a result of the Ehrenfest theorem from IB Quantum Mechanics, now true in the Heisenberg picture also.
 \end{example}
+\begin{example}[The free particle in the Heisenberg picture]
+    Consider a free particle with $V = 0$.
+    \begin{equation*}
+        \frac{d}{dt} \hat{p}(t) = 0
+    \end{equation*}
+    which means that $\hat{p}$ does not depend on time.
+    \begin{equation*}
+        \frac{d}{dt} \hat{x}(t) = \frac1m \hat{p}(t) = \hat{p}(0)
+    \end{equation*}
+    which means that $\hat{x}(t) = \hat{x}(0) + \frac1m \hat{p}(0) t$, which makes sense from classical dynamics.
+\end{example}
+\begin{example}[The harmonic oscillator in the Heisenberg picture]
+    Heisenberg's equations are now:
+    \begin{align*}
+        \frac{d}{dt} \hat{x}(t) &= \frac1m \hat{p}(t) \\
+        \frac{d}{dt} \hat{p}(t) &= -m\omega^2 \hat{x}(t)
+    \end{align*}
+    which we can formulate into a coupled ODE:
+    \begin{equation*}
+        \frac{d^{2}}{dt^{2}} \hat{x} + \omega^2 \hat{x}^2 = 0
+    \end{equation*}
+    to give:
+    \begin{align*}
+        \hat{x}(t) &=\hat{x}(0) \cos(\omega t) + \frac{\hat{p}(0)}{m}\sin(\omega t) \\
+        \hat{p}(t) &=\hat{p}(0) \cos(\omega t) - m\omega^2 \hat{x}(0) \sin(\omega t)
+    \end{align*}
+    We can also involve the creation and annihilation operators:
+    \begin{align*}
+        \hat{x}(t) &= \sqrt{\frac{\hbar}{2m\omega}} \left(ae^{i\omega t} + a^\dagger e^{i\omega t}\right) \\
+        \hat{p}(t) &= \sqrt{\frac{\hbar m \omega}{2}} \frac1i \left(ae^{i\omega t} - a^\dagger e^{i\omega t}\right).
+    \end{align*}
+\end{example}
+\nonexaminablesubsection{Canonical Quantisation}
+The final step in Dirac's approach to constructing quantum mechanics is how to pass from a general classical system to its quantum version.
+
+Any classical system can be described by a set of generalised positions and momenta $x_i(t), p_i(t)$ in phase space. The dynamics of the system are governed by the Hamiltonian $H(\vec{x}, \vec{p})$.
+
+\begin{definition}{Poisson brackets}
+    The \underline{Poisson bracket} of any functions $f(\vec{x}, \vec{p}), g(\vec{x}, \vec{p})$ on phase space is defined:
+    \begin{equation*}
+        \{f, g\} = \sum_i \left(\frac{\partial f}{\partial x_i} \frac{\partial g}{\partial p_i} - \frac{\partial f}{\partial p_i}\frac{\partial g}{\partial x_i}\right)
+    \end{equation*}
+\end{definition}
+Note that $\{x_i, p_j\} = \delta_{ij}$, and that the Poisson brackets closely resemble commutators (they behave similarly under linearity and both have the Jacobi identity, for example).
+
+Hamilton's equation gives the time evolution of a function on phase space:
+\begin{equation*}
+    \frac{df}{dt} = \{f, H\}
+\end{equation*}
+which is extremely similar to the Heisenberg equation of quantum mechanics.
+
+\begin{definition}{Canonical quantisation}
+    In \underline{canonical quantisation}, we define the quantum theory by taking classical functions $f, g$ on phase space to quantum operators $\hat{f}, \hat{g}$, with Poisson brackets determining commutators:
+    \begin{equation*}
+        \cmmt{\hat{f}}{\hat{g}} = i\hbar \widehat{\{f, g\}}
+    \end{equation*}
+\end{definition}
+We can recover the canonical commutation relation $[\hat{x}, \hat{p}] = i\hbar$ from this.
 \end{document}
