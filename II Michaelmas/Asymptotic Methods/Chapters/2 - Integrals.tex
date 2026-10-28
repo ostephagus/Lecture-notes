@@ -274,7 +274,7 @@ If instead $\phi'(t) < 0$ and $f(a) \neq 0$, we go through a similar process to 
 \begin{equation*}
     I(x) \sim \frac{f(a) e^{x\phi(a)}}{x|\phi'(a)|}.
 \end{equation*}
-\subsection{\texorpdfstring{$\phi$}{phi} with One Internal Maximum}
+\subsection{\texorpdfstring{$\phi$}{phi} with One Internal Maximum} \label{sscPhiMaxCase}
 Suppose now that $\phi(t)$ has an internal maximum at $t = c$, such that $\phi'(c) = 0$ and $\phi''(c) < 0$. Assume $f(c) \neq 0$. We can consider this as two separate integrals:
 \begin{equation*}
     I(x) = \underbrace{\int_{c - \epsilon}^{c + \epsilon} f(t)e^{x\phi(t)} dt}_{I_1} + \underbrace{\int_{\Omega_{\epsilon}} f(t) e^{x\phi(t)} dt}_{I_1}
@@ -293,5 +293,90 @@ For $I_1$, we need to assume that $f$ and $\phi$ have enough derivatives so that
     I_1 &= \int_{c - \epsilon}^{c + \epsilon} \left(f(c) + O(t - c)\right)e^{x\phi(c) + \frac12x (t - c)^2 \phi''(c) + O((t - c)^3)} dt \\
     &= f(c) e^{x\phi(c)} \int_{c - \epsilon}^{c + \epsilon} e^{x\phi''(c) (t - c)^2 / 2} (1 + O(t - c)) dt
 \end{align*}
-In order to generate the leading order term, we will discount the higher order terms here. These will generate the other terms in the asymptotic expansion of $I(x)$ in inverse powers of $x$.
+In order to generate the leading order term, we will discount the higher order terms here. These would generate the other terms in the asymptotic expansion of $I(x)$ in inverse powers of $x$. Letting $s = \sqrt{-x\phi''(c)}(t-c)$, we find:
+\begin{align}
+    I_1 &= \frac{f(c) e^{x\phi(c)}}{\sqrt{-x\phi''(c)}} \int_{-s_\epsilon}^{s_\epsilon} e^{s^2 / 2}ds \nonumber\\
+    \intertext{then taking $x \to \infty$ (with $\epsilon$ fixed):}
+    I_1 &\sim \frac{f(c)e^{x\phi(c)}}{\sqrt{-x\phi''(c)}} \int_{-\infty}^{\infty} e^{-s^2 / 2} ds \nonumber\\
+    &= f(c)e^{x\phi(c)}\sqrt{\frac{2\pi}{-x\phi''(c)}} \label{eqnLaplaceMethod}
+\end{align}
+We can justify replacing $s_\epsilon$ with $\infty$ because $\int_{\delta}^{\infty} e^{-t^2 / 2} dt \sim \frac1\delta e^{-\delta^2 / 2}$ as $\delta \to \infty$ which is sufficiently small. Now we know $I_2 \ll I_1$ as $x \to \infty$, and so $I \sim I_1$ which we have found.
+\begin{example}
+    Consider:
+    \begin{equation*}
+        I(x) = \int_{-\infty}^{\infty} e^{-xt^2} e^{at} dt
+    \end{equation*}
+    which we know has solution $e^{a^2 / 4x}\sqrt{\pi / x}$. To use Laplace's method, we find:
+    \begin{equation*}
+        f(t) = e^{at},\qquad \phi(t) = -t^2
+    \end{equation*}
+    and so $\phi$ has an internal maximum at $0$ with $\phi''(0) = -2$. Using \eqnref{eqnLaplaceMethod},
+    \begin{equation*}
+        I(x) \sim \sqrt{\frac{\pi}{x}} \text{ as } x \to\infty.
+    \end{equation*}
+\end{example}
+\begin{example}[Bessel Functions]
+    Consider:
+    \begin{equation*}
+        K_0(x) = \int_{0}^{\infty} e^{-t - x^2 / 4t} dt
+    \end{equation*}
+    To be able to use Laplace's method, we must change variables. Consider $\psi = t - x^2 / 4t$. It has maxima at:
+    \begin{equation*}
+        \psi' = -1 + \frac{x^2}{4t^2} = 0 \implies t_{max} = \frac{x}2.
+    \end{equation*}
+    This suggests rescaling the problem using $u = \frac{2t}{x}$, to give:
+    \begin{equation*}
+        K_0(x) = \frac{x}{2} \int_{0}^{\infty} e^{x\left(-\frac{u}{2} - \frac{1}{2u}\right)} du
+    \end{equation*}
+    which has a much nicer form, $\phi(u) = -\frac12 \left(u + \frac1u\right)$, and has a simple maximum at $u = 1$.
+\end{example}
+\subsection{More Complicated Cases}
+We can also consider the case $\phi(c) = \phi(b) = \max_{[a, b]} \phi(t)$ -- $\phi$ has an internal maximum at $c$ but also achieves this at an endpoint $b$. We require $\phi'(b) \neq 0$, and $f \neq 0$ at $c$ and $b$.
+
+We claim that the internal point dominates the integral. This is because the endpoint contribution has asymptotic expansion proportional to:
+\begin{equation*}
+    \frac{e^{x\phi(b)}}{x}
+\end{equation*}
+whereas the internal point contribution has asymptotic expansion proportional to:
+\begin{equation*}
+    \frac{e^{x\phi(c)}}{x}
+\end{equation*}
+This means the endpoint's contribution is little-$o$ of the internal point's contribution. Therefore, the endpoint can be ignored when looking for the leading order term. The endpoint may contribute to higher-order terms.
+
+Suppose that $\phi$ has many internal local maxima $c_i$, where $\phi'(c_i) = 0$ and $\phi''(c_i) < 0$. We can say that only the global maximum (on $[a, b]$) matters, because the asymptotic expansions include $e^{x\phi(c_i)}$ and $e^{x_1} \gg e^{x_2}$ when $x_1 > x_2$. If, however, we have two global maxima ($\phi(c_i) = \phi(c_j)$) then we need to include both in the asymptotic expansion.
+
+Suppose now that an endpoint is a global maximum: $\phi'(b) = 0, \phi''(b) < 0$, and $f(b) = 0$. We proceed as in subsection~\ref{sscPhiMaxCase}, but get the integral:
+\begin{align*}
+    I_1 &= \int_{b-\epsilon}^{b} f(t)e^{x\phi(t)} dt \\
+    &\sim \frac{f(b)e^{x\phi(b)}}{\sqrt{x\phi''(b)}} \int_{0}^{\infty} e^{-s^2 / 2} ds \\
+    &\sim \frac12 f(b)e^{x\phi(b)} \sqrt{\frac{2\pi}{-x\phi''(b)}}
+\end{align*}
+which is half of the result of Laplace's method in subsection~\ref{sscPhiMaxCase}.
+\begin{example}
+    Consider:
+    \begin{equation*}
+        I(x) = \int_{0}^{3\pi / 2} e^{x\sin^2(t)} dt 
+    \end{equation*}
+    which immediately gives $f = 1, \phi(t) = \sin^2(t)$. This has multiple global maxima, at $\frac\pi2$ and $\frac{3\pi}2$. We need to include the contribution from $\frac\pi2$ and the endpoint contribution at $\frac{3\pi}{2}$ which, as we have just seen, will need a factor $\frac12$. The result is:
+    \begin{equation*}
+        I \sim e^x \sqrt{\frac{\pi}{x}} + \frac12 e^x \sqrt{\frac{\pi}{x}} = \frac32 e^x \sqrt{\frac{\pi}{x}}
+    \end{equation*}
+\end{example}
+
+What if now $\phi$ has an internal maximum that has $p-1$ vanishing derivatives:
+\begin{equation*}
+    \phi'(c) = \phi''(c) = \cdots = \phi^{(p-1)}(c) = 0,\quad\phi^{(p)}(c) < 0
+\end{equation*}
+We again proceed as in subsection~\ref{sscPhiMaxCase}, but Taylor expanding $\phi$ will require higher order terms, since $\phi(t + c) = \phi(c) + \frac{\phi^{(p)}(c)}{p!} (t + c)^p$.
+\begin{equation*}
+    I \sim \int_{c-\epsilon}^{c+\epsilon} f(c)e^{x\phi(c)} e^{x\phi^{(p)}(c)(t-c)^p / p!} dt.
+\end{equation*}
+We introduce $c = \left[\frac{-x\phi^{(p)}(c)}{p!}^{\frac1p}\right](t-c)^p$:
+\begin{align*}
+    I &\sim \frac{(p!)^\frac1p}{\left[-x\phi^{(p)}(c)\right]} f(c) e^{x\phi(c)} \int_{-\infty}^{\infty} e^{-s^p} ds \\
+    &= \frac{(p!)^\frac1p}{\left[-x\phi^{(p)}(c)\right]} f(c) e^{x\phi(c)} \int_{0}^{\infty} \frac{e^{-u} u^{\frac1p - 1}}{p}~du \text{ where } u = s^p \\
+    &= \frac{(p!)^\frac1p}{\left[-x\phi^{(p)}(c)\right]} f(c) e^{x\phi(c)} \times \frac1p \Gamma(1/p) \\
+    &= 2f(c)e^{x\phi(c)} \left[\frac{p!}{-x\phi^{(p)}(c)}\right]^\frac1p \Gamma\left(1 + \frac1p\right)
+\end{align*}
+which is proportional to $x^{-\frac1p} e^{x\phi(c)}$. This tells us that convergence gets slower as the number of vanishing derivatives increases, which reflects the fact that the maximum gets flatter and so a larger region around the maximum will contribute to the integral as $x \to \infty$.
 \end{document}
