@@ -546,6 +546,7 @@ Our equation $\vec{g} = \frac1{c^2} \vec{N}$ shows that energy flux and momentum
     \vec{g} &= n p \vec{e_x} = \vec{N} / c^2.
 \end{align*}
 \subsection{Stress-Energy Tensor}
+\label{sscParticlesBoost}
 Our aim in this subsection is to combine the energy and momentum conservation laws into a single covariant conservation law for
 \begin{equation*}
     P^\mu = \begin{pmatrix}E / c \\ \vec{p}\end{pmatrix}.
@@ -661,7 +662,7 @@ Maxwell's equations give:
 \end{align*}
 Therefore, we find that $\uvec{k}, \vec{E_0}, \vec{B_0}$ are a right-handed triad (mutually perpendicular) and also $|\vec{E_0}| = c|\vec{B_0}|$. We can orient our coordinates such that $\uvec{k}, \vec{E_0}, \vec{B_0}$ are along the $x, y, z$ axes, respectively. Then the field tensor is:
 \begin{equation*}
-    F^{\mu\nu} = |\vec{B_0}| f
+    F^{\mu\nu} = |\vec{B_0}| f(\vec{k} \cdot \vec{x} - \omega t)
     \begin{pmatrix}
         0 & 0 & 1 & 0 \\
         0 & 0 & 1 & 0 \\
@@ -669,5 +670,28 @@ Therefore, we find that $\uvec{k}, \vec{E_0}, \vec{B_0}$ are a right-handed tria
         0 & 0 & 0 & 0
     \end{pmatrix}
 \end{equation*}
-and both quadratic invariants are zero, because $\vec{E} \cdot \vec{B} = 0$ and $|\vec{E}|^2 = c^2 |\vec{B}|^2$.
+and both quadratic invariants are zero, because $\vec{E} \cdot \vec{B} = 0$ and $|\vec{E}|^2 = c^2 |\vec{B}|^2$. Therefore the stress-energy tensor reduces to:
+\begin{equation*}
+    T^{\mu\nu} = \frac1{\mu_0} F^{\mu \alpha} \indx{F}{\nu}{\alpha} = \frac{|\vec{B_0}|^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2
+    \begin{pmatrix}
+        1 & 1 & 0 & 0 \\
+        1 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+\end{equation*}
+We can read off the components:
+\begin{align*}
+    \E &= \frac{|\vec{B_0}|^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2 \\
+    N_x &= \frac{c |\vec{B_0}|^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2 \\
+    \sigma_{xx} &= \frac{|\vec{B_0}|^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2
+\end{align*}
+Note that this is exactly the form that we found back in subsection~\ref{sscParticlesBoost} where we considered a Lorentz boost relative to a frame containing stationary particles, if we take $\beta \to -1$.
+\subsection{Example: Radiation Pressure of a Photon Gas}
+We consider a ``photon gas'' as a random superposition of incoherent (all different phases) plane waves propagating in all directions with equal intensity. This setup gives an isotropic radiation field, so:
+\begin{itemize}
+    \item $\tAvg{\vec{N}} = 0$;
+    \item $\tAvg{\sigma} = pI$, for $p$ the pressure;
+    \item $\tAvg{T^{\mu\nu}} = \operatorname{diag}\left(\E, p, p, p\right)$ and since $T^{\mu\nu}$ is trace-free, $p = \frac13 \E$.
+\end{itemize}
 \end{document}

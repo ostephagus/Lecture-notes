@@ -1,0 +1,79 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+We will seek to understand the production of electromagnetic waves by oscillating charge distributions:
+\begin{enumerate}
+    \item macroscopic charge densities / currents involving non-relativistic motion, including scattering; and
+    \item accelerated charges in arbitrary motion.
+\end{enumerate}
+\section{Retarded Potentials}
+Recall Maxwell's equations:
+\begin{align*}
+    \partial_\mu F^{\mu\nu} &= -\mu_0 J^\nu \tag{\ref{eqnMaxForced}} \\
+    F_{\mu\nu} &= \partial_\mu A_\nu - \partial_\nu A_\mu \tag{\ref{eqn4VecPot}}
+\end{align*}
+Combining the two,
+\begin{equation*}
+    \partial_\mu \left(\partial^\mu A^\nu - \partial^\nu A^\mu\right) = -\mu_0 J^\nu
+\end{equation*}
+and we can use the D'Alambertian operator $\Box = \eta^{\mu\nu} \partial_\mu \partial_\nu$:
+\begin{equation}
+    \Box A^\mu - \partial^\nu \partial_\mu A^\mu = -\mu_0 J^\nu
+    \label{eqnDAlamBadGauge}
+\end{equation}
+We must choose a gauge to solve this. A convenient choice is Lorenz (not Lorentz!) gauge $\partial_\mu A^\mu = 0$, which can be found by the transformation:
+\begin{equation*}
+    A^\mu \mapsto A^\mu - \partial^\mu \chi, \text{ where } \Box \chi = - \partial_\nu A^\nu
+\end{equation*}
+In this gauge, \eqnref{eqnDAlamBadGauge} becomes:
+\begin{equation}
+    \Box A^\mu = -\mu_0 J^\mu
+    \label{eqnDAlam}
+\end{equation}
+which is a sourced wave equation. We solve this using a Fourier transform in time:
+\begin{equation*}
+    A^\mu (t, \vec{x}) = \frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty} \tilde{A}^\mu (\omega, \vec{x}) e^{-i\omega t} d\omega 
+\end{equation*}
+The Fourier transform of \eqnref{eqnDAlam} is:
+\begin{equation*}
+    (\nabla^2 + k^2) \tilde{A} = -\mu_0 \tilde{J}
+\end{equation*}
+where $k = \frac{\omega}{c}$. This can be solved with a Green's function $G(\vec{x};\vec{y})$ satisfying:
+\begin{equation}
+    (\nabla^2 + k^2) G(\vec{x};\vec{y}) = \delta(\vec{x} - \vec{y})
+    \label{eqnGreens}
+\end{equation}
+which would give:
+\begin{equation*}
+    \tilde{A}(\omega, \vec{x}) = -\mu_0 \int_{\R^3} G(\vec{x}; \vec{y})\tilde{J}^\mu (\omega, \vec{x}) d^3\vec{y}.
+\end{equation*}
+We still need to give a boundary condition for $G$. For localised currents/charges, we want the free-space Green's function with boundary condition:
+\begin{equation*}
+    G(\vec{x}; \vec{y}) \to 0 \text{ as } \abs{\vec{x} - \vec{y}} \to \infty.
+\end{equation*}
+Note that \eqnref{eqnGreens} is homogeneous and isotropic, so $G$ may only depend on $\abs{\vec{x} - \vec{y}}$. To solve for $G$ we can take $r = \abs{\vec{x} - \vec{y}}$ and so \eqnref{eqnGreens} becomes:
+\begin{equation*}
+    \frac1{r^2} \frac{d}{dr} \left(r^2 \frac{dG}{dr}\right) + k^2 G = 0\qquad r \neq 0
+\end{equation*}
+which has solutions proportional to $\frac1r e^{ikr}$ and $\frac1r e^{-ikr}$. We take the positive exponent due to causality (which will be discussed later). The constant of proportionality is fixed by integrating \eqnref{eqnGreens} on a sphere of radius $\epsilon$ centred on $\vec{x} = 0$:
+\begin{align*}
+    \int_{B_\epsilon} \nabla \cdot (\nabla G) d^3\vec{x} + k^2 \int_{B_\epsilon} G~d^3\vec{x} &= 1 \\
+    \int_{\partial B_\epsilon} (\nabla G) \cdot \vec{dS} + k^2 \int_{B_\epsilon} G~d^3\vec{x} &= 1 \\
+    4\pi \epsilon^2 \left.\frac{dG}{dr}\right|_{\epsilon}+ k^2 \int_{B_\epsilon} G~d^3\vec{x} &= 1 \\
+    %TODO: Put in dG/dr here and show orders
+\end{align*}
+and so taking the limit $\epsilon \to 0$ gives that the constant of proportionality must be $-\frac1{4\pi}$:
+\begin{equation*}
+    G(\vec{x};\vec{y}) = -\frac1{4\pi} \frac{e^{ik\abs{\vec{x} - \vec{y}}}}{\abs{\vec{x} - \vec{y}}}
+\end{equation*}
+and it follows that:
+\begin{align*}
+    A^\mu (t, \vec{x}) &= \frac{\mu_0}{4\pi} \int_{-\infty}^{\infty} \frac1{\sqrt{2\pi}} e^{-i\omega t} \int_{\R^3} \frac{e^{ik\abs{\vec{x} - \vec{y}}}}{\abs{\vec{x} - \vec{y}}}\tilde{J}^\mu (\omega, \vec{y}) d^3\vec{y}~ d\omega  \\
+    &= \frac{\mu_0}{4\pi} \int_{\R^3} \frac{J^\mu(t_{ret}, \vec{y})}{\abs{\vec{x} - \vec{y}}} d^3\vec{y}
+\end{align*}
+where the \underline{retarded time} is:
+\begin{equation*}
+    t_{ret} = t - \frac1c \abs{\vec{x} - \vec{y}}
+\end{equation*}
+so we can think of this as the integral over a past light cone from $(t, \vec{x})$. This is why we had to discount the $e^{-ikr}$ term earlier, because otherwise we would be integrating over the future light cone which violates causality.
+\end{document}
