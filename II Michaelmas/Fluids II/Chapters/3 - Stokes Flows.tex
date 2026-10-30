@@ -181,7 +181,7 @@ We can give some further properties of the Stokes' equation, that need more proo
 
     By linearity of the Stokes equations,
     \begin{align*}
-        \vec{F} &= A\vec{U} + B\vec{\omega} \\
+        \vec{F} &= A\vec{U} + B\vec{\Omega} \\
         \vec{G} &= C\vec{U} + D\vec{\Omega}
     \end{align*}
     for 2nd-rank tensors $A, B, C, D$. \Eqnref{eqnSolidBodyReciproc} gives us that $A, D$ are symmetric, $B = C^T$.
@@ -190,6 +190,7 @@ We can give some further properties of the Stokes' equation, that need more proo
 \end{example}
 \section{Flow Past a Sphere}
 \subsection{Stationary Sphere}
+\label{sscStationarySphere}
 \begin{figure}
     \centering
     \begin{tikzpicture}[scale=1]
@@ -204,5 +205,115 @@ We can give some further properties of the Stokes' equation, that need more proo
     \end{tikzpicture}
     \caption{Diagram of flow past a stationary sphere}
     \label{figStationarSphere}
+\end{figure}
+%TODO: Add in the methods from the handouts
+\subsection{Translating Sphere}
+Consider a sphere translating with velocity $\vec{U}$ through fluid that is otherwise at rest. We can find the solution by changing to an inertial reference frame going at speed $-U$ (and then flipping $\vec{U}$) with respect to the solution of subsection~\ref{sscStationarySphere}, to get the solution:
+\begin{equation*}
+    \vec{u} = \vec{U} \left(\frac{3a}{4r} + \frac{a^4}{4r^3}\right) + (\vec{U} \cdot \vec{x}) \vec{x} \left(\frac{3a}{4r^3} - \frac{3a^3}{4r^5}\right)
+\end{equation*}
+and we can also find pressure and stress:
+\begin{equation*}
+    p = \frac{3\mu a}{2} \frac{\vec{U} \cdot \vec{x}}{r^3},\qquad \sigma \vec{n}|_{r = a} = \frac{-3\mu}{2a} \vec{U}
+\end{equation*}
+The fluid drag on the sphere is $-6\pi \mu a \vec{U}$, which is opposite and equal to the force exerted by the sphere.
+
+In the case of a sedimenting sphere -- a sphere falling under its weight with no inertial term -- we have the force balance:
+\begin{equation*}
+    \vec{F} = \frac43 \pi a^2 (\rho_S - \rho) \vec{g}
+\end{equation*}
+and so balancing this with the drag gives:
+\begin{equation*}
+    \vec{U} = \frac29 \frac{\Delta \rho~a^2}{\mu}\vec{g}
+\end{equation*}
+\subsection{Far Field}
+Our solution for $\vec{u}$ has terms $O(r^{-1})$ and $O(r^{-3})$. For $r \gg a$, the $O(r^{-1})$ terms dominate, and the sphere just looks like a point exerting a force on the fluid at $\vec{x} = \vec{0}$. The disturbance flow (either from uniform flow or from rest) can be written:
+\begin{equation*}
+    \vec{u}' = \frac{1}{8\pi\mu} \left(\frac1r\vec{F} + \frac1{r^3}(\vec{F} \cdot \vec{x}) \vec{x}\right)
+\end{equation*}
+Then this is the solution for a point force $\vec{f}(\vec{x}) = \vec{F}\delta(\vec{x})$, which is known as a ``Stokeslet''.
+\section{Corner Flows}
+There are many examples of 2D flow in a corner:
+\begin{itemize}
+    \item scraping fluid off a rigid boundary;
+    \item hinged plates;
+    \item source flow (stationary rigid plates at an angle to each other with a source at the join);
+    \item flow past a corner (see figure~\ref{figFlowCorner})
+\end{itemize}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw[hatch side] (3, -1) -- (1, -1) -- (1, 0) -- (0, 0);
+        \draw[blue, mid arrow] (0, 0.35) .. controls (1.5, 0.35) and (1.0, -0.35) .. (2.5, -0.35);
+
+        \draw[blue, mid arrow] (1.55, -0.27) arc[start angle=90, end angle=-270, radius=0.35];
+    \end{tikzpicture}
+    \caption{Diagram of fluid flow past a corner}
+    \label{figFlowCorner}
+\end{figure}
+Sufficiently close to the corner, we expect $L \sim r$ and $\Re \ll 1$ (for source flow we need $U \sim \frac1r and UL \sim Q \ll \nu$).
+
+We can use a 2D streamfunction $\psi$ with $\vec{u} = \nabla \times \psi\vec{e_z}$ and plane polar coordinates:
+\begin{equation*}
+    \vec{u} = \begin{pmatrix}\frac1r \frac{\partial \psi}{\partial \theta} \\ -\frac{\partial \psi}{\partial r} \\ 0\end{pmatrix}
+\end{equation*}
+The vorticity is given by $\vec{\omega} = -\nabla^2\psi \vec{e_z}$. Vorticity must be harmonic in Stokes flow so the streamfunction must be biharmonic: $\nabla^4 \psi = 0$. We recover the pressure using the Stokes equation,
+\begin{equation*}
+    \nabla p = \mu \nabla^2\vec{u} = \mu \nabla \times (\nabla^2 \psi \vec{e_z}).
+\end{equation*}
+\begin{example}[Source flow]
+    Consider the stup in figure~\ref{figSourceFlow}. Mass conservation suggests trying:
+    \begin{equation*}
+        u_r \propto \frac{Q}{r}.
+    \end{equation*}
+    We can try a streamfunction of the form:
+    \begin{equation*}
+        \psi = Qf(\theta)
+    \end{equation*}
+    Then the biharmonic equation gives:
+    \begin{align*}
+        0 &= \nabla^4 \psi \\
+        &= \left(\frac1r \frac{\partial }{\partial r} \left(r \frac{\partial}{\partial r}\right) + \frac1{r^2} \frac{\partial^2 }{\partial \theta^2}\right) \frac{Qf''(\theta)}{r^2} \\
+        \implies& f^{(4)}(\theta) + 4 f''(\theta) = 0 \\
+        \implies& f(\theta) = A\cos(2\theta) + B \sin(2\theta) + C + D\theta
+    \end{align*}
+    Now since $u_r$ is an even function in $\theta$, and so $\psi$ is odd, we can immediately say $A = C = 0$.
+    
+    The no-slip condition is $u_r(\pm \alpha) = 0 \implies f'(\pm \alpha) = 0$. Applying this at $\alpha$:
+    \begin{equation*}
+        D = -2B\cos(2\alpha)
+    \end{equation*}
+    The final condition is that the volume flux at the origin is $Q$:
+    \begin{equation*}
+        Q = \int_{-\alpha}^{\alpha} u_r~r d\theta = Q(f(\alpha) - f(-\alpha))
+    \end{equation*}
+    so $f(\pm \alpha) = \pm \frac12$, and we have all the constants determined:
+    \begin{equation*}
+        f(\theta) = \frac12 \frac{\sin(2\theta) - 2\theta \cos(2\theta)}{\sin(2\alpha) - 2\alpha \cos(2\alpha)}
+    \end{equation*}
+    which gives our solution for $u_r$:
+    \begin{equation*}
+        u_r = \frac{Q}{r} \frac{\cos(2\theta) - \cos(2\alpha)}{\sin(2\alpha) - 2\alpha \cos(2\alpha)}
+    \end{equation*}
+    We note:
+    \begin{itemize}
+        \item As $\alpha \to 0$, $u_r$ has a parabolic profile.
+        \item $u_r > 0$ on the whole domain only if $2\alpha < 180^\circ$. If $\alpha > 90^\circ$ then we get inflow by the walls.
+        \item If the denominator is zero (happens when $2\alpha = 257^\circ$) then we have a problem.
+    \end{itemize}
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw[hatch side] (0, 0) -- (30:2)
+            node[pos=1, right] {$\theta = \alpha$};
+
+        \fill (0, 0) circle[radius=0.1] node[left] {$Q$};
+        
+        \draw[hatch side] (-30:2) -- (0, 0)
+            node[pos=0, right] {$\theta = -\alpha$};
+    \end{tikzpicture}
+    \caption{Diagram of source flow}
+    \label{figSourceFlow}
 \end{figure}
 \end{document}
