@@ -173,10 +173,11 @@ Note that \thmref{propGammaBinomial} can be used to expand:
         F_1(x) = \sum_{n=0}^{N} a_n \frac{\Gamma(\alpha + \beta n + 1)}{x^{\alpha + \beta n + 1}} + o(x^{_\alpha - \beta N - 1})
         \tag{RTP}
     \end{equation*}
-    Therefore, we consider:
+    Therefore, we consider (using \thmref{propGammaExtended}):
     \begin{align*}
-        \abs{F_1 - \sum_{n=0}^{N} a_n \frac{\alpha + \beta n + 1}{x^{\alpha + \beta n + 1}}} &\leq \abs{\int_0^\epsilon f(x) e^{-xt} dt - \int{0}^{\infty} \alpha_n t^{\alpha + \beta n} e^{-xt}} \text{ by \thmref{propGammaExtended}} \\
-        &\leq \underbrace{\int_0^\epsilon e^{-xt} \abs{f(x) - \sum_{n=0}^{N} \alpha_n t^{\alpha + \beta n}} dt}_{R_1} + \underbrace{\abs{\int_t^\infty e^{-xt} \sum_{n=0}^{N} a_n t^{\alpha + \beta n}}}_{R_2} \\
+        \abs{F_1 - \sum_{n=0}^{N} a_n \frac{\alpha + \beta n + 1}{x^{\alpha + \beta n + 1}}} &\leq \abs{\int_0^\epsilon f(x) e^{-xt} dt - \int{0}^{\infty} \alpha_n t^{\alpha + \beta n} e^{-xt}} \\
+        &\leq \underbrace{\int_0^\epsilon e^{-xt} \abs{f(x) - \sum_{n=0}^{N} \alpha_n t^{\alpha + \beta n}} dt}_{R_1} \\
+        &\qquad+ \underbrace{\abs{\int_t^\infty e^{-xt} \sum_{n=0}^{N} a_n t^{\alpha + \beta n}}}_{R_2} \\
     \end{align*}
     Considering the terms individually:
     \begin{align*}
@@ -277,7 +278,7 @@ If instead $\phi'(t) < 0$ and $f(a) \neq 0$, we go through a similar process to 
 \subsection{\texorpdfstring{$\phi$}{phi} with One Internal Maximum} \label{sscPhiMaxCase}
 Suppose now that $\phi(t)$ has an internal maximum at $t = c$, such that $\phi'(c) = 0$ and $\phi''(c) < 0$. Assume $f(c) \neq 0$. We can consider this as two separate integrals:
 \begin{equation*}
-    I(x) = \underbrace{\int_{c - \epsilon}^{c + \epsilon} f(t)e^{x\phi(t)} dt}_{I_1} + \underbrace{\int_{\Omega_{\epsilon}} f(t) e^{x\phi(t)} dt}_{I_1}
+    I(x) = \underbrace{\int_{c - \epsilon}^{c + \epsilon} f(t)e^{x\phi(t)} dt}_{I_1} + \underbrace{\int_{\Omega_{\epsilon}} f(t) e^{x\phi(t)} dt}_{I_2}
 \end{equation*}
 where $\Omega_\epsilon = [a, c - \epsilon] \cup [c + \epsilon, b]$. If $\phi$ has one natural maximum, we can see that $\phi$ is monotonically increasing on $[a, c - \epsilon]$ and decreasing on $[c + \epsilon, b]$. Therefore:
 \begin{equation*}
@@ -379,4 +380,98 @@ We introduce $c = \left[\frac{-x\phi^{(p)}(c)}{p!}^{\frac1p}\right](t-c)^p$:
     &= 2f(c)e^{x\phi(c)} \left[\frac{p!}{-x\phi^{(p)}(c)}\right]^\frac1p \Gamma\left(1 + \frac1p\right)
 \end{align*}
 which is proportional to $x^{-\frac1p} e^{x\phi(c)}$. This tells us that convergence gets slower as the number of vanishing derivatives increases, which reflects the fact that the maximum gets flatter and so a larger region around the maximum will contribute to the integral as $x \to \infty$.
+\subsection{Finding Higher-Order Terms}
+To find higher-order terms in Laplace's method, we must keep the higher-order terms in the Taylor expansions of $f$ and $\phi$ around $t = c$ where $\phi$ has a global maximum.
+
+\begin{remarks}
+    \item This is a difficult process and is better tackled case-by-case for $f$ and $\phi$.
+    \item If $f(c) = 0$, we need these higher-order terms anyway to find the leading order term.
+\end{remarks}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        J(x) = \int_{0}^{\pi} e^{x\sin(t)} dt 
+    \end{equation*}
+    and suppose we want an asymptotic expansion for $J(x)$ as $x \to \infty$.
+
+    Note that $f = 1$ and $\phi = \sin(t)$, which has an internal maximum at $t = c = \frac\pi2$.
+
+    By our previous methods,
+    \begin{equation*}
+        J \sim \sqrt{\frac{2\pi}{x}} e^x.
+    \end{equation*}
+    But to find the higher-order terms, we need the derivation from subsection~\ref{sscPhiMaxCase}:
+    \begin{equation*}
+        J(x) \sim \int_{\frac\pi2 - \epsilon}^{\frac\pi2 + \epsilon} e^{x\sin(t)} dt 
+    \end{equation*}
+    To ease the expansions, let $u = t - \frac\pi2$:
+    \begin{align*}
+        J(x) &\sim \int_{-\epsilon}^\epsilon e^{x\cos(u)}du \\
+        &= \int_{-\epsilon}^{\epsilon} \exp\left[x - \frac{xu^2}{2} + \frac{xu^4}{4!} + \cdots\right] du \\
+        &= e^x\int_{-\epsilon}^{\epsilon} e^{-xu^2 / 2} e^{xu^4 / 24 + \cdots} \\
+        \intertext{Let $s = \sqrt{x} u$:}
+        &= \frac{e^x}{\sqrt{x}} \int_{-\epsilon \sqrt{x}}^{\epsilon \sqrt{x}} e^{-s^2 / 2} e^{x^{-1} s^4 / 24 + \cdots} ds \\
+        &\sim \frac{e^x}{\sqrt{x}} \int_{-\epsilon \sqrt{x}}^{\epsilon \sqrt{x}} e^{-s^2 / 2} \left(1 + \frac{s^4}{24x} + \text{error}\right) ds \\
+        \intertext{The error will be small as $x\to\infty$:}
+        &\sim \frac{e^x}{\sqrt{x}} \left[\int_{-\infty}^{\infty} e^{-s^2 / 2} ds + \frac1{24x} \int_{-\infty}^{\infty} s^4 e^{-s^2 / 2} ds + \cdots\right] \\
+        &= \sqrt{\frac{2\pi}{x}} \left[1 + \frac{1}{8x} + \cdots\right]
+    \end{align*}
+    Then to show this is a valid asymptotic approximation we would need to show that the remaining terms are little-$o$ of the previous term.
+\end{example}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        I(x) = \int_{x}^{\infty} e^{-t-x^2 / t} dt 
+    \end{equation*}
+    and we want an asymptotic approximation as $x \to \infty$. The maximum of $\phi$ here is at %TODO
+    so we use a co-moving variable $xu = t$ so that $\varphi(u) = -u-u^{-1}$ which has a maximum at $1$. Using this variable change, 
+    \begin{equation*}
+        I(x) = x \int_{1}^{\infty} e^{x\varphi(u)} du 
+    \end{equation*}
+    We can calculate derivatives of $\varphi$:
+    \begin{align*}
+        \varphi(1) &= -2 & \varphi'(1) &= 0 & \varphi''(1) &= -2 & \varphi'''(1) &= 6.
+    \end{align*}
+    We can now expand $I$:
+    \begin{align*}
+        I(x) &\sim x \int_{1}^{\infty} e^{-2x-x(u-1)^2 + x(u-1)^3 + \cdots} du \\
+    \intertext{considering $s = (u-1)\sqrt{x}$:}
+        &\sum \sqrt{x} e^{-2x} \int_{0}^{\epsilon \sqrt{x}} e^{-s^2} \left[1 + \frac{s^3}{\sqrt{x}} + O\left(\frac{s^4}{x}\right)\right] ds \\
+        &= \sqrt{x} e^{-2s} \left[\int_{0}^{\infty} e^{-s^2} ds + \frac1{\sqrt{x}} \int_{0}^{\infty} s^3 e^{-s^2} ds + O(x^{-1})\right] \\
+        &= \frac{\sqrt{x}e^{-2x}\sqrt{\pi}}{2} \left[1 + (\pi x)^{-\frac12} + O(x^{-1})\right]
+    \end{align*}
+    where we used:
+    \begin{equation*}
+        \int_{0}^{\infty} t^{2n+1} e^{-t^2 / a^2} dt = \frac{n!a^{2n+1}}{2}.
+    \end{equation*}
+\end{example}
+\section{Oscillatory Integrals}
+Consider Fourier-type integrals:
+\begin{equation*}
+    F(x) = \int_{a}^{b} f(t)e^{ix\phi(t)} dt
+\end{equation*}
+and their behaviour as $x \to \infty$. Here $f$ is referred to as the \underline{amplitude} or \underline{envelope} function. The function $x\phi(t)$ is referred to as the \underline{phase function}, and its $t$ derivative is known as the \underline{local wave number} (for problems involving space) or \underline{frequency} (for problems involving time).
+
+Note that as $x \to \infty$, $\abs{e^{ix\phi(t)}} = 1$ but the integrand will oscillate very rapidly. This leads to ``catastrophic cancellation'' when evaluating the integral. As $x \to \infty$, the wavelength of oscillation will get very small -- much smaller than the length scale of variation of $f$ -- so locally (over one wavelength), $f$ looks mostly constant. Therefore, the integral over one wavelength looks like:
+\begin{equation*}
+    \int_0^\lambda f(t_\lambda) \sin\left(\frac{2\pi}{\lambda}t\right) dt 
+\end{equation*}
+which is zero. This is famously formalised by the Riemann-Lebesgue Lemma (for which $\phi = t$).
+\begin{theorem}[Riemann-Lebesgue Lemma]
+    Let $a < b$ be finite and let $f$ be a function such that $\int_{a}^{b} |f(t)| dt$ is finite. Then:
+    \begin{equation*}
+        F(x) = \int_{a}^{b} e^{ixt} f(t) dt \to 0 \text{ as } \abs{x} \to \infty
+    \end{equation*}
+    \label{thmRiemannLebes}
+\end{theorem}
+In this course we are interested in how fast $f$ goes to $0$ as $x \to \infty$. We first assume that $f$ is differentiable and $f'$ is integrable, and $f(a) \neq 0, f(b) \neq 0$. A first approach is to integrate by parts:
+\begin{align*}
+    F(x) &= \left[f(t) \frac{e^{ixt}}{ix}\right]_a^b - \frac{1}{ix} \int_{a}^{b} f'(t) e^{ixt} dt  \\
+    &= \frac1{ix} \left[f(b) e^{ixb} - f(a) e^{ixa} - \int_{a}^{b} f'(t) e^{ixt} dt \right] \\
+    &\sim \frac1{ix} \left[f(b) e^{ixb} - f(a) e^{ixa}\right] 
+\end{align*}
+by \thmref{thmRiemannLebes}. We see that the behaviour of $f$ is dominated, to leading order, by the behaviour at the endpoints. This is due to imperfect cancellation here. Indeed, if $f \to 0$ at the endpoints then $F$ is small beyond all orders in $x^{-k}$. That is, if $f$ is infinitely differentiable we can integrate by parts $N$ times to show:
+\begin{equation*}
+    F(x) = o(x^{-N}) ~\forall N \in \N
+\end{equation*}
 \end{document}
