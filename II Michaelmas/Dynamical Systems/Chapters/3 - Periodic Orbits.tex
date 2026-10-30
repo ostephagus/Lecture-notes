@@ -1,0 +1,48 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Poincaré Indices}
+Consider a general dynamical system:
+\begin{equation*}
+    \dvec{x} = \vec{f}(\vec{x}) = \begin{pmatrix}f_1(x, y) \\ f_2(x, y)\end{pmatrix}
+\end{equation*}
+At any given point, the angle the trajectory passing through that point makes with the horizontal is:
+\begin{equation*}
+    \psi(x, y) = \tan^{-1} \left(\frac{f_2(x, y)}{f_1(x, y)}\right)
+\end{equation*}
+Note this is not defined at fixed points.
+
+Suppose $\Gamma$ is a simple, closed curve not passing through any fixed points. Starting at some initial point, the integral of $\psi$ along the curve (summing up all the angles along the curve) must yield $2n\pi + \phi(x_0, y_0)$. We call this $n$ the \underline{Poincaré index}:
+\begin{definition}{Poincaré index}
+    The \underline{Poincaré index} of a simple, closed curve $\Gamma$ not passing through any fixed points is:
+    \begin{equation*}
+        I(\Gamma) = \frac{1}{2\pi} \oint_\Gamma d\psi = \frac1{2\pi} \oint_\Gamma \frac{f_1 df_2 - f_2 df_1}{f_1^2 + f_2^2}
+    \end{equation*}
+\end{definition}
+\begin{propositions}{
+        Let $\Gamma$ be a simple, closed curve not passing through any fixed points.
+        \label{propsPoincIndxProps}
+    }
+    \item $I(\Gamma)$ is unaffected by smooth, continuous deformations of $\Gamma$ as long as this deformation does not cross any fixed points. \label{propPoincIndxDeform}
+    \item If $\Gamma$ does not enclose any fixed points, $I(\Gamma) = 0$. \label{propPoincIndxZero}
+    \item Suppose $\Gamma = \Gamma_1 + \Gamma_2$, where $\Gamma_i$ are smooth and do not pass through fixed points. Then $I(\Gamma) = I(\Gamma_1) + I(\Gamma_2)$. \label{propPoincIndxAdd}
+    \item $\Gamma$ is symmetric in $t \mapsto -t$. \label{propPoincIndxTimeReverse}
+    \item If $\Gamma$ is a periodic orbit, $I(\Gamma) = 1$.
+\end{propositions}
+\begin{proof}
+    \begin{enumerate}
+        \item This is a consequence of the deformation property of integrals in $\C$. Note that the integrand (of $x + iy$) is analytic at all points other than fixed points, which means the deformation fails when crossing them.
+        \item A consequence of \thmref{propPoincIndxDeform}. Deform $\Gamma$ to an infinitesimal contour on which the field is uniform, so there is no change in the index.
+        \item This is simply due to the additive property of line integrals.
+        \item We can see this in the definition:
+            \begin{equation*}
+                I(\Gamma) \mapsto \frac1{2\pi} \oint_\Gamma \frac{(-f_1) (-df_2) - (-f_2) (-df_1)}{f_1^2 + f_2^2} = \frac1{2\pi} \oint_\Gamma \frac{f_1 df_2 - f_2 df_1}{f_1^2 + f_2^2} = I(\Gamma).
+            \end{equation*}
+        \item On a periodic orbit $\psi$ is simply a tangent to the orbit. Evaluating the integral then gives: %TODO
+    \end{enumerate}
+\end{proof}
+Based on these definitions, it is sensible to define:
+\begin{definition}{Poincaré index of a fixed point}
+    The \underline{Poincaré index} of a fixed point $\vec{x_0}$ is the Poincaré index of any curve that encircles only $\vec{x_0}$.
+\end{definition}
+\end{document}

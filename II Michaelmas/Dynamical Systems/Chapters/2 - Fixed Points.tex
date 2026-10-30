@@ -706,4 +706,62 @@ We can now provide an algorithm for finding a basin of stability:
     \item Vary $k$ (and $V$) so that the only invariant subset of $\subsetselect{\vec{z}}{\dot{V}(\vec{z}) = 0}$ is the origin. Therefore, \thmref{thmLaSalleInvariance} implies that $C_k$ is a subset of the basin of attraction.
     \item Vary $V$ to get new $C_k$ and take a union of the different $C_k$ to extend the basin of attraction.
 \end{enumerate}
+\begin{example}
+    We want to find the basin of attraction for the following dynamical system:
+    \begin{equation*}
+        \dot{x} = x(y^2 - 1),\qquad \dot{y} = y(x^2 - 1)
+    \end{equation*}
+    The fixed points are at $(0, 0)$, $(\pm 1, \pm 1)$. We can try a Lyapunov function:
+    \begin{equation*}
+        V(\vec{x}) = x^2 + a^2y^2 \implies \dot{V} = -2(x^2 + a^2 y^2) + 2(1 + a^2) x^2y^2.
+    \end{equation*}
+    Then we need to find a domain $D$ on which $\dot{V} \leq 0$. Note that the contours of constant $V$ are:
+    \begin{equation*}
+        (x, y) = \sqrt{V} \left(\cos\phi, \frac1a\sin\phi\right)
+    \end{equation*}
+    Substituting this into $\dot{V}$:
+    \begin{equation*}
+        \dot{V} = -2V + 2V^2 \frac{1+a^2}{4a^2} \sin^2(2\phi)
+    \end{equation*}
+    which enables us to draw $\dot{V} = 0$ ($\partial D$) and find the region $D$. We now need the maximum value of $k$ such that $V(\vec{x}) = k$ fits inside the contour. We do this by setting $\sin^2(2\phi) = 1$ to get:
+    \begin{equation*}
+        k = \frac{4a^2}{1+a^2}.
+    \end{equation*}
+    Then by \thmref{thmLyapunov2}, the origin is asymptotically stable. Furthermore, $C_k = \subsetselect{\vec{x}}{x^2 + a^2 y^2 < \frac{4a^2}{1+a^2}}$ is a subset of the basin of attraction. We can find this by considering:
+    \begin{itemize}
+        \item $a \to 0$: this gives $\left(\frac{x}{a}\right)^2 + y^2 < 4$, which is a very thin vertical ellipse passing through $y = \pm 2$.
+        \item $a = 1$: this gives $x^2 + y^2 < 2$, which passes through the other fixed points (suggesting they are unstable).
+        \item $a \to \infty$: this gives $x^2 + \left(\frac{y}{a^{-1}}\right)^2 < 4$, which is a very thin horizontal ellipse passing through $x = \pm 2$.
+        \item Overall our basin of attraction looks like a rhombus centred on the origin, $\abs{x} + \abs{y} < 2$.
+    \end{itemize}
+\end{example}
+\subsection{Bounding Functions}
+\begin{definition}{Bounding function}
+    If $V$ is a function with bounded contours and $\dot{V} < -\delta < 0$ for $V(\vec{x}) \geq M$, then all trajectories eventually enter and remain in $\subsetselect{\vec{x}}{V(\vec{x}) \leq M}$. Such a function is a \underline{bounding function}.
+\end{definition}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        \dot{r} = r - r^3(1 + k\sin(\theta)) - r^5,\qquad \dot{\theta} = 1
+    \end{equation*}
+    for $k \in (0, 1)$.
+
+    We try a bounding function of the form $V = \frac12 r^2$. Then its derivative is:
+    \begin{equation*}
+        \dot{V} = r^2\left[1 + r^2 (1 + k\sin(\theta)) - r^4\right]
+    \end{equation*}
+    Note that $1 + k\sin(\theta) \geq 1-k$, so:
+    \begin{equation*}
+        \dot{V} \leq r^2 (1 - r^2(1-k) - r^4)
+    \end{equation*}
+    Next, choosing $r^2 > \frac1{1-k}$,
+    \begin{equation*}
+        \dot{V} \leq -\frac{r^2}{(1-k)^2} < 0
+    \end{equation*}
+    This means that all trajectories eventually enter and remain in the disc:
+    \begin{equation*}
+        \subsetselect{(r, \theta)}{r \leq (1-k)^{-\frac12}}
+    \end{equation*}
+\end{example}
+A bounded function that prescribes a domain $D$ implies the existence of $\omega$-limit sets in $D$.
 \end{document}
