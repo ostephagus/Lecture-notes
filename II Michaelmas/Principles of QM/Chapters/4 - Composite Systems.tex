@@ -74,10 +74,10 @@ We have tensor product states corresponding to separable wavefunctions and the t
     \begin{equation*}
         \psi_{n_1, n_2}(x_1, x_2) = \psi_{n_1}(x_1) \psi_{n_2}(x_2)
     \end{equation*}
-    as expected.
+    where $\psi_{n_i}(x_i) = \inn{x_i}{n_i}$.
 \end{example}
 \begin{remark}
-    We have a slight abuse of notation in that we often write $H_1$ instead of $H_1 \otimes 1$. Further, sometimes $\ket{n_1} \otimes \ket{n_2}$ is written as $\ket{n_1} \ket{n_2}$.
+    We have a slight abuse of notation in that we often write $H_1$ instead of $H_1 \otimes 1$. Further, we may write $\ket{n_1} \otimes \ket{n_2}$ as $\ket{n_1} \ket{n_2}$.
 \end{remark}
 \section{Spin}
 Experiment shows that particles generally carry an internal degree of freedom called \underline{spin} or intrinsic angular momentum. Even if a particle appears to be ``elementary'' or ``point-like'', its space of states is of the form:
@@ -143,5 +143,66 @@ but the algebra of transpositions implies that $\eta_{a, b} = \pm 1$ with the sa
         1 & \text{ if } \eta_{ab} = 1 \\
         \operatorname{sgn}(\pi) & \text{ if } \eta_{ab} = -1
     \end{cases}
+\end{equation*}
+We conclude that there are two fundamentally different kinds of particles.
+
+\underline{Bosons} obey \underline{Bose-Einstein} statistics: interchange of identical bosons leaves the state unchanged ($\eta = 1$). Multiparticle states are in $(V \otimes V \otimes \cdots \otimes V)_S$ -- the symmetrised composite system.
+
+\underline{Fermions} obey \underline{Fermi-Dirac} statistics: interchange of identical fermions changes the state by a sign, $\eta = -1$. Multiparticle states are in $(V \otimes V \otimes \cdots \otimes V)_A$ -- the completely antisymmetrised composite system.
+\subsection{Spin and Statistics}
+\begin{proposition}[Spin Statistic Principle]
+    Integral spin particle ($s = 0, 1, 2, \cdots$) are bosons; half-integral spin particles ($s = \frac12, \frac32, \cdots$) are fermions.
+    \label{propSpinStatistic}
+\end{proposition}
+\begin{proof}
+    The proof of this in non-relativistic quantum mechanics has been attempted by many to no avail. It has, however, been confirmed many times by experiment. This is simple to do in relativistic quantum mechanics (quantum field theory, QFT), and is a consequence of causality and Lorentz invariance.
+\end{proof}
+\begin{remarks}
+    \item Most common elementary particles are fermions, such as electrons, protons, neutrons, quarks, and neutrinos (all spin-$frac12$).
+    \item Particles associated with forces (we can think of forces as due to the exchange of these particles) are bosons, such as photons (mediating electromagnetism), $W^\pm$ and $Z$ bosons (mediating the weak nuclear force) and gluons (mediating the strong nuclear force), all are spin-$1$.
+    \item The Higgs boson is spin-$0$. There is debate as to whether this is fundamental.
+    \item The graviton would be spin-$2$, but it has not been observed.
+\end{remarks}
+\subsection{Two-Particle Examples}
+We now know that states of two identical particles belong to either $(V \otimes V)_S$ or $(V \otimes V)_A$. Note that $V$ itself is a tensor product, $V = V_{\text{space}} \otimes V_{\text{spin}}$. It will be convenient to first take the tensor products of $V_{\text{space}}$ and $V_{\text{spin}}$, then combine.
+
+Consider a single-particle Hamiltonian $H(\opvec{x}, \opvec{p})$ which is independent of spin, and with non-degenerate energy levels $E_0 < E_1 < \cdots$. Let the energy level $E_i$ have associated wavefunction $\psi_i(\vec{x})$ corresponding to a state in $V_{\text{space}}$.
+
+We now want to take the tensor product $V_{\text{space}} \otimes V_{\text{space}}$. Here the Hamiltonian is $H(\opvec{x_1}, \opvec{p_1}) + H(\opvec{x_2}, \opvec{p_2})$ and the energy eigenfunctions are $\psi_i(\vec{x_1}) \psi_j(\vec{x_2})$ which has energy eigenvalue $E_i + E_j$.
+
+The ground state is simply $\Psi_0^S(\vec{x_1}, \vec{x_2}) = \psi_0(\vec{x_1}) \psi_0(\vec{x_2})$. This has energy $E = 2E_0$ and is symmetric. The next level up ($E = E_0 + E_1$) has a choice:
+\begin{equation*}
+    \psi_0(\vec{x_1}) \psi_1(\vec{x_2})\quad\text{or}\quad\psi_1(\vec{x_0}) \psi_0(\vec{x_1})
+\end{equation*}
+We must then create symmetrised and antisymmetrised wavefunctions:
+\begin{align*}
+    \Psi_1^S(\vec{x_1}, \vec{x_2}) &= \frac1{\sqrt{2}} \left(\psi_0(\vec{x_1})\psi_1(\vec{x_2}) + \psi_1(\vec{x_1})\psi_0(\vec{x_2})\right) \\
+    \Psi_1^A(\vec{x_1}, \vec{x_2}) &= \frac1{\sqrt{2}} \left(\psi_0(\vec{x_1})\psi_1(\vec{x_2}) - \psi_1(\vec{x_1})\psi_0(\vec{x_2})\right)
+\end{align*}
+Now consider spin.
+
+In the case of spin-$0$, $V_{\text{spin}}$ is just one state so we can ignore it, but this does give the constraint (by \thmref{propSpinStatistic}, we have bosons) that states must be in $(V_{\text{space}} \otimes V_{\text{space}})_S$. The state one above ground state is therefore $\Psi_1^S$, and we exclude $\Psi_1^A$.
+
+In the case of spin-$\frac12$, $V_{\text{spin}}$ has basis $\{\upst, \dnst\}$. The bases of $(V_{\text{spin}} \otimes V_{\text{spin}})_S$ and $(V_{\text{spin}} \otimes V_{\text{spin}})_A$ are:
+\begin{align*}
+    \text{Symmetric: }& \{\upst\upst, \frac1{\sqrt{2}} (\upst\dnst + \dnst\upst), \dnst\dnst\} \\
+    \text{Antisymmetric: }& \{\frac1{\sqrt{2}} (\upst\dnst - \dnst\upst)\}
+\end{align*}
+\Thmref{propSpinStatistic} means we have fermions and states belong to:
+\begin{align*}
+    (V \otimes V)_A = (V_{\text{space}} \otimes V_{\text{space}})_A& \otimes (V_{\text{spin}} \otimes V_{\text{spin}})_S \\
+    &+ (V_{\text{space}} \otimes V_{\text{space}})_S \otimes (V_{\text{spin}} \otimes V_{\text{spin}})_A
+\end{align*}
+The lowest energy level is non-degenerate here:
+\begin{equation*}
+    \psi_0^S (\vec{x_1}, \vec{x_2}) \times \frac1{\sqrt{2}} \left(\upst \dnst - \dnst \upst\right)
+\end{equation*}
+However, we can find four states for the next energy level up: $\Psi_1^S$ along with the single antisymmetric spin state and $\Psi_1^A$ along with the 3 symmetric spin states.
+\subsection{Pauli Exclusion Principle and Atomic Structure}
+A state of $N$ identical fermions can be specified by taking $N$ distinct particle states (each in $V$) and antisymmetrising to ensure Fermi statistics (to produce states in $(V \otimes \cdots \otimes V)_A$). The condition that the one-particle states be distinct (because otherwise we could not find an antisymmetric state) is the \underline{Pauli Exclusion Principle}.
+
+Consider $N$ electrons bound to a nucleus with $Z$ protons. Ignoring electron-electron interactions, the Hamiltonian is a sum $H(\opvec{x_1}, \opvec{p_1}) + \cdots + H(\opvec{x_N}, \opvec{p_N})$, where:
+\begin{equation*}
+    H(\opvec{x}, \opvec{p}) = \frac1{2m} \opvec{p}^2 - \frac{Ze^2}{3\pi \epsilon_0 |\opvec{x}|}
 \end{equation*}
 \end{document}
