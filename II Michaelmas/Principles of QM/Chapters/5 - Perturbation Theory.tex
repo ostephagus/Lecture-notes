@@ -1,0 +1,91 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+Few quantum mechanical systems can be solved exactly. In perturbation theory we start from a known system (that we can solve),
+\begin{equation*}
+    H\ket n = E_n \ket n
+\end{equation*}
+with $\{\ket n\}$ an orthonormal basis of energy eigenstates, and calculate energies and eigenstates for a perturbed Hamiltonian:
+\begin{equation}
+    (H + \lambda V) \state = E\state
+    \label{eqnPerturbedH}
+\end{equation}
+where $V$ is a Hermitian operator. We assume that $E$ and $\state$ depend smoothly on the parameter $\lambda$, so we can create a power series expansion and taking $\lambda \to 0$ recovers the original system.
+\section{Non-Degenerate Case}
+Suppose that as $\lambda \to 0$, $\state \to \ket r$ which is a unique eigenstate, and $E \to E_r$ which is a non-degenerate energy level.
+We use $\{\ket n\}$ as a basis for $\lambda \neq 0$ so we can write:
+\begin{align*}
+    \state &= \alpha \ket r + \sum_{j \neq r} \beta_j \ket j \\
+    &= \alpha \left(\ket r + \sum_{j \neq r} \gamma_j \ket j\right)
+\end{align*}
+where $\alpha, \gamma_j = \beta_j / \alpha$ are all power series in $\lambda$ such that $\alpha \to 1$, $\beta_j, \gamma_j \to 0$ when $\lambda \to 0$.
+
+Our aim is to calculate the coefficients in expansions:
+\begin{align*}
+    E &= E_r + E_r' \lambda + E_r'' \lambda^2 + o(\lambda^2) \\
+    \alpha &= 1 + a\lambda + o(\lambda) \\
+    \gamma_j &= c_j \lambda + o(\lambda)
+\end{align*}
+We will first substitute the expression for $\state$ into \eqnref{eqnPerturbedH} and cancel a factor $\alpha$:
+\begin{equation*}
+    \left(E_r + \lambda V\right) \ket r + \sum_{j \neq r} \gamma_j \left(E_j + \lambda V\right) \ket j = E \left(\ket r + \sum_{j \neq r} \gamma_j \ket j\right)
+\end{equation*}
+Rearranging:
+\begin{equation}
+    (E - E_r) \ket r + \sum_{j \neq r} \gamma_j (E - E_j) \ket j = \lambda V \ket r + \lambda \sum_{j \neq r} \gamma_j V \ket j
+    \label{eqnSeriesEquation}
+\end{equation}
+We can now use \eqnref{eqnSeriesEquation} to find equations for the coefficients. Taking $\bra r \times (\text{\ref{eqnSeriesEquation}})$:
+\begin{equation*}
+    E - E_r = \lambda \opbraket r V r + \lambda \sum_{j \neq r} \gamma_j \opbraket r V j
+\end{equation*}
+So far this is exact (true for all orders of $\lambda$), so now in terms of series expansion we find:
+\begin{equation*}
+    \lambda E_r' + \lambda^2 E_r'' + \cdots = \lambda \opbraket r V r + \lambda^2 \sum_{j \neq r}c_j \opbraket r V j + \cdots
+\end{equation*}
+Thus we see that the first-order change is given by:
+\begin{equation*}
+    E'_r = \opbraket r V r
+\end{equation*}
+To find the second-order change, we need to know $c_j$. Considering $\ket i \times (\text{\ref{eqnSeriesEquation}})$:
+\begin{equation*}
+    \gamma_i (E - E_i) = \lambda\opbraket i V r + \lambda \sum_{j \neq r} \gamma_j \opbraket i V j
+\end{equation*}
+and again we note this is exact. To find $c_j$, we take the first order term:
+\begin{equation*}
+    \lambda c_i (E_r - E_i) = \lambda \opbraket i V r
+\end{equation*}
+which means: $c_i = \frac{\opbraket i V r}{E_r - E_i}$ which very clearly needs non-degeneracy. The second-order change in the energy is:
+\begin{equation*}
+    E_r'' = \sum_{j\neq r} \frac{\abs{\opbraket j V r}^2}{E_r - E_j}
+\end{equation*}
+In summary,
+\begin{equation}
+    E = E_r + \lambda \opbraket r V r + \lambda^2 \sum_{j \neq r} \frac{\abs{\opbraket j V r}^2}{E_r - E_j} + o(\lambda^2)
+    \label{eqnNonDegenPerturb}
+\end{equation}
+\begin{example}
+    We consider a perturbed harmonic oscillator. For this,
+    \begin{equation*}
+        H = \frac{\hat{p}^2}{2m} + \frac12 m\omega^2 \hat{x}^2 = \hbar \omega \left(a^\dagger a + \frac12\right)
+    \end{equation*}
+    with states $\ket n$ and energies $E_n = \hbar \omega (n + \frac12)$.
+
+    Let the perturbation be $V = m\omega^2 \hat{x}^2 = \hbar\omega(a^2 + (a^\dagger)^2 + 2a^\dagger a + 1)$. This gives:
+    \begin{align*}
+        \opbraket n V n &= \frac12 \hbar \omega (2n + 1) \\
+        \opbraket {n+2} V n &= \frac12 \hbar \omega \sqrt{(n+1)(n+2)} \\
+        \opbraket {n-2} V n &= \frac12 \hbar \omega \sqrt{n(n-1)}
+    \end{align*}
+    with any other inner product zero.
+    
+    Now we use \eqnref{eqnNonDegenPerturb}:
+    \begin{align*}
+        E &\approx E_n + \lambda \opbraket n V n + \lambda^2 \sum_{m \neq n} \frac{\abs{\opbraket m V n}^2}{E_n - E_m} \\
+        &= \hbar \omega \left(n + \frac12\right) + \lambda \hbar \omega \left(n + \frac12\right) \\
+        &\qquad\qquad+ \lambda^2 \left(\frac{\hbar\omega}{2}\right)^2 \left(\frac{(n+1)(n+2)}{-2\hbar\omega} + \frac{n(n-1)}{2\hbar\omega}\right) \\
+        &= \hbar \omega \left(n + \frac12\right) \left(1 + \lambda - \lambda^2 / 2\right)
+    \end{align*}
+    This is consistent with the transformation $\omega^2 \mapsto \omega^2 (1 + 2\lambda)$ which gives an exact solution for our perturbed problem.
+\end{example}
+\end{document}

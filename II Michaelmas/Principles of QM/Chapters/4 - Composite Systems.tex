@@ -203,6 +203,25 @@ A state of $N$ identical fermions can be specified by taking $N$ distinct partic
 
 Consider $N$ electrons bound to a nucleus with $Z$ protons. Ignoring electron-electron interactions, the Hamiltonian is a sum $H(\opvec{x_1}, \opvec{p_1}) + \cdots + H(\opvec{x_N}, \opvec{p_N})$, where:
 \begin{equation*}
-    H(\opvec{x}, \opvec{p}) = \frac1{2m} \opvec{p}^2 - \frac{Ze^2}{3\pi \epsilon_0 |\opvec{x}|}
+    H(\opvec{x}, \opvec{p}) = \frac1{2m} \opvec{p}^2 - \frac{Ze^2}{4\pi \epsilon_0 |\opvec{x}|}
 \end{equation*}
+The single electron states in $V_\text{space}$ are given by $\ket{n~l~m}$ which are joint eigenstates of:
+\begin{align*}
+    H &\text{ with eigenvalue } E_n \\
+    |\vec{L}^2 &\text{ with eigenvalue } \hbar^2 l(l+1) \\
+    L_z &\text{ with eigenvalue } \hbar m
+\end{align*}
+where:
+\begin{equation*}
+    E_n = -\frac m 2 \left(\frac{Ze^2}{4 \pi \epsilon_0 \hbar}\right)^2 \frac1{n^2}
+\end{equation*}
+Here $n$ is the principle quantum number, $l = 0, 1, \cdots, n-1$ and $m = 0, \pm 1, \cdots, \pm l$ so $E_n$ is degenerate with $n^2$ eigenstates. 
+
+Now including $V_{\text{spin}}$, with basis $\{\upst, \dnst\}$, each electron has $2n^2$ states with energy $E_n$.
+
+To find the structure of electrically neutral atoms with $N = 2$, we fill up energy levels starting with the lowest and using the Pauli exclusion principle. With this we get a rough picture of the periodic table with some qualitative insights into chemical properties -- for example, we expect unreactive elements for completely filled energy levels:
+\begin{itemize}
+    \item $E_1$ is filled for $Z = 2$, He.
+    \item $E_2$ is also filled for $Z = 10$, Ne.
+\end{itemize}
 \end{document}
