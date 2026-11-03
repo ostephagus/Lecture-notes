@@ -1,0 +1,21 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Scaling and Equations}
+Consider a general thin layer flow, as in figure~\ref{figThinLayer}.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw[hatch side] (0, 0) -- (3, 0);
+
+    \end{tikzpicture}
+    \caption{Diagram of Thin Layer Flow}
+    \label{figThinLayer}
+\end{figure}
+In particular, we need a long and thin geometry: $h \ll L, \frac{\partial h}{\partial x} \ll 1$. To build the governing equations we need the following ingredients:
+
+\begin{enumerate}
+    \item Applying $\nabla \cdot \vec{u} = 0$, $\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0$ which means $\frac u L \sim \frac v h$, and so $v \sim \frac h L u \ll u$. That is, fluid is almost horizontal -- quasi-parallel to the boundary.
+    \item In $\mu \nabla^2\vec u$ we can approximate $\nabla^2$ by $\frac{\partial^{2}}{\partial y^{2}}$. This is because $h \ll L$ and so $\frac{\partial}{\partial y} \gg \frac{\partial}{\partial x}$.
+\end{enumerate}
+\end{document}

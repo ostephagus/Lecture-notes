@@ -32,7 +32,7 @@ We will generally assume that $\vec{f} = \vec0$. This permits the case $\vec{f} 
     \label{exParallelToWall}
 \end{example}
 \begin{example}
-    Consider a sphere falling under $\vec{g}$ next to a vertical wall. Suppose that $\vec{U}$ has some component away from the wall, as in figure~\ref{figSphereFalling}. Now reversing the time direction means that the velocity is now point up and towards the wall, gravity is pointing upwards. Note that we also have a symmetry in $y \mapsto -y$ (if $y$ is the upwards direction), then applying this symmetry gives the same picture as figure~\ref{figSphereFalling}, but with $\vec{U}$ reflected along the $y$ axis. However, these picture should be the same so we require that $\vec{U}$ is unaffected by reflection in the $y$, axis, so it must in fact be parallel to the $\vec{y}$ axis.
+    Consider a sphere falling under $\vec{g}$ next to a vertical wall. Suppose that $\vec{u}$ has some component away from the wall, as in figure~\ref{figSphereFalling}. Now reversing the time direction means that the velocity is now point up and towards the wall, gravity is pointing upwards. Note that we also have a symmetry in $y \mapsto -y$ (if $y$ is the upwards direction), then applying this symmetry gives the same picture as figure~\ref{figSphereFalling}, but with $\vec{u}$ reflected along the $y$ axis. However, these picture should be the same so we require that $\vec{u}$ is unaffected by reflection in the $y$, axis, so it must in fact be parallel to the $\vec{y}$ axis.
 \end{example}
 \begin{figure}
     \centering
@@ -41,38 +41,77 @@ We will generally assume that $\vec{f} = \vec0$. This permits the case $\vec{f} 
         \draw (1, 1) circle[radius=0.5];
         \draw[->] (2, 1.5) -- (2, 0.5) node[below] {$\vec{g}$};
 
-        \draw[->] (1, 1) -- (1.5, -0.5) node[below] {$\vec{U}$};
+        \draw[->] (1, 1) -- (1.5, -0.5) node[below] {$\vec{u}$};
     \end{tikzpicture}
     \caption{Diagram of a Sphere and Vertical Wall}
     \label{figSphereFalling}
 \end{figure}
 \begin{example}
-    Consider a sedimenting uniform rod, rotating at angular frequency $\Omega$. We show it does not rotate in the same way that we as the previous example. Reverse time so that gravity points the other way. Then rotate the original problem by 180 degrees. This is the same as the time-reversed problem but with $\Omega$ going the other way, so it must be zero.
+    Consider a sedimenting (falling in Stokes flow) uniform rod, rotating at angular frequency $\Omega$. We show it does not rotate in the same way that we as the previous example. Reverse time so that gravity points the other way. Then rotate the original problem by 180 degrees. This is the same as the time-reversed problem but with $\Omega$ going the other way, so it must be zero.
 \end{example}
 \begin{example}
-    Consider two neutrally buoyant particles in a tube flow (Poiseuille). If there were only one particle, it would have to travel parallel to the walls of the tube (see example~\ref{exParallelToWall}). Place another particle below and in front of this particle, so that it is going slower. See figure~\ref{figParticlesInChannel}. Note that the particles must return to their original streamlines, because if not we could reflect along an axis perpendicular to the channel and reverse time to reach a contradiction.
+    Consider two identical, neutrally buoyant spheres in a Poiseuille flow. If there were only one sphere, it would have to travel parallel to the walls of the tube (see example~\ref{exParallelToWall}), so any lateral motion must come from the interaction of the spheres. 
+    
+    Let one particle $F$ be above and behind the other particle $S$. $F$ is in a faster section of fluid that $S$. This means that $F$ will catch up with $S$, and may be displaced due to interaction with $S$. After some time the spheres will have the same horizontal separation as they started with, but now $F$ is in front of $S$.
+
+    Reversing time and reflecting about the plane at which the spheres were vertical gives that the horizontal distance between spheres must be the same before and after interaction (because everything else is the same).
 \end{example}
 \begin{figure}
     \centering
     \begin{tikzpicture}[scale=1]
+        % walls
         \draw (0, -2) -- (10, -2);
         \draw (0, 2) -- (10, 2);
 
-        % draw a parabola coming of the x=0 axis.
+        % Poiseuille inlet profile u(y) = 1 - y^2/4
+        \draw[domain=-2:2, smooth, samples=40, variable=\y]
+            plot ({0.9*(1 - \y*\y/4)}, {\y});
+        \foreach \y in {-1.5, -1, -0.5, 0, 0.5, 1, 1.5}
+            \draw[->] (0, \y) -- ({0.9*(1 - \y*\y/4)}, \y);
 
+        % original streamline of F, and reflection plane
+        \draw[dashed, gray] (0, -1) -- (10, -1);
+        \draw[dashed] (5, -2.3) -- (5, 2.3)
+            node[above] {reflection plane};
+
+        % trajectories
+        \draw[orange, thick, ->]
+            (1.6, -1) .. controls (3, -1) and (3.5, -0.3) .. (5, -0.3)
+                      .. controls (6.5, -0.3) and (7, -1) .. (8.4, -1);
+        \draw[dotted, thick]
+            (2.6, -1.4) .. controls (3.8, -1.4) and (4, -1.55) .. (5, -1.55)
+                        .. controls (6, -1.55) and (6.2, -1.4) .. (7.4, -1.4);
+
+        % snapshots: fast particle F (long arrows)
+        \foreach \x/\y in {1.6/-1, 5/-0.3, 8.4/-1} {
+            \draw[fill=white] (\x, \y) circle[radius=0.2];
+            \draw[->] ({\x+0.2}, \y) -- ({\x+1.2}, \y);
+        }
+        % snapshots: slow particle S (short arrows)
+        \foreach \x/\y in {2.6/-1.4, 5/-1.55, 7.4/-1.4} {
+            \draw[fill=white] (\x, \y) circle[radius=0.2];
+            \draw[->] ({\x+0.2}, \y) -- ({\x+0.7}, \y);
+        }
+
+        % labels
+        \node at (1.6, -0.55) {$F$};
+        \node at (2.6, -1.85) {$S$};
+        \node[below] at (1.8, -2) {$t<0$};
+        \node[below] at (5, -2) {$t=0$};
+        \node[below] at (8.2, -2) {$t>0$};
     \end{tikzpicture}
-    \caption{Diagram of two particles in a channel}
+    \caption{Diagram of two Spheres in a channel}
     \label{figParticlesInChannel}
 \end{figure}
 \section{Further Properties}
 We can give some further properties of the Stokes' equation, that need more proof.
-\begin{proposition}
+\begin{proposition}[Uniqueness of Stokes Flows]
     Consider Stokes' equation with no force:
     \begin{equation*}
         \mu \nabla^2 \vec{u} = \nabla p
         \tag{\ref{eqnStokesNoF}}
     \end{equation*}
-    Let $\vec{u_1}, \vec{u_2}$ be solutions to \eqnref{eqnStokes} in a domain $V$ and satisfy the same boundary conditions on $\partial V$.
+    Let $\vec{u_1}, \vec{u_2}$ be solutions to \eqnref{eqnStokes} in a domain $V$ and satisfy the same boundary conditions on $\partial V$. Then $\vec{u_1} = \vec{u_2}$ in the case of velocity boundary conditions, and differ only by solid body motion in the case of stress boundary conditions.
     \label{propStokesUnique}
 \end{proposition}
 \begin{proof}
@@ -86,7 +125,7 @@ We can give some further properties of the Stokes' equation, that need more proo
         &= 0
     \end{align*}
     because either $\vec{u_1} = \vec{u_2}$ on the boundary, or $\sigma_1 \vec{n} = \sigma_2\vec{n}$.
-    Therefore, since this was the integral of a squared quantity ($e^2$), $e = 0$ in $V$. This means that $\vec{u}$ is zero in the case of velocity boundary conditions, and differs only by a solid body motion in the case of stress boundary conditions.
+    Therefore, since this was the integral of a squared quantity ($e^2$), $e = 0$ in $V$. This means that the flows $\vec{u_1}$ and $\vec{u_2}$ have the same strain rate, and so can only differ by solid body motion.
 \end{proof}
 \begin{theorem}[Minimum Dissipation Theorem]
     Let $\vec{u}^S$ be a Stokes flow in $V$ and $\vec{u}$ be any incompressible flow that has the same velocity on $\partial V$. Then:
@@ -96,6 +135,9 @@ We can give some further properties of the Stokes' equation, that need more proo
     \end{equation}
     \label{thmMinimumDissp}
 \end{theorem}
+\begin{remark}
+    This is similar to the idea that a harmonic function minimises an associated energy of the wave equation.
+\end{remark}
 \begin{proof}
     We construct the inequality as follows:
     \begin{align*}
@@ -206,7 +248,67 @@ We can give some further properties of the Stokes' equation, that need more proo
     \caption{Diagram of flow past a stationary sphere}
     \label{figStationarSphere}
 \end{figure}
-%TODO: Add in the methods from the handouts
+Consider a stationary sphere in a fluid that flows with velocity $\vec{U}$, as in figure~\ref{figStationarSphere}. We solve this by first making use of linearity and then solving the resulting differential equations.
+
+We argue that the only possible forms of solution for $\vec{u}$ and $p$ are:
+\begin{align*}
+    \vec u(\vec x)&= \vec U f(r) + \vec x (\vec{U} \cdot \vec{x}) g(r) \\
+    p(\vec x) &= \mu (\vec{U} \cdot \vec{x}) h(r)
+\end{align*}
+this is because:
+\begin{itemize}
+    \item the only ways to make vectors out of $\vec{U}$ and $\vec{x}$ are $\vec{U}, \vec x(\vec{U} \cdot \vec{x})^k$ for any integer $k$. We cannot have any cross products because this would make pseudovectors whereas $\vec u$ is a true vector.
+    \item By linearity we cannot have $k \geq 1$ because then $\vec u$ would be proportional to $\vec U^k$.
+    \item Spherical symmetry requires that $f, g, h$ are only functions of $r = |\vec x|$.
+\end{itemize}
+
+The constant $\mu$ is included for ease (and dimensional consistency).
+
+Differentiate $\vec u$:
+\begin{equation}
+    \frac{\partial u_i}{\partial x_j} = U_i x_j \frac{f'(r)}{r} + \delta_{ij} U_n x_n g(r) + x_i U_j G(r) + x_i U_j U_n x_n \frac{g'(r)}{r}
+    \label{eqnStationSphereDU}
+\end{equation}
+Contract $i$ and $j$ and apply incompressibility:
+\begin{equation*}
+    0 = U_n x_n \left(\frac{f'(r)}{r} + 4g(r) + rg'(r)\right)
+\end{equation*}
+Differentiating again:
+\begin{align*}
+    \mu \nabla^2 \vec{u_i} &= \mu U_i \left(f''(r) + \frac{2f'(r)}{r} + 2g(r)\right) + \mu x_i U_n x_n \left(g''(r) + \frac{6g'(r)}{r}\right) \\
+    \frac{\partial p}{\partial x_i} &= \mu U_i h(r) + \mu x_i U_n x_n \frac{h'(r)}{r}
+\end{align*}
+Equating coefficients gives (along with the incompressibility equation):
+\begin{align*}
+    \frac{f'(r)}{r} + 4g(r) + rg'(r) &= 0 & f''(r) + \frac{2f'(r)}{r} + 2g(r) &= h(r)\\
+    g''(r) + \frac{6g'(r)}{r} &= \frac{h'(r)}{r}
+\end{align*}
+Eliminating $h$ and then $f$ gives:
+\begin{equation*}
+    r^2 g'''(r) + 11rg''(r) + 24g'(r) = 0
+\end{equation*}
+which is an equidimensional equation. The solutions are $g(r) = r^k$ with $k = 0, -3$ or $-5$, with corresponding solutions for $f$ and $h$:
+\begin{align*}
+    f(r) = -\frac{(k+4)r^{k+2}}{k+2} && h(r) = -(k+5)(k+2)r^{k}
+\end{align*}
+There is also a fourth solution $k = -2$ which has $f$ constant, $g = h = 0$.
+
+The most general solution for $\vec u$ and $p$ is then:
+\begin{align*}
+    \vec u(\vec x) &=  \vec U \left(-2Ar^2 + B + \frac C r - \frac D {3r^3}\right) + \vec x (\vec{U} \cdot \vec{x}) \left(A + \frac C {r^3} + \frac D {r^5}\right) \\
+    p(\vec x) &= \mu (\vec{U} \cdot \vec{x}) \left(-10A + \frac{2C}{r^3}\right)
+\end{align*}
+We use the boundary conditions $\vec u = \vec0$ on the sphere ($r = a$) and $\vec u \to \vec U$ as $r \to \infty$ to get:
+\begin{align*}
+    A &= 0 & B &= 1 & C &= -\frac34a & D &= \frac34a^3
+\end{align*}
+resulting in:
+\begin{align*}
+    \vec u &= \vec U \left(1 - \frac{3a}{4r} - \frac{a^3}{4r^3}\right) + \vec x (\vec{U} \cdot \vec{x}) \left(-\frac{3a}{4r^3} + \frac{3a^3}{4r^5}\right) \\
+    p &= -\frac{3a\mu \vec{U} \cdot \vec{x}}{2r^3} \\
+    \sigma \vec{n} |_{r = a} &= \frac{3\mu}{2a}\vec U
+\end{align*}
+which means the drag on the sphere is $6\pi \mu a \vec U$.
 \subsection{Translating Sphere}
 Consider a sphere translating with velocity $\vec{U}$ through fluid that is otherwise at rest. We can find the solution by changing to an inertial reference frame going at speed $-U$ (and then flipping $\vec{U}$) with respect to the solution of subsection~\ref{sscStationarySphere}, to get the solution:
 \begin{equation*}
@@ -262,7 +364,8 @@ The vorticity is given by $\vec{\omega} = -\nabla^2\psi \vec{e_z}$. Vorticity mu
     \nabla p = \mu \nabla^2\vec{u} = \mu \nabla \times (\nabla^2 \psi \vec{e_z}).
 \end{equation*}
 \begin{example}[Source flow]
-    Consider the stup in figure~\ref{figSourceFlow}. Mass conservation suggests trying:
+    \label{exSourceFlow}
+    Consider the setup in figure~\ref{figSourceFlow}. Mass conservation suggests trying:
     \begin{equation*}
         u_r \propto \frac{Q}{r}.
     \end{equation*}
@@ -315,5 +418,59 @@ The vorticity is given by $\vec{\omega} = -\nabla^2\psi \vec{e_z}$. Vorticity mu
     \end{tikzpicture}
     \caption{Diagram of source flow}
     \label{figSourceFlow}
+\end{figure}
+\begin{example}[Moffatt Eddies]
+    Consider flow in a corner that is not forced locally, but is forced by some disturbance at large $r$. The diagram is figure~\ref{figSourceFlow}, but without a source.
+
+    We try a separable solution $\psi = r^\lambda f(\theta)$ (this implies $\vec{u}$ is proportional to $r^{\lambda - 1}$).
+    \begin{align*}
+        \nabla^4\psi &= \nabla^2 \left(r^{\lambda - 2} \left(f''(\theta) + \lambda^2 f(\theta)\right)\right) \\
+        &= r^{\lambda - 4} \left(\frac{\partial^{2}}{\partial \theta^{2}}+ (\lambda - 2)^2\right)\left(\frac{\partial^{2}}{\partial \theta^{2}} + \lambda^2\right) f(\theta) = 0.
+    \end{align*}
+    The boundary condition $\vec u = \vec0$ at $\theta = \pm \alpha$ requires $f = f' = 0$ at $\theta = \pm \alpha$.
+
+    The general solution (for $\lambda \not\in \{0, 1, 2\}$) is:
+    \begin{equation*}
+        f(\theta) = A\cos(\lambda \theta) + B\sin(\lambda \theta) + C \cos((\lambda - 2)\theta) + D\sin((\lambda - 2)\theta)
+    \end{equation*}
+    If $f(\theta)$ is even, $B = D = 0$ and $u_r$ is odd, $u_\theta$ is even. Applying $f(\alpha) = 0$ gives:
+    \begin{equation*}
+        f(\theta) = A' \left(\cos((\lambda - 2)\alpha) \cos(\lambda \theta) - \cos(\lambda \alpha) \cos((\lambda - 2)\theta)\right)
+    \end{equation*}
+    for a new constant $A$. Applying $f'(\alpha) = 0$ gives:
+    \begin{equation*}
+        \lambda \cos((\lambda - 2)\alpha) \sin(\lambda \alpha) = (\lambda - 2) \cos(\lambda \alpha) \sin((\lambda - 2)\alpha)
+    \end{equation*}
+    which fixes the eigenvalues $\lambda$. We can show that this gives an infinite sequence of eigenvalues (mostly complex) with $\Re(\lambda) > 1$, so that $\vec u \to \vec 0$ in the corner. If $2\alpha < 146^\circ$, then all the roots are complex.
+
+    These roots come as complex conjugates, $\lambda = a \pm ib$, so to find real values for $\psi$ we take:
+    \begin{equation*}
+        \psi_\lambda = r^a\left(\cos(b\log(r)) \Re(f(\theta)) - \sin(b\log(r))\Im(f(\theta))\right)
+    \end{equation*}
+    As $r \to 0$, $|\log(r)| \to \infty$ which gives an infinite number of oscillations in $\psi$. We find that this gives a geometric sequence of counterrotating eddies of decreasing size and strength. The size decreases by a factor $e^{-\pi / b}$, and the velocity decreases by a factor $e^{-\pi(a-1) / b}$. In general these factors are very small so it can be difficult to observe more than one or two eddies.
+
+    If instead $2\alpha > 146^\circ$ then the smallest root (dominant eigenmode) is real, so there is no oscillation.
+
+    The case $f(\theta)$ odd has two eddies stacked on top of each other (see figure~\ref{figDoubleEddies}), and is oscillatory as long as $2\alpha < 159^\circ$.
+
+    The rest of this example is \textbf{non-examinable}.
+
+    If $\lambda$ is a root then so is $\hat \lambda = 2-\lambda$. This gives a flow forced at very small $r$, and decays as $r$ increases, because $\Re(\hat\lambda - 1) < 0$. For $2\alpha > 257^\circ$, the source flow of example~\ref{exSourceFlow} $\phi - r^0$ is dominated by one of these eigenmodes $\psi \sim r^{\hat \lambda}$. $\hat \lambda = 0$ for $2\alpha = 257$ and rises to $\frac12$ at $2\alpha = 360$. Therefore, we get a contribution like $u \propto r^{-\frac12}$ in this case.
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw[hatch side] (0, 0) -- (30:2)
+            node[pos=1, right] {$\theta = \alpha$};
+
+        \draw[hatch side] (-30:2) -- (0, 0)
+            node[pos=0, right] {$\theta = -\alpha$};
+        
+        \draw [dashed] (0, 0) -- (2, 0);
+
+        \draw (1.6, -1) arc[start angle=0, end angle=360];
+    \end{tikzpicture}
+    \caption{Diagram of double-stacked eddies}
+    \label{figDoubleEddies}
 \end{figure}
 \end{document}
