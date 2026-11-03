@@ -67,13 +67,108 @@ and so taking the limit $\epsilon \to 0$ gives that the constant of proportional
     G(\vec{x};\vec{y}) = -\frac1{4\pi} \frac{e^{ik\abs{\vec{x} - \vec{y}}}}{\abs{\vec{x} - \vec{y}}}
 \end{equation*}
 and it follows that:
-\begin{align*}
-    A^\mu (t, \vec{x}) &= \frac{\mu_0}{4\pi} \int_{-\infty}^{\infty} \frac1{\sqrt{2\pi}} e^{-i\omega t} \int_{\R^3} \frac{e^{ik\abs{\vec{x} - \vec{y}}}}{\abs{\vec{x} - \vec{y}}}\tilde{J}^\mu (\omega, \vec{y}) d^3\vec{y}~ d\omega  \\
-    &= \frac{\mu_0}{4\pi} \int_{\R^3} \frac{J^\mu(t_{ret}, \vec{y})}{\abs{\vec{x} - \vec{y}}} d^3\vec{y}
-\end{align*}
+\begin{align}
+    A^\mu (t, \vec{x}) &= \frac{\mu_0}{4\pi} \int_{-\infty}^{\infty} \frac1{\sqrt{2\pi}} e^{-i\omega t} \int_{\R^3} \frac{e^{ik\abs{\vec{x} - \vec{y}}}}{\abs{\vec{x} - \vec{y}}}\tilde{J}^\mu (\omega, \vec{y}) d^3\vec{y}~ d\omega \nonumber \\
+    &= \frac{\mu_0}{4\pi} \int_{\R^3} \frac{J^\mu(t_{ret}, \vec{y})}{\abs{\vec{x} - \vec{y}}} d^3\vec{y} \label{eqnRetardedPotential}
+\end{align}
 where the \underline{retarded time} is:
 \begin{equation*}
     t_{ret} = t - \frac1c \abs{\vec{x} - \vec{y}}
 \end{equation*}
 so we can think of this as the integral over a past light cone from $(t, \vec{x})$. This is why we had to discount the $e^{-ikr}$ term earlier, because otherwise we would be integrating over the future light cone which violates causality.
+
+We want to show that \eqnref{eqnRetardedPotential} is covariant. To establish this, we rewrite as:
+\begin{equation}
+    A^\mu(X) = \frac{\mu_0}{4\pi} \int J^\mu(Y) \frac{\delta(Y^0 - X^0 + |\vec{x} - \vec{y}|)}{|\vec{x} - \vec{y}|} d^4Y
+    \label{eqnRetardedPotentialRewrite}
+\end{equation}
+We need the following proposition.
+\begin{proposition}
+    Define $R^\mu = X^\mu - Y^\mu$. Then the fraction of \eqnref{eqnRetardedPotentialRewrite} is:
+    \begin{equation*}
+        \frac{\delta(Y^0 - X^0 - |\vec{x} - \vec{y}|)}{|\vec{x} - \vec{y}|} = 2\delta(\eta_{\mu \nu} R^\mu R^\nu) H(R^0)
+    \end{equation*}
+    where $H$ is the Heaviside function.
+    \label{propRewriteGreens}
+\end{proposition}
+We can interpret this as follows:
+\begin{itemize}
+    \item The delta function forces $R^\mu$ to be null, and so $Y^\mu$ must be on the light cone through $X$.
+    \item The Heaviside function requires $Y^0 < X^0$, and this restricts $Y^\mu$ to the past light cone.
+\end{itemize}
+\begin{proof}
+    We think of $\delta(\eta_{\mu \nu} R^\mu R^\nu)$ as a function of $R^0$.
+    \begin{align*}
+        \delta(\eta_{\mu \nu} R^\mu R^\nu) &= \delta(\vec{R}^2 - (R^0)^2) \\
+        &= \frac{\delta(\abs{\vec{R}} - R^0)}{2R^0} + \frac{\delta(\abs{\vec{R}} + R^0)}{-2R^0} \\
+        &= \frac{1}{2\abs{\vec{R}}}\left(\delta(\abs{\vec{R}} - R^0) + \delta(\abs{\vec{R}} + R^0)\right)
+    \end{align*}
+    Then the Heaviside function removes the second term:
+    \begin{equation*}
+        2\delta(\eta_{\mu \nu} R^\mu R^\nu) H(R^0) = \frac{\delta(\abs{\vec R} - R^0)H(R^0)}{\abs{\vec R}}
+    \end{equation*}
+\end{proof}
+\section{Dipole Radiation}
+We consider radiation from a macroscopic charge distribution which is localised to a region of size $a$ and with speeds much less than $c$.
+
+We will consider the origin inside the charge distribution, and want to calculate the fields at a point $\vec{x}$ far from the charge distribution ($\vec{x} \gg a$). $\vec{y}$ will be a point within the charge distribution (consistent with \eqnref{eqnRetardedPotential}). Some expansions are required:
+\begin{align*}
+    \abs{\vec{x} - \vec{y}}&= \left(\abs{\vec x}^2 - 2 \vec{x} \cdot \vec{y} + \abs{\vec y}^2\right)^{\frac12} \\
+    &= r \left(1 - \frac{2 \vec{x} \cdot \vec{y}}{r^2} + \frac{|\vec{y}|^2}{r^2}\right)^{\frac12} \\
+    &= r\left(1 - \frac{\vec{x} \cdot \vec{y}}{r^2} + O\left(\frac{a^2}{r^2}\right)\right) \text{ by Binomial expansion} \\
+    &= r - \uvec{x} \cdot \vec{y} + O\left(\frac{a^2}{r}\right)
+\end{align*}
+where $\uvec{x} = \frac1r \vec{x}$.
+
+We now substitute into \eqnref{eqnRetardedPotential}:
+\begin{align*}
+    A^\mu(t, \vec x) &= \frac{\mu_0}{4\pi} \int J^\mu(t_{ret}, \vec{y}) r \left(1 + \frac{\uvec{x} \cdot \vec y}{r} + O\left(\frac{a^2}{r^2}\right)\right) \\
+    t_{ret} &= t - \frac r c + \frac{\uvec{x} \cdot \vec y}{c}
+\end{align*}
+We need to be careful with our retarded time. For a source oscillating with frequency $\omega$, we would need $\frac{a}{c} \ll \frac{1}{\omega}$ so that the change in the retarded time across the source is small compared to the period of the oscillation. We therefore need the dimensionless quantity $\frac{a\omega}{c} \ll 1$. Note that this is handled moving much slower than $c$, because $a\omega$ can be thought of as a typical speed scale. Furthermore, since the field will oscillate on the order $\omega$ for this distribution, the condition is equivalent to $a$ being much smaller than the wavelength of radiation.
+
+Therefore, for sufficiently slow time variations of the source, we can ignore the variation of $t_{ret}$ with $\vec{y}$:
+\begin{equation}
+    \vec{A}(t, \vec{x}) \approx \frac{\mu_0}{4\pi r} \vec{J}(t - \frac r c, \vec{y}) d^3\vec{y}
+    \label{eqnElecDipoleJ}
+\end{equation}
+We want this in terms of the electric dipole moment:
+\begin{equation*}
+    \vec p(t) = \int \vec x \rho(t, \vec{x}) d^3\vec x
+\end{equation*}
+Then the time derivative is:
+\begin{align*}
+    \dvec{p} &= \int_V \frac{\partial \rho}{\partial t} \vec{x} d^3\vec{x} \\
+    \dot{p}_i &= -\int_V x_i \frac{\partial J_j}{\partial x_j} d^3 \vec x \text{ by current conservation} \\
+    &= \int_{\partial V} x_i J_j dS_j + \int_V J_j \delta_{ij} d^3\vec{x} \\
+    &= \int_{\partial V} x_i J_j dS_j + \int_V J_i d^3\vec{x} \\
+    &= \int_V J_i d^3\vec{x}
+\end{align*}
+because we assume $\vec{J} \to 0$ if we take $V$ to be sufficiently large. It follows that:
+\begin{equation}
+    A(t, \vec{x}) \approx \frac{\mu_0}{4\pi r} \dvec{p}\left(t - \frac r c\right)
+    \label{eqnElecDipole}
+\end{equation}
+which is the \underline{electric dipole approximation}.
+
+For a source oscillating at frequency $\omega$,
+\begin{align*}
+    \vec{A}(t, \vec x) &\sim \frac{\mu_0}{4\pi r} e^{-i\omega \left(t - \frac r c\right)} \\
+    &\sim \frac{\mu_0}{4\pi r} e^{i(kr-\omega t)}
+\end{align*}
+where the wave number $k = \frac \omega c$. This is what we expect - an outgoing spherical wave. We can calculate the magnetic field using $\vec B = \nabla \times \vec{A}$:
+\begin{align*}
+    \vec B&= \frac{\mu_0}{4\pi} \nabla \times \left[\frac1r \dvec{p}\left(t - \frac r c\right)\right] \\
+    &= \frac{\mu_0}{4\pi} \left(\nabla \left(\frac1r\right) \times \vec{p}\left(t - \frac r c\right) - \frac1r \nabla \left(\frac r c\right) \times \ddvec{p}\left(t - \frac r c\right)\right) \\
+    &= \frac{\mu_0}{4\pi} \left(\frac{\uvec{x}}{r^2} \times \vec{p}\left(t - \frac r c\right) - \frac1r \frac{\uvec{x}}{c} \times \ddvec{p}\left(t - \frac r c\right)\right) \\
+    &= -\frac{\mu_0}{4\pi r^2} \uvec{x} \times \dvec{p} \left(t - \frac r c\right) - \frac{\mu_0}{4\pi r c} \uvec{x} \times \ddvec{p} \left(t - \frac r c\right)
+\end{align*}
+\begin{remarks}
+    \item The cross products show that $\vec{B}$ is perpendicular to $\vec x$.
+    \item If the charge distribution is a source oscillating at $\omega$, the first term goes as $\frac{\omega p}{r^2}$ and the second term goes as $\frac{\omega^2 p}{cr}$ which is of order $r / \lambda$ times the first term. 
+\end{remarks}
+We say that the area with $r \gg \lambda$ is the \underline{far field}. Therefore, in this far field,
+\begin{equation*}
+    \vec{B} \approx -\frac{\mu_0}{4\pi r c} \uvec{x} \times \ddvec{p}\left(t - \frac r c\right).
+\end{equation*}
 \end{document}
