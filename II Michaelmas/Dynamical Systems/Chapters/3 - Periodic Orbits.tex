@@ -12,7 +12,6 @@ At any given point, the angle the trajectory passing through that point makes wi
 \end{equation*}
 Note this is not defined at fixed points.
 
-Suppose $\Gamma$ is a simple, closed curve not passing through any fixed points. Starting at some initial point, the integral of $\psi$ along the curve (summing up all the angles along the curve) must yield $2n\pi + \phi(x_0, y_0)$. We call this $n$ the \underline{Poincaré index}:
 \begin{definition}{Poincaré index}
     The \underline{Poincaré index} of a simple, closed curve $\Gamma$ not passing through any fixed points is:
     \begin{equation*}
@@ -20,29 +19,232 @@ Suppose $\Gamma$ is a simple, closed curve not passing through any fixed points.
     \end{equation*}
 \end{definition}
 \begin{propositions}{
-        Let $\Gamma$ be a simple, closed curve not passing through any fixed points.
+        Let $\Gamma$ be a simple, closed curve, traversed anticlockwise and not passing through any fixed points.
         \label{propsPoincIndxProps}
     }
+    \item $I(\Gamma)$ is an integer. \label{propPoincIndxInt}
     \item $I(\Gamma)$ is unaffected by smooth, continuous deformations of $\Gamma$ as long as this deformation does not cross any fixed points. \label{propPoincIndxDeform}
     \item If $\Gamma$ does not enclose any fixed points, $I(\Gamma) = 0$. \label{propPoincIndxZero}
     \item Suppose $\Gamma = \Gamma_1 + \Gamma_2$, where $\Gamma_i$ are smooth and do not pass through fixed points. Then $I(\Gamma) = I(\Gamma_1) + I(\Gamma_2)$. \label{propPoincIndxAdd}
     \item $\Gamma$ is symmetric in $t \mapsto -t$. \label{propPoincIndxTimeReverse}
-    \item If $\Gamma$ is a periodic orbit, $I(\Gamma) = 1$.
+    \item If $\Gamma$ is a periodic orbit, $I(\Gamma) = 1$. \label{propPoincIndxPeriodic}
 \end{propositions}
 \begin{proof}
     \begin{enumerate}
+        \item Parameterise the curve $\Gamma$ as $\vec{x}(t)$, where $t \in [0, 1]$. Evaluate:
+            \begin{equation*}
+                \frac1{2\pi} \oint_\Gamma d\psi = \frac1{2\pi} \int_{0}^{1} \psi'(t) dt = \frac1{2\pi} \left(\psi(1) - \psi(0)\right)
+            \end{equation*}
+            Therefore, the integral is the difference in the angle at the start point and the end point. $\Gamma$ is closed so this is the same point. Angles are defined up to modulo $2\pi$ so the difference is a multiple of $2\pi$.
         \item This is a consequence of the deformation property of integrals in $\C$. Note that the integrand (of $x + iy$) is analytic at all points other than fixed points, which means the deformation fails when crossing them.
         \item A consequence of \thmref{propPoincIndxDeform}. Deform $\Gamma$ to an infinitesimal contour on which the field is uniform, so there is no change in the index.
         \item This is simply due to the additive property of line integrals.
         \item We can see this in the definition:
-            \begin{equation*}
-                I(\Gamma) \mapsto \frac1{2\pi} \oint_\Gamma \frac{(-f_1) (-df_2) - (-f_2) (-df_1)}{f_1^2 + f_2^2} = \frac1{2\pi} \oint_\Gamma \frac{f_1 df_2 - f_2 df_1}{f_1^2 + f_2^2} = I(\Gamma).
-            \end{equation*}
-        \item On a periodic orbit $\psi$ is simply a tangent to the orbit. Evaluating the integral then gives: %TODO
+            \begin{align*}
+                I(\Gamma) &\mapsto \frac1{2\pi} \oint_\Gamma \frac{(-f_1) (-df_2) - (-f_2) (-df_1)}{f_1^2 + f_2^2} \\
+                &= \frac1{2\pi} \oint_\Gamma \frac{f_1 df_2 - f_2 df_1}{f_1^2 + f_2^2} = I(\Gamma).
+            \end{align*}
+        \item On a periodic orbit $\psi$ is simply a tangent to the orbit. In order for this to close (in an anticlockwise sense) we must have a total change in angle of $2\pi$.
     \end{enumerate}
 \end{proof}
 Based on these definitions, it is sensible to define:
 \begin{definition}{Poincaré index of a fixed point}
     The \underline{Poincaré index} of a fixed point $\vec{x_0}$ is the Poincaré index of any curve that encircles only $\vec{x_0}$.
 \end{definition}
+\begin{proposition}
+    For a curve encircling multiple fixed points, the Poincaré index is equal to the sum of Poincaré indices of the fixed points.
+    \label{propPoincIndxManyPts}
+\end{proposition}
+\begin{proof}
+    We consider deforming the contour as in figure~\ref{figDeformedContour}. Then the only remaining contributions are those around the fixed point.
+\end{proof}
+\begin{figure}
+    \centering
+        \begin{tikzpicture}[scale=1]
+        \pgfmathsetmacro{\intarrowanglediff}{2 * asin(0.2*sin(10) / 2.8)}
+        \pgfmathsetmacro{\restartAngleOne}{80 + \intarrowanglediff}
+        \pgfmathsetmacro{\restartAngleTwo}{200 + \intarrowanglediff}
+        \pgfmathsetmacro{\endAngleTwo}{360 - \intarrowanglediff}
+
+
+        \draw (3, 0) arc[start angle=0, end angle=360, radius=3]
+            pic[pos=0.1, rotate=36] {patharrow}
+            node[pos=0.1, anchor=south] {$\gamma$};
+
+        \draw (2.8, 0) arc[start angle=0, end angle=80, radius=2.8]
+            pic[rotate=-10] {integration loop={1}};
+        \draw (\restartAngleOne:2.8) arc[radius=2.8, start angle=\restartAngleOne, end angle=200]
+            pic[rotate=110] {integration loop={2}};
+
+        \draw (\restartAngleTwo:2.8) arc[radius=2.8, start angle=\restartAngleTwo, end angle=\endAngleTwo]
+            pic[pos=0.5, rotate=280] {patharrow}
+            node[pos=0.5, anchor=south] {$\tilde{\gamma}$}
+            pic[rotate=-90] {integration loop={3}};
+    \end{tikzpicture}
+    \caption{Diagram of a contour encircling multiple fixed points}
+    \label{figDeformedContour}
+\end{figure}
+\begin{proposition}
+    The Poincaré index of a hyperbolic sink or source is $1$.
+    \label{propPoincIndHyp}
+\end{proposition}
+\begin{proof}
+    Note that for such a point all the trajectories point inwards to the fixed point. We can therefore consider a contour $\gamma$ such that $\psi$ is normal to the curve at every point. This gives a contribution $2\pi$ when integrating around the contour, so the Poincaré index is 1.
+\end{proof}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \node at (0, 0) {TODO};
+    \end{tikzpicture}
+    \caption{Diagram of a Saddle and Contour}
+    \label{figSaddleAndContour}
+\end{figure}
+\begin{example}[Poincaré index of a hyperbolic saddle]
+    Consider a hyperbolic saddle as in figure~\ref{figSaddleAndContour}, and the labelled points $1-7$. We see that as we go round $1$ to $7$, $\psi$ travels clockwise around which contributes $-2\pi$. Therefore, the Poincaré index of a hyperbolic saddle is $-1$.
+\end{example}
+For non-hyperbolic points, we must proceed case-by-case. For example, the saddle-node has a Poincaré index of $0$, and a centre has a Poincaré index of $1$.
+\begin{proposition}
+    Any periodic orbit must encircle at least one fixed point. Furthermore, the sum of their Poincaré indices must be $1$.
+    \label{propPeriodicHasFP}
+\end{proposition}
+\begin{proof}
+    Note that the Poincaré index of a periodic orbit is $1$. If there were no fixed point encircled, we could shrink the contour to a tiny point which would require a Poincaré index of $0$. By \thmref{propPoincIndxManyPts}, the sum of the Poincaré indices of the encircled fixed points must be $1$.
+\end{proof}
+\begin{example}
+    Return to the Lotka-Volterra system of example~\ref{exLotkaVolterra}:
+    \begin{equation*}
+        \dot{r} = r(3-r-2s),\qquad \dot{s} = s(2 - r - s)
+    \end{equation*}
+    We know that there are nodes at $(0, 0)$, $(3, 0)$, $(0, 2)$. However, the axes are invariant and so we know no trajectories can cross the axis. There is a saddle point at $(1, 1)$. If we wanted a periodic orbit, we would have to encircle at least one node. We cannot encircle any of the nodes because we cannot cross the axes, and we also cannot encircle the point $(1, 1)$ because this has Poincaré index $-1$.
+
+    We can therefore conclude that there are no periodic orbits for this system.
+\end{example}
+\section{Negative Tests for Periodic Orbits}
+\begin{theorem}[Dulac's Criterion]
+    If there exists a continuously differentiable function $\phi(x, y)$ such that $\nabla \cdot (\phi \vec{f})$ has the same sign everywhere on a simply-connected domain $D \subseteq \R^2$, then there are no periodic orbits lying entirely in $D$.
+    \label{thmDulac}
+\end{theorem}
+\begin{proof}
+    Take $\nabla \cdot (\phi \vec{f}) > 0$, and suppose a periodic orbit $\gamma$ exists. Let $\vec{n}$ be the outward normal on $\gamma$. Note that $\vec{f}$ points normal to the trajectory, so:
+    \begin{equation*}
+        \oint_\gamma \phi \vec{f} \cdot \vec{n}~dl = 0
+    \end{equation*}
+    However, by Green's Theorem in the Plane:
+    \begin{equation*}
+        \oint_\gamma \phi \vec{f} \cdot \vec{n}~dl = \int_A \nabla \cdot (\phi \vec{f})~dS 
+    \end{equation*}
+    where $A$ is the area enclosed by $\gamma$. However, this second integral must be positive, which is a contradiction.
+
+    The proof is similar for $\nabla \cdot (\phi \vec{f}) < 0$.
+\end{proof}
+\begin{remark}
+    The \underline{divergence test} is \thmref{thmDulac} with $\phi = 1$.
+\end{remark}
+\begin{corollary}
+    If $\nabla \cdot (\phi\vec f)$ maintains its sign in a doubly-connected domain (domain with a hole in it), then there is at most one periodic orbit in $D$ and it must enclose the hole.
+    \label{corDblConnected}
+\end{corollary}
+\begin{proof}
+    Suppose there are two periodic orbits. We argue as in \thmref{thmDulac} with $\gamma$ traversing both orbits for a contradiction.
+\end{proof}
+\begin{example}
+    Returning to the more general form of the Lotka-Volterra equations,
+    \begin{align*}
+        \dot{r} &= r(a - br - c s) \\
+        \dot{s} &= s(d - er - fs)
+    \end{align*}
+    where $a$ to $f$ are constants, and $b, f$ are positive. We consider a function:
+    \begin{equation*}
+        \phi = \frac1{rs}
+    \end{equation*}
+    and take the divergence of it and $\vec{f}$:
+    \begin{align*}
+        \nabla \cdot (\phi\vec f) &= \frac{\partial}{\partial r} \left(\frac{a-br-cs}{s}\right) + \frac{\partial }{\partial s}\left(\frac{d-er-fs}{r}\right) \\
+        &= -\frac{b}{s} - \frac f r
+    \end{align*}
+    which is negative on $r, s > 0$. This implies that there are no periodic orbits by \thmref{thmDulac}.
+\end{example}
+\begin{remark}
+    For $\R^n$, we can adapt \thmref{thmDulac} to exclude the existence of invariant manifolds of dimension $(n-1)$.
+\end{remark}
+\begin{example}[Lorentz system]
+    Consider a dynamical system in $\R^3$:
+    \begin{equation*}
+        \begin{pmatrix}\dot{x} \\ \dot y \\ \dot z\end{pmatrix} = \begin{pmatrix}\sigma(y-x) \\ rz-y-zx \\ xy-bz\end{pmatrix}
+    \end{equation*}
+    for $b, \sigma, r > 0$.
+    We can consider the divergence test:
+    \begin{equation*}
+        \nabla \cdot \vec{f} = -\sigma-1-b < 0
+    \end{equation*}
+    Therefore we cannot have any invariant 2D manifolds.
+\end{example}
+\begin{theorem}[Gradient Criterion]
+    If there exists a positive function $\rho(x, y)$ such that $\rho \vec{f} = \nabla \psi$ for some single-valued $\psi(x, y)$ on a simply-connected domain $D$, then there are no periodic orbits in $D$.
+    \label{thmGradient}
+\end{theorem}
+\begin{proof}
+    Suppose we have a periodic orbit $\gamma$. Note that $\vec{dl}$ and $\vec{f}$ are parallel on trajectories:
+    \begin{equation*}
+        \oint_\gamma \rho \vec{f} \cdot \vec{dl} > 0
+    \end{equation*}
+    but now substitute in $\psi$:
+    \begin{equation*}
+        \oint_\gamma \rho \vec{f} \cdot \vec{dl} = \oint_\gamma \nabla \psi \cdot \vec{dl} = 0
+    \end{equation*}
+    %TODO: Why is this zero??
+    which is a contradiction.
+\end{proof}
+\section{Positive Tests for Periodic Orbits}
+\begin{theorem}[Poincaré-Bendixson Theorem]
+    If the forward orbit $O^+(\vec{x})$ of some point $\vec{x}$ enters and remains within a closed, bounded set $D \subseteq \R^2$ that contains no fixed points, then $\omega(\vec{x})$ is a periodic orbit.
+    \label{thmPoincBendix}
+\end{theorem}
+\begin{remark}
+    We require $D$ to be closed and bounded so that it contains all of its limit points.
+\end{remark}
+\begin{proof}
+    The proof of this theorem is \textbf{non-examinable}.
+\end{proof}
+\begin{remarks}
+    \item This theorem is only true in $\R^2$.
+    \item The set $D$ cannot be simply-connected! Otherwise, we would require a fixed point for the periodic orbit to go around.
+\end{remarks}
+\begin{example}
+    Consider:
+    \begin{align*}
+        \dot{x} &= x - y - 2x(x^2 + y^2) \\
+        \dot{y} &= y + x - y(x^2 + y^2)
+    \end{align*}
+    We can find an unstable focus at $0$. Also, converting to polar coordinates gives:
+    \begin{align*}
+        \dot{r} &= r \left[1 - r^2 (1+\cos^2\theta)\right] \\
+        \dot{\theta} &= 1 + \frac12 r^2 \sin(2\theta)
+    \end{align*}
+    A nullcline in $r$ is:
+    \begin{align*}
+        1 - r^2 (1 + \cos^2\theta) &= 0 \\
+        \implies r^2(\sin^2 \theta + 2\cos^2\theta) &= 1 \\
+        \implies 2x^2 + y^2 &= 1
+    \end{align*}
+    which is an ellipse.
+
+    We conclude:
+    \begin{equation*}
+        \begin{cases}
+            \dot{r} = 0 & \text{on }\left(\frac{x}{1 / \sqrt{2}}\right)^2 + y^2 = 1 \\
+            \dot{r} < 0 & \text{for }r > 1 \\
+            \dot{r} > 0 & \text{for }r < \frac{1}{\sqrt{2}} \\
+        \end{cases}
+    \end{equation*}
+    This means that any $O^+(\vec{x})$ enters and remains in:
+    \begin{equation*}
+        D = \subsetselect{\vec{x}}{\frac1{\sqrt{2}} < r < 1}
+    \end{equation*}
+    On $D$, $\dot{\theta > 0}$ and so there are no fixed points. This means we can apply \thmref{thmPoincBendix} to show that there must exist a periodic orbit in this region. Furthermore, by applying the divergence test:
+    \begin{equation*}
+        \nabla \cdot \vec{f} = (1-6x^2) + (1-3y^2) = 2 - 6x^2 - 3y^2
+    \end{equation*}
+    which is negative in $D$, and so we conclude that there can only be one periodic orbit in $D$.
+\end{example}
 \end{document}

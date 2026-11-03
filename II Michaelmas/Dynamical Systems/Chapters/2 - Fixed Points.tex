@@ -487,6 +487,9 @@ For the following definitions, let $\Lambda$ be an invariant set of a general au
 \begin{definition}{Flow tending to a set}
     The flow $\phi_t(\vec{x})$ \underline{tends to $\Lambda$} if $\inf_{y \in \Lambda}\abs{\phi_t(\vec{x}) - \vec{y}} \to 0$ as $t \to \infty$.
 \end{definition}
+\begin{remark}
+    This is not quite that the flow tends to a point in the set. We want that the shortest distance to any point in the set tends to $0$, but the point may change as we take $t \to \infty$.
+\end{remark}
 \begin{definition}{Lyapunov stability}
     The set $\Lambda$ is \underline{Lyapunov stable} if for any $\epsilon > 0$, there exists $\delta > 0$ such that:
     \begin{equation*}
@@ -666,7 +669,7 @@ For the following definitions, let $\Lambda$ be an invariant set of a general au
     \begin{equation*}
         \omega(\vec{x}) \subseteq M_c = \subsetselect{\vec{x}}{V(\phi_t(\vec{x})) = c \text{ for all }t \geq 0}
     \end{equation*}
-    or equivalently $\phi_t(\vec{x})$ tends to some invariant subset of $\subsetselect{\vec{z}}{V(\vec{z}) = 0}$.
+    or equivalently $\phi_t(\vec{x})$ tends to some invariant subset of $\subsetselect{\vec{z}}{\dot{V}(\vec{z}) = 0}$.
     \label{thmLaSalleInvariance}
 \end{theorem}
 \begin{remark}
