@@ -445,6 +445,7 @@ To find higher-order terms in Laplace's method, we must keep the higher-order te
     \end{equation*}
 \end{example}
 \section{Oscillatory Integrals}
+\subsection{Introduction and the Riemann-Lebesgue Lemma}
 Consider Fourier-type integrals:
 \begin{equation*}
     F(x) = \int_{a}^{b} f(t)e^{ix\phi(t)} dt
@@ -469,8 +470,89 @@ In this course we are interested in how fast $f$ goes to $0$ as $x \to \infty$. 
     &= \frac1{ix} \left[f(b) e^{ixb} - f(a) e^{ixa} - \int_{a}^{b} f'(t) e^{ixt} dt \right] \\
     &\sim \frac1{ix} \left[f(b) e^{ixb} - f(a) e^{ixa}\right] 
 \end{align*}
-by \thmref{thmRiemannLebes}. We see that the behaviour of $f$ is dominated, to leading order, by the behaviour at the endpoints. This is due to imperfect cancellation here. Indeed, if $f \to 0$ at the endpoints then $F$ is small beyond all orders in $x^{-k}$. That is, if $f$ is infinitely differentiable we can integrate by parts $N$ times to show:
+by \thmref{thmRiemannLebes}. We see that the behaviour of $f$ is dominated, to leading order, by the behaviour at the endpoints. This is due to imperfect cancellation here.
+
+Indeed, if $f \to 0$ at $x \to \pm \infty$, and we integrate over the whole real line $\R$, then $F$ is small beyond all orders in $x^{-k}$. That is, if $f$ is infinitely differentiable we can integrate by parts $N$ times to show:
 \begin{equation*}
     F(x) = o(x^{-N}) ~\forall N \in \N
 \end{equation*}
+\subsection{Monotonic \texorpdfstring{$\phi$}{phi}}
+Consider monotonic $\phi$ on $[a, b]$ such that $\phi'(t) \neq 0$ on $[a, b]$ and $f \neq 0$ at the endpoints. Consider $u = \phi(t)$, where $t = \phi^{-1}(u)$. Now $F$ is:
+\begin{align*}
+    F(x) &= \int_{\phi(a)}^{\phi(b)} \frac{f(t)}{\phi'(t)}e^{ixu} du \\
+    &\sim \frac{1}{ix} \left[\frac{f(t)}{\phi'(t)} e^{ix\phi(t)}\right]_a^b = O(x^{-1})
+\end{align*}
+which requires $\left(\frac{f}{\phi'}\right)'$ to exist and be integrable.
+\subsection{Stationary Phase Method}
+Suppose that $\phi$ has one stationary point on $[a, b]$. That is, there exists $c \in [a, b]$ where $\phi'(c) = 0$.
+
+Considering our local wavenumber $x \frac{\partial \phi}{\partial t}$, we see that this is finite as $x\to \infty$, unlike other points. This means we will have small region where catastrophic cancellation does not occur (or at least not as well) around $x = c$. Indeed, we find that this dominates the integral over the endpoints. As $x \to \infty$, this region will still integrate to $0$, but slower than the endpoints. This is the localisation principle for oscillatory integrals: the asymptotic expansion of $F(x)$ is controlled by points of stationary phase (or possibly the endpoints).
+
+Based on this intuition, we split the integral:
+\begin{align*}
+    F(x) &= \int_{a}^{c-\epsilon} f(t)e^{ix\phi(t)} dt + \int_{c-\epsilon}^{c+\epsilon} f(t)e^{ix\phi(t)} dt + \int_{c+\epsilon}^{b} f(t)e^{ix\phi(t)} dt \\
+    &= \int_{c-\epsilon}^{c+\epsilon} f(t)e^{ix\phi(t)} dt + O(x^{-1})
+\end{align*}
+by considering our existing expansions for the endpoints. We are therefore interested in the integral around $c$.
+\begin{align*}
+    \phi(t) &= \phi(c) + \phi''(c) \frac{(t-c)^2}{2} + \cdots \\
+    f(t) &= f(c) + \cdots
+\end{align*}
+Then substituting in:
+\begin{align*}
+    \int_{c-\epsilon}^{c+\epsilon} f(t)e^{ix\phi(t)} dt &\approx f(c) e^{ix\phi(c)} \exp\left[ix\phi''(c) (t-c)^2 / 2\right] \\
+    \intertext{defining $s = \sqrt{x|\phi''(c)| / 2}(t-c)$}:
+    &\approx \frac{f(c)e^{ix\phi(c)}}{\sqrt{x|\phi''(c)| / 2}} \int_{-\frac12 \sqrt{x|\phi''(c)|}}^{\frac12 \sqrt{x|\phi''(c)|}} e^{i\sigma s^2} ds \\
+    &\sim \frac{f(c)e^{ix\phi(c)}}{\sqrt{x|\phi''(c)| / 2}} \int_{-\infty}^{\infty} e^{i\sigma s^2} ds \\
+    &= \frac{f(c)e^{ix\phi(c)}}{\sqrt{x|\phi''(c)| / 2}} \sqrt{\pi} e^{i \frac{\pi}{4} \sigma} \\
+    &= f(c) e^{ix\phi(c)} \sqrt{\frac{2\pi}{-ix\phi''(c)}} = O(x^{-1/2})
+\end{align*}
+\begin{example}
+    Consider the Bessel function:
+    \begin{equation*}
+        J_0(r) = \frac{1}{2\pi} \int_{0}^{2\pi} e^{ir\sin(t)} dt 
+    \end{equation*}
+    which has $f = 1$, $\phi(t) = \sin(t)$, $r = x$. We have stationary points for $\sin$ at $t = \frac\pi2$ and $\frac{3\pi}2$. We evaluate their contributions separately then add them together.
+
+    At $t = \frac\pi2$, the contribution is:
+    \begin{equation*}
+        \sqrt{\frac{1}{2i\pi r}} e^{ir} = \frac{1}{\sqrt{2\pi r}}e^{i(r - \frac\pi 4)}
+    \end{equation*}
+    and at $t = \frac{3\pi}{2}$ it is:
+    \begin{equation*}
+        \sqrt{\frac{1}{-2\pi i r}}e^{ir}
+    \end{equation*}
+    and so our leading order expansion is:
+    \begin{equation*}
+        J_0(r) \sim \sqrt{\frac{2}{\pi r}} \cos\left(r - \frac{\pi}{4}\right) \text{ as } r \to \infty
+    \end{equation*}
+    Note that this $\sim$ is not quite accurate. The Bessel function has many zeroes and so does the cosine. These zeroes do not quite line up and so the ratio of the two functions has many points that are $\infty$. We still have a good approximation here, but the notation is not quite fit for purpose.
+\end{example}
+\begin{remarks}
+    \item All stationary points contribute to the leading term (unlike Laplace's method, where on the the global maximum contributed);
+    \item the endpoints can contribute at the next order ($x^{-1}$), they are not exponentially small;
+    \item we must be careful with problems in the definition of $\sim$ if the functions oscillate rapidly near zero;
+    \item Laplace's method is ``better'' than the stationary phase method for the ease of finding higher-order terms and bounding terms.
+\end{remarks}
+\section{Method of Steepest Descent}
+Consider integrals of the form:
+\begin{equation*}
+    I(x) = \int_C f(z) e^{x\phi(z)} dz \text{ as } x \to \infty
+\end{equation*}
+Now $C$ is a contour in the complex plane, and $f, \phi$ are complex-valued functions. We will require them to be analytic in a domain continaing $C$.
+
+Such integrals appear in the definitions of special functions and in many physical applications. Also, oscillatory integrals can be transformed into this form to better calculate higher-order terms than the method of stationary phase.
+\subsection{Recap of Complex Methods}
+Here $z$ is a complex number and can be written as $p + iq$ for real number $p, q$. We can also split $\phi$ into real and imaginary parts: $\phi(z) = u(p, q) + iv(p, q)$. Using this decomposition:
+\begin{equation*}
+    I(x) = \int_C f(z) \underbrace{e^{xu(z)}}_{\substack{\text{amplitude}\\\text{part}}} \underbrace{e^{ixv(z)}}_{\substack{\text{oscillatory}\\\text{part}}} dz
+\end{equation*}
+\begin{proposition}
+    If $\phi$ is analytic then:
+    \begin{equation*}
+        \frac{\partial u}{\partial p} = \frac{\partial v}{\partial q}, \qquad \frac{\partial u}{\partial q} = -\frac{\partial v}{\partial p}
+    \end{equation*}
+    \label{propCauchyRiemann}
+\end{proposition}
+If we define $\nabla u = \left(\frac{\partial u}{\partial p}, \frac{\partial u}{\partial q}\right)^T$ and similarly for $v$, \thmref{propCauchyRiemann} gives $\nabla u \cdot \nabla v = 0$. That is, the level contours of $u$ and $v$ are orthogonal. Furthermore, $\nabla v$ is tangent to curves of constant $u$ and $\nabla u$ is tangent to curves of constant $v$. On curves of constant $v$, $u$ is maximally decreasing or increasing.
 \end{document}
