@@ -247,4 +247,99 @@ For non-hyperbolic points, we must proceed case-by-case. For example, the saddle
     \end{equation*}
     which is negative in $D$, and so we conclude that there can only be one periodic orbit in $D$.
 \end{example}
+\section{Near-Hamiltonian Systems}
+Consider:
+\begin{equation*}
+    \begin{pmatrix}\dot{x} \\ \dot{y}\end{pmatrix} = \begin{pmatrix}f_1(x, y) + \epsilon g_1(x, y) \\ f_2(x, y) + \epsilon g_2(x, y)\end{pmatrix}
+\end{equation*}
+where $f_1 = \frac{\partial H}{\partial y}$ and $f_2 = -\frac{\partial H}{\partial x}$. This means that $\epsilon = 0$ gives a Hamiltonian system, which can have periodic orbits on the contours of $H$.
+
+If $\epsilon \neq 0$,
+\begin{equation*}
+    \dot{H} = (f_1 + \epsilon g_1)(-f_2) + (f_2 + \epsilon g_2) f_1 = \epsilon(f_1 g_2 - f_2 g_1)
+\end{equation*}
+which is clearly non-zero. However, if there exists a periodic orbit $\Gamma$, the integral over this contour $dH$ must be zero, so:
+\begin{equation*}
+    \epsilon \oint_\Gamma (f_1 g_2 - f_2 g_1) dt = 0.
+\end{equation*}
+This already tells us that no periodic orbit can lie in a region on which $f_1 g_2 - f_2 g_1$ maintains its sign.
+
+For very small positive $\epsilon$, we can use the energy balance method.
+
+\begin{remark}
+    We can understand a Hamiltonian system as one where energy is conserved. Then the small addition of order $\epsilon$ represents dissipation of energy or some increase of energy into the system. In general, we do not expect periodic orbits when we have only dissipation of energy. However, when there is also addition of energy to the system, we can find periodic orbits again.
+\end{remark}
+
+If $\Gamma_\epsilon$ is a perturbation of the periodic orbit $\Gamma_0$, our aim is to estimate $\Delta H(\Gamma_\epsilon)$ using unperturbed orbits of the Hamiltonian system ($\epsilon = 0$).
+
+Note that $\Gamma_\epsilon = \Gamma_0 + O(\epsilon)$, and the period of the orbit is $T_\epsilon = T_0 + O(\epsilon)$. This means that the change in the Hamiltonian is:
+\begin{equation*}
+    \Delta h = \underbrace{\int_0^{T_\epsilon} H dt}_{\text{on }\Gamma_\epsilon} = \epsilon\underbrace{\int_0^{T_0} H dt}_{\text{on }\Gamma_0} + O(\epsilon^2)
+\end{equation*}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        \begin{pmatrix}\dot{x} \\ \dot y\end{pmatrix} = \begin{pmatrix}y \\ -x+x^2 + \epsilon y (a - x)\end{pmatrix}
+    \end{equation*}
+    which corresponds to the second-order differential equation $\ddot x - \epsilon \dot x (a-x) + x - x^2 = 0$. We see that the small $\epsilon$ term represents input/dissipation of energy.
+
+    For $\epsilon = 0$ we find the Hamiltonian:
+    \begin{equation*}
+        H(x, y) = \frac12 (x^2 + y^2) - \frac13 y^3.
+    \end{equation*}
+    We have fixed points at $(0, 0)$ -- a centre -- and at $(1, 0)$ -- a saddle. We also find a homoclinic orbit passing through $(1, 0)$.
+
+    For $\epsilon \neq 0$ we find $g_1 = 0, g_2 = y(a-x)$.
+    \begin{equation*}
+        \dot{H} = \epsilon y^2 (a-x)
+    \end{equation*}
+    and so:
+    \begin{equation*}
+        \delta H(H_0) = \epsilon \oint_{H = H_0} \epsilon y^2(a-x) = \epsilon \int_0^T y^2(a-x) dt
+    \end{equation*}
+    \begin{itemize}
+        \item This integrand has a fixed sign if $x < a$ or $x > a$. Thus, any periodic orbit must go into both regions.
+        \item By the Poincaré index test, we also know that any periodic orbit must go around $(0, 0)$ and not $(1, 0)$.
+        \item Considering $\dot{x} = 0$ we require $y = 0$, so the minimum and maximum values of $x$ must lie on the $x$ axis.
+        \item The above gives $x_{min} < a < x_{max} < 1$, so $a < 1$ for periodic orbits.
+    \end{itemize}
+    Calculating $\Delta H$ in terms of $H_0$:
+    \begin{align*}
+        \Delta H (H_0) &= \epsilon \int_{\Gamma_0} g_2 f_1 dt \\
+        &= 2\epsilon \int_{x_{min}(H_0)}^{x_{max}(H_0)} y (a-x) dx
+    \end{align*}
+    We express $y$ using $H(x, y)$:
+    \begin{equation*}
+        \Delta H(H_0) = 2\epsilon \int_{x_{min}(H_0)}^{x_{max}(H_0)} (a-x)\sqrt{2H_0 - x^2 + \frac23 x^3} dx
+    \end{equation*}
+    Studying this numerically, we find:
+    \begin{itemize}
+        \item no periodic orbits for $a < 0$;
+        \item no periodic orbits for $a > \frac17$;
+        \item periodic orbits for $a \in \left(0, \frac17\right)$;
+        \item sufficiently close to the homoclinic orbit, where $H_0 \approx \frac16$, the integrand factorises as $\frac1{\sqrt{3}} (1-x) \sqrt{1+2x}$ which means the integral can be evaluated exactly (for any $a$) to require $a = \frac17$.
+    \end{itemize}
+\end{example}
+\section{Stability of Periodic Orbits}
+Suppose that the system $\dvec{x} = \vec{f}(\vec{x})$ (where $\vec{x} \in \R^n$) has a periodic orbit $\vec{x} = \vec{X}(t)$ with period $T$. Considering a perturbation:
+\begin{equation*}
+    \vec{x}(t) = \vec X(t) + \vec\eta(t) \implies \dvec{x} = \vec{f}(\vec{X} + \vec\eta) = \vec{f}(\vec X) + \vec \eta \cdot \nabla f(\vec X) + O(|\vec \eta|^2)
+\end{equation*}
+To linear order, then, $\dvec{\eta} = A\vec\eta$ where $A_{ij} = \frac{\partial f_i}{\partial x_j}$ evaluated at $\vec{X}(t)$. This is a linear ODE with $T$-periodic coefficients: $A_{ij}(t + T) = A_{ij}(t)$. By linearity, introduce a mapping:
+\begin{equation*}
+    \phi_{ij}(t) : \vec\eta(0) \mapsto \vec\eta(t)
+\end{equation*}
+We can consider $\phi_{ij}$ to be a time evolution operator. It evolves in time as:
+\begin{equation*}
+    \dot{\phi}_{ij} \eta_j (0) = A_{ik} \phi_{kj} \eta_j(0)
+\end{equation*}
+and since this is true for any $\vec{\eta}(t)$,
+\begin{equation*}
+    \dot\phi_{ij} = A_{ij} \phi_{kj}
+\end{equation*}
+We can solve this using the matrix exponential:
+\begin{equation*}
+    \phi = \underbrace{e^{\int_0^t A(t') dt'}}_B \phi(0)
+\end{equation*}
+and since $\phi(0)$ must be the identity, $\phi = B$.
 \end{document}
