@@ -65,6 +65,7 @@ In summary,
     \label{eqnNonDegenPerturb}
 \end{equation}
 \begin{example}
+    \label{exHarmOscPerturb}
     We consider a perturbed harmonic oscillator. For this,
     \begin{equation*}
         H = \frac{\hat{p}^2}{2m} + \frac12 m\omega^2 \hat{x}^2 = \hbar \omega \left(a^\dagger a + \frac12\right)
@@ -87,5 +88,132 @@ In summary,
         &= \hbar \omega \left(n + \frac12\right) \left(1 + \lambda - \lambda^2 / 2\right)
     \end{align*}
     This is consistent with the transformation $\omega^2 \mapsto \omega^2 (1 + 2\lambda)$ which gives an exact solution for our perturbed problem.
+\end{example}
+\begin{remarks}
+    \item We expect \eqnref{eqnNonDegenPerturb} to be valid and useful when $\abs \lambda$ is sufficiently small. We really have expansion in quantities like:
+        \begin{equation*}
+            \frac{\lambda^2 \opbraket j V r}{E_i - E_j}
+        \end{equation*}
+        so accuracy requires the energy shifts (due to perturbation) to be much smaller than the energy differences of the original problem.
+    \item The perturbation series may not converge. In this case it can still be useful for approximate calculations as an asymptotic series. In example~\ref{exHarmOscPerturb}, we considered a total potential:
+        \begin{equation*}
+            V(\hat{x}) = \frac12 m\omega^2 (1 + 2\lambda) \hat{x}^2
+        \end{equation*}
+        For $\lambda < -\frac12$ we expect the theory not to make sense, which suggests a radius of convergence $\abs{\lambda} < \frac12$.
+\end{remarks}
+\begin{example}[Ground state for helium]
+    The unperturbed problem is two non-interacting electrons in a potential due to a nucleus with charge $2e$:
+    \begin{equation*}
+        H = H_1(\opvec{x_1}, \opvec{p_1}) + H_2(\opvec{x_1}, \opvec{p_1}),\quad H_1 = H_2 = \frac{\abs{\opvec p}^2}{2m} - \frac{2e^2}{4\pi \epsilon_0 \abs{\opvec x}}.
+    \end{equation*}
+    One-electron states and energies are given by:
+    \begin{equation*}
+        \ket{n~l~m},\text{ with energy } E_n = -\frac12 m \left(\frac{2e^2}{4\pi \epsilon_0 \hbar}\right)^2 \frac{1}{n^2}
+    \end{equation*}
+    The lowest energy eigenstate for two electrons is:
+    \begin{equation*}
+        \ket\Psi = \ket{1~0~0} \otimes \ket{1~0~0} \otimes \ket\chi
+    \end{equation*}
+    where $\ket\chi$ is the antisymmetric spin state, $\frac1{\sqrt{2}} \left(\upst \dnst - \dnst\upst\right)$.
+
+    The wavefunction for this two-electron state is:
+    \begin{equation*}
+        \Psi(\vec{x_1}, \vec{x_2}) = \psi_{100}(\vec{x_1}) \psi_{100}(\vec{x_2})
+    \end{equation*}
+    where the wavefunction for each electron is:
+    \begin{equation*}
+        \psi_{100} = \frac{1}{\sqrt{\pi}} \left(\frac{2}{a_2}\right)^{\frac32} e^{-\abs{\vec x} / a_2}
+    \end{equation*}
+    and the quantity $a_2$ is half the Bohr radius,
+    \begin{equation*}
+        a_2 = \frac12 \frac{4\pi \epsilon_0}{e^2} \frac{\hbar^2}{m}
+    \end{equation*}
+    We find the ground state energy, $2E_1$, to be $-108.8~eV$. Experiment shows that the ground state energy for helium is in fact $-79~eV$, so we clearly need the electron-electron interaction. We treat this as a perturbation:
+    \begin{equation*}
+        \lambda = \frac{e^2}{4\pi \epsilon_0}\quad\text{and}\quad V(\vec{x_1}, \vec{x_2}) = \frac{1}{\abs{\vec{x_1} - \vec{x_2}}}
+    \end{equation*}
+    The first-order correction to the ground state energy is:
+    \begin{align*}
+        \lambda \opbraket \Psi V \Psi &= \lambda \int_{\R^3} \int_{\R^3} \Psi(\vec{x_1}, \vec{x_2})^* V(\vec{x_1}, \vec{x_2}) \Psi(\vec{x_1}, \vec{x_2})~d^3\vec{x_2}~d^3\vec{x_2} \\
+        &= \lambda \int_{\R^3} \int_{\R^3} \frac{\abs{\psi_{100}(\vec{x_1})}^2\abs{\psi_{100}(\vec{x_2})}^2}{\abs{\vec{x_1} - \vec{x_2}}}~d^3\vec{x_2}~d^3\vec{x_2} \\
+        &\approx 34~eV
+    \end{align*}
+    This gives a corrected ground state energy of $-108.8~eV + 34~eV = -74.8~eV$, which is closer to the true value of $-79~eV$.
+\end{example}
+\section{Degenerate Case}
+Recall the problem:
+\begin{equation*}
+    (H + \lambda V) \state = E\state
+    \tag{\ref{eqnPerturbedH}}
+\end{equation*}
+Now suppose that as $\lambda \to 0$, $E \to E_r = E_s = \cdots$ with corresponding states $\ket r, \ket s, \cdots$. If we label these states using $r$, This means $\state \to \sum_r a_r \ket r$. Let us label the other basis states $\ket j$, with eigenvalues different from $E_r$.
+
+For general $\lambda$, we expand:
+\begin{equation*}
+    \psi = \sum_r \alpha_r \ket r + \sum_j \beta_j \ket j
+\end{equation*}
+and we must have:
+\begin{align*}
+    \alpha_r &= a_r + O(\lambda) \\
+    \beta_r &= O(\lambda)
+\end{align*}
+Substituting $\state$ into \eqnref{eqnPerturbedH}:
+\begin{align*}
+    \sum_r \alpha_r (E_r + \lambda V)\ket r &+ \sum_j \beta_j (E_j + \lambda V) \ket j \\
+    &= E\left(\sum_r \alpha_r \ker r + \sum_j \beta_j \ket j\right)
+\end{align*}
+Then rearranging:
+\begin{equation}
+    \sum_{r} \alpha_r (E - E_r) \ket r + \sum_j \beta_j (E - E_j) \ket j = \lambda \sum_r \alpha_r V \ket{r} + \lambda \sum_j \beta_j V \ket j
+    \label{eqnDegenExpand}
+\end{equation}
+We want $E = E_r + \lambda E' + O(\lambda^2)$, and note that the correction $E'$ is no longer associated with a specific basis state in our chosen state. Taking the inner product of \eqnref{eqnDegenExpand} with $\ket s$ (one of the degenerate states):
+\begin{equation*}
+    (E - E_s) \alpha_s = \lambda \sum_r \alpha_r \opbraket s v r + \lambda \sum_j \beta_j \opbraket s V j
+\end{equation*}
+Then to leading order in $\lambda$,
+\begin{equation}
+    \sum_r \opbraket s V r a_r = E' a_s
+    \label{eqnDegenPerturb}
+\end{equation}
+This is the key result: $E'$ is the eigenvalue of the matrix $\opbraket s V r$ and $a_r$ the components of the eigenvector. If there are $N$ degenerate states, we have $N$ solutions for $E'$ and $a_r$, with corresponding eigenstates $\sum_r a_r \ket r$.
+
+We can interpret these different values for $E'$ as the degenerate energy level $E_r$ splitting apart under the perturbation into new energy levels, breaking degeneracy (or reducing it, if we get repeated solutions for some values of $E'$). Degenerate states usually arise from symmetry of the Hamiltonian, and this perturbation is breaking some/all of this symmetry.
+\begin{example}[Particle in a box in 2D]
+    Let the position coordinates be $(x, y) \in [0, a]^2$, and our boundary condition is that the wavefunction is zero on the edges. The unperturbed problem has states $\ket{p~q}$ with energies:
+    \begin{equation*}
+        E_{p, q} = \frac{\hbar^2 \pi^2}{2ma^2} (p^2 + q^2)
+    \end{equation*}
+    with wavefunctions:
+    \begin{equation*}
+        \psi_{p, q}(x, y) = \frac2a \sin\left(\frac{p\pi x}{a}\right) \sin \left(\frac{q \pi y}{a}\right)
+    \end{equation*}
+    The lowest energy level $E_{1, 1}$ is non-degenerate, but the next one up is 2-degenerate: $E_{2, 1} = E_{1, 2}$.
+
+    We perturb as:
+    \begin{equation*}
+        V(x, y) = \frac{xy}{a^2}
+    \end{equation*}
+    so the constant $\lambda$ must have dimensions of energy. The shift in the lowest energy is given by \eqnref{eqnNonDegenPerturb} (non-degenerate perturbation):
+    \begin{align*}
+        \opbraket{1~1}{V}{1~1} &= \int_{0}^{a} \int_{0}^{a} \frac{xy}{a} \abs{\psi_{1, 1}}^2 dy~ dx  \\
+        &= \frac14.
+    \end{align*}
+    The shift in the degenerate energy is given by \eqnref{eqnDegenPerturb} (degenerate perturbation), which requires the eigenvalues of:
+    \begin{equation*}
+        \begin{pmatrix}
+            \opbraket{1~2}{V}{1~2} & \opbraket{1~2}{V}{2~1} \\
+            \opbraket{2~1}{V}{1~2} & \opbraket{2~1}{V}{2~1}
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \alpha & \beta \\
+            \beta & \alpha
+        \end{pmatrix}
+    \end{equation*}
+    and so the eigenvalues of this matrix are $\alpha \pm \beta$ with eigenvectors:
+    \begin{equation*}
+        \frac{1}{\sqrt{2}} \begin{pmatrix}1 \\ \pm1 \end{pmatrix}
+    \end{equation*}
 \end{example}
 \end{document}
