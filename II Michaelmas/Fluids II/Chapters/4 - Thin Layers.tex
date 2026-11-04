@@ -6,7 +6,7 @@ Consider a general thin layer flow, as in figure~\ref{figThinLayer}.
 \begin{figure}
     \centering
     \begin{tikzpicture}[scale=1]
-        \draw[hatch side] (0, 0) -- (3, 0);
+        \draw[hatch side] (3, 0) -- (0, 0);
 
     \end{tikzpicture}
     \caption{Diagram of Thin Layer Flow}
@@ -17,5 +17,130 @@ In particular, we need a long and thin geometry: $h \ll L, \frac{\partial h}{\pa
 \begin{enumerate}
     \item Applying $\nabla \cdot \vec{u} = 0$, $\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0$ which means $\frac u L \sim \frac v h$, and so $v \sim \frac h L u \ll u$. That is, fluid is almost horizontal -- quasi-parallel to the boundary.
     \item In $\mu \nabla^2\vec u$ we can approximate $\nabla^2$ by $\frac{\partial^{2}}{\partial y^{2}}$. This is because $h \ll L$ and so $\frac{\partial}{\partial y} \gg \frac{\partial}{\partial x}$.
+    \item In $\rho \frac{D u}{D t}$, note that $u \frac{\partial }{\partial x} \sim v \frac{\partial }{\partial y} \sim \frac{u}{L}$ (and, if the geometry is changing, $\frac{\partial}{\partial t} \sim \frac{v}{h} \sim \frac{u}{L}$ from the kinematic boundary condition). We can compare:
+        \begin{equation*}
+            \frac{\rho \frac{D u}{D t}}{\mu \nabla^2 u} \sim \frac{\rho u^2 / L}{\mu u / h^2} = \frac{\rho u h^2}{\mu L}
+        \end{equation*}
+        We must now approximate $\frac{u h}{\nu} \frac{h}{L} \ll 1$ and neglect the inertia terms. This is called the reduced Reynold's number, a product of the Reynold's number and $\frac h L$.
+        The leading order equation is now:
+        \begin{equation*}
+            0 = -\frac{\partial p}{\partial x} + \mu \frac{\partial^{2}u}{\partial y^{2}} + f_x
+        \end{equation*}
+        From this we expect:
+        \begin{equation*}
+            p \sim \frac{\mu u L}{h^2}
+        \end{equation*}
+        which is the same as in Poiseuille flow.
+    \item The flow in the $y$ direction is small, so:
+        \begin{equation*}
+            \mu \frac{\partial^{2}v}{\partial y^{2}} \sim \mu \frac{uh / L}{h^2} \sim \frac{\mu u}{h^2} \frac{h}{l} \sim \frac{p}{h} \frac{h^2}{L^2} \ll \frac{p}{h}
+        \end{equation*}
+        then the leading order equation in the $y$ direction is:
+        \begin{equation*}
+            0 = \frac{\partial p}{\partial y} + f_y
+        \end{equation*}
 \end{enumerate}
+In summary,
+\begin{align}
+    0 &= -\frac{\partial p}{\partial x} + \mu \frac{\partial^{2}u}{\partial y^{2}} + f_x \label{eqnLubricationX} \\
+    0 &= \frac{\partial p}{\partial y} + f_y \label{eqnLubricationY}
+\end{align}
+which is valid as long as:
+\begin{itemize}
+    \item $h \ll L$
+    \item $\frac{\partial h}{\partial x} \ll 1$
+    \item $\frac{uh}{\nu} \frac{h}{L} = \frac{h}{L} \Re \ll 1$.
+\end{itemize}
+\section{Conservation of Mass in 2D}
+With $q = \int u dy$, consider figure~\ref{figConserveMass}.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        TODO %TODO
+    \end{tikzpicture}
+    \caption{Diagram of conservation of mass in 2D lubrication flows}
+    \label{figConserveMass}
+\end{figure}
+Then for conservation of mass in this setup,
+\begin{equation*}
+    (q(x) - q(x + \delta x)) \delta t \approx \delta h \delta x
+\end{equation*}
+and the approximation becomes exact in the limit $\delta x \to 0$:
+\begin{equation*}
+    \frac{\partial h}{\partial t} + \frac{\partial q}{\partial x} = 0.
+\end{equation*}
+\section{The Thrust Bearing}
+Consider the setup in figure~\ref{figThrustBearing}. Though in reality the tooth would be moving and the wall stationary, we take the reference frame in which the tooth is stationary.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        TODO %TODO
+    \end{tikzpicture}
+    \caption{Diagram of a Thrust bearing}
+    \label{figThrustBearing}
+\end{figure}
+
+The geometry is $h(x) = d_1 + \alpha x$, where $\alpha = \frac{d_2 - d_1}{L}$. The lubrication approximation is then valid if $d_2 \ll L$ and $\frac{Ud_2}{\nu} \frac{d_2}{L} \ll 1$. We then make use of equations~\ref{eqnLubricationX} and \ref{eqnLubricationY}:
+\begin{equation*}
+    0 = -\frac{\partial p}{\partial x} + \mu \frac{\partial^{2}u}{\partial y^{2}},\qquad 0 = -\frac{\partial p}{\partial y}
+\end{equation*}
+with $u = -U$ at $y = 0$, $u = 0$ at $y = h$.
+
+We have a Poiseuille flow (driven by the moving plate boundary condition) and a Couette flow (driven by a pressure gradient):
+\begin{equation*}
+    u = -\frac{1}{2\mu} \frac{\partial p}{\partial x} y(h-y) = U \left(1 - \frac{h}{y}\right)
+\end{equation*}
+which gives the flux:
+\begin{equation*}
+    q = -\frac{h^3}{12\mu} \frac{\partial p}{\partial x} - \frac12 U h.
+\end{equation*}
+We can then use mass conservation, with an unchanging surface:
+\begin{equation*}
+    \frac{\partial q}{\partial x} = 0 \implies q(x) = q_0.
+\end{equation*}
+We can determine $q_0$ by the fact that $p = p_0$ at both ends:
+\begin{equation*}
+    \frac{\partial p}{\partial x} = -12\mu \left(\frac{q_0}{h^3} + \frac{U}{2h^2}\right)
+\end{equation*}
+We know $h(x) = d_1 + \alpha x$, so integrating gives:
+\begin{equation*}
+    p(x) = p_0 + \frac{6\mu}{\alpha} \left(q_0 \left(\frac{1}{h^2} - \frac{1}{d_1^2}\right) + U\left(\frac{1}{h}- \frac{1}{d_1}\right)\right)
+\end{equation*}
+but $p(L) = p_0$ so:
+\begin{equation*}
+    q_0 = -U \frac{d_1d_2}{d_1 + d_2}
+\end{equation*}
+Now the rest of the calculation is substitution, to get $p(x), \frac{\partial p}{\partial x}, u(x, y), \frac{\partial u}{\partial y}$.
+
+In particular, the pressure gradient goes to zero, and so the pressure is maximal, at:
+\begin{equation*}
+    h = \frac{2d_1d_2}{d_1 + d_2}.
+\end{equation*}
+At this point we only have the Couette component of flow, so $u$ is linear in $y$. See figure~\ref{figThrustBearingFlow}.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        TODO %TODO
+    \end{tikzpicture}
+    \caption{Diagram of flow for the thrust bearing}
+    \label{figThrustBearingFlow}
+\end{figure}
+
+We calculate the normal force:
+\begin{equation*}
+    F_N = -\int_{0}^{L} (p - p_0) dx = -\frac{6\mu U}{\alpha^2} \left(\log\left(\frac{d_2}{d_1}\right) - 2 \frac{d_2 - d_1}{d_2 + d_1}\right)
+\end{equation*}
+and the tangential force:
+\begin{equation*}
+    F_T = \int_{0}^{L} \mu \left.\frac{\partial u}{\partial y}\right|_{y = 0} dx = \frac{4\mu U}{\alpha} \left(\log \left(\frac{d_2}{d_1}\right) - \frac32 \frac{d_2 - d_1}{d_2 + d_1}\right)
+\end{equation*}
+If $d_2 - d_1 \sim d_1$, so $d_2$ is roughly double $d_1$, then the brackets above are $O(1)$ and $\alpha \sim \frac{d_1}{L}$.
+\begin{equation*}
+    F_n \sim \underbrace{\frac{\mu U l}{d_1^2}}_{\text{pressure}} L,\qquad F_T \sim \underbrace{\frac{\mu U}{d_1}}_{\substack{\text{shear}\\\text{stress}}}L
+\end{equation*}
+The other cases of $d_1$ and $d_2$ are:
+\begin{itemize}
+    \item $d_1 \ll d_2$ gives a corner flow which has logarithmic divergences %TODO: what?
+    \item $d_1 \approx d_2$ gives Couette flow.
+\end{itemize}
 \end{document}
