@@ -253,6 +253,7 @@ Consider Laplace integrals, of the form:
     I(x) = \int_{a}^{b} f(t)e^{x\phi(t)} dt 
 \end{equation*}
 where $b > a$ and $f$ and $\phi$ are sufficiently nice, in a way we will define later. We are interested in the behaviour as $x \to \infty$.
+
 \begin{remarks}
     \item \Thmref{thmWatsonLemma} deals with the special case $\phi(t) = -t$.
     \item In general, we have the ``principle of localisation'', which states that the expansion of $I(x)$ as $x \to \infty$ is determined by contributions of arbitrarily small regions around the maxima of $\phi$.
@@ -508,6 +509,7 @@ Then substituting in:
     &= f(c) e^{ix\phi(c)} \sqrt{\frac{2\pi}{-ix\phi''(c)}} = O(x^{-1/2})
 \end{align*}
 \begin{example}
+    \label{exBesselStatPhase}
     Consider the Bessel function:
     \begin{equation*}
         J_0(r) = \frac{1}{2\pi} \int_{0}^{2\pi} e^{ir\sin(t)} dt 
@@ -555,4 +557,107 @@ Here $z$ is a complex number and can be written as $p + iq$ for real number $p, 
     \label{propCauchyRiemann}
 \end{proposition}
 If we define $\nabla u = \left(\frac{\partial u}{\partial p}, \frac{\partial u}{\partial q}\right)^T$ and similarly for $v$, \thmref{propCauchyRiemann} gives $\nabla u \cdot \nabla v = 0$. That is, the level contours of $u$ and $v$ are orthogonal. Furthermore, $\nabla v$ is tangent to curves of constant $u$ and $\nabla u$ is tangent to curves of constant $v$. On curves of constant $v$, $u$ is maximally decreasing or increasing.
+\begin{theorem}[Cauchy's Theorem]
+    Let $C$ be a closed contour and $f$ be a function that is analytic on and inside $C$. Then:
+    \begin{equation}
+        \oint_C f(z) dz = 0
+        \label{eqnClosedIntZero}
+    \end{equation}
+    \label{thmCauchy}
+\end{theorem}
+\begin{remark}
+    In particular,
+    \begin{equation*}
+        \oint_C f(z) e^{x\phi(z)} dz = 0
+    \end{equation*}
+    if also $\phi$ is analytic.
+\end{remark}
+\begin{corollary}
+    If $C_1$ and $C_2$ are curves in $\C$ with the same endpoints (and same direction), then if $f$ is analytic on and between $C_1$ and $C_2$,
+    \begin{equation*}
+        \int_{C_1} f(z) dz = \int_{C_2} f(z) dz.
+    \end{equation*}
+    \label{corSameInt}
+\end{corollary}
+\subsection{Steepest Descent for \texorpdfstring{$u$}{u} With No Critical Points}
+Suppose $\nabla u \neq 0$ on the domain.
+
+The simplest case is when $v$ is a constant $v_0$ on $C$. This means $C$ is a level contour of $v$ and is therefore a steepest descent (or ascent) curve of $u$. We can now parameterise $c$ using $t \in [a, b]$:
+\begin{align*}
+    I(x) &= \int_C f(z) e^{x\phi(z)} dz \\
+    &= e^{ixv_0} \int_{a}^{b} e^{xu(t)} \Re\left(f(z) \frac{\partial z}{\partial t}\right)~dt + i e^{i x v_0} \int_{a}^{b} \Im\left(f(t) \frac{\partial z}{\partial t}\right)~dt 
+\end{align*}
+and we can easily find an asymptotic expansion for this using, for example, \thmref{thmWatsonLemma}.
+
+The other case of this subsection is when $v$ is not constant on $C$. The approach here is to deform $C$ and use \thmref{corSameInt} to instead evaluate the integral on a curve $C'$ on which $v$ is constant.
+
+If $v$ is the same on the endpoints of $C$, then this may work. We just need a level contour passing through both endpoints. In general, however, $v$ is not the same on both endpoints. Even if $v$ takes the same value we may find that there is no level contour passing through both endpoints.
+
+We resolve this issue by deforming $C$ to a contour that follows curves of constant $v$ for most of its length, with some \textit{bridging curves} on which $v$ is not constant. Then we must show that the bridging curves do not contribute to the leading-order terms of the integral.
+
+Furthermore, as the name of the method suggests, we need to traverse the curves of constant $v$ such that $u$ is decreasing as we move away from the endpoints (decreasing as we move away from the start point of the integral, and increasing as we move towards the end point of the integral). This is due to how we want to neglect the bridging curves: choosing the largest value of $u$ at the endpoints we are given (not the endpoints of the bridging curve) means we can estimate the integrals well by considering the behaviour of the integrand at the given endpoints (recall the Principle of Localisation from Laplace's Method).
+\begin{example}
+    Consider:
+    \begin{equation*}
+        I(x) = \int_C f(z) e^{xz^2} dz
+    \end{equation*}
+    so $\phi(z) = z^2$.
+
+    %TODO: Follow this example and draw the diagram. ~25:00 on recording.
+    
+    Then we deform $C$ such that $C_1$ follows the curve of steepest descent from $z_1$, $C_2$ follows a curve of constant $u$ to meet $C_3$ which traverses a curve of steepest ascent.
+    
+    Writing:
+    \begin{equation*}
+        \int_C f(z) e^{xz^2} dz = \underbrace{\int_{C_1} f(z) e^{xz^2} dz}_{I_1} + \underbrace{\int_{C_2} f(z) e^{xz^2} dz}_{I_2} + \underbrace{\int_{C_3} f(z) e^{xz^2} dz}_{I_3}
+    \end{equation*}
+    then we see that $I_1 = O\left(\frac1x e^{xu(z_1)}\right)$, $I_3 = O\left(\frac1x e^{xu(z_2)}\right)$ and $I_2 = O\left(\frac1x e^{x\tilde{u}}\right)$. Since $\tilde{u} < u(z_1)$ and $u_(z_2)$, we can neglect $I_2$ for the leading order term. Indeed, we can neglect one of $I_1$ and $I_2$ based on the relative size of $u(z_1)$ and $u(z_2)$. Alternatvely, for this example, we could take $C_2$ to $i\infty$ (but this needs $f$ to be well-behaved here).
+\end{example}
+\begin{example}
+    Consider the Bessel function as in example~\ref{exBesselStatPhase}:
+    \begin{equation*}
+        J_0(r) = \frac1\pi \int_{0}^{\pi} e^{ir\cos(t)} dt
+    \end{equation*}
+    as $r \to \infty$. We found the first term in the expansion:
+    \begin{equation*}
+        J_0(r) \sim \sqrt{\frac{2}{\pi r}} \cos\left(r - \frac\pi4\right).
+    \end{equation*}
+    Take $s = \cos(t)$,
+    \begin{equation*}
+        J_0(r) = \frac1\pi \int_{-1}^{1} \frac{1}{\sqrt{1 - s^2}} e^{irs} ds
+    \end{equation*}
+    and interpret this as a contour integral ($s = z \in \C$) along the real axis. $\phi(z) = iz$ and so $u = -q$, $v = p$. The constant $v$ curves of $\phi$ are given by straight lines $p = \text{const}$. The curves of steepest descent for $u$ go upwards. We therefore take $C_1$ to be straight upwards from $z = -1$, $C_2$ horizontal with $\Im(z) = T$, and then $C_3$ straight downwards to $z = 1$:
+    \begin{align*}
+        C_1&: z = -1 + it,\quad t \in [0, T] \\
+        C_2&: z = t + iT,\quad t \in [-1, 1] \\
+        C_2&: z = 1 - it,\quad t \in [-T, 0] \\
+    \end{align*}
+    The integral along $C_1$ is then:
+    \begin{align*}
+        &i \int_{0}^{T} \frac{e^{ir(-1+it)}}{\sqrt{t(t+2i)}} dt \\
+        &= ie^{-ir} \int_{0}^{T} \frac{e^{-rt}}{\sqrt{t(t+2i)}} dt
+    \end{align*}
+    and the integral along $C_3$ is:
+    \begin{align*}
+        &-i \int_{-T}^{0} \frac{e^{ir(1-it)}}{\sqrt{t(t+2i)}} dt \\
+        &= -ie^{ir} \int_{0}^{-T} \frac{e^{-rt}}{\sqrt{t(t-2i)}} dt
+    \end{align*}
+    both of which can be evaluating using \thmref{thmWatsonLemma}. The bridging curve integral is:
+    \begin{align*}
+        &\int_{-1}^{1} \frac{e^{irt - rT}}{\sqrt{1-(t + iT)^2}} dt \\
+        \text{Its absolute value} &\leq e^{-rT} \int_{-1}^{1} \abs{\frac{1}{\sqrt{1 - (t + iT)^2}}} dt = O\left(e^{-rT}\right)
+    \end{align*}
+    which means we can get rid of it. Combining the two remaining integrals gives:
+    \begin{equation*}
+        J_0 \sim \frac{2}{\pi} \Re\left[e^{ir - i \frac\pi2} \int_{0}^{T} \frac{1}{\sqrt{t(t- 2i)}} dt \right]
+    \end{equation*}
+    note that $(t - 2i)^{-\frac12}$ has an asymptotic expansion $\sum a_n t^n$ for constants $a_n$ that we can evaluate. \thmref{thmWatsonLemma} applies, with $\alpha = -\frac12$ and $\beta = 1$, to give:
+    \begin{equation*}
+        J_0(r) = \frac{2}{\pi} \Re\left[e^{ir - i\frac\pi 2} r^{-\frac12} \sum_{n=0}^{\infty} \frac{a_n \Gamma(1 / 2 + n)}{r^n}\right]
+    \end{equation*}
+    which we can expand:
+    \begin{equation*}
+        J_0 \sim \sqrt{\frac{2}{\pi r}} \left[\cos\left(r - \frac\pi4\right) + \frac{1}{8r}\sin\left(r - \frac\pi 4\right) - \frac{9}{128r^2} \cos\left(r - \frac\pi 4\right) + \cdots\right]
+    \end{equation*}
+\end{example}
 \end{document}
