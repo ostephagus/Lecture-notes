@@ -63,6 +63,35 @@ Note that this implies we can find a 4-vector potential:
 where $A^\mu = \left(\frac{\phi}{c}, \vec{A}\right)$ where $\phi$ and $\vec{A}$ are the standard electric and magnetic potentials.
 
 A gauge transformation of $A$ looks like $A_\mu \mapsto A_\mu + \partial_\mu \chi$ where $\chi$ is some scalar field.
+\section{Asymmetric and Symmetric Bracket Notation}
+We will often be interested in symmetric and antisymmetric tensors. Given the tensor $T_{\mu_1 \mu_2 \cdots \mu_n}$, we may want to create a symmetrised version or antisymmetrised version.
+
+This is best exhibited with two indices. Consider a tensor $T_{\mu \nu}$. We know how to create the symmetric and antisymmetric versions:
+\begin{equation*}
+    T_{\mu \nu}^S = T_{\mu \nu} + T_{\nu\mu},\qquad T_{\mu\nu}^A = T_{\mu \nu} - T_{\nu \mu}
+\end{equation*}
+We define symmetric and antisymmetric index notation by:
+\begin{align*}
+    T_{(\mu \nu)} &= \frac12 (T_{\mu \nu} + T_{\nu \mu}) \\
+    T_{[\mu \nu]} &= \frac12 (T_{\mu \nu} - T_{\nu \mu})
+\end{align*}
+where the factors $\frac12$ are here so $T_{(\mu \nu)} = T_{\mu\nu}$ if $T_{\mu\nu}$ is already symmetric.
+
+Going up to $n$ indices, we find:
+\begin{align*}
+    T_{(\mu_1 \mu_2 \cdots \mu_n)} &= \frac{1}{n!} \sum_{\pi \in S_n} T_{\mu_{\pi(1)}\mu_{\pi(2)} \cdots \mu_{\pi(n)}} \\
+    T_{[\mu_1 \mu_2 \cdots \mu_n]} &= \frac{1}{n!} \sum_{\pi \in S_n} T_{\mu_{\pi(1)}\mu_{\pi(2)} \cdots \mu_{\pi(n)}} \operatorname{sgn}(\pi)
+\end{align*}
+where here the $\frac{1}{n!}$ makes this do nothing if the tensor is already symmetric/antisymmetric.
+
+We can immediately make use of this: we can write the 4-potential in the form:
+\begin{equation*}
+    F_{\mu \nu} = 2\partial_{[\mu} A_{\nu]}
+\end{equation*}
+where the brackets across two tensors are notation for:
+\begin{equation*}
+    \text{let } T_{\mu \nu} = \partial_\mu A_\nu \implies F_{\mu \nu} = 2T_{[\mu\nu]}
+\end{equation*}
 \section{Recap of Lorentz Transformations}
 \begin{definition}{Lorentz transformation}
     A \underline{Lorentz transformation} has the form:

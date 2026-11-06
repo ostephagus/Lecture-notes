@@ -111,7 +111,9 @@ We can interpret this as follows:
 \section{Dipole Radiation}
 We consider radiation from a macroscopic charge distribution which is localised to a region of size $a$ and with speeds much less than $c$.
 
-We will consider the origin inside the charge distribution, and want to calculate the fields at a point $\vec{x}$ far from the charge distribution ($\vec{x} \gg a$). $\vec{y}$ will be a point within the charge distribution (consistent with \eqnref{eqnRetardedPotential}). Some expansions are required:
+We will consider the origin inside the charge distribution, and want to calculate the fields at a point $\vec{x}$ far from the charge distribution ($\vec{x} \gg a$). $\vec{y}$ will be a point within the charge distribution (consistent with \eqnref{eqnRetardedPotential}).
+\subsection{Magnetic Dipole Approximation}
+Some expansions are required:
 \begin{align*}
     \abs{\vec{x} - \vec{y}}&= \left(\abs{\vec x}^2 - 2 \vec{x} \cdot \vec{y} + \abs{\vec y}^2\right)^{\frac12} \\
     &= r \left(1 - \frac{2 \vec{x} \cdot \vec{y}}{r^2} + \frac{|\vec{y}|^2}{r^2}\right)^{\frac12} \\
@@ -168,7 +170,81 @@ where the wave number $k = \frac \omega c$. This is what we expect - an outgoing
     \item If the charge distribution is a source oscillating at $\omega$, the first term goes as $\frac{\omega p}{r^2}$ and the second term goes as $\frac{\omega^2 p}{cr}$ which is of order $r / \lambda$ times the first term. 
 \end{remarks}
 We say that the area with $r \gg \lambda$ is the \underline{far field}. Therefore, in this far field,
-\begin{equation*}
+\begin{equation}
     \vec{B} \approx -\frac{\mu_0}{4\pi r c} \uvec{x} \times \ddvec{p}\left(t - \frac r c\right).
+    \label{eqnMagnetDipoleB}
+\end{equation}
+For a set of charges $q_i$ at $\vec{x_i}(t)$, then:
+\begin{equation*}
+    \vec{p} = \sum_i q_i \vec{x_i}(t) \implies \ddvec{p} = \sum_i q_i \ddvec{x_i}
 \end{equation*}
+which tells us that it is accelerated charges that give rise to this magnetic field.
+\subsection{Electric Dipole Approximation}
+For $\vec{E} = -\frac{\partial \vec{A}}{\partial t} - \nabla \phi$, we need $\phi$. We have to work to higher order terms in $a / \lambda$ and $a / r$ to get time-dependent field, since if we approximate $\phi$ to first order:
+\begin{equation*}
+    \phi \approx \frac{\mu_0}{4\pi r} \int \rho\left(t - \frac r c, \vec{x}\right) d^3\vec{x}
+\end{equation*}
+which is a constant in terms of the charge in the region.
+
+We start with $\nabla \times \vec{B} = \frac1{c^2} \frac{\partial E}{\partial t}$, which is valid for the source-free region ($r > a$). Using \eqnref{eqnMagnetDipoleB},
+\begin{align*}
+    \frac{\partial E}{\partial t} &= c^2 \nabla \times \left(-\frac{\mu_0}{4\pi r c}\uvec{x} \times \ddvec{p}\left(t - \frac r c\right)\right) \\
+    &\approx \frac{\mu_0}{4\pi} \uvec{x} \times \left(\uvec{x} \times \dddvec{p}(t - r / c)\right) \text{ in the far field}
+\end{align*}
+Integrating:
+\begin{equation}
+    \vec{E} = \frac{\mu_0}{4\pi r} \uvec{x} \times \left(\uvec{x} \times \ddvec{p}(t - r / c)\right) = -c \uvec{x} \times \vec{B}
+    \label{eqnElecDipoleE}
+\end{equation}
+
+\begin{remark}
+    $\vec{E}$ and $\vec{B}$ are related in the far field as for a plane wave propagating along $\uvec{x}$. That is to say, for $r \gg \lambda$, we can neglect the curvature of the wavefronts and everything looks planar.
+\end{remark}
+\subsection{Power Radiated by a Charge Distribution}
+Considering equations~\ref{eqnMagnetDipoleB} and \ref{eqnElecDipoleE}, we see that there is a non-zero energy being radiated out from the current distribution. The Poynting vector over a sphere at radius $r$ in the far field is:
+\begin{align*}
+    \vec{N} &=\frac{1}{\mu_0} \vec{E} \times \vec{B} \\
+    &= \frac{c}{\mu_0} \vec{B} \times (\uvec{x} \times \vec B) \\
+    &= \frac{c}{\mu_0} |\vec{B}|^2 \uvec{x} \\
+    &= \frac{\mu_0}{(4\pi r)^2} \abs{\uvec{x} \times \ddvec{p}} \uvec{x}
+\end{align*}
+which varies as $r^{-2}$. Note that $\vec{N}$ is the power per unit area, so integrating over an area would give a constant.
+
+\begin{example}[Linearly polarised radiation]
+    If $\ddvec{p}$ is along $\vec{e_z}$, and $\uvec{x}$ is at an angle $\theta$ to this, we find that $\vec{B}$ oscillates in the direction of $\vec{e_\phi}$ (adopting spherical coordinates) and $\vec{E}$ oscillates in the direction $\vec{e_\theta}$. The Poynting vector is:
+    \begin{equation*}
+        \vec N = \frac{\mu_0}{(4\pi r)^2} \abs{\ddvec{p}}^2 \sin^2 \theta \uvec{x}
+    \end{equation*}
+    which is strongest when $\theta = \frac\pi 2$ and weakest when $\uvec{x}$ is aligned with $\ddvec{p}$.
+
+    The total radiated power is:
+    \begin{align*}
+        \int \vec{N} \cdot \vec{dS} &= \frac{\mu_0}{(4\pi)^2 c} \abs{\ddvec{p}}^2 \int_0^{2\pi} \int_0^\pi \sin^2\theta \sin\theta~d\theta~d\phi \\
+        \int \vec{N} \cdot \vec{dS} &= \frac{\mu_0}{(4\pi)^2 c} \abs{\ddvec{p}}^2 \times \frac{8\pi}{3} \\
+        &= \frac{\mu_0}{6\pi c} \abs{\ddvec{p}}^2
+    \end{align*}
+\end{example}
+\section{Scattering Radiation}
+Consider a plane electromagnetic wave incident on a stationary charge distribution. This will cause the free charges to oscillate and cause scattering of radiation from oscillating dipoles.
+\subsection{Thompson Scattering}
+We begin with scattering off a free electron (or free charge) with field weak enough that the motion is non-relativistic. Because $\abs{\vec E} = c\abs{\vec{B}}$ in the electromagnetic wave, we can ignore the magnetic force (because $vB \sim \frac v c E \ll E$, and so it is dominated by the electric force). We choose a frame in which the time-averaged velocity of the electron is zero, and so the equation of motion is:
+\begin{equation*}
+    m_e \ddvec{x} = (-e) \vec{E}(\vec{x}(t), t)
+\end{equation*}
+where we must evaluate the electric field at the location of the electron. This is difficult, so we evaluate the electric field at the time-averaged location of the electron (which we take to be the origin) because the amplitude of oscillation of the electron is much smaller than $\lambda$, the wavelength of the incident radiation. We can quantify these:
+\begin{equation*}
+    \text{amplitude} \sim \frac{e E_0}{m_e \omega^2} \ll \lambda \sim \frac{c}{\omega}
+\end{equation*}
+which is in fact the condition $a \ll \lambda$ as before, because the characteristic size of the charge distribution is exactly the size of the oscillations our single electron undergoes. The speed of the electron is this amplitude times $\omega$ and we require this to be much less than $c$.
+
+The acceleration of our particle is:
+\begin{align*}
+    \ddvec{x} &= -\frac{e}{m_e} \vec{E} \\
+    \implies \ddvec{p} &= \frac{e^2}{m_e} \vec{E}
+\end{align*}
+then the radiated power (from subsection~\ref{sscRadiatedPower}) is:
+\begin{equation*}
+    P = \frac{\mu_0}{6\pi c} \abs{\ddvec{p}}^2 \implies \tAvg{P} = \frac{\mu_0}{6\pi c} \frac{e^4 \abs{\vec{E_0}}^2}{2m_e^2}
+\end{equation*}
+This factor $\abs{\vec{E_0}}^2$ is the same as in the power incident on the charge distribution, so we see that the radiated power is proportional to the incident power.
 \end{document}

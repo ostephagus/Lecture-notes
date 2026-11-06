@@ -22,7 +22,10 @@
     \StrCut{#1}{_}\firstpart\secondpart
     \ddot{\boldsymbol{\firstpart}}_{\secondpart}
 }
-
+\newcommand{\dddvec}[1]{
+    \StrCut{#1}{_}\firstpart\secondpart
+    \dddot{\boldsymbol{\firstpart}}_{\secondpart}
+}
 \newcommand{\duvec}[1]{
     \StrCut{#1}{_}\firstpart\secondpart
     \dot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
