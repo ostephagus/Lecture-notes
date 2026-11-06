@@ -2,6 +2,7 @@
 
 \begin{document}
 \section{Scaling and Equations}
+\label{secGeneralScalings}
 Consider a general thin layer flow, as in figure~\ref{figThinLayer}.
 \begin{figure}
     \centering
@@ -66,9 +67,10 @@ Then for conservation of mass in this setup,
     (q(x) - q(x + \delta x)) \delta t \approx \delta h \delta x
 \end{equation*}
 and the approximation becomes exact in the limit $\delta x \to 0$:
-\begin{equation*}
+\begin{equation}
     \frac{\partial h}{\partial t} + \frac{\partial q}{\partial x} = 0.
-\end{equation*}
+    \label{eqnConserveMass}
+\end{equation}
 \section{The Thrust Bearing}
 Consider the setup in figure~\ref{figThrustBearing}. Though in reality the tooth would be moving and the wall stationary, we take the reference frame in which the tooth is stationary.
 \begin{figure}
@@ -143,4 +145,105 @@ The other cases of $d_1$ and $d_2$ are:
     \item $d_1 \ll d_2$ gives a corner flow which has logarithmic divergences %TODO: what?
     \item $d_1 \approx d_2$ gives Couette flow.
 \end{itemize}
+
+The purpose of this setup is to support a large load/thrust $F_N$ with friction $F_T$ moderate to low. Note that $d_1 \sim \sqrt{\frac{F_n}{\mu u}}L$, so we must choose the lubrication fluid (oil) sufficiently viscous that $d_1$ is greater than the roughness on the plates. %TODO: What?
+
+Now consider the sloping top plate, on which:
+\begin{equation*}
+    \vec{t} \propto \left(1, \frac{dh}{dx}\right),\qquad \vec{n} \propto \left(\frac{dh}{dx}, -1\right).
+\end{equation*}
+From the general scalings of section~\ref{secGeneralScalings},
+\begin{equation*}
+    \sigma = \underbrace{-pI}_{O\left(\frac{\mu u L}{h^2}\right)} +
+    \underbrace{\begin{pmatrix}
+        0 & \mu \frac{\partial u}{\partial y} \\
+        \mu \frac{\partial u}{\partial y} & 0
+    \end{pmatrix}}_{O\left(\frac{\mu u}{h}\right)} + O\left(\frac{\mu u}{L}\right)
+\end{equation*}
+At leading order, $\vec n \cdot \sigma\vec n = -p$ and so $F_N \approx F_y$. Similarly, $\vec t \cdot \sigma\vec n = -\mu \left.\frac{\partial u}{\partial y}\right|_{y = h}$. However, in this case $F_T \neq F_x$!
+\begin{equation*}
+    \vec{e_x} \cdot \sigma \vec{n} = -\mu \left.\frac{\partial u}{\partial y}\right|_{y = h} - \underbrace{p \frac{dh}{dx}}_{O\left(\frac{\mu u}{h}\right)}
+\end{equation*}
+this is because the small slope and large pressure combine to give a term on the same order as $F_T$.
+\section{The Journal Bearing}
+The journal bearing is the above problem wrapped around a circle. See figure~\ref{figJournalBearing}
+\begin{figure}
+    \centering
+    TODO %TODO
+    \caption{Diagram of a journal bearing}
+    \label{figJournalBearing}
+\end{figure}
+We consider local coordinates $y = r-a, x = a\theta$. Then we can get the same leading-order equations as above, and calculate $u$ and $q_0$ by noticing that the pressure must be continuous (the same at $\theta = 0$ and $2\pi$).
+
+We find that the pressure is high at the bottom of the diagram (where the flow channel is narrowing), and low at the top of the diagram (where the flow channel is widening). The pressure difference can then support a load.
+\section{Cylinder Approaching a Wall}
+Consider a cylinder of radius $a$ approaching a flat wall at velocity $V$, as in figure~\ref{figCylinderWall}.
+\begin{figure}
+    \centering
+    TODO %TODO
+    \caption{Diagram of a cylinder approaching a wall}
+    \label{figCylinderWall}
+\end{figure}
+Let the angle between a point and the vertical line passing through the centre of the cylinder be $\theta$. We need the assumptions $d \ll a$ and $\frac{u h}{\nu} \frac{h}{L} \sim \frac{Vh}{\nu} \ll 1$ (this is the reduced Reynolds number).
+
+We have $h - d = a(1 - \cos\theta)$ and $x = a\sin(\theta)$ for a point on the cylinder. With our approximations,
+\begin{equation*}
+    h \approx d + a \frac{\theta^2}{2},\qquad x\approx a\theta
+\end{equation*}
+and we can eliminate $\theta$:
+\begin{equation*}
+    h = d\left(1 + \frac{x^2}{2ad}\right).
+\end{equation*}
+The relevant length scale is $L \sim \sqrt{ad}$, because this is the scale over which $h$ varies. Conveniently, this is the geometric mean of $a$ and $d$, so:
+\begin{equation*}
+    d \ll \sqrt{ad} \ll a
+\end{equation*}
+where the first inequality is to say that we have long, thin flow, and the second inequality is to say that the parabolic approximation for $\cos$ is valid.
+
+Now we have the geometry, we can write down our lubrication flow equations:
+\begin{equation*}
+    \mu \frac{\partial^{2}u}{\partial y^{2}} = \frac{\partial p}{\partial x}, \qquad u(0) = u(h) = 0.
+\end{equation*}
+The flow is Poiseuille:
+\begin{equation*}
+    u = -\frac{1}{2\mu} \frac{\partial p}{\partial x} y(h-y) \implies q = -\frac{h^3}{12\mu} \frac{\partial p}{\partial x}
+\end{equation*}
+
+To figure out the pressure, we use mass conservation. By symmetry, there is no flux across the line $x = 0$ and further the flux is due to the movement of the upper boundary only: $q = Vx$.
+
+We can also derive this from \ref{eqnConserveMass}:
+\begin{equation*}
+    \frac{\partial q}{\partial x} = - \frac{\partial h}{\partial t} = V \implies q = Vx
+\end{equation*}
+Now we equate:
+\begin{equation*}
+    \frac{\partial p}{\partial x} = -\frac{12\mu Vx}{d^3 \left(1 + \frac{x^2}{2ad}\right)^3} \implies p = p_0 + \frac{6\mu Va}{d^2\left(1 + \frac{x^2}{2ad}\right)^2}
+\end{equation*}
+where the constant of integration is $p_0$ because the second term decays to $0$ as $x \to \infty$ (this is not quite true, we really mean $x$ tends to a length scale that is very large in comparison to $L$ but still small in comparison to $a$). Indeed, it decays very rapidly on the length scale $L$.
+
+We can now calculate the vertical force on the cylinder (per unit length down the cylinder):
+\begin{align*}
+    F &= \int_{-\infty}^{\infty} (p(x) - p_0) dx \\
+    &= \frac{6\mu V a}{d^2} \sqrt{2ad} \int_{-\infty}^{\infty} \frac{1}{(1+t^2)^2} dt \\
+    &= \frac{3\pi\mu V a}{d^2} \sqrt{2ad} \text{ by $t$-substitution}
+\end{align*}
+
+If the cylinder is settling under its own weight, $F = \Delta p g \pi a^2$ is constant, so $\dot{d} d^{-\frac32}$ which means $d \sim t^{-2}$, so it takes infinite time to reach the surface. We can also see that the force needed to maintain a constant $V$ is much larger than the weight force.
+\section{Hele-Shaw Flow}
+Consider flow between two parallel plates of separation $h$. Let the flow at $\infty$ be of speed $U$, along the $x$ direction. See figure~\ref{figHeleShaw}.
+\begin{figure}
+    \centering
+    TODO %TODO
+    \caption{Diagram of Hele-Shaw Flow}
+    \label{figHeleShaw}
+\end{figure}
+
+We assume $h \ll L$, where $L$ is the size of the obstacle in the flow. We also assume that the flow is mainly in the $x-y$ plane, $\vec u = (u, v, w)^T$ where $w$ scales as:
+\begin{equation*}
+    w = O\left(\frac{h}{L}u\right) = O\left(\frac{h}{L}v\right)
+\end{equation*}
+We also need the reduced Reynolds number to be small:
+\begin{equation*}
+    \frac{u_i h}{\nu} \frac{h}{L} \ll 1 \text{ for $i = 1$ or $2$.}
+\end{equation*}
 \end{document}
