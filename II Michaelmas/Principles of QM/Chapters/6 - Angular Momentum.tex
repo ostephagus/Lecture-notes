@@ -1,0 +1,106 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Orbital Angular Momentum}
+Consider a particle with position $\opvec{x}$ and momentum $\opvec p$. This has angular momentum (about the origin):
+\begin{equation*}
+    \vec L = \opvec x \times \opvec p \quad \text{ or } \quad L_i = \epsilon_{ijk} \hat{x}_j \hat{p}_k
+\end{equation*}
+We can use the fundamental commutation relation $\cmmt{\hat{x}_i}{\hat{p}_j} = i\hbar \delta_{ij}$ to find:
+\begin{equation*}
+    \cmmt{L_i}{L_j} = i\hbar \epsilon_{ijk} L_k
+\end{equation*}
+and the total angular momentum, $\vec L^2 = L_i L_i$, satisfies:
+\begin{equation*}
+    \cmmt{\vec L^2}{L_i} = 0.
+\end{equation*}
+Note that the commutator above can be derived by first showing:
+\begin{align*}
+    \cmmt{L_i}{\hat{x}_j} &= i\hbar \epsilon_{ijk} \hat{x}_k \\
+    \cmmt{L_i}{\hat{p}_j} &= i\hbar \epsilon_{ijk} \hat{p}_k.
+\end{align*}
+In spherical polar coordinates, the $L_i$ involve only angular derivatives. Indeed,
+\begin{equation*}
+    \nabla^2 = \frac1r \frac{\partial^{2}}{\partial r^{2}} \left(r \cdot\right) - \frac{1}{r^2 \hbar^2} \vec L^2
+\end{equation*}
+so $\vec L^2$ is the angular part of the Laplacian. Recall from IB Quantum Mechanics that the joint eigenstates of $\vec L^2$ and $L_3$ are the spherical harmonics $Y_{lm}(\theta, \phi)$:
+\begin{align*}
+    \vec L^2 Y_{lm} &= \hbar^2 l(l+1) Y_{lm} \\
+    L_3 Y_{lm} &= \hbar m Y_{lm}
+\end{align*}
+We can find $Y_{lm}$ in terms of the Legendre polynomials. %TODO: See handout.
+
+We have well-behaved solutions for the eigenvalue problem only for $l \in \N_0$ and $m \in \Z$ with $\abs{m} \leq l$. If the \schr equation has a spherically symmetric potential, $V(\vec x) = V(r)$, then we can seek separable solutions:
+\begin{equation*}
+    \psi_{lm}(\vec x) = R_l(r) Y_{lm}(\theta, \phi)
+\end{equation*}
+where
+\begin{equation*}
+    -\frac{\hbar^2}{2m} \frac1r \frac{\partial^{2}}{\partial r^{2}} \left(rR_l\right) + \left(\frac{\hbar^2}{2mr^2} l(l+1) + V(r)\right) R_l(r) = ER_l
+\end{equation*}
+is the time-independent \schr equation for the radial solution.
+
+Of particular importance is the behaviour of such solutions under parity $\vec{x} \mapsto -\vec{x}$. This is equivalent to (in spherical polar coordinates):
+\begin{align*}
+    r &\mapsto r & \theta &\mapsto -\theta & \phi &\mapsto \phi + \pi
+\end{align*}
+This tells us that the change comes only from the spherical harmonics:
+\begin{equation*}
+    Y_{lm}(\pi - \theta, \phi + \pi) = (-1)^l Y_{lm}(\theta, \phi)
+\end{equation*}
+hence $\psi_{lm} (-\vec x) = (-1)^l \psi(\vec x)$.
+\begin{example}
+    Consider a system of two particles interacting through a potential which depends only on their relative separation. Here subscripts $1, 2$ will represent the different particles.
+    \begin{equation*}
+        H = \frac{\opvec{p_1}^2}{2m_1} + \frac{\opvec{p_2}^2}{2m_2} + V(\abs{\opvec{x_1} - \opvec{x_2}})
+    \end{equation*}
+    We know from IA Dynamics and Relativity that it is sensible to consider the centre of mass and relative separation. Define, for the centre of mass:
+    \begin{align*}
+        \opvec X &= \frac{m_1 \opvec{x_1} + m_2 \opvec{x_2}}{M} & \opvec{P} &= \opvec{p_1} + \opvec{p_2}
+    \end{align*}
+    and for relative separation:
+    \begin{align*}
+        \opvec x &= \vec{x_1} - \vec{x_2} & \opvec{p} = \frac{m_2 \opvec{p_1} - m_1 \opvec{p_2}}{M}
+    \end{align*}
+    where $M$ is the total mass. Define also the reduced mass $m = m_1 m_2 / M$ so that the Hamiltonian becomes:
+    \begin{equation*}
+        H = \frac{\opvec{P}^2}{2M} + \frac{\opvec{p}^2}{2m} + V(\abs{\vec{x}})
+    \end{equation*}
+    We know in the classical setting that the dynamics are trivial if there is no external force/potential, and the relative motion is governed by a spherically symmetric potential. We can find the wavefunction:
+    \begin{equation*}
+        \Psi(\vec{X}, \vec{x}) = e^{i \vec{k} \cdot \vec{X}} \psi_{lm}(\vec{x})
+    \end{equation*}
+    and note that under $\vec{x} \mapsto -\vec{x}$ (particle exchange), $\Psi \mapsto (-1)^l\psi$.
+\end{example}
+\section{General Analysis of Angular Momentum Eigenstates}
+Consider an operator:
+\begin{equation*}
+    \vec J = (J_1, J_2, J_3)^T.
+\end{equation*}
+Assume that its elements are Hermitian and that they obey the same commutation relation as $L_i$:
+\begin{equation*}
+    \cmmt{J_i}{J_j} = i\hbar \epsilon_{ijk} J_k
+\end{equation*}
+Define $\vec{J}^2 = J_i J_i$, which is also Hermitian, and from the commutator relation we have imposed we know that $\cmmt{\vec{J}^2}{J_i} = 0$. We choose a specific element, say $J_3$, and then seek all possible joint eigenstates of $\vec{J}^2$ and $J_3$.
+
+First observe, if we have a normalised eigenstate ($\vec J^2 \state = \lambda\state$):
+\begin{equation*}
+    \lambda = \opbraket{\psi}{\vec J^2}{\psi} = \norm{J_1 \state}^2 + \norm{J_2 \state}^2 + \norm{J_3\state}^2 \geq 0.
+\end{equation*}
+Using our existing knowledge of angular momentum, we set $\lambda = \hbar^2 j(j+1)$ for $j \geq 0$. Note that $\lambda$ is unchanged under $j \mapsto -(j+1)$. Label the states by $\ket{j~m}$ where:
+\begin{align*}
+    \vec J^2 \ket{j~m} &= \hbar^2 j(j+1) \ket{j~m} \\
+    J_3 \ket{j~m} &= \hbar m \ket{j~m}
+\end{align*}
+To analyse the permissible values of $j$ and $m$, define:
+\begin{equation*}
+    J_\pm = J_1 + iJ_2 \implies \left(J_\pm\right)^\dagger = J_\mp
+\end{equation*}
+and work with these. We find the commutators:
+\begin{align*}
+    \cmmt{J_3}{J_\pm} &= \pm \hbar J_\pm \\
+    \cmmt{J_+}{J_-} &= 2\hbar J_3 \\
+    \cmmt{\vec J^2}{J_{\pm}} &= 0
+\end{align*}
+and also note that $J_+ J_- = \vec J^2 - J_3^2 + \hbar J_3$, $J_- J_+ = \vec J^2 - J_3^2 - \hbar J_3$.
+\end{document}

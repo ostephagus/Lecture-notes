@@ -215,5 +215,26 @@ We can interpret these different values for $E'$ as the degenerate energy level 
     \begin{equation*}
         \frac{1}{\sqrt{2}} \begin{pmatrix}1 \\ \pm1 \end{pmatrix}
     \end{equation*}
+    We calculate $\alpha$ and $\beta$:
+    \begin{align*}
+        \alpha &= \int_{0}^{a} \int_{0}^{a} \frac{xy}{a^2}\abs{\psi_{12}(x, y)}^2 dy~dx \\
+        &= \left(\frac{2}{a}\right)^2 \frac{1}{a^2} \left(\int_{0}^{a} \sin^2 \left(\frac{\pi x}{a}\right) dx\right) \left(\int_{0}^{a} \sin^2 \left(\frac{2\pi y}{a}\right) dy \right) \\
+        &= \frac14. \\
+        \beta &= \int_{0}^{a} \int_{0}^{a} \frac{xy}{a^2}\psi_{12}(x, y)\psi_{21}(x, y) dy~dx \\
+        &= \left(\frac{2}{a}\right)^2 \frac{1}{a^2} \left(\int_{0}^{a} x\sin\left(\frac{\pi x}{a}\right)\sin \left(\frac{2\pi x}{a}\right) dx\right)^2 \\
+        &= \left(\frac{4}{3\pi}\right)^4
+    \end{align*}
+    Summing up, we get the new ground state energy:
+    \begin{equation*}
+        \frac{\hbar^2 \pi^2}{ma^2} + \frac{\lambda}{4}
+    \end{equation*}
+    The next two energy levels have energies:
+    \begin{equation*}
+        \frac{5\hbar^2 \pi^2}{2ma^2} + \frac{\lambda}{4} \pm \lambda \left(\frac{4}{3\pi}\right)^4
+    \end{equation*}
+    and corresponding states:
+    \begin{equation*}
+        \frac1{\sqrt{2}} \left(\ket{1~2} \pm \ket{2~1}\right)
+    \end{equation*}
 \end{example}
 \end{document}
