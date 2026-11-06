@@ -248,6 +248,7 @@ For non-hyperbolic points, we must proceed case-by-case. For example, the saddle
     which is negative in $D$, and so we conclude that there can only be one periodic orbit in $D$.
 \end{example}
 \section{Near-Hamiltonian Systems}
+\label{secNearHamiltonian}
 Consider:
 \begin{equation*}
     \begin{pmatrix}\dot{x} \\ \dot{y}\end{pmatrix} = \begin{pmatrix}f_1(x, y) + \epsilon g_1(x, y) \\ f_2(x, y) + \epsilon g_2(x, y)\end{pmatrix}
@@ -342,4 +343,133 @@ We can solve this using the matrix exponential:
     \phi = \underbrace{e^{\int_0^t A(t') dt'}}_B \phi(0)
 \end{equation*}
 and since $\phi(0)$ must be the identity, $\phi = B$.
+
+We are particularly interested in how $\vec\eta(kT)$ behaves. First note that:
+\begin{equation*}
+    \vec\eta(kT) = \phi(kT)\vec\eta(0) = \left(\phi(T)\right)^k \vec\eta(t)
+\end{equation*}
+and so the stability of the periodic orbit is decided by the eigenvalues of $\phi(T)$. At least one eigenvalue of $\phi(T)$ is equal to 1. %TODO: Why? Something to do with tangential directions?
+\begin{definition}{Floquet Multiplier}
+    The \underline{Floquet multipliers} of a periodic orbit are the eigenvalues $\lambda_i$ of the matrix $\phi(T)$. The \underline{Floquet exponents} are given by $\mu_i = \frac1T \log\abs{\lambda_i}$, such that $\abs{\lambda_i} = e^{\mu_i T}$.
+\end{definition}
+\begin{definition}{Hyperbolic Periodic Orbit}
+    A periodic orbit is \underline{hyperbolic} if all $\abs{\lambda_i}$ are not equal to $1$ (except the one along the orbit).
+\end{definition}
+If $\abs{\lambda_i} < 1$ for all $\lambda_i$ except the one along the orbit, the periodic orbit is asymptotically stable. If $\abs{\lambda_i} > 1$ for any $\lambda$, then the periodic orbit is unstable.
+
+In $\R^2$, only one eigenvalue is not equal to $1$. In this case the determinant is $1 \times \lambda$, which determines the stability.
+\begin{proposition}
+    Let $C$ be a diagonalisable square matrix. Then:
+    \begin{equation*}
+        \det{e^C} = e^{\tr(C)}
+    \end{equation*}
+    \label{propDetDiag}
+\end{proposition}
+\begin{proof}
+    Suppose $C = QDQ^{-1}$, where $D$ is diagonal.
+    \begin{align*}
+        \det{e^C} &= \det \left[\sum_{k=0}^{\infty} \frac{C^k}{k!}\right] \\
+        &= \det\left[\sum_{k=0}^{\infty} \frac{(QDQ^{-1})^k}{k!}\right] \\
+        &= \det\left[\sum_{k=0}^{\infty} Q\frac{D^k}{k!}Q\right] \\
+        &= \det(Q)\det\left[\sum_{k=0}^{\infty} \frac{D^k}{k!}\right] \det(Q^{-1}) \\
+        &= \det(e^D)
+    \end{align*}
+    then because $D$ is diagonal, with diagonal elements $\lambda_i$:
+    \begin{align*}
+        \det(e^D) &= e^{\sum_{i=1}^{n}\lambda_k} \\
+        &= e^{\tr(D)} = e^{\tr(C)}
+    \end{align*}
+\end{proof}
+We can use \thmref{propDetDiag} for $\phi(T)$:
+\begin{align*}
+    \det(\phi(T)) &= \det \left[e^{\int_{0}^{T} A(t) dt}\right] \\
+    &= \exp\left[\tr\left(\int_{0}^{t} A(t) dt \right)\right] \\
+    &= \exp\left[\int_{0}^{t} \tr(A(t)) dt\right]
+\end{align*}
+which is true in any number of dimensions, but is most useful in 2D. First, the trace of $A$ is:
+\begin{equation*}
+    A_{ij} = \frac{\partial f_i}{\partial x_j} \implies \tr(A) = \frac{\partial f_i}{\partial x_i} = \nabla \cdot \vec{f}
+\end{equation*}
+This means our non-1 eigenvalue is:
+\begin{equation*}
+    \lambda = \exp\left[\int_{0}^{T} \nabla \cdot \vec{f}(t) dt\right]
+\end{equation*}
+In $\R^n$ for $n \geq 2$, all we would get is the product of eigenvalues which is not sufficient to say whether one has modulus greater than 1.
+
+We can summarise our $\R^2$ criterion:
+\begin{equation*}
+    \int_{0}^{T} \nabla \cdot \vec f(t) dt =
+    \begin{cases}
+        < 0 & \implies \abs\lambda < 1,\text{ periodic orbit is stable} \\
+        > 0 & \implies \abs\lambda > 1,\text{ periodic orbit is unstable} \\
+        = 0 & \implies \abs\lambda = 1,\text{ periodic orbit is non-hyperbolic.}
+    \end{cases}
+\end{equation*}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        \dot{r} = r(1-r^2),\qquad\dot\theta = \frac1r
+    \end{equation*}
+    A periodic orbit has $r = 1, \theta = t$, and so $T = 2\pi$. We consider a perturbation:
+    \begin{equation*}
+        r(t) = 1 + \delta(t),\qquad \theta(t) = t + \gamma(t).
+    \end{equation*}
+    Substituting this into the differential equations:
+    \begin{align*}
+        \dot{r} &= (1 + \delta)(1 - (1 + \delta)^2) \\
+        &= (1 + \delta)(1 - 1 - 2\delta - \delta^2) \\
+        &= -2\delta + O(\delta^2)
+    \end{align*}
+    similarly,
+    \begin{align*}
+        \dot\theta &= \frac{1}{1 + \delta} \\
+        &= 1 - \delta + O(\delta^2)
+    \end{align*}
+    To leading order, then $\dot\delta = -2\delta$ and $\dot\gamma = -\delta$. Solving gives:
+    \begin{equation*}
+        \begin{pmatrix}\delta(t) \\ \gamma(t)\end{pmatrix} =
+        \begin{pmatrix}
+            e^{-2t} & 0 \\
+            \frac12(e^{-2t} - 1) & 1
+        \end{pmatrix}
+        \begin{pmatrix}\delta(0) \\ \gamma(0)\end{pmatrix}
+    \end{equation*}
+    Then taking the determinant of $\phi(T)$ (the matrix above) gives $e^{-2T} < 1$ so the periodic orbit is stable.
+\end{example}
+\section{The Van der Pol Oscillator}
+This section is devoted entirely to the dynamical system:
+\begin{equation}
+    \ddot{x} + \mu (x^2 - 1) \dot{x} + x = 0
+    \label{eqnVanDerPol}
+\end{equation}
+where $\mu > 0$ is a parameter.
+
+This is a simple harmonic oscillator and a more complicated damping term. For $\abs{x} < 1$, we have energy input (bumping), and for $\abs{x} > 1$ we have damping. However, note that $x = 1$ is not itself a solution.
+
+This is itself a special case of a Lienard equation:
+\begin{equation*}
+    \ddot{x} + f(x) \dot{x} + g(x) = 0.
+\end{equation*}
+Using the Lienard transformation $y = \dot{x} + F(x)$ where $F(x) = \int_{0}^{x} f(s) ds$, we can transform this to a dynamical system:
+\begin{equation*}
+    dot{x} = y - F(x),\qquad \dot{y} = -g(x).
+\end{equation*}
+Our Van der Pol oscillator can be transformed in this way to:
+\begin{equation}
+    \dot{x} = y - \mu \left(\frac{x^3}{3} - x\right),\qquad \dot{y} = -x.
+    \label{eqnVanDerPolDS}
+\end{equation}
+\subsection{Small Values of \texorpdfstring{$\mu$}{the Parameter}}
+For $\mu \ll 1$, we have a near-Hamiltonian system with Hamiltonian $H(x, y) = \frac12(x^2 + y^2)$. With $\mu = 0$ the orbits are circular, with period $2\pi$. We can use the energy balance method to see if any periodic orbits survive. In the notation of \ref{secNearHamiltonian},
+\begin{equation*}
+    f_1(x, y) = y,\quad f_2(x, y) = -x,\quad \epsilon = \mu \text{ and } g_1(x, y) = -F(x),\quad g_2 = 0.
+\end{equation*}
+We parameterise a periodic orbit by $x = \sqrt{2H} \cos(t)$, $y = \sqrt{2H} \sin(t)$, and apply the energy balance method:
+\begin{align*}
+    \delta H(H) &= - \oint_{\Gamma_0} \epsilon g_1 f_2 dt \\
+    &= \mu \int_{0}^{2\pi} \left(x^2 - \frac{x^4}{3}\right) dt \\
+    &= \mu \int_{0}^{2\pi} \left(2H\cos^2(t) - \frac43 \cos^4(t)\right) dt \\
+    &= 2\pi \mu \left(H - \frac{H^2}{2}\right)
+\end{align*}
+therefore we find $H = 2$ is a stable periodic orbit.
 \end{document}
