@@ -582,7 +582,7 @@ For the following definitions, let $\Lambda$ be an invariant set of a general au
     \label{figInterestingStability}
 \end{figure}
 \begin{definition}{Basin of attraction}
-    If $\Lambda$ is an asymptotically stable invariant set, its \underline{basin of attraction} is the set:
+    If $\Lambda$ is an asymptotically stable invariant set, its \underline{basin of attraction} or \underline{domain of stability} is the set:
     \begin{equation*}
         B(\Lambda) = \subsetselect{\vec{x}}{\phi_t(\vec{x}) \to \Lambda \text{ as } t \to \infty}
     \end{equation*}
@@ -698,7 +698,7 @@ For the following definitions, let $\Lambda$ be an invariant set of a general au
     \end{equation*}
     The Hamiltonian parts cancel in the derivative, leaving a simpler term behind. note that this is not strictly Lyapunov, because $\dot{V} = 0$ on the axes. We know from \thmref{thmLaSalleInvariance} that the system tends to an invariant set of the points with $\dot{V} = 0$, the two axes. On $y = 0$, we know that $\dot{y} = -x^3$ which is non-zero for $x \neq 0$. Similarly, on $x = 0$ we have $\dot{x} = y$. Therefore, the only invariant subset of $M_c$ is $\vec0$, so the origin is asymptotically stable.
 \end{example}
-We can now provide an algorithm for finding a basin of stability:
+We can now provide an algorithm for finding a domain of stability:
 \begin{enumerate}
     \item Choose $V$ and a domain $D$ such that:
     \begin{enumerate}
@@ -740,8 +740,12 @@ We can now provide an algorithm for finding a basin of stability:
 \end{example}
 \subsection{Bounding Functions}
 \begin{definition}{Bounding function}
-    If $V$ is a function with bounded contours and $\dot{V} < -\delta < 0$ for $V(\vec{x}) \geq M$, then all trajectories eventually enter and remain in $\subsetselect{\vec{x}}{V(\vec{x}) \leq M}$. Such a function is a \underline{bounding function}.
+    If, for a given dynamical system, $V(\vec x)$ is a function with bounded contours with $\dot{V} < -\delta < 0$ for $V(\vec x) \geq M$ then it is a \underline{bounding function}.
 \end{definition}
+\begin{proposition}
+    If $V$ is a bounding function with negative derivative on $V(\vec x) \geq M$, then all trajectories eventually enter and remain inside the region $\subsetselect{\vec x}{V(\vec x) \leq M}$.
+    \label{propBoundingFunction}
+\end{proposition}
 \begin{example}
     Consider:
     \begin{equation*}
