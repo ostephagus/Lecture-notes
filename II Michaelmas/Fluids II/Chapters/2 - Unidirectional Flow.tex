@@ -136,7 +136,7 @@ We want:
 \end{equation*}
 with $w = 0$ on $x = \pm a, y = \pm b$.
 
-We use IB Methods to solve this using a particular solution / complementary function method, $w = w_p(x, y) + w_c(x, y)$. We consider, from Plane Poiseuille flow,
+We use IB Methods to solve this using a particular solution / complementary function method, $w = w_p(x, y) + w_c(x, y)$. The particular solution is plane Poiseuille flow:
 \begin{equation*}
     w_p(x, y) = \frac{G}{2\mu} \left(b^2 - y^2\right)
 \end{equation*}
@@ -202,7 +202,7 @@ This must equal the rate of change of kinetic energy plus the rate of dissipatio
     &= \left[\mu u \frac{\partial u}{\partial y}\right]_0^\infty - \mu \int_{0}^{\infty} \left(\frac{\partial u}{\partial y}\right)^2 dy 
 \end{align*}
 \section{Oscillating Flat Plate}
-Consider a similar setup but now the plate moves with velocity $U\cos(\omega t)$. Consider a limit $t \to \infty$ so that the fluid undergoes steady oscillations. The solution (see IB Fluid Dynamics) is
+Consider a similar setup, but now the plate moves with velocity $U\cos(\omega t)$. Consider a limit $t \to \infty$ so that the fluid undergoes steady oscillations. The solution (see IB Fluid Dynamics) is
 \begin{align*}
     u &= \Re\left(U e^{i\omega t} e^{-\sqrt{\frac{i\omega}{\nu}}y}\right) \\
     &= Ue^{-ky} \cos(\omega t - k y)

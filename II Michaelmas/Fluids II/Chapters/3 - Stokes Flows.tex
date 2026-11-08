@@ -191,7 +191,7 @@ We can give some further properties of the Stokes' equation, that need more proo
 \begin{theorem}[Reciprocal Theorem]
     Let $\vec{u}^1$ and $\vec{u}^2$ be Stokes flows in some domain $V$ with different boundary conditions on $V$. Then:
     \begin{equation}
-        \int_{\partial V} \vec{u}^1 \cdot \sigma^2 \vec{n} dS = \int_{\partial V} \vec{u}^2 \sigma^1 \vec{n} dS
+        \int_{\partial V} \vec{u}^1 \cdot \sigma^2 \vec{n} dS = \int_{\partial V} \vec{u}^2 \cdot \sigma^1 \vec{n} dS
         \label{eqnReciprocal}
     \end{equation}
     \label{thmReciprocal}
@@ -200,11 +200,15 @@ We can give some further properties of the Stokes' equation, that need more proo
     Consider:
     \begin{align*}
         2\mu \int_V e^1_{ij} e^2_{ij}~dV &= \int_V \left(\sigma^1_{ij} + p^1 \delta_{ij}\right) e^2_{ij}~dV \\
+        &= \frac12 \int_V \sigma^1_{ij} \left[\frac{\partial u^2_i}{\partial x_j} + \frac{\partial u^2_j}{\partial x_i}\right] + \int_V p^1 e^2_{ii} dV \\
+        &= \frac12 \int_V \left[\sigma^1_{ij} \frac{\partial u^2_i}{\partial x_j} + \sigma^1_{ji}\frac{\partial u^2_i}{\partial x_j}\right] + \int_V p^1 \nabla \cdot \vec{u}^2 dV \\
+        &= \frac12 \int_V \left[\sigma^1_{ij} \frac{\partial u^2_i}{\partial x_j} + \sigma^1_{ij}\frac{\partial u^2_i}{\partial x_j}\right] \\
+        &= \int_V \sigma^1_{ij} \frac{\partial u^2_i}{\partial x_j} dV \\
+        &= \int_{\partial V} \sigma^1_{ij} u^2_i dS_j - \int_{V} \frac{\partial \sigma^1_{ij}}{\partial x_j} u^2_i dV \\
         &= \int_{\partial V} u^2\cdot \sigma^1 \vec{n}dS
     \end{align*}
-    by using symmetry of $\sigma^1$, $\nabla \cdot \vec{u}^2 = 0$ and $\nabla \cdot \sigma^1 = \vec{0}$.
+    because the Stokes equation is equivalent to $\nabla \cdot \sigma = 0$.
     
-    % TODO: go over and finish.
     We can apply the same manipulations to the LHS to get the other way round.
 \end{proof}
 \begin{example}
@@ -257,7 +261,7 @@ We argue that the only possible forms of solution for $\vec{u}$ and $p$ are:
 \end{align*}
 this is because:
 \begin{itemize}
-    \item the only ways to make vectors out of $\vec{U}$ and $\vec{x}$ are $\vec{U}, \vec x(\vec{U} \cdot \vec{x})^k$ for any integer $k$. We cannot have any cross products because this would make pseudovectors whereas $\vec u$ is a true vector.
+    \item the only ways to make vectors out of $\vec{U}$ and $\vec{x}$ are $\vec{U}, \vec x(\vec{U} \cdot \vec{x})^k$ for any integer $k$. Cross products do not work here because this would make pseudovectors whereas $\vec u$ is a true vector.
     \item By linearity we cannot have $k \geq 1$ because then $\vec u$ would be proportional to $\vec U^k$.
     \item Spherical symmetry requires that $f, g, h$ are only functions of $r = |\vec x|$.
 \end{itemize}
@@ -353,9 +357,9 @@ There are many examples of 2D flow in a corner:
     \caption{Diagram of fluid flow past a corner}
     \label{figFlowCorner}
 \end{figure}
-Sufficiently close to the corner, we expect $L \sim r$ and $\Re \ll 1$ (for source flow we need $U \sim \frac1r and UL \sim Q \ll \nu$).
+Sufficiently close to the corner, we expect $L \sim r$ and $\Re \ll 1$ (for source flow we need $U \sim \frac1r$ and $UL \sim Q \ll \nu$).
 
-We can use a 2D streamfunction $\psi$ with $\vec{u} = \nabla \times \psi\vec{e_z}$ and plane polar coordinates:
+We can use a 2D streamfunction $\psi$ with $\vec{u} = \nabla \times (\psi\vec{e_z})$ and plane polar coordinates:
 \begin{equation*}
     \vec{u} = \begin{pmatrix}\frac1r \frac{\partial \psi}{\partial \theta} \\ -\frac{\partial \psi}{\partial r} \\ 0\end{pmatrix}
 \end{equation*}
@@ -420,7 +424,7 @@ The vorticity is given by $\vec{\omega} = -\nabla^2\psi \vec{e_z}$. Vorticity mu
     \label{figSourceFlow}
 \end{figure}
 \begin{example}[Moffatt Eddies]
-    Consider flow in a corner that is not forced locally, but is forced by some disturbance at large $r$. The diagram is figure~\ref{figSourceFlow}, but without a source.
+    Consider flow in a corner that is not forced locally, but is forced by some disturbance at large $r$. The setup is as in figure~\ref{figSourceFlow}, but without a source.
 
     We try a separable solution $\psi = r^\lambda f(\theta)$ (this implies $\vec{u}$ is proportional to $r^{\lambda - 1}$).
     \begin{align*}
@@ -459,7 +463,20 @@ The vorticity is given by $\vec{\omega} = -\nabla^2\psi \vec{e_z}$. Vorticity mu
 \end{example}
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1]
+    \begin{tikzpicture}[scale=2]
+        \tikzset{
+            eddy/.pic={
+                \draw (0, 0) circle[radius=0.5];
+                \draw (0.4, -0.1) -- (0.5, 0) -- (0.6, -0.1);
+                \draw (-0.4, 0.1) -- (-0.5, 0) -- (-0.6, 0.1);
+            },
+            eddycw/.pic={
+                \draw (0, 0) circle[radius=0.5];
+                \draw (0.4, 0.1) -- (0.5, 0) -- (0.6, 0.1);
+                \draw (-0.4, -0.1) -- (-0.5, 0) -- (-0.6, -0.1);
+            }
+        }
+
         \draw[hatch side] (0, 0) -- (30:2)
             node[pos=1, right] {$\theta = \alpha$};
 
@@ -468,7 +485,14 @@ The vorticity is given by $\vec{\omega} = -\nabla^2\psi \vec{e_z}$. Vorticity mu
         
         \draw [dashed] (0, 0) -- (2, 0);
 
-        \draw (1.6, -1) arc[start angle=0, end angle=360];
+        \pic[blue, scale=1.2] at (1.5, -0.4) {eddy};
+        \pic[blue, scale=1.2] at (1.5, 0.4) {eddycw};
+
+        \pic[blue, scale=0.7] at (0.9, -0.25) {eddycw};
+        \pic[blue, scale=0.7] at (0.9, 0.25) {eddy};
+
+        \pic[blue, scale=0.35] at (0.5, -0.15) {eddy};
+        \pic[blue, scale=0.35] at (0.5, 0.15) {eddycw};
     \end{tikzpicture}
     \caption{Diagram of double-stacked eddies}
     \label{figDoubleEddies}

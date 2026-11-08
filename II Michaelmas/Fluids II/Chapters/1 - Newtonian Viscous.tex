@@ -88,7 +88,7 @@ Note also that $\operatorname{tr}(e) = \nabla \cdot \vec{u}$, so the eigenvalues
 \section{Stress Tensor}
 We consider two types of forces:
 \begin{enumerate}
-    \item body forces $\vec{f}$ that act per unti volume, such as gravity;
+    \item body forces $\vec{f}$ that act per unit volume, such as gravity;
     \item surface forces $\vec\tau$ that act per unit area, such as pressure.
 \end{enumerate}
 Let $\vec\tau(\vec{n}; \vec{x}, t)~\delta S$ denote the force exerted by the $+$ side on the $-$ side of a small area element $\vec{n}~dS$. Now, let $\vec{n}~\delta S$ be the sloping face of a small tetrahedron of size $l$, whose other 3 faces are aligned with the coordinate planes.
@@ -99,7 +99,7 @@ Consider the force balance on this tetrahedron:
     \item surface forces are $O(l^2)$;
     \item the ratio between these forces is therefore $O(l)$, and so surface forces are more important as $l \to 0$.
 \end{itemize}
-Therefore the surface forces must balance themselves when $l$ is small, therefore:
+This means the surface forces must balance themselves when $l$ is small, and so:
 \begin{equation*}
     \vec\tau(\vec{n})~\delta S + \vec{\tau}(-\vec{e_1})~\delta S_1 + \vec\tau(-\vec{e_2})~\delta S_2 + \vec{\tau}(-\vec{e_3})~\delta S_3 = 0.
 \end{equation*}
