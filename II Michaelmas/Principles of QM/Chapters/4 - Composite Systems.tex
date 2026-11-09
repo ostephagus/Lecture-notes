@@ -199,7 +199,7 @@ The lowest energy level is non-degenerate here:
 \end{equation*}
 However, we can find four states for the next energy level up: $\Psi_1^S$ along with the single antisymmetric spin state and $\Psi_1^A$ along with the 3 symmetric spin states.
 \subsection{Pauli Exclusion Principle and Atomic Structure}
-A state of $N$ identical fermions can be specified by taking $N$ distinct particle states (each in $V$) and antisymmetrising to ensure Fermi statistics (to produce states in $(V \otimes \cdots \otimes V)_A$). The condition that the one-particle states be distinct (because otherwise we could not find an antisymmetric state) is the \underline{Pauli Exclusion Principle}.
+A state of $N$ identical fermions can be specified by taking $N$ distinct particle states (each in $V$) and antisymmetrising to ensure Fermi statistics (to produce states in $(V \otimes \cdots \otimes V)_A$). The condition that the one-particle states (in $V_{\text{space}} \otimes V_{\text{spin}}$) be distinct (because otherwise we could not find an antisymmetric state) is the \underline{Pauli Exclusion Principle}.
 
 Consider $N$ electrons bound to a nucleus with $Z$ protons. Ignoring electron-electron interactions, the Hamiltonian is a sum $H(\opvec{x_1}, \opvec{p_1}) + \cdots + H(\opvec{x_N}, \opvec{p_N})$, where:
 \begin{equation*}
@@ -208,18 +208,18 @@ Consider $N$ electrons bound to a nucleus with $Z$ protons. Ignoring electron-el
 The single electron states in $V_\text{space}$ are given by $\ket{n~l~m}$ which are joint eigenstates of:
 \begin{align*}
     H &\text{ with eigenvalue } E_n \\
-    |\vec{L}^2 &\text{ with eigenvalue } \hbar^2 l(l+1) \\
+    |\vec{L}|^2 &\text{ with eigenvalue } \hbar^2 l(l+1) \\
     L_z &\text{ with eigenvalue } \hbar m
 \end{align*}
 where:
 \begin{equation*}
     E_n = -\frac m 2 \left(\frac{Ze^2}{4 \pi \epsilon_0 \hbar}\right)^2 \frac1{n^2}
 \end{equation*}
-Here $n$ is the principle quantum number, $l = 0, 1, \cdots, n-1$ and $m = 0, \pm 1, \cdots, \pm l$ so $E_n$ is degenerate with $n^2$ eigenstates. 
+Here $n$ is the principal quantum number, $l = 0, 1, \cdots, n-1$ and $m = 0, \pm 1, \cdots, \pm l$ so $E_n$ is degenerate with $n^2$ eigenstates. 
 
 Now including $V_{\text{spin}}$, with basis $\{\upst, \dnst\}$, each electron has $2n^2$ states with energy $E_n$.
 
-To find the structure of electrically neutral atoms with $N = 2$, we fill up energy levels starting with the lowest and using the Pauli exclusion principle. With this we get a rough picture of the periodic table with some qualitative insights into chemical properties -- for example, we expect unreactive elements for completely filled energy levels:
+To find the structure of electrically neutral atoms with $N = Z$, we fill up energy levels starting with the lowest and using the Pauli exclusion principle. With this we get a rough picture of the periodic table with some qualitative insights into chemical properties -- for example, we expect unreactive elements for completely filled energy levels:
 \begin{itemize}
     \item $E_1$ is filled for $Z = 2$, He.
     \item $E_2$ is also filled for $Z = 10$, Ne.
