@@ -233,7 +233,42 @@ If the cylinder is settling under its own weight, $F = \Delta p g \pi a^2$ is co
 Consider flow between two parallel plates of separation $h$. Let the flow at $\infty$ be of speed $U$, along the $x$ direction. See figure~\ref{figHeleShaw}.
 \begin{figure}
     \centering
-    TODO %TODO
+    \begin{tikzpicture}[x=0.02cm,y=0.02cm,line cap=round,line join=round,>={Stealth[length=2.5mm]}]
+        % Plate corners (top plate is an exact parallelogram)
+        \coordinate (FL) at (100,120);  % front left
+        \coordinate (FR) at (480,110);  % front right
+        \coordinate (BR) at (610,275);  % back right
+        \coordinate (BL) at ($(FL)+(BR)-(FR)$); % back left (computed)
+        \def\gap{30}
+        \coordinate (FLb) at ($(FL)-(0,\gap)$);
+        \coordinate (FRb) at ($(FR)-(0,\gap)$);
+        \coordinate (BRb) at ($(BR)-(0,\gap)$);
+        \coordinate (BLb) at ($(BL)-(0,\gap)$);
+        % hidden edges of bottom plate (seen through the top plate)
+        \draw[dotted] (FLb) -- (BLb) -- (BRb);
+        % obstacle shadow on bottom plate
+        \draw[dotted] (355,160) ellipse [x radius=62,y radius=36];
+        % top plate
+        \draw[thick] (FL) -- (FR) -- (BR) -- (BL) -- cycle;
+        % obstacle
+        \draw[thick,pattern={Lines[angle=45,distance=3pt]},line width=1.6pt] (355,198) ellipse [x radius=60,y radius=38];
+        % visible edges of bottom plate
+        \draw[thick] (FL) -- (FLb) -- (FRb) -- (BRb) -- (BR);
+        \draw[thick] (FR) -- (FRb);
+        % gap marker: line with bar ends
+        \draw[{Bar[width=7pt]}-{Bar[width=7pt]},thick] ($(BR)+(22,0)$) -- ($(BRb)+(22,0)$)
+        node[pos=0.5,right=3pt,font=\Large] {$h$};
+        % L arrow
+        \draw[<->] (290,40) -- (410,40);
+        \node[font=\Large] at (350,10) {$L$};
+        % U arrow
+        \draw[->,thick, blue] (25,180) -- (100,180)
+            node[pos=0.5, above, font=\Large] {$U$};
+        % axes
+        \draw[->,thick] (595,120) -- (685,120) node[right,font=\large]{$x$};
+        \draw[->,thick] (595,120) -- (630,165) node[above right,font=\large]{$y$};
+        \draw[->,thick] (595,120) -- (595,175) node[above,font=\large]{$z$};
+    \end{tikzpicture}
     \caption{Diagram of Hele-Shaw Flow}
     \label{figHeleShaw}
 \end{figure}
@@ -246,4 +281,119 @@ We also need the reduced Reynolds number to be small:
 \begin{equation*}
     \frac{u_i h}{\nu} \frac{h}{L} \ll 1 \text{ for $i = 1$ or $2$.}
 \end{equation*}
+The equations for quasi-parallel flow are then:
+\begin{equation*}
+    \frac{\partial p}{\partial z} = 0,\qquad \mu \frac{\partial^{2}\vec{u_H}}{\partial z^{2}} = \nabla_H p
+\end{equation*}
+where $\vec{u_h}$ and $\nabla_H$ are the corresponding vectors with their $z$ component zero.
+
+Solving:
+\begin{equation*}
+    \vec{u_H} = \frac1{2\mu} \nabla_H p z(h-z) \implies \vec{q_H} =-\frac{h^3}{12\mu}\nabla_H p.
+\end{equation*}
+By mass conservation,
+\begin{align*}
+    \nabla \cdot \vec{u} = 0&\implies \nabla_H \vec{u_H} + \frac{\partial w}{\partial x} = 0 \\
+    \text{ integrating wrt z:} &\implies \nabla_H \vec{q_H} + \left[w\right]_0^h = 0
+\end{align*}
+and substituting in $\vec{q_H}$ gives:
+\begin{equation*}
+    \nabla^2_H p_(x, y) = 0
+\end{equation*}
+Note that this is similar to potential flow, where $\vec{u} = \nabla \phi$ and $\nabla^2\phi = 0$.
+\begin{example}[Uniform flow past a cylinder]
+    Consider a cylindrical obstacle in between the plates, as in figure~\ref{figHeleShaw}. As $r \to \infty$, $q \to Q\vec{e_x}$. Therefore:
+    \begin{align*}
+        p &= -\frac{12\mu Q}{h^3} r \cos(\theta) \\
+        \text{On } r = a, \vec{q} \cdot \vec{n} &= 0 \implies \frac{\partial p}{\partial r} = 0 \\
+        \nabla^2_H p &= 0.
+    \end{align*}
+    Using these we could calculate $p(r, \theta)$.
+\end{example}
+\section{Graviational Spreading of Viscous Fluid}
+Consider a viscous fluid spreading out under gravity. We assume that the flow is axisymmetric and with reduced Reynolds number $\ll 1$. We neglect surface tension and other issues as the moving contact line. Assume the geometry is long and thin so we can use lubrication theory. See figure~\ref{figViscousGravity}.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[>=Stealth, line width=0.8pt]
+        % bottom plate
+        \draw[hatch side] (6,0) -- (-6,0);
+
+        % z axis
+        \draw[->] (0,0) -- (0,3.2) node[above] {$z$};
+
+        % droplet profile z = h(r,t)
+        \draw[blue] (-3.6,0) .. controls (-3.2,1.1) and (-2.2,1.6) .. (0,1.7)
+                        .. controls (2.2,1.6) and (3.2,1.2) .. (3.8,0);
+
+        % label for the free surface
+        \node[right] (hl) at (3.2,2.0) {$z=h(r,t)$};
+        \draw[->] (hl.south west) ++(0.2,0) to[bend right=20] (3.35,1.05);
+
+        % pressure label
+        \node[align=center, above left] at (-1.5, 1) {Pressure\\[2pt] $p_0$};
+    \end{tikzpicture}
+    \caption{Diagram of viscous fluid spreading under gravity}
+    \label{figViscousGravity}
+\end{figure}
+The vertical balance is:
+\begin{align*}
+    0 &= -\frac{\partial p}{\partial z} - \rho g \\
+    p &= p_0 \text{ at }  z = h \\
+    \implies p&= p_0 + \rho g (h - z).
+\end{align*}
+In the radial direction,
+\begin{align*}
+    0 &= -\frac{\partial p}{\partial r} + \mu \frac{\partial^{1}u}{\partial z^{1}} \\
+    u &= 0 \text{ at } z = 0 \text{ and } \mu \frac{\partial u}{\partial z} = 0 \text{ at } z = h.
+\end{align*}
+Now, $-\frac{\partial p}{\partial r} = - \rho g \frac{\partial h}{\partial r}$ which is independent of $z$. Integrating: % TODO: Integrating what??
+\begin{equation*}
+    \vec u = -\frac1{2\mu} \frac{\partial p}{\partial x}r z(2h - z)
+\end{equation*}
+which is the sort of half-parabola that we see for parallel viscous flow down an inclined plane. The flux is given by:
+\begin{align*}
+    q &= \int_{0}^{h} u_r dz \\
+    &= -\frac{g}{3\nu} h^3 \frac{\partial h}{\partial r}.
+\end{align*}
+
+For mass conservation, we consider the region $V$ which is a small annulus of inner radius $r$ and outer radius $r + \delta r$. Then:
+\begin{align*}
+    2\pi r q(r) &-2\pi (r + \delta r) q(r + \delta r) \\
+    &= 2\pi r~\delta r \frac{\partial h}{\partial t}
+\end{align*}
+Taking $\delta \to 0$
+\begin{equation*}
+    \frac{\partial h}{\partial t} + \frac{1}{r} \frac{\partial}{\partial r} \left(rq\right) = 0
+\end{equation*}
+and substituting gives:
+\begin{equation*}
+    \frac{\partial h}{\partial t} = \frac{g}{3\nu} \frac1r \frac{\partial }{\partial r} \left(r h^3 \frac{\partial h}{\partial r}\right)
+\end{equation*}
+This is a diffusion equation, so we need initial conditions and boundary conditions. No source at $r = 0$ gives:
+\begin{equation*}
+    2\pi r q \to 0 \text{ as } r \to 0
+\end{equation*}
+we have an edge of the fluid:
+\begin{equation*}
+    h = 0 \text{ at } r = r_N
+\end{equation*}
+and some given initial conditions. Note that this is sufficient to determine global mass conservation. Integrating $r$ times the diffusion equation gives:
+\begin{equation*}
+    \frac{d}{dt}\int h r dr = 0\implies \int h r dr = V.
+\end{equation*}
+The diffusion equation above is nonlinear, so our IB Methods techniques will not work. Solving this numerically shows that the solution quickly ``forgets'' about the initial conditions and tends towards a similarity solution of the form:
+\begin{equation*}
+    h(r, t) = H(t) f(\eta) \text{ where } \eta = \frac{r}{R(t)}
+\end{equation*}
+which we can solve for. We will first find $H(t)$ and $R(t)$ by scaling, and then substitute to find the shape function $f(\eta)$.
+\begin{align*}
+    \text{Constant volume constraint }&\implies HR^2 \sim V \\
+    \text{Governing evolution equation }&\implies \frac{H}{t} = \frac{g}{\nu} \frac{H^4}{R^2}
+\end{align*}
+To solve this we set:
+\begin{equation*}
+    H(t) = \left(\frac{\nu V}{gt}\right)^{\frac14},\qquad R(t) = \left(\frac{gtV^3}{\nu}\right)^\frac18
+\end{equation*}
+
 \end{document}
