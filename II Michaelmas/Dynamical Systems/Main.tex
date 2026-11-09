@@ -25,6 +25,11 @@
     patharrow/.pic={
         \draw (-0.1, -0.05) -- (0, 0.05) -- (0.1, -0.05);
     },
+    midarrow/.style={
+        postaction={decorate,
+        decoration={markings,
+            mark=at position 0.5 with {\arrow{Stealth[length=5pt]}}}}
+    },
     pics/integration loop/.style={
         code={
       

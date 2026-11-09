@@ -460,7 +460,7 @@ Our Van der Pol oscillator can be transformed in this way to:
     \label{eqnVanDerPolDS}
 \end{equation}
 \subsection{Small Values of \texorpdfstring{$\mu$}{the Parameter}}
-For $\mu \ll 1$, we have a near-Hamiltonian system with Hamiltonian $H(x, y) = \frac12(x^2 + y^2)$. With $\mu = 0$ the orbits are circular, with period $2\pi$. We can use the energy balance method to see if any periodic orbits survive. In the notation of \ref{secNearHamiltonian},
+For $\mu \ll 1$, we have a near-Hamiltonian system with Hamiltonian $H(x, y) = \frac12(x^2 + y^2)$. With $\mu = 0$ the orbits are circular, with period $2\pi$. We can use the energy balance method to see if any periodic orbits survive. In the notation of section~\ref{secNearHamiltonian},
 \begin{equation*}
     f_1(x, y) = y,\quad f_2(x, y) = -x,\quad \epsilon = \mu \text{ and } g_1(x, y) = -F(x),\quad g_2 = 0.
 \end{equation*}
@@ -472,4 +472,133 @@ We parameterise a periodic orbit by $x = \sqrt{2H} \cos(t)$, $y = \sqrt{2H} \sin
     &= 2\pi \mu \left(H - \frac{H^2}{2}\right)
 \end{align*}
 therefore we find $H = 2$ is a stable periodic orbit.
+\subsection{Large Values of \texorpdfstring{$\mu$}{the Parameter}}
+Now consider $\mu \gg 1$ and rescale with the variable $Y = \frac Y \mu$.
+\begin{equation*}
+    \dot{x} = \mu\left[Y - \left(\frac{x^3}{3} - x\right)\right],\qquad \dot{Y} = -\frac x \mu
+\end{equation*}
+We can consider the phase space of $x$ and $Y$, see figure~\ref{figVanDerPolPS}.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \begin{axis}[
+                axis lines=middle,
+                xmin=-2.5,xmax=2.5,
+                ymin=-2.5,ymax=2.5,
+                xlabel={$x$},
+                ylabel={$Y$}
+            ]
+            \addplot[samples=50,domain=-2.3:2.3] {x * x * x / 3 - x}
+                node[pos=0.06,below right]{$\frac{x^3}{3} - x$};
+            \fill (0.5, 0.5) circle[radius=0.05] node[left] {$\vec{x_0}$};
+
+            % Initial approach: horizontal to the right branch of the cubic
+            \draw[blue,midarrow] (0.5,0.5) -- (1.9425,0.5);
+            % Slow motion down the right branch to the fold at x = 1
+            \addplot[blue,midarrow,domain=2:1,samples=30] {x*x*x/3 - x};
+            % Fast jump left to the left branch
+            \draw[blue,midarrow] (1,-2/3) -- (-2,-2/3);
+            % Slow motion up the left branch to the fold at x = -1
+            \addplot[blue,midarrow,domain=-2:-1,samples=30] {x*x*x/3 - x};
+            % Fast jump right to the right branch, closing the cycle
+            \draw[blue,midarrow] (-1,2/3) -- (2,2/3);
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Phase Space for the Van der Pol oscillator with $\mu$ large}
+    \label{figVanDerPolPS}
+\end{figure}
+
+Starting at a point $\vec{x_0}$ that is $O(1)$ from the cubic curve, we see that $\dot{x} \sim \mu O(1)$ and $\dot{Y} \sim \mu^{-1}O(1)$. Therefore, $\abs{\dot{x}} \gg \abs{\dot{Y}}$, and the movement is mostly horizontal.
+
+As the orbit approaches the cubic, reaching separation $O(\mu^{-2})$, we find $\dot{x} \sim \dot{Y} \sim O(\mu^{-1})$. Note $\dot{Y}$ is negative, so we cross the curve. Once crossing the curve, $\dot{x}$ is negative and the trajectory follows the cubic.
+
+At $x = 1$, $\dot{Y}$ is still negative but the cubic starts moving upwards. Therefore, the trajectory must separate from the curve, and will again travel almost horizontally (but this time will move left).
+
+We see a rotational symmetry about the origin, and so we will repeat the process indefinitely (see figure~\ref{figVanDerPolPS}).
+
+This is an example of relaxation oscillation - we have a slow buildup (motion along the cubic) and a fast discharge (horizontal segments). This is more obvious by considering the plot of $x$ against $t$, see figure~\ref{figVanDerPolXOssc}. We see that the time of the buildup is $O(\mu)$, and the time of the discharge is $O(\mu^{-1})$. The period is:
+\begin{align*}
+    P &= 2 \int_{A}^{B} dt \\
+    &= 2 \int_{-\frac23}^{\frac23} \frac1{\dot{Y}} dY \\
+    &= 2\mu \int_{2}^{1} \frac{1-x^2}{x} dx \\
+    &= \mu (3 - 2\log(2))
+\end{align*} 
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \pgfmathsetmacro{\T}{1.5-ln(2)} % duration of one slow phase (in units of mu)
+        \begin{axis}[
+                axis lines=middle,
+                width=12cm, height=6cm,
+                xmin=-0.3, xmax=4.4*\T,
+                ymin=-2.6, ymax=2.6,
+                xlabel={$t$}, ylabel={$x$},
+                xtick=\empty,
+                ytick={-2,-1,1,2},
+                clip=false
+            ]
+            \foreach \k in {0,2} {
+                % slow decay down the right branch, x: 2 -> 1
+                \addplot[blue,domain=2:1,samples=40,smooth]
+                    ({(4-x^2)/2 - ln(2/x) + \k*\T}, {x});
+                % fast jump to the left branch
+                \addplot[blue] coordinates {({(\k+1)*\T},1) ({(\k+1)*\T},-2)};
+                % slow rise up the left branch, x: -2 -> -1
+                \addplot[blue,domain=2:1,samples=40,smooth]
+                    ({(4-x^2)/2 - ln(2/x) + (\k+1)*\T}, {-x});
+                % fast jump back to the right branch
+                \addplot[blue] coordinates {({(\k+2)*\T},-1) ({(\k+2)*\T},2)};
+            }
+            \draw[dashed,gray] (axis cs:0,1) -- (axis cs:4*\T,1);
+            \draw[dashed,gray] (axis cs:0,-1) -- (axis cs:4*\T,-1);
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Time series $x(t)$ for the Van der Pol oscillator with $\mu$ large}
+    \label{figVanDerPolXOssc}
+\end{figure}
+\subsection{Arbitrary Values of \texorpdfstring{$\mu$}{the Parameter}}
+We analyse the more general case for any $\mu$. We find a fixed points at the origin. Depending on $\mu$ we find that the origin can be different types of fixed point, but in all cases it is unstable. We want to use \thmref{thmPoincBendix}, so we need a doubly-connected domain. We use a bounding function:
+\begin{equation*}
+    H_k(x, y) = \frac12\left[x^2 + (y-k)^2\right]
+\end{equation*}
+which has time derivative:
+\begin{align*}
+    \dot{H}_k(x, y) &= \dot{x} \frac{\partial H_k}{\partial x} + \dot{y} \frac{\partial H_k}{\partial y} \\
+    &= kx - \mu x^2 \left(\frac{x^3}{3} - 1\right).
+\end{align*}
+The simplest case is $k = 0$, for which:
+\begin{equation*}
+    \dot{H_0} = -\mu x^2 \left(\frac{x^3}{3} - 1\right).
+\end{equation*}
+This is a quartic function with a double root at the origin, and roots at $\pm \sqrt{3}$. We see that $\dot{H_0} < 0$ for $\abs{x} > \sqrt{3}$, and $\dot{H_0} > 0$ for $\abs{x} < \sqrt{3}$, except at $0$ where $\dot{H}(0, y) = 0$. Note also that $H_0 = \frac12 r^2$. We therefore have that any orbits starting with $0 < r < \sqrt{3}$, the orbit must leave this region.
+
+Consider now a point $(x_0, y_0)$ with $\abs{x_0} > \sqrt{3}$. Without loss of generality, suppose that $x_0 < 0$. Therefore, $\dot{H_0}$ is negative and so the trajectory is attracted towards $\vec{x_B} = (-\sqrt{3}, y_B)$. Furthermore, $\abs{\vec{x_0}} > \abs{\vec{x_B}}$.
+
+The orbit must continue to some point $\vec{x_C} = (\sqrt{3}, y_c)$. In this region we know $H_0 > 0$ so the distance from the origin is increasing. We can estimate the change in $H$ in a similar way to the energy balance principle:
+\begin{align*}
+    \delta H &= \mu \int_{-\sqrt{3}}^{\sqrt{3}} \left(x^2 - \frac{x^4}{3}\right) \frac{dt}{dx} dt \\
+    &= \mu \int_{-\sqrt{3}}^{\sqrt{3}} \frac{x^2 - \frac{x^4}{3}}{y - F(x)} dx 
+\end{align*}
+Now, if $y$ is sufficiently large,
+\begin{align*}
+    \frac{1}{y - F(x)} &< \frac{1}{y - \max_{-\sqrt{3} < x < \sqrt{3}} F(x)} \\
+    &= \frac{1}{y - \frac23 \mu} \\
+    &< \frac{1}{y_0 - \frac23 \mu}.
+\end{align*}
+Returning to $\Delta H$:
+\begin{align*}
+    \Delta H &< \mu \int_{-\sqrt{3}}^{\sqrt{3}} \frac{x^2 - \frac{x^4}{3}}{y_0 - \frac23 \mu} dx \\
+    &= \frac{4\sqrt{3} \mu}{5 \left(y_0 - \frac23 \mu\right)}
+\end{align*}
+This means:
+\begin{align*}
+    H_0(\sqrt{3}, y_C) &= H_0(-\sqrt{3}, y_B) + \Delta H_0 \\
+    &< H_0 (x_0, y_0) + \frac{4\sqrt{3} \mu}{5 \left(y_0 - \frac23 \mu\right)} = H_0(C^*)
+\end{align*}
+for some point $C^*$ with:
+\begin{equation*}
+    \frac12 r_{c^*} = \frac12 \left(x_0^2 + y_0^2\right) + \frac{4\sqrt{3} \mu}{5 \left(y_0 - \frac23 \mu\right)}.
+\end{equation*}
+Let $D^*$ be the point with the same radius as $C^*$ but on the line $x = \sqrt{3}$. %TODO: Continue from notes.
 \end{document}
