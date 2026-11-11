@@ -9,7 +9,7 @@ We will consider Stieltjes integrals, which have the form:
 \end{equation*}
 for $x \geq 0$.
 
-Our aim is to understand the behaviour of $I(x)$ for small $x$. We can Naively Taylor expand the integrand:
+Our aim is to understand the behaviour of $I(x)$ for small $x$. We can na\"ively Taylor expand the integrand:
 \begin{equation*}
     \frac{1}{1 + xt} =\sum_{n=0}^{\infty} (-1)^n x^n t^n
 \end{equation*}
@@ -118,7 +118,7 @@ Recall, for $\Re(z) > 0$,
     \item $\int_{0}^{\infty} t^{z-1} e^{-xt} dt = \frac{\Gamma(z)}{x^z}$; \label{propGammaExtended}
     \item generalised binomial coefficients:
         \begin{equation*}
-            \begin{pmatrix}z \\ k\end{pmatrix} = \frac{\Gamma(z+1)}{k! \Gamma(z-k)}
+            \begin{pmatrix}z \\ k\end{pmatrix} = \frac{\Gamma(z+1)}{k! \Gamma(z-k+1)}
         \end{equation*} 
         here $k$ must be a positive integer. \label{propGammaBinomial}
     \item $\Gamma(z)$ can be analytically continued to the rest of $\C$ using $\gamma(z) = \frac{\gamma(z+1)}{\gamma}$ which works for all but $0$ and the negative integers. \label{propGammaContinue}
@@ -579,7 +579,23 @@ If we define $\nabla u = \left(\frac{\partial u}{\partial p}, \frac{\partial u}{
     \end{equation*}
     \label{corSameInt}
 \end{corollary}
-\subsection{Steepest Descent for \texorpdfstring{$u$}{u} With No Critical Points}
+\begin{propositions}{
+        Consider $\phi(z) = u(p, q) + i v(p, q)$, where $z = p + iq$.
+        \label{propsCritPoints}
+    }
+    \item If $u$ has a critical point at $z_0$, then $v$ has a critical point at $z_0$. \label{propCritPointShared}
+    \item The critical points of $u$ and $v$ are saddles in the $p-q$ plane.\label{propCritPointOnlySaddle}
+    \item If $z_0$ is a critical point of $u$ and $v$, $\frac{d\phi}{dz} = 0$ there. \label{propCritPointZeroDeriv}
+\end{propositions}
+\begin{proof}
+    The proofs of the above are summarised as:
+    \begin{enumerate}
+        \item follows from \thmref{propCauchyRiemann};
+        \item follows from the Maximum Principle for Harmonic Functions ($u$ and $v$ are harmonic);
+        \item simple from the definition of a derivative.
+    \end{enumerate}
+\end{proof}
+\subsection{Steepest Descent for \texorpdfstring{$u$}{u} with No Critical Points}
 Suppose $\nabla u \neq 0$ on the domain.
 
 The simplest case is when $v$ is a constant $v_0$ on $C$. This means $C$ is a level contour of $v$ and is therefore a steepest descent (or ascent) curve of $u$. We can now parameterise $c$ using $t \in [a, b]$:
@@ -660,4 +676,55 @@ Furthermore, as the name of the method suggests, we need to traverse the curves 
         J_0 \sim \sqrt{\frac{2}{\pi r}} \left[\cos\left(r - \frac\pi4\right) + \frac{1}{8r}\sin\left(r - \frac\pi 4\right) - \frac{9}{128r^2} \cos\left(r - \frac\pi 4\right) + \cdots\right]
     \end{equation*}
 \end{example}
+\subsection{Steepest Descent for \texorpdfstring{$u$}{u} with a Critical Point}
+Suppose that $\nabla u = 0$ at $z_0 = (p_0, q_0)$ which is a saddle point, not necessarily on $C$. Depending on how $z_0$ is approached, $u$ may have a local maximum in the plane, and this point may contribute to the asymptotics instead of the endpoints. If there are no endpoints, or if $f = 0$ at the endpoints, then these saddle point will definitely be important.
+
+Our strategy is to deform $C$ to $C'$ so that $C'$ passes through the saddle point along in such a way that $u$ is maximised there. Then we would like to deploy Laplace's method for an internal maximum. However, this is complicated by the fact that level contours of $u$ and $v$ intersect at saddles and we have different choices for how to approach the fixed point.
+
+Suppose that $z_0$ is a simple saddle, for which $\frac{d^{2}\phi}{dz^{2}} \neq 0$. This means two curves of constant $u$ and two of constant $v$ will pass through the saddle point. We want to choose the curve of constant $u$ for which the saddle is a local maximum, so on this curve $u$ must be decreasing as we move away from $z_0$.
+
+
+If we just need the leading-order asymptotics, $C'$ can be approximated by its tangent line at $z_0$:
+\begin{equation*}
+    z(t) = z_0 + te^{i\theta}
+\end{equation*}
+for a fixed $\theta$ that we need to determine. Note that on a constant-$v$ curve, $\phi(z) = \phi(z_0)$ must be real. Expand as a Taylor series:
+\begin{align*}
+    \phi(z) - \phi(z_0) &= \frac12 \frac{d^{2}\phi}{dz^{2}}(z_0) t^2 e^{2i\theta} + \cdots \\
+    &= \frac12 \abs{\phi''(z_0)} t^2 e^{2i\theta + i\alpha}
+\end{align*}
+where $\alpha = \operatorname{arg}(\phi''(z_0))$. We then need to choose $\theta$ to be one of:
+\begin{equation*}
+    \theta_n = \frac\alpha2 + \frac{n\pi}{2},\quad n \in \{0, 1, 2, 3\}
+\end{equation*}
+However, only $n = 1$ and $n = 3$ give the curve of steepest descent away from $z_0$. We are now ready to substitute into $I(x)$, parameterised as an integral over $t$, and apply Laplace's method.
+\begin{example}[Debye integral]
+    \label{exDebye}
+    Consider:
+    \begin{equation*}
+        I(x) = \int_C e^{x(\sech(w)\sinh(z) - z)} dz
+    \end{equation*}
+    where $w \in \R \backslash \{0\}$ is a parameter, and $C$ is the Sommerfield contour starting at the $q = -pi$ asymptote and ending at the $q = \pi$ asymptote. We find $f = 1$ and:
+    \begin{equation*}
+        \phi(z) = \sech(w) \sinh(z) - z
+    \end{equation*}
+    The saddle points have $\frac{d\phi}{dz} = 0$, and solving gives a single saddle point at $w$. $\phi(w) = \tanh(w) - w = \phi_0$.
+
+    We must now find the constant-$v$ curves through the saddle point. We only need the tangent lines to the constant-$v$ curves for the first order, so we use our previous formula.
+    \begin{equation*}
+        \phi''(\sech(w)\sinh(z)) \implies \phi''(w) = \tanh(w) \in \R
+    \end{equation*}
+    this means $\alpha = 0$ and the tangent lines are $\theta = \pm \frac{\pi}{2}$. Laplace's method along the ray $\theta = \frac\pi2$:
+    \begin{align*}
+        I_1 &= \int_{0}^{\epsilon} \frac{dz}{dt} dt \\
+        &= i e^{x\phi_0} \int_{0}^{\epsilon} e^{-\tanh w \frac12 t^2 + \cdots} dt \\
+        &\sim ie^{x \phi_0} \sqrt{\frac{2}{x\tanh(w)}} \int_{0}^{\infty} e^{-s^2} ds \\
+        &\sim \frac{ie^{x \phi_0}}{2} \sqrt{\frac{2\pi}{x\tanh(w)}}.
+    \end{align*}
+    By symmetry, the lower approach to $z = w$ contributes the same. Therefore:
+    \begin{equation*}
+        I(x) \sim ie^{x(\tanh(w) - w)} \sqrt{\frac{2\pi}{x\tanh(w)}}
+    \end{equation*}
+\end{example}
+Example~\ref{exDebye} did not have any endpoints. If the curve $C$ did have endpoints, and also there exist saddles, we would need to deform $C$ to go through the saddle and then check the relative size of the terms. If there were more than one saddle we would need to go through both and then see which is dominant.
 \end{document}
