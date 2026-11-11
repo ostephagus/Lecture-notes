@@ -115,7 +115,7 @@ as long as the new states are non-zero. To check this:
     &= \left(\pm \hbar J_{\pm} + J_{\pm} \hbar m\right) \ket{j~m} \\
     &= \hbar (m \pm 1) J_\pm \ket{j~m}.
 \end{align*}
-This is similar to the harmonic oscillator, where $J_{\pm}$ look like the raising and lowering indices $a, a^\dagger$. Here $a$ and $a^\dagger$ give the states with eigenvalues $n\pm 1$ under the number operator $N$ (if the states are nonzero). To find whether our new states are non-zero, we compute their norms.
+This is similar to the harmonic oscillator, where $J_{\pm}$ look like the raising and lowering indices $a, a^\dagger$. Here $a$ and $a^\dagger$ give the states with eigenvalues $n\pm 1$ under the number operator $N$ (if the states are non-zero). To find whether our new states are non-zero, we compute their norms.
 \begin{align*}
     \norm{J_+ \ket{j~m}}^2 &= \bra{j~m} (J_+)^\dagger J_+\ket{j~m} \\
     &= \bra{j~m} J_- J_+\ket{j~m} \\
@@ -202,7 +202,7 @@ In this basis,
         0 & 1 & 0
     \end{pmatrix}
 \end{equation*}
-For $j = \frac12$, we adopt the convention that $j$ is spin so $s = \frac12$. The basis is:
+For $j = \frac12$, we adopt the convention that $J$ is a spin operator and call it $S$.
 \begin{equation*}
     \ket{\frac12~\frac12} = \upst \mapsto \begin{pmatrix}1 \\ 0\end{pmatrix},\qquad \ket{\frac12~-\frac12} = \dnst \mapsto \begin{pmatrix}0 \\ 1\end{pmatrix}.
 \end{equation*}
@@ -237,6 +237,84 @@ Or, $S_i \mapsto \frac12 \hbar \sigma_i$ where:
     \begin{pmatrix}
         1 & 0 \\
         0 & -1
-    \end{pmatrix}.
+    \end{pmatrix}
 \end{equation*}
+are the Pauli matrices. They are Hermitian, traceless 2x2 matrices obeying:
+\begin{align*}
+    \sigma_1^2&= \sigma_2^2 = \sigma_3^2 = 1 \\
+    \sigma_1\sigma_2 &= -\sigma_2\sigma_1 = i\sigma_3 \text{ and cyclic permutations}
+\end{align*}
+which can be summarised:
+\begin{equation*}
+    \sigma_i \sigma_j = \delta_{ij} + i \epsilon_{ijk} \sigma_k.
+\end{equation*}
+
+The antisymmetry relationship can be summarised by $\cmmt{\sigma_i}{\sigma_j} = 2i\epsilon_{ijk}\sigma_k$. This corresponds to the standard angular momentum relationship $\cmmt{S_i}{S_j} = i\hbar \epsilon_{ijk} S_k$. The symmetric part is unique to spin-$\frac12$.
+
+We can regard the Pauli matrices as components of a vector\\$\vec\sigma = (\sigma_1, \sigma_2, \sigma_3)$ and then if $\vec a$ and $\vec b$ are any constant vectors (or operators that commute with $S_i$),
+\begin{equation*}
+    (\vec{a} \cdot \vec{\sigma})(\vec{b} \cdot \vec{\sigma}) = (\vec{a} \cdot \vec{b}) + i (\vec{a} \times \vec{b}) \cdot \vec\sigma
+\end{equation*}
+and as a special case, $(\vec{n} \cdot \vec{\sigma})^2 = 1$ where $\vec n$ is any unit vector. This is equivalent to:
+\begin{equation*}
+    (\vec{n} \cdot \vec{S})^2 = \frac{\hbar^2}{4}
+\end{equation*}
+which agrees with the fact that the eigenvalues are $\pm \hbar / 2$, which means there are two spin states for any choice of $\vec n$. 
+
+Finally, $\abs{\vec \sigma}^2 = 3$ which is consistent with $\abs{\vec S}^2 = \frac34 \hbar^2$.
+\section{Implications of Angular Momentum and Spin}
+\subsection{Angular Momentum Operators}
+The analysis of general states revealed the possibility of intrinsic angular momentum, or spin. This is the origin of our previously introduced ``internal'' states $\ket r \leftrightarrow \ket{s~r}$ with $-s \leq r \leq s$. The spin operators obey:
+\begin{equation*}
+    \cmmt{S_i}{\hat{x_j}} = \cmmt{S_i}{\hat{p_j}} = 0
+\end{equation*}
+which is compatible with our tensor product notation and separation of spin states from spatial states. Note that $\opvec{x}, \vec S^2$ and $S_3$ are a complete commuting set, and further $L_i$ do not commute with $\hat{x_j}$ and $\hat{p_j}$. In general, a particle may also have orbital angular momentum (derived from $\opvec{x}$ and $\opvec p$) as well as spin, then the total angular momentum is found using $\vec J = \vec L + \vec S$.
+
+By what we have said above, $\cmmt{S_i}{L_j} = 0$. We know:
+\begin{align*}
+    \cmmt{S_i}{S_j} &= i\hbar \epsilon_{ijk} S_k \\
+    \cmmt{L_i}{L_j} &= i\hbar \epsilon_{ijk} L_k
+\end{align*}
+and so:
+\begin{equation*}
+    \cmmt{J_i}{J_j} = i\hbar \epsilon_{ijk} J_k
+\end{equation*}
+\subsection{Interaction and Observations}
+\noindent\underline{\textbf{Required knowledge from classical electromagnetism:}}
+\begin{leftbartext}
+Moving electric charges in a magnetic field $\vec B$ have an energy $- \vec{\mu} \cdot \vec{B}$, where $\vec\mu$ is the magnetic dipole moment of the charge distribution.
+
+We think of $\vec \mu$ as a tiny magnet, so energy is minimised / maximised when $\vec\mu$ is aligned / anti-aligned with $\vec{B}$. For a single charge $q$ in an orbit with angular momentum $\vec L$, we can show that:
+\begin{equation*}
+    \vec\mu = \frac{q}{2m} \vec L
+\end{equation*}
+\end{leftbartext}
+Then, interaction energy gives a term in the Hamiltonian of the form: $-\gamma \vec{L} \cdot \vec{B}$ for some constant $\gamma$. In QM, we consider when the term is included in the Hamiltonian for the hydrogen atom (and any other spherically symmetric potential is similar).
+
+If $\vec B = \vec0$ then we have the joint eigenstates $\psi_{lm}(\vec x)$ of $H, \vec L^2, L_3$ with degenerate energies $E$. When a weak magnetic field is added along the $z$ direction, 
+\begin{equation*}
+    H \mapsto H - \gamma B L_3
+\end{equation*}
+and note that $\psi_{lm}$ are still eigenstates, but their energies are shifted:
+\begin{equation*}
+    E \mapsto E-\gamma B \hbar m.
+\end{equation*}
+This is observed in the lab and is known as the Zeeman effect. Similarly with spin, we expect an interaction term in the Hamiltonian of the form:
+\begin{equation*}
+    -\gamma' \vec{S} \cdot \vec{B}
+\end{equation*}
+with $\gamma'$ a new constant. For a spin-$\frac12$ particle initially in some eigenstate of $H$, this new term adds or subtracts $\gamma' B \frac\hbar2$ to the energy levels. This is also observed, and is known as the Zeeman effect (duplicate name). These two distinct energy levels for the different spins give direct experimental evidence for particle spins.
+
+In some physical situations, the system may be highly constrained in $V_{\text{space}}$ and so is entirely described by spin degrees of freedom. In this case $H = -\gamma \vec{S} \cdot \vec{B}$ is the entire Hamiltonian for the interaction with a background magnetic field.
+
+
+Other important consequences of spin:
+\begin{itemize}
+    \item Stern-Gerlach experiment -- already mentioned -- form of interaction requires inhomogeneous $\vec B$ field to produce beams of particles separated in space.
+    \item Fine structure of atoms -- for the electron the $\vec L$ and $\vec S$ operators each behave themselves like a dipole, giving a term proportional to $\vec{L} \cdot \vec{S}$. The effect is of the same order as the first relativistic correction to the electron kinetic energy,
+        \begin{equation*}
+            \frac38 \frac{p^4}{m^3}c^2.
+        \end{equation*}
+        Together they produce small splittings of the energy levels.
+\end{itemize}
 \end{document}
