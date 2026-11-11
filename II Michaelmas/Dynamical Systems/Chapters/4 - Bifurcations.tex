@@ -1,0 +1,109 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definition and Examples}
+\begin{definition}{Bifurcation}
+    Let $\dvec{x} = \vec{f}(\vec{x};\mu)$ be a dynamical system parameterised by $\mu$. A \underline{bifurcation} is a change in the topological structure of the flow as $\mu$ passes through some critical value $\mu_c$. In this case, $\mu_c$ is an \underline{bifurcation point}.
+\end{definition}
+\begin{remark}
+    We will often take $\mu_c = 0$, after possibly shifting it in the definition of $\vec{f}$.
+\end{remark}
+\begin{example}
+    Consider:
+    \begin{equation*}
+        \dot{x} = \mu x + y - x(x^2 + y^2),\qquad \dot{y} = -x + \mu y - y(x^2 - y^2)
+    \end{equation*}
+    and transforming this to plane polar coordinates gives:
+    \begin{equation*}
+        \dot{r} = r(\mu - r^2),\qquad \dot{\theta} = 1.
+    \end{equation*}
+    We can consider the fixed point at the origin for different values of $\mu$: for $\mu < 0$ we have a stable focus, for $\mu = 0$ we still have a stable focus but slower convergence, and for $\mu > 0$ we have an unstable focus with periodic orbit. Therefore, we conclude that there is a bifurcation at $\mu = 0$.
+\end{example}
+\begin{remarks}
+    \item We will generally be concerned with local bifurcations, looking at topological changes in a small vicinity of fixed points.
+    \item We can say that if a fixed point changes stability then there has been a change in topological structure.
+        Therefore local bifurcations happen at non-hyperbolic fixed points.
+\end{remarks}
+\begin{proposition}
+    Local bifurcations require the real part of at least one eigenvalue of a fixed point to be zero.
+    \label{propBifZeroEVal}
+\end{proposition}
+\begin{proof}[sketch]
+    We can linearise near the fixed point and apply \thmref{propHypMeansLinearOnly} to show that the topological structure changes only when the fixed point becomes non-hyperbolic at the bifurcation point.
+\end{proof}
+\section{Bifurcations in One Dimension}
+Consider a 1D system, $\dot{x} = f(x; \mu)$, with a non-hyperbolic fixed point at $x = 0$ when $\mu = 0$. This means $f(0, 0) = 0$ and $\frac{df}{dx}(0, 0) = 0$.
+
+This is related to stationary bifurcations in $\R^n$, where at least one eigenvalue is exactly zero (not just its real part).
+\begin{example}
+    Consider the dynamical system $\dot{x} = \mu - x^2$. We see that for $\mu < 0$, $\dot{x}$ is always negative, and for $\mu = 0$ we only have the origin where $\dot{x} = 0$. When $\mu > 0$, we will have a region centred around the origin for which $\dot{x} > 0$. See figure~\ref{figOneDBifs} for these cases.
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw (-2, 2) -- (2, 2)
+            node[pos=0, left] {$\mu < 0$}
+            pic[pos=0.3, rotate=90] {patharrow}
+            pic[pos=0.7, rotate=90] {patharrow};
+
+        \draw (-2, 0) -- (2, 0)
+            node[pos=0, left] {$\mu = 0$}
+            pic[pos=0.3, rotate=90] {patharrow}
+            pic[pos=0.7, rotate=90] {patharrow};
+        \fill (0, 0) circle[radius=0.1];
+
+        \draw (-2, -2) -- (2, -2)
+            node[pos=0, left] {$\mu < 0$}
+            pic[pos=0.2, rotate=90] {patharrow}
+            pic[pos=0.5, rotate=-90] {patharrow}
+            pic[pos=0.8, rotate=90] {patharrow};
+        \fill (-0.5, -2) circle[radius=0.1];
+        \fill (0.5, -2) circle[radius=0.1];
+    \end{tikzpicture}
+    \caption{Diagram of 1D bifurcations}
+    \label{figOneDBifs}
+\end{figure}
+
+We can expand $f(x;\mu)$ near $x = 0, \mu = 0$:
+\begin{align*}
+    f(x;\mu) &= f(0;0) + \mu f_\mu(0, 0) + \frac12 f_{xx}(0;0)x^2 + x\mu f_{x\mu}(0;0) + \frac12 f_{\mu\mu}(0;0) + \cdots \\
+    &= \left[\mu f_{\mu}(0; 0) + O(\mu^2)\right] + x\mu f_{x\mu}(0; 0) + \frac12 f_{xx}(0;0) + O(x^3) \\
+    &= A\mu + B x\mu + Cx^2 + O(\mu^2, x^3)
+\end{align*}
+where $A = f_\mu(0;0), B = f_{x\mu}(0;0), C = \frac12 f_{xx}(0;0)$. Completing the square:
+\begin{equation*}
+    \dot{x} = A\mu + C\left(x + \frac{B\mu}{2C}\right)^2 - \frac{B^2 \mu^2}{4C} + O(\mu^2, x^3)
+\end{equation*}
+but we can remove this last term because we are working to $O(\mu)$:
+\begin{equation*}
+    \dot{x} \approx A\mu + C\left(x + \frac{B\mu}{2C}\right)^2.
+\end{equation*}
+Transforming coordinates as:
+\begin{equation*}
+    x \mapsto -y + \frac{B}{2C}\mu,\qquad t \mapsto T / C, \qquad \mu \mapsto \tilde{\mu} = -\frac{A}{C}\mu
+\end{equation*}
+yields the \underline{normal form}:
+\begin{equation*}
+    \dot{y} = \tilde\mu - y^2.
+\end{equation*}
+This requires $A$ and $C$ to be non-zero. If in fact $A = 0$ we have a \underline{transcritical bifurcation}, with normal form given by:
+\begin{equation*}
+    \dot{y} = \tilde{\mu} y - y^2
+\end{equation*}
+under the transformations $y = -x, T = Ct, \tilde\mu = \frac B C \mu$. This gives a stable fixed point at the origin (and an unstable one at $x = \mu$) for $\mu < 0$, a half-stable, half-unstable fixed point at the origin for $\mu = 0$, and an unstable fixed point at the origin (and stable one at $x = \mu$) when $\mu > 0$. We can represent this as a plot of $\mu$ against $x$ -- see figure~\ref{figTranscritBif}. Here the dotted line represents an unstable fixed point, the solid line represents a stable one.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw[->] (-2, 0) -- (2, 0) node[right] {$\mu$};
+        \draw (0, -2) -- (0, 2) node[above] {$x$};
+
+        \draw[dashed, blue] (-2, -2) -- (0, 0);
+        \draw[blue] (-2, 0) -- (0, 0);
+
+        \draw[dashed, blue] (0, 0) -- (2, 0);
+        \draw[blue] (0, 0) -- (2, 2);
+    \end{tikzpicture}
+    \caption{Diagram for a transcritical bifurcation}
+    \label{figTranscritBif}
+\end{figure}
+\end{document}
