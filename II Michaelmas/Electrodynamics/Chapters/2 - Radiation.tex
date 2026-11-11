@@ -112,7 +112,7 @@ We can interpret this as follows:
 We consider radiation from a macroscopic charge distribution which is localised to a region of size $a$ and with speeds much less than $c$.
 
 We will consider the origin inside the charge distribution, and want to calculate the fields at a point $\vec{x}$ far from the charge distribution ($\vec{x} \gg a$). $\vec{y}$ will be a point within the charge distribution (consistent with \eqnref{eqnRetardedPotential}).
-\subsection{Magnetic Dipole Approximation}
+\subsection{Dipole Approximation for the Magnetic Field}
 Some expansions are required:
 \begin{align*}
     \abs{\vec{x} - \vec{y}}&= \left(\abs{\vec x}^2 - 2 \vec{x} \cdot \vec{y} + \abs{\vec y}^2\right)^{\frac12} \\
@@ -124,14 +124,14 @@ where $\uvec{x} = \frac1r \vec{x}$.
 
 We now substitute into \eqnref{eqnRetardedPotential}:
 \begin{align*}
-    A^\mu(t, \vec x) &= \frac{\mu_0}{4\pi} \int J^\mu(t_{ret}, \vec{y}) r \left(1 + \frac{\uvec{x} \cdot \vec y}{r} + O\left(\frac{a^2}{r^2}\right)\right) \\
+    A^\mu(t, \vec x) &= \frac{\mu_0}{4\pi} \int J^\mu(t_{ret}, \vec{y}) r \left(1 + \frac{\uvec{x} \cdot \vec y}{r} + O\left(\frac{a^2}{r^2}\right)\right)d^3\vec y \\
     t_{ret} &= t - \frac r c + \frac{\uvec{x} \cdot \vec y}{c}
 \end{align*}
 We need to be careful with our retarded time. For a source oscillating with frequency $\omega$, we would need $\frac{a}{c} \ll \frac{1}{\omega}$ so that the change in the retarded time across the source is small compared to the period of the oscillation. We therefore need the dimensionless quantity $\frac{a\omega}{c} \ll 1$. Note that this is handled moving much slower than $c$, because $a\omega$ can be thought of as a typical speed scale. Furthermore, since the field will oscillate on the order $\omega$ for this distribution, the condition is equivalent to $a$ being much smaller than the wavelength of radiation.
 
 Therefore, for sufficiently slow time variations of the source, we can ignore the variation of $t_{ret}$ with $\vec{y}$:
 \begin{equation}
-    \vec{A}(t, \vec{x}) \approx \frac{\mu_0}{4\pi r} \vec{J}(t - \frac r c, \vec{y}) d^3\vec{y}
+    \vec{A}(t, \vec{x}) \approx \int_{\R^3} \frac{\mu_0}{4\pi r} \vec{J}(t - \frac r c, \vec{y}) d^3\vec{y}
     \label{eqnElecDipoleJ}
 \end{equation}
 We want this in terms of the electric dipole moment:
@@ -179,7 +179,7 @@ For a set of charges $q_i$ at $\vec{x_i}(t)$, then:
     \vec{p} = \sum_i q_i \vec{x_i}(t) \implies \ddvec{p} = \sum_i q_i \ddvec{x_i}
 \end{equation*}
 which tells us that it is accelerated charges that give rise to this magnetic field.
-\subsection{Electric Dipole Approximation}
+\subsection{Dipole Approximation for the Electric Field}
 For $\vec{E} = -\frac{\partial \vec{A}}{\partial t} - \nabla \phi$, we need $\phi$. We have to work to higher order terms in $a / \lambda$ and $a / r$ to get time-dependent field, since if we approximate $\phi$ to first order:
 \begin{equation*}
     \phi \approx \frac{\mu_0}{4\pi r} \int \rho\left(t - \frac r c, \vec{x}\right) d^3\vec{x}
@@ -201,6 +201,7 @@ Integrating:
     $\vec{E}$ and $\vec{B}$ are related in the far field as for a plane wave propagating along $\uvec{x}$. That is to say, for $r \gg \lambda$, we can neglect the curvature of the wavefronts and everything looks planar.
 \end{remark}
 \subsection{Power Radiated by a Charge Distribution}
+\label{sscRadiatedPower}%
 Considering equations~\ref{eqnMagnetDipoleB} and \ref{eqnElecDipoleE}, we see that there is a non-zero energy being radiated out from the current distribution. The Poynting vector over a sphere at radius $r$ in the far field is:
 \begin{align*}
     \vec{N} &=\frac{1}{\mu_0} \vec{E} \times \vec{B} \\
@@ -247,4 +248,84 @@ then the radiated power (from subsection~\ref{sscRadiatedPower}) is:
     P = \frac{\mu_0}{6\pi c} \abs{\ddvec{p}}^2 \implies \tAvg{P} = \frac{\mu_0}{6\pi c} \frac{e^4 \abs{\vec{E_0}}^2}{2m_e^2}
 \end{equation*}
 This factor $\abs{\vec{E_0}}^2$ is the same as in the power incident on the charge distribution, so we see that the radiated power is proportional to the incident power.
+\begin{definition}{Scattering cross-section}
+    The \underline{scattering cross-section}, $\sigma$, is the scattered power divided by the incident energy flux.
+\end{definition}
+
+The time-averaged Poynting vector of an incident plane wave is:
+\begin{equation*}
+    \tAvg{\vec N} = \frac12 \frac{\vec{E_0}^2}{\mu_0 c} \uvec{k}
+\end{equation*}
+and so, for Thompson scattering,
+\begin{equation*}
+    \sigma_T = \frac{\mu_0^2 e^4}{4\pi m_0^2} = \frac{e^4}{6\pi \epsilon_0 (m_0c^2)^2}
+\end{equation*}
+\subsection{Rayleigh Scattering}
+Consider scattering from bound charges in atoms/molecules with wavelength much larger than the size of the scattering, so the dipole approximation is valid. Molecules tend to polarise in an applied field, developing oscillating dipole moments. Typically,
+\begin{equation*}
+    \vec p = \alpha \vec E
+\end{equation*}
+where $\alpha$ is the polarisability which depends on the exact form of the scatterer.
+
+Taking two derivatives:
+\begin{equation*}
+    \ddvec{p} = -\alpha\omega^2 \vec{E_0}^2 \cos(\omega t)
+\end{equation*}
+and scattered power is:
+\begin{equation*}
+    \tAvg{\frac{dE}{dt}} = \frac{\mu_0}{6\pi c} \frac{(\alpha \omega^2)^2}{2} |\vec{E_0}|^2
+\end{equation*}
+and so the scattering cross-section is:
+\begin{equation*}
+    \sigma_R = \frac{\mu_0 \alpha^2 \omega^4}{6\pi} \propto \frac{1}{\lambda^4} 
+\end{equation*}
+This frequency-dependent scattering is observed as the different colours of the sky when the sun is at different angles. When the sun is overhead, the blue light is more scattered and so the sky is blue. When the sun is rising or setting, the blue light is scattered away and the red and yellow light (that is not scattered as efficiently) passes through the atmosphere.
+\section{Radiation from an Arbitrarily Moving Point Charge}
+If a point charge is moving close to the speed of light, we will not be able to use the dipole expansion. Indeed, going to higher orders in the expansion will generate a series that converges very slowly.
+
+This suggests a non-perturbative approach. Consider a single point charge $q$ following a worldline $Y(\tau)$.
+\subsection{Lienard-Weichert Potential}
+The current is:
+\begin{equation*}
+    J^\mu(X) = qc \int \delta(X - Y(\tau)) Y^\mu(\tau) d\tau
+\end{equation*}
+and the $4$-vector potential is:
+\begin{equation*}
+    A^\mu(x) = \frac{\mu_0}{4\pi} \int J^\mu(Z) 2\delta\left[\eta_{\alpha\beta}(X^\alpha - z^\alpha)(X^\beta - Z^\beta)\right] H(X^0 - Z^0) d^4Z
+\end{equation*}
+Inserting our current:
+\begin{equation*}
+    A^\mu(X) = \frac{2\mu_0qc}{4\pi} \int \delta[\eta_{\alpha\beta}R^\alpha(\tau)R^\beta(\tau)] H(R^0(\tau)) \frac{dY}{d\tau} d\tau
+\end{equation*}
+where $R^\mu(\tau) = X^\mu - Y^\mu(\tau)$. This integral selects the intersection of $Y^\mu(\tau)$ with the past light cone through $X$.
+
+We can think of $\delta[\eta_{\alpha\beta}R^\alpha(\tau) R^\beta(\tau)] H(R^0(\tau))$ as a function of $\tau$. Note that the delta function has two roots, but only one survives the Heaviside function (only one is on the past light cone). We let this root be $\tau_*(X)$. Then:
+\begin{equation*}
+    \delta[\eta_{\alpha\beta}R^\alpha(\tau) R^\beta(\tau)] H(R^0(\tau)) = \frac{\delta(\tau - \tau_*(X))}{\frac{d}{d\tau} R_\alpha R^\alpha} = \frac{\delta(\tau - \tau_*(X))}{2|R^\alpha(\tau_*) \dot{Y}_\alpha(t_*)}
+\end{equation*}
+where we set $\dot{Y}$ to be the $\tau$-derivative. Finally, we can integrate over $\tau$ to get:
+\begin{equation}
+    A^\mu(X) = \frac{\mu_0 q c}{4\pi} \frac{\dot{Y}(\tau_*)}{|R^\alpha(\tau_*) \dot{Y}_\alpha(\tau_*)}
+    \label{eqnLienardWeichert}
+\end{equation}
+which is the Lienard-Weichert potential.
+
+Consider an inertial frame in which:
+\begin{equation*}
+    \dot{Y}_\alpha(\tau_*) = \gamma(\tau_*) \begin{pmatrix}-c \\ \vec{v}(\tau_*)\end{pmatrix},\qquad R^\alpha(\tau) = \begin{pmatrix}c\delta t(\tau_8) \\ \vec{R}(\tau_*)\end{pmatrix}
+\end{equation*}
+where $\vec{R} = \vec{x} - \vec{y}(\tau_*)$, and $c \delta t = ct - Y^0(\tau_*) = \abs{\vec{R}}$ because the vector is null, so write this as $R(\tau_*)$.
+
+It follows that:
+\begin{equation*}
+    |R^\alpha(\tau_*) \dot{Y}_\alpha(\tau_*)| = c\gamma(\tau_*) R(\tau_*) \left[1 - \frac{\vec{v}(\tau_*)}{c} \uvec{R}(\tau_*)\right]
+\end{equation*}
+This take $R^\mu$ and projects it onto the direction of the $4$-velocity of the particle at the event on the worldline at $\tau_*$. Therefore, in the the frame in which the particle is at rest in this event, $R = c\Delta t = c\abs{\vec{x} - \vec{y}(\tau_*)} = R_{rest}(\tau_*)$.
+
+We can calculate the scalar and vector potentials:
+\begin{align*}
+    \phi(t, x) &= \frac{q}{4\pi \epsilon_0 R_{rest}(\tau_*)} \frac{1}{1 - \vec{v}(\tau_*) \cdot \uvec{R} / c} \\
+    \vec{A}(t, x) &= \frac{\mu_0 q}{4\pi R_{rest}(\tau_*)} \frac{\vec{v}(\tau_*)}{1 - \vec{v}(\tau_*) \cdot \uvec{R} / c}
+\end{align*}
+Note that $1 - \uvec{R}(\tau_*) \cdot \vec{v}(\tau_*) / c$ is small for $\uvec{R}$ parallel to $\vec{v}$ for $v \sim c$. This means that the fields are concentrated in the direction of motion.
 \end{document}
