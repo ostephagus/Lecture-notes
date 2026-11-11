@@ -1,0 +1,42 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Vorticity Equation}
+We start with \eqnref{eqnNavierStokes} (Navier-Stokes equations) and assume that the body force is conservative, $f = -\nabla \chi$.
+\begin{equation*}
+    \rho \left(\frac{\partial \vec u}{\partial t} + (\vec{u} \cdot \nabla)\vec u\right) = -\nabla p + \mu \nabla^2 \vec u + \nabla \chi
+    \tag{\ref{eqnNavierStokes}}
+\end{equation*}
+Recall that $\vec u \times (\nabla \times \vec{u}) = \nabla \left(\frac12 |\vec{u}|^2\right) - (\vec{u} \cdot \nabla) \vec{u}$. Therefore,
+\begin{align*}
+    \nabla \times ((\vec{u} \cdot \nabla)\vec u) &= -\nabla (\vec{u} \times \vec{\omega}) \\
+    &= -\left[\vec u \nabla \cdot \vec{\omega} - \vec\omega \cdot (\nabla \vec u) - \vec\omega \nabla \cdot \vec{u} - \vec u \cdot (\nabla \vec\omega)\right] \\
+    &= \vec u \cdot (\nabla \vec\omega) - \vec\omega \cdot (\nabla \vec u).
+\end{align*}
+Hence, for $\rho, \mu$ uniform, taking the curl of \eqnref{eqnNavierStokes} (Navier-Stokes equation) gives:
+\begin{equation}
+    \frac{D \vec\omega}{D t} = \frac{\partial \vec\omega}{\partial t} + \underbrace{(\vec u \cdot \nabla) \vec\omega}_{\text{advection}} = \underbrace{(\vec{\omega} \cdot \nabla)\vec u}_{\substack{\text{vortex}\\\text{stretching}}} + \underbrace{\nu \nabla^2 \vec\omega}_{\text{diffusion}}
+    \label{eqnVorticity}
+\end{equation}
+\begin{remarks}
+    \item There is no source term on the interior, so $\vec\omega$ comes form the boundaries or, more rarely, initial conditions.
+    \item In 2D flow, $\vec u = (\psi_y, -\psi_x, 0) \implies \vec\omega = (0, 0, \omega)$ and so $(\vec{\omega} \cdot \nabla)\vec u = \vec 0$, no vortex stretching.
+\end{remarks}
+\section{Vortex stretching}
+Recall from IB Fluid Dynamics that a material line element $\delta l$ is advected according to:
+\begin{equation*}
+    \frac{d}{dt} \vec{\delta l} = (\vec{\delta l} \cdot \nabla) \vec u
+\end{equation*}
+Therefore, if diffusion is negligible then vorticity is advected, rotated and stretched in just the same way that a material line parallel to $\vec\omega$ would be. Note that:
+\begin{equation*}
+    (\vec{\omega} \cdot \nabla)\vec u = \vec\omega^T e
+\end{equation*}
+because the antisymmetric part yields a term proportional to $\vec{\omega} \times \vec{\omega}$. Therefore, steady strain amplifies $\vec\omega$ in the direction(s) of stretching.
+
+Consider, as in figure~\ref{figAngularMomentum}, a cylinder of radius $a_1$ and height $l_1$, rotating with angular velocity $\omega_1$ in a straining flow. Some time later, this will become a cylinder of radius $a_2$ and height $l_2$, rotating with angular velocity $\omega_2$. If there is no dissipation of energy ($\nu = 0$),
+\begin{align*}
+    \text{Mass conservation} \implies& \rho a_1^2 l_1 = \rho a_2^2 l_2 \\
+    \text{Angular momentum conservation} \imples& \rho a_1^4 l_1 \omega_1 = \rho a_2^4 l_2\omega_2
+\end{align*}
+which means $\omega_2 = \frac{l_2}{l_1}\omega_1$.
+\end{document}

@@ -395,5 +395,39 @@ To solve this we set:
 \begin{equation*}
     H(t) = \left(\frac{\nu V}{gt}\right)^{\frac14},\qquad R(t) = \left(\frac{gtV^3}{\nu}\right)^\frac18
 \end{equation*}
+and substitute in the to the PDE, noting that $H(t) \propto t^{-\frac14} \implies \frac{dH}{dt} = -\frac14 \frac H t$. Similarly, $\eta \propto t^{-\frac18} \implies \frac{\partial \eta}{\partial t} = \frac18 \frac\eta t$ and $\frac{\partial}{\partial r} = \frac1R \frac{\partial}{\partial \eta}$. We are now ready:
+\begin{align*}
+    -\frac14 \frac{H}{t} f(\eta) &+ \frac{df}{d\eta} \left(-\frac18 \frac{\eta}{t}\right) = \frac{g}{3\nu} \frac{H^4}{R^2} \frac{1}{\eta} \frac{d}{d\eta} \left(\eta f^3 \frac{df}{d\eta}\right) \\
+    \implies -\frac14 f(\eta) &- \frac18 \eta f'(\eta) = \frac13 \frac1\eta \frac{d}{d\eta} (\nu f^3(\eta) f'(\eta)) 
+\end{align*}
+by cancelling $\frac H t = \frac g \nu \frac{H^4}{R^2}$. Similarly, the volume constraint becomes:
+\begin{equation*}
+    2\pi \int_{0}^{\eta_N} f(\eta) d\eta = 1
+\end{equation*}
+where $\eta_N = \frac{r_N}{R}$.
 
+To solve the ODE we have now found for $f(\eta)$, we can multiply by $\eta$ to find an exact differential for $\eta^2 f(\eta)$:
+\begin{equation*}
+    -\frac18 \eta^2 f(\eta) = \frac13 \eta f^3(\eta) f(\eta) + \text{const}
+\end{equation*}
+To find the constant we use our boundary condition that $f'(0)$ is finite, so setting $\eta = 0$ gives that the constant is zero.
+\begin{align*}
+    -\frac13 f(\eta)^2 f'(\eta) &= -\frac18 \eta \\
+    \implies \frac19 f(\eta)^3 &= \frac1{16} (\eta_N^2 - \eta^2)
+\end{align*}
+applying our volume constant to determine the constant $\eta_N$. Finally, our shape function is:
+\begin{equation*}
+    f(\eta) = \left[\frac9{16} (\eta_N^2 - \eta^2)\right]^{\frac13}.
+\end{equation*}
+To find an exact value of $\eta_N$, we can substitute the form of $f(\eta)$ into the integral equation:
+\begin{align*}
+    1 &= 2\pi \int_{0}^{\eta_N} \left(\frac{9}{16}\right)^{\frac13} (\eta_N^2 - \eta^2)^{\frac13} d\eta \\
+    &= 2\pi \left(\frac34\right)^{\frac23}\frac38 \eta_N^{\frac83} \\
+    \implies \eta_N &= \left(\frac{2^{10}}{3^5 \pi^3}\right)^{\frac18} \approx 0.7791
+\end{align*}
+and so the gravity current spreads with:
+\begin{equation*}
+    r_N = \eta_N \left(\frac{V^3 gt}{\nu}\right)^{\frac18}
+\end{equation*}
+which is incredibly slow growth: if it took a second to spread to 1cm, then it will take 4 minutes to get to 2cm and 18 hours to get to 4cm.
 \end{document}
