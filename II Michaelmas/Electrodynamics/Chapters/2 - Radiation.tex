@@ -79,14 +79,14 @@ so we can think of this as the integral over a past light cone from $(t, \vec{x}
 
 We want to show that \eqnref{eqnRetardedPotential} is covariant. To establish this, we rewrite as:
 \begin{equation}
-    A^\mu(X) = \frac{\mu_0}{4\pi} \int J^\mu(Y) \frac{\delta(Y^0 - X^0 + |\vec{x} - \vec{y}|)}{|\vec{x} - \vec{y}|} d^4Y
+    A^\mu(X) = \frac{\mu_0}{4\pi} \int J^\mu(Y) \frac{\delta(Y^0 - X^0 + \abs{\vec{x} - \vec{y}})}{\abs{\vec{x} - \vec{y}}} d^4Y
     \label{eqnRetardedPotentialRewrite}
 \end{equation}
 We need the following proposition.
 \begin{proposition}
     Define $R^\mu = X^\mu - Y^\mu$. Then the fraction of \eqnref{eqnRetardedPotentialRewrite} is:
     \begin{equation*}
-        \frac{\delta(Y^0 - X^0 - |\vec{x} - \vec{y}|)}{|\vec{x} - \vec{y}|} = 2\delta(\eta_{\mu \nu} R^\mu R^\nu) H(R^0)
+        \frac{\delta(Y^0 - X^0 - \abs{\vec{x} - \vec{y}})}{\abs{\vec{x} - \vec{y}}} = 2\delta(\eta_{\mu \nu} R^\mu R^\nu) H(R^0)
     \end{equation*}
     where $H$ is the Heaviside function.
     \label{propRewriteGreens}
@@ -116,7 +116,7 @@ We will consider the origin inside the charge distribution, and want to calculat
 Some expansions are required:
 \begin{align*}
     \abs{\vec{x} - \vec{y}}&= \left(\abs{\vec x}^2 - 2 \vec{x} \cdot \vec{y} + \abs{\vec y}^2\right)^{\frac12} \\
-    &= r \left(1 - \frac{2 \vec{x} \cdot \vec{y}}{r^2} + \frac{|\vec{y}|^2}{r^2}\right)^{\frac12} \\
+    &= r \left(1 - \frac{2 \vec{x} \cdot \vec{y}}{r^2} + \frac{\abs{\vec{y}}^2}{r^2}\right)^{\frac12} \\
     &= r\left(1 - \frac{\vec{x} \cdot \vec{y}}{r^2} + O\left(\frac{a^2}{r^2}\right)\right) \text{ by Binomial expansion} \\
     &= r - \uvec{x} \cdot \vec{y} + O\left(\frac{a^2}{r}\right)
 \end{align*}
@@ -206,7 +206,7 @@ Considering equations~\ref{eqnMagnetDipoleB} and \ref{eqnElecDipoleE}, we see th
 \begin{align*}
     \vec{N} &=\frac{1}{\mu_0} \vec{E} \times \vec{B} \\
     &= \frac{c}{\mu_0} \vec{B} \times (\uvec{x} \times \vec B) \\
-    &= \frac{c}{\mu_0} |\vec{B}|^2 \uvec{x} \\
+    &= \frac{c}{\mu_0} \abs{\vec{B}}^2 \uvec{x} \\
     &= \frac{\mu_0}{(4\pi r)^2} \abs{\uvec{x} \times \ddvec{p}} \uvec{x}
 \end{align*}
 which varies as $r^{-2}$. Note that $\vec{N}$ is the power per unit area, so integrating over an area would give a constant.
@@ -273,7 +273,7 @@ Taking two derivatives:
 \end{equation*}
 and scattered power is:
 \begin{equation*}
-    \tAvg{\frac{dE}{dt}} = \frac{\mu_0}{6\pi c} \frac{(\alpha \omega^2)^2}{2} |\vec{E_0}|^2
+    \tAvg{\frac{dE}{dt}} = \frac{\mu_0}{6\pi c} \frac{(\alpha \omega^2)^2}{2} \abs{\vec{E_0}}^2
 \end{equation*}
 and so the scattering cross-section is:
 \begin{equation*}
@@ -301,11 +301,11 @@ where $R^\mu(\tau) = X^\mu - Y^\mu(\tau)$. This integral selects the intersectio
 
 We can think of $\delta[\eta_{\alpha\beta}R^\alpha(\tau) R^\beta(\tau)] H(R^0(\tau))$ as a function of $\tau$. Note that the delta function has two roots, but only one survives the Heaviside function (only one is on the past light cone). We let this root be $\tau_*(X)$. Then:
 \begin{equation*}
-    \delta[\eta_{\alpha\beta}R^\alpha(\tau) R^\beta(\tau)] H(R^0(\tau)) = \frac{\delta(\tau - \tau_*(X))}{\frac{d}{d\tau} R_\alpha R^\alpha} = \frac{\delta(\tau - \tau_*(X))}{2|R^\alpha(\tau_*) \dot{Y}_\alpha(t_*)}
+    \delta[\eta_{\alpha\beta}R^\alpha(\tau) R^\beta(\tau)] H(R^0(\tau)) = \frac{\delta(\tau - \tau_*(X))}{\frac{d}{d\tau} R_\alpha R^\alpha} = \frac{\delta(\tau - \tau_*(X))}{2\abs{R^\alpha(\tau_*) \dot{Y}_\alpha(t_*)}}
 \end{equation*}
 where we set $\dot{Y}$ to be the $\tau$-derivative. Finally, we can integrate over $\tau$ to get:
 \begin{equation}
-    A^\mu(X) = \frac{\mu_0 q c}{4\pi} \frac{\dot{Y}(\tau_*)}{|R^\alpha(\tau_*) \dot{Y}_\alpha(\tau_*)}
+    A^\mu(X) = \frac{\mu_0 q c}{4\pi} \frac{\dot{Y}(\tau_*)}{\abs{R^\alpha(\tau_*) \dot{Y}_\alpha(\tau_*)}}
     \label{eqnLienardWeichert}
 \end{equation}
 which is the Lienard-Weichert potential.
@@ -314,18 +314,147 @@ Consider an inertial frame in which:
 \begin{equation*}
     \dot{Y}_\alpha(\tau_*) = \gamma(\tau_*) \begin{pmatrix}-c \\ \vec{v}(\tau_*)\end{pmatrix},\qquad R^\alpha(\tau) = \begin{pmatrix}c\delta t(\tau_8) \\ \vec{R}(\tau_*)\end{pmatrix}
 \end{equation*}
-where $\vec{R} = \vec{x} - \vec{y}(\tau_*)$, and $c \delta t = ct - Y^0(\tau_*) = \abs{\vec{R}}$ because the vector is null, so write this as $R(\tau_*)$.
+where $\vec{R} = \vec{x} - \vec{Y}(\tau_*)$, and $c \delta t = ct - Y^0(\tau_*) = \abs{\vec{R}}$ because the vector is null, so write this as $R(\tau_*)$.
 
 It follows that:
 \begin{equation*}
-    |R^\alpha(\tau_*) \dot{Y}_\alpha(\tau_*)| = c\gamma(\tau_*) R(\tau_*) \left[1 - \frac{\vec{v}(\tau_*)}{c} \uvec{R}(\tau_*)\right]
+    \abs{R^\alpha(\tau_*) \dot{Y}_\alpha(\tau_*)} = c\gamma(\tau_*) R(\tau_*) \left[1 - \frac{\vec{v}(\tau_*)}{c} \uvec{R}(\tau_*)\right]
 \end{equation*}
-This take $R^\mu$ and projects it onto the direction of the $4$-velocity of the particle at the event on the worldline at $\tau_*$. Therefore, in the the frame in which the particle is at rest in this event, $R = c\Delta t = c\abs{\vec{x} - \vec{y}(\tau_*)} = R_{rest}(\tau_*)$.
+This take $R^\mu$ and projects it onto the direction of the $4$-velocity of the particle at the event on the worldline at $\tau_*$. Therefore, in the the frame in which the particle is at rest in this event, $R = c\Delta t = c\abs{\vec{x} - \vec{Y}(\tau_*)} = R_{rest}(\tau_*)$.
 
 We can calculate the scalar and vector potentials:
 \begin{align*}
     \phi(t, x) &= \frac{q}{4\pi \epsilon_0 R_{rest}(\tau_*)} \frac{1}{1 - \vec{v}(\tau_*) \cdot \uvec{R} / c} \\
     \vec{A}(t, x) &= \frac{\mu_0 q}{4\pi R_{rest}(\tau_*)} \frac{\vec{v}(\tau_*)}{1 - \vec{v}(\tau_*) \cdot \uvec{R} / c}
 \end{align*}
-Note that $1 - \uvec{R}(\tau_*) \cdot \vec{v}(\tau_*) / c$ is small for $\uvec{R}$ parallel to $\vec{v}$ for $v \sim c$. This means that the fields are concentrated in the direction of motion.
+\begin{remarks}
+\item $1 - \uvec{R}(\tau_*) \cdot \vec{v}(\tau_*) / c$ is small for $\uvec{R}$ parallel to $\vec{v}$ for $v \sim c$. This means that the fields are concentrated in the direction of motion.
+\item If the particle is moving slowly,
+    \begin{equation*}
+        \vec A(t, \vec x) \approx \frac{\mu_0 q}{4\pi R(\tau_*)} \vec v(\tau_*) = \frac{\mu_0 \vec p(\tau_*)}{4\pi R(\tau_*)}
+    \end{equation*}
+    which is just the dipole approximation.
+\end{remarks}
+We can calculate the field via the Maxwell field strength tensor, $F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu$. Note, however, that we must take care with $R$, which depends directly on $X$, and $\tau_*$, which depends implicitly on $X$ because it is a point on a light cone. We can get $\partial_\mu \tau_*$ from the null condition:
+\begin{align*}
+    0 &= \eta_{\alpha\beta} R^\alpha(\tau_*) R^\beta(\tau_*)\\
+    &= 2\eta_{\alpha\beta} (\partial_\mu R^\alpha)R^\beta \\
+    &= 2\eta_{\alpha\beta} (\indx\delta\alpha\mu - \partial_\mu \tau_* \dot{Y}^\alpha(\tau_*))R^\beta \\
+    \implies&\partial_\mu(\tau_*) = \frac{R_\mu(\tau_*)}{R^\alpha(\tau_*)\dot Y_\alpha(\tau_*)}
+\end{align*}
+We find (see Ex2Q5):
+\begin{equation*}
+    F_{\mu\nu} = \frac{\mu_0 q c}{4\pi (c R_{rest})} \left[\frac{R_\mu \ddot{Y}_\nu - R_\nu \ddot{Y}_\mu}{c R_{rest}} + \frac{R_\mu \dot Y_\nu - R\nu \dot Y_\nu}{(c R_{rest})^2}(c^2 + R^\alpha \ddot{Y}_\alpha)\right]
+\end{equation*}
+where $R_{rest} = -R^\mu \dot{Y}_\mu(\tau_*)$.
+
+The terms in the above of order $R_{rest}^{-1}$ are radiation terms, and depend on $\ddot{Y}$. From this we can extract the field terms which gives, after a long calculation:
+\begin{align*}
+    \vec E(t, \vec x) &= \frac{q}{4\pi \epsilon_0 (1 - \vec{v} \cdot \uvec{R} / c)^3}\left[\frac{\uvec{R} - \vec v / c}{\gamma^2 R^2} + \frac{\uvec R \times \left[\left(\uvec R - \vec v / c\right)\times \vec a\right]}{Rc^2}\right] \\
+    \vec B &= \frac1c \uvec R(\tau_*) \times \vec E
+\end{align*}
+where $\vec a = \frac{d^{2}\vec y}{dt^{2}}$, the 3-vector acceleration.
+
+\begin{remarks}
+    \item The radiation part of the electric field is the second term, and varies as $R^{-1}$. It involves the acceleration, as expected. The fields for the radiation have more complicated angular dependence than they would for dipole radiation (see below).
+    \item The other term in the electric field is the field that the particle would generate if it were moving uniformly at $\tau_*$ (the Coulomb part).
+    \item The magnetic field is perpendicular to $\vec E$ and $\uvec R$.
+\end{remarks}
+The radiation part of the electric field is given by:
+\begin{equation*}
+    \vec{E_{rad}} = \frac{\mu_0 q}{4\pi R} \frac{\uvec R \times \left[\left(\uvec R - \vec v / c\right) \times \vec a\right]}{(1 - \vec v \cdot \uvec R / c)^3}
+\end{equation*}
+and taking $\frac{\vec v}{c} \to 0$ gives:
+\begin{equation*}
+    \vec{E_{rad}} \to \frac{\mu_0 q}{4\pi R} \uvec R \times (\uvec R \times \vec a) = \frac{\mu_0}{4\pi R} \uvec R \times \left(\uvec R \times \frac{d^{2}\vec p}{dt^{2}}\right)
+\end{equation*}
+which is consistent with the electric dipole approximation.
+\subsection{Power Radiated}
+To find the power radiated by the charge, we will again integrate the Poynting vector over an infinitely large sphere. It is simplest to do this in the instantaneous rest frame of the particle, then Lorentz transform the result if needed.
+
+Work in the frame in which $\vec v = \vec 0$, and so:
+\begin{equation*}
+    \vec{E_{rad}} = \frac{\mu_0 q}{4\pi R_{rest}} \uvec R \times \left(\uvec R \times \vec{a_{rest}}\right)
+\end{equation*}
+where all quantities are evaluated at $\tau_*$. The magnetic field is similarly given by:
+\begin{equation*}
+    \vec{B_{rad}} = \frac1c \uvec R \times \vec{E_rad}
+\end{equation*}
+Then the Poynting vector is:
+\begin{align*}
+    \vec N &= \frac1{\mu_0} \vec{E_{rad}} \times \vec{B_{rad}} = frac1{c\mu_0} \vec{E_{rad}} \times \left(\uvec R \times \vec{E_{rad}}\right) \\
+    &= \frac{1}{c\mu_0} \abs{\vec{E_{rad}}}^2 \uvec R
+\end{align*}
+because the fields are perpendicular.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Axes
+        \draw[->] (-2, 0) -- (4, 0) node[right] {$\vec{x}$};
+        \draw[->] (0, -3) -- (0, 3) node[above] {$ct$};
+
+        % Worldline
+        \draw (-1, -2) .. controls (1, -1) and (-1, 1) .. (1, 2);
+
+        \draw (-2, 2) -- (0, 0) -- (2, 2);
+        \fill (0, 0) circle[radius=0.05];
+        \node at (0, 0) [below left] {$Y^\mu(\tau_*)$};
+
+        \fill (2, 2) circle[radius=0.05];
+
+        \draw[dashed] (2, 2) -- (2, 0);
+        \draw (2, 0) -- (2, -0.1)
+            node[below] {$R_{rest}$};
+
+        
+        \draw[pattern=north east lines] (0, 2) ellipse[x radius=2, y radius=0.2];
+
+        \node at (0, 2.5)[right, align=left] {Integration\\domain};
+    \end{tikzpicture}
+    \caption{Diagram of arbitrary trajectory and light cone}
+    \label{figLightConeTraj}
+\end{figure}
+
+By considering figure~\ref{figLightConeTraj}, we integrate the Poynting vector over a sphere of radius $R_{rest}$ centred on $\vec y(\tau_*)$. Since the charge is at rest here, radiation that is emitted in $d\tau_*$ crosses the sphere in coordinate time $dt = d\tau_*$. Therefore:
+\begin{align*}
+    \frac{dE_{rest}}{d\tau} &= \int \vec{N} \cdot \vec{dS} \\
+    &= \frac{R_{rest}^2}{c\mu_0} \int \abs{\vec{E_{rad}}}^2 dS
+\end{align*}
+%TODO: dS should be the ``element of solid angle'' - what is this??
+We choose our coordinates such that $\vec{a_{rest}}$ is parallel to the $z$ direction, and so:
+\begin{equation*}
+    \abs{\vec{E_{rest}}}^2 \propto \sin^2(\theta)
+\end{equation*}
+We can now integrate:
+\begin{equation*}
+    \frac{dE_{rest}}{d\tau} = \frac{\mu_0 q}{6\pi c} \abs{\vec{a_{rest}}}^2
+\end{equation*}
+which is exactly the same as for the dipole approximation in the instantaneous rest frame. This is because the dipole approximation is exact in the rest frame (because the particle is at rest!).
+
+We now want the energy in a general inertial frame. Note that, in the instantaneous rest frame,
+\begin{equation*}
+    dP^\mu = d\tau \left(\frac1c \frac{dE_{rest}}{d\tau}, \vec0\right)
+\end{equation*}
+where the zero 3-momentum is because we have symmetry between $\uvec R$ and $-\uvec R$. %TODO: What??
+
+The energy is then a simple Lorentz transform. If we transform to a frame in which the particle has 3-velocity $\vec v$ at $\tau_*$,
+\begin{align*}
+    \frac{dE'}{c} = dp^{0\prime} = \gamma(\tau_*) dP^0 \\
+    &= \frac{\gamma(\tau_*)}{c} d\tau \frac{dE_{rest}}{d\tau}
+\end{align*}
+we must now consider time dilation, $\frac{dt'}{d\tau} = \gamma(\tau_*)$. 
+\begin{equation*}
+    \frac{dE'}{dt'} = \frac{\gamma}{\gamma} \frac{dE_{rest}}{d\tau = \frac{dE_{rest}}{d\tau}}
+\end{equation*}
+so the power is Lorentz invariant! If we use $\abs{\vec{a_{rest}}}^2 = A^\mu A_\mu$,
+\begin{equation}
+    \frac{dE}{dt} = \frac{\mu_0 q^2}{6\pi c} A_\mu A^\mu
+    \label{eqnLarmor}
+\end{equation}
+This is the \underline{relativistic Larmor formula}, giving the power radiated by a charge and is true for any rest frame. Note that:
+\begin{align*}
+    A^\mu &= \gamma \frac{d}{dt} (\gamma c, \gamma \vec v) \\
+    &= \gamma^2 \left(\gamma^2 \frac{\vec{v} \cdot \vec{a}}{c}, \gamma^2 \frac{\vec{v} \cdot \vec{a}}{c^2} \vec{v} + \vec{a}\right) \\
+    &= \gamma^4 \left(\abs{\vec{a}}^2 + \gamma^2 \left(\frac{\vec{a} \cdot \vec{v}}{c}\right)^2\right).
+\end{align*}
 \end{document}

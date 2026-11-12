@@ -117,7 +117,7 @@ Under a Lorentz transformation, we expect the field $\vec{E}$ and $\vec{B}$ to m
 
 By contracting the electromagnetic field tensor with itself in various ways, we can generate scalars (which are invariant under Lorentz transformations).
 \begin{enumerate}
-    \item Contracting $F$ with itself: $\frac12 F_{\mu \nu} F^{\mu \nu} = |\vec{B}|^2 - |\vec{E}|^2 / c$.
+    \item Contracting $F$ with itself: $\frac12 F_{\mu \nu} F^{\mu \nu} = \abs{\vec{B}}^2 - \abs{\vec{E}}^2 / c$.
     \item Contracting $F$ with its dual: $-\frac14 F_{\mu \nu} \dual{F}^{\mu \nu} = \frac1c \vec{E} \cdot \vec{B}$.
 \end{enumerate}
 These are known as the \underline{quadratic invariants}.
@@ -171,7 +171,7 @@ For a particle under the influence of some conservative force, with potential $V
 \end{equation*}
 This is found by extremising the \underline{action}:
 \begin{equation*}
-    S = \int_{t_1}^{t_2} \underbrace{\left[\frac12 m |\dvec{x}|^2 - V\right]}_{L(\vec{x}, \dvec{x}, t)} dt 
+    S = \int_{t_1}^{t_2} \underbrace{\left[\frac12 m \abs{\dvec{x}}^2 - V\right]}_{L(\vec{x}, \dvec{x}, t)} dt 
 \end{equation*}
 via solving the Euler-Lagrange equations:
 \begin{equation*}
@@ -181,7 +181,7 @@ which is equivalent to the equation of motion above.
 
 Now consider a free particle. We would like to formulate the action that will give the relativistic equation of motion.
 
-The Lagrangian contains the kinetic energy $\frac12 m |\dvec{x}|^2$. In a relativistic setting, we must substitute:
+The Lagrangian contains the kinetic energy $\frac12 m \abs{\dvec{x}}^2$. In a relativistic setting, we must substitute:
 \begin{equation*}
     L = -\frac{mc^2}{\gamma(\dvec{x})}
 \end{equation*}
@@ -191,14 +191,14 @@ This gives a covariant action:
 \end{equation*}
 Also, in the non-relativistic limit,
 \begin{align*}
-    -\frac{mc^2}{\gamma} &= -mc^2 \sqrt{1 - |\dvec{x}|^2 / c^2} \\
-    &= -mc^2 \left(1 - \frac12 \frac{|\dvec{x}|^2}{c^2} + \cdots\right) \\
-    &\approx \text{const } + \frac12 m|\dvec{x}|^2
+    -\frac{mc^2}{\gamma} &= -mc^2 \sqrt{1 - \abs{\dvec{x}}^2 / c^2} \\
+    &= -mc^2 \left(1 - \frac12 \frac{\abs{\dvec{x}}^2}{c^2} + \cdots\right) \\
+    &\approx \text{const } + \frac12 m\abs{\dvec{x}}^2
 \end{align*}
 and using the Euler-Lagrange equation gives the equation of motion:
 \begin{align*}
     \frac{\partial L}{\partial \vec{x}} &= \frac{d}{dt} \frac{\partial L}{\partial \dvec{x}} \\
-    0 &= \frac{d}{dt} \left(\frac{m\dvec{x}}{\sqrt{1 - |\dvec{x}|^2 / c^2}}\right) \\
+    0 &= \frac{d}{dt} \left(\frac{m\dvec{x}}{\sqrt{1 - \abs{\dvec{x}}^2 / c^2}}\right) \\
     &= \frac{d}{dt} \left(\gamma m \dvec{x}\right)
 \end{align*}
 and so we recover that the relativistic 3-momentum is constant for a free particle.
@@ -220,7 +220,7 @@ Note that the final term is $qA^\mu U^\mu$.
 The Euler-Lagrange equation becomes:
 \begin{align*}
     \frac{\partial L}{\partial x_i} &= \frac{d}{dt} \frac{\partial L}{\partial \dot{x}_i} \\
-    -q \frac{\partial \phi}{\partial x_i} + q \frac{\partial A_j}{\partial x_i} \dot{x}_j &= \frac{d}{dt} \left(\frac{m\dot{x}_i}{\sqrt{1 - |\dvec{x}|^2 / c^2}} + q A_i\right) \\
+    -q \frac{\partial \phi}{\partial x_i} + q \frac{\partial A_j}{\partial x_i} \dot{x}_j &= \frac{d}{dt} \left(\frac{m\dot{x}_i}{\sqrt{1 - \abs{\dvec{x}}^2 / c^2}} + q A_i\right) \\
     &= \frac{dP_i}{dt} + q \frac{dA_i}{dt}
 \end{align*}
 Then we can expand the total derivative:
@@ -240,7 +240,7 @@ For the kinetic term, we need to recall the spacetime interval:
 \end{equation*}
 that defines proper time by $c^2 d\tau^2 = -ds^2$. We use this to change $d\tau$ into something including $d\lambda$:
 \begin{align*}
-    -mc^2 \int \sqrt{1 - |\vec{v}|^2 / c^2} dt &= -mc^2 \int d\tau \\
+    -mc^2 \int \sqrt{1 - \abs{\vec{v}}^2 / c^2} dt &= -mc^2 \int d\tau \\
     &= -mc \int \left(-\eta_{\mu\nu} dX^\mu dX^\nu\right)^\frac12 \\
     &= -mc \int \left(-\eta_{\mu\nu} \frac{dX^\mu}{d\lambda} \frac{dX^\nu}{d\lambda}\right)^\frac12d\lambda
 \end{align*}
@@ -481,7 +481,7 @@ We now explain \eqnref{eqnParticleCurrent}. First break up the 4-dimensional del
 \end{equation*}
 and recall that:
 \begin{equation*}
-    \delta(f(\lambda)) = \sum_{\text{roots of }f} \frac{\delta(\lambda - \lambda_*)}{\left|\frac{df}{d\lambda}\right|_{\lambda = \lambda^*}}
+    \delta(f(\lambda)) = \sum_{\text{roots of }f} \frac{\delta(\lambda - \lambda_*)}{\abs{\frac{df}{d\lambda}}_{\lambda = \lambda^*}}
 \end{equation*}
 from which it follows
 \begin{equation*}
@@ -504,7 +504,7 @@ then this final term is $1$ if $\mu = 0$, and $\frac1c \frac{dY^{i}}{dt}$ if $\m
     \begin{equation*}
         \frac{\partial \E}{\partial t} + \nabla \cdot \vec{N} = -\vec{J} \cdot \vec{E}
     \end{equation*}
-    where $\E = \frac12 \epsilon_0 |\vec{E}|^2 + \frac1{2\mu_0} |\vec{B}|^2$ is the electromagnetic energy density, and $\vec{N} = \frac1{\mu_0} \vec{E} \times \vec{B}$ is the Poynting vector.
+    where $\E = \frac12 \epsilon_0 \abs{\vec{E}}^2 + \frac1{2\mu_0} \abs{\vec{B}}^2$ is the electromagnetic energy density, and $\vec{N} = \frac1{\mu_0} \vec{E} \times \vec{B}$ is the Poynting vector.
     \label{thmPoynting}
 \end{theorem}
 \begin{proof}
@@ -518,7 +518,7 @@ then this final term is $1$ if $\mu = 0$, and $\frac1c \frac{dY^{i}}{dt}$ if $\m
         \intertext{Using the identity $\nabla \cdot (\vec{E} \times \vec{B}) = \vec{B} \cdot (\nabla \times \vec{E}) - \vec{E} \cdot (\nabla \times \vec{B})$}:
         &= \frac1{\mu_0} \left(\vec{B} \cdot (\nabla \times \vec{E}) - \vec{E} \cdot (\nabla \times \vec{B})\right) - \epsilon_0 \vec{E} \cdot \frac{\partial \vec{E}}{\partial t} \\
         &= \frac1{\mu_0} \left(\vec{B} \cdot \left(-\frac{\partial \vec{B}}{\partial t}\right) - \vec{E} \cdot (\nabla \times \vec{B})\right) - \epsilon_0 \vec{E} \cdot \frac{\partial \vec{E}}{\partial t} \\
-        &= -\frac{\partial }{\partial t} \left(\frac12 \epsilon_0 |\vec{E}|^2 + \frac1{2\mu_0} |\vec{B}|^2\right) - \frac1{\mu_0} \nabla \cdot (\vec{E} \times \vec{B})
+        &= -\frac{\partial }{\partial t} \left(\frac12 \epsilon_0 \abs{\vec{E}}^2 + \frac1{2\mu_0} \abs{\vec{B}}^2\right) - \frac1{\mu_0} \nabla \cdot (\vec{E} \times \vec{B})
     \end{align*}
     which is as required:
     \begin{equation*}
@@ -543,18 +543,18 @@ Now consider the force per unit volume on charged particles:
     \intertext{We can create a more symmetric equation by adding $\frac{1}{\mu_0}\vec{B} (\nabla \cdot \vec{B}) = 0$:}
     &= \epsilon_0 (\nabla \cdot \vec{E}) \vec{E} + \frac1{\mu_0} (\nabla \cdot \vec{B}) \vec{B} + \frac1{\mu_0} (\nabla \times \vec{B}) \times \vec{B} + \epsilon_0 (\nabla \times \vec{E}) \times \vec{E}\\
     &\qquad- \epsilon_0 \frac{\partial}{\partial t} (\vec{E} \times \vec{B}) \\
-    \intertext{we manipulate the curl terms as $(\nabla \times \vec{B}) \times\vec{B} = (\vec{B} \cdot \nabla)\vec{B} - \frac12 \nabla |\vec{B}|^2$:}
-    &= \epsilon_0 \left[\vec{E} (\nabla \cdot \vec{E}) + (\vec{E} \cdot \nabla)\vec{E} - \frac12 \nabla |\vec{E}|^2\right]\\
-    &\qquad + \frac1{\mu_0} \left[\vec{B} (\nabla \cdot \vec{B}) + (\vec{B} \cdot \nabla)\vec{B} - \frac12|\vec{B}|^2\right] - \epsilon_0 \frac{\partial }{\partial t} (\vec{E} \times \vec{B})
+    \intertext{we manipulate the curl terms as $(\nabla \times \vec{B}) \times\vec{B} = (\vec{B} \cdot \nabla)\vec{B} - \frac12 \nabla \abs{\vec{B}}^2$:}
+    &= \epsilon_0 \left[\vec{E} (\nabla \cdot \vec{E}) + (\vec{E} \cdot \nabla)\vec{E} - \frac12 \nabla \abs{\vec{E}}^2\right]\\
+    &\qquad + \frac1{\mu_0} \left[\vec{B} (\nabla \cdot \vec{B}) + (\vec{B} \cdot \nabla)\vec{B} - \frac12\abs{\vec{B}}^2\right] - \epsilon_0 \frac{\partial }{\partial t} (\vec{E} \times \vec{B})
 \end{align*}
 Then we define the \underline{Maxwell stress tensor}:
 \begin{equation*}
-    \sigma_{ij} = -\epsilon_0 \left[E_i E_j - \frac12 \delta_{ij} |\vec{E}|^2\right] - \frac1{\mu_0} \left[B_i B_j - \frac12 \delta_{ij} |\vec{B}|^2\right]
+    \sigma_{ij} = -\epsilon_0 \left[E_i E_j - \frac12 \delta_{ij} \abs{\vec{E}}^2\right] - \frac1{\mu_0} \left[B_i B_j - \frac12 \delta_{ij} \abs{\vec{B}}^2\right]
 \end{equation*}
 Differentiating:
 \begin{align*}
-    \partial_j \sigma_{ij} = -\epsilon_0 &\left[E_j \frac{\partial E_i}{\partial x_j} + E_i \frac{\partial E_j}{\partial x_j} - \frac12 \frac{\partial}{\partial x_i} |\vec{E}|^2\right]\\
-    &\qquad - \frac1{\mu_0} \left[B_j \frac{\partial B_i}{\partial x_j} + B_i \frac{\partial B_j}{\partial x_j} - \frac12 \frac{\partial}{\partial x_i} |\vec{B}|^2\right]
+    \partial_j \sigma_{ij} = -\epsilon_0 &\left[E_j \frac{\partial E_i}{\partial x_j} + E_i \frac{\partial E_j}{\partial x_j} - \frac12 \frac{\partial}{\partial x_i} \abs{\vec{E}}^2\right]\\
+    &\qquad - \frac1{\mu_0} \left[B_j \frac{\partial B_i}{\partial x_j} + B_i \frac{\partial B_j}{\partial x_j} - \frac12 \frac{\partial}{\partial x_i} \abs{\vec{B}}^2\right]
 \end{align*}
 We also find the momentum density $\vec{g} = \epsilon_0 \vec{E} \times \vec{B} = \frac1{c^2} \vec{N}$. Using these, we return to the force:
 \begin{equation}
@@ -631,8 +631,8 @@ which is consistent with our earlier calculations. We can find this in terms of 
 \begin{equation*}
     T^{\mu\nu} = \frac{1}{\mu_0}
     \begin{pmatrix}
-        \frac12 \left(|\vec{E}|^2 / c^2 + |\vec{B}|^2\right) & \frac1c\vec{E} \times \vec{B} \\
-        \frac1c \vec{E}\times\vec{B} & \left[\frac12 |\vec{E}|^2 / c^2 \delta_{ij} - E_i E_j + \frac12 |\vec{B}|^2 \delta_{ij} - B_i B_j\right]_{ij}
+        \frac12 \left(\abs{\vec{E}}^2 / c^2 + \abs{\vec{B}}^2\right) & \frac1c\vec{E} \times \vec{B} \\
+        \frac1c \vec{E}\times\vec{B} & \left[\frac12 \abs{\vec{E}}^2 / c^2 \delta_{ij} - E_i E_j + \frac12 \abs{\vec{B}}^2 \delta_{ij} - B_i B_j\right]_{ij}
     \end{pmatrix}
 \end{equation*}
 We can also show:
@@ -642,9 +642,9 @@ We can also show:
 \end{equation}
 We can check, for example,
 \begin{align*}
-    \mu_0 T^{00} &= F^{0i} \indx{F}{0}{i} + \frac14 \times 2\left(|\vec{B}|^2 - |\vec{E}|^2 / c^2\right) \\
-    &= |\vec{E}|^2 / c^2 + \frac12 |\vec{B}|^2 - \frac12 |\vec{E}|^2 / c^2 \\
-    &= \frac12 \left(|\vec{E}|^2 / c^2 + |\vec{B}|^2\right)
+    \mu_0 T^{00} &= F^{0i} \indx{F}{0}{i} + \frac14 \times 2\left(\abs{\vec{B}}^2 - \abs{\vec{E}}^2 / c^2\right) \\
+    &= \abs{\vec{E}}^2 / c^2 + \frac12 \abs{\vec{B}}^2 - \frac12 \abs{\vec{E}}^2 / c^2 \\
+    &= \frac12 \left(\abs{\vec{E}}^2 / c^2 + \abs{\vec{B}}^2\right)
 \end{align*}
 as required.
 
@@ -682,16 +682,16 @@ Maxwell's Equations in the absence of current and charge density admit wave-like
     \vec{E} &= \vec{E_0} f(\vec{k} \cdot \vec{x} - \omega t) \\
     \vec{B} &= \vec{B_0} f(\vec{k} \cdot \vec{x} - \omega t)
 \end{align*}
-where $\omega = c|\vec{k}|$.
+where $\omega = c\abs{\vec{k}}$.
 Maxwell's equations give:
 \begin{align*}
     \nabla \cdot \vec{E} = 0 &\implies \vec{k} \cdot \vec{E_0} = 0 \\
     \nabla \cdot \vec{B} = 0 &\implies \vec{k} \cdot \vec{B_0} = 0 \\
     \nabla \times \vec{E} = - \frac{\partial B}{\partial t} &\implies \uvec{k} \times \vec{E_0} = c\vec{B_0}.
 \end{align*}
-Therefore, we find that $\uvec{k}, \vec{E_0}, \vec{B_0}$ are a right-handed triad (mutually perpendicular) and also $|\vec{E_0}| = c|\vec{B_0}|$. We can orient our coordinates such that $\uvec{k}, \vec{E_0}, \vec{B_0}$ are along the $x, y, z$ axes, respectively. Then the field tensor is:
+Therefore, we find that $\uvec{k}, \vec{E_0}, \vec{B_0}$ are a right-handed triad (mutually perpendicular) and also $\abs{\vec{E_0}} = c\abs{\vec{B_0}}$. We can orient our coordinates such that $\uvec{k}, \vec{E_0}, \vec{B_0}$ are along the $x, y, z$ axes, respectively. Then the field tensor is:
 \begin{equation*}
-    F^{\mu\nu} = |\vec{B_0}| f(\vec{k} \cdot \vec{x} - \omega t)
+    F^{\mu\nu} = \abs{\vec{B_0}} f(\vec{k} \cdot \vec{x} - \omega t)
     \begin{pmatrix}
         0 & 0 & 1 & 0 \\
         0 & 0 & 1 & 0 \\
@@ -699,9 +699,9 @@ Therefore, we find that $\uvec{k}, \vec{E_0}, \vec{B_0}$ are a right-handed tria
         0 & 0 & 0 & 0
     \end{pmatrix}
 \end{equation*}
-and both quadratic invariants are zero, because $\vec{E} \cdot \vec{B} = 0$ and $|\vec{E}|^2 = c^2 |\vec{B}|^2$. Therefore the stress-energy tensor reduces to:
+and both quadratic invariants are zero, because $\vec{E} \cdot \vec{B} = 0$ and $\abs{\vec{E}}^2 = c^2 \abs{\vec{B}}^2$. Therefore the stress-energy tensor reduces to:
 \begin{equation*}
-    T^{\mu\nu} = \frac1{\mu_0} F^{\mu \alpha} \indx{F}{\nu}{\alpha} = \frac{|\vec{B_0}|^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2
+    T^{\mu\nu} = \frac1{\mu_0} F^{\mu \alpha} \indx{F}{\nu}{\alpha} = \frac{\abs{\vec{B_0}}^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2
     \begin{pmatrix}
         1 & 1 & 0 & 0 \\
         1 & 1 & 0 & 0 \\
@@ -711,9 +711,9 @@ and both quadratic invariants are zero, because $\vec{E} \cdot \vec{B} = 0$ and 
 \end{equation*}
 We can read off the components:
 \begin{align*}
-    \E &= \frac{|\vec{B_0}|^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2 \\
-    N_x &= \frac{c |\vec{B_0}|^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2 \\
-    \sigma_{xx} &= \frac{|\vec{B_0}|^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2
+    \E &= \frac{\abs{\vec{B_0}}^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2 \\
+    N_x &= \frac{c \abs{\vec{B_0}}^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2 \\
+    \sigma_{xx} &= \frac{\abs{\vec{B_0}}^2}{\mu_0} f(\vec{k} \cdot \vec{x} - \omega t)^2
 \end{align*}
 Note that this is exactly the form that we found back in subsection~\ref{sscParticlesBoost} where we considered a Lorentz boost relative to a frame containing stationary particles, if we take $\beta \to -1$.
 \subsection{Example: Radiation Pressure of a Photon Gas}
