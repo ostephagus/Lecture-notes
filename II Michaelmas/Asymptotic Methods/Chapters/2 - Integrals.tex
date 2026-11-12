@@ -726,5 +726,115 @@ However, only $n = 1$ and $n = 3$ give the curve of steepest descent away from $
         I(x) \sim ie^{x(\tanh(w) - w)} \sqrt{\frac{2\pi}{x\tanh(w)}}
     \end{equation*}
 \end{example}
-Example~\ref{exDebye} did not have any endpoints. If the curve $C$ did have endpoints, and also there exist saddles, we would need to deform $C$ to go through the saddle and then check the relative size of the terms. If there were more than one saddle we would need to go through both and then see which is dominant.
+\begin{remarks}
+    \item Example~\ref{exDebye} did not have any endpoints. For curves with both endpoints and saddles, we woudl deform the contour to go through the saddles and check the relative size of the terms.
+    \item If there is more than one saddle, we need to choose a contour that goes through both (and then we can check the sizes of the terms).
+    \item For more complicated saddles, with the second derivative $\frac{d^{2}\phi}{d z^{2}}$ zero, then there are many contours that go through the saddle.
+\end{remarks}
+Suppose $z_0$ is a simple saddle and $z = z(t)$ is the steepest descent curve through $z_0$. Let $z(0) = z_0$. On this curve, $\phi = u(t) + iv_0$ where $v_0$ is constant (by design). Further, $u'(0) = 0$ and $u''(0) < 0$. The saddle contribution, $S$, is given by:
+\begin{align*}
+    S &= \int_{-\epsilon}^{\epsilon} f(z(t)) e^{x\phi(t)} dz \\
+    &= \int_{-\epsilon}^{\epsilon} f(z(t)) z'(t) e^{x\phi(t)} dt \\
+    &= e^{ix v_0} \int_{-\epsilon}^{\epsilon} f(z(t)) z'(t) e^{xu(t)} dt \\
+    &\sim f(z_0) e^{x\phi(z_0)} z'(0) \sqrt{\frac{2\pi}{-xu''(0)}}
+\end{align*}
+by Laplace's method. We would like to make this expression parameter-free. For this, consider:
+\begin{align*}
+    \Im(\phi(t)) &= v_0 \\
+    u''(t) &= \frac{d^{2}\phi(z(t))}{dt^{2}} \\
+    &= [z'(t)]^2 \left. \frac{d^{2}\phi}{dz^{2}}\right|_{z = z(t)} + z''(t) \left.\frac{d\phi}{dz}\right|_{z = z(t)} \\
+    \implies -u''(0) &= -[z'(0)]^2 \phi''(z_0)
+\end{align*}
+which is real and positive, so we can rewrite as: $\abs{z'(0)}^2 \abs{\phi''(z_0)}$. Substituting into the asymptotic expression:
+\begin{equation}
+    S \sim f(z_0) e^{x\phi(z_0) + i\theta} \sqrt{\frac{2\pi}{x\abs{\phi''(z_0)}}}
+    \label{eqnSaddleContribution}
+\end{equation}
+where $\theta = \operatorname{arg}(z'(0))$ which is the angle of the tangent line through the steepest descent curve through $z_0$, which we found to be:
+\begin{equation*}
+    -\frac{\operatorname{arg}(\phi''(z_0))}{2} + \frac{n\pi}{2}
+\end{equation*}
+where $n = 1$ or $3$, depending on the direction of approach.
+\section{The Asymptotics of the Airy Function}
+The Airy equation is:
+\begin{equation}
+    y'' - xy = 0.
+    \label{eqnAiry}
+\end{equation}
+This function will be extremely useful later in the course. It is also found in physics, where it describes wave transitions.
+
+One solution is the Airy function:
+\begin{equation*}
+    \Ai(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{\frac13 it^3 + itx} dt.
+\end{equation*}
+Note that it is real. The other solution the Bairy function, $\operatorname{Bi}(x)$. We will be looking at $\Ai$ and its asymptotics as $x \to \pm \infty$.
+\subsection{Large Positive Values of \texorpdfstring{$x$}{the Parameter}}
+We will use the transformation $t = \sqrt{x} s$:
+\begin{equation*}
+    \Ai(x) = \frac{\sqrt{x}}{2\pi} \int_{-\infty}^{\infty} e^{ix^{\frac32}\left(\frac13 s^3 + s\right)} ds 
+\end{equation*}
+Note that for this integral, the method of stationary phase will not work because the points of stationary phase are at $\pm i$ which are not on the integration contour (the real line). We will therefore use the method of steepest descent: let $s = z \in \C$ and so:
+\begin{equation*}
+    \phi(z) = i\left(\frac13 z^3 + z\right)
+\end{equation*}
+Saddle points are found at $\frac{d\phi}{dz} = 0$, and we already saw that these are at $\pm i$. We will go through the top saddle point $z = i$, because the bottom saddle point adds only a small contribution. Find $u$ and $v$ gives:
+\begin{align*}
+    u(p, q) &= \frac13 q^3 - p^2 q - q \\
+    v(p, q) &= \frac13 p^3 - pq^3 + p
+\end{align*}
+At the saddle we note $v = 0$, and so the $v = 0$ contours are:
+\begin{align*}
+    p &= 0 \\
+    q &= \pm \sqrt{\frac13 p^2 + 1}
+\end{align*}
+On the $p = 0$ curve, $u(p, q) = \frac13 q^3 - q$ so it has derivatives:
+\begin{equation*}
+    u' = q^2 - 1,\qquad u'' = 2q > 0.
+\end{equation*}
+Therefore, our steepest descent curve is $q = \pm \sqrt{\frac13 p^2 + 1}$.
+
+We will deform the contour as follows:
+\begin{enumerate}
+    \item traverse from $-\infty$ to $-R$,
+    \item travel along $C_1$ defined by $\abs{z} = R$ until intersecting the curve of steepest descent,
+    \item travel along the curve of steepest descent ($C_2$) through the saddle point and until $\abs{z} = R$ again,
+    \item travel along $C_3$ define by $\abs{z} = R$ until intersecting the positive real axis,
+    \item finally, traverse the positive real axis from $R$ to $\infty$.
+\end{enumerate}
+As $R \to \infty$, the first and fifth steps will not contribute anything.
+
+We can work out the saddle contribution by \eqnref{eqnSaddleContribution}:
+\begin{equation*}
+    \frac{\sqrt{x}}{2\pi} e^{x^{\frac32} \phi_0} \sqrt{\frac{-2\pi}{x^{\frac32 \phi_0''}}}
+\end{equation*}
+where we know $\phi_0 = -\frac23$, $\phi_0'' = -2$:
+\begin{equation*}
+    \frac{\sqrt{x}}{2\pi} \int_{C_2} e^{x\phi(z)} dz \sim \frac{1}{2\sqrt{\pi}} e^{-\frac14} e^{-\frac23 x^{\frac32}}
+\end{equation*}
+Now we argue that the contributions over $C_1$ and $C_3$ are negligible:
+\begin{align*}
+    \abs{\frac{\sqrt{x}}{2\pi}\int_{C_3}e^{x\phi(z)} dz} &= \frac{\sqrt{x}}{2\pi} \abs{\int_{0}^{\beta} R e^{-x^{\frac32} \left(\frac13 R^3 \sin^3(\theta) + R\sin\theta\right)} d\theta} \\
+    &= R\frac{\sqrt{x}}{2\pi} \abs{\int_{0}^{\beta} e^{x^{\frac32} \varphi(\theta)} d\theta} \\
+    \intertext{and $\varphi$ has a maximum at the endpoint $\theta = 0$, so:}
+    &= O\left(R \sqrt{x} \frac{1}{x^{\frac32} (R^3 + R)}\right) \\
+    &= O(R^{-2} x^{-1})
+\end{align*}
+so as $R \to \infty$, we do not get a contribution. A similar argument can be used to bound $C_1$. We now have our leading-order asymptotic:
+\begin{equation*}
+    \Ai(x) \sim \frac{1}{2\sqrt{x}} x^{-\frac14} e^{-\frac23 x^{\frac32}}
+\end{equation*}
+\subsection{Large Negative Values of \texorpdfstring{$x$}{the Parameter}}
+If $x < 0$ and large, we use the substitution $t = \sqrt{-x} s$ to get:
+\begin{equation*}
+    \Ai(x) = \frac{\sqrt{-x}}{2\pi} \int_{-\infty}^{\infty} e^{i(-x)^{\frac32} \left(\frac13 s^3 - s\right)} ds 
+\end{equation*}
+and now our exponent function $\phi(s)$ has stationary points at $s = \pm 1$, so the method of stationary phase will work.
+\begin{equation*}
+    \Ai(x) \sim \frac{\sqrt{-x}}{2\pi} \left[\sqrt{\frac{2\pi}{-(-x)\phi''(-1)}}e^{i(-x)^{\frac32} \phi(1)} + \sqrt{\frac{2\pi}{-(-x)\phi''(1)}}\right] e^{i(-x)^{\frac32} \phi(-1)}
+\end{equation*}
+which gives, after substituting for $\phi$:
+\begin{equation*}
+    \Ai(x) \sim \frac{(-x)^{-\frac14}}{\sqrt{\pi}} \cos\left[\frac23 (-x)^{\frac32} - \frac\pi4\right] \text{ as } x \to \infty.
+\end{equation*}
+This is oscillatory and decays slowly, in contrast to our rapidly decaying solution for $x > 0$. This is why the Airy function represents a wave transition - from one highly oscillatory region where $x < 0$ to a stable, decaying region where $x > 0$.
 \end{document}
