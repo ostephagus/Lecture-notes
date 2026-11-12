@@ -93,14 +93,35 @@ Based on these definitions, it is sensible to define:
 \end{proof}
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1]
-        \node at (0, 0) {TODO};
+    \begin{tikzpicture}[scale=1.5]
+        \draw (-2, 0) -- (2, 0)
+            pic[rotate=90, pos=0.3] {patharrow}
+            pic[rotate=-90, pos=0.7] {patharrow};
+
+        \draw (0, -2) -- (0, 2)
+            pic[pos=0.3] {patharrow}
+            pic[rotate=180, pos=0.7] {patharrow};
+        
+        \draw[domain=-2:-0.5, samples=25] plot (\x, 1 / \x);
+        \draw[domain=-2:-0.5, samples=25] plot (\x, -1 / \x);
+        \draw[domain=0.5:2, samples=25] plot (\x, 1 / \x);
+        \draw[domain=0.5:2, samples=25] plot (\x, -1 / \x);
+
+        \foreach \x / \y / \angle in {-1 / -1 / 45, -1 / 1 / 135, 1 / 1 / -135, 1 / -1 / -45} {
+            \pic[rotate=\angle] at (\x, \y) {patharrow};
+        }
+
+        \draw[blue] (0, 0) circle[radius=1.5];
+
+        \foreach \theta \tangentangle in {0 / 0, 45 / -45, 90 / -90, 135 / -135, 180 / 180, -135 / 135, -90 / 90, -45 / 45} {
+            \draw[->, green] (\theta:1.5) -- +(\tangentangle:0.5);
+        }
     \end{tikzpicture}
     \caption{Diagram of a Saddle and Contour}
     \label{figSaddleAndContour}
 \end{figure}
 \begin{example}[Poincaré index of a hyperbolic saddle]
-    Consider a hyperbolic saddle as in figure~\ref{figSaddleAndContour}, and the labelled points $1-7$. We see that as we go round $1$ to $7$, $\psi$ travels clockwise around which contributes $-2\pi$. Therefore, the Poincaré index of a hyperbolic saddle is $-1$.
+    Consider a hyperbolic saddle as in figure~\ref{figSaddleAndContour}, and the green tangent lines. We see that as we go around the blue contour, $\psi$ travels clockwise around which contributes $-2\pi$. Therefore, the Poincaré index of a hyperbolic saddle is $-1$.
 \end{example}
 For non-hyperbolic points, we must proceed case-by-case. For example, the saddle-node has a Poincaré index of $0$, and a centre has a Poincaré index of $1$.
 \begin{proposition}
@@ -192,7 +213,6 @@ For non-hyperbolic points, we must proceed case-by-case. For example, the saddle
     \begin{equation*}
         \oint_\gamma \rho \vec{f} \cdot \vec{dl} = \oint_\gamma \nabla \psi \cdot \vec{dl} = 0
     \end{equation*}
-    %TODO: Why is this zero??
     which is a contradiction.
 \end{proof}
 \section{Positive Tests for Periodic Orbits}
@@ -259,24 +279,41 @@ If $\epsilon \neq 0$,
 \begin{equation*}
     \dot{H} = (f_1 + \epsilon g_1)(-f_2) + (f_2 + \epsilon g_2) f_1 = \epsilon(f_1 g_2 - f_2 g_1)
 \end{equation*}
-which is clearly non-zero. However, if there exists a periodic orbit $\Gamma$, the integral over this contour $dH$ must be zero, so:
+which is not identically zero. However, if there exists a periodic orbit $\Gamma$, the integral over this contour $dH$ must be zero, so:
 \begin{equation*}
     \epsilon \oint_\Gamma (f_1 g_2 - f_2 g_1) dt = 0.
 \end{equation*}
 This already tells us that no periodic orbit can lie in a region on which $f_1 g_2 - f_2 g_1$ maintains its sign.
 
-For very small positive $\epsilon$, we can use the energy balance method.
-
 \begin{remark}
     We can understand a Hamiltonian system as one where energy is conserved. Then the small addition of order $\epsilon$ represents dissipation of energy or some increase of energy into the system. In general, we do not expect periodic orbits when we have only dissipation of energy. However, when there is also addition of energy to the system, we can find periodic orbits again.
 \end{remark}
 
-If $\Gamma_\epsilon$ is a perturbation of the periodic orbit $\Gamma_0$, our aim is to estimate $\Delta H(\Gamma_\epsilon)$ using unperturbed orbits of the Hamiltonian system ($\epsilon = 0$).
+If $\epsilon$ is small and $\Gamma_\epsilon$ is a perturbation of the periodic orbit $\Gamma_0$, our aim is to estimate $\Delta H(\Gamma_\epsilon)$ using unperturbed orbits of the Hamiltonian system ($\epsilon = 0$).
 
-Note that $\Gamma_\epsilon = \Gamma_0 + O(\epsilon)$, and the period of the orbit is $T_\epsilon = T_0 + O(\epsilon)$. This means that the change in the Hamiltonian is:
+Note that $\Gamma_\epsilon = \Gamma_0 + O(\epsilon)$, and the period of the orbit is $T_\epsilon = T_0 + O(\epsilon)$. Over one revolution, the change in the Hamiltonian is:
+\begin{align*}
+    \Delta H(\Gamma_\epsilon) &= \int_{0}^{T_\epsilon} \dot{H}(t) dt \\
+    &= \epsilon\int_{0}^{T_0} (f_1 g_2 - f_2 g_1) dt + O(\epsilon^2)
+\end{align*}
+Now we have an integral in terms of a known contour (the periodic orbits of the Hamiltonian system). The \underline{energy balance method} is then:
+\begin{enumerate}
+    \item Find the periodic orbits for $\epsilon = 0$, parameterised by $t$.
+    \item Calculate the energy-balance function for the orbit with Hamiltonian equal to $E$:
+        \begin{equation*}
+            M(E) = \oint_{\Gamma_0(E)} \left(f_1 g_2 - f_2 g_1\right) dt = \oint_{\Gamma_0(E)} \left(g_2 dx - g_1 dy\right)
+        \end{equation*}
+        Note that $\Delta H = \epsilon M(E) + O(\epsilon^2)$.
+    \item Solve $M(E) = 0$ to get values of $E$ that can represent periodic orbits.
+    \item~(*) Any double roots of $M(E) = 0$ do not necessarily represent periodic orbits, because then we need higher-order terms.
+\end{enumerate}
+By Green's Theorem, we can evaluate:
 \begin{equation*}
-    \Delta h = \underbrace{\int_0^{T_\epsilon} H dt}_{\text{on }\Gamma_\epsilon} = \epsilon\underbrace{\int_0^{T_0} H dt}_{\text{on }\Gamma_0} + O(\epsilon^2)
+    M(E) = \int_S(E) \left(\frac{\partial g_1}{\partial x} + \frac{\partial g_2}{\partial y}\right) dx~dy
 \end{equation*}
+where $S(E)$ is the surface enclosed by $\Gamma_0(E)$.
+
+Any candidate energies will then yield periodic orbits that are slight perturbations of $\Gamma_0(E)$.
 \begin{example}
     Consider:
     \begin{equation*}
@@ -340,7 +377,7 @@ and since this is true for any $\vec{\eta}(t)$,
 \end{equation*}
 We can solve this using the matrix exponential:
 \begin{equation*}
-    \phi = \underbrace{e^{\int_0^t A(t') dt'}}_B \phi(0)
+    \phi(t) = \underbrace{e^{\int_0^t A(t') dt'}}_B \phi(0)
 \end{equation*}
 and since $\phi(0)$ must be the identity, $\phi = B$.
 
@@ -348,7 +385,7 @@ We are particularly interested in how $\vec\eta(kT)$ behaves. First note that:
 \begin{equation*}
     \vec\eta(kT) = \phi(kT)\vec\eta(0) = \left(\phi(T)\right)^k \vec\eta(t)
 \end{equation*}
-and so the stability of the periodic orbit is decided by the eigenvalues of $\phi(T)$. At least one eigenvalue of $\phi(T)$ is equal to 1. %TODO: Why? Something to do with tangential directions?
+and so the stability of the periodic orbit is decided by the eigenvalues of $\phi(T)$. At least one eigenvalue of $\phi(T)$ is equal to 1, because this corresponds to the direction around the circle.
 \begin{definition}{Floquet Multiplier}
     The \underline{Floquet multipliers} of a periodic orbit are the eigenvalues $\lambda_i$ of the matrix $\phi(T)$. The \underline{Floquet exponents} are given by $\mu_i = \frac1T \log\abs{\lambda_i}$, such that $\abs{\lambda_i} = e^{\mu_i T}$.
 \end{definition}
@@ -452,7 +489,7 @@ This is itself a special case of a Lienard equation:
 \end{equation*}
 Using the Lienard transformation $y = \dot{x} + F(x)$ where $F(x) = \int_{0}^{x} f(s) ds$, we can transform this to a dynamical system:
 \begin{equation*}
-    dot{x} = y - F(x),\qquad \dot{y} = -g(x).
+    \dot{x} = y - F(x),\qquad \dot{y} = -g(x).
 \end{equation*}
 Our Van der Pol oscillator can be transformed in this way to:
 \begin{equation}
@@ -558,47 +595,109 @@ This is an example of relaxation oscillation - we have a slow buildup (motion al
     \label{figVanDerPolXOssc}
 \end{figure}
 \subsection{Arbitrary Values of \texorpdfstring{$\mu$}{the Parameter}}
-We analyse the more general case for any $\mu$. We find a fixed points at the origin. Depending on $\mu$ we find that the origin can be different types of fixed point, but in all cases it is unstable. We want to use \thmref{thmPoincBendix}, so we need a doubly-connected domain. We use a bounding function:
-\begin{equation*}
-    H_k(x, y) = \frac12\left[x^2 + (y-k)^2\right]
-\end{equation*}
-which has time derivative:
-\begin{align*}
-    \dot{H}_k(x, y) &= \dot{x} \frac{\partial H_k}{\partial x} + \dot{y} \frac{\partial H_k}{\partial y} \\
-    &= kx - \mu x^2 \left(\frac{x^3}{3} - 1\right).
-\end{align*}
-The simplest case is $k = 0$, for which:
-\begin{equation*}
-    \dot{H_0} = -\mu x^2 \left(\frac{x^3}{3} - 1\right).
-\end{equation*}
-This is a quartic function with a double root at the origin, and roots at $\pm \sqrt{3}$. We see that $\dot{H_0} < 0$ for $\abs{x} > \sqrt{3}$, and $\dot{H_0} > 0$ for $\abs{x} < \sqrt{3}$, except at $0$ where $\dot{H}(0, y) = 0$. Note also that $H_0 = \frac12 r^2$. We therefore have that any orbits starting with $0 < r < \sqrt{3}$, the orbit must leave this region.
+We analyse the more general case for any $\mu$. We find a fixed points at the origin. Depending on $\mu$ we find that the origin can be different types of fixed point, but in all cases it is unstable. 
+\begin{proposition}
+    There exists a periodic orbit for the Van der Pol oscillator for any value of $\mu$.
+    \label{propVanDerPolPeriodic}
+\end{proposition}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[x=0.02cm,y=0.02cm,>=stealth,font=\large, scale=0.75]
+        % pixel-based coordinates: (px-380, 405-py)
+        % axes
+        \draw[line width=1.8pt, ->] (25-380,405-405) -- (740-380,405-405)
+            node[right] {$x$};
+        \draw[line width=1.8pt, ->] (380-380,405-58) -- (380-380,405-745)
+            node[above] {$y$};
+        % vertical dashed lines
+        \draw[dashed] (238-380,405-125) -- (238-380,405-690);
+        \draw[dashed] (310-380,405-42) -- (310-380,405-720);
+        \draw[dashed] (452-380,405-42) -- (452-380,405-720);
+        \draw[dashed] (523-380,405-125) -- (523-380,405-690);
+        % horizontal dashed lines
+        \draw[dashed] (100-380,405-193) -- (325-380,405-193);
+        \draw[dashed] (523-380,405-150) -- (598-380,405-150);
+        \draw[dashed] (487-380,405-613) -- (598-380,405-613);
+        % small dotted circle
+        \draw[dotted,thick] (380-380,405-405) circle (71);
+        % large dashed arcs
+        \draw[dashed] plot[smooth,tension=0.8] coordinates {(238-380,405-193) (262-380,405-160) (290-380,405-134) (330-380,405-120) (380-380,405-115) (430-380,405-120) (480-380,405-132) (517-380,405-159)};
+        \draw[dashed] (517-380,405-159) arc[start angle=56.7,end angle=-54.8,x radius=250,y radius=270];
+        \draw[dashed] plot[smooth,tension=0.8] coordinates {(238-380,405-193) (270-380,405-173) (310-380,405-158) (380-380,405-149) (452-380,405-155) (523-380,405-175)};
+        \draw[dashed] plot[smooth,tension=0.8] coordinates {(238-380,405-193) (310-380,405-189) (380-380,405-180) (452-380,405-190)};
+        % solid thick path
+        \draw[line width=1.8pt,-{Stealth[length=4.5mm,width=3.5mm]}] plot[smooth,tension=0.8] coordinates {(238-380,405-193) (310-380,405-167) (380-380,405-143) (420-380,405-137) (452-380,405-143) (523-380,405-165) (556-380,405-203)};
+        % leader lines
+        \draw[thin] (352-380,405-40) -- (313-380,405-165);
+        \draw[thin] (412-380,405-40) -- (450-380,405-140);
+        % labels
+        \node at (350-380,405-12) {$B$};
+        \node at (410-380,405-12) {$C$};
+        \node at (212-380,405-172) {$A$};
+        \node at (287-380,405-105) {$B_3$};
+        \node at (287-380,405-153) {$B_2$};
+        \node at (328-380,405-215) {$B_1$};
+        \node at (465-380,405-105) {$C_3$};
+        \node at (466-380,405-187) {$C_2$};
+        \node at (432-380,405-210) {$C_1$};
+        \node at (545-380,405-125) {$D_3$};
+        \node at (544-380,405-222) {$D$};
+        \node at (545-380,405-638) {$E_1$};
+        \node at (358-380,405-432) {$O$};
+        \node at (55-380,405-190) {$y\!=\!y_0$};
+        \node at (632-380,405-150) {$y\!=\!y_1$};
+        \node at (640-380,405-620) {$y\!=\!-y_0$};
+        \node at (240-380,405-712) {$x\!=\!-x_0$};
+        \node at (525-380,405-712) {$x\!=\!x_0$};
+        \node at (310-380,405-748) {$x\!=\!-\sqrt{3}$};
+        \node at (452-380,405-748) {$x\!=\!\sqrt{3}$};
+        \end{tikzpicture}
+    \caption{Diagram for periodic orbits of the Van der Pol Oscillator}
+    \label{figVanDerPolPO}
+\end{figure}
+\begin{proof}[\textbf{non-examinable}, though the techniques are useful]
+    We want to use \thmref{thmPoincBendix}, so we need a doubly-connected domain. We use a bounding function:
+    \begin{equation*}
+        H_k(x, y) = \frac12\left[x^2 + (y-k)^2\right]
+    \end{equation*}
+    which has time derivative:
+    \begin{align*}
+        \dot{H}_k(x, y) &= \dot{x} \frac{\partial H_k}{\partial x} + \dot{y} \frac{\partial H_k}{\partial y} \\
+        &= kx - \mu x^2 \left(\frac{x^3}{3} - 1\right).
+    \end{align*}
+    The simplest case is $k = 0$, for which:
+    \begin{equation*}
+        \dot{H_0} = -\mu x^2 \left(\frac{x^3}{3} - 1\right).
+    \end{equation*}
+    This is a quartic function with a double root at the origin, and roots at $\pm \sqrt{3}$. We see that $\dot{H_0} < 0$ for $\abs{x} > \sqrt{3}$, and $\dot{H_0} > 0$ for $\abs{x} < \sqrt{3}$, except at $0$ where $\dot{H}(0, y) = 0$. Note also that $H_0 = \frac12 r^2$. We therefore have that any orbits starting with $0 < r < \sqrt{3}$, the orbit must leave this region.
 
-Consider now a point $(x_0, y_0)$ with $\abs{x_0} > \sqrt{3}$. Without loss of generality, suppose that $x_0 < 0$. Therefore, $\dot{H_0}$ is negative and so the trajectory is attracted towards $\vec{x_B} = (-\sqrt{3}, y_B)$. Furthermore, $\abs{\vec{x_0}} > \abs{\vec{x_B}}$.
+    Consider now a point $(x_0, y_0)$ with $\abs{x_0} > \sqrt{3}$. Without loss of generality, suppose that $x_0 < 0$. Therefore, $\dot{H_0}$ is negative and so the trajectory is attracted towards $\vec{x_B} = (-\sqrt{3}, y_B)$. Furthermore, $\abs{\vec{x_0}} > \abs{\vec{x_B}}$.
 
-The orbit must continue to some point $\vec{x_C} = (\sqrt{3}, y_c)$. In this region we know $H_0 > 0$ so the distance from the origin is increasing. We can estimate the change in $H$ in a similar way to the energy balance principle:
-\begin{align*}
-    \delta H &= \mu \int_{-\sqrt{3}}^{\sqrt{3}} \left(x^2 - \frac{x^4}{3}\right) \frac{dt}{dx} dt \\
-    &= \mu \int_{-\sqrt{3}}^{\sqrt{3}} \frac{x^2 - \frac{x^4}{3}}{y - F(x)} dx 
-\end{align*}
-Now, if $y$ is sufficiently large,
-\begin{align*}
-    \frac{1}{y - F(x)} &< \frac{1}{y - \max_{-\sqrt{3} < x < \sqrt{3}} F(x)} \\
-    &= \frac{1}{y - \frac23 \mu} \\
-    &< \frac{1}{y_0 - \frac23 \mu}.
-\end{align*}
-Returning to $\Delta H$:
-\begin{align*}
-    \Delta H &< \mu \int_{-\sqrt{3}}^{\sqrt{3}} \frac{x^2 - \frac{x^4}{3}}{y_0 - \frac23 \mu} dx \\
-    &= \frac{4\sqrt{3} \mu}{5 \left(y_0 - \frac23 \mu\right)}
-\end{align*}
-This means:
-\begin{align*}
-    H_0(\sqrt{3}, y_C) &= H_0(-\sqrt{3}, y_B) + \Delta H_0 \\
-    &< H_0 (x_0, y_0) + \frac{4\sqrt{3} \mu}{5 \left(y_0 - \frac23 \mu\right)} = H_0(C^*)
-\end{align*}
-for some point $C^*$ with:
-\begin{equation*}
-    \frac12 r_{c^*} = \frac12 \left(x_0^2 + y_0^2\right) + \frac{4\sqrt{3} \mu}{5 \left(y_0 - \frac23 \mu\right)}.
-\end{equation*}
-Let $D^*$ be the point with the same radius as $C^*$ but on the line $x = \sqrt{3}$. %TODO: Continue from notes.
+    The orbit must continue to some point $\vec{x_C} = (\sqrt{3}, y_c)$. In this region we know $H_0 > 0$ so the distance from the origin is increasing. We can estimate the change in $H$ in a similar way to the energy balance principle:
+    \begin{align*}
+        \delta H &= \mu \int_{-\sqrt{3}}^{\sqrt{3}} \left(x^2 - \frac{x^4}{3}\right) \frac{dt}{dx} dt \\
+        &= \mu \int_{-\sqrt{3}}^{\sqrt{3}} \frac{x^2 - \frac{x^4}{3}}{y - F(x)} dx 
+    \end{align*}
+    Now, if $y$ is sufficiently large,
+    \begin{align*}
+        \frac{1}{y - F(x)} &< \frac{1}{y - \max_{-\sqrt{3} < x < \sqrt{3}} F(x)} \\
+        &= \frac{1}{y - \frac23 \mu} \\
+        &< \frac{1}{y_0 - \frac23 \mu}.
+    \end{align*}
+    Returning to $\Delta H$:
+    \begin{align*}
+        \Delta H &< \mu \int_{-\sqrt{3}}^{\sqrt{3}} \frac{x^2 - \frac{x^4}{3}}{y_0 - \frac23 \mu} dx \\
+        &= \frac{4\sqrt{3} \mu}{5 \left(y_0 - \frac23 \mu\right)}
+    \end{align*}
+    This means:
+    \begin{align*}
+        H_0(\sqrt{3}, y_C) &= H_0(-\sqrt{3}, y_B) + \Delta H_0 \\
+        &< H_0 (x_0, y_0) + \frac{4\sqrt{3} \mu}{5 \left(y_0 - \frac23 \mu\right)} = H_0(C^*)
+    \end{align*}
+    for some point $C^*$ with:
+    \begin{equation*}
+        \frac12 r_{c^*} = \frac12 \left(x_0^2 + y_0^2\right) + \frac{4\sqrt{3} \mu}{5 \left(y_0 - \frac23 \mu\right)}.
+    \end{equation*}
+    Let $D^*$ be the point with the same radius as $C^*$ but on the line $x = \sqrt{3}$. %TODO: Continue from notes.
+\end{proof}
 \end{document}
