@@ -32,6 +32,7 @@
     We can linearise near the fixed point and apply \thmref{propHypMeansLinearOnly} to show that the topological structure changes only when the fixed point becomes non-hyperbolic at the bifurcation point.
 \end{proof}
 \section{Bifurcations in One Dimension}
+\subsection{Saddle-Node and Transcritical Bifurcations}
 Consider a 1D system, $\dot{x} = f(x; \mu)$, with a non-hyperbolic fixed point at $x = 0$ when $\mu = 0$. This means $f(0, 0) = 0$ and $\frac{df}{dx}(0, 0) = 0$.
 
 This is related to stationary bifurcations in $\R^n$, where at least one eigenvalue is exactly zero (not just its real part).
@@ -86,7 +87,9 @@ yields the \underline{normal form}:
 \begin{equation*}
     \dot{y} = \tilde\mu - y^2.
 \end{equation*}
-This requires $A$ and $C$ to be non-zero. If in fact $A = 0$ we have a \underline{transcritical bifurcation}, with normal form given by:
+This requires $A$ and $C$ to be non-zero. This type of bifurcation is known as a \underline{saddle-node} bifurcation.
+
+If in fact $A = 0$ we have a \underline{transcritical bifurcation}, with normal form given by:
 \begin{equation*}
     \dot{y} = \tilde{\mu} y - y^2
 \end{equation*}
@@ -106,4 +109,86 @@ under the transformations $y = -x, T = Ct, \tilde\mu = \frac B C \mu$. This give
     \caption{Diagram for a transcritical bifurcation}
     \label{figTranscritBif}
 \end{figure}
+
+\subsection{Pitchfork Bifurcations}
+If the dynamical system has a symmetry, and is unchanged under $x \mapsto -x$, then our previous expansion for $\dot{x}$ requires $A = C = 0$. To see the dynamics of the bifurcation we go to higher order in $x$ and $\mu$,
+\begin{equation*}
+    \dot{x} = \mu x f_{x\mu}(0;0) + \frac16 x^3 f_{xxx}(0;0) + \cdots
+\end{equation*}
+which, after a change of variables, has normal form:
+\begin{equation*}
+    \dot{x} = \mu x - ax^3
+\end{equation*}
+for $a = \pm 1$. In the case of $a = 1$, we have a \underline{supercritical pitchfork bifurcation}. This has fixed points at $x = \pm \sqrt{\mu}$ as well as $x = 0$.
+
+In the case of $a = -1$, we have a \underline{subcritical pitchfork bifurcation}, with fixed points at $\pm \sqrt{-\mu}$. For both types of pitchfork, see figure~\ref{figPitchforkBifs}.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \node {TODO}; %TODO
+    \end{tikzpicture}
+    \caption{Diagram of supercitical and subcritical pitchfork bifurcations}
+    \label{figPitchforkBifs}
+\end{figure}
+\subsection{Structural Stability of One-Dimensional Bifurcations}
+We will consider perturbed dynamical systems of the form:
+\begin{equation*}
+    \dot{x} = f(x;\mu) + \epsilon(x)
+\end{equation*}
+where we can assume that $f$ is in normal form.
+
+Consider a saddle node, with $\dot{x} = \mu - x^2$.
+\begin{itemize}
+    \item If we add $\epsilon$ to the right-hand side,
+        \begin{equation*}
+            \dot{x} = \epsilon + \mu - x^2
+        \end{equation*}
+        which we can see does not change the dynamics (if we redefine $\mu$).
+    \item If we add $\epsilon x$ to the right-hand side,
+        \begin{equation*}
+            \dot{x} = \mu + \epsilon x - x^2
+        \end{equation*}
+        and we can complete the square, rescale $x$ and redefine $\mu$ to get back to the same normal form.
+\end{itemize}
+Since our expansion worked to order $O(x)$, we conclude that the saddle-node is structurally stable.
+
+Consider instead a transcritical bifurcation, with normal form $\dot{x} = \mu x - x^2$. If we perturb this for small $\epsilon$, we get $\dot{x} = \epsilon + \mu x - x^2$.
+\begin{itemize}
+    \item If $\epsilon < 0$, we find a region of $\mu$ around $0$ where there are no fixed points.
+    \item If $\epsilon > 0$, we find that the fixed points never change stability and there is no bifurcation at all!
+\end{itemize}
+
+Now if we have a pitchfork bifurcation, with normal form $\dot{x} = \mu x - x^3$, we also find it is structurally unstable under adding a constant $\epsilon$.
+\section{Bifurcations in Two Dimensions}
+Consider the generalisation of what we were doing before,
+\begin{equation*}
+    \dvec{x} = \vec{f}(\vec{x};\mu)
+\end{equation*}
+We can have four possibilities depending on the form of the linearised matrix $A$ around the origin.
+\begin{itemize}
+    \item One eigenvalue is zero -- a \underline{simple bifurcation} or \underline{stationary bifurcation} in 2D, and it is essentially the same as our one-dimensional bifurcations.
+    \item The eigenvalues are imaginary -- $\lambda = \pm i\omega$ -- an \underline{oscillatory bifurcation} or \underline{Hopf bifurcation}.
+    \item Both eigenvalues are zero and non-degenerate -- a \underline{double-zero}\\\underline{bifurcation}.
+    \item Both eigenvalues are zero and degenerate -- a \underline{Takens-Bogdanov} bifurcation.
+\end{itemize}
+The last two cases will not be covered in this course.
+\subsection{The Centre Manifold}
+Consider a system:
+\begin{equation}
+    \dot{x} = xy - \mu x,\qquad \dot{y} = -y + x^2
+    \label{eqnBifSystem}
+\end{equation}
+There is a fixed point at the origin for any value of $\mu$, and for $\mu > 0$ we find a further two fixed points at $(\pm \sqrt{\mu}, \mu)$. Linearising around the origin gives:
+\begin{equation*}
+    A = 
+    \begin{pmatrix}
+        -\mu & 0 \\
+        0 & -1
+    \end{pmatrix}
+\end{equation*}
+and so when $\mu = 0$, the origin is a non-hyperbolic fixed point, so the dynamical system admits a bifurcation. We analyse close to the origin and bifurcation point by requiring $\abs x \sim \abs y \sim \abs \mu \ll 1$. Then $\abs{\dot x} \sim O(\mu^2)$ and $\abs{\dot y} \sim O(\mu)$, so the system evolves much faster in $y$ than $x$ towards $y = x^2$. On this curve, we find:
+\begin{equation*}
+    \dot{x} = x(x^2 - \mu)
+\end{equation*}
+and we have reduced our two-dimension problem to a 1-dimensional one. We recognise this as a subcritical pitchfork.
 \end{document}
