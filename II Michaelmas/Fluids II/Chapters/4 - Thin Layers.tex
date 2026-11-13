@@ -6,9 +6,24 @@
 Consider a general thin layer flow, as in figure~\ref{figThinLayer}.
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1]
-        \draw[hatch side] (3, 0) -- (0, 0);
+    \begin{tikzpicture}[scale=1.25]
+        \draw[->] (-3.5, 0.25) -- (-3.5, 0.75)
+            node[above] {$y$};
+        \draw [->] (-3.5, 0.25) -- (-3, 0.25)
+            node[right] {$x$};
 
+        \draw[hatch side] (3, 0) -- (-3, 0);
+
+        \draw (-3, 1) .. controls (-2, 1) and (0, 1.5) .. (1, 1.5);
+        \draw (1, 1.5) .. controls (2, 1.5) and (2, 1) .. (3, 1);
+
+        \node at (0, 0.5) {$\vec u = (u, v)^T$};
+
+        \draw[Bar-Bar] (3.2, 0) -- (3.2, 1)
+            node[pos=0.5, right] {$h$};
+
+        \draw[<->] (-2.5, 2) -- (2.5, 2)
+            node[pos=0.5, above] {$L$};
     \end{tikzpicture}
     \caption{Diagram of Thin Layer Flow}
     \label{figThinLayer}
@@ -18,11 +33,12 @@ In particular, we need a long and thin geometry: $h \ll L, \frac{\partial h}{\pa
 \begin{enumerate}
     \item Applying $\nabla \cdot \vec{u} = 0$, $\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0$ which means $\frac u L \sim \frac v h$, and so $v \sim \frac h L u \ll u$. That is, fluid is almost horizontal -- quasi-parallel to the boundary.
     \item In $\mu \nabla^2\vec u$ we can approximate $\nabla^2$ by $\frac{\partial^{2}}{\partial y^{2}}$. This is because $h \ll L$ and so $\frac{\partial}{\partial y} \gg \frac{\partial}{\partial x}$.
-    \item In $\rho \frac{D u}{D t}$, note that $u \frac{\partial }{\partial x} \sim v \frac{\partial }{\partial y} \sim \frac{u}{L}$ (and, if the geometry is changing, $\frac{\partial}{\partial t} \sim \frac{v}{h} \sim \frac{u}{L}$ from the kinematic boundary condition). We can compare:
+    \item In $\rho \frac{D u}{D t}$, note that $u \frac{\partial }{\partial x} \sim v \frac{\partial }{\partial y} \sim \frac{u}{L}$ (and, if the geometry is changing, $\frac{\partial}{\partial t} \sim \frac{v}{h} \sim \frac{u}{L}$ from the kinematic boundary condition). We can compare the inertia term with the viscous term:
         \begin{equation*}
             \frac{\rho \frac{D u}{D t}}{\mu \nabla^2 u} \sim \frac{\rho u^2 / L}{\mu u / h^2} = \frac{\rho u h^2}{\mu L}
         \end{equation*}
-        We must now approximate $\frac{u h}{\nu} \frac{h}{L} \ll 1$ and neglect the inertia terms. This is called the reduced Reynold's number, a product of the Reynold's number and $\frac h L$.
+        Therefore if the dimensionless quantity $\frac{uh^2}{\nu L} = \Re \frac{h}{L}$ is small, we can neglect the inertia terms. This is called the \underline{reduced Reynold's number}, a product of the Reynold's number and the ratio of length scales.
+
         The leading order equation is now:
         \begin{equation*}
             0 = -\frac{\partial p}{\partial x} + \mu \frac{\partial^{2}u}{\partial y^{2}} + f_x
@@ -34,9 +50,9 @@ In particular, we need a long and thin geometry: $h \ll L, \frac{\partial h}{\pa
         which is the same as in Poiseuille flow.
     \item The flow in the $y$ direction is small, so:
         \begin{equation*}
-            \mu \frac{\partial^{2}v}{\partial y^{2}} \sim \mu \frac{uh / L}{h^2} \sim \frac{\mu u}{h^2} \frac{h}{l} \sim \frac{p}{h} \frac{h^2}{L^2} \ll \frac{p}{h}
+            \mu \frac{\partial^{2}v}{\partial y^{2}} \sim \mu \frac{uh / L}{h^2} \sim \frac{\mu u}{h^2} \frac{h}{L} \sim \frac{p}{h} \frac{h^2}{L^2} \ll \frac{p}{h}
         \end{equation*}
-        then the leading order equation in the $y$ direction is:
+        That is, the viscous term in the $y$ direction is small compared to $\frac{\partial p}{\partial y}$, and the leading-order equation in the $y$ direction is:
         \begin{equation*}
             0 = \frac{\partial p}{\partial y} + f_y
         \end{equation*}
@@ -53,18 +69,51 @@ which is valid as long as:
     \item $\frac{uh}{\nu} \frac{h}{L} = \frac{h}{L} \Re \ll 1$.
 \end{itemize}
 \section{Conservation of Mass in 2D}
-With $q = \int u dy$, consider figure~\ref{figConserveMass}.
+With $q = \int u~dy$, consider figure~\ref{figConserveMass}.
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1]
-        TODO %TODO
+    \begin{tikzpicture}[>=Stealth, line cap=round]
+        % bed
+        \draw[hatch side] (8.6, 0) -- (0.2, 0);
+        % undisturbed free surface
+        \draw[thick, smooth, tension=0.7] plot coordinates
+            {(0.5,1.0) (1.7,1.12) (3.35,1.33) (4.5,1.22) (5.5,1.0) (6.8,0.75) (8.2,0.6) (8.55,0.62)};
+        % perturbed surface (dotted/dashed)
+        \draw[blue, densely dotted, smooth, tension=0.7] plot coordinates
+            {(1.7,1.12) (2.55,1.5) (3.5,1.62)};
+        \draw[blue, dashed, smooth, tension=0.7] plot coordinates
+            {(2.55,1.5) (3.5,1.62) (4.45,1.55) (5.3,1.28)};
+        % hatched region between the two surfaces, from x to x+dx
+        \begin{scope}
+            \clip (2.55,1.2) -- (2.55,1.55) .. controls (3.2,1.68) and (3.8,1.68) .. (4.45,1.55)
+                -- (4.45,1.2) .. controls (3.9,1.3) and (3.8,1.33) .. (3.35,1.33)
+                .. controls (3.0,1.33) and (2.8,1.27) .. (2.55,1.2) -- cycle;
+            \fill[pattern=north east lines, pattern color=blue] (2.5,1.1) rectangle (4.5,1.75);
+        \end{scope}
+        % vertical dotted lines
+        \draw[densely dotted] (2.55,0) -- (2.55,1.5);
+        \draw[densely dotted] (4.45,0) -- (4.45,1.55);
+        % ticks and labels
+        \draw[thick] (2.55,-0.08) -- (2.55,0.1);
+        \draw[thick] (4.45,-0.08) -- (4.45,0.1);
+        \node[below] at (2.55,-0.1) {$x$};
+        \node[below] at (4.45,-0.1) {$x+\delta x$};
+        % delta h arrows
+        \draw[->, thick] (3.4,2.05) -- (3.4,1.67);
+        \draw[->, thick] (3.4,0.95) -- (3.4,1.3);
+        \node[right] at (3.5,2.05) {$\delta h$};
+        % fluxes
+        \draw[->, blue, thick] (1.0,0.45) -- (2.0,0.45);
+        \node[blue, above] at (1.5,0.48) {$q(x)$};
+        \draw[->, blue, thick] (4.55,0.52) -- (4.95,0.52);
+        \node[blue, right] at (4.95,0.52) {$q(x+\delta x)$};
     \end{tikzpicture}
     \caption{Diagram of conservation of mass in 2D lubrication flows}
     \label{figConserveMass}
 \end{figure}
 Then for conservation of mass in this setup,
 \begin{equation*}
-    (q(x) - q(x + \delta x)) \delta t \approx \delta h \delta x
+    (q(x) - q(x + \delta x)) \delta t \approx \delta h~\delta x
 \end{equation*}
 and the approximation becomes exact in the limit $\delta x \to 0$:
 \begin{equation}
@@ -75,8 +124,29 @@ and the approximation becomes exact in the limit $\delta x \to 0$:
 Consider the setup in figure~\ref{figThrustBearing}. Though in reality the tooth would be moving and the wall stationary, we take the reference frame in which the tooth is stationary.
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1]
-        TODO %TODO
+    \begin{tikzpicture}[scale=0.7, >=Stealth, line width=0.8pt]
+        % block
+        \draw (0,6.4) -- (0,0.85) -- (8,2.0) -- (8,6.4) -- cycle;
+        \node at (4,4.6) {\Large Stationary};
+        % length L
+        \draw[<->] (0,6.7) -- (8,6.7);
+        \draw (0,6.55) -- (0,6.85);
+        \draw (8,6.55) -- (8,6.85);
+        \node[above] at (4,6.75) {$L$};
+        % moving surface
+        \draw[hatch side] (11.7,0) -- (-3.6, 0);
+        \draw[->] (3.1,-1.0) -- (1.8,-1.0);
+        \node at (3.9,-1.0) {\Large $U$};
+        % gap dimensions
+        \draw[<->] (0,0) -- (0,0.85);
+        \node[left] at (-0.1,0.45) {$d_1$};
+        \draw[<->] (4.0,0) -- (4.0,{0.85+4.0*1.15/8});
+        \node[right] at (4.15,0.75) {$h(x)$};
+        \draw[<->] (8,0) -- (8,2.0);
+        \node[right] at (8.15,1.1) {$d_2$};
+        % side labels
+        \node[align=center] at (-2.3,4.2) {Pressure\\[2pt]$p_0$};
+        \node[align=center] at (10.4,4.2) {Pressure\\[2pt]$p_0$};
     \end{tikzpicture}
     \caption{Diagram of a Thrust bearing}
     \label{figThrustBearing}
@@ -98,9 +168,9 @@ which gives the flux:
 \end{equation*}
 We can then use mass conservation, with an unchanging surface:
 \begin{equation*}
-    \frac{\partial q}{\partial x} = 0 \implies q(x) = q_0.
+    \frac{\partial q}{\partial x} = 0 \implies q(x) = q_0,
 \end{equation*}
-We can determine $q_0$ by the fact that $p = p_0$ at both ends:
+and can determine $q_0$ by the fact that $p = p_0$ at both ends:
 \begin{equation*}
     \frac{\partial p}{\partial x} = -12\mu \left(\frac{q_0}{h^3} + \frac{U}{2h^2}\right)
 \end{equation*}
@@ -121,8 +191,39 @@ In particular, the pressure gradient goes to zero, and so the pressure is maxima
 At this point we only have the Couette component of flow, so $u$ is linear in $y$. See figure~\ref{figThrustBearingFlow}.
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1]
-        TODO %TODO
+    \begin{tikzpicture}[>=Stealth, line width=0.8pt]
+        \draw (0,4.14) -- (0,1.06) -- (7.14,2.5) -- (7.14,4.4);
+        \draw[hatch side] (9.3,0) -- (-3, 0);
+        \fill (2.9,1.645) circle (1.6pt) coordinate (pm);
+        \node at (2.2,2.45) {$P_{\max}$};
+        \draw[->,line width=0.5pt] (2.75,2.45) to[bend left=45] (pm);
+
+        \begin{scope}[blue!60!black, line width=0.8pt]
+            % profile 1
+            \draw[dotted] (1.26,1.31) -- (1.26,0.02);
+            \draw (1.26,1.31) .. controls (0.6,1.15) and (0.15,0.95) .. (0.12,0.55)
+                .. controls (0.1,0.2) and (0.8,0.05) .. (1.26,0.04);
+            \draw[->] (1.26,1.05) -- (0.55,1.05);
+            \draw[->] (1.26,0.80) -- (0.25,0.80);
+            \draw[->] (1.26,0.55) -- (0.15,0.55);
+            \draw[->] (1.26,0.30) -- (0.35,0.30);
+            % profile 2
+            \draw[dotted] (2.9,1.645) -- (2.9,0.02);
+            \draw (2.9,1.645) -- (2.1,-0.03);
+            \draw[->] (2.55,1.05) -- (3.0,1.05);
+            \draw[->] (2.40,0.75) -- (3.0,0.75);
+            \draw[->] (2.30,0.40) -- (3.0,0.40);
+            \draw[->] (2.18,0.12) -- (3.0,0.12);
+            % profile 3
+            \draw[dotted] (6.56,2.32) -- (6.56,0.02);
+            \draw (6.56,2.32) .. controls (6.85,2.15) and (7.0,1.8) .. (6.7,1.5)
+                .. controls (6.3,1.1) and (5.7,0.6) .. (5.4,0.04);
+            \draw[->] (6.56,1.9) -- (6.88,1.9);
+            \draw[->] (6.56,1.15) -- (6.2,1.15);
+            \draw[->] (6.56,0.85) -- (5.95,0.85);
+            \draw[->] (6.56,0.55) -- (5.75,0.55);
+            \draw[->] (6.56,0.25) -- (5.55,0.25);
+        \end{scope}
     \end{tikzpicture}
     \caption{Diagram of flow for the thrust bearing}
     \label{figThrustBearingFlow}
@@ -169,7 +270,25 @@ this is because the small slope and large pressure combine to give a term on the
 The journal bearing is the above problem wrapped around a circle. See figure~\ref{figJournalBearing}
 \begin{figure}
     \centering
-    TODO %TODO
+    \begin{tikzpicture}[>=Stealth, line width=0.8pt]
+        \def\b{3.1}\def\a{1.95}
+        \coordinate (O) at (0,0);          % outer (bearing) centre
+        \coordinate (C) at (0.55,-0.1);    % inner (journal) centre
+        \draw (O) circle (\b);
+        \draw (C) circle (\a);
+        % radius a
+        \draw (C) -- ++(158:\a);
+        \node at ($(C)+(158:1.0)+(0.1,0.3)$) {$a$};
+        % radius b
+        \draw (O) -- (230:\b);
+        \node at ($(O)+(230:1.7)+(-0.3,0.15)$) {$b$};
+        % film thickness
+        \draw[<->] (0.55,{-0.1+sqrt(\a*\a-0.0)}) -- (0.55,{sqrt(\b*\b-0.55*0.55)});
+        \node[left] at (0.45,2.45) {$h(\theta)$};
+        % rotation
+        \draw[->,line width=0.6pt] ($(C)+(-75:0.8)$) arc[start angle=-75,end angle=-15,radius=0.8];
+        \node at ($(C)+(-130:0.5)+(0.1,0)$) {$\Omega$};
+    \end{tikzpicture}
     \caption{Diagram of a journal bearing}
     \label{figJournalBearing}
 \end{figure}
@@ -180,7 +299,38 @@ We find that the pressure is high at the bottom of the diagram (where the flow c
 Consider a cylinder of radius $a$ approaching a flat wall at velocity $V$, as in figure~\ref{figCylinderWall}.
 \begin{figure}
     \centering
-    TODO %TODO
+    \begin{tikzpicture}[>=Stealth, line width=0.8pt]
+        % Parameters
+        \def\R{9.75}
+        \def\d{0.3}
+        \def\hw{4.5}
+        \pgfmathsetmacro{\ang}{asin(\hw/\R)}
+
+        % Wall
+        \draw[hatch side] (4.3,0) -- (-4.3,0);
+
+        % Cylinder surface (arc of a large circle)
+        \draw ({-\hw},{\d+\R-sqrt(\R*\R-\hw*\hw)}) arc[start angle={-90-\ang}, end angle={-90+\ang}, radius=\R];
+
+        % Gap h(x)
+        \pgfmathsetmacro{\xh}{-2.9}
+        \pgfmathsetmacro{\hh}{\d+\R-sqrt(\R*\R-\xh*\xh)}
+        \draw[<->, line width=0.6pt] (\xh,0) -- (\xh,\hh);
+        \node[left=1pt] at (\xh,{\hh/2}) {$h(x)$};
+
+        % Minimum gap d
+        \draw[->, line width=0.6pt] (0,1.0) -- (0,\d);
+        \draw[->, line width=0.6pt] (0,-0.7) -- (0,0);
+        \node[above] at (0,1.0) {$d$};
+
+        % Pressure labels
+        \node[blue] at (-4.8,0.8) {$p_0$};
+        \node[blue] at (4.8,0.8) {$p_0$};
+
+        % Axes
+        \draw[->] (1.4,1.1) -- (1.4,2.1) node[right] {$y$};
+        \draw[->] (1.4,1.1) -- (2.4,1.1) node[right] {$x$};
+    \end{tikzpicture}
     \caption{Diagram of a cylinder approaching a wall}
     \label{figCylinderWall}
 \end{figure}
@@ -310,7 +460,7 @@ Note that this is similar to potential flow, where $\vec{u} = \nabla \phi$ and $
     \end{align*}
     Using these we could calculate $p(r, \theta)$.
 \end{example}
-\section{Graviational Spreading of Viscous Fluid}
+\section{Gravitational Spreading of Viscous Fluid}
 Consider a viscous fluid spreading out under gravity. We assume that the flow is axisymmetric and with reduced Reynolds number $\ll 1$. We neglect surface tension and other issues as the moving contact line. Assume the geometry is long and thin so we can use lubrication theory. See figure~\ref{figViscousGravity}.
 
 \begin{figure}
