@@ -1,0 +1,79 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Introduction and Examples}
+\begin{definition}{Transformation}
+    Given a unitary operator $U$, define a \underline{transformation} of a quantum system to be either a map of states:
+    \begin{equation*}
+        \state \mapsto U\state,\qquad \ket{\phi} \mapsto \ket{\phi}U^\dagger
+    \end{equation*}
+    or a map of operators:
+    \begin{equation*}
+        A \mapsto U^\dagger A U
+    \end{equation*}
+\end{definition}
+\begin{remarks}
+    \item Mapping state and mapping operators are equivalent because inner products of states are unchanged. However, matrix elements do change in general:
+        \begin{equation*}
+            \opbraket \phi A \psi \mapsto \opbraket\phi{U^dagger A U}\psi.
+        \end{equation*}
+    \item Unlike changing pictures we change states or operators but not both.
+\end{remarks}
+\begin{definition}{Symmetry}
+    A transformation of a quantum system is a \underline{symmetry} of that quantum system if:
+    \begin{equation*}
+        U^\dagger H U = H \text{ or } \cmmt{U}{H} = 0.
+    \end{equation*}
+\end{definition}
+It follows that:
+\begin{itemize}
+    \item in the \schr picture, if $\ket{\psi(t)}$ is a solution of the \schr equation, then so is $U\ket{\psi(t)}$;
+    \item in the Heisenberg picture, if $A(t)$ is a solution of the Heisenberg equation, then so is $U^\dagger A(t) U$.
+\end{itemize}
+Consider a group $G$ of transformations of a quantum mechanical system. Then for each $g \in G$, $U(g)$ will be a unitary operator that will act in a similar way to $g$. Indeed,
+\begin{align*}
+    U(g_1) U(g_2) &= U(g_1 g_2) \\
+    G(e_G) &= 1 \\
+    U(g^{-1}) &= U(g)^{-1} = U(g)^\dagger
+\end{align*}
+where $e_G$ is the identity element of the group $G$. Our aim is to find $U(g)$ when $G$ is a group of translations, rotations or reflections, because in these cases we know how $G$ should act geometrically.
+
+From this, we can infer the action of $U(g)$ on position eigenstates, $U(g) \ket{\vec x} = \ket{g(\vec{x})}$, or the position operator:
+\begin{equation*}
+    U(g)^\dagger \opvec x U(g) = g(\opvec{x})
+\end{equation*}
+These states are equivalent since:
+\begin{equation*}
+    \opvec{x}(U(g)\ket x) = U(g) g(\opvec{x}) \ket{\vec x} = g(\vec x) U(g) \ket{\vec x}
+\end{equation*}
+On a general state,
+\begin{equation*}
+    \state \mapsto U(g) \state
+\end{equation*}
+where the position space wavefunction of our new state is:
+\begin{align*}
+    \opbraket{\vec x}{U(g)}{\psi} &= \left(U(g)^\dagger \ket{\vec x}\right) \state \\
+    &= \left(U(g^{-1}) \ket{\vec x}\right) \state \\
+    &= \inn{g^{-1}(\vec{x})}{\psi}
+\end{align*}
+\begin{example}[Translations in one dimension]
+    We have $G = \{g_a\}_{a \in \R}$ and:
+    \begin{equation*}
+        x\mapsto g_a(x) = x + a
+    \end{equation*}
+    representing a translation. Write $U(a)$ to mean $U(g_a)$. Then:
+    \begin{equation*}
+        U(a) \ket x \mapsto \ket{x + a}
+    \end{equation*}
+    or:
+    \begin{equation*}
+        U(a)^\dagger \hat x U(a) = \hat x + a
+    \end{equation*}
+    and we know that the operator with these properties is:
+    \begin{equation*}
+        U(a) = \exp\left(-\frac{ia}{\hbar} \hat p\right)
+    \end{equation*}
+
+    The effect of translation by $a$ on the wavefunction $\psi(x)$ is to generate the new wavefunction $\psi(x - a) = \psi(g^{-1}_a(x))$.
+\end{example}
+\end{document}

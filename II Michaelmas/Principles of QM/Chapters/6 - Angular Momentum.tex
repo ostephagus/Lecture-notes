@@ -389,6 +389,154 @@ This must be a new top state, and we can check that $J_+$ acts on it to give zer
         \ket{0~0} = \frac1{\sqrt{2}} \left(\ket{\frac12} \ket{-\frac12} - \ket{-\frac12} \ket{\frac12}\right)
     \end{equation*}
 
-    We found the top state as a symmetric state, then applying $J_-$ gave two more symmetric states. All of these had total spin $1$. Then we found the unique antisymmetric state which had total spin $0$. This is directly comparable with our earlier discussion of spin, where we found linear combinations of $\upst$ and $\dnst$ (corresponding to $\ket{1/2}$ and $\ket{-1/2}$ here).
+    We found the top state as a symmetric state, then applying $J_-$ gave two more symmetric states. All of these had total spin $1$. Then we found the unique antisymmetric state which had total spin $0$. This is directly comparable with our earlier discussion of spin, where we found linear combinations of $\upst$ and $\dnst$ (corresponding to $\ket{1/2}$ and $\ket{-1/2}$ here). This process is represented in figure~\ref{figAddJSpinHalf}
 \end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=0.7]
+        % Column and row labels
+        \node at (0, 0) {$1$};
+        \node at (3, 0) {$0$};
+        \node at (-3, -1.5) {$1$};
+        \node at (-3, -3.5) {$0$};
+        \node at (-3, -5.5) {$-1$};
+        % Corner cell with diagonal
+        \node at (-3.25, 0.2) {$J$};
+        \node at (-3.6, -0.3) {$M$};
+        \draw (-3.8, 0.3) -- (-3.0, -0.5);
+
+        % Nodes
+        \node[circle, draw, inner sep=2.5pt] (a) at (0, -1.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (b) at (0, -3.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (c) at (0, -5.5) {};
+        \node[circle, draw, inner sep=2.5pt] (d) at (3, -3.5) {};
+
+        % Arrows
+        \draw[-{Stealth}] (a) -- node[left] {$J_-$} (b);
+        \draw[-{Stealth}] (b) -- node[left] {$J_-$} (c);
+        \draw[-{Stealth}] (b) -- node[above] {$\perp$} (d);
+    \end{tikzpicture}
+    \caption{Diagram of addition of angular momentum for two spin-$\frac12$ particles}
+    \label{figAddJSpinHalf}
+\end{figure}
+\begin{example}[Addition of angular momentum for a spin-$1/2$ and spin-$1$ particle]
+    Set $j_1 = 1$, $j_2 = \frac12$. The top state is:
+    \begin{equation*}
+        \ket{\frac32~\frac32} = \ket1 \ket{\frac12}
+    \end{equation*}
+    The other states with $J = \frac32$ is:
+    \begin{align*}
+        \ket{\frac32~\frac12} &= \sqrt{\frac23} \ket0 \ket{\frac12} + \frac1{\sqrt{3}} \ket1 \ket{-\frac12} \\
+        \ket{\frac32~~-\frac12} &= \sqrt{\frac23}\ket0\ket{-\frac12} + \frac1{\sqrt{3}} \ket{-1} \ket{\frac12} \\
+        \ket{\frac32~~-\frac32} &= \ket{-1}\ket{-\frac12}
+    \end{align*}
+    Then finding a state orthogonal to $\ket{\frac32~\frac12}$ gives the new top state:
+    \begin{equation*}
+        \ket{\frac12~\frac12} = \sqrt{\frac23}\ket1 \ket{-\frac12} - \frac1{\sqrt{3}} \ket0 \ket{\frac12}
+    \end{equation*}
+    which yields the final missing state:
+    \begin{equation*}
+        \ket{\frac12~-\frac12} = \frac1{\sqrt{3}} \ket 0 \ket{-\frac12} - \sqrt{\frac23} \ket{-1} \ket{\frac12}
+    \end{equation*}
+
+    This process is represented in figure~\ref{figAddJSpinOne}
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=0.7]
+        % Column and row labels
+        \node at (0, 0) {$\frac{3}{2}$};
+        \node at (3, 0) {$\frac{1}{2}$};
+        \node at (-3, -1.5) {$\frac{3}{2}$};
+        \node at (-3, -3.5) {$\frac{1}{2}$};
+        \node at (-3, -5.5) {$-\frac{1}{2}$};
+        \node at (-3, -7.5) {$-\frac{3}{2}$};
+        % Corner cell with diagonal
+        \node at (-3.25, 0.2) {$J$};
+        \node at (-3.6, -0.3) {$M$};
+        \draw (-3.8, 0.3) -- (-3.0, -0.5);
+
+        % Nodes
+        \node[circle, draw, inner sep=2.5pt] (a) at (0, -1.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (b) at (0, -3.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (c) at (0, -5.5) {};
+        \node[circle, draw, inner sep=2.5pt] (d) at (3, -3.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (e) at (3, -5.5) {};
+
+        % Arrows
+        \draw[-{Stealth}] (a) -- node[left] {$J_-$} (b);
+        \draw[-{Stealth}] (b) -- node[left] {$J_-$} (c);
+        \draw[-{Stealth}] (c) -- node[left] {$J_-$} (0, -7.5);
+        \draw[-{Stealth}] (b) -- node[above] {$\perp$} (d);
+        \draw[-{Stealth}] (d) -- node[left] {$J_-$} (e);
+    \end{tikzpicture}
+    \caption{Diagram of addition of angular momentum for a spin-$1$ and a spin-$\frac12$ particle}
+    \label{figAddJSpinOne}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=0.7]
+        % Column labels
+        \node at (0, 0) {$j_1 + j_2$};
+        \node at (3, 0) {$j_1 + j_2 - 1$};
+        \node at (6, 0) {$\cdots$};
+        \node at (9, 0) {$|j_1 - j_2|$};
+        % Row labels
+        \node[anchor=east] at (-2, -1.5) {$j_1 + j_2$};
+        \node[anchor=east] at (-2, -3.5) {$j_1 + j_2 - 1$};
+        \node[anchor=east] at (-2, -5.5) {$j_1 + j_2 - 2$};
+        \node[anchor=east] at (-2, -9.5) {$\vdots$};
+        \node[anchor=east] at (-2, -11.5) {$-(j_1 + j_2) + 1$};
+        \node[anchor=east] at (-2, -13.5) {$-(j_1 + j_2)$};
+        % Corner cell with diagonal
+        \node at (-3.75, 0.2) {$J$};
+        \node at (-4.1, -0.3) {$M$};
+        \draw (-4.3, 0.3) -- (-3.5, -0.5);
+
+        % Nodes
+        \node[circle, draw, inner sep=2.5pt] (a1) at (0, -1.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (a2) at (0, -3.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (a3) at (0, -5.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (a4) at (0, -7.5) {};
+        \node[circle, draw, inner sep=2.5pt] (b2) at (3, -3.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (b3) at (3, -5.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (b4) at (3, -7.5) {};
+        \node[circle, draw, inner sep=2.5pt] (c3) at (6, -5.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (c4) at (6, -7.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (a5) at (0, -11.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] (a6) at (0, -13.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] at (3, -11.5) {};
+        \node[circle, draw, inner sep=2.5pt] at (9, -9.5) {};
+        \node[circle, draw, fill, inner sep=2.5pt] at (9, -11.5) {};
+
+        % Arrows
+        \draw[-{Stealth}] (a1) -- node[left] {$J_-$} (a2);
+        \draw[-{Stealth}] (a2) -- node[left] {$J_-$} (a3);
+        \draw[-{Stealth}] (a3) -- (a4);
+        \draw[-{Stealth}] (b2) -- node[left] {$J_-$} (b3);
+        \draw[-{Stealth}] (b3) -- (b4);
+        \draw[-{Stealth}] (c3) -- (c4);
+        \draw[-{Stealth}] (a5) -- (a6);
+        \draw[-{Stealth}] (a2) -- node[above] {$\perp$} (b2);
+        \draw[-{Stealth}] (b3) -- node[above] {$\perp$} (c3);
+
+        % Continuation
+        \node at (7.5, -7.5) {$\cdots$};
+        \node at (0, -9.5) {$\vdots$};
+        \node at (3, -9.5) {$\vdots$};
+        \node at (6, -9.5) {$\cdots$};
+        \node at (9, -10.5) {$\vdots$};
+    \end{tikzpicture}
+    \caption{Diagram of addition of angular momentum in general}
+    \label{figAddJGeneral}
+\end{figure}
+
+In general, for arbitrary $j_1$ and $j_2$, we have the picture as in figure~\ref{figAddJGeneral}. Here open circles represent top states and filled circles represent other states. When moving horizontally, $\perp$ represents finding the unique state orthogonal to all other states in the row (all others with same $M$ value).
+
+The whole process stops when $J = \abs{j_1 - j_2}$ because:
+\begin{align*}
+    \sum_{J = \abs{j_1 - j_2}}^{j_1 + j_2} (2J + 1) &= \sum_{J = \abs{j_1 - j_2}}^{j_1 + j_2} \left[(J+1)^2 - J^2\right] \\
+    &= (j_1 + j_2 + 1)^2 - (j_1 - j_2)^2
+\end{align*}
 \end{document}
