@@ -316,5 +316,79 @@ Other important consequences of spin:
             \frac38 \frac{p^4}{m^3}c^2.
         \end{equation*}
         Together they produce small splittings of the energy levels.
+    \item In the atom, the are tiny interactions, even when $\vec B = \vec0$ and $\vec L = \vec 0$, between the proton spin $\vec{I}$ and the spin of the electron $\vec{E}$. This gives a small interaction term of the form $\vec{I} \cdot \vec{S}$. Its effect is very small, but it does split the energy levels of the hydrogen atom into two narrowly-spaced levels. The radiation emitted from a transition between them has a wavelength of $21~cm$, and can be observed from interstellar hydrogen and used to study, for example, the structure of the Milky Way.
 \end{itemize}
+\section{Addition of Angular momentum}
+Choose units in which $\hbar = 1$ and recall the standard relation for a set of angular momentum states:
+\begin{align*}
+    \vec J^2 \ket{j~m} &= j(j+1)\ket{j~m} \\
+    J_3 \ket{j~m} &= m \ket{j~m} \\
+    J_\pm \ket{j~m} &= \sqrt{(j\mp m)(j \pm m + 1)} \ket{j~m\pm 1}.
+\end{align*}
+Consider two independent systems with angular momentum operators $\vec J^{(1)}$ and $\vec J^{(2)}$ acting on spaces of states $V^{(1)}$ and $V^{(2)}$, each with standard basis $\{\ket{j_i~m_i}\}$ consisting of joint eigenstates of $(J^{(i)})^2$ and $J_3^{(i)}$ for $i = 1, 2$.
+
+Construct a space of states for the combined system as $V = V^{(1)} \otimes V^{(2)}$ with basis:
+\begin{equation*}
+    \ket{m_1;m_2} = \ket{j_1~m_1} \otimes \ket{j_2~m_2}
+\end{equation*}
+if $j_1$ and $j_2$ are fixed.
+
+The sum of angular momentum operator is $\vec J = J^{(1)} \otimes 1 + 1 \otimes \vec J^{(2)}$, often written as $\vec J = J^{(1)} + \vec J^{(2)}$. Recall that $j_i \geq m_i \geq -j_i$ for each subsystem in integer steps so we have $(2j_1 + 1)(2j_2 + 1)$ basis states in total for $V$. We want to find a new basis for $V$ consisting of joint eigenstates $\ket{J~M}$ of $\vec J^2$ and $J_3$.
+
+Since $J_3 = J_3^{(1)} + J_3^{(2)}$, we simply have:
+\begin{equation*}
+    J_3 \ket{m_1;m_2} = (m_1 + m_2) \ket{m_1;m_2}
+\end{equation*}
+so we set $M = m_1 + m_2$. $\vec J^2$ is more difficult because it is not a simple sum. Looking at the range of values for $M$,
+\begin{equation*}
+    (j_1 + j_2) \geq M \geq -(j_1 + j_2)
+\end{equation*}
+so we expect to find basis states with $J = j_1 + j_2$, but this would not give enough states. The most general state is:
+\begin{equation*}
+    \ket{J~M} = \sum_{m_1 + m_2 = M} C^J_{m_1 m_2} \ket{m_1;m_2}
+\end{equation*}
+For this to work we need to know which values of $J$ are allowed, and what the value of the \underline{Clebsch-Gordon coefficients},
+\begin{equation*}
+    C^J_{m_1m_2} \inn{m_1;m_2}{J~M},
+\end{equation*}
+are. To begin, note that we can seek the top states for $\vec J$ which will satisfy $J_+ \ket{J~M} = 0 \iff J = M$. Then we can apply $J_-$ to get the rest of the states. Starting from the largest possible value for $M$, $\ket{j_1~j_1} \otimes \ket{j_2~j_2}$ must be the unique $\ket{J~M}$ with $M = j_1 + j_2$. Applying $J_-$:
+\begin{equation*}
+    \sqrt{2(j_1 + j_2)} \ket{j_1 + j_2~~k_1 + j_2 - 1} = \sqrt{2j_1} \ket{j_1 = 1}\ket{j_2} \sqrt{2j_2} \ket{j_1}\ket{j_2 - 1} %TODO: I have got confused by the different states here
+\end{equation*}
+using the standard formulas for $V$ (on the left) and $V^{(1)}$ and $V^{(2)}$ (on the right). Hence,
+\begin{equation*}
+    \ket{j_1 + j_2~~j_1 + j_2 - 1} = \sqrt{\frac{j_1}{j_1 + j_2}} \ket{j_1 - 1}\ket{j_2} + \sqrt{\frac{j_2}{j_1 + j_2}} \ket{j_1} \ket{j_2 - 1}.
+\end{equation*}
+Repeated application of $J_-$ will generate states of the form $\ket{j_1 + j_2~~M}$ for $j_1 + j_2 \geq M \geq -(j_1 + j_2)$.
+
+We have not found all the eigenstates of combined angular momentum. To continue, we look at the level with $M = j_1 + j_2 - 1$ -- there are two linearly independent states $\ket{j_1 - 1}\ket{j_2}$, $\ket{j_1}{j_2 - 1}$. Take the combination orthogonal to the one we found above, given by:
+\begin{equation*}
+    \ket{j_1 + j_2 - 1~~j_1 + j_2 - 1} = \sqrt{\frac{j_1}{j_1 + j_2}} \ket{j_1}\ket{j_2 - 1} - \sqrt{\frac{j_2}{j_1 + j_2}} \ket{j_1 - 1}\ket{j_2}
+\end{equation*}
+This must be a new top state, and we can check that $J_+$ acts on it to give zero. We can proceed as before applying $J_-$ to get another set of states.
+\begin{example}[Addition of angular momentum for two spin-$\frac12$ particles]
+    Set $j_1 = j_2 = \frac12$. There are four states of the form $\ket{m_1}\ket{m_2}$.
+
+    In the summed angular momentum basis, we find:
+    \begin{equation*}
+        \ket{1~1} = \ket{\frac12} \ket{\frac12}
+    \end{equation*}
+    applying $J_-$:
+    \begin{align*}
+        \sqrt{2} \ket{1~0} &= \ket{-\frac12} \ket{\frac12} + \ket{\frac12} \ket{-\frac12} \\
+        \implies \ket{1~0} &= \frac1{\sqrt{2}} \left(\ket{-\frac12} \ket{\frac12} + \ket{\frac12} \ket{-\frac12}\right)
+    \end{align*}
+    Applying $J_-$ again:
+    \begin{align*}
+        \sqrt{2} \ket{1~~-1} &= \frac1{\sqrt{2}} \left(\ket{-\frac12}\ket{-\frac12} + \ket{-\frac12} \ket{-\frac12}\right) \\
+        \implies \ket{1~~-1} &= \ket{-\frac12} \ket{-\frac12}
+    \end{align*}
+
+    To find the rest of the states, we need to find another linearly independent state at the level $M = 0$.
+    \begin{equation*}
+        \ket{0~0} = \frac1{\sqrt{2}} \left(\ket{\frac12} \ket{-\frac12} - \ket{-\frac12} \ket{\frac12}\right)
+    \end{equation*}
+
+    We found the top state as a symmetric state, then applying $J_-$ gave two more symmetric states. All of these had total spin $1$. Then we found the unique antisymmetric state which had total spin $0$. This is directly comparable with our earlier discussion of spin, where we found linear combinations of $\upst$ and $\dnst$ (corresponding to $\ket{1/2}$ and $\ket{-1/2}$ here).
+\end{example}
 \end{document}
