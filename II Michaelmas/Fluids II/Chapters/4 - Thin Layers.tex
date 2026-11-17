@@ -54,13 +54,13 @@ In particular, we need a long and thin geometry: $h \ll L, \frac{\partial h}{\pa
         \end{equation*}
         That is, the viscous term in the $y$ direction is small compared to $\frac{\partial p}{\partial y}$, and the leading-order equation in the $y$ direction is:
         \begin{equation*}
-            0 = \frac{\partial p}{\partial y} + f_y
+            0 = -\frac{\partial p}{\partial y} + f_y
         \end{equation*}
 \end{enumerate}
 In summary,
 \begin{align}
     0 &= -\frac{\partial p}{\partial x} + \mu \frac{\partial^{2}u}{\partial y^{2}} + f_x \label{eqnLubricationX} \\
-    0 &= \frac{\partial p}{\partial y} + f_y \label{eqnLubricationY}
+    0 &= -\frac{\partial p}{\partial y} + f_y \label{eqnLubricationY}
 \end{align}
 which is valid as long as:
 \begin{itemize}
@@ -334,7 +334,7 @@ Consider a cylinder of radius $a$ approaching a flat wall at velocity $V$, as in
     \caption{Diagram of a cylinder approaching a wall}
     \label{figCylinderWall}
 \end{figure}
-Let the angle between a point and the vertical line passing through the centre of the cylinder be $\theta$. We need the assumptions $d \ll a$ and $\frac{u h}{\nu} \frac{h}{L} \sim \frac{Vh}{\nu} \ll 1$ (this is the reduced Reynolds number).
+Let the angle between a point and the vertical line passing through the centre of the cylinder be $\theta$. We need the assumptions $d \ll a$ and that the reduced Reynold's number is small: $\frac{u d}{\nu} \frac{d}{L} \sim \frac{Vd}{\nu} \ll 1$, where the second $\sim$ is by incompressibility ($u \sim VL / h$).
 
 We have $h - d = a(1 - \cos\theta)$ and $x = a\sin(\theta)$ for a point on the cylinder. With our approximations,
 \begin{equation*}
@@ -344,7 +344,7 @@ and we can eliminate $\theta$:
 \begin{equation*}
     h = d\left(1 + \frac{x^2}{2ad}\right).
 \end{equation*}
-The relevant length scale is $L \sim \sqrt{ad}$, because this is the scale over which $h$ varies. Conveniently, this is the geometric mean of $a$ and $d$, so:
+The relevant length scale is $L \sim \sqrt{ad}$, because this is the scale on which the two terms for $h$ -- $\frac{x^2}{2a}$ and $d$ -- balance. Conveniently, this is the geometric mean of $a$ and $d$, so:
 \begin{equation*}
     d \ll \sqrt{ad} \ll a
 \end{equation*}
@@ -375,7 +375,7 @@ We can now calculate the vertical force on the cylinder (per unit length down th
 \begin{align*}
     F &= \int_{-\infty}^{\infty} (p(x) - p_0) dx \\
     &= \frac{6\mu V a}{d^2} \sqrt{2ad} \int_{-\infty}^{\infty} \frac{1}{(1+t^2)^2} dt \\
-    &= \frac{3\pi\mu V a}{d^2} \sqrt{2ad} \text{ by $t$-substitution}
+    &= \frac{3\pi\mu V a}{d^2} \sqrt{2ad} \text{ by substituting $t = \tan \theta$}
 \end{align*}
 
 If the cylinder is settling under its own weight, $F = \Delta p g \pi a^2$ is constant, so $\dot{d} d^{-\frac32}$ which means $d \sim t^{-2}$, so it takes infinite time to reach the surface. We can also see that the force needed to maintain a constant $V$ is much larger than the weight force.
@@ -383,7 +383,7 @@ If the cylinder is settling under its own weight, $F = \Delta p g \pi a^2$ is co
 Consider flow between two parallel plates of separation $h$. Let the flow at $\infty$ be of speed $U$, along the $x$ direction. See figure~\ref{figHeleShaw}.
 \begin{figure}
     \centering
-    \begin{tikzpicture}[x=0.02cm,y=0.02cm,line cap=round,line join=round,>={Stealth[length=2.5mm]}]
+    \begin{tikzpicture}[scale=0.8, x=0.02cm,y=0.02cm,line cap=round,line join=round,>={Stealth[length=2.5mm]}]
         % Plate corners (top plate is an exact parallelogram)
         \coordinate (FL) at (100,120);  % front left
         \coordinate (FR) at (480,110);  % front right
@@ -547,8 +547,8 @@ To solve this we set:
 \end{equation*}
 and substitute in the to the PDE, noting that $H(t) \propto t^{-\frac14} \implies \frac{dH}{dt} = -\frac14 \frac H t$. Similarly, $\eta \propto t^{-\frac18} \implies \frac{\partial \eta}{\partial t} = \frac18 \frac\eta t$ and $\frac{\partial}{\partial r} = \frac1R \frac{\partial}{\partial \eta}$. We are now ready:
 \begin{align*}
-    -\frac14 \frac{H}{t} f(\eta) &+ \frac{df}{d\eta} \left(-\frac18 \frac{\eta}{t}\right) = \frac{g}{3\nu} \frac{H^4}{R^2} \frac{1}{\eta} \frac{d}{d\eta} \left(\eta f^3 \frac{df}{d\eta}\right) \\
-    \implies -\frac14 f(\eta) &- \frac18 \eta f'(\eta) = \frac13 \frac1\eta \frac{d}{d\eta} (\nu f^3(\eta) f'(\eta)) 
+    -\frac14 \frac{H}{t} f(\eta) + f'(\eta) \frac{H}{t} \left(-\frac18 \frac{\eta}{t}\right) &= \frac{g}{3\nu} \frac{H^4}{R^2} \frac{1}{\eta} \frac{d}{d\eta} \left(\eta f^3 \frac{df}{d\eta}\right) \\
+    \implies -\frac14 f(\eta) &- \frac18 \eta f'(\eta) = \frac13 \frac1\eta \frac{d}{d\eta} (\eta f^3(\eta) f'(\eta)) 
 \end{align*}
 by cancelling $\frac H t = \frac g \nu \frac{H^4}{R^2}$. Similarly, the volume constraint becomes:
 \begin{equation*}

@@ -1,0 +1,24 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+In this chapter, we consider a better method than that of IB Fluid Dynamics for working with large Reynolds numbers.
+\section{Euler and Prandtl Limits}
+Recall \eqnref{eqnNavierStokes} (Navier-Stokes equation):
+\begin{equation*}
+    \rho \frac{D \vec u}{D t} = \vec f = \nabla p + \mu \nabla^2 \vec u
+    \tag{\ref{eqnNavierStokes}}
+\end{equation*}
+As an example, consider flow at speed $U$ past a body of size $L$. The nondimensionalisation with respect to $U$, $L$ and $P = \rho U^2$ is:
+\begin{equation*}
+    \Re \left(\St\frac{\partial u^*}{\partial t^*} + (\vec{u}^* \cdot \nabla^*) \vec{u}^*\right) = -\Re\nabla^* p^* + \nabla^{* 2} \vec{u}^*
+\end{equation*}
+
+Then, if we argue $\frac{1}{\Re} \nabla^{*2} \vec u^* \ll 1$, we get the Euler equation:
+\begin{equation}
+    \rho \frac{D \vec u}{D t} = \vec f - \nabla p
+    \label{eqnEuler}
+\end{equation}
+However, this argument is dangerous! Mathematically, \eqnref{eqnNavierStokes} (Navier-Stokes equation) is second-order in space, whereas \eqnref{eqnEuler} (Euler equation) is only first-order. We need to drop the no-slip condition and can only impose no-penetration.
+
+The Euler limit \textit{is} a good approximation sometimes: it is good for behaviour far from boundaries (such as water waves), impulsive motion (at small time scales from the impulse, where the viscosity has not had time to diffuse yet) and the lift on an aerofoil (but not the drag). The key result from IB Fluid Dynamics that indicated this is not such a good limit was that there is no drag on a translating sphere -- d'Alambert's Paradox.
+\end{document}

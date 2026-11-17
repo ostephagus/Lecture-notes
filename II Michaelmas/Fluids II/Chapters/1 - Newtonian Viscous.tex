@@ -285,8 +285,8 @@ which is a lot of parameters. Define a dimensionless velocity $\vec{u}^* = \vec{
 \end{align*}
 We will use the viscous scaling. \Eqnref{eqnNavierStokes} (Navier-Stokes equation) now becomes:
 \begin{align}
-    \rho \left(\frac{U}{T} \frac{\partial u^*}{\partial t^*} + \frac{U^2}{L} \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\frac{\mu U}{L^2} \nabla^2 p^{*2} + \frac{\mu U}{L^2} \nabla^{* 2} \vec{u}^* \nonumber \\
-    \Re \left(\St\frac{\partial u^*}{\partial t^*} +  \vec{u}^* \cdot \nabla^* \vec{u}^*\right) &= -\nabla^2 p^{*2} + \nabla^{* 2} \vec{u}^* \label{eqnNavierStokesDimless} \\
+    \rho \left(\frac{U}{T} \frac{\partial u^*}{\partial t^*} + \frac{U^2}{L} (\vec{u}^* \cdot \nabla^*) \vec{u}^*\right) &= -\frac{\mu U}{L^2} \nabla^* p^* + \frac{\mu U}{L^2} \nabla^{* 2} \vec{u}^* \nonumber \\
+    \Re \left(\St\frac{\partial u^*}{\partial t^*} + (\vec{u}^* \cdot \nabla^*) \vec{u}^*\right) &= -\nabla^* p^* + \nabla^{* 2} \vec{u}^* \label{eqnNavierStokesDimless} \\
 \end{align}
 where $\Re = \frac{\rho U L}{\mu} = \frac{UL}{\nu}$ is the Reynolds number and $\St = \frac{L}{UT}$ is the Stroughal number. Both are dimensionless. We can see the improvement:
 \begin{equation*}
