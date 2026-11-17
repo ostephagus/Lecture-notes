@@ -1,0 +1,138 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Review of Second-Order Linear ODEs}
+\noindent\underline{\textbf{Required knowledge from IA Differential Equations:}}
+\begin{leftbartext}
+    Consider a typical second-order linear ODE:
+    \begin{equation}
+        y''(x) + p(x) y'(x) + q(x) y(x) = 0
+        \label{eqnSODE}
+    \end{equation}
+    where $p, q$ are known functions. Often, we want a local solution near some point $x = x_0$.
+    \begin{itemize}
+        \item If $p$ and $q$ are analytic at $x = x_0$, then $x_0$ is an ordinary point of the differential equation, and we are guaranteed two series solutions to \eqnref{eqnSODE} of the form:
+            \begin{equation*}
+                y = \sum_{n=0}^{\infty} a_n(x - x_0)^n
+            \end{equation*}
+        \item If $p$ and $q$ are not analytic at $x_0$, but $(x - x_0)p(x)$ and $(x - x_0)^2 q(x)$, then $x_0$ is a regular singlar point and we are guaranteed one series solution of the form:
+            \begin{equation*}
+                y = \sum_{n=0}^{\infty} b_n (x - x_0)^{n+\sigma}
+            \end{equation*}
+            In general the second solution will have a series solution and also a $\log(x - x_0)$ term.
+        \item If neither of the above hold, $x_0$ is an irregular singular point, and in IA Differential Equations we could not find any series solutions.
+    \end{itemize}
+\end{leftbartext}
+As an extension to these concepts, sometimes we want to know what happens at $\infty$. In this case it is sensible to change variables to $X = \frac1x$ and $Y(X) = y(x)$ and examine $X = 0$. \Eqnref{eqnSODE} becomes:
+\begin{equation*}
+    Y'' + P(X) Y' + Q(X) Y = 0
+\end{equation*}
+where $P = \frac2X - \frac{p(1/X)}{X^2}$, and $Q = \frac1{X^4} q(1/X)$.
+
+We can also change variables in \eqnref{eqnSODE} to get the \underline{canonical form}:
+\begin{equation}
+    u''(x) - Q(x) u(x) = 0
+    \label{eqnSODECanon}
+\end{equation}
+(note that this is a different $Q$). The change of variables is given by:
+\begin{equation*}
+    y = uv,\qquad v = \exp\left[-\frac12 \int p(x) dx\right]
+\end{equation*}
+\section{The Liouville-Green Approximation}
+Consider an ODE in the form in \eqnref{eqnSODECanon}. Suppose $x = x_0$ is an irregular singular point of this differential equation. Require that $Q'(x)$ exists and is continuous, and that $Q$ behaves as:
+\begin{equation*}
+    Q(x) \sim \frac{Q_0}{(x - x_0)^b} \text{ as } x \to x_0
+\end{equation*}
+Clearly here $b > 2$ because otherwise it would be regular.
+
+Try a solution of $y = e^{S(x)}$, and \eqnref{eqnSODECanon} gives:
+\begin{equation*}
+    S''(x) + S'(x)^2 = Q(x)
+\end{equation*}
+which is first-order in $S'$. Let $S$ have an asymptotic expansion:
+\begin{equation*}
+    S(x) \sim \sum_{n = 0}^{\infty} S_n(x).
+\end{equation*}
+However, we do not actually know what the asymptotic sequence is here (and so we have absorbed the coefficients into it). Our task is therefore to construct it. We require:
+\begin{itemize}
+    \item $S_{n} \ll S_n$ as $x \to x_0$
+    \item $S_{n}' \ll S_n'$ as $x \to x_0$
+    \item $S_{n}'' \ll S_n''$ as $x \to x_0$
+\end{itemize}
+Substitution into our first-order, nonlinear ODE (just the first term):
+\begin{equation*}
+    S_0''(x) + S_0'(x)^2 \sim Q \text{ as } x \to x_0
+\end{equation*}
+But this does not give us much information. We can therefore also require $S_0''(x) \ll S_0'(x)^2$ as $x \to x_0$. That means,
+\begin{equation*}
+    S_0'(x)^2 \sim Q \implies S_0 \sim \pm \int \sqrt{Q} dx
+\end{equation*}
+Indeed, set $S_0 = \pm \int \sqrt{Q} dx$. We then need to check our assumption about derivatives hold:
+\begin{align*}
+    \abs{S_0''(x)} &= \abs{\frac12 \frac{Q'}{\sqrt{Q}}} \\
+    &\ll \abs Q
+\end{align*}
+which can be shown using the assumed asymptotic expansion for $Q$ above. Now for $S_1$, the next term in the ODE is:
+\begin{align*}
+    (S_0 + S_1)'' &+ (S_0' + S_1')^2 \sim Q \\
+    \implies S_1''(x) &+ S_1'(x) + 2S_0' S_1'(x) \sim -S_0''(x) = \mp \frac{Q'(x)}{2\sqrt{Q(x)}}
+\end{align*}
+We need to make use of the assumptions $S_1 \ll S_0$, $S_1'\ll S_0'$, but also need $S_1'' \ll S_0' S_1'$. This yields:
+\begin{equation*}
+    2S_0' S_1' \sim \mp \frac{Q'}{2\sqrt{Q}} \implies S_1' \sim -\frac14 \frac{Q'}{Q}
+\end{equation*}
+which has an integrable-looking right-hand side, and we set:
+\begin{equation*}
+    S_1(x) = -\frac14 \ln(Q) + \text{const}.
+\end{equation*}
+At every stage, we need to go back and check our assumptions. These are:
+\begin{enumerate}
+    \item $S_1 \ll S_0$ and this must hold for their first and second derivatives also;
+    \item $S_1'' \ll S_0' S_1'$
+\end{enumerate}
+We find the general solution:
+\begin{equation*}
+    y \sim AQ^{-\frac14} e^{\int \sqrt{Q} dx} + BQ^{-\frac14} e^{-\int \sqrt{Q} dx}
+\end{equation*}
+which is a superposition of the expansions we found with the two different signs of the square root. This is the \underline{Liouville-Green solution}.
+\begin{example}
+    Consider the differential equation:
+    \begin{equation*}
+        y'' - \frac{a^2}{x^3}y = 0
+    \end{equation*}
+    where $a > 0$ is a constant. We see $x = 0$ is an irregular singular point. Substituting in $y = e^S$, $S \sim S_0 + S_1$ gives the first order equation:
+    \begin{equation*}
+        S_0'(x)^2 = \frac{a^2}{x^3} \implies S_o(x) = \pm 2a x^{-\frac12}
+    \end{equation*}
+    and the next order gives:
+    \begin{equation*}
+        S_1 = \frac34 \ln(x) + \text{const}.
+    \end{equation*}
+    We can now check assumptions,
+    \begin{align*}
+        \frac{S_1}{S_0} &\propto \sqrt{x} \ln(x) \to 0 \\
+        \frac{S_1'}{S_0'} &\propto \sqrt{x} \to 0
+        \frac{S_1''}{S_0' S_1'} &\propto \sqrt{x} \to 0
+    \end{align*}
+    Therefore, we have an asymptotic solution:
+    \begin{equation*}
+        y(x) = Ax^{\frac34} e^{-\frac{2a}{\sqrt{x}}} + Bx^{\frac34} e^{\frac{2a}{\sqrt{x}}}
+    \end{equation*}
+\end{example}
+\begin{example}
+    Return to the Airy equation:
+    \begin{equation*}
+        y'' = xy
+    \end{equation*}
+    we want to know what the solution is as $x \to\infty$. Using the above method, we get:
+    \begin{equation*}
+        y \sim \underbrace{Ax^{-\frac14} e^{-\frac23 x^{\frac32}}}_{\Ai} + \underbrace{Bx^{-\frac14} e^{\frac23 x^{\frac32}}}_{\operatorname{Bi}}
+    \end{equation*}
+    we recover the Airy function by taking $A = \frac1{2\sqrt{\pi}}$.
+
+    If we take $x \to -\infty$, $\sqrt{Q} = i\sqrt{|x|}$ and so we get rapidly oscillatory solutions:
+    \begin{equation*}
+        y \sim C\abs{x}^{-\frac14} e^{\frac23 i\abs{x}^{\frac32}} + D\abs{x}^{-\frac14} e^{-\frac23 i\abs{x}^{\frac32}}
+    \end{equation*}
+\end{example}
+\end{document}
