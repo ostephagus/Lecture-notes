@@ -1,0 +1,74 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+In this chapter we will want to understand how electromagnetic waves propagate in media. In general, this is very complicated because we would have to account for every charge making up the medium and its (most likely complicated) motion. The better approach is therefore to consider macroscopic scales (light propagating through glass has a wavelength $\approx 500~nm$ whereas the length scale of the charge distribution is $\approx 0.1~nm$ -- a very large order of magnitude different), and spatial averaging.
+\section{Basic Electromagnetic Properties of Matter}
+For this section, %TODO: section or chapter??
+we will mostly consider non-conducting materials with no mobile charges.
+\subsection{Dielectric Media}
+\begin{definition}{Dielectric}
+    A \underline{dielectric} is an electrical insulator (no mobile charges) that has a significant effect on applied electric fields.
+\end{definition}
+Water is an example of a dielectric. It is a very polar molecule, which means that even in the absence of an electric field, each molecule has a very strong electric dipole moments. However, if there is no applied field then these will be oriented randomly and there is no lasting structure. If an electric field is applied, the dipoles will all align, in a coherent perturbation of the charge distribution that survives averaging over all particles. This is called a macroscopic polarisation.
+
+There is another possibility for how applying a field could generate a macroscopic polarisation, and that is if applying an electric field causes molecules to have an electric dipole moment. Consider the toy model of an atom, which has a nucleus of charge $q$ and a cloud of possible electrons which has charge $-q$. If an electric field is applied, the centre of mass/charge of the electron cloud is distorted so that it has shifted, on average, by $-\vec{d}$ relative to the nucleus. In stable state, we need a balance between the forces of the applied electric field and the electron cloud.
+
+The field at distance $r$ from the centre of the cloud is:
+\begin{equation*}
+    \vec{E_{cloud}}(r) = \frac{-q}{4\pi\epsilon_0} \frac{(r/a)^3}{r^2} \uvec x = -\frac{q}{4\pi\epsilon_0a^3} \vec x
+\end{equation*}
+where the factor of $r^3$ comes from the fact that the charge is spread out over a volume. The net force on the nucleus is then:
+\begin{equation*}
+    q\vec E - \frac{q^2}{4\pi\epsilon_0a^3} \vec d
+\end{equation*}
+Solving the above $=0$ prescribes $\vec d$:
+\begin{equation*}
+    q\vec d = \vec p = (4\pi\epsilon_0a^3) \vec E
+\end{equation*}
+By using a typical atomic size $a = 10^{-10}m$, we get $|\vec d| \approx 5\times10^{-17} m$ for a typical field of strength $|\vec E| = 10^5 V m^{-1}$.
+\begin{definition}{Atomic polarisability}
+    The \underline{atomic polarisability}, $\alpha$, relates how large the generated electric dipole moment is compared to the strength of field applied: $\vec p = \alpha\vec E$.
+\end{definition}
+In the case above, $\alpha = 4\pi\epsilon_0a^3$.
+\section{Magnetic Media}
+Magnetic media are materials that generate or align magnetic dipole moments in response to an applied magnetic field $\vec B$.
+
+Recall, from IB Electromagnetism, the multipole expansion for magnetostatics.
+
+Starting with the magnetic vector potential for a charge distribution $\vec J$,
+\begin{equation*}
+    \vec A(\vec x) = \frac{\mu_0}{4\pi} \int \frac{J(\vec y)}{\abs{\vec x - \vec y}} d^3\vec y
+\end{equation*}
+in Coulomb gauge where $\nabla \cdot \vec{A} = 0$. Assuming that the current distribution is localised near the origin, we expand in $\abs{\vec x - \vec y}^{-1}$:
+\begin{equation}
+    \vec A(\vec x) = \frac{\mu_0}{4\pi r} \int \vec J(\vec y) \left(1 + \frac{\uvec x \cdot \vec y}{r} + \cdots\right)d^3\vec x
+    \label{eqnMultiPole}
+\end{equation}
+and the first order contribution $\int J(\vec y) d^3\vec y$ is zero in magnetostatics. We understand the next term along using:
+\begin{align*}
+    \frac{\partial \rho}{\partial t} + \nabla \cdot \vec{J} &= 0 \implies \nabla \cdot \vec{J} = 0 \\
+    \implies \int x_i x_j \frac{\partial }{\partial x_k} J_k d^3\vec{x} = 0 \\
+    \implies \int \left(x_i J_j - x_j J_i\right)d^3\vec x = 0.
+\end{align*}
+We can now write:
+\begin{align*}
+    \hat{x}_j \int y_i J_i(\vec y) d^3\vec y &= \frac12 \hat x_j \int\left[y_j J_i(\vec y) - y_i J_j(\vec y)\right]d^3\vec y \\
+    &= -\left[\uvec x \times \vec m\right]
+\end{align*}
+where $\vec m$ is the magnetic dipole moment,
+\begin{equation}
+    \vec m = \frac12 \int \vec{x} \times \vec{J}(\vec x) d^3\vec x
+    \label{eqnMagnetDipole}
+\end{equation}
+And it follows that $\vec A(\vec x) \approx \frac{\mu_0}{4\pi r^2} \vec{m} \times \vec{x}$.
+
+The response of a magnetic material to an applied magnetic field $\vec B$ depends on whether magnetic dipole moments vanish or not in the absence of a field. The cases are as follows.
+\begin{enumerate}
+    \item \textbf{Diamagnetism}: diamagnetic materials have no dipoles when $\vec B = 0$. We find that the dipoles produced under applied $\vec B$ are anti-aligned with the field -- $\vec m \propto -\vec B$.
+    \item \textbf{Paramagnetism}: paramagnets have non-zero dipole moments when $\vec B = 0$ but are randomly aligned and so cancel when considering macroscopic volumes. When a field is applied, these magnetic dipole moments partially align.
+    \item \textbf{Ferromagnetism}: ferromagnets (or permanent magnets) have non-zero dipole moments, but they can align together even when $\vec B = 0$. Therefore, the magnetisation can persist after removal of the magnetic field.
+\end{enumerate}
+\section{Macroscopic Maxwell Equations}
+\subsection{Averaging Microscopic Maxwell Equations}
+
+\end{document}
