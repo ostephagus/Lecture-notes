@@ -74,6 +74,136 @@ where the position space wavefunction of our new state is:
         U(a) = \exp\left(-\frac{ia}{\hbar} \hat p\right)
     \end{equation*}
 
-    The effect of translation by $a$ on the wavefunction $\psi(x)$ is to generate the new wavefunction $\psi(x - a) = \psi(g^{-1}_a(x))$.
+    The effect of translation by $a$ on the wavefunction $\psi(x)$ is to generate the new wavefunction $\psi(x - a) = \psi(g^{-1}_a(x))$. Furthermore, on wavefunctions $\hat p \mapsto -i\hbar \frac{\partial}{\partial x}$, so $U(a) = -a \frac{\partial}{\partial x}$, and:
+    \begin{align*}
+        U(a) \psi(x) &= \exp\left(-a \frac{\partial}{\partial x}\right) \psi(x) \\
+        &= \psi(x) - a\psi'(x) + \frac12 a^2 \psi''(x) + \cdots \\
+        &= \psi(x - a)
+    \end{align*}
+    Because of its role in the transformation operator $U(a)$, $\hat p$ is called the \underline{generator} of translations.
 \end{example}
+\section{Generators and Conservation Laws}
+Consider a general continuous group $G$. Let $g_\alpha$ (for $\alpha \in \R)$ be a one-parameter family of group elements with:
+\begin{equation*}
+    g_\alpha g_\beta = g_\beta g_\alpha = g_{\alpha + \beta}
+\end{equation*}
+and $g_0 = e_G$, the identity. Assume we know:
+\begin{equation*}
+    g_\alpha(A) = A + \alpha f(A) + O(\alpha^2)
+\end{equation*}
+for any quantities of interest $A$ (such as position and momentum). The corresponding unitary operators are then:
+\begin{equation*}
+    U(\alpha) = U(g_\alpha)
+\end{equation*}
+which obey:
+\begin{align*}
+    U(\alpha) U(\beta) &= U(\beta) U(\alpha) = U(\alpha + \beta),\quad U(0) = 1 \\
+    U(\alpha)^\dagger A U(\alpha) &= g_\alpha(A).
+\end{align*}
+
+Define the operator:
+\begin{equation*}
+    Q = i\hbar \left.\frac{\partial U(\alpha)}{\partial \alpha}\right|_{\alpha = 0}
+\end{equation*}
+so that:
+\begin{align*}
+    U(\delta\alpha) &= 1 - \frac{i}{\hbar} \delta\alpha Q + O(\delta\alpha^2) \\
+    U(-\delta\alpha) &= U(\delta\alpha)^{-1} = 1 + \frac{i}{\hbar} \delta\alpha Q + O(\delta\alpha^2).
+\end{align*}
+Indeed, we see that $Q$ is Hermitian, this is why we have the factor $i$. Furthermore,
+\begin{equation*}
+    U(\alpha+\delta\alpha) = U(\alpha) U(\delta\alpha) = I(\delta\alpha) U(\alpha)
+\end{equation*}
+and we know
+\begin{align*}
+    U(\alpha) (1-\frac i \hbar \delta\alpha Q + \cdots) &= (1 - \frac i \hbar \delta\alpha Q) U(\alpha) \\
+    \implies \cmmt Q {U(\alpha)} &= 0 \\
+    \text{and } \frac{\partial U(\alpha)}{\partial \alpha} = \frac{-i}{\hbar} QU(\alpha) &\text{ for any } \alpha.
+\end{align*} 
+We can solve this differential equation:
+\begin{equation*}
+    U(\alpha) = \exp\left(-\frac{i\alpha}{\hbar}Q\right)
+\end{equation*}
+and $Q$ is called the \underline{generator} of this family of transformations within $G$.
+
+To find $Q$, we equate:
+\begin{align*}
+    g_\alpha(a) &= A + \alpha f(A) + O(\alpha^2) \\
+    U^\dagger(\alpha) A U(\alpha) &= (1 + \frac{i}{\hbar} \alpha Q + \cdots) A (1 - \frac i \hbar \alpha Q + \cdots) \\
+    &= A + \frac{i}{\hbar} \alpha \cmmt Q A + O(\alpha^2)
+\end{align*}
+and so we find $Q$ by solving:
+\begin{equation*}
+    \cmmt Q A = -i\hbar f(A).
+\end{equation*}
+Knowing the expression $f(A)$ for any $A$ fixes $Q$, and conversely the behaviour of any quantity under the transformation is given by its commutator with the generator.
+
+Now suppose the continuous family $g_\alpha$ corresponds to symmetries of the quantum system:
+\begin{equation*}
+    \cmmt{U(\alpha)} H = 0.
+\end{equation*}
+Because $U(\alpha)$ is related to $Q$, this is equivalent to $\cmmt Q H = 0$.
+
+That is, the observable $Q$ is a \textit{conserved quantity}.
+\begin{itemize}
+    \item In the \schr picture, we can choose joint eigenstates of $H$ and $Q$. Since these are eigenstates of $H$, the eigenvalue of $q$ is the same in time:
+    \begin{equation*}
+        Q\ket{\psi(0)} = q\ket{\psi(0)} \implies Q \tstate = q\tstate.
+    \end{equation*}
+    \item In the Heisenberg picture, we have $Q(t)$ in general but by \eqnref{eqnHeisMotion} (Heisenberg's equations of motion):
+        \begin{equation*}
+            \frac{dQ}{dt} = -\frac{i}{\hbar} \cmmt Q H = 0.
+        \end{equation*}
+\end{itemize}
+This is exactly Noether's Theorem: for a continuous, one-parameter family of symmetries of a QM system, there is a Hermitian generator $Q$ that is conserved.
+
+\begin{remark}
+    This conserved quantity $Q$ is sometimes called the Noether charge.
+\end{remark}
+\begin{example}
+    Consider a system of particles in three dimensions. Let the $r$th particle have position $\opvec{x}^{(r)}$ and momentum $\opvec{p}^{(r)}$. The commutation relation is:
+    \begin{equation*}
+        \cmmt{\hat{x}_i^{(r)}, \hat p_i^{(s)}} = i\hbar \delta_{ij} \delta_{rs}
+    \end{equation*}
+    Consider a translation along the axis labelled by $k$,
+    \begin{equation*}
+        g_a(\hat x_i^{(r)}) = \hat x_i^{(r)} + a \delta_{ik},\qquad g_a(\hat p_i^{(r)}) = \hat p_i^{(r)}.
+    \end{equation*}
+    Therefore, $f(\hat x_i^{(r)}) = \delta_{ik}$, $f(\hat p_i^{(r)}) = 0$.
+    The generator must obey:
+    \begin{equation*}
+        \cmmt Q {\hat x_i^{(r)}} = -i\hbar \delta_{ik},\qquad \cmmt Q {\hat p_i^{(r)}} = 0.
+    \end{equation*}
+    The solution is:
+    \begin{equation*}
+        Q = \hat{P}_k = \sum_r \hat p_k^{(r)}
+    \end{equation*}
+    which is the total momentum in the direction $K$. In general, translations through $\vec a$ are generated by a total momentum operator $\opvec P$:
+    \begin{equation*}
+        U(\vec a) = \exp \left(-\frac{i}{\hbar} \vec{a} \cdot \opvec{P}\right)
+    \end{equation*}
+    Noether's theorem therefore states that for particles interacting through potentials depending only on relative positions (a set of charged particles in free space, say) then $H$ is translation invariant and total momentum $\opvec p$ is conserved.
+\end{example}
+\section{Angular Momentum and Rotations}
+Through rotations about arbitrary axes form a non-abelian group, the one parameter family of rotations around a given axis does form an abelian subgroup. Therefore, let $g_\theta$ be such a subgroup around a given axis $\vec n$ (unit vector).
+
+Scalars are unaffected by rotations: $g_\theta(A) = A$ and $f(A) = 0$. For a vector $\vec v$,
+\begin{equation*}
+    g_\theta(\vec v) = \vec v + \theta \vec{n} \times \vec{v} + O(\theta)^2.
+\end{equation*}
+This means $f(\vec v) = \vec{n} \times \vec{v}$. The corresponding unitary operator is then:
+\begin{equation*}
+    U(\theta\vec n) = 1 - \frac{i}{\hbar} \theta Q + O(\theta^2)
+\end{equation*}
+Considering a single particle, both $\opvec x$ and $\opvec p$ must translate as vectors:
+\begin{align*}
+    \cmmt Q {\opvec x} &= -i\hbar \vec{n} \times \vec{x} \\
+    \cmmt Q {\opvec p} &= -i\hbar \vec{n} \times \vec{p}
+\end{align*}
+Compare with the commutation relations for angular momentum:
+\begin{align*}
+    \cmmt {L_i} {\hat x_j} &= i\hbar \epsilon_{ijk} \hat x_k
+    \cmmt {L_i} {\hat p_j} &= i\hbar \epsilon_{ijk} \hat p_k
+\end{align*}
+These imply that $Q = \vec{n} \cdot \vec{L}$.
 \end{document}
