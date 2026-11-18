@@ -545,9 +545,9 @@ To solve this we set:
 \begin{equation*}
     H(t) = \left(\frac{\nu V}{gt}\right)^{\frac14},\qquad R(t) = \left(\frac{gtV^3}{\nu}\right)^\frac18
 \end{equation*}
-and substitute in the to the PDE, noting that $H(t) \propto t^{-\frac14} \implies \frac{dH}{dt} = -\frac14 \frac H t$. Similarly, $\eta \propto t^{-\frac18} \implies \frac{\partial \eta}{\partial t} = \frac18 \frac\eta t$ and $\frac{\partial}{\partial r} = \frac1R \frac{\partial}{\partial \eta}$. We are now ready:
+and substitute in the to the PDE, noting that $H(t) \propto t^{-\frac14} \implies \frac{dH}{dt} = -\frac14 \frac H t$. Similarly, $\eta \propto t^{-\frac18} \implies \frac{\partial \eta}{\partial t} = -\frac18 \frac\eta t$ and $\frac{\partial}{\partial r} = \frac1R \frac{\partial}{\partial \eta}$. We are now ready:
 \begin{align*}
-    -\frac14 \frac{H}{t} f(\eta) + f'(\eta) \frac{H}{t} \left(-\frac18 \frac{\eta}{t}\right) &= \frac{g}{3\nu} \frac{H^4}{R^2} \frac{1}{\eta} \frac{d}{d\eta} \left(\eta f^3 \frac{df}{d\eta}\right) \\
+    -\frac14 \frac{H}{t} f(\eta) + f'(\eta) H \left(-\frac18 \frac{\eta}{t}\right) &= \frac{g}{3\nu} \frac{H^4}{R^2} \frac{1}{\eta} \frac{d}{d\eta} \left(\eta f^3 \frac{df}{d\eta}\right) \\
     \implies -\frac14 f(\eta) &- \frac18 \eta f'(\eta) = \frac13 \frac1\eta \frac{d}{d\eta} (\eta f^3(\eta) f'(\eta)) 
 \end{align*}
 by cancelling $\frac H t = \frac g \nu \frac{H^4}{R^2}$. Similarly, the volume constraint becomes:

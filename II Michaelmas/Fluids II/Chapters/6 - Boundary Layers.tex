@@ -21,4 +21,101 @@ Then, if we argue $\frac{1}{\Re} \nabla^{*2} \vec u^* \ll 1$, we get the Euler e
 However, this argument is dangerous! Mathematically, \eqnref{eqnNavierStokes} (Navier-Stokes equation) is second-order in space, whereas \eqnref{eqnEuler} (Euler equation) is only first-order. We need to drop the no-slip condition and can only impose no-penetration.
 
 The Euler limit \textit{is} a good approximation sometimes: it is good for behaviour far from boundaries (such as water waves), impulsive motion (at small time scales from the impulse, where the viscosity has not had time to diffuse yet) and the lift on an aerofoil (but not the drag). The key result from IB Fluid Dynamics that indicated this is not such a good limit was that there is no drag on a translating sphere -- d'Alambert's Paradox.
+
+The flaw in the argument is assuming that the flow has a length scale $L$ everywhere. Instead, near the rigid boundaries, we observe thin regions of the flow where there are large spatial gradients, and so $\mu \nabla^2 \vec u$ is comparable to $\rho (\vec{u} \cdot \nabla) \vec u$. These thin regions allow the no-slip boundary condition to be satisfied. See example~\ref{exStagnationPoint}, where such a thin layer was observed to be confining vorticity.
+
+%TODO: Consider whether to include the example of flow past a rigid plate.
+
+These thin layers are called \underline{boundary layers}. They have a width $\delta \sim \sqrt{\nu T}$ (the diffusive length), and note that:
+\begin{equation*}
+    \frac{\delta}{L} = \sqrt{\frac{\nu}{UL}} = \Re^{-\frac12} \ll 1
+\end{equation*}
+which means $\delta \ll L$, and these are thin layers (as we supposed above). Inside boundary layers, viscosity is important. Outside of the boundary layers, the Euler limit is a good approximation.
+
+\begin{warning}
+    The thin regions, despite being called boundary layers, may not always be at boundaries. For example, they may be needed for disturbances like jets of fluid.
+\end{warning}
+
+The Prandtl limit concerns the details of the flow in these thin layers and leads to the \textit{boundary layer equations}.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \begin{axis}[
+                axis lines=middle,
+                xlabel={$x$},
+                ylabel={$y$}
+            ]
+            \def\smallepsilon{0.1}
+            \addplot[samples=25, domain=0:1] {(exp(-x) - exp(-x / \smallepsilon)) / (1 - \smallepsilon)};
+            \addplot[samples=25, domain=1:5] {(exp(-x) - exp(-x / \smallepsilon)) / (1 - \smallepsilon)};
+
+            \addplot[red, samples=20, domain=0:1] {1-exp(-x / \smallepsilon)};
+            \addplot[red, samples=5, domain=1:5] {1-exp(-x / \smallepsilon)} node[right] {$Y(\xi)$};
+
+            \addplot[blue, samples=25, domain=0:5] {exp(-x)};
+        \end{axis}
+        %TODO: Perhaps add a key? Also figure out why the blue line does not match
+    \end{tikzpicture}
+    \caption{Plot of toy problem}
+    \label{figToyProblem}
+\end{figure}
+
+\begin{example}[Illustrative toy model]
+    Consider the ODE problem:
+    \begin{equation*}
+        \epsilon y''(x) + y' + e^{-x}
+    \end{equation*}
+    with boundary conditions $y(0) = 0, y \to 0$ as $x \to \infty$. Here $0 < \epsilon \ll 1$.
+
+    Note that this is somewhat similar to the Navier-Stokes equation in the high-$Re$ regime. We have a small constant multiplying the second derivative, and a boundary condition that is vaguely like no-slip.
+
+    Unlike Navier-Stokes, we can solve this exactly to get:
+    \begin{equation*}
+        \frac{e^{-x} - e^{-\frac x \epsilon}}{1-\epsilon}
+    \end{equation*}
+    %TODO: plot this.
+    We see that there is an layer of width $O(\epsilon$) near the origin where $y \propto x$, and far from the origin we see $y \propto \frac1x$. We will also see how to solve this with the two limiting procedures.
+
+    In the ``Euler limit'', set $\epsilon = 0$ to get $y = e^{-x} + A$. We can only get one boundary condition to work, $y(\infty) = 0$, which requires $A = 0$. The fact that we cannot get the $y(0)$ boundary condition suggests we need a layer on which $y''$ is large.
+
+    We work out the thickness of this boundary layer by scaling: we need $\epsilon y'' \sim y'$ for the second derivative to contribute, which means:
+    \begin{equation*}
+        \frac{\epsilon}{\delta^2} \sim \frac1\delta \implies \delta \sim \epsilon
+    \end{equation*}
+
+    Then to find a solution we set $\delta = \epsilon$ and work in the new coordinates $\xi = \frac x \epsilon$. The equation for $Y(\xi) = y(x)$ is:
+    \begin{equation*}
+        Y'' + Y' + \epsilon e^{-\xi\epsilon} = 0,\quad Y(0) = 0.
+    \end{equation*}
+    Then $Y(\xi) = B(1 - e^{-\xi}) + O(\epsilon)$. We fix $B$ by matching in the following way:
+    \begin{equation*}
+        \lim_{\xi \to \infty} Y(\xi) = \lim_{x \to 0} y(x)
+    \end{equation*}
+    which means $B = 1$. Then $1 - e^{-\xi}$ and $e^{-x}$ are the leading-order terms in an asymptotic expansion for the exact solution and $\epsilon \to 0$ with $\xi$ fixed, and for $\epsilon \to 0$ with $x$ fixed, respectively.
+\end{example}
+\section{The Boundary Layer Equations}
+Consider two-dimensional flow with $\Re \gg 1$. Assume the outer inviscid fluid is known, either by the problem specification or by solving the Euler equation. In general this satisfies no-penetration but not no-slip at the boundary.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        
+    \end{tikzpicture}
+    \caption{Diagram of Boundary Layers}
+    \label{figBoundaryLayer}
+\end{figure}
+
+Consider a setup as in figure~\ref{figBoundaryLayer}. Assume that the boundary layer thickness $\delta$ is much less than the length scale $L$ of variation in the $x$ direction (thin layer approximation). Then we can make the following scaling arguments:
+\begin{enumerate}
+    \item $v(0) = 0$ (no penetration) and $\frac{\partial v}{\partial y} = -\frac{\partial u}{\partial x} \sim \frac U L$ means that $v \sim \frac{\delta }{L} U \ll U$. That is, the flow is almost parallel to the boundary.
+    \item Approximate $\nabla^2$ by $\frac{\partial^{2}}{\partial y^{2}}$, valid because $\delta \ll L$.
+    \item In $(\vec{u} \cdot \nabla)\vec u$, we find $u \frac{\partial }{\partial x} \sim v \frac{\partial }{\partial y}$ by point 1, which both scale like $\frac U L$. If we have a time-dependent problem then $T \sim \frac L U$ and so $\frac{\partial }{\partial t} \sim \frac{U}{L}$ also. The boundary layer thickness $\delta$ is determined by a balance between advection and viscous diffusion in the momentum equation (or vorticity equation):
+        \begin{align*}
+            \rho (\vec{u} \cdot \nabla)u &\sim \mu \nabla^2u \\
+            \rho \frac{U}{L} U \sim \mu \frac{1}{\delta^2} U \\
+            \implies \delta &= \sqrt{\frac{\nu L}{U}}
+        \end{align*}
+    \item TO DO NEXT LECTURE
+\end{enumerate}
 \end{document}
