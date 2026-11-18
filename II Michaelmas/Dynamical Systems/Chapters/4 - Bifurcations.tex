@@ -349,11 +349,11 @@ For example, if the centre manifold in a 2D system was $\{y = 0\}$, we would des
     which is a saddle-node bifurcation.
 \end{example}
 \begin{example}[Higher dimensions -- Lorentz equations]
-    Consider:
+    Consider: %TODO: Some $b$s are actually $\sigma$s.
     \begin{equation*}
-        \begin{pmatrix}\dot x \\ \dot y \\ \dot z\end{pmatrix} = \begin{pmatrix}b(y-x) \\ rx - y - xz \\ -bz + xy\end{pmatrix}
+        \begin{pmatrix}\dot x \\ \dot y \\ \dot z\end{pmatrix} = \begin{pmatrix}\sigma(y-x) \\ rx - y - xz \\ -bz + xy\end{pmatrix}
     \end{equation*}
-    where $b > 0$ and $r$ are parameters. The linearisation matrix is:
+    where $b, \sigma > 0$ and $r$ are parameters. The linearisation matrix is:
     \begin{equation*}
         A =
         \begin{pmatrix}
@@ -364,6 +364,101 @@ For example, if the centre manifold in a 2D system was $\{y = 0\}$, we would des
     \end{equation*}
     which corresponds to a non-hyperbolic fixed point if $r = 1$. In this case $\lambda_1 = 0, \lambda_2 = -b$ and $\lambda_3 = -(1+b)$. The centre manifold is $E^C = \{x = y, z = 0\}$.
 
-    TO BE CONTINUED NEXT LECTURE.
+    This suggests the change of variables $v = y-x$ to eliminate $y$, and $\mu = r - 1$ so the bifurcation is at zero. In this case, extending the dynamical system gives:
+    \begin{equation*}
+        \begin{pmatrix}\dot x \\ \dot \mu \\ \dot v \\ \dot z\end{pmatrix} =
+        \begin{pmatrix}
+            0 & 0 & b & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & -(1+b) & 0 \\
+            0 & 0 & 0 & -b
+        \end{pmatrix}
+        \begin{pmatrix}x \\ \mu \\ v \\ z\end{pmatrix} + 
+        \begin{pmatrix}0 \\ 0 \\ x(\mu - z) \\ x(v+x)\end{pmatrix}
+    \end{equation*}
+    and the two-dimensional centre subspace is $v = z = 0$. It is a 2D plane in 4D space. We look for $W^C$ which is given by:
+    \begin{equation*}
+        \begin{pmatrix}v \\ z\end{pmatrix} = \begin{pmatrix}V(x, \mu) \\ Z(x, \mu)\end{pmatrix}
+    \end{equation*}
+    It is tangent to $E^C$, which means $V$ and $Z$ have only contributions at second order and above. Note also that we only need $V$ because $\dot{x} = bv$, and so the dynamics on the space $(x, \mu)$ are given only by $V$.
+
+    We can use perturbation theory. Assume that $V = V_2 + V_3 + \cdots$, where $V_2$ has terms of order two, and $V_3$ has terms of order 3. Similarly, assume that $Z = Z_2 + Z_3 + \cdots$. We can find $V$ and $Z$ by:
+    \begin{align*}
+        \dot{v} &= \frac{\partial V}{\partial x} \dot x \implies \sigma V V_x = -(1+\sigma) V + x(\mu - Z) \\
+        \dot z &= \frac{\partial Z}{\partial x} \dot x \implies \sigma V Z_x = -bZ + x^2 + xV
+    \end{align*}
+    To second order,
+    \begin{align*}
+        0 &= -(1+\sigma) V_2 + x\mu \implies V_2 = \frac{x\mu}{1+\sigma} \\
+        0 &= -bZ + x^2 \implies Z = \frac{x^2}{6}
+    \end{align*}
+    and now we do not need to go any further in $Z$, and just need $Z$ to third order:
+    \begin{align*}
+        \sigma V_2 \frac{\partial V_2}{\partial x} &= -(1+\sigma) V_3 - xZ_2 \\
+        \sigma \frac{x\mu}{1+\sigma} \frac{\mu}{1+\sigma} &= -(1+\sigma) V_3 - x \frac{x^2}{6} \\
+        \implies V_3 &= -\frac{x^3}{\sigma(1+\sigma)} - \frac{\sigma}{(1+\sigma)^3} \mu^2 x
+    \end{align*}
+    and we conclude:
+    \begin{equation*}
+        V = \frac{x\mu}{1+\sigma} - \frac{x^3}{\sigma(1+\sigma)} - \frac{\sigma}{1+\sigma} x\mu^2 + \cdots
+    \end{equation*}
+    and we can neglect the third term near $x = \mu = 0$. This means our evolution equation is then:
+    \begin{equation*}
+        \dot x = \frac{\sigma}{b(1+\sigma)} x(\mu b - x^2)
+    \end{equation*}
+    with normal form $X\tilde\mu - X^3$, a supercritical bifurcation.
 \end{example}
+\begin{remark}
+    In all of the above examples, we had higher-dimensional stationary bifurcations (zero eigenvalues) which could be reduced to one-dimensional normal forms.
+\end{remark}
+\section{Hopf Bifurcations}
+Hopf bifurcations (or oscillatory bifurcations) occur when a fixed point has eigenvalues $\lambda_{1, 2} = \pm i \omega$ where $\omega \neq 0$ when $\mu = 0$. Here we can see that $E^C$ must be at least two-dimensional.
+
+To find the normal form of the bifurcation, consider:
+\begin{equation*}
+    \begin{pmatrix}\dot x \\ \dot y\end{pmatrix} = \begin{pmatrix}
+        \mu & -\omega \\
+        \omega & \mu
+    \end{pmatrix}
+    \begin{pmatrix}x \\ y\end{pmatrix} + \begin{pmatrix}f(x, y) \\ g(x, y)\end{pmatrix}
+\end{equation*}
+This clearly has a Hopf bifurcation at $\mu = 0$. Go to the complex plane, with $z = iy$ and $F(z, z^*) = f(x, y) + ig(x, y)$. When $\mu = 0$,
+\begin{equation*}
+    \dot z = i\omega z + F(z, z^*)
+\end{equation*}
+Expanding near $z = 0$, to second order:
+\begin{equation*}
+    \dot z \approx i\omega z + a_1 z^2 + a_2 zz^* + a_3 z^{*2}
+\end{equation*}
+Define $\xi = z + \alpha_1 x^2 + \alpha_2 zz^* + \alpha_3 z^{*2}$ such that $\dot\xi = i\omega\xi$ to second order.
+
+Applying the same procedure to third order, we find we can eliminate all the 3rd-order terms except one term proportional to $z \abs{z}^2$. With $z$ redefined as such,
+\begin{equation*}
+    \dot z = i\omega z + \nu \abs{z}^2 z + \cdots
+\end{equation*}
+which, transforming to polar coordinates, gives:
+\begin{equation*}
+    \dot{r} = \Re(\nu) r^3,\qquad \dot\theta = \Im(\nu) r^2
+\end{equation*}
+
+Therefore, after doing the same manipulations as above for $\mu \neq 0$, the normal form is given (in polar coordinates) by:
+\begin{equation*}
+    \dot{r} = (\mu - a r^2) r,\qquad \dot\theta = \omega
+\end{equation*}
+where $a = \pm 1$.
+
+In the case of $a = 1$, we find a supercritical Hopf bifurcation, and $a = -1$ corresponds to a subcritical Hopf bifurcation. For diagrams of both, see figure~\ref{figHopf}.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \node at (0, 0) {TODO}; %TODO
+    \end{tikzpicture}
+    \caption{Diagram of supercritical and subcritical Hopf bifurcations}
+    \label{figHopf}
+\end{figure}
+
+In a Hopf bifurcation, a single fixed point changes its stability and a periodic orbit is created ($a = 1$) or destroyed ($a = -1$) as $\mu$ crosses $0^-$ to $0^+$.
+\nonexaminablesection{Bifurcations of Periodic Orbits}
+
 \end{document}
