@@ -70,5 +70,76 @@ The response of a magnetic material to an applied magnetic field $\vec B$ depend
 \end{enumerate}
 \section{Macroscopic Maxwell Equations}
 \subsection{Averaging Microscopic Maxwell Equations}
+We will average over rapid variations in the fields and sources by defining smoothed macroscopic fields and sources. 
 
+Define the macroscopic $\vec E$ field by a spatial average,
+\begin{equation*}
+    \vec E(t, \vec x) = \tAvg{\vec{E_{micro}}(t, \vec x)} = \int f(\vec y) \vec{E_{micro}} (t, \vec x - \vec y) d^3\vec y
+\end{equation*}
+where $f$ is a spherically symmetric, normalised ($\int f(\vec x) d^3\vec x = 1$), and non-zero over a region of size $l_{smooth}$.
+
+Note that spatial averaging commutes with space and time derivatives. Therefore, we can find Maxwell's equations easily:
+
+\begin{align*}
+    \tAvg{\nabla \cdot \vec{E_{micro}}} &= \tAvg{\rho_{micro}} / \epsilon_0 \\
+    \implies \nabla \cdot \vec{E} &= \tAvg{\rho_{micro}} / \epsilon_0
+\end{align*}
+To determine $\tAvg{\rho_{micro}}$, we split the charges into bound charges (bound to atoms of molecules) and free charges (such as mobile electrons in a conductor, or external charges).
+\subsection{Bound Charge Density}
+Consider the $n$th atom, with centre at $\vec{x_n}(t)$. This atom may be composed of lots of different charges, at positions $\vec{r_{i, n}}(t)$ relative to the centre of the atom. Assume that all $\abs{\vec{r_{i, n}}} \ll l_{smooth}$. In this case, ignoring free charges,
+\begin{align*}
+    \rho_{micro} (t, \vec x) &= \sum_n \sum_i q_{i, n} \delta(\vec{x} - \vec{x_n}(t) - \vec{r_{i, n}}(t)) \\
+    \therefore \tAvg{\rho_{micro}} &= \sum_n \sum_i q_{i, n} f(\vec{x} - \vec{x_n}(t) - \vec{r_{i, n}}(t)) \\
+\end{align*}
+which replaces each point charge with a smoothed out version. Indeed, since $\abs{\vec{r_{i, n}}} \ll l_{smooth}$, we can deal with the $\vec{r_{i, n}}$ with Taylor expansion:
+\begin{equation*}
+    f(\vec x - \vec{x_n} - \vec{r_{i, n}}) = f(\vec{x} - \vec{x_n}) - \vec{r_{i, n}} \cdot \nabla f(\vec{x} - \vec{x_n}) + O(\abs{\vec{r_{i, n}}}^2).
+\end{equation*}
+The bound charge density then becomes:
+\begin{align*}
+    \rho &= \sum_n \underbrace{\left(\sum_i q_{i, n}\right)}_{\substack{\text{total atomic}\\\text{charge} = 0}}f(\vec x - \vec{x_n}(t)) - \sum_n \left(\sum_i q_{i, n} \vec{r_{i, n}}(t)\right)\cdot\nabla f(\vec{x} - \vec{x_n}) \\
+    &= -\sum_n \vec{p_n}(t) \cdot \nabla f(\vec x - \vec{x_n}(t)) \\
+    &= -\nabla \cdot \left[\sum_n \vec{p_n}(t) f(\vec x - \vec{x_n}(t))\right] \\
+\end{align*}
+where $\vec{p_n}$ is the electric dipole moment for each atom. We can think of this as the divergence of:
+\begin{equation*}
+    \vec{P}(t, \vec{x}) = \left\langle\sum_n \vec{p_n}(t) \delta(\vec{x} - \vec{x_n}(t))\right\rangle
+\end{equation*}
+which is known as the macroscopic polarisation, and can be thought of the dipole moment per unit volume. In conclusion,
+\begin{equation}
+    \rho(t, \vec{x}) = - \nabla \cdot \vec{P}(t, \vec{x})
+    \label{eqnBoundChargeDens}
+\end{equation}
+\begin{remark}
+    Randomly oriented $\vec{p_n}(t)$ will not generate $\vec P$ -- what matters is a coherent alignment due to the applied field.
+\end{remark}
+\subsection{Bound Surface Charges}
+The charge density $\rho = -\nabla \cdot \vec{P}$ will be non-zero in the bulk of the medium if $\vec P$ is non-uniform. Even if $\vec P$ is uniform, $\vec P$ it changes so rapidly at the surface that we see a spike in $\rho$. On scales much larger than $l_{smooth}$, it behaves like a bound surface charge density $\sigma$.
+
+Considering a cylinder crossing the boundary, with axis normal to the boundary, and integrating over it gives:
+\begin{equation*}
+    \sigma_{bound}~dS = \int_V - \nabla \cdot \vec{P}~d^3\vec{x} = -\int_{\partial V} \vec{P} \cdot \vec{dS} = \vec{P} \cdot \vec{dS}
+\end{equation*}
+and so $\sigma_{bound} = \vec{P} \cdot \uvec{n}$.
+\subsection{Bound Current Density}
+% TODO: See typeset notes for full detail
+
+To find the macroscopic charge density, we found that we should replace each atom with its electric dipole moment. We will do the same for current density and the magnetic dipole moment. The relevant Maxwell equation is:
+\begin{equation*}
+    \nabla \times \vec{B} = \mu_0 \tAvg{\vec{J_{micro}}}
+\end{equation*}
+where we will assume all the contributions are from bound charges. In magnetostatics,
+\begin{equation*}
+    \vec{A_{micro}} = \frac{\mu_0}{4\pi} \int \frac{\vec{J_{micro}}(\vec y)}{|\vec x - \vec y|} d^3\vec y
+\end{equation*}
+Now consider a setup as before with atoms labelled by $n$. To leading order (involving magnetic dipole moments),
+\begin{align*}
+    \vec{A_{micro}} &= \frac{-\mu_0}{4\pi} \sum_n \frac{(\vec x - \vec{x_n})}{\abs{\vec x - \vec{x_n}}^3} \times \vec{m_n} \\
+    &= -\frac{\mu_0}{4\pi} \int_V \frac{(\vec x - \vec y)}{\abs{\vec x - \vec y}^3} \times \left[\sum_n \vec{m_n} \delta(\vec y - \vec{x_n})\right]d^3\vec{y}
+\end{align*}
+which is now easier to convolve with the smoothing function. Note, by associativity and commutativity of convolutions, we can convolve with the sum of delta functions first to get the macroscopic magnetisation $\vec{M}$ defined to be $\tAvg{\sum_n \vec{m_n} \delta(\vec{x} - \vec{x_n})}$.
+\begin{align*}
+    \vec{A} &= \tAvg{\vec{A_{micro}}} \\
+    &= -\frac{\mu_0}{4\pi} \int_V \frac{(\vec x - \vec y)}{\abs{\vec x - \vec y}^3} \times \vec{M}(\vec y) d^3\vec{y}
+\end{align*}
 \end{document}
