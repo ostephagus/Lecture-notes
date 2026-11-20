@@ -116,6 +116,69 @@ Consider a setup as in figure~\ref{figBoundaryLayer}. Assume that the boundary l
             \rho \frac{U}{L} U \sim \mu \frac{1}{\delta^2} U \\
             \implies \delta &= \sqrt{\frac{\nu L}{U}}
         \end{align*}
-    \item TO DO NEXT LECTURE
+    \item Outside the boundary layer, $\frac y \delta \to \infty$ and $u \to U(x, t)$. The $x$-momentum equation reduces to:
+        \begin{equation*}
+            \rho \left(\frac{\partial U}{\partial t} + U \frac{\partial U}{\partial x} \right) = -\frac{\partial p}{\partial x}
+        \end{equation*}
+        where we have removed the term $V \frac{\partial U}{\partial y}$ because it is zero to leading order (no penetration into the boundary layer). This suggests that pressure variations along the boundary layer $\Delta_x p = O(\rho U^2)$. In the boundary layer, the $y$ momentum equation gives:
+        \begin{equation*}
+            \rho \frac{D v}{D t} = -\frac{\partial p}{\partial y} + \mu \frac{\partial^{2}v}{\partial y^{2}}
+        \end{equation*}
+        and by point 3, we have chosen $\delta$ so that the advection term and diffusion terms are comparable -- they are both of order $\rho \frac U L \frac\delta L U = \rho U^2 \delta$. Therefore, the pressure variation across the boundary layer is $\Delta_y p \sim \rho U^2 \delta^2 / L^2$ which is much less than the variation $\Delta_x p$ across the boundary layer. We can therefore say that $p \approx p(x, t)$.
 \end{enumerate}
+In summary, in a boundary layer we have:
+\begin{align}
+    \rho \left(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y}\right) &= \rho \frac{\partial U}{\partial t} + U \frac{\partial U}{\partial x} \label{eqnBdyLayer} \\
+    \frac{\partial u}{\partial x} &= \frac{\partial v}{\partial y} \nonumber
+\end{align}
+where \eqnref{eqnBdyLayer} is known as the \underline{boundary layer equation}. Technically, we should refer to the \textit{boundary layer equations} with the incompressibility equation included.
+
+The boundary conditions are generally one from the problem and one matching condition. For example, for a stationary rigid body at $y = 0$,
+\begin{align*}
+    u = v = 0 \text{ on } y = 0& \quad\text{no slip/penetration} \\
+    u \to U(x, t) \text{ as } \frac y \delta \to \infty& \quad\text{matching condition}
+\end{align*}
+\section{Boundary Layer on a Flat Plate}
+Consider a uniform flow $U(x, t) = \text{const}$. Consider a flat, semi-infinite plate $y = 0, x > 0$. As stated, there is no length scale $L$ in the $x$ direction. Assume $L = O(1)$, so $L = x$. As with the scalings, set $\delta = \sqrt{\frac{\nu x}{U}}$.
+
+We can work in terms of a streamfunction $\psi(x, y)$, so $u = \frac{\partial \psi}{\partial x}$ and $v = -\frac{\partial\psi}{\partial x}$. This scales as $\psi \sim U\delta(x)$, and so we try a similarity solution of the form:
+\begin{equation*}
+    \psi(x, y) = U \delta(x) f(\eta)
+\end{equation*}
+where we set $\eta = \frac{y}{\delta(x)}$. As with the gravity current, it is wise to calculate derivatives in terms of $\eta$ and $\delta$:
+\begin{align*}
+    \frac{\partial }{\partial x} (U\delta) = \frac12 \frac{U\delta}{x} && \frac{\partial \eta}{\partial x} = -\frac12 \frac{\eta}{x} && \frac{\partial }{\partial y} = \frac1\delta \frac{\partial }{\partial \eta}
+\end{align*}
+Then we can find the velocities:
+\begin{align*}
+    u = \frac{\partial \psi}{\partial y} = U f'(\eta) && v = -\frac{\partial \psi}{\partial x} = -\left[\frac12 \frac{U\delta}{x} f(\eta) -\frac12 U\delta \frac{\eta}{x} f'(\eta)\right]
+\end{align*}
+The steady boundary layer equation is:
+\begin{equation*}
+    u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y} = U \frac{\partial U}{\partial x} + \nu \frac{\partial^{2}u}{\partial y^{2}}
+\end{equation*}
+which gives (using our similarity solution):
+\begin{align*}
+    \left(U f'\right)\left(-\frac12 \frac{\eta}{x}U f''\right) + \frac12 \frac{U\delta}{x} \left(\eta f' - f\right) \left(\frac{Uf''}{\delta}\right) &= \nu \frac{Uf'''}{\delta^2} \\
+    -\frac12 \frac{U\delta}{x} \left(f(\eta)\right) \left(\frac{Uf''(\eta)}{\delta}\right) &= \nu \frac{Uf'''(\eta)}{\delta^2} \\
+\end{align*}
+and by cancelling $\delta$, we get the ODE:
+\begin{equation*}
+    -\frac12 f(\eta) f''(\eta) = f'''(\eta)
+\end{equation*}
+with boundary conditions $f(0) = f'(0) = 0$, $f'(\eta) \to 1$ as $\eta \to\infty$. This must be solved numerically and the shooting method discussed in example~\ref{exStagnationPoint} is appropriate. The numerical solution for $f'$ gets within $1\%$ of its limit $1$ by $\eta = 5$, and thereafter tends to $1$ exponentially. It also has $f \sim \eta - 1.72$ as $\eta \to \infty$, which means:
+\begin{equation*}
+    v = \frac12 \frac{U\delta}{x}(\eta f'(\eta) - f(\eta)) \sim 0.86 \frac{U\delta}{x} = 0.86 \sqrt{\frac{\nu U}{x}}
+\end{equation*}
+We note this key difference from the Euler equation: here $v$ is non-zero (but small). This is because, moving downstream, the boundary layer widens by $x^{\frac12}$ and so there is more fluid with speed less than $U$, so some must be moving upwards by mass conservation. Equivalently, the effective no-penetration boundary condition for the outer flow is at $y = \delta^* = 1.72\delta$.
+
+We can also calculate the drag (per unit length normal to the flow direction along the plate), away from the ends,
+\begin{equation*}
+    \int_0^l \left(\mu \left.\frac{\partial u}{\partial y}\right|_{y = 0}\right) dx = \int_{0}^{l} \mu \frac{U}{\delta} f''(0) dx
+\end{equation*}
+and the numerical solution has $f''(0) = 1.72$. The drag is then:
+\begin{equation*}
+    2\mu U f''(0) \sqrt{\frac{U l }{\nu}} = 2f''(0) \rho U^2 l \sqrt{\frac{\nu}{Ul}}
+\end{equation*}
+where we note the first answer includes the viscous scaling and $\Re^{\frac12}$, and the second answer includes the inertial scaling and $\Re^{-\frac12}$.
 \end{document}
