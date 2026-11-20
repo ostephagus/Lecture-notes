@@ -185,6 +185,7 @@ This is exactly Noether's Theorem: for a continuous, one-parameter family of sym
     Noether's theorem therefore states that for particles interacting through potentials depending only on relative positions (a set of charged particles in free space, say) then $H$ is translation invariant and total momentum $\opvec p$ is conserved.
 \end{example}
 \section{Angular Momentum and Rotations}
+\subsection{Action of Rotation on Operators}
 Through rotations about arbitrary axes form a non-abelian group, the one parameter family of rotations around a given axis does form an abelian subgroup. Therefore, let $g_\theta$ be such a subgroup around a given axis $\vec n$ (unit vector).
 
 Scalars are unaffected by rotations: $g_\theta(A) = A$ and $f(A) = 0$. For a vector $\vec v$,
@@ -202,8 +203,118 @@ Considering a single particle, both $\opvec x$ and $\opvec p$ must translate as 
 \end{align*}
 Compare with the commutation relations for angular momentum:
 \begin{align*}
-    \cmmt {L_i} {\hat x_j} &= i\hbar \epsilon_{ijk} \hat x_k
+    \cmmt {L_i} {\hat x_j} &= i\hbar \epsilon_{ijk} \hat x_k \\
     \cmmt {L_i} {\hat p_j} &= i\hbar \epsilon_{ijk} \hat p_k
 \end{align*}
 These imply that $Q = \vec{n} \cdot \vec{L}$.
+
+Note that $\vec L$ itself is a vector, so $\cmmt Q {\vec L} = -i\hbar \vec{n} \times \vec{L}$. If we include spin, the generator $Q$ needs to be modified to ensure $\cmmt{Q}{\vec S} = -i\hbar \vec{n} \times \vec{S}$. This is achieved simply by:
+\begin{equation*}
+    Q = (\vec L + \vec S) \cdot \vec n = \vec{J} \cdot \vec{n}.
+\end{equation*}
+Note that this does not mess up the commutation relation with $\vec L$ because $\vec S$ commutes with $\opvec x$ and $\opvec p$.
+
+We can extend this to a set of more than one particle, and conclude that the unitary operator through $\vec \theta = \theta\vec n$ is:
+\begin{equation*}
+    U(\vec \theta) = \exp \left(-\frac{i}{\hbar} \vec{\theta} \cdot \vec{J}\right)
+\end{equation*}
+where $\vec J$ is the total angular momentum. This is an application of Noether's theorem: a rotationally-invariant quantum system conserves total angular momentum $\vec J$.
+
+We can now take as definitions of a scalar and operator $A$ or vector operator $\vec V = (V_1, V_2, V_3)$ the commutation relations:
+\begin{align*}
+    \cmmt{J_i} A &= 0 \\
+    \cmmt{J_i}{V_j} &= i\hbar \epsilon_{ijk} V_k
+\end{align*}
+%TODO: WHAT??
+\subsection{Action of Rotations on States}
+On angular momentum states $\ket{j~m}$, for fixed $j$, the generators $J_i$ can be represented as $(2j+1) \times (2j+1)$ matrices, and the operator is:
+\begin{equation*}
+    U(\vec \theta) = \exp\left(-\frac i \hbar \vec{\theta} \cdot \vec{J}\right)
+\end{equation*}
+which can be computed easily in certain cases. In the ground angular momentum state, $j = 0$, we only have one angular momentum state $\ket{0~0}$ on which $\vec J = \vec0$ and so:
+\begin{equation*}
+    U(\vec \theta) = 1 \text{ and } \ket{0~0} \mapsto \ket{0~0}
+\end{equation*}
+
+When $j = 1$, we have states $\ket{1~m}$ for $m = 0, \pm 1$. The generators are now $3\times3$ matrices, such as:
+\begin{equation*}
+    J_3 = \hbar \begin{pmatrix}
+        1 & 0 & 0 \\
+        0 & 0 & 0 \\
+        0 & 0 & -1
+    \end{pmatrix}
+\end{equation*}
+Rotation about the $z$ axis then corresponds to:
+\begin{align*}
+    U(\theta \vec{e_z}) &= \exp\left(-\frac i \hbar \theta J_3\right) \\
+    &= \exp(i\theta \operatorname{diag}(1, 0, -1)) \\
+    &= \begin{pmatrix}
+        e^{i\theta} & 0 & 0 \\
+        0 & 0 & 0 \\
+        0 & 0 & e^{i\theta}
+    \end{pmatrix}
+\end{align*}
+which means under this rotation:
+\begin{align*}
+    \ket{1~\pm 1} &\mapsto e^{\mp i\theta}\ket{1~\pm 1} \\
+    \ket{1~0} &\mapsto \ket{1~0}.
+\end{align*}
+The states transform as a vector.
+
+For $j = \frac12$, we have states $\ket{\frac12~\frac12}$ and $\ket{\frac12~-\frac12}$. Recall the Pauli matrix representation,
+\begin{equation*}
+    \vec J = \frac\hbar2\sigma
+\end{equation*}
+and the property $(\vec{n} \cdot \sigma)^2 = 1$. This allows us to compute the rotation operator explicitly for any $\theta, \vec n$:
+\begin{equation*}
+    U(\vec\theta) = \exp\left(-\frac i \hbar \theta \vec{n} \cdot \vec{J}\right) = \exp\left(\frac{i\theta}{2} \vec{n} \cdot \sigma\right)
+\end{equation*}
+On Ex3Q3, we see that this is:
+\begin{equation*}
+    U(\vec\theta) = \cos\frac\theta2 - i \vec{n} \cdot \sigma \sin\frac\theta2.
+\end{equation*}
+The effect of rotation on a general state $\ket\chi$ is:
+\begin{equation*}
+    \ket\chi \mapsto \left(\cos\frac\theta2 - i \vec{n} \cdot \sigma\right) \ket\chi
+\end{equation*}
+Note the $\frac\theta2$ in these expressions. This means that under a rotation of $\theta = 2\pi$, we see $\ket\chi \mapsto -\ket\chi$, which does not change the physical contents of the state but it does change it mathematically. This shows why spin $\frac12$ cannot be realised in terms of eigenstates if $\vec L^2$ and $L_3$. We have to rotate by a multiple of $4\pi$ to leave the state unchanged.
+\section{Reflections and Parity}
+Parity, or spatial inversion, is given by the transform:
+\begin{equation*}
+    P : \vec x \mapsto -\vec x
+\end{equation*}
+\begin{remarks}
+    \item This is not part of a continuous family, so needs different treatment to the previous transformations.
+    \item Any reflection can be obtained by composing $P$ with rotations.
+\end{remarks}
+We can still find a corresponding unitary operator which acts by $U : \ket{\vec x} \mapsto \ket{-\vec x}$. Clearly $U^2 = 1$ and so $U^\dagger = U^{-1} = U$. Therefore, $U$ is Hermitian and so it is observable.
+
+Suppose that $U$ acts on the eigenstate $\state$ as:
+\begin{equation*}
+    U\state = \eta_\psi \state.
+\end{equation*}
+Then since $U^2 = 1$, we must have $\eta_\psi = \pm 1$ and we call this the parity of the state.
+
+If instead we suppose that $U$ acts on operators, we find:
+\begin{align*}
+    U\opvec x U &= -\opvec x \\
+    U \opvec p U &= -\opvec p \\
+    U \vec L U &= \vec L \\
+    U \vec S U &= \vec S \\
+    U \vec J U &= \vec J
+\end{align*}
+we see this because the angular momentum operators are pseudovectors. This transformation is a symmetry of the QM system if $UHU = H$ and so we can choose joint eigenstates of $H$ and $U$. This explains the remark from the course IB Quantum Mechanics that eigenstates of an even (in $x$) Hamiltonian must be even or odd (in $x$).
+
+\begin{example}
+    In three dimensions, suppose that $H$ is given by:
+    \begin{equation*}
+        H = \frac1{2m} \hat p^2 + V(\abs{\vec x}).
+    \end{equation*}
+    The definite orbital angular momentum states $\psi_{lm}(\vec x)$ obey $\psi_{lm}(-\vec x) = (-1)^l \psi_{lm}(\vec x)$. These are parity eigenstates with parity $\eta_{\psi_{lm}} = (-1)^l$.
+\end{example}
+As well as the notion of spin, there is also a notion of intrinsic parity, where a particle's state changes:
+\begin{equation*}
+    U\ket a = \eta_a \ket a,\qquad \eta_a = \pm 1
+\end{equation*}
+This does not arise solely from some internal structure. In general, we see that for a system of particles there is a notion of total parity which is a product of the spatial parity and all the internal parities.
 \end{document}
