@@ -43,7 +43,11 @@ Consider an ODE in the form in \eqnref{eqnSODECanon}. Suppose $x = x_0$ is an ir
 \begin{equation*}
     Q(x) \sim \frac{Q_0}{(x - x_0)^b} \text{ as } x \to x_0
 \end{equation*}
+which is also preserved under first and second derivatives.
+
 Clearly here $b > 2$ because otherwise it would be regular.
+
+An equivalent condition is $(x - x_0)^b Q = f(x)$ where $f$ is analytic on the domain (including $x_0$) and $f(x_0) \neq 0$.
 
 Try a solution of $y = e^{S(x)}$, and \eqnref{eqnSODECanon} gives:
 \begin{equation*}
@@ -135,4 +139,108 @@ which is a superposition of the expansions we found with the two different signs
         y \sim C\abs{x}^{-\frac14} e^{\frac23 i\abs{x}^{\frac32}} + D\abs{x}^{-\frac14} e^{-\frac23 i\abs{x}^{\frac32}}
     \end{equation*}
 \end{example}
+\section{ODEs With a Small Parameter}
+We consider an ODE of the form:
+\begin{equation}
+    y'' + a(\epsilon, x) y' + b(\epsilon, x) y = 0,
+    \label{eqnODESmallE}
+\end{equation}
+or equivalently $y'' = Q(\epsilon, x) y$, where $\epsilon \to 0$.
+
+Often solutions here will vary on twi different scales: a fast/short scale and a slow/long scale, sometimes at different regions of the domain.
+
+\subsection{Regular and Singular Asymptotics}
+Consider $y'' + 2\epsilon y' + 1 = 0$ as $\epsilon \to 0$. The zeroth order solution is $y = Ae^{ix} + Be^{-ix}$. For a simple problem like this, we can find a general solution:
+\begin{equation*}
+    y = Ae^{\lambda_1 x} + Be^{\lambda_2 x}
+\end{equation*}
+where the growth rates are given by the quadratic formula:
+\begin{equation*}
+    \lambda_{1, 2} = \epsilon + \pm i \sqrt{1-\epsilon^2} = \pm i - \epsilon \mp \frac12\epsilon^2 + O(\epsilon^3).
+\end{equation*}
+The $\epsilon = 0$ solution matches smoothly to the $\epsilon \to 0$ limit. This is called a \underline{regular asymptotic solution}. Here is also a clear example of the two different length scales here: the short, oscillatory scale ($\pm i$) and the longer decaying scale ($\epsilon$).
+
+Consider the new problem:
+\begin{equation*}
+    \epsilon^2 y'' + y = 0
+\end{equation*}
+as $\epsilon \to 0$. The zeroth order solution is $y = 0$, which may not even be allowed by the boundary conditions! The general solution is:
+\begin{equation*}
+    y = A\cos\left(\frac x \epsilon\right) + B \sin\left(\frac x \epsilon\right)
+\end{equation*}
+This does not smoothly match with the $\epsilon = 0$ solution when taking the limit. Therefore, this is a \underline{singular asymptotic solution}, and we say that the problem is a \underline{singular perturbation problem}. The reason in this case is because $\epsilon = 0$ is no longer a differential equation. More generally, when $\epsilon$ multiplies the highest derivatives then we have a singular perturbation problem.
+
+\subsection{Asymptotic Matching}
+The principle of asymptotic matching is as follows:
+\begin{itemize}
+    \item Suppose the domain is broken into two or more overlapping sub-intervals.
+    \item Suppose, in addition, that we have an asymptotic approximation on each sub-interval.
+    \item Matching requires that the approximations have the same functional form on the overlapping regions.
+\end{itemize}
+In practice, matching is what will determine any unresolved constants in the asymptotic expansions.
+\section{The WKBJ Method}
+We consider boundary value problems of the form:
+\begin{equation}
+    \epsilon^2 y'' = q(x) y
+    \label{eqnBVP}
+\end{equation}
+when $\epsilon \to 0$. By our earlier remark this is a singular perturbation problem. We will usually solve this on an infinite domain with boundary condition $y \to 0$ as $x \to \pm \infty$. Suppose that $q(x)$ is known and has no singularities on the domain. $q$ can be thought of as a potential.
+\subsection{Turning Points}
+\begin{definition}{Turning point}
+    A point $x = a$ is a \underline{turning point} of the differential equation~\ref{eqnBVP} if $q(a) = 0$ and changes sign at $x = a$.
+\end{definition}
+Usually the solution undergoes a qualitative change in its behaviour as it goes through a turning point. We claim that $q$ is wave-like for $q < 0$ and exponentially growing/decaying for $q > 0$. We have seen this already with Airy's equation, which had a turning point at $0$.
+\subsection{Solution for One Turning Point}
+Suppose that \eqnref{eqnBVP} has one simple turning point at $x = a$, so that $q(a) = 0$ but $q'(a) > 0$. We impose the condition $y \to 0$ and $x \to \infty$.
+
+We will construct asymptotic solutions in different regions and then match them together. First consider solutions far away from $x = a$, where \eqnref{eqnBVP} can be rewritten as:
+\begin{equation*}
+    y'' = \frac{q}{\epsilon^2} y = Q(x) y
+\end{equation*}
+where $Q$ is very large. The Liouville-Green method motivates a solution $y = e^{S(x) / \epsilon}$, which results in the new equation:
+\begin{equation*}
+    \epsilon S''(x) + S'(x)^2 = q
+\end{equation*}
+Now we can assume that the solution has the asymptotic expansion:
+\begin{equation*}
+    S\sim \sum_{n = 0}^\infty \epsilon^n S_n(x)
+\end{equation*}
+\begin{remark}
+    This is different from the Liouville-Green method because $S_n$ are just coefficients, not the asymptotic sequence itself (that we assume to be powers of $\epsilon$).
+\end{remark}
+
+Next, we are far from the turning point and so assume that $q \gg \epsilon$ as $\epsilon \to 0$. Substituting into our differential equation, we compare coefficients:
+\begin{align*}
+    \epsilon^0:&~ S_0'(x)^2 = q \implies S_0 = \pm \int \sqrt{q} dx \\
+    \epsilon^1:&~ S_0'' + 2S_0' S_1' = 0 \implies S_1'(x) = -\frac12 \frac{d}{dx}(\ln(S_0')) \implies S_1 = -\frac12 \ln(q)
+\end{align*}
+and we could continue to get other terms. We can write the solution:
+\begin{equation*}
+    y \sim A q^{-\frac14} e^{\frac1\epsilon \int \sqrt{q} dx} + Bq^{-\frac14} e^{-\frac1\epsilon \int\sqrt{q} dx}
+\end{equation*}
+as $x \to 0$. This exhibits the earlier remarks about wave-like and exponential-like solutions. We see that if $q > 0, x > a$, then $y$ is exponentially increasing or decreasing. If $q < 0, x < a$ then $y$ is oscillating with local frequency/wave number $\frac1\epsilon q$.
+
+Suppose that the oscillatory solution is $y_1$, valid in zone $1$ (to the left of $a$, but not close to it) and that the exponentially decaying solution is $y_2$.
+\begin{align*}
+    y_1 &= A \abs{q}^{-\frac14} e^{\frac1\epsilon \int \sqrt{\abs{q}} dx} + B\abs{q}^{-\frac14} e^{-\frac1\epsilon \int\sqrt{q} dx} \\
+    &= C\abs{q}^{-\frac14} \cos\left[\frac1\epsilon \int_x^a \sqrt{q} dx' - \gamma\right] \\
+    y_2 &= D q^{-\frac14} e^{-\frac1\epsilon \int_a^x \sqrt{q} dx'}
+\end{align*}
+We discard the exponentially growing solution in $y_2$ to satisfy the boundary conditions.
+
+Now, we want to know how close to $x = a$ we can get with these approximations. Recall that $q \gg \epsilon$ was the condition for the expansions to be valid. However, if we can get close to $a$, with $\abs{x-a} \ll 1$, we find:
+\begin{equation*}
+    q \approx q'(a)(x - a) \implies 1 \gg \abs{x-a} \gg \epsilon
+\end{equation*}
+so if $\epsilon$ is sufficiently small then we can get close to the turning point. We can now characterise zone 1 as $a - x \gg \epsilon$, and zone 2 as $x - a \gg \epsilon$.
+
+To solve in zone 3 near the turning point, where $\abs{x-a} \ll 1$, we note that the differential equation can be written:
+\begin{equation*}
+    \epsilon^2 y'' \approx \mu(x-a) y
+\end{equation*}
+where $\mu = q'(a)$. We shift and rescale with $z = (\mu / \epsilon^2)^{\frac13} (x-a)$ to get:
+\begin{equation*}
+    \frac{d^{2}y}{dz^{2}} = zy
+\end{equation*}
+which is the Airy equation.
 \end{document}
