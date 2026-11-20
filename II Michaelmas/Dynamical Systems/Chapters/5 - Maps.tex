@@ -1,0 +1,83 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+%TODO: How are we defining a map??
+Consider:
+\begin{equation*}
+    \vec{x_{n+1}} + \vec{F}(\vec{x_n})
+\end{equation*}
+where $\vec{F} : \R^n \mapsto \R^n$.
+
+An obvious example of this is the discretisation of ODEs, if $\dvec{x} = \vec f(\vec x)$ then we can discretise as $\vec{X_{n+1}} = \vec{X_n} + \delta t f(\vec{x_n})$. Such maps can also occur in systems with discrete timing (this occurs in field like electronics and economics). We can also consider projections in high-dimensional space, where $\vec{X_n}$ are the points at which a high-dimensional system crosses a lower-dimensional plane.
+\section{Motivational Examples of Maps}
+\begin{example}[Logisic Map]
+    \label{exLogisticMap}
+    Consider the map:
+    \begin{equation}
+        x_{n+1} = \mu x_n(1-x_n)
+        \label{eqnLogisticMap}
+    \end{equation}
+    which gives a parabola in the $x_n$-$x_{n+1}$ plane. See figure~\ref{figLogisticMap}. The way we read such a diagram is to start at a point $x_1$, move right to the line $x_{n+1} = x_n$, then move up to find $x_2$. Continuing the process, we see that there is an interesting fixed point where the straight line crosses the parabola.
+\end{example}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        
+    \end{tikzpicture}
+    \caption{Diagram of the Logistic Map}
+    \label{figLogisticMap}
+\end{figure}
+\begin{example}[Tent Map]
+    \label{exTentMap}
+    Consider the map:
+    \begin{equation}
+        x_{n+1} =
+        \begin{cases}
+            \mu x_n & 0 \leq x_n \leq \frac12 \\
+            \mu(1-x_n) & \frac12 < x \leq 1
+        \end{cases}
+        \label{eqnTentMap}
+    \end{equation}
+    We see that this map has a fixed point for $\mu > 1$.
+\end{example}
+\begin{example}[Rotation Map]
+    \label{exRotMap}
+    Consider a map:
+    \begin{equation*}
+        x_{n+1} = x_n + \omega \mod 1
+    \end{equation*}
+    We see that if $\omega$ is rational then we get a periodic solution (with period the denominator). If $\omega$ is irrational then we do not get a periodic solution.
+\end{example}
+\begin{example}[Sawtooth (Bernoulli shift) map]
+    \label{exSawToothMap}
+    Consider a map:
+    \begin{equation*}
+        x_{n+1} = 2x_n \mod 1
+    \end{equation*}
+    Then this has a fixed point at $(1, 1)$. If we write $x_n$ in binary,
+    \begin{equation*}
+        x_n = 0.a_1a_2a_3\cdots
+    \end{equation*}
+    where $a_i \in \{0, 1\}$ are the binary digits after the point. Applying the map once will shift the digits as follows:
+    \begin{equation*}
+        x_{n+1} = 0.a_2a_3a_4\cdots
+    \end{equation*}
+    Solutions can therefore:
+    \begin{itemize}
+        \item hit zero eventually if $x_0$ has a terminating binary expansion;
+        \item be periodic eventually if $x_0$ has a recurring binary expansion;
+        \item be aperiodic if $x_0$ is irrational.
+    \end{itemize}
+\end{example}
+\begin{example}[Baker Map]
+    Consider the two-dimensional map:
+    \begin{align*}
+        x_n &= 2x_n \mod 1 \\
+        y_n &= \begin{cases}
+            \frac12 y_n & 0 \leq x_n < \frac12 \\
+            \frac12 (y_n + 1) & \frac12 \leq x_n \leq 1
+        \end{cases}
+    \end{align*}
+    %TODO: Draw the stretch/stack diagram.
+\end{example}
+\end{document}
