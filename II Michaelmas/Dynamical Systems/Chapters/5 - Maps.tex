@@ -80,4 +80,99 @@ An obvious example of this is the discretisation of ODEs, if $\dvec{x} = \vec f(
     \end{align*}
     %TODO: Draw the stretch/stack diagram.
 \end{example}
+\section{Stability of Maps}
+\subsection{Definitions}
+For this subsection, assume that $\vec{x_{n+1}} = \vec{F}(\vec{x_n})$ is a map. We will define our familiar concepts from ODEs in terms of maps.
+\begin{definition}{Fixed point}
+    A \underline{fixed point} is a value $\vec{x_0}$ such that $\vec{F}(\vec{x_0}) = \vec{x_0}$.
+\end{definition}
+\begin{definition}{Periodic orbit}
+    A map has a \underline{periodic orbit} with \underline{period} $N$ if, for some $\vec{x_0}$, $\vec{F}^N(\vec{x_0}) = \vec{x_0}$ but $\vec F^k(\vec{x_0}) \neq \vec{x_0}$ for $k < N$.
+\end{definition}
+\begin{definition}{$N$-cycle}
+    An \underline{$N$-cycle} $\{\vec{x_0}, \vec{x_1}, \cdots, \vec{x_{N-1}}\}$ is a set of points where $\vec{F}(\vec{x_i}) = \vec{x_{i+1}}$ and $\vec{F}(\vec{x_{N-1}}) = \vec{x_0}$. That is, it is all the points visited by a periodic orbit of period $N$.
+\end{definition}
+\begin{definition}{Invariant set}
+    An \underline{invariant set} $\Lambda$ is a set with the property $\vec x \in \Lambda \implies \vec F(\vec x) \in \Lambda$. We can write $\vec F(\Lambda) = \Lambda$.
+\end{definition}
+\begin{definition}{Forward orbit}
+    The \underline{forward orbit} $O^+(\vec x)$ is the set:
+    \begin{equation*}
+        O^+(\vec x) = \subsetselect{\vec F^n(\vec x)}{n \in \N}
+    \end{equation*}
+    and it is the set of all points visited by applying $\vec F$ to $\vec x$.
+\end{definition}
+The backward orbit is defined similarly.
+
+We can now define our usual notions of stability -- the definitions of Lyapunov stability, quasi-asymptotic stability and asymptotic stability carry over directly.
+
+\begin{definition}{Attractor}
+    An \underline{attractor} is an invariant set which is asymptotically stable and has no nontrivial subset which is asymptotically stable.
+\end{definition}
+\subsection{Fixed Points}
+Consider a fixed point $\vec{x_0}$ so $\vec{F}(\vec{x_0}) = \vec{x_0}$. We can linearise about this point:
+\begin{equation*}
+    \vec{x_n} - \vec{x_0} = \vec{y_n}
+\end{equation*}
+Then $\vec{x_{n+1}} = \vec{F}(\vec{x_n}) \implies \vec{y_{n+1}} + \vec{x_0} = \vec{F}(\vec{x_0} + \vec{y_n})$. Equating:
+\begin{equation*}
+    \vec{y_{n+1}} + \vec{x_0} = \vec F(\vec{x_0}) + A \vec{y_n} + O(\abs{\vec{y_n}}^2)
+\end{equation*}
+and so we have $\vec{y_{n+1}} = A\vec{y_n}$ where:
+\begin{equation*}
+    A_{ij} = \frac{\partial F_i}{\partial x_j}.
+\end{equation*}
+We can now characterise fixed points,
+\begin{itemize}
+    \item the fixed point is asymptotically stable if all eigenvalues of $A$ are less than 1 in magnitude;
+    \item the fixed point is unstable if there is an eigenvalue of $A$ greater than 1 in magnitude;
+    \item the fixed point is hyperbolic if none of the eigenvalues are $\pm 1$.
+\end{itemize}
+For one-dimensional maps, the matrix reduces to $A = \left.\frac{\partial F}{\partial x}\right|_{x = x_0}$, and so the dynamics are determined by the derivative of $F$. By considering cobweb diagrams,
+\begin{itemize}
+    \item $A > 1$ gives an unstable fixed point, with monotonic divergence;
+    \item $A \in (0, 1)$ gives a stable fixed point, with monotonic convergence;
+    \item $A \in (-1, 0)$ gives a stable fixed point, with oscillatory convergence (switching sides of $x_0$ each iteration);
+    \item $A < -1$ gives an unstable fixed point, with oscillatory divergence.
+\end{itemize}
+We can see a clear similarity with nodes (monotonic convergence/divergence) and foci (oscillatory convergence/divergence).
+\subsection{Stability of \texorpdfstring{$N$}{N}-Cycles}
+Let $\vec{x_0}$ have a period $N$, and let its $N$-cycle be $\{\vec{x_i}\}_{i = 0}^{N-1}$. Let $\vec G(\vec x) = F^N(\vec x)$, so $\vec{x_0}$ is a fixed point of the map involving $\vec G$.
+
+In one dimension,
+\begin{align*}
+    G'(x_0) &= \left.\frac{d}{dx} F^n(x)\right|_{x_0} \\
+    &= F'(F^{N-1}(x_0)) F'(F^{N-2}(x_0)) \cdots F'(F(x_0)) F'(x_0) \\
+    &= F'(x_{N-1}) F'(x_{N-2}) \cdots F'(x_0)
+\end{align*}
+and this will give the same expression for any of the $x_i$. This means stability of an $N$-cycle does not depend on where in the $N$-cycle we are.
+\section{Bifurcations of Maps}
+Consider a map with a parameter:
+\begin{equation*}
+    \vec{x_{n+1}} = \vec{F}(\vec{x_n}; \mu)
+\end{equation*}
+Let $\vec{x_0}$ be a fixed point of this map. Let $\lambda_{ij} = \left.\frac{\partial F_i}{\partial x_j}\right|_{\vec{x_0}}$. A bifurcation then happens when an eigenvalue of $\lambda$ is $\pm 1$ for $\mu = \mu_C$. We will take $\vec{x_0} = \vec0$ and $\mu_C = 0$ by perhaps shifting our coordinates and the parameter $\mu$.
+
+In one dimension, we can have $\lambda = \pm 1$. We find that $F(0;0) = 0$ and $F'(0;0) = \pm 1$.
+
+In the case $\lambda = 1$, working in the vicinity of the bifurcation point, we can expand:
+\begin{align*}
+    x_{n+1} &=F(x_n;\mu) \\
+    &= F(0;0) + F_x(0;0)x_n + F_\mu(0;0)\mu + \frac12 F_{xx}(0;0) x_n^2 \\
+    &\qquad+ F_{x\mu}(0;0) x\mu + \frac12 F_{\mu\mu}(0;0)\mu^2 + \frac16 F_{xxx}(0;0) x_n^3 + \cdots \\
+    &=x_n + F_\mu\mu + \frac12 F_{xx} x_n^2 + F_{x\mu}\mu x_n + \frac12 F_{\mu\mu}\mu^2 + \frac16 f_{xxx}x_n^3 + \cdots
+\end{align*}
+where in the last line we drop the $(0;0)$ and assume it for any terms involving $F$.
+
+In the case that all coefficients of the expansion are non-vanishing, we keep the lowest order:
+\begin{equation*}
+    x_{n+1} = x_n + F_\mu \mu + \frac12 F_{xx} x_n^2
+\end{equation*}
+which has the normal form $x_{n+1} = x_n + \mu - x+n^2$, which looks like the saddle-node normal form for ODEs. Indeed, we see that the bifurcation diagram ($x_n$ vs $\mu$) is identical. The fixed points are $\pm \sqrt{\mu}$ with $x_n = \sqrt{\mu}$ stable and $-\sqrt{\mu}$ unstable.
+
+In the case that $F(0;\mu) = 0$ for all $\mu$, collecting the lowest-order terms gives:
+\begin{equation*}
+    x_{n+1} = x_n + \frac12 F_{xx} x_n^2 + F_{x\mu} x\mu + O(3).
+\end{equation*}
+If $F_{xx} < 0, F_{x\mu} > 0$, then we can rescale to the normal form $x_{n+1} = x_n - x_n(x_n -\mu)$. We can identify this as a transcritical bifurcation: two fixed points exchange stability at $\mu = 0$.
 \end{document}
