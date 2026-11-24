@@ -142,4 +142,78 @@ which is now easier to convolve with the smoothing function. Note, by associativ
     \vec{A} &= \tAvg{\vec{A_{micro}}} \\
     &= -\frac{\mu_0}{4\pi} \int_V \frac{(\vec x - \vec y)}{\abs{\vec x - \vec y}^3} \times \vec{M}(\vec y) d^3\vec{y}
 \end{align*}
+Then, if we replace $\frac{\vec x - \vec y}{\abs{\vec x - \vec y}^3}$ with $\nabla \abs{\vec x - \vec y}^{-1}$ and integrate by parts:
+\begin{equation*}
+   \vec A = \frac{\mu_0}{4\pi} \int_V \frac{1}{\abs{\vec x - \vec y}} \underbrace{\nabla_{\vec y} \times \vec M(\vec y)}_{\vec J(\vec y)}d^3\vec y + \frac{\mu_0}{4\pi} \int_{\partial V} \underbrace{\frac{\vec{M}(\vec y)}{\abs{\vec x - \vec y}}}_{\substack{\text{surface}\\\text{current}}} \times \vec{dS}
+\end{equation*}
+Then in magnetostatics we have $\vec J = \nabla \times \vec{M}$. However, in magnetodynamics we need:
+\begin{equation*}
+    \vec J = \nabla \times \vec{M} + \frac{\partial \vec P}{\partial t}
+\end{equation*}
+and this comes from charge/current conservation:
+\begin{equation*}
+    \frac{\partial \rho}{\partial t} + \nabla \cdot \vec{J} = 0
+\end{equation*}
+where the first term is approximately $-\nabla \cdot \frac{\partial \vec P}{\partial t}$.
+
+At the surface of the material, $\nabla \times \vec{M}$ can have a localised contribution at the surface (which we saw above). Note also that the dominant contribution is from the normal to the surface, $\nabla \sim \uvec n \frac{\partial}{\partial \xi}$ where $\xi$ is the coordinate normal to the surface. Then the bound current density $\vec{K}$ will be perpendicular to $\vec n$ with $\vec{J} = K\delta(\xi)$. The volume element will then behave like:
+\begin{equation*}
+    \vec J d^3\vec x \sim \int J d\xi dS.
+\end{equation*}
+We already found that the surface contribution to $\vec A$ was:
+\begin{equation*}
+    \frac{\mu_0}{4\pi} \int \frac{\vec M(\vec y) \times \uvec n}{\abs{\vec x - \vec y}} dS
+\end{equation*}
+and comparing this to what we would get with $\vec J = \vec K \delta(\xi)$,
+\begin{equation*}
+    \frac{\mu_0}{4\pi} \int \frac{\vec K}{\abs{\vec x - \vec y}} dS
+\end{equation*}
+from which it follows that $\vec K = \vec M \times \uvec n$.
+\subsection{Electric Displacement}
+Beginning from the macroscopic Maxwell equations,
+\begin{equation*}
+    \nabla \cdot \vec{E} = \frac{\rho_{free}}{\epsilon_0} - \frac{\nabla \cdot \vec{P}}{\epsilon_0}
+\end{equation*}
+we can rearrange using the electric displacement, $\vec D = \epsilon_0 \vec E + \vec P$ to get:
+\begin{equation*}
+    \nabla \cdot \vec{D} = \rho_{free}
+\end{equation*}
+Then the complications of the medium have been shifted to the relation between $\vec D$ and $\vec E$.
+
+Generally we will work with media that have $\vec P \propto \vec E$, and so $\vec P = \chi_e \epsilon_0 \vec E$ where $\chi_e$ is the dimensionless electrical susceptibility. Now $\vec D = (1 + \chi_e) \epsilon_0 \vec E$ and by defining the relative permittivity $\epsilon_r = 1 + \epsilon_e$, we find:
+\begin{equation*}
+    \vec D = \epsilon_r\epsilon_0 \vec E.
+\end{equation*}
+\begin{example}
+    In an infinite, homogeneous medium ($\epsilon_r$ constant) we get:
+    \begin{equation*}
+        \nabla \cdot \vec{D} = \rho_{free} \implies \nabla \cdot \vec{E} = \frac{\rho_{free}}{\epsilon_0 \epsilon_r}
+    \end{equation*}
+    We can see this as the electric fields due to free charges being ``screened'' by bound charges and reduced by a factor $\epsilon_r^{-1}$.
+\end{example}
+\section{Magnetising Field}
+We can now write the macroscopic Maxwell equation for $\nabla \times \vec{B}$:
+\begin{align*}
+    \nabla \times \vec{B} &= \mu_0 \vec{J_{free}} + \mu_0 \vec J + \mu_0 \epsilon_0 \frac{\partial \vec E}{\partial t} \\
+    &= \mu_0 \vec{J_{free}} + \mu_0 \frac{\partial}{\partial t} \left(\epsilon_0 \vec E + \vec P\right) \\
+    &= \mu_0 \vec{J_{free}} + \mu_0 \frac{\partial \vec D}{\partial t} 
+\end{align*}
+and so if we define the magnetising field $\vec H = \frac1{\mu_0} \vec B - \vec M$,
+\begin{equation*}
+    \nabla \times \vec{H} = \vec{J_{free}} + \frac{\partial D}{\partial t}
+\end{equation*}
+In linear, isotropic media, 
+\begin{equation*}
+    \mu_0 \vec M = \left(\frac{\chi_m}{\chi_m + 1}\right) \vec B
+\end{equation*}
+where $\chi_m$ is the dimensionless magnetic susceptibility. The constant is chosen in such a way that:
+\begin{equation*}
+    \vec B = \mu_0 (1 + \chi_m) \vec H
+\end{equation*}
+and we can define the relative permeability $\mu_r = 1 + \chi_m$. Returning to the cases of different materials for magnetism:
+\begin{itemize}
+    \item diamagnetism (where $\vec M$ is anti-aligned with $\vec B$) has $\chi_m \in (-1, 0)$ and $\mu_r \in (0, 1)$,
+    \item paramagnetism (where $\vec M$ is aligned with $\vec B$) has $\chi_m > 0$ and $\mu_r > 1$,
+    \item ferromagnetism (where dipoles can align and stay aligned) do not fit into this linear description.
+\end{itemize}
 \end{document}
