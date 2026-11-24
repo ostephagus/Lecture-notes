@@ -1,0 +1,76 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Derivation Using the Interaction Picture}
+Consider a Hamiltonian $H_0 = V(t)$ where $H_0$ is time-independent with known eigenstates and eigenvalues. Let $V(t)$ be small (in some sense), and we aim to calculate the effect of $V(t)$ order-by-order, and to find the probabilities of transitions between eigenstates of $H_0$.
+
+Starting in the \schr picture, we have the \schr equation:
+\begin{equation*}
+    i\hbar \frac{\partial}{\partial t} \tstate = H\tstate = (H_0 + V(t)) \tstate
+\end{equation*}
+and so define the interaction picture by:
+\begin{align*}
+    \istate &= e^{iH_0 t / \hbar} \tstate \\
+    \overline{A(t)} &= e^{iH_0 t / \hbar} A e^{-iH_0 t / \hbar}
+\end{align*}
+which moves some of the time evolution from states to operators (but only the $t$ dependence of $H_0$).
+
+The remaining $t$ dependence in states is now:
+\begin{align*}
+    i\hbar \frac{\partial}{\partial t} \istate &= e^{iH_0 t / \hbar} \left(-H_0 + i\hbar \frac{\partial }{\partial t}\right) \tstate \\
+    &= e^{iH_0 t / \hbar} V(t) \tstate \\
+    &= e^{iH_0 t / \hbar} V(t) e^{-iH_0 t / \hbar}e^{i H_0 t / \hbar} \istate \\
+    &= \overline{V(t)}~\istate
+\end{align*}
+This can be rewritten as an integral equation:
+\begin{equation*}
+    \istate = \oket{\psi(0)} -\frac{i}{\hbar} \int_{0}^{t} \overline{V(s)}~\oket{\psi(s)} ds 
+\end{equation*}
+which is useful for generating a series approximation to $\istate$. For example, by repeatedly substituting in our approximations for $\istate$, starting with $\oket{\psi(0)}$, 
+\begin{align*}
+    \istate &= \oket{\psi(0)} - \frac{i}{\hbar} \int_{0}^{t} \overline{V(s)}~\oket{\psi(0)} ds \\
+    &\qquad+ \left(-\frac i \hbar\right)^2 \int_{s = 0}^{t} \int_{u = 0}^{s} \overline{V(s)}~\overline{V(u)}~\oket{\psi(u)} du~ds
+\end{align*}
+which gives the correct expression to order $V$ and shows that the next term is of order $V^2$ (we cannot evaluate this last double integral because we do not know $\oket{\psi(u)}$).
+\section{Transition Probabilities}
+Let $\ket a$ and $\ket b$ be eigenstates of $H_0$, with eigenvalues $E_a$ and $E_b$ such that $\inn a b = 0$. A transition from the state $\ket{\psi(0)} = \oket{\psi(0)} = \ket a$ to a state $\ket b$ at time $t$ occurs with probability:
+\begin{equation*}
+    \abs{\inn{b}{\psi(t)}}^2 = \abs{\langle b \istate}^2
+\end{equation*}
+since we are working with picture which give the same results for observable quantities.
+
+To order $V$, the amplitude we need is:
+\begin{align*}
+    \langle b \istate &= \inn b a - \frac i \hbar \int_{0}^{t} \opbraket b {\overline{V(s)}} a ds \\
+    &= -\frac i \hbar \int_{0}^{t} \opbraket{b}{e^{iH_0 s / \hbar} V(s) e^{-iH_0 s / \hbar}}{a} ds \\
+    &= -\frac i \hbar \int_{0}^{t} e^{i(E_b - E_a) s / \hbar} \opbraket{b}{V(s)}{a} ds 
+\end{align*}
+and so the probability for a transition is:
+\begin{equation*}
+    \frac1{\hbar^2} \abs{\int_{0}^{t} e^{i\omega s}\opbraket{b}{V(s)}{a} ds}
+\end{equation*}
+correct to order $V^2$, where $\hbar \omega = E_b - E_a$.
+
+An important special case is when $V(s)$ is constant (at least on $s \in [0, t]$). Then the amplitude is:
+\begin{equation*}
+    -\frac i \hbar \int_{0}^{t} e^{i\omega s} \opbraket b V a ds = \frac1{\hbar\omega} (1 - e^{i\omega t}) \opbraket b v a.
+\end{equation*}
+The probability of a transition, to order $V^2$, is:
+\begin{equation*}
+    P(t) = \frac1\hbar \left(\frac{\sin(\omega t / 2)}{\frac12 \omega}\right)^2 \abs{\opbraket b V a}^2
+\end{equation*}
+and so for fixed $\omega \neq 0$ we have a periodic function of $t$.
+
+Note:
+\begin{equation*}
+    P(t) = \frac{t}{\hbar^2} f_t(\omega) \abs{\opbraket b V a}^2
+\end{equation*}
+where $f_t(\omega) = \frac1t \left(\frac{\sin(\omega t / 2)}{\omega / 2}\right)^2$. This is a sin-squared function modulated by a $\frac1t$ curve.
+
+We see that:
+\begin{itemize}
+    \item $\lim_{\omega \to 0} f_t(\omega) = t$
+    \item $\int_{-\infty}^{\infty} f_t(\omega) d\omega = 2\pi$
+    \item As $t$ increases, $f_t(\omega)$ is concentrated more and more around $\omega = 0$. Therefore, $P(t)$ becomes non-negligible only when $\omega \approx 0$ or when $E_b \approx E_a$.
+\end{itemize}
+\end{document}

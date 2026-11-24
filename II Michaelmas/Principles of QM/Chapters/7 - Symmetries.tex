@@ -317,4 +317,25 @@ As well as the notion of spin, there is also a notion of intrinsic parity, where
     U\ket a = \eta_a \ket a,\qquad \eta_a = \pm 1
 \end{equation*}
 This does not arise solely from some internal structure. In general, we see that for a system of particles there is a notion of total parity which is a product of the spatial parity and all the internal parities.
+For example, consider particles $a$ and $b$ with relative position $\vec{x}$ in an angular momentum state $\psi_{lm}(\vec{x})$. Then the total parity is $(-1)^l \eta_a \eta_b$. Here $\eta_a$ is the intrinsic parity of the particle $a$.
+
+Parity gives rise to a multiplicative conservation law, but it not a symmetry of weak interactions responsible for phenomena like beta decay.
+
+\begin{example}[Example use of conservation laws and intrinsic parity]
+    Consider an interaction where a pion and a deuteron decay into two neutrons. The spin of the pion is zero and the spin of the deuteron is 1. The spin of the neutrons are each $\frac12$. Suppose this is mediated by the strong force, so parity must be conserved as well as spin.
+
+    Suppose the system before interaction ($\pi d$) has zero orbital angular momentum. The total spin will be $1$ and so the total angular momentum will be $j = 1$.
+
+    Now consider the system after interaction ($nn$). The orbital angular momentum is to be determined, but note that the spatial part of the state is $(-1)^l$. 
+
+    The total spin is $s = 0$ or $s = 1$. In the case of $s = 0$, we get an antisymmetric spin state so by the Fermi statistic we need $l$ to be even (symmetric spatial state), but then $j = l$ is even which is not allowed (we must conserve $j = 1$).
+
+    We must therefore have $s = 1$, and choose a symmetric spin state, so that we have $l$ odd. Therefore, we have $j = l = s = 1$.
+
+    Now considering parity, equating either side gives:
+    \begin{equation*}
+        (-1)^0 \eta_\pi \eta_d = (-1)^1 \eta_n^2 = -1
+    \end{equation*}
+    and so if $\eta_d = 1$ then we require $\eta_\pi = -1$.
+\end{example}
 \end{document}
