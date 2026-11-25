@@ -75,7 +75,7 @@ The Prandtl limit concerns the details of the flow in these thin layers and lead
         \frac{e^{-x} - e^{-\frac x \epsilon}}{1-\epsilon}
     \end{equation*}
     %TODO: plot this.
-    We see that there is an layer of width $O(\epsilon$) near the origin where $y \propto x$, and far from the origin we see $y \propto \frac1x$. We will also see how to solve this with the two limiting procedures.
+    We see that there is a layer of width $O(\epsilon$) near the origin where $y \propto x$, and far from the origin we see $y \propto \frac1x$. We will also see how to solve this with the two limiting procedures.
 
     In the ``Euler limit'', set $\epsilon = 0$ to get $y = e^{-x} + A$. We can only get one boundary condition to work, $y(\infty) = 0$, which requires $A = 0$. The fact that we cannot get the $y(0)$ boundary condition suggests we need a layer on which $y''$ is large.
 
@@ -180,5 +180,165 @@ and the numerical solution has $f''(0) = 1.72$. The drag is then:
 \begin{equation*}
     2\mu U f''(0) \sqrt{\frac{U l }{\nu}} = 2f''(0) \rho U^2 l \sqrt{\frac{\nu}{Ul}}
 \end{equation*}
-where we note the first answer includes the viscous scaling and $\Re^{\frac12}$, and the second answer includes the inertial scaling and $\Re^{-\frac12}$.
+where we note the first answer includes the viscous scaling and $\Re^{\frac12}$, and the second answer includes the inertial scaling and $\Re^{-\frac12}$. We can informally understand this as meaning we would get a larger value than by considering the Euler limit, and a smaller value than by considering the Stokes limit (both by a factor of $\sqrt{\Re}$).
+
+\section{Two-Dimensional Momentum Jet}
+Consider a point force at the origin pointing towards the $x$ direction in otherwise stationary fluid (see figure~\ref{figMomentumJet}).
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[x=1cm, y=1cm, line cap=round, line join=round]
+        % Colours
+        \colorlet{forcegreen}{green!50!black}
+
+        % Dashed envelope of the jet
+        \draw[black, dashed, thick, dash pattern=on 2pt off 2.5pt]
+            (0,0) .. controls (0.3,0.8) and (1.2,0.85) .. (2.5,1.0)
+                .. controls (3.8,1.15) and (5,1.2) .. (5.7,1.2);
+        \draw[black, dashed, thick, dash pattern=on 2pt off 2.5pt]
+            (0,0) .. controls (0.3,-0.6) and (1.0,-0.8) .. (2.5,-0.95)
+                .. controls (3.8,-1.1) and (5,-1.15) .. (5.7,-1.1);
+
+        % Velocity profiles: x = x0 + A sech(y/B)
+        % \x = baseline position, \A = amplitude, \B = width, \top/\bot = vertical extent
+        \foreach \x/\A/\B/\top/\bot in {1.7/0.9/0.40/1.55/-1.7,
+                                        3.6/0.45/0.50/1.6/-2.1,
+                                        5.14/0.15/0.70/1.6/-1.8} {
+            % dotted baseline
+            \draw[blue, dotted, thick] (\x,\top-0.15) -- (\x,\bot+0.15);
+            % sech profile
+            \draw[blue, thick, samples=100, domain=\bot:\top, variable=\t]
+                plot ({\x + \A/cosh(\t/\B)}, {\t});
+        }
+
+        % Velocity arrows on the first two profiles
+        \foreach \x/\A/\B in {1.7/0.9/0.40, 3.6/0.45/0.50} {
+            \foreach \y in {0.45, 0.15, -0.15, -0.45} {
+                \draw[blue, -stealth]
+                    (\x,\y) -- ({\x + \A/cosh(\y/\B)},\y);
+            }
+        }
+
+        % Applied force
+        \fill[forcegreen] (0,0) circle (2pt);
+        \draw[forcegreen, thick, -stealth] (0,0) -- (1.2,0);
+        \node[forcegreen, anchor=east] at (-0.2,0) {applied force};
+
+        % Vertical scale delta(x)
+        \draw[black, thick, stealth-stealth] (5.7,1.2) -- (5.7,-1.1);
+        \node[black, anchor=west] at (5.7,0) {$\delta(x)$};
+
+        % Velocity scale U(x)
+        \draw[blue, thick, -stealth] (7.5,0.4) -- (7.85,0.4);
+        \node[blue, anchor=west] at (7.9,0.4) {$U(x)$};
+    \end{tikzpicture}
+    \caption{Diagram of the momentum jet}
+    \label{figMomentumJet}
+\end{figure}
+
+Here the point force is the source of momentum. At high Reynolds numbers, the $x$ momentum is advected rapidly in the $x$ direction and diffuses slowly in the $y$ direction to form a thin jet with height $\delta(x) \ll x$. In this thin jet, the boundary layer approximations apply (even though there are no boundaries). This is a good approximation to model fast flow out of a pipe of diameter $d_0$ into a large reservoir, since only the strength of the source (not the details of its geometry) matter as $x \gg \delta \gg d_0$. There is no implied length scale in the $x$ direction so we take $L = x$ again. We now need to find $U(x)$ and $\delta(x)$.
+
+We want to show that $x$ momentum flux is constant, so:
+\begin{equation*}
+    u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y} = \nu \frac{\partial^{2}u}{\partial y^{2}} - \frac{\partial p}{\partial x} \frac1\rho = \nu \frac{\partial^{2}u}{\partial y^{2}}
+\end{equation*}
+where the last term is zero because $u \to 0$ outside the jet.
+
+Then we see:
+\begin{equation*}
+    \frac{\partial u^2}{\partial x} - \frac{\partial u}{\partial x}u + \frac{\partial uv}{\partial u} - \frac{\partial v}{\partial y}u = \nu \frac{\partial^{2}u}{\partial y^{2}}
+\end{equation*}
+and we can use incompressibility to write this as:
+\begin{equation*}
+    \frac{\partial u^2}{\partial x} + \frac{\partial uv}{\partial u} = \nu \frac{\partial^{2}u}{\partial y^{2}}
+\end{equation*}
+Integrating the above gives:
+\begin{align*}
+    \frac{d}{dx} \int_{-\infty}^{\infty} u^2 dy + \left[uv\right]_{-\infty}^\infty &= \left[\nu \frac{\partial u}{\partial y}\right]_{-\infty}^\infty \\
+    &= 0 \text{ because $u \to 0$ as $x \to \infty$}.
+\end{align*}
+This means the momentum flux, $\int_{-\infty}^{\infty} \rho u^2 dy$, is independent of $x$ and so we can set it to be $F$.
+
+To solve the problem we use a scaling argument. First, by the $x$-momentum equation,
+\begin{equation*}
+    \frac{U^2}{x} \sim \nu \frac{U}{\delta^2} \implies \delta \sim \sqrt{\frac{\nu x}{U}}
+\end{equation*}
+and by the momentum flux condition,
+\begin{equation*}
+    \rho U^2 \delta \sim F.
+\end{equation*}
+We can then find the scalings for $\delta$ and $U$ in terms of parameters of the problem, then for a scaling solution we set them equal:
+\begin{equation*}
+    \delta = \left(\frac{\rho \nu^2 x^2}{F}\right)^{\frac13},\qquad U = \left(\frac{F^2}{\rho^2 \nu x}\right)^{\frac13}
+\end{equation*}
+As in the previous section, try a streamfunction of the form $\psi(x, y) = U(x) \delta(x) f(\eta)$ where $\eta = \frac y \delta$. We can make our lives easier by working out some derivatives:
+\begin{align*}
+    \frac{\partial }{\partial x} (U\delta) = \frac13 \frac{U\delta}{x} && \frac{\partial \eta}{\partial x} = -\frac23 \frac \eta x && \frac{\partial U}{\partial x} = -\frac13 \frac U x && \frac{\partial }{\partial y} = \frac1\delta \frac{\partial }{\partial \eta}.
+\end{align*}
+Therefore,
+\begin{align*}
+    u = \frac{\partial \psi}{\partial y} = U(x) f'(\eta) && v = -\frac{\partial \psi}{\partial x} = \frac{U\delta}{x} \left(\frac23 \eta f'(\eta) - f(\eta)\right)
+\end{align*}
+Substitution into the $x$-momentum equation:
+\begin{align*}
+    Uf'(\eta) \left(-\frac13 \frac U x f'(\eta) - \frac23 U \frac \eta x f''(\eta)\right) &+ \frac{U\delta}{x} \left(\frac23 \eta f'(\eta) - \frac13 f(\eta)\right) \frac U\delta f''(\eta) \\
+    &\qquad= \nu \frac{U}{\delta^2} f'''(\eta) \\
+    \implies -\frac13 f'(\eta)^2 - \frac13 f(\eta) f''(\eta) &= f'''(\eta)
+\end{align*}
+This is an ODE for $f$. Our boundary conditions are $v = 0$ on $y = 0$ (symmetry about mid-plane) so $f = 0$ on $\eta = 0$, and $u \to 0$ as $x \to \infty$ which means $f' \to 0$ as $\eta \to \infty$. Note also we have the flux condition:
+\begin{equation*}
+    \int_{-\infty}^{\infty} f'(\eta)^2 d\eta = 1
+\end{equation*}
+Unlike the previous section, we can find an exact solution! The left-hand side of the ODE is an exact derivative, so integrating once gives:
+\begin{equation*}
+    -\frac13 f(\eta) f'(\eta) = f''(\eta) + C
+\end{equation*}
+where the constant must be zero by the no flow at infinity condition. We can freely integrate this again:
+\begin{equation*}
+    -\frac13 f(\eta)^2 = f'(\eta) + D
+\end{equation*}
+we can re-label the constant such that:
+\begin{equation*}
+    f'(\eta) = \frac16 (k^2 - f(\eta)^2)
+\end{equation*}
+and then integrating again gives the form for $f$:
+\begin{equation*}
+    f(\eta) = k\tanh\left[\frac k 6 (\eta - \eta_0)\right]
+\end{equation*}
+where $\eta_0$ must be zero by our symmetry condition. Note that $u$ is therefore given by:
+\begin{equation*}
+    u = U(x) f'(\eta) = U(x) \frac{k^2}{6} \operatorname{sech}^2\left(\frac{k\eta}{6}\right)
+\end{equation*}
+which tends to zero exponentially as $\eta \to \infty$. We find $k$ by the volume flux condition:
+\begin{align*}
+    1 &= \int_{-\infty}^{\infty} f'(\eta)^2 d\eta \\
+    &= \int_{-\infty}^{\infty} \frac16 \left(k^2 - f(\eta)^2\right)f'(\eta) d\eta \\
+    &= \frac16 \left[k^2 f(\eta) - \frac{f(\eta)^3}{3}\right]_{-\infty}^\infty \\
+    &= \frac29 k^3
+\end{align*}
+which means $k = \left(\frac92\right)^{\frac13}$.
+
+The volume flux $Q(x)$ is then:
+\begin{equation*}
+    Q(x) = \int_{-\infty}^{\infty} u dy = U(x)\delta(x) \int_{-\infty}^{\infty} f'(\eta) d\eta = 2kU(x) \delta(x)
+\end{equation*}
+which is proportional to $x^{\frac13}$. This means that the jet drags more and more fluid along with it. We can also calculate the vertical velocity:
+\begin{align*}
+    v &= \frac{U\delta}{x} \left(\frac23 \eta f'(\eta) - \frac13 f(\eta)\right) \\
+    \implies -\frac k 3 \frac{U\delta}{x} &= v_\infty
+\end{align*}
+and so $v_\infty$ is proportional to $x^{-\frac23}$ and negative. This is called the entrainment velocity, and is the speed at which fluid is pulled towards the jet.
+\section{Accelerating and Decelerating Flows}
+Consider a boundary layer on a rigid plate $y = 0, x > 0$ with an external flow of the form:
+\begin{equation*}
+    U(x) = U_0 \left(\frac x l\right)^m.
+\end{equation*}
+This occurs, for example, with potential flow round a corner of angle $\alpha = \frac\pi{m+1}$, where the potential is:
+\begin{equation*}
+    \phi = U_0 \frac{l}{m+1} \left(\frac r l\right)^{m+1} \cos\left[(m+1)\theta\right]
+\end{equation*}
+with $\frac{\partial \phi}{\partial \theta} = 0$ on $\theta = 0$ and $\theta = \alpha$. For example, for $m = 1$ we have $\alpha = \frac\pi2$ and stagnation point flow. Here the flow accelerates away from $x = 0$.
+
+We have already covered the case $m = 0$ because this is just the flow across a semi-infinite plate. Here the pressure is uniform.
+
+For $m = -\frac13$, say, we get flow bending around the boundary. Here, since $m < 0$, $u$ decreases from infinity at $x = 0$ due to an adverse pressure gradient.
 \end{document}
