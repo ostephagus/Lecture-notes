@@ -531,7 +531,7 @@ Then substituting in:
     Note that this $\sim$ is not quite accurate. The Bessel function has many zeroes and so does the cosine. These zeroes do not quite line up and so the ratio of the two functions has many points that are $\infty$. We still have a good approximation here, but the notation is not quite fit for purpose.
 \end{example}
 \begin{remarks}
-    \item All stationary points contribute to the leading term (unlike Laplace's method, where on the the global maximum contributed);
+    \item All stationary points contribute to the leading term (unlike Laplace's method, where only the global maxima contributed);
     \item the endpoints can contribute at the next order ($x^{-1}$), they are not exponentially small;
     \item we must be careful with problems in the definition of $\sim$ if the functions oscillate rapidly near zero;
     \item Laplace's method is ``better'' than the stationary phase method for the ease of finding higher-order terms and bounding terms.
@@ -681,7 +681,7 @@ Suppose that $\nabla u = 0$ at $z_0 = (p_0, q_0)$ which is a saddle point, not n
 
 Our strategy is to deform $C$ to $C'$ so that $C'$ passes through the saddle point along in such a way that $u$ is maximised there. Then we would like to deploy Laplace's method for an internal maximum. However, this is complicated by the fact that level contours of $u$ and $v$ intersect at saddles and we have different choices for how to approach the fixed point.
 
-Suppose that $z_0$ is a simple saddle, for which $\frac{d^{2}\phi}{dz^{2}} \neq 0$. This means two curves of constant $u$ and two of constant $v$ will pass through the saddle point. We want to choose the curve of constant $u$ for which the saddle is a local maximum, so on this curve $u$ must be decreasing as we move away from $z_0$.
+Suppose that $z_0$ is a simple saddle, for which $\frac{d^{2}\phi}{dz^{2}} \neq 0$. This means two curves of constant $u$ and two of constant $v$ will pass through the saddle point. We want to choose the curve of constant $v$ for which the saddle is a local maximum in $u$, so on this curve $u$ must be decreasing as we move away from $z_0$.
 
 
 If we just need the leading-order asymptotics, $C'$ can be approximated by its tangent line at $z_0$:
@@ -704,7 +704,7 @@ However, only $n = 1$ and $n = 3$ give the curve of steepest descent away from $
     \begin{equation*}
         I(x) = \int_C e^{x(\sech(w)\sinh(z) - z)} dz
     \end{equation*}
-    where $w \in \R \backslash \{0\}$ is a parameter, and $C$ is the Sommerfield contour starting at the $q = -pi$ asymptote and ending at the $q = \pi$ asymptote. We find $f = 1$ and:
+    where $w \in \R \backslash \{0\}$ is a parameter, and $C$ is the Sommerfield contour starting at the $q = -\pi$ asymptote and ending at the $q = \pi$ asymptote. We find $f = 1$ and:
     \begin{equation*}
         \phi(z) = \sech(w) \sinh(z) - z
     \end{equation*}
