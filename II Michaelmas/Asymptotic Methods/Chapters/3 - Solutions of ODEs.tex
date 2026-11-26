@@ -242,5 +242,126 @@ where $\mu = q'(a)$. We shift and rescale with $z = (\mu / \epsilon^2)^{\frac13}
 \begin{equation*}
     \frac{d^{2}y}{dz^{2}} = zy
 \end{equation*}
-which is the Airy equation.
+which is the Airy equation. We know it has two solutions $\Ai(z)$ and $\operatorname{Bi}(z)$. Note that $z$ will be very large unless $x$ is extremely close to $a$ because it is proportional to $\epsilon^{-\frac23}$.
+
+Let us write $y_3 = E \Ai(z)$ where $E$ is a constant. We will then determine the constants $A, C, D, E, \gamma$ by matching. Note that zones 1 and 3, and zones 3 and 2, overlap. We therefore match $y_1$ to $y_3$ and $y_3$ to $y_2$.
+
+In the overlap of zones 1 and 3, $\epsilon \ll a - x \ll 1$. Letting $q \approx \mu (a-x)$, we can integrate:
+\begin{equation*}
+    y_1 \sim C\left[\mu(a-x)\right]^{-\frac14} \cos\left[\frac{\sqrt{\mu}}{\epsilon} \frac23 (a - x)^{\frac32} - \gamma\right]
+\end{equation*}
+Then suppose $z$ is large and negative:
+\begin{align*}
+    y_3 &\sim E \frac{1}{\sqrt{\pi}} (-z)^{-\frac14} \cos\left[\frac23 (-z)^{\frac32} - \frac14 \pi\right] \\
+    &\sim \frac{E}{\sqrt{\pi}\left[\left(\frac{\mu}{\epsilon^2}\right)^{\frac13} (a-x)\right]^{\frac14}} \cos\left[\frac{2\sqrt{\mu}}{3\epsilon} (a-x)^{\frac32} - \frac14 \pi\right]
+\end{align*}
+Then $\abs{z}$ large is valid when $a - x \gg \epsilon^{\frac23}$ and because $\epsilon$ is small, $\epsilon^{\frac23} \gg \epsilon$. We can then be satisfied that the matching is valid, and:
+\begin{equation*}
+    \gamma = \frac\pi 4,\qquad E = \sqrt{\pi} \left(\mu\epsilon\right)^{-\frac16} C.
+\end{equation*}
+
+Next, in the overlap of zones 3 and 2, $\epsilon \ll x - a \ll 1$. Expanding $y_2$,
+\begin{equation*}
+    y_2 \approx D\left[\mu(x-a)\right]^{-\frac14} \exp\left[-\frac{\sqrt{\mu}}\epsilon \frac23 (x-a)^{\frac32}\right]
+\end{equation*}
+Now for large and positive $z$, we expand the Airy function:
+\begin{align*}
+    y_3 &\sim \frac{E}{2\sqrt{\pi}} z^{\frac14} e^{-\frac23 z^{\frac32}} \\
+    &\sim \frac{E}{2\sqrt{\pi}\left[\left(\frac{\mu}{\epsilon^2}\right)^{\frac13}(x-a)\right]^{\frac14}} \exp\left[-\frac23 \frac{\sqrt{\mu}}{\epsilon}(x-a)^{\frac32}\right]
+\end{align*}
+which is valid when $x - a \gg \epsilon^{\frac23} \gg \epsilon$. Then the matching gives:
+\begin{equation*}
+    E = 2\sqrt{\pi} \left(\mu\epsilon\right)^{-\frac16} D
+\end{equation*}
+In summary, we have the ``connection formulae'':
+\begin{equation*}
+    y \sim
+    \begin{cases}
+        Dq^{-\frac14} \exp \left[-\frac1\epsilon \int_a^x \sqrt{q} dx'\right] & x - a \gg \epsilon \\
+        2\sqrt{\pi} \left(\mu\epsilon\right)^{-\frac16} D \Ai\left[\epsilon^{-\frac23} \mu^{\frac13} (x-a)\right] & \abs{x-a} \ll 1 \\
+        2D \abs{q}^{-\frac14} \cos\left[\frac1\epsilon \int_x^a \sqrt{\abs{q}} dx' - \frac14\right] & a - x \gg \epsilon
+    \end{cases}
+\end{equation*}
+\begin{remarks}
+    \item Then $D$ is determined by the other boundary condition (specific to the problem, we have not yet specified it).
+    \item If $q'(a)$ were negative, we could transform the problem using $y = -x$ to get the solution as above, and then transform back.
+\end{remarks}
+\subsection{Solution for Two Turning Points}
+Recall the ODE we are trying to solve:
+\begin{equation*}
+    \epsilon^2 y'' = q(x) y
+    \tag{\ref{eqnBVP}}
+\end{equation*}
+Suppose that $q(a) = q(b) = 0$, with $a < b$. Assume $q'(a) < 0 < q'(b)$. Let the boundary conditions be $y \to 0$ as $\abs{x} \to \infty$, and require $q$ to be well-behaved (differentiable) on $[a, b]$. A good example of this is a potential well as in figure~\ref{figPotentialWell}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \begin{axis}[
+                axis lines=middle,
+                xmin=-4,xmax=4,
+                xlabel={$x$},
+                ylabel={$y$}
+            ]
+            \addplot[samples=50] {1-4/(exp(x) + exp(-x))};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Diagram of a Potential Well}
+    \label{figPotentialWell}
+\end{figure}
+
+Let region A be $(-\infty, a)$ where $q$ is positive, let region B be $(a, b)$ where $q$ is negative, and let region C be $(b, \infty)$ where $q$ is positive again. On regions A and C, therefore, we expect exponential decay. On region B, we expect oscillations.
+
+In region A, we can use the approximation:
+\begin{equation*}
+    y_A \sim A q^{-\frac14} \exp \left[-\frac1\epsilon \int_x^a \sqrt{q} dx'\right]
+\end{equation*}
+which is valid on $a - x \gg \epsilon$. In region $C$,
+\begin{equation*}
+    y_C \sim Cq^{-\frac14} \exp\left[-\frac1\epsilon \int_b^x \sqrt{q} dx'\right]
+\end{equation*}
+and this is valid when $x - b \gg \epsilon$.
+
+Then in region $B$ we can use the approximation:
+\begin{equation*}
+    y_b \sim B \abs{q}^{-\frac14} \cos\left[\frac1\epsilon \int^x \sqrt{\abs{q}} dx' - \gamma\right]
+\end{equation*}
+where $A, B, C, \gamma$ will be determined by matching.
+
+In the overlap of regions $B$ and $C$,
+\begin{align*}
+    y_B &\sim y_{BC} \sim 2C \abs{q}^{-\frac14} \cos\left[\frac1\epsilon \int_x^b \sqrt{\abs{q}} dx' - \frac14\pi\right]
+    &= 2C \abs{q}^{-\frac14} \cos(\phi - \theta)
+\end{align*}
+where $\theta(x) = \frac1\epsilon \int_a^x \sqrt{\abs{q}} dx' - \frac14$ and $\phi = \frac1\epsilon \int_a^b \sqrt{\abs{q}} dx - \frac12 \pi$, which is constant with respect to $x$.
+
+In the overlap of regions $A$ and $B$,
+\begin{align*}
+    y_B&\sim y_{BA} \sim 2A\abs{q}^{-\frac14} \cos\left[\frac1\epsilon \int_a^x \sqrt{\abs{q}}dx' - \frac14\pi\right] \\
+    &= 2A \abs{q}^{-\frac14} \cos(\theta)
+\end{align*}
+where $\theta(x)$ is defined as before.
+
+In region $B$, $y_{BA} = y_{BC}$. First, the amplitudes must match:
+\begin{equation*}
+    A = \pm C
+\end{equation*}
+and also the phases must match:
+\begin{equation*}
+    \cos\theta \pm \cos(\phi - \theta) = 0
+\end{equation*}
+Then multiplying the $+$ sign equation with the $-$ sign equation (and doubling):
+\begin{equation*}
+    2\cos^2(\phi - \theta) - 2\cos^2 \theta = 0
+\end{equation*}
+Then using the double angle formula and the angle addition formula gives:
+\begin{equation*}
+    \sin(2\theta - \phi) \sin\phi = 0
+\end{equation*}
+$\theta$ depends on $x$ so we would prefer to make $\sin \phi = 0$, which means $\phi = n\pi$:
+\begin{equation*}
+    \frac1\epsilon \int_a^b \sqrt{\abs{q}}dx = \left(n + \frac12\right)\pi
+\end{equation*}
+and so $A = (-1)^n C$. This condition does not determine any constants. Instead, it is a quantisation condition that determines whether we can solve the ODE. It must be met if there are to be nontrivial solutions to \eqnref{eqnBVP}. If $q$ has eigenvalues, $q = q(x, \lambda)$, then this determines the eigenvalues $\lambda$. If not, then this quantises the small parameter $\epsilon$.
+
+$A$ and $C$ are only determined up to a multiplicative constant. We have that $A = \pm C$, with $A = C$ giving even solutions and $A = -C$ giving odd solutions.
 \end{document}
