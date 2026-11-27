@@ -1,0 +1,21 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+Many aspects of quantum mechanics are still mysterious. For example,
+\begin{itemize}
+    \item QM is inherently probabilistic, whereas classical mechanics is deterministic;
+    \item QM gives special status to a (usually macroscopic) observer, as distinct from the (usually microscopic) system;
+    \item measurements always interfere with the state of the system.
+\end{itemize}
+The obvious question raised by the first point is, could probabilities in QM arise from the ignorance of some hidden, deterministic variables? In classical mechanics, we use a statistical interpretation when we have too many particles to understand their individual motion -- could the same be going on here? We will resolve this at the end of this chapter.
+\section{Classical and Quantum Data}
+Consider the simplest possible system: one measurable quantity $S$ which can be measured either as zero or one. Classically, specifying $S$ is one bit of information. In a quantum mechanical perspective, $S$ must become an operator, with eigenstates $\ket0$ and $\ket1$ (with eigenvalues $0$ and $1$).
+
+However, the general normalised state of the system is:
+\begin{equation*}
+    \state = \alpha \ket0 + \beta \ket 1
+\end{equation*}
+which, even after normalisation, has infinitely many possible states (in fact this is the amount of information as parameterising a sphere). This is called a \underline{quantum bit}, or \underline{qubit}.
+
+It seems that this qubit contains lots of information, vastly more than the classical bit. However, it is very difficult to access that information (we can only take one measurement and get one result, $0$ or $1$). Classically, we can inspect $S$ to find that it is either $0$ or $1$, without disturbing the system. In QM, measurement of $S$ also results in $0$ or $1$ but collapses the wavefunction onto $\ket0$ or $\ket1$.
+\end{document}

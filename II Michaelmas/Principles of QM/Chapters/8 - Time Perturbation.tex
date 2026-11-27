@@ -41,7 +41,7 @@ since we are working with picture which give the same results for observable qua
 
 To order $V$, the amplitude we need is:
 \begin{align*}
-    \langle b \istate &= \inn b a - \frac i \hbar \int_{0}^{t} \opbraket b {\overline{V(s)}} a ds \\
+    \langle b \overline{\mid \psi(t)\rangle} &= \inn b a - \frac i \hbar \int_{0}^{t} \opbraket b {\overline{V(s)}} a ds \\
     &= -\frac i \hbar \int_{0}^{t} \opbraket{b}{e^{iH_0 s / \hbar} V(s) e^{-iH_0 s / \hbar}}{a} ds \\
     &= -\frac i \hbar \int_{0}^{t} e^{i(E_b - E_a) s / \hbar} \opbraket{b}{V(s)}{a} ds 
 \end{align*}
@@ -65,12 +65,151 @@ Note:
 \begin{equation*}
     P(t) = \frac{t}{\hbar^2} f_t(\omega) \abs{\opbraket b V a}^2
 \end{equation*}
-where $f_t(\omega) = \frac1t \left(\frac{\sin(\omega t / 2)}{\omega / 2}\right)^2$. This is a sin-squared function modulated by a $\frac1t$ curve.
+where $f_t(\omega) = \frac1t \left(\frac{\sin(\omega t / 2)}{\omega / 2}\right)^2$. This is a sine-squared function modulated by a $\frac1t$ curve.
 
 We see that:
 \begin{itemize}
     \item $\lim_{\omega \to 0} f_t(\omega) = t$
     \item $\int_{-\infty}^{\infty} f_t(\omega) d\omega = 2\pi$
-    \item As $t$ increases, $f_t(\omega)$ is concentrated more and more around $\omega = 0$. Therefore, $P(t)$ becomes non-negligible only when $\omega \approx 0$ or when $E_b \approx E_a$.
+    \item As $t$ increases, $f_t(\omega)$ is concentrated more and more around $\omega = 0$. Therefore, $P(t)$ becomes non-negligible only when $\omega \approx 0$, so when $E_b \approx E_a$.
 \end{itemize}
+\section{Fermi's Golden Rule}
+The total probability for a transition to a band of final states is:
+\begin{equation*}
+    P(t) = \sum_b \frac{t}{\hbar^2} f_t\left(\frac{E_b - E_a}{\hbar}\right) \abs{\opbraket b V a}^2
+\end{equation*}
+In applications we encounter very closely-spaced final states, or even a continuum.
+
+Consider final states specified by a set of parameters but with $E_b$ variable, and define the density of states $\rho(E_b)$ such that $\rho(E_b) \Delta E$ to be the number of states with specified parameters and energy in range $[E_b, E_b + \Delta E]$. The probability of transition to some state in band $B$ is then given by replacing the sum over $b$ to the integral over the band.
+
+If there are other unspecified parameters in the final state, then\\$\abs{\opbraket b V a}^2$ must depend on these only through $E_b$.
+
+Our previous remarks about $f_t$ shows that we can approximate it, for large times, by $2\pi \delta(\omega)$. Substituting this into the integral form for $P(t)$ gives:
+\begin{equation*}
+    P(t) = \frac{t}{\hbar^2} \int_B 2\pi \hbar \delta(E_b - E_a) \abs{\opbraket b V a}^2 \rho(E_b) dE_b
+\end{equation*}
+The delta function means that $P(t)$ is zero if $E_a$ is not in the band. If it is in the band,
+\begin{equation*}
+    P(t) = \frac{2\pi t}{\hbar} \rho(E_a) \abs{\opbraket b V a}^2
+\end{equation*}
+\begin{remark}
+    \label{remTimeBounds}
+    This only works for $t$ ``not too small'' (in the sense that the delta function approximation works -- we require that changes in the function $\rho(E_b) \abs{\opbraket b V a}^2$ are small for changes in $E_b$ of order $\frac\hbar t$) and for t ``not too large'' (in the sense that this is still a small perturbation -- we require $P(t) \ll 1$).
+\end{remark}
+
+Under the conditions of remark~\ref{remTimeBounds}, we see that the transition probability depends linearly on time. That is, we have a constant transition rate:
+\begin{equation*}
+    \frac{P(t)}{t} = \frac{2\pi}{\hbar} \rho(E_a) \abs{\opbraket{b}{V}{a}}^2
+\end{equation*}
+which is \underline{Fermi's Golden Rule}.
+\section{Interaction of Electromagnetic Fields with Atoms} %TODO: Fix overfull hbox
+\subsection{Classical Electromagnetic Fields as a Perturbation}
+We consider a hydrogen atom, with Hamiltonian $H_0$, and a time-dependent potential:
+\begin{equation*}
+    V(t) = e \opvec x \cdot \vec{\EField} \cos(\omega_0 t)
+\end{equation*}
+This represents a classical EM wave with frequency $\omega_0$, amplitude and direction given by $\vec\EField$ constant.
+
+The first-order transition amplitude between atomic states $a$ and $b$ is then:
+\begin{align*}
+    &-\frac i \hbar \int_0^t e^{i(E_b - E_a)s / \hbar} \opbraket b {V(s)} a ds \\
+    &= -\frac{i e}{\hbar} \int_0^t e^{i(E_b - E_a)s / \hbar} \cos(\omega_0 s) \opbraket{b}{\vec{\EField} \cdot \opvec{x}}{a} ds
+\end{align*}
+and we can analyse this in two parts: first the time dependence and then the matrix element $\opbraket{b}{\vec{\EField}\cdot\opvec{x}}{a}$.
+
+For the time dependence, we separate $\cos(\omega_0 t)$ into two terms:
+\begin{equation*}
+    \int_0^t e^{i(E_b - E_a)s / \hbar} e^{\mp i\omega_0 s} ds
+\end{equation*}
+Then evaluating and taking the modulus squared of the result gives the contribution to probability:
+\begin{equation*}
+    \frac{\sin^2\left((\omega \mp \omega_0) t / 2\right)}{(\omega \mp \omega_0)^2 / 4}
+\end{equation*}
+together with a cross term that is small. Here $\omega = (E_b - E_a) / \hbar$. As $t$ becomes sufficiently large, these terms are sharply peaked around $\omega \approx \pm \omega_0$.
+
+For $t$ sufficiently large, then, we have two kinds of transitions, $a \to b$ with $E_b = E_a \pm \hbar \omega_0$ which occur with equal probabilities.
+\nonexaminablesubsection{Quantum Electromagnetic Fields, In Outline}
+Quantisation of the electromagnetic field can be thought of in terms of the harmonic oscillator. For one mode of frequency $\omega_0$, the electric field has a Heisenberg picture operator of the form:
+\begin{equation*}
+    a e^{-i\omega_0 t} + a^\dagger e^{i\omega_0 t}
+\end{equation*}
+where $a$ and $a^\dagger$ destroy and create photons of frequency $\omega_0$.
+
+Using this, in the above discussion we have:
+\begin{align*}
+    \ket a &= \ket{n~l~m} \ket N \\
+    \ket b &= \ket{n'~l'~m'} \ket N'
+\end{align*}
+which are products of atomic states and photon states. As in the classical case, we have two terms with frequencies $e^{\mp i \omega_0 t}$ but these are now accompanied by factors:
+\begin{align*}
+    \opbraket{N'} a N &=
+    \begin{cases}
+        \sqrt{N} & N' = N - 1 \\
+        0 & \text{otherwise}
+    \end{cases} \\
+    \opbraket{N'}{a^\dagger}N &=
+    \begin{cases}
+        \sqrt{N+1} & N' = N + 1 \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{align*}
+Then upon taking the modulus squared we find rates for emission and absorption of photons are equal apart from factors $N$ and $N+1$. Here $N$ is the number of photons and relates to the intensity of the electromagnetic radiation. The $N$ factors relate to stimulated emission/absorption and the extra $1$ in the emission term relates to spontaneous emission which is a new effect due to quantisation.
+
+For general atomic energies $E_i$ and $E_j$, these have a transition if $E_i - E_j = \hbar \omega_0$. The transition rates are of the form $A_{i\to j} + B_{i \to j}$ for emission rate and $B_{j \to i}$ for absorption rate.
+\subsection{Selection Rules}
+We investigate the time-independent matrix element,
+\begin{equation*}
+    \vec{\EField} \cdot \opbraket{b}{\opvec{x}}{a}
+\end{equation*}
+which must be non-zero for a transition to occur. The probability, or transition rate, is then proportional to $\abs{\vec\EField}^2$, which is the intensity or energy density in classical EM radiation.
+
+Consider states of the hydrogen atom, $\ket a = \ket{n~l~m}, \ket b = \ket{n~l~m}$. Then the information on whether $\opbraket{b}{x_i}{a}$ comes from properties with respect to reflections and rotations. Recall that the parity operator $U$ satisfies $U^2 = 1$ and:
+\begin{equation*}
+    U \ket{n~l~m} = (-1)^l \ket{n~l~m},\qquad U\opvec{x} U = -\opvec x
+\end{equation*}
+Therefore,
+\begin{align*}
+    \opbraket{n'~l'~m'}{\hat{x}_i}{n~l~m} &= \opbraket{n'~l'~m'}{UU\hat{x}_iUU}{n~l~m} \\
+    &= (-1)^{l + l' + 1} \opbraket{n'~l'~m'}{\hat{x}_i}{n~l~m}
+\end{align*}
+and so the matrix element is zero unless $l+l'$ is odd. This is the first selection rule.
+
+To study the implications of angular momentum, we first show that $\hat x_i \ket{n~l~m}$ are like product states for addition of angular momentum $l$ and $1$.
+
+Recall that $\cmmt{L_i}{\hat x_j} = i\hbar \epsilon_{ijk} \hat x_k$ defines a vector operator. We then define:
+\begin{align*}
+    X_1 &= -\frac1{\sqrt{2}} \left(\hat x_1 + i \hat x_2\right) \\
+    X_0 &= \hat x_3 \\
+    X_{-1} &= -\frac1{\sqrt{2}} \left(\hat x_1 - i \hat x_2\right) \\
+\end{align*}
+and it is easy to check that:
+\begin{align*}
+    \cmmt{L_3}{X_q} &= \hbar q X_q \\
+    \cmmt{L_{\pm}}{X_q} &= \hbar \sqrt{(1 \mp q)(1 \pm q + 1)} X_{q \pm 1}
+\end{align*}
+We see these are the same as the standard formulae for the actions of $L_3$ and $L_{\pm}$ on angular momentum states $\ket{1~q}$. This implies $X_q \ket{n~l~m}$ behaves exactly like the product states $\ket{1~q}\ket{l~m}$ with respect to angular momentum. This means:
+\begin{equation*}
+    \vec L \left(X_q \ket{n~l~m}\right) = \cmmt{\vec L}{X_q}\ket{n~l~m} + X_q \left(\vec L \ket{n~l~m}\right)
+\end{equation*}
+corresponds to:
+\begin{equation*}
+    \vec L \left(\ket{1~q}\ket{l~m}\right) = \left(\vec L \ket{1~q}\right)\ket{l~m} + \ket{1~q}\left(\vec L\ket{l~m}\right)
+\end{equation*}
+By the standard results for adding angular momentum, we can deduce that $X_q \ket{n~l~m}$ has angular momentum numbers:
+\begin{align*}
+    l+1, l, \text{ or } l-1&\text{ for } \vec L^2 \\
+    m + q &\text{ for } L_3
+\end{align*}
+hence for $\opbraket{n'~l'~m'}{X_q}{n~l~m}$ to be non-zero we need $l' = l$ or $l \pm 1$, and $m' = m + q$. This is the second set of selection rules. Combining this with the first excludes $l = l'$ and so we have $l' = l \pm 1$.
+
+In summary, the possible atomic transitions are given by:
+\begin{align*}
+    l' &= l \pm 1 \\
+    m' = 
+    \begin{cases}
+        m & \text{ if } \EField_3 \neq 0 \\
+        m \pm 1 & \text{ if } \EField_1 \neq 0 \text{ or } \EField_2 \neq 0
+    \end{cases}
+\end{align*}
+and in addition we must have $E_{n'} = E_n \pm \hbar \omega_0$.
 \end{document}

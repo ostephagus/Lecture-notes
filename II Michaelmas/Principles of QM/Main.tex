@@ -11,34 +11,29 @@
 \usepackage{tabularx}
 
 \newcommand{\opvec}[1]{
+    \saveexpandmode\noexpandarg
     \StrCut{#1}{_}\firstpart\secondpart
+    \restoreexpandmode
     \hat{\boldsymbol{\firstpart}}_{\secondpart}
 }
 \newcommand{\dvec}[1]{
+    \saveexpandmode\noexpandarg
     \StrCut{#1}{_}\firstpart\secondpart
+    \restoreexpandmode
     \dot{\boldsymbol{\firstpart}}_{\secondpart}
 }
 \newcommand{\ddvec}[1]{
+    \saveexpandmode\noexpandarg
     \StrCut{#1}{_}\firstpart\secondpart
+    \restoreexpandmode
     \ddot{\boldsymbol{\firstpart}}_{\secondpart}
 }
 
-%\newcommand{\duvec}[1]{
-%    \StrCut{#1}{_}\firstpart\secondpart
-%    \dot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
-%}
-%\newcommand{\dduvec}[1]{
-%    \StrCut{#1}{_}\firstpart\secondpart
-%    \ddot{\hat{\boldsymbol{\firstpart}}}_{\secondpart}
-%}
-
-%\newcommand{\ybar}{\bar{\psi}}
 \newcommand{\hilb}{\mathcal{H}}% Hilbert space
 \newcommand{\schr}{Schr\"odinger~}
 \newcommand{\E}[1]{\langle #1 \rangle} % Expectation
+\newcommand{\EField}{\mathcal{E}}
 \newcommand{\inn}[2]{\langle#1\mid#2\rangle}
-%\newcommand{\paragraphmarker}{\P}
-%\renewcommand{\P}{\mathbb{P}}
 
 \newcommand{\ket}[1]{\left.\left|#1\right.\right\rangle}
 \newcommand{\bra}[1]{\left.\left\langle#1\right.\right|}
@@ -74,4 +69,6 @@
 \subfile{Chapters/7 - Symmetries.tex}
 \chapter{Time-Dependent Perturbation Theory}
 \subfile{Chapters/8 - Time Perturbation.tex}
+\chapter{Quantum Basics}
+\subfile{Chapters/9 - Quantum Basics.tex}
 \end{document}
