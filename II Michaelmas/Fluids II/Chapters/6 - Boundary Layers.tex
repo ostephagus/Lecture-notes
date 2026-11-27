@@ -380,7 +380,7 @@ we have to solve this numerically by shooting. We find the required values of $f
 \end{table}
 
 We also find, for small negative values of $m$, a second solution with $f''(0)$ negative (negative shear stress). At $m = -0.09037$, we have a saddle-node bifurcation where the two solutions merge and disappear. This corresponds to $\alpha \approx 198^\circ$. With $m \leq 0.09037$, we only have unphysical solutions. From this, we conclude that the boundary-layer similarity solution is acceptable for accelerating cases ($m > 0$) and for gentle deceleration ($-0.09037 < m < m$, as long as we take the first solution), but gives unacceptable answers for strong deceleration (the solution here may include multiple regions of reverse flow or $f' > 1$).
-\subsection{Boundary Layer Detachment}
+\nonexaminablesubsection{Boundary Layer Detachment}
 The key principle broken here is the balance between advection and diffusion. Deceleration ($\frac{\partial y}{\partial x} < 0$) implies that $\frac{\partial v}{\partial y} > 0$, and since $v(0) = 0$ this means that $v$ is away from the wall -- that is, fluid is being advected in the same direction as it diffuses. We can cope with a little bit of this (for $m$ down to $-0.09037$) but if this effect becomes large the boundary layer detaches from the surface, and the vorticity leaves the wall and moves into the body of the fluid. A similar process occurs with flow around a cylinder, where boundary layer detachment occurs near an angle $104.5^\circ$ as measured from the forward stagnation point. Experimentally, we see turbulent behaviour as in figure~\ref{figBoundaryDetach}. The region just behind the cylinder (dark blue in diagram) is slowly moving, but the regions above and below behind the cylinder (red in diagram) are fast moving. The layer in between is known as the shear layer. We also see a turbulent wake forming behind the cylinder. In this configuration the drag is very high, due to a large pressure difference between the front and back.
 
 \begin{figure}
@@ -400,4 +400,97 @@ Our solution, with $u_r \propto \frac1r, u_\theta = 0, \psi = Qf(\theta)$, works
     \item a boundary layer solution for inflow ($Q < 0$), with $u_r \propto \frac1r$ for the bulk of the fluid and the boundary layers taking care of no-slip;
     \item unphysical solutions for outflow for $\Re\gtrapprox 10$, because the source flow is strongly decelerating and the boundary layers detach.
 \end{itemize}
+\section{Boundary Layers in a Free Surface}
+At a free surface, the no-slip condition $\vec u = \vec U$ is replaced by the condition of no tangential stress, $\vec t \cdot \sigma\vec n = 0$. Potential flow, the leading-order outer solution, will typically not satisfy this condition (because it involves viscosity, and the Euler limit ignores viscosity), so we must ``fix'' the solution with a boundary layer near the free surface.
+
+In IB Fluid Dynamics, we considered water waves with a free surface $z = \zeta(x, t) = A\cos(kx-\omega t)$, and $u = \nabla \phi$. The stress is:
+\begin{align*}
+    \sigma_{xz} &= \mu \left(\frac{\partial u_x}{\partial z} + \frac{\partial u_z}{\partial x}\right) \\
+    &= 2\mu \frac{\partial^{2}\phi}{\partial x\partial z}
+\end{align*}
+which, at the free surface where $\frac{\partial \phi}{\partial z} = \frac{\partial \zeta}{\partial t}$, gives:
+\begin{equation*}
+    \sigma_{xz} = 2A\mu k \omega \cos(kx - \omega t) \neq 0.
+\end{equation*}
+
+\begin{example}[Flow past a spherical bubble]
+    Here we have the velocity potential:
+    \begin{equation*}
+        \phi = -U\cos\theta \left(r + \frac{a^3}{2r^2}\right).
+    \end{equation*}
+    Then the stress at the boundary for an Euler solution is:
+    \begin{equation*}
+        \sigma_{r\theta} = \mu \frac r 2 \frac{\partial }{\partial r} \left(\frac{u_\theta}{r}\right) = -\frac{3\mu}2 \frac{U\sin \theta}{a} \neq 0
+    \end{equation*}
+    
+    Therefore, we need a boundary layer to satisfy the stress-free condition. However, we only need a small change $\Delta u$: viscous stress scales like $\mu \frac U L$ in the outer flow which is cancelled by a change that scales like $\mu \frac{\Delta U}{\delta}$ in the boudnary layer on the boundary. Therefore, $\Delta U \sim U \frac{\delta}{L}$ with $\delta \sim \sqrt{\frac{\nu L}{U}}$. That is,
+    \begin{equation*}
+        \Delta U \sim U \Re^{-\frac12} \ll U
+    \end{equation*}
+    This is a very weak effect, so we can linearise the boundary layer equations. Furthermore, we find that there is no separation as there would be for a rigid sphere.
+\end{example}
+\section{Dissipation}
+Recall that dissipation is given by $2\mu \int e_{ij}e_{ij} dV$. We can split this into the bulk and the boundary layer:
+\begin{equation*}
+    D = 2\mu \int_{BL} e_{ij} e_{ij} dV + 2\mu \int_{bulk} e_{ij} e_{ij} dV
+\end{equation*}
+For a rigid surface, these contributions are:
+\begin{align*}
+    D &\sim \mu \left(\frac U \delta\right)^2 \delta L^2 + \mu \left(\frac U L\right)^2 L^3 \\
+    &= \underbrace{\mu U^2 L \frac{L}{\delta}}_{\gg \mu U^2 L} + \mu U^2 L
+\end{align*}
+so in flows with rigid boundaries, the dissipation is dominated by the contribution from the boundary layers.
+
+For a free surface, we find that the boundary layer term is now at most $\mu \left(\frac U L\right)^2 \delta L^2 = \mu U^2 L \frac{\delta}{L} \ll \mu U^2$. This is because the shear rate in the boundary layer is at most that of the Euler solution (and by design decreases to zero at the boundary), so the scaling difference is due to the much smaller volume on which boundary-layer dissipation occurs. That is, dissipation here is dominated by the bulk and so we can ignore the boundary layer (for most applications).
+\section{Drag on a Steadily Rising Bubble}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        \draw (0, 0) circle[radius=1];
+        \node at (0, 0) [below] {$\rho \approx 0$};
+
+        \draw (0, 0) -- (135:1) node[pos=0.7, below] {$a$};
+        \node at (-2, 0) {$\rho$};
+
+        \draw [->, blue] (0, 0) -- (0, 2) node[above] {$U$};
+
+        \draw [->] (1.5, 0.5) -- (1.5, -0.5) node[pos=0.5, right] {$\vec g$};
+    \end{tikzpicture}
+    \caption{Diagram of a rising bubble}
+    \label{figRisingBubble}
+\end{figure}
+
+Consider a rising bubble as in figure~\ref{figRisingBubble}. The buoyancy force is:
+\begin{equation*}
+    \vec F = -\frac43 \pi a^3 \rho \vec g
+\end{equation*}
+In steady state, the rate of working by buoyancy is $\vec{F} \cdot \vec{U}$ and this is equal to the rate of viscous dissipation,
+\begin{equation*}
+    2\mu \int_{r > a} e_{ij} e_{ij} dV.
+\end{equation*}
+From IB Fluid Dynamics, we have potential flow outside the bubble given by:
+\begin{align*}
+    u &= \nabla \phi, \nabla^2 \phi = 0 \\
+    \frac{\partial \phi}{\partial n} &= \vec{U} \cdot \vec{n} \text{ on } r = a \\
+    \nabla \phi &\to 0 \text{ as } |\vec x| \to \infty.
+\end{align*}
+By arguing that the only way to include $\vec U$ linearly in $\phi$ is $\vec{U} \cdot \vec{x}$, and then solving, we get:
+\begin{equation*}
+    \phi = -\frac{a^3}{2} \frac{\vec{U} \cdot \vec{x}}{r^3}.
+\end{equation*}
+This means that the velocity is:
+\begin{equation*}
+    \frac32 a^3 \frac{(\vec{U} \cdot \vec{x})\vec x}{r^5} - \frac{a^3}{2} \frac{\vec U}{r^3}.
+\end{equation*}
+We can work out the dissipation to be:
+\begin{align*}
+    D &= 2\mu\int_{r > a} \frac{9a^6}{4r^{10}} \left(2U^2 r^2 + 4 (\vec{U} \cdot \vec{x})^2\right) dV \\
+    &= 12\pi\mu a U^2
+\end{align*}
+Equating to the earlier rate of working calculation:
+\begin{align*}
+    12\pi\mu a U^2 &= -\frac43 \pi a^3 \rho \vec{g} \cdot \vec{U} \\
+    \implies \vec U = -\frac19 \frac{a^2}{\nu} \vec g
+\end{align*}
+which tells us that the bubble is rising rather than falling (opposite direction to $\vec g$), at the speed $\frac{a^2 g}{9\nu}$. For a bubble of $a = \frac13~mm$, this speed is $U \approx 20~cm~s^{-1}$.
 \end{document}
