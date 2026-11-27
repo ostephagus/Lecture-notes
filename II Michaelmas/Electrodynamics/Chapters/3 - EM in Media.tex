@@ -30,7 +30,7 @@ By using a typical atomic size $a = 10^{-10}m$, we get $|\vec d| \approx 5\times
     The \underline{atomic polarisability}, $\alpha$, relates how large the generated electric dipole moment is compared to the strength of field applied: $\vec p = \alpha\vec E$.
 \end{definition}
 In the case above, $\alpha = 4\pi\epsilon_0a^3$.
-\section{Magnetic Media}
+\subsection{Magnetic Media}
 Magnetic media are materials that generate or align magnetic dipole moments in response to an applied magnetic field $\vec B$.
 
 Recall, from IB Electromagnetism, the multipole expansion for magnetostatics.
@@ -191,7 +191,7 @@ Generally we will work with media that have $\vec P \propto \vec E$, and so $\ve
     \end{equation*}
     We can see this as the electric fields due to free charges being ``screened'' by bound charges and reduced by a factor $\epsilon_r^{-1}$.
 \end{example}
-\section{Magnetising Field}
+\subsection{Magnetising Field}
 We can now write the macroscopic Maxwell equation for $\nabla \times \vec{B}$:
 \begin{align*}
     \nabla \times \vec{B} &= \mu_0 \vec{J_{free}} + \mu_0 \vec J + \mu_0 \epsilon_0 \frac{\partial \vec E}{\partial t} \\
@@ -216,4 +216,127 @@ and we can define the relative permeability $\mu_r = 1 + \chi_m$. Returning to t
     \item paramagnetism (where $\vec M$ is aligned with $\vec B$) has $\chi_m > 0$ and $\mu_r > 1$,
     \item ferromagnetism (where dipoles can align and stay aligned) do not fit into this linear description.
 \end{itemize}
+\subsection{Summary of Macroscopic Maxwell Equations}
+The \underline{macroscopic Maxwell equations} are:
+\begin{align*}
+    \nabla \cdot \vec{D} &= \rho_{free} \\
+    \nabla \times \vec{E} &= - \frac{\partial \vec B}{\partial t} \\
+    \nabla \cdot \vec{B} &= 0 \\
+    \nabla \times \vec{H} &= \vec{J_{free}} + \frac{\partial \vec D}{\partial t}
+\end{align*}
+where the electric displacement is $\vec D = \epsilon_0 \vec E + \vec P$, the magnetising field is $\vec H = \frac1{\mu_0} \vec B - \vec M$.
+
+In this course, we consider simple, linear, isotropic media which have:
+\begin{equation*}
+    \vec D = \epsilon_0 \epsilon_r \vec E,\qquad \vec H = \frac{1}{\mu_0 \mu_r} \vec B
+\end{equation*}
+\section{Electromagnetic Waves in Simple Dielectric Media}
+Consider the case of no free charges or currents, so an electromagnetic wave propagates through the medium interacting only with bound charges and currents. In the media we are considering,
+\begin{align*}
+    \nabla \cdot \vec{E} &= 0 \\
+    \nabla \times \vec{E} &= -\frac{\partial \vec B}{\partial t} \\
+    \nabla \cdot \vec{B} &= 0 \\
+    \nabla \times \vec{B} &= \epsilon_0 \epsilon_r \mu_0\mu_r \frac{\partial \vec E}{\partial t}
+\end{align*}
+Taking curls of the two non-zero equations:
+\begin{align*}
+    \nabla^2 \vec E&= \frac{\epsilon_r\mu_r}{c^2} \frac{\partial^{2}\vec E}{\partial t^{2}} \\
+    \nabla^2 \vec B&= \frac{\epsilon_r\mu_r}{c^2} \frac{\partial^{2}\vec B}{\partial t^{2}} \\
+\end{align*}
+and so we have wave equations with propagation speed:
+\begin{equation*}
+    v = \frac{c}{\sqrt{\epsilon_r\mu_r}}
+\end{equation*}
+Defining the \underline{refractive index} $n = \sqrt{\epsilon_r \mu_r}$, we find $v = \frac c n$. The wave solutions are then exactly the same as we would have for free space, but for a different speed. Indeed, we can look for a plane wave solution:
+\begin{align*}
+    \vec E(t, \vec x) &= \vec{E_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)} \\
+    \vec B(t, \vec x) &= \vec{B_0} e^{i(\vec{k} \cdot \vec{x} - \omega t)}
+\end{align*}
+where we implicitly take the real part to get the fields. The polarisation vectors $\vec{E_0}$ and $\vec{B_0}$ are generally complex-valued and must be orthogonal to $\vec k$. $\vec k$ and $\omega$ are related by the \underline{dispersion relation}:
+\begin{equation*}
+    \omega^2 = v^2 \abs{\vec k}^2
+\end{equation*}
+and $\vec{E_0}$ and $\vec{B_0}$ are related by:
+\begin{equation*}
+    \vec{B_0} = \frac1\omega \vec{k} \times \vec{E_0}.
+\end{equation*}
+If $\vec k$ is real, then we can write $\vec{B_0} = \uvec k \times \vec{E_0} / v$.
+
+We now consider boundary conditions. Note that $\epsilon_r$ and $\mu_r$ are piecewise constant (with discontinuities at a change of medium). For no free surface charges or currents, we require that the normal components of $\vec D$ and $\vec B$ are continuous across a boundary of media. Note that generally this means that $\vec E$ and $\vec H$ have discontinuous normal components and this is due to bound surface charges and currents.
+
+We also require that the parallel components of $\vec E$ and $\vec H$ are continuous (which means $\vec D$ and $\vec B$ will have discontinuous parallel components).
+\subsection{Reflection and Refraction}
+Consider a medium occupying $x < 0$ with relative permittivity $\epsilon_{r, I}$ and a medium occupying $x > 0$ with relative permittivity $\epsilon_{r, T}$. Let a wave be incident inside $x < 0$ at an angle of $\theta_I$ to the normal. We assume that it gets split at the boundary, as in figure~\ref{figReflectRefract}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+        % Interface and normal
+        \draw (0,-2) -- (0,2.3) node[above] {$x = 0$};
+        \draw[dashed] (-3,0) -- (3,0);
+
+        % Incident wave
+        \draw[->, thick] (210:2.6) -- (210:1.5);
+        \draw[thick] (210:1.5) -- (0,0);
+        \node[below right] at (210:2.4) {$\vec{k_I}$};
+
+        % Reflected wave
+        \draw[->, thick] (0,0) -- (123:1.8);
+        \draw[thick] (123:1.8) -- (123:2.5);
+        \node[left] at (123:2.1) {$\vec{k_R}$};
+
+        % Transmitted wave
+        \draw[->, thick] (0,0) -- (30:2.2);
+        \draw[thick] (30:2.2) -- (30:3.2);
+        \node[right] at (30:3.2) {$\vec{k_T}$};
+
+        % Angles, measured from the normal
+        \draw (180:1) arc[start angle=180, end angle=210, radius=1];
+        \node at (195:1.4) {$\theta_I$};
+        \draw (180:0.9) arc[start angle=180, end angle=123, radius=0.9];
+        \node at (154:1.3) {$\theta_R$};
+        \draw (0:1.6) arc[start angle=0, end angle=30, radius=1.6];
+        \node at (15:2.05) {$\theta_T$};
+
+        % Media
+        \node[draw] at (-3.5,2.1) {$\epsilon_{r,I}$};
+        \node[draw] at (3.5,2.1) {$\epsilon_{r,T}$};
+    \end{tikzpicture}
+    \caption{Diagram of reflection and refraction}
+    \label{figReflectRefract}
+\end{figure}
+
+Assume that $\mu_r = 1$, and that all waves have frequency $\omega$. By choosing our coordinates, assume that the wave is in the $x-y$ plane. Therefore, the incident wave vector is:
+\begin{equation*}
+    \vec{k_I} = k_I \left(\cos(\theta_I) \vec{e_x} + \sin(\theta_I) \vec{e_y}\right)
+\end{equation*}
+and note that $k_I = \frac{\omega}{v_I}$.
+
+The electric fields are:
+\begin{align*}
+    \vec{E_{inc}} &= \vec{E_I} e^{i(\vec{k_I} \cdot \vec{x} - \omega t)} \\
+    \vec{E_{ref}} &= \vec{E_R} e^{i(\vec{k_R} \cdot \vec{x} - \omega t)} \\
+    \vec{E_{trans}} &= \vec{E_T} e^{i(\vec{k_T} \cdot \vec{x} - \omega t)}
+\end{align*}
+and the electric field for $x < 0$ is $\vec{E_{inc}} + \vec{E_{ref}}$. Note that the dispersion relation gives:
+\begin{equation*}
+    \omega^2 = v_I^2 \abs{\vec{k_I}}^2 = v_T^2 \abs{\vec{k_T}}^2
+\end{equation*}
+Our boundary conditions applied at all points with $x = 0$, and all times, requires:
+\begin{equation}
+    \vec{k_I} \cdot \vec{x} = \vec{k_R} \cdot \vec{x} = \vec{k_T} \cdot \vec{x} \text{ for } x = 0
+    \label{eqnWaveBC}
+\end{equation}
+Note that \eqnref{eqnWaveBC} requires that $\vec{k_R}$ and $\vec{k_T}$ must all have the same projection into the surface $x = 0$ and so they will all lie in the same plane. If we also write $\vec{k_R}$ in terms of a magnitude $k_R$ and an angle $\theta_R$ as in figure~\ref{figReflectRefract}, we get:
+\begin{align*}
+    k_I \sin(\theta_I) &= k_R \sin(\theta_T) \\
+    \implies \theta_I &= \theta_T \text{ because $k_I = k_R = \omega / v_I$} \\
+    k_I \sin(\theta_I) &= k_T \sin(\theta_T) \\
+\end{align*}
+We can rewrite the last equation by substituting for $k_I$ and $k_T$:
+\begin{equation}
+    \frac{\sin(\theta_I)}{v_I} = \frac{\sin(\theta_T)}{v_T} \iff n_I \sin(\theta_I) = n_T \sin(\theta_T)
+    \label{eqnSnellsLaw}
+\end{equation}
+where the last form is Snell's Law for refraction.
 \end{document}
