@@ -129,15 +129,17 @@ which is a superposition of the expansions we found with the two different signs
         y'' = xy
     \end{equation*}
     we want to know what the solution is as $x \to\infty$. Using the above method, we get:
-    \begin{equation*}
+    \begin{equation}
         y \sim \underbrace{Ax^{-\frac14} e^{-\frac23 x^{\frac32}}}_{\Ai} + \underbrace{Bx^{-\frac14} e^{\frac23 x^{\frac32}}}_{\operatorname{Bi}}
-    \end{equation*}
+        \label{eqnAiryPosX}
+    \end{equation}
     we recover the Airy function by taking $A = \frac1{2\sqrt{\pi}}$.
 
     If we take $x \to -\infty$, $\sqrt{Q} = i\sqrt{|x|}$ and so we get rapidly oscillatory solutions:
-    \begin{equation*}
+    \begin{equation}
         y \sim C\abs{x}^{-\frac14} e^{\frac23 i\abs{x}^{\frac32}} + D\abs{x}^{-\frac14} e^{-\frac23 i\abs{x}^{\frac32}}
-    \end{equation*}
+        \label{eqnAiryNegX}
+    \end{equation}
 \end{example}
 \section{ODEs With a Small Parameter}
 We consider an ODE of the form:
@@ -364,4 +366,52 @@ $\theta$ depends on $x$ so we would prefer to make $\sin \phi = 0$, which means 
 and so $A = (-1)^n C$. This condition does not determine any constants. Instead, it is a quantisation condition that determines whether we can solve the ODE. It must be met if there are to be nontrivial solutions to \eqnref{eqnBVP}. If $q$ has eigenvalues, $q = q(x, \lambda)$, then this determines the eigenvalues $\lambda$. If not, then this quantises the small parameter $\epsilon$.
 
 $A$ and $C$ are only determined up to a multiplicative constant. We have that $A = \pm C$, with $A = C$ giving even solutions and $A = -C$ giving odd solutions.
+\subsection{Application to Quantum Mechanics}
+Consider the time-independent Schr\"odinger Equation from Quantum Mechanics,
+\begin{equation}
+    -\frac{\hbar^2}{2m} \frac{d^{2}\psi}{dx^{2}} + V(x) \psi = E\psi
+    \label{eqnSchrodinger}
+\end{equation}
+along with the condition $\psi \to 0$ as $\abs{x} \to \infty$. $E$ is an unknown energy eigenvalue. We identify $\epsilon = \hbar$ and $q = 2m(V - E)$, then \eqnref{eqnSchrodinger} looks like \eqnref{eqnBVP} (after rearranging).
+
+Consider a potential $V(x)$ such that $q$, for the given $E$, has simple zeroes at $a$ and $b$. That is, the equation has simple turning points and $a$ and $b$ (which depend on $E$).
+
+Returning to the solvability condition, we require:
+\begin{equation*}
+    \int_{a}^{b} \sqrt{2m\left(E - V(x)\right)} dx = \left(n + \frac12\right) \pi\hbar
+\end{equation*}
+and this is an eigenvalue equation known as the Bohr-Sommerfeld quantisation condition. $n \in \N_0$ is the quantum number describing the energy eigenvalue. We can therefore write $E = E_n$ (where $E$ increases with $n$). That is, only particles with distinct energies can be bound in the potential.
+
+The quantisation condition cannot be solved for general $V$. We can, however, note that $E = \frac1{2m} p^2 + V$, and so:
+\begin{equation*}
+    \int_{a}^{b} p dx = \left(n + \frac12\right)\pi\hbar
+\end{equation*}
+which we can understand as a quantisation of the action.
+
+Returning to the WKBJ solutions for $\psi$, the wave-like central part is proportional to $e^{i\phi(x)}$ and the local wave number is:
+\begin{equation*}
+    k = \frac{d\phi}{dx} = \frac{\sqrt{\abs{q}}}{\epsilon} = \frac{p}{\hbar}
+\end{equation*}
+which gives us the De Broglie wavelength $\frac{2\pi}{k} = \frac{2\pi\hbar}{p}$.
+
+We can consider a particular potential, the quantum harmonic oscillator. This has potential:
+\begin{equation*}
+    V = \frac{m \omega^2}{2} x^2
+\end{equation*}
+where $\omega$ is constant. This is the quantum-mechanical analogue of $\ddot{x} + \omega^2 x = 0$.
+
+We can now evaluate the Bohr-Sommerfeld quantisation condition and solve for $E$. Instead, we can do this in a nicer way:
+\begin{equation*}
+    E = \frac{p^2}{2m} + \frac{m\omega^2}{2} x^2
+\end{equation*}
+then for fixed $E$, the particle follows an elliptical orbit in the phase space of $(x, p)$. The semi-axes are $\sqrt{2mE}$ and $\sqrt{\frac{2E}{m\omega^2}}$. The area enclosed by the ellipse with energy $E$ is:
+\begin{align*}
+    \int\int dx~dp &= \oint p dx \\
+    &= (2n+1) \pi \hbar
+\end{align*}
+from the momentum quantisation condition. We also know that the area of an ellipse is $\pi \sqrt{2mE}\sqrt{\frac{2E}{m\omega^2}}$, and so equating gives:
+\begin{equation*}
+    E = E_n = \left(n + \frac12\right)\hbar \omega.
+\end{equation*}
+These energy levels are exact for the harmonic oscillator (whereas in general we only get an asymptotic approximation), because $V$ is a low-order polynomial.
 \end{document}

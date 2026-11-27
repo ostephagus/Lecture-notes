@@ -1,0 +1,33 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Stokes and Anti-Stokes Lines}
+Recall $f(z) \sim g(z)$ for $z \in \C$ as $x \to z_0$ is generally only valid in a limited sector around $z_0$ (or in a sector of the complex plane itself if $z_0$ is $\infty$).
+\begin{example}[Airy equation]
+    Recall the Liouville-Green solutions for large $z$:
+    \begin{equation*}
+        y \sim \underbrace{Ax^{-\frac14} e^{-\frac23 x^{\frac32}}}_{\Ai} + \underbrace{Bx^{-\frac14} e^{\frac23 x^{\frac32}}}_{\operatorname{Bi}}
+        \tag{\ref{eqnAiryPosX}}
+    \end{equation*}
+    If $z$ is real, $\operatorname{Bi}$ dominates, and we can neglect $\Ai$. However, if $\abs{z} \to \infty$ in $\C$ along some ray other than the real axis, $\Ai$ can be important.
+\end{example}
+Usually, on crossing a sector boundary, an exponentially small term can become exponentially large and the asymptotic approximation changes.
+
+More formally, if $f = g + (f - g)$ with $f \sim g$ in some sector of $\C$ then $f - g \ll f$ and we say that $g$ is \underline{dominant}, and $f - g$ is \underline{recessive}. At a sector boundary, $f - g$ becomes the same order as $g$, and on the other side of the boundary $f - g$ is dominant. This issue usually arises with asymptotic approximations involving exponentials (such as the Liouville-Green method).
+
+Consider a Liouville-Green approximation to an ODE:
+\begin{equation*}
+    f(z) \sim h(z) \left[Ae^{S_1(z)} + Be^{S_2(z)}\right]
+\end{equation*}
+as $\abs{z} \to\infty$. Suppose that in some sector of $\C$, $\Re(S_2(z)) \ll \Re(S_1(z))$. Then we see that the $e^{S_2}$ component is recessive and the $e^{S_1}$ component is dominant.
+\begin{definition}{Stokes line}
+    A \underline{Stokes line} is the set $\subsetselect{z \in \C}{\Re(S_1(z)) = \Re(S_2(z))}$.
+\end{definition}
+Along this line,
+\begin{equation*}
+    \abs{\frac{e^{S_1(z)}}{e^{S_2(z)}}} = e^{\Re(S_1(z) - S_2(z))} = 1.
+\end{equation*}
+The dominant and recessive terms trade places when crossing this line.
+
+There is another problem that we can encounter with asymptotic approximations of this form. Recall that $S_1$ and $S_2$ involve $\int \sqrt{Q} dx$, and so we can find issues when crossing branch cuts of $\C$.
+\end{document}
