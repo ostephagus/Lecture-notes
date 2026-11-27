@@ -328,6 +328,7 @@ which is proportional to $x^{\frac13}$. This means that the jet drags more and m
 \end{align*}
 and so $v_\infty$ is proportional to $x^{-\frac23}$ and negative. This is called the entrainment velocity, and is the speed at which fluid is pulled towards the jet.
 \section{Accelerating and Decelerating Flows}
+\subsection{The General Picture}
 Consider a boundary layer on a rigid plate $y = 0, x > 0$ with an external flow of the form:
 \begin{equation*}
     U(x) = U_0 \left(\frac x l\right)^m.
@@ -341,4 +342,62 @@ with $\frac{\partial \phi}{\partial \theta} = 0$ on $\theta = 0$ and $\theta = \
 We have already covered the case $m = 0$ because this is just the flow across a semi-infinite plate. Here the pressure is uniform.
 
 For $m = -\frac13$, say, we get flow bending around the boundary. Here, since $m < 0$, $u$ decreases from infinity at $x = 0$ due to an adverse pressure gradient.
+\subsection{Solution}
+The pressure gradient is set by the external flow,
+\begin{equation*}
+    -\frac{\partial p}{\partial x} = \rho U \frac{\partial U}{\partial x} = \rho m \frac{U^2}{x}
+\end{equation*}
+substituting into the boundary layer equation then gives:
+\begin{equation*}
+    u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y} = m \frac{U^2}{x} + \nu \frac{\partial^{2}u}{\partial y^{2}}
+\end{equation*}
+Then balancing the terms gives a scaling $\delta(x) = \left(\frac{\nu x}{U}\right)^{\frac12}$ which is proportional to $x^{\frac{1-m}{2}}$. Using a streamfunction of the form:
+\begin{equation*}
+    \psi(x, y) = U(x) \delta(x) f(\eta)
+\end{equation*}
+where $\eta = y / \delta(x)$, we find:
+\begin{equation*}
+    mf'(\eta)^2 - \frac{m+1}{2} f(\eta) f''(\eta) = m + f'''(\eta)
+\end{equation*}
+with boundary conditions $f(0) = f'(0) = 0$ (rigid boundary at $\eta = y = 0$), and $f' \to 1$ as $\eta \to \infty$ (matching to far-field).
+
+In general (note the case $m = 1$ where we could solve it analytically), %TOOD: check this is m=1
+we have to solve this numerically by shooting. We find the required values of $f''(0)$ as in table~\ref{tabShootingResults}.
+\begin{table}
+   \begin{tabular}{|c|c|c|}
+        \hline
+        Name & $m$ & Wall shear stress, $f''(0)$ \\
+        \hline
+        Stagnation point & $1$ & $1.283$ \\
+        Accelerating flow & $\frac12$ & $0.9$ \\
+        Blasius (flat plate) & $0$ & $0.332$ \\
+        Decelerating flow & $-0.05$ & $0.213$ or $-0.097$ \\
+        Decelerating flow & $-0.09037$ & No solution \\
+        \hline
+   \end{tabular}
+   \caption{Results for shear stress found by numerical analysis (shooting)}
+   \label{tabShootingResults} 
+\end{table}
+
+We also find, for small negative values of $m$, a second solution with $f''(0)$ negative (negative shear stress). At $m = -0.09037$, we have a saddle-node bifurcation where the two solutions merge and disappear. This corresponds to $\alpha \approx 198^\circ$. With $m \leq 0.09037$, we only have unphysical solutions. From this, we conclude that the boundary-layer similarity solution is acceptable for accelerating cases ($m > 0$) and for gentle deceleration ($-0.09037 < m < m$, as long as we take the first solution), but gives unacceptable answers for strong deceleration (the solution here may include multiple regions of reverse flow or $f' > 1$).
+\subsection{Boundary Layer Detachment}
+The key principle broken here is the balance between advection and diffusion. Deceleration ($\frac{\partial y}{\partial x} < 0$) implies that $\frac{\partial v}{\partial y} > 0$, and since $v(0) = 0$ this means that $v$ is away from the wall -- that is, fluid is being advected in the same direction as it diffuses. We can cope with a little bit of this (for $m$ down to $-0.09037$) but if this effect becomes large the boundary layer detaches from the surface, and the vorticity leaves the wall and moves into the body of the fluid. A similar process occurs with flow around a cylinder, where boundary layer detachment occurs near an angle $104.5^\circ$ as measured from the forward stagnation point. Experimentally, we see turbulent behaviour as in figure~\ref{figBoundaryDetach}. The region just behind the cylinder (dark blue in diagram) is slowly moving, but the regions above and below behind the cylinder (red in diagram) are fast moving. The layer in between is known as the shear layer. We also see a turbulent wake forming behind the cylinder. In this configuration the drag is very high, due to a large pressure difference between the front and back.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{{Assets/Flow around cylinder}}
+    \caption{Illustration of boundary layer detachment in flow past a cylinder}
+    \label{figBoundaryDetach}
+\end{figure}
+
+This is also the process that causes aerodynamic stall. For an aerofoil at high angle of attack (large angle between the direction of oncoming airflow and chord line of the aerofoil), the boundary layer separates from the aerofoil and stops producing lift.
+\section{Source Flow in a Wedge}
+We consider source flow in a wedge, as in figure~\ref{figSourceFlow} (where we were in the Stokes approximation), but now for any Reynolds number.
+
+Our solution, with $u_r \propto \frac1r, u_\theta = 0, \psi = Qf(\theta)$, works for the full Navier-Stokes equations. See Ex4Q1. We solve the resulting ODE numerically, to find:
+\begin{itemize}
+    \item sensible solutions for small $\Re$, which looks like Poiseuille flow;
+    \item a boundary layer solution for inflow ($Q < 0$), with $u_r \propto \frac1r$ for the bulk of the fluid and the boundary layers taking care of no-slip;
+    \item unphysical solutions for outflow for $\Re\gtrapprox 10$, because the source flow is strongly decelerating and the boundary layers detach.
+\end{itemize}
 \end{document}
