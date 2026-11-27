@@ -1,0 +1,52 @@
+\documentclass[../Main.tex]{subfiles}
+
+\begin{document}
+\section{Definitions of Chaos}
+Chaos generally involves:
+\begin{itemize}
+    \item arbitrarily close orbits eventually separate;
+    \item even the smallest subsets mix (there are no isolated orbits).
+\end{itemize}
+It is impossible to make long-time predictions for chaotic systems, because any small error in the initial measurement will be propagated into a much larger error in the eventual solution.
+
+\begin{definition}{Sensitive dependence on initial conditions}
+    Consider a continuous map $F : I \mapsto I$ of a bounded interval $I \subset R$ onto itself. Let $\Lambda$ be a set invariant under $F$. $F$ has \underline{sensitive dependence on}\\\underline{initial conditions} (SDIC) on $\Lambda$ if, for any $\epsilon > 0$ and any $x \in \Lambda$, there exists $y \in \Lambda, \delta > 0$ and $n \in \N$ such that $\abs{x - y} < \epsilon$ and $\abs{F^n(x) - F^n(y)} > \delta$.
+\end{definition} %TODO: check -- I wonder if we can choose any $\delta$ and then it is $n(\delta)$.
+\begin{definition}{Topological transitivity}
+    With $F$ as above defined, it is \underline{topologically transitive} (TT) on $\Lambda$ if for any non-empty open sets $U, V \subset \Lambda$, there exists $n > 0$ such that $F^n(U) \cap V \neq \emptyset$.
+\end{definition}
+\begin{remark}
+    This definition is most interesting if $U$ and $V$ do not intersect, then we are saying that orbits starting in $U$ eventually reach $V$. In other words, $\Lambda$ cannot be decomposed into disjoint, invariant subsets.
+\end{remark}
+\begin{example}[TT but not SDIC]
+    Consider the rotation map on $[0, 1)$ given by:
+    \begin{equation*}
+        x_{n+1} = x_n + \omega \mod 1
+    \end{equation*}
+    If $\omega$ is irrational, the orbits are dense (TT) but the separation of two close points stays the same (not SDIC).
+\end{example}
+\begin{example}[SDIC but not TT]
+    Consider a map given by:
+    \begin{equation*}
+        x_{n+1} =
+        \begin{cases}
+            2(-1-x_n) & x_n < -\frac12 \\
+            2x_n & -\frac12 \leq x_n \leq \frac12 \\
+            2(1-x_n) & x_n > \frac12
+        \end{cases}
+    \end{equation*}
+    This is not a topologically transitive map because the subsets $x > 0$ and $x < 0$ are independently invariant. However, it is SDIC since $\abs{F_x} = 2 > 1$. Consider perturbing $x_n \mapsto x_n + \delta_n$.
+    \begin{equation*}
+        x_{n+1} + \delta_{n+1} = F(x_n + \delta_n) = F(x_n) + F_x(x_n) \delta_n
+    \end{equation*}
+    or, $\delta_{n+1} = F_x(x_n) \delta_n$, and so this is unstable.
+\end{example}
+\begin{definition}{D-chaos}
+    A function $F : \Lambda \mapsto \Lambda$ is \underline{D-chaotic} if:
+    \begin{enumerate}
+        \item $F$ has sensitive dependence to initial conditions on $\Lambda$;
+        \item $F$ is topologically transitive on $\Lambda$;
+        \item periodic points are dense in $\Lambda$.
+    \end{enumerate}
+\end{definition}
+\end{document}

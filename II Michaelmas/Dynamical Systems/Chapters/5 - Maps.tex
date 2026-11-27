@@ -154,7 +154,7 @@ Consider a map with a parameter:
 Let $\vec{x_0}$ be a fixed point of this map. Let $\lambda_{ij} = \left.\frac{\partial F_i}{\partial x_j}\right|_{\vec{x_0}}$. A bifurcation then happens when an eigenvalue of $\lambda$ is $\pm 1$ for $\mu = \mu_C$. We will take $\vec{x_0} = \vec0$ and $\mu_C = 0$ by perhaps shifting our coordinates and the parameter $\mu$.
 
 In one dimension, we can have $\lambda = \pm 1$. We find that $F(0;0) = 0$ and $F'(0;0) = \pm 1$.
-
+\subsection{One-Dimensional Bifurcations with Positive Eigenvalue}
 In the case $\lambda = 1$, working in the vicinity of the bifurcation point, we can expand:
 \begin{align*}
     x_{n+1} &=F(x_n;\mu) \\
@@ -175,4 +175,49 @@ In the case that $F(0;\mu) = 0$ for all $\mu$, collecting the lowest-order terms
     x_{n+1} = x_n + \frac12 F_{xx} x_n^2 + F_{x\mu} x\mu + O(3).
 \end{equation*}
 If $F_{xx} < 0, F_{x\mu} > 0$, then we can rescale to the normal form $x_{n+1} = x_n - x_n(x_n -\mu)$. We can identify this as a transcritical bifurcation: two fixed points exchange stability at $\mu = 0$.
+
+Suppose now that $F_\mu = 0$ and $F_{xx} = 0$. Often this is due to symmetries of the equations such as $F(-x;\mu) = -F(x;\mu)$. Then the lowest-order terms in the expansion are:
+\begin{equation*}
+    x_{n+1} = x_n + F_{\mu x} \mu x_n + \frac16 F_{xxx}x_n^3 + O(\mu^2).
+\end{equation*}
+Then fixed points occur at $x_n = \pm \sqrt{-\frac{6f_{x\mu}}{f_{xxx}}\mu}$ and $x_n = 0$. The equation has the normal form:
+\begin{equation*}
+    x_{n+1} = x_n + x_n(\mu - ax_n)^2
+\end{equation*}
+with $a = \pm 1$. This corresponds to a pitchfork bifurcation.
+\subsection{One-Dimensional Bifurcations with Negative Eigenvalue}
+For $\lambda = -1$, we get some different behaviour. Assume that $F(0;\mu) = 0$, and now $F_x(0;0) = -1$.
+
+In the previous subsection we found it was appropriate to use the scaling $x_n \sim \mu^{\frac12}$ to know which terms to keep.
+\begin{equation*}
+    x_{n+1} = -x_n + Bx_n^2 + A\mu x_n + Cx_n^3 + O(\mu^2)
+\end{equation*}
+where,
+\begin{align*}
+    B &= \frac12 F_{xx} & A &= F_{x\mu} & C &= \frac16 F_{xxx}.
+\end{align*}
+We look at $F^2$:
+\begin{align*}
+    x_{n+2} &= -x_{n+1} + Bx_{n+1}^2 + A\mu x_{n+1} + Cx_{n+1}^3 + O(\mu^2) \\
+    &= x_n - Bx_n^2 - A\mu x_n - Cx_n^3 + B x_n^2 - 2B^2 x_n^3 \\
+    &\qquad -A\mu x_n - Cx_n^3 + O(\mu^2) \\
+    &= x_n - 2A\mu x_n - 2(B^2 + C)x_n^3 + O(\mu^2).
+\end{align*}
+Then the fixed points of $F^2$ occur when $x_n\left[A\mu + (B^2 + C)x_n^2\right] = 0$, so at $x_n = 0$ and at:
+\begin{equation*}
+    x_n =x_\pm = \pm \sqrt{-\frac{A}{B^2 + C}\mu}
+\end{equation*}
+Then the existence of fixed points of $F^2$ (but not of $F$) means that there are two-cycles corresponding to these values of $x_n$. This type of bifurcation is known as a \underline{period-doubling bifurcation}. We can calculate the stability of $x_n = 0$ for $F$:
+\begin{equation*}
+    F_x(0;0) = \left.(-1 + 2Bx_n + A\mu + 3Cx_n^2)\right|_{x = 0} = -1 + A\mu
+\end{equation*}
+That is, the point is stable for $A\mu > 0$ and unstable for $A\mu < 0$. For $x_n = x_\pm$, we can also find the stability (this time of $F^2$):
+\begin{align*}
+    F_x^2(0;0) &= 1 - 2A\mu - 6(B^2 + C)x_\pm^2 \\
+    &= 1 - 2 A\mu - 6(B^2 + C) \left(-\frac{A\mu}{B^2 + C}\right) \\
+    &= 1 + 4A\mu
+\end{align*}
+Then this has the opposite stability as $0$, $A\mu > 0$ gives an unstable periodic orbit, and $A\mu < 0$ gives an unstable periodic orbit.
+
+Note that this period doubling bifurcation occurs for any setup with $\lambda < 0$.
 \end{document}
